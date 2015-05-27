@@ -9,20 +9,22 @@ public class Game : MonoBehaviour {
 
 	public float tileWidth;
 	public float tileHeight;
-	public GameObject tile;
+	public GameObject tilePrefab;
 	public Sprite[] tileTypes;
-	public GameObject shipTemplate;
+	public GameObject shipPrefab;
 
 	private int shipIndex = 10;
 	public List<GameObject> ships;
 
 	public GameObject tractorBeam;
 	public GameObject currentBeam;
+
+	private int tileTypeIndex = 0;
 	
 
 	// Use this for initialization
 	void Awake () {		
-		var renderer = tile.GetComponent<Renderer>();
+		var renderer = tilePrefab.GetComponent<Renderer>();
 		tileWidth = renderer.bounds.size.x;
 		tileHeight = renderer.bounds.size.y;
 		main = this;
@@ -37,7 +39,6 @@ public class Game : MonoBehaviour {
 		for (var i = 0; i < 10; i++) {
 			var x = Random.Range(bounds.min.x, bounds.max.x);
 			var y = Random.Range(bounds.min.y, bounds.max.y);
-			Debug.LogFormat("{0} {1}", x, y);
 			PlaceShipBlock(new Vector2(x, y), i);
 		}
 	}
@@ -45,37 +46,45 @@ public class Game : MonoBehaviour {
 	void PlaceShipBlock(Vector2 pz, int index) {
 		if (index >= ships.Count) {
 			// new ship
-			ships.Add(Instantiate(shipTemplate, new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject);
+			ships.Add(Instantiate(shipPrefab, new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject);
 		}
 
 		var ship = ships[index];
 		
-		var block = Instantiate(tile, new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject;
+		var block = Instantiate(tilePrefab, new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject;
 		var rigid = block.GetComponent<Rigidbody2D>();
 		block.transform.rotation = ship.transform.rotation;
 		block.transform.parent = ship.transform;
+		block.GetComponent<SpriteRenderer>().sprite = tileTypes[tileTypeIndex];
 		
 		var tileX = (int)Math.Round(block.transform.localPosition.x / tileWidth);
 		var tileY = (int)Math.Round(block.transform.localPosition.y / tileHeight);
 		var localPos = new Vector2((float)tileX*tileWidth, (float)tileY*tileHeight);
 
 		var shipScript = ship.GetComponent<Ship>();
-
-		if (shipScript.currentTiles.ContainsKey(new KeyValuePair<int,int>(tileX, tileY))) {
-			Destroy(block.gameObject);
-		} else {
-			shipScript.currentTiles[new KeyValuePair<int,int>(tileX, tileY)] = block;
-			block.transform.localPosition = localPos;
+		if (shipScript.blocks[tileX, tileY] != null) {
+			Destroy(shipScript.blocks[tileX, tileY]);
+			shipScript.blocks[tileX, tileY] = null;
 		}
+
+		shipScript.blocks[tileX, tileY] = block;
+		block.transform.localPosition = localPos;
+
+		shipScript.RecalculateMass();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (Input.GetKeyDown(KeyCode.Keypad1)) {
+			shipIndex = 11;
+		} else if (Input.GetKeyDown (KeyCode.Keypad1)) {
+			shipIndex = 12;
+		}
+
 		if (Input.GetKeyDown(KeyCode.Tab)) {
-			if (shipIndex == 10) {
-				shipIndex = 11;
-			} else {
-				shipIndex = 10;
+			tileTypeIndex += 1;
+			if (tileTypeIndex >= tileTypes.Length) {
+				tileTypeIndex = 0;
 			}
 		}
 
@@ -107,6 +116,11 @@ public class Game : MonoBehaviour {
 
 		if (Input.GetKey(KeyCode.S)) {
 			rigid.AddRelativeForce(new Vector2(0, -3));
+		}
+
+		if (Input.GetKey(KeyCode.X)) {
+			rigid.velocity = Vector3.zero;
+			rigid.angularVelocity = 0.0f;
 		}
 
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
