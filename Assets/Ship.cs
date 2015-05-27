@@ -39,6 +39,18 @@ public class BlockMap {
 		}
 	}
 
+	public IntVector2 Find(Block block) {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if (blockArray[x, y] == block) {
+					return new IntVector2(x-centerX, y-centerY);
+				}
+			}
+		}
+
+		throw new KeyNotFoundException();
+	}
+
 	public int Count {
 		get {
 			var i = 0;
@@ -52,6 +64,11 @@ public class BlockMap {
 	public Block this[int x, int y] {
 		get { return blockArray[centerX+x, centerY+y]; }
 		set { blockArray[centerX+x, centerY+y] = value; }
+	}
+
+	public Block this[IntVector2 pos] {
+		get { return blockArray[centerX+pos.x, centerY+pos.y]; }
+		set { blockArray[centerX+pos.x, centerY+pos.y] = value; }
 	}
 }
 
@@ -94,7 +111,6 @@ public class Ship : MonoBehaviour {
 
 		var impactVelocity = myRigid.velocity - fromRigid.velocity;
 		var impactForce = impactVelocity.magnitude * fromRigid.mass;
-		Debug.Log (impactForce);
 		if (impactForce < 5) return;
 
 		// break it off into a separate fragment
@@ -108,13 +124,27 @@ public class Ship : MonoBehaviour {
 		newShipScript.AddBlock(block, 0, 0);
 	}
 
-	public void FireThrusters() {
+	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
+		var localPos = transform.InverseTransformPoint(worldPos);
+		return new IntVector2((int)Math.Round(localPos.x / Game.main.tileWidth),
+		                   (int)Math.Round(localPos.y / Game.main.tileHeight));
+	}
+
+	public Vector2 BlockToLocalPos(IntVector2 blockPos) {
+		return new Vector2(blockPos.x*Game.main.tileWidth, blockPos.y*Game.main.tileHeight);
+	}
+
+	public Vector2 BlockToWorldPos(IntVector2 blockPos) {
+		return transform.TransformPoint(BlockToLocalPos(blockPos));
+	}
+
+	public void FireThrusters(string orientation) {
 		var rigid = GetComponent<Rigidbody2D>();
 		foreach (var block in blocks.All()) {
-			if (block.type == "thruster") {
+			if (block.type == "thruster" && block.orientation == orientation) {
 				var ps = block.GetComponent<ParticleSystem>();
 				ps.Emit(1);
-				rigid.AddForceAtPosition(transform.TransformVector(new Vector2(0, -1)), block.transform.position);
+				rigid.AddForceAtPosition(block.transform.TransformVector(new Vector2(0, -1)), block.transform.position);
 			}
 		}
 	}
@@ -132,6 +162,5 @@ public class Ship : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		Debug.Log(collision);
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Block : MonoBehaviour {
 	public string type;
+	public string orientation;
 
 	// Use this for initialization
 	void Start() {
