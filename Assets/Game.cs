@@ -9,8 +9,8 @@ public class Game : MonoBehaviour {
 
 	public float tileWidth;
 	public float tileHeight;
-	public GameObject tilePrefab;
-	public Sprite[] tileTypes;
+	private int blockTypeIndex = 0;
+	public GameObject[] blockPrefabs;
 	public GameObject shipPrefab;
 
 	private int shipIndex = 10;
@@ -18,13 +18,17 @@ public class Game : MonoBehaviour {
 
 	public GameObject tractorBeam;
 	public GameObject currentBeam;
+	public ParticleSystem thrust;
 
-	private int tileTypeIndex = 0;
-	
+	private GameObject placingBlock;
+
+	private List<Block> placedBlocks = new List<Block>();
+
+	public GameObject thrusterBlock;
 
 	// Use this for initialization
 	void Awake () {		
-		var renderer = tilePrefab.GetComponent<Renderer>();
+		var renderer = blockPrefabs[0].GetComponent<Renderer>();
 		tileWidth = renderer.bounds.size.x;
 		tileHeight = renderer.bounds.size.y;
 		main = this;
@@ -51,19 +55,20 @@ public class Game : MonoBehaviour {
 
 		var ship = ships[index];
 		
-		var block = Instantiate(tilePrefab, new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject;
-		var rigid = block.GetComponent<Rigidbody2D>();
+		var blockObj = Instantiate(blockPrefabs[blockTypeIndex], new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject;
+		var block = blockObj.GetComponent<Block>();
+		var rigid = block.gameObject.GetComponent<Rigidbody2D>();
 		block.transform.rotation = ship.transform.rotation;
 		block.transform.parent = ship.transform;
-		block.GetComponent<SpriteRenderer>().sprite = tileTypes[tileTypeIndex];
-		
+
 		var tileX = (int)Math.Round(block.transform.localPosition.x / tileWidth);
 		var tileY = (int)Math.Round(block.transform.localPosition.y / tileHeight);
 		var localPos = new Vector2((float)tileX*tileWidth, (float)tileY*tileHeight);
 
 		var shipScript = ship.GetComponent<Ship>();
 		if (shipScript.blocks[tileX, tileY] != null) {
-			Destroy(shipScript.blocks[tileX, tileY]);
+			placedBlocks.Remove(shipScript.blocks[tileX, tileY]);
+			Destroy(shipScript.blocks[tileX, tileY].gameObject);
 			shipScript.blocks[tileX, tileY] = null;
 		}
 
@@ -71,6 +76,8 @@ public class Game : MonoBehaviour {
 		block.transform.localPosition = localPos;
 
 		shipScript.RecalculateMass();
+
+		placedBlocks.Add(block);
 	}
 	
 	// Update is called once per frame
@@ -82,13 +89,26 @@ public class Game : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Tab)) {
-			tileTypeIndex += 1;
-			if (tileTypeIndex >= tileTypes.Length) {
-				tileTypeIndex = 0;
+			blockTypeIndex += 1;
+			if (blockTypeIndex >= blockPrefabs.Length) {
+				blockTypeIndex = 0;
 			}
+
+			Destroy(placingBlock);
+			placingBlock = null;
 		}
 
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+		if (placingBlock == null) {
+			placingBlock = Instantiate(blockPrefabs[blockTypeIndex], pz, Quaternion.identity) as GameObject;
+			placingBlock.GetComponent<BoxCollider2D>().enabled = false;
+		} else {
+			placingBlock.transform.position = pz;
+			if (shipIndex < ships.Count) {
+				placingBlock.transform.rotation = ships[shipIndex].transform.rotation;
+			}
+		}
 
 		if (Input.GetMouseButton(0)) {			
 			PlaceShipBlock(pz, shipIndex);
@@ -100,11 +120,15 @@ public class Game : MonoBehaviour {
 		}
 
 		var ship = ships[shipIndex];
-		var rigid = ship.GetComponent<Rigidbody2D>();		
+		var rigid = ship.GetComponent<Rigidbody2D>();	
 
 		if (Input.GetKey(KeyCode.W)) {
-			rigid.AddRelativeForce(new Vector2(0, 3));
+			ship.GetComponent<Ship>().FireThrusters();
 		}
+
+		/*if (Input.GetKey(KeyCode.W)) {
+			rigid.AddRelativeForce(new Vector2(0, 3));
+		}*/
 
 		if (Input.GetKey(KeyCode.A)) {
 			rigid.AddTorque(0.1f);
@@ -114,13 +138,19 @@ public class Game : MonoBehaviour {
 			rigid.AddTorque(-0.1f);
 		}
 
-		if (Input.GetKey(KeyCode.S)) {
+		/*if (Input.GetKey(KeyCode.S)) {
 			rigid.AddRelativeForce(new Vector2(0, -3));
-		}
+		}*/
 
 		if (Input.GetKey(KeyCode.X)) {
 			rigid.velocity = Vector3.zero;
 			rigid.angularVelocity = 0.0f;
+		}
+
+		if (Input.GetKeyDown(KeyCode.Z)) {
+			var block = placedBlocks[placedBlocks.Count - 1];	
+			placedBlocks.Remove(block);
+			Destroy(block);
 		}
 
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
@@ -145,8 +175,10 @@ public class Game : MonoBehaviour {
 			dir.Normalize();
 			RaycastHit2D[] hits = Physics2D.CircleCastAll(ship.transform.position, 0.05f, dir, Vector3.Distance(ship.transform.position, pz));
 			foreach (var hit in hits) {
-				if (hit.collider.attachedRigidbody != rigid) {
-					hit.collider.attachedRigidbody.AddForce(-dir);
+				if (hit.collider.attachedRigidbody != null) {
+					if (hit.collider.attachedRigidbody != rigid) {
+						hit.collider.attachedRigidbody.AddForce(-dir);
+					}
 				}
 			}
 		} else {

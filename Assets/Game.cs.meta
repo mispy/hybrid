@@ -1,10 +1,15 @@
 fileFormatVersion: 2
 guid: 27b61cca36fcda94bb226073275056ec
-timeCreated: 1432584547
+timeCreated: 1432702536
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - shipPrefab: {instanceID: 0}
+  - tractorBeam: {instanceID: 0}
+  - currentBeam: {instanceID: 0}
+  - thrust: {fileID: 19804178, guid: 8a3da57a4d42c9a4a98a57defd20aad4, type: 2}
+  - thrusterBlock: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -9,17 +9,17 @@ public class BlockMap {
 	public int centerX;
 	public int centerY;
 
-	private GameObject[,] blockArray;
+	private Block[,] blockArray;
 
 	public BlockMap() {
 		width = 128;
 		height = 128;
 		centerX = (int)Math.Floor(width/2.0);
 		centerY = (int)Math.Floor(height/2.0);
-		blockArray = new GameObject[width, height];
+		blockArray = new Block[width, height];
 	}
 
-	public IEnumerable All() {
+	public IEnumerable<Block> All() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (blockArray[x, y] != null) {
@@ -29,10 +29,10 @@ public class BlockMap {
 		}
 	}
 
-	public void Remove(GameObject obj) {
+	public void Remove(Block block) {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if (blockArray[x, y] == obj) {
+				if (blockArray[x, y] == block) {
 					blockArray[x, y] = null;
 				}
 			}
@@ -49,7 +49,7 @@ public class BlockMap {
 		}
 	}
 
-	public GameObject this[int x, int y] {
+	public Block this[int x, int y] {
 		get { return blockArray[centerX+x, centerY+y]; }
 		set { blockArray[centerX+x, centerY+y] = value; }
 	}
@@ -77,17 +77,17 @@ public class Ship : MonoBehaviour {
 		rigid.mass = mass;
 	}
 
-	public void RemoveBlock(GameObject blockObj) {
-		blocks.Remove(blockObj);
+	public void RemoveBlock(Block block) {
+		blocks.Remove(block);
 		RecalculateMass();
 	}
 
-	public void AddBlock(GameObject blockObj, int tileX, int tileY) {
-		blocks[0,0] = blockObj;
-		blockObj.transform.parent = gameObject.transform;
+	public void AddBlock(Block block, int tileX, int tileY) {
+		blocks[tileX,tileY] = block;
+		block.gameObject.transform.parent = gameObject.transform;
 	}
 
-	public void ReceiveImpact(Rigidbody2D fromRigid, GameObject blockObj) {
+	public void ReceiveImpact(Rigidbody2D fromRigid, Block block) {
 		// no point breaking off a single block from itself
 		if (blocks.Count == 1) return;
 		var myRigid = GetComponent<Rigidbody2D>();
@@ -98,20 +98,33 @@ public class Ship : MonoBehaviour {
 		if (impactForce < 5) return;
 
 		// break it off into a separate fragment
-		var newShip = Instantiate(Game.main.shipPrefab, blockObj.transform.position, blockObj.transform.rotation) as GameObject;
+		var newShip = Instantiate(Game.main.shipPrefab, block.transform.position, block.transform.rotation) as GameObject;
 		var newRigid = newShip.GetComponent<Rigidbody2D>();
 		newRigid.velocity = myRigid.velocity;
 		newRigid.angularVelocity = myRigid.angularVelocity;
 		
 		var newShipScript = newShip.GetComponent<Ship>();
-		RemoveBlock(blockObj);
-		newShipScript.AddBlock(blockObj, 0, 0);
+		RemoveBlock(block);
+		newShipScript.AddBlock(block, 0, 0);
 	}
 
+	public void FireThrusters() {
+		var rigid = GetComponent<Rigidbody2D>();
+		foreach (var block in blocks.All()) {
+			if (block.type == "thruster") {
+				var ps = block.GetComponent<ParticleSystem>();
+				ps.Emit(1);
+				rigid.AddForceAtPosition(transform.TransformVector(new Vector2(0, -1)), block.transform.position);
+			}
+		}
+	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
+		if (collider.gameObject.transform.parent == null)
+			return;
+
 		var otherShip = collider.gameObject.transform.parent.GetComponent<Ship>();
-		otherShip.ReceiveImpact(GetComponent<Rigidbody2D>(), collider.gameObject);
+		otherShip.ReceiveImpact(GetComponent<Rigidbody2D>(), collider.gameObject.GetComponent<Block>());
 	}
 
 	void OnParticleCollision(GameObject other) {
