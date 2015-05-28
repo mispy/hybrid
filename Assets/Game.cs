@@ -50,10 +50,8 @@ public class Game : MonoBehaviour {
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		for (var i = 0; i < 10; i++) {
-			var x = Random.Range(bounds.min.x, bounds.max.x);
-			var y = Random.Range(bounds.min.y, bounds.max.y);
-			PlaceShipBlock(new Vector2(x, y));
+		for (var i = 0; i < 100; i++) {
+			Generate.Asteroid(new Vector2(-95 + i*20, 0), 10);
 		}
 	}
 
@@ -126,7 +124,7 @@ public class Game : MonoBehaviour {
 
 		if (placingBlock == null) {
 			placingBlock = Block.Create(blockPrefabs[blockTypeIndex]);
-			placingBlock.GetComponent<PolygonCollider2D>().enabled = false;
+			placingBlock.GetComponents<BoxCollider2D>()[0].enabled = false;
 		}
 
 		var nearbyBlocks = Block.FindInRadius(pz, 0.2f);

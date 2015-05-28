@@ -19,11 +19,42 @@ public class BlockMap {
 		blockArray = new Block[width, height];
 	}
 
+	public IEnumerable<IntVector2> Neighbors(IntVector2 bp) {
+		yield return new IntVector2(bp.x-1, bp.y);
+		yield return new IntVector2(bp.x+1, bp.y);
+		yield return new IntVector2(bp.x, bp.y-1);
+		yield return new IntVector2(bp.x, bp.y+1);
+	}
+	
+	public bool IsEdge(IntVector2 bp) {
+		if (this[bp] == null) {
+			return false;
+		}
+		
+		foreach (var neighbor in Neighbors(bp)) {
+			if (this[neighbor] == null) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 	public IEnumerable<Block> All() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				if (blockArray[x, y] != null) {
 					yield return blockArray[x, y];
+				}
+			}
+		}
+	}
+
+	public IEnumerable<IntVector2> AllPositions() {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				if (blockArray[x, y] != null) {
+					yield return new IntVector2(x-centerX, y-centerY);
 				}
 			}
 		}
@@ -86,8 +117,19 @@ public class Ship : MonoBehaviour {
 
 	public void RecalculateMass() {
 		var mass = 0.0f;
-		foreach (var block in blocks.All()) {
+		foreach (var bp in blocks.AllPositions()) {
 			mass += 1f;
+
+			var col = blocks[bp].GetComponents<BoxCollider2D>()[0];
+			var col2 = blocks[bp].GetComponents<BoxCollider2D>()[1];
+			if (!blocks.IsEdge(bp)) {
+				col.enabled = false;
+				col2.enabled = false;
+				Destroy(col);
+				Destroy(col2);
+			}
+//			col.enabled = blocks.IsEdge(bp);
+
 		}
 
 		var rigid = GetComponent<Rigidbody2D>();
@@ -102,6 +144,7 @@ public class Ship : MonoBehaviour {
 	public void AddBlock(Block block, int tileX, int tileY) {
 		blocks[tileX,tileY] = block;
 		block.gameObject.transform.parent = gameObject.transform;
+		block.transform.localPosition = BlockToLocalPos(new IntVector2(tileX, tileY));
 	}
 
 	public void ReceiveImpact(Rigidbody2D fromRigid, Block block) {
