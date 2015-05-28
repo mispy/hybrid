@@ -87,7 +87,7 @@ public class Ship : MonoBehaviour {
 	public void RecalculateMass() {
 		var mass = 0.0f;
 		foreach (var block in blocks.All()) {
-			mass += 0.1f;
+			mass += 1f;
 		}
 
 		var rigid = GetComponent<Rigidbody2D>();
@@ -141,10 +141,10 @@ public class Ship : MonoBehaviour {
 	public void FireThrusters(string orientation) {
 		var rigid = GetComponent<Rigidbody2D>();
 		foreach (var block in blocks.All()) {
-			if (block.type == "thruster" && block.orientation == orientation) {
+			if (block.type == Block.types.thruster && block.orientation == orientation) {
 				var ps = block.GetComponent<ParticleSystem>();
 				ps.Emit(1);
-				rigid.AddForceAtPosition(block.transform.TransformVector(new Vector2(0, -1)), block.transform.position);
+				rigid.AddForceAtPosition(block.transform.TransformVector(new Vector2(0, 1)), block.transform.position);
 			}
 		}
 	}

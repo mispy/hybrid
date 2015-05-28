@@ -11,7 +11,7 @@ public class Game : MonoBehaviour {
 	public float tileWidth;
 	public float tileHeight;
 	private int blockTypeIndex = 0;
-	public GameObject[] blockPrefabs;
+	public List<Block> blockPrefabs;
 	public GameObject shipPrefab;
 
 	public List<Ship> ships;
@@ -24,15 +24,21 @@ public class Game : MonoBehaviour {
 
 	private List<Block> placedBlocks = new List<Block>();
 
-	public GameObject thrusterBlock;
+	public Crew player;
 
-	private Ship activeShip = null;
+	public Ship activeShip = null;
+
 	private Block adjoiningBlock = null;
 	private Ship adjoiningShip = null;
 
 
 	// Use this for initialization
 	void Awake () {		
+		blockPrefabs.Add(Block.types.wall);
+		blockPrefabs.Add(Block.types.floor);
+		blockPrefabs.Add(Block.types.console);
+		blockPrefabs.Add(Block.types.thruster);
+
 		var renderer = blockPrefabs[0].GetComponent<Renderer>();
 		tileWidth = renderer.bounds.size.x;
 		tileHeight = renderer.bounds.size.y;
@@ -59,9 +65,9 @@ public class Game : MonoBehaviour {
 			ships.Add(ship);
 		}
 
-		var blockObj = Instantiate(blockPrefabs[blockTypeIndex], new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject;
-		var blockPos = ship.WorldToBlockPos(blockObj.transform.position);
-		var block = blockObj.GetComponent<Block>();
+		var block = Block.Create(blockPrefabs[blockTypeIndex]);
+		block.transform.position = pz;
+		var blockPos = ship.WorldToBlockPos(block.transform.position);
 		var rigid = block.gameObject.GetComponent<Rigidbody2D>();
 		var orientation = 0.0f;
 
@@ -81,16 +87,16 @@ public class Game : MonoBehaviour {
 			var adjoiningPos = ship.blocks.Find(adjoiningBlock);
 			
 			if (blockPos.x < adjoiningPos.x) {
-				block.transform.Rotate(Vector3.forward * 90);
+				block.transform.Rotate(Vector3.forward * -90);
 				block.orientation = "left";
 			} else if (blockPos.x > adjoiningPos.x) {
-				block.transform.Rotate(Vector3.forward * -90);
+				block.transform.Rotate(Vector3.forward * 90);
 				block.orientation = "right";
 			} else if (blockPos.y > adjoiningPos.y) {
-				block.transform.Rotate(Vector3.forward * 0);
+				block.transform.Rotate(Vector3.forward * 180);
 				block.orientation = "up";
 			} else {
-				block.transform.Rotate(Vector3.forward * 180);
+				block.transform.Rotate(Vector3.forward * 0);
 				block.orientation = "down";
 			}
 		}
@@ -103,12 +109,12 @@ public class Game : MonoBehaviour {
 	void OnDrawGizmos() {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 	}
-	
+
 	// Update is called once per frame
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Tab)) {
 			blockTypeIndex += 1;
-			if (blockTypeIndex >= blockPrefabs.Length) {
+			if (blockTypeIndex >= blockPrefabs.Count) {
 				blockTypeIndex = 0;
 			}
 
@@ -119,65 +125,66 @@ public class Game : MonoBehaviour {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
 		if (placingBlock == null) {
-			var placingBlockObj = Instantiate(blockPrefabs[blockTypeIndex], pz, Quaternion.identity) as GameObject;
-			placingBlock = placingBlockObj.GetComponent<Block>();
-			placingBlock.GetComponent<BoxCollider2D>().enabled = false;
-		} else {
-			var hits = Physics2D.OverlapCircleAll(pz, 0.2f);
+			placingBlock = Block.Create(blockPrefabs[blockTypeIndex]);
+			placingBlock.GetComponent<PolygonCollider2D>().enabled = false;
+		}
 
-			List<Block> nearbyBlocks = new List<Block>();
+		var nearbyBlocks = Block.FindInRadius(pz, 0.2f);
+		if (adjoiningBlock != null) {
+			adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.white;
+		}
+		adjoiningBlock = null;
+		adjoiningShip = null;
 
-			foreach (var hit in hits) {
-				if (hit.gameObject.transform.parent != null) {
-					nearbyBlocks.Add(hit.gameObject.GetComponent<Block>());
-					//Camera.main.transform.parent = activeShip.gameObject.transform;
-				}
+		if (nearbyBlocks.Count() > 0) {
+			adjoiningBlock = nearbyBlocks.First();
+			adjoiningShip = adjoiningBlock.gameObject.transform.parent.GetComponent<Ship>();
+			adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.green;
+		}
+
+		placingBlock.transform.position = pz;
+
+		if (adjoiningBlock != null) {
+			var blockPos = adjoiningShip.WorldToBlockPos(pz);
+			placingBlock.transform.position = adjoiningShip.BlockToWorldPos(blockPos);
+			placingBlock.transform.rotation = adjoiningShip.transform.rotation;
+
+			var adjoiningPos = adjoiningShip.blocks.Find(adjoiningBlock);
+			
+			if (blockPos.x < adjoiningPos.x) {
+				placingBlock.transform.Rotate(Vector3.forward * -90);
+			} else if (blockPos.x > adjoiningPos.x) {
+				placingBlock.transform.Rotate(Vector3.forward * 90);
+			} else if (blockPos.y > adjoiningPos.y) {
+				placingBlock.transform.Rotate(Vector3.forward * 180);
+			} else {
+				placingBlock.transform.Rotate(Vector3.forward * 0);
 			}
 
-			if (adjoiningBlock != null) {
-				adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.white;
-			}
-			adjoiningBlock = null;
-			adjoiningShip = null;
-
-			if (nearbyBlocks.Count > 0) {
-				adjoiningBlock = nearbyBlocks.OrderBy(block => Vector2.Distance(pz, block.transform.position)).First();
-				adjoiningShip = adjoiningBlock.gameObject.transform.parent.GetComponent<Ship>();
-				adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.green;
-			}
-
-			placingBlock.transform.position = pz;
-
-			if (adjoiningBlock != null) {
-				var blockPos = adjoiningShip.WorldToBlockPos(pz);
-				placingBlock.transform.position = adjoiningShip.BlockToWorldPos(blockPos);
-				placingBlock.transform.rotation = adjoiningShip.transform.rotation;
-
-				var adjoiningPos = adjoiningShip.blocks.Find(adjoiningBlock);
-				
-				if (blockPos.x < adjoiningPos.x) {
-					placingBlock.transform.Rotate(Vector3.forward * 90);
-				} else if (blockPos.x > adjoiningPos.x) {
-					placingBlock.transform.Rotate(Vector3.forward * -90);
-				} else if (blockPos.y > adjoiningPos.y) {
-					placingBlock.transform.Rotate(Vector3.forward * 0);
-				} else {
-					placingBlock.transform.Rotate(Vector3.forward * 180);
-				}
-
-				placingBlock.orientation = "left";
-			}
+			placingBlock.orientation = "left";
 		}
 
 		if (Input.GetMouseButtonDown(0)) {			
 			PlaceShipBlock(pz, adjoiningShip, adjoiningBlock);
-			activeShip = adjoiningShip;
 			return;
+		}
+
+		// Block place undo
+		if (Input.GetKeyDown(KeyCode.Z)) {
+			var block = placedBlocks[placedBlocks.Count - 1];	
+			placedBlocks.Remove(block);
+			Destroy(block);
+		}
+
+		// Scroll zoom
+		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+			Camera.main.orthographicSize--;
+		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {
+			Camera.main.orthographicSize++;
 		}
 
 		if (activeShip == null)
 			return;
-
 
 		var rigid = activeShip.GetComponent<Rigidbody2D>();	
 
@@ -189,10 +196,6 @@ public class Game : MonoBehaviour {
 			activeShip.FireThrusters("up");
 		}
 
-		/*if (Input.GetKey(KeyCode.W)) {
-			rigid.AddRelativeForce(new Vector2(0, 3));
-		}*/
-
 		if (Input.GetKey(KeyCode.A)) {
 			//rigid.AddTorque(0.1f);
 			activeShip.FireThrusters("right");
@@ -203,25 +206,9 @@ public class Game : MonoBehaviour {
 			activeShip.FireThrusters("left");
 		}
 
-		/*if (Input.GetKey(KeyCode.S)) {
-			rigid.AddRelativeForce(new Vector2(0, -3));
-		}*/
-
 		if (Input.GetKey(KeyCode.X)) {
 			rigid.velocity = Vector3.zero;
 			rigid.angularVelocity = 0.0f;
-		}
-
-		if (Input.GetKeyDown(KeyCode.Z)) {
-			var block = placedBlocks[placedBlocks.Count - 1];	
-			placedBlocks.Remove(block);
-			Destroy(block);
-		}
-
-		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-			Camera.main.orthographicSize--;
-		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-			Camera.main.orthographicSize++;
 		}
 
 		if (Input.GetMouseButton(1)) {
