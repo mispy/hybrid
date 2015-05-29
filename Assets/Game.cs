@@ -50,7 +50,7 @@ public class Game : MonoBehaviour {
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		for (var i = 0; i < 100; i++) {
+		for (var i = 0; i < 10; i++) {
 			Generate.Asteroid(new Vector2(-95 + i*20, 0), 10);
 		}
 	}

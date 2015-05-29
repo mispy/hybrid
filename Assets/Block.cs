@@ -34,11 +34,6 @@ public class Block : MonoBehaviour {
 		return transform.parent.GetComponent<Ship>();
 	}
 
-	// Update is called once per frame
-	void Update() {
-	
-	}
-
 	void OnDestroy() {
 		if (gameObject.transform.parent != null) {
 			var ship = gameObject.transform.parent.GetComponent<Ship>();
