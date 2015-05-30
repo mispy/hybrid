@@ -8,12 +8,11 @@ public class Generate : MonoBehaviour {
 		for (var x = -radius; x < radius; x++) {
 			for (var y = -radius; y < radius; y++) {
 				if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
-					var block = Block.Create(Block.types.wall);
-					ship.AddBlock(block, x, y);
+					ship.SetBlock(x, y, Block.types.wall);
 				}
 			}
 		}
-		ship.RecalculateMass();
+		ship.UpdateBlocks();
 		return ship;
 	}
 	// Use this for initialization

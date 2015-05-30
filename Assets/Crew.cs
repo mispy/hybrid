@@ -22,13 +22,13 @@ public class Crew : MonoBehaviour {
 
 		if (Game.main.activeShip != null) return;
 
-		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
+		/*if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
 			Game.main.activeShip = interactBlock.GetShip();
 			rigid.isKinematic = true;
 			transform.rotation = interactBlock.transform.rotation;
 			transform.parent = Game.main.activeShip.gameObject.transform;
 			return;
-		}
+		}*/
 
 		var speed = 3f;// * Time.deltaTime;
 		Vector2 vel = rigid.velocity;
@@ -52,7 +52,7 @@ public class Crew : MonoBehaviour {
 		rigid.velocity = vel;
 		rigid.rotation = 0.0f;
 
-		if (interactBlock != null) {
+		/*if (interactBlock != null) {
 			interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
 		}
 		interactBlock = null;
@@ -63,7 +63,7 @@ public class Crew : MonoBehaviour {
 				interactBlock = block;
 				interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
-		}
+		}*/
 
 	}
 }
