@@ -110,10 +110,6 @@ public class Ship : MonoBehaviour {
 	void Awake () {
 		blocks = new BlockMap();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	}
 
 	public void RecalculateMass() {
 		var mass = 0.0f;
@@ -205,5 +201,75 @@ public class Ship : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
+	}
+
+	// This first list contains every vertex of the mesh that we are going to render
+	public List<Vector3> newVertices = new List<Vector3>();
+	
+	// The triangles tell Unity how to build each section of the mesh joining
+	// the vertices
+	public List<int> newTriangles = new List<int>();
+	
+	// The UV list is unimportant right now but it tells Unity how the texture is
+	// aligned on each polygon
+	public List<Vector2> newUV = new List<Vector2>();
+	
+	
+	// A mesh is made up of the vertices, triangles and UVs we are going to define,
+	// after we make them up we'll save them as this mesh
+	private Mesh mesh;
+
+	void Start() {
+		// UV coordinates are specified in fractions of the total dimensions
+		// since the dimensions of the tilesheet are much more likely to change than
+		// the dimensions of an individual block, we recalculate the fractions we need
+		mesh = GetComponent<MeshFilter>().mesh;
+		var rend = GetComponent<MeshRenderer>();
+
+		if (Block.tileWidth == 0) {
+			Block.tileWidth = (float)Block.pixelSize / rend.material.mainTexture.width;
+			Block.tileHeight = (float)Block.pixelSize / rend.material.mainTexture.height;
+		}
+		
+		var i = 0;
+
+		var tilesPerRow = Mathf.RoundToInt(rend.material.mainTexture.width / (float)Block.pixelSize);
+		var tilesPerCol = Mathf.RoundToInt(rend.material.mainTexture.height / (float)Block.pixelSize);
+
+		// we want block tilesheets ordered left-right, then top-down
+		// note that y axis in UV coordinates goes up, need to compensate
+		var index = new Vector2(i % tilesPerRow, tilesPerCol - 1 - i / tilesPerRow);
+
+		Debug.Log(index);
+
+		mesh = GetComponent<MeshFilter>().mesh;
+		
+		float x = transform.position.x;
+		float y = transform.position.y;
+		float z = transform.position.z;
+		
+		newVertices.Add(new Vector3 (x, y, z));
+		newVertices.Add(new Vector3 (x + Block.worldSize, y, z));
+		newVertices.Add(new Vector3 (x + Block.worldSize, y - Block.worldSize, z));
+		newVertices.Add(new Vector3 (x , y - Block.worldSize, z));
+		
+		newTriangles.Add(0);
+		newTriangles.Add(1);
+		newTriangles.Add(3);
+		newTriangles.Add(1);
+		newTriangles.Add(2);
+		newTriangles.Add(3);
+		
+		newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
+		newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
+		newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
+		newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+		
+		mesh.Clear ();
+		mesh.vertices = newVertices.ToArray();
+		mesh.triangles = newTriangles.ToArray();
+		mesh.uv = newUV.ToArray(); // add this line to the code here
+		mesh.Optimize ();
+		mesh.RecalculateNormals ();
 	}
 }

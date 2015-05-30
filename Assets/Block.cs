@@ -7,7 +7,16 @@ public class Block : MonoBehaviour {
 	public string orientation;
 	public Block type;
 	public static BlockPrefabs types = null;
-	
+
+	public static int pixelSize = 24; // the size of a block in pixels
+	public static float worldSize = 0.24f; // the size of the block in worldspace coordinates
+
+	// size of a block as fraction of tilesheet size
+	public static float tileWidth = 0; 
+	public static float tileHeight = 0;
+
+
+
 	public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
 		var hits = Physics2D.OverlapCircleAll(center, radius);
 		
