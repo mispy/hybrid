@@ -12,7 +12,20 @@ public class Block {
 	// size of a block as fraction of tilesheet size
 	public static float tileWidth = 0; 
 	public static float tileHeight = 0;
+		
+	public static int wallLayer;
+	public static int floorLayer;
 
+	public static GameObject wallColliderPrefab;
+	public static GameObject floorColliderPrefab;
+
+	public static void Setup() {		
+		Block.wallLayer = LayerMask.NameToLayer("Block");
+		Block.floorLayer = LayerMask.NameToLayer("Floor");
+		Block.wallColliderPrefab = Game.main.wallColliderPrefab;
+		Block.floorColliderPrefab = Game.main.floorColliderPrefab;
+	}
+		
 	public static string GetTypeName(int blockType) {
 		foreach (var key in types.Keys) {
 			if (types[key] == blockType)
@@ -30,7 +43,10 @@ public class Block {
 		foreach (var hit in hits) {
 			if (hit.gameObject.transform.parent != null) {
 				var ship = hit.gameObject.transform.parent.GetComponent<Ship>();
-				nearbyBlocks.Add(ship.blocks[ship.WorldToBlockPos(hit.transform.position)]);
+				var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];
+				if (block != null) {
+					nearbyBlocks.Add(block);
+				}
 			}
 		}
 
@@ -59,8 +75,16 @@ public class Block {
 	
 	public bool touched = true;
 
+	public int collisionLayer;
+
 	public Block(Ship ship, int type) {
 		this.ship = ship;
 		this.type = type;
+
+		if (type == Block.types["floor"] || type == Block.types["console"]) {
+			collisionLayer = LayerMask.NameToLayer("Floor");
+		} else {
+			collisionLayer = LayerMask.NameToLayer("Block");
+		}
 	}
 }

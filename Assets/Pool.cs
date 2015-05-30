@@ -4,9 +4,13 @@ using System.Collections.Generic;
 
 public class Pool {
 	public static Pool ParticleThrust;
+	public static Pool WallCollider;
+	public static Pool FloorCollider;
 	
 	public static void CreatePools() {
 		Pool.ParticleThrust = new Pool(Game.main.thrustPrefab, 10);
+		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 10);
+		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 10);
 	}
 
 	public GameObject pooledObject;

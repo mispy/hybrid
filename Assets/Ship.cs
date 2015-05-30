@@ -32,7 +32,7 @@ public class BlockMap {
 		}
 		
 		foreach (var neighbor in Neighbors(bp)) {
-			if (this[neighbor] == null) {
+			if (this[neighbor] == null || this[neighbor].collisionLayer != this[bp].collisionLayer) {
 				return true;
 			}
 		}
@@ -206,7 +206,7 @@ public class Ship : MonoBehaviour {
 
 	private int squareCount;
 
-	public List<BoxCollider2D> colliders;
+	public List<GameObject> colliders;
 
 	public bool hasCollision = true;
 
@@ -226,34 +226,26 @@ public class Ship : MonoBehaviour {
 		rigid.mass = mass;
 	}
 
-	BoxCollider2D TakeCollider() {
-		if (colliders.Count > 0) {
-			var collider = colliders[0];
-			colliders.RemoveAt(0);
-			return collider;
-		} else {
-			var obj = Instantiate(Game.main.boxColliderPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
-			obj.transform.parent = transform;
-			return obj.GetComponent<BoxCollider2D>();
-		}
-	}
-
 	void UpdateColliders() {
-		var newColliders = new List<BoxCollider2D>();
+		foreach (var colliderObj in colliders) {
+			colliderObj.SetActive(false);
+		}
 
+		colliders.Clear();
 		foreach (var block in blocks.All()) {
 			if (blocks.IsEdge(block.pos)) {
-				var collider = TakeCollider();
-				collider.transform.localPosition = BlockToLocalPos(block.pos);
-				newColliders.Add(collider);
+				GameObject colliderObj;
+				if (block.collisionLayer == Block.wallLayer)
+					colliderObj = Pool.WallCollider.TakeObject();
+				else
+					colliderObj = Pool.FloorCollider.TakeObject();
+				colliderObj.SetActive(true);
+				colliderObj.transform.parent = transform;
+				colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
+				colliderObj.layer = block.collisionLayer;
+				colliders.Add(colliderObj);
 			}
 		}
-
-		// destroy any unneeded colliders
-		foreach (var leftover in colliders) {
-			Destroy(leftover.gameObject);
-		}
-		colliders = newColliders;
 	}
 
 	void UpdateMesh() {

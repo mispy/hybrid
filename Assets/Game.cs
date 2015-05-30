@@ -14,12 +14,12 @@ public class Game : MonoBehaviour {
 	public GameObject tractorBeam;
 	public GameObject currentBeam;
 	public GameObject thrustPrefab;
+	public GameObject wallColliderPrefab;
+	public GameObject floorColliderPrefab;
 
 	private List<Block> placedBlocks = new List<Block>();
 
 	public Crew player;
-
-	public GameObject boxColliderPrefab;
 
 	public Ship activeShip = null;
 
@@ -36,16 +36,18 @@ public class Game : MonoBehaviour {
 		if (Game.main != null) return;
 		Game.main = this;
 
+		Block.Setup();
 		Pool.CreatePools();
 
 		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
 		atlas.PackTextures(blockSprites, 0, Block.pixelSize*blockSprites.Count());
 		shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
-
+		
 		for (var i = 0; i < blockSprites.Length; i++) {
 			Block.types[blockSprites[i].name] = i;
 		}
-
+		
+				
 		float screenAspect = (float)Screen.width / (float)Screen.height;
 		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;
 		Bounds bounds = new Bounds(
