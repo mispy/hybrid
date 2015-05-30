@@ -22,15 +22,15 @@ public class Crew : MonoBehaviour {
 
 		if (Game.main.activeShip != null) return;
 
-		/*if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
-			Game.main.activeShip = interactBlock.GetShip();
+		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
+			Game.main.activeShip = interactBlock.ship;
 			rigid.isKinematic = true;
-			transform.rotation = interactBlock.transform.rotation;
+			transform.rotation = Game.main.activeShip.transform.rotation;
 			transform.parent = Game.main.activeShip.gameObject.transform;
 			return;
-		}*/
+		}
 
-		var speed = 3f;// * Time.deltaTime;
+		var speed = 6f;// * Time.deltaTime;
 		Vector2 vel = rigid.velocity;
 
 		if (Input.GetKey(KeyCode.W)) {
@@ -52,18 +52,18 @@ public class Crew : MonoBehaviour {
 		rigid.velocity = vel;
 		rigid.rotation = 0.0f;
 
-		/*if (interactBlock != null) {
-			interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
+		if (interactBlock != null) {
+			//interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
 		}
 		interactBlock = null;
 
-		var nearbyBlocks = Block.FindInRadius(transform.position, 0.2f);
+		var nearbyBlocks = Block.FindInRadius(transform.position, Block.worldSize*1.2f);
 		foreach (var block in nearbyBlocks) {
-			if (block.type == Block.types.console) {
+			if (block.type == Block.types["console"]) {
 				interactBlock = block;
-				interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
+				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
-		}*/
+		}
 
 	}
 }

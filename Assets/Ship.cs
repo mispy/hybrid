@@ -102,6 +102,13 @@ public class Ship : MonoBehaviour {
 		return block;
 	}
 
+	public Block SetBlock(int x, int y, int blockType, Vector2 orientation) {
+		var block = new Block(this, blockType);
+		block.orientation = orientation;
+		blocks[x, y] = block;
+		return block;
+	}
+
 	public void ReceiveImpact(Rigidbody2D fromRigid, Block block) {
 		// no point breaking off a single block from itself
 		/*if (blocks.Count == 1) return;
@@ -136,15 +143,34 @@ public class Ship : MonoBehaviour {
 		return transform.TransformPoint(BlockToLocalPos(blockPos));
 	}
 
-	public void FireThrusters(string orientation) {
-		/*var rigid = GetComponent<Rigidbody2D>();
+	public Dictionary<IntVector2, ParticleSystem> thrusterCache = new Dictionary<IntVector2, ParticleSystem>();
+
+	public void FireThrusters(Vector2 orientation) {
+		var rigid = GetComponent<Rigidbody2D>();
 		foreach (var block in blocks.All()) {
-			if (block.type == Block.types.thruster && block.orientation == orientation) {
-				var ps = block.GetComponent<ParticleSystem>();
-				ps.Emit(1);
-				rigid.AddForceAtPosition(block.transform.TransformVector(new Vector2(0, 1)), block.transform.position);
+			if (block.type == Block.types["thruster"] && block.orientation == orientation) {
+
+				// need to flip thrusters on the vertical axis so they point the right way
+				Vector2 worldOrient;
+				if (block.orientation == Vector2.up || block.orientation == -Vector2.up) {
+					worldOrient = transform.TransformVector(block.orientation);
+				} else {
+					worldOrient = transform.TransformVector(-block.orientation);
+				}
+
+				if (!thrusterCache.ContainsKey(block.pos)) {
+					var ps = Pool.ParticleThrust.TakeObject().GetComponent<ParticleSystem>();
+					ps.gameObject.SetActive(true);
+					ps.transform.parent = transform;
+					ps.transform.localPosition = BlockToLocalPos(block.pos);
+					ps.transform.up = worldOrient;
+					thrusterCache[block.pos] = ps;
+				}
+				var thrust = thrusterCache[block.pos];
+				thrust.Emit(1);
+				rigid.AddForceAtPosition(worldOrient * 0.001f, BlockToWorldPos(block.pos));
 			}
-		}*/
+		}
 	}
 
 	void OnTriggerEnter2D(Collider2D collider) {
@@ -182,10 +208,14 @@ public class Ship : MonoBehaviour {
 
 	public List<BoxCollider2D> colliders;
 
+	public bool hasCollision = true;
+
 	public void UpdateBlocks() {
 		UpdateMesh();
 
-		UpdateColliders();
+		if (hasCollision) {
+			UpdateColliders();
+		}
 		
 		var mass = 0.0f;
 		foreach (var block in blocks.All()) {
@@ -260,8 +290,7 @@ public class Ship : MonoBehaviour {
 		var tilesPerCol = Mathf.RoundToInt(rend.material.mainTexture.height / (float)Block.pixelSize);
 
 		// we want block tilesheets ordered left-right, then top-down
-		// note that y axis in UV coordinates goes up, need to compensate
-		var index = new Vector2(block.type % tilesPerRow, tilesPerCol - 1 - block.type / tilesPerRow);
+		var index = new Vector2(block.type % tilesPerRow, block.type / tilesPerRow);
 
 		mesh = GetComponent<MeshFilter>().mesh;
 
@@ -282,11 +311,28 @@ public class Ship : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
 
-		newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
-		newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
-		newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
-		newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
-
+		if (block.orientation == Vector2.up) {
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+		} else if (block.orientation == -Vector2.up) {			
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));		
+		} else if (block.orientation == Vector2.right) {
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
+		} else if (block.orientation == -Vector2.right) {
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+		}
+			
 		squareCount++;
 	}
 }
