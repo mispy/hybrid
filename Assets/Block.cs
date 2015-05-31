@@ -40,7 +40,7 @@ public class Block {
 	}
 
 	public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
-		var hits = Physics2D.OverlapCircleAll(center, radius);
+		var hits = Physics.OverlapSphere(center, radius);
 
 		List<Block> nearbyBlocks = new List<Block>();
 
@@ -58,7 +58,7 @@ public class Block {
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
 	}
 
-	public static IEnumerable<Block> FromHits(RaycastHit2D[] hits) {
+	public static IEnumerable<Block> FromHits(RaycastHit[] hits) {
 		foreach (var hit in hits) {
 			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
 			if (ship != null) {

@@ -188,7 +188,7 @@ public class Game : MonoBehaviour {
 		if (activeShip == null)
 			return;
 
-		var rigid = activeShip.GetComponent<Rigidbody2D>();	
+		var rigid = activeShip.rigidBody;	
 
 		if (Input.GetKey(KeyCode.W)) {
 			activeShip.FireThrusters(Vector2.up);		
@@ -214,7 +214,7 @@ public class Game : MonoBehaviour {
 
 		if (Input.GetKey(KeyCode.X)) {
 			rigid.velocity = Vector3.zero;
-			rigid.angularVelocity = 0.0f;
+			rigid.angularVelocity = Vector3.zero;
 		}
 
 		if (Input.GetMouseButton(1)) {
@@ -231,7 +231,7 @@ public class Game : MonoBehaviour {
 			ps.startLifetime = Vector3.Distance(activeShip.transform.position, pz) / Math.Abs(ps.startSpeed);
 			var dir = (pz - (Vector2)activeShip.transform.position);
 			dir.Normalize();
-			RaycastHit2D[] hits = Physics2D.CircleCastAll(activeShip.transform.position, 0.05f, dir, Vector3.Distance(activeShip.transform.position, pz));
+			RaycastHit[] hits = Physics.SphereCastAll(activeShip.transform.position, 0.05f, dir, Vector3.Distance(activeShip.transform.position, pz));
 			foreach (var hit in hits) {
 				if (hit.collider.attachedRigidbody != null) {
 					if (hit.collider.attachedRigidbody != rigid) {

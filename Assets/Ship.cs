@@ -93,12 +93,12 @@ public class Ship : MonoBehaviour {
 	public List<Block> thrusterBlocks = new List<Block>();
 	public List<Block> weaponBlocks = new List<Block>();
 
-	public Rigidbody2D rigidBody;
+	public Rigidbody rigidBody;
 
 	// Use this for initialization
 	void Awake () {
 		blocks = new BlockMap();
-		rigidBody = GetComponent<Rigidbody2D>();
+		rigidBody = GetComponent<Rigidbody>();
 	}
 
 	void Start() {
@@ -122,7 +122,7 @@ public class Ship : MonoBehaviour {
 		blocks[x, y] = block;
 	}
 
-	public void ReceiveImpact(Rigidbody2D fromRigid, Block block) {
+	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
 		// no point breaking off a single block from itself
 		/*if (blocks.Count == 1) return;
 		var myRigid = GetComponent<Rigidbody2D>();
@@ -154,7 +154,7 @@ public class Ship : MonoBehaviour {
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.AttachBlock(0, 0, block);
 		newShip.UpdateBlocks();
-		var newRigid = newShipObj.GetComponent<Rigidbody2D>();
+		var newRigid = newShipObj.GetComponent<Rigidbody>();
 		newRigid.velocity = rigidBody.velocity;
 		newRigid.angularVelocity = rigidBody.angularVelocity;
 		newShipObj.SetActive(true);

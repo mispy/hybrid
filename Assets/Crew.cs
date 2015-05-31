@@ -7,8 +7,8 @@ public class Crew : MonoBehaviour {
 	public Block interactBlock = null;
 	public Ship boardedShip = null;
 
-	public Rigidbody2D rigid;
-	public BoxCollider2D collider;
+	public Rigidbody rigidBody;
+	public BoxCollider collider;
 
 	public Vector2 lastMovement;
 
@@ -18,14 +18,14 @@ public class Crew : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		collider = GetComponent<BoxCollider2D>();
-		rigid = GetComponent<Rigidbody2D>();
+		collider = GetComponent<BoxCollider>();
+		rigidBody = GetComponent<Rigidbody>();
 		player = this;
 	}
 
 	void UpdateGravity() {
 		Block newBlock = null;
-
+		return;
 		// if we're on a ship, just check if we can stay on that ship
 		if (boardedShip != null && boardedShip.blocks[boardedShip.WorldToBlockPos(transform.position)] != null)
 			return;
@@ -43,7 +43,7 @@ public class Crew : MonoBehaviour {
 
 		if (newBlock == null && standingBlock != null) {
 			gameObject.transform.parent = null;
-			rigid.isKinematic = false;
+			rigidBody.isKinematic = false;
 			standingBlock = null;
 			boardedShip = null;
 		} else if (newBlock != null && (standingBlock == null || newBlock.ship != standingBlock.ship)) {
@@ -52,7 +52,7 @@ public class Crew : MonoBehaviour {
 				boardedShip = standingBlock.ship;
 				transform.rotation = boardedShip.transform.rotation;
 				transform.parent = boardedShip.transform;
-				rigid.isKinematic = true;
+				rigidBody.isKinematic = true;
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public class Crew : MonoBehaviour {
 		UpdateGravity();
 	
 		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {
-			rigid.isKinematic = false;
+			rigidBody.isKinematic = false;
 			transform.parent = null;
 			Game.main.activeShip = null;
 			return;
@@ -72,7 +72,7 @@ public class Crew : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
 			Game.main.activeShip = interactBlock.ship;
-			rigid.isKinematic = true;
+			rigidBody.isKinematic = true;
 			transform.rotation = Game.main.activeShip.transform.rotation;
 			transform.parent = Game.main.activeShip.gameObject.transform;
 			return;
@@ -92,10 +92,9 @@ public class Crew : MonoBehaviour {
 			}
 		}
 
-
 		if (boardedShip == null) {
 			var speed = 60f * Time.deltaTime;
-			Vector2 vel = rigid.velocity;
+			Vector2 vel = rigidBody.velocity;
 			if (Input.GetKey(KeyCode.W)) {
 				vel += (Vector2)transform.up * speed;
 			}
@@ -112,7 +111,7 @@ public class Crew : MonoBehaviour {
 				vel += -(Vector2)transform.up * speed; 
 			}
 			
-			rigid.velocity = vel;
+			rigidBody.velocity = vel;
 		} else {
 			Vector2 offset = new Vector2(0.0f, 0.0f);
 			if (Input.GetKey(KeyCode.W))

@@ -25,9 +25,9 @@ public struct IntVector2 {
 }
 
 public class Util {
-	public static RaycastHit2D[] ParticleCast(ParticleSystem ps) {
+	public static RaycastHit[] ParticleCast(ParticleSystem ps) {
 		var radius = 0.05f;
 		var length = ps.startSpeed * ps.startLifetime;
-		return Physics2D.CircleCastAll(ps.transform.position, radius, ps.transform.up, length);
+		return Physics.SphereCastAll(ps.transform.position, radius, ps.transform.up, length);
 	}
 }
