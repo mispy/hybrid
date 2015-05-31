@@ -90,6 +90,7 @@ public class BlockMap {
 
 public class Ship : MonoBehaviour {
 	public BlockMap blocks;
+	public List<Block> thrusterBlocks = new List<Block>();
 
 	// Use this for initialization
 	void Awake () {
@@ -147,8 +148,8 @@ public class Ship : MonoBehaviour {
 
 	public void FireThrusters(Vector2 orientation) {
 		var rigid = GetComponent<Rigidbody2D>();
-		foreach (var block in blocks.All()) {
-			if (block.type == Block.types["thruster"] && block.orientation == orientation) {
+		foreach (var block in thrusterBlocks) {
+			if (block.orientation == orientation) {
 
 				// need to flip thrusters on the vertical axis so they point the right way
 				Vector2 worldOrient;
@@ -209,6 +210,7 @@ public class Ship : MonoBehaviour {
 	public List<GameObject> colliders;
 
 	public bool hasCollision = true;
+	public bool hasGravity = false;
 
 	public void UpdateBlocks() {
 		UpdateMesh();
@@ -216,7 +218,18 @@ public class Ship : MonoBehaviour {
 		if (hasCollision) {
 			UpdateColliders();
 		}
-		
+
+		thrusterBlocks.Clear();
+		foreach (var block in blocks.All()) {
+			if (block.type == Block.types["thruster"]) {
+				thrusterBlocks.Add(block);
+			}
+
+			if (block.type == Block.types["console"]) {
+				hasGravity = true;
+			}
+		}
+
 		var mass = 0.0f;
 		foreach (var block in blocks.All()) {
 			mass += 0.0001f;
@@ -281,8 +294,7 @@ public class Ship : MonoBehaviour {
 		var tilesPerRow = Mathf.RoundToInt(rend.material.mainTexture.width / (float)Block.pixelSize);
 		var tilesPerCol = Mathf.RoundToInt(rend.material.mainTexture.height / (float)Block.pixelSize);
 
-		// we want block tilesheets ordered left-right, then top-down
-		var index = new Vector2(block.type % tilesPerRow, block.type / tilesPerRow);
+		var index = new Vector2(Block.atlasBoxes[block.type].xMin, Block.atlasBoxes[block.type].yMin);
 
 		mesh = GetComponent<MeshFilter>().mesh;
 
@@ -304,25 +316,25 @@ public class Ship : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+3);
 
 		if (block.orientation == Vector2.up) {
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y));
+			newUV.Add(new Vector2 (index.x, index.y));
 		} else if (block.orientation == -Vector2.up) {			
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));		
+			newUV.Add(new Vector2 (index.x, index.y));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));		
 		} else if (block.orientation == Vector2.right) {
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x, index.y));
+			newUV.Add(new Vector2 ( index.x + Block.tileWidth, index.y));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
 		} else if (block.orientation == -Vector2.right) {
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x + Block.tileWidth, Block.tileHeight * index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (Block.tileWidth * index.x, Block.tileHeight * index.y));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y));
+			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));
+			newUV.Add(new Vector2 (index.x, index.y));
 		}
 			
 		squareCount++;

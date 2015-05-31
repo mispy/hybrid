@@ -16,6 +16,21 @@ public class Generate : MonoBehaviour {
 		ship.UpdateBlocks();
 		return ship;
 	}
+
+	public static Ship TestShip(Vector2 pos) {
+		var shipObj = Instantiate(Game.main.shipPrefab, pos, Quaternion.identity) as GameObject;
+		var ship = shipObj.GetComponent<Ship>();
+
+		ship.SetBlock(0, 0, Block.types["console"]);
+		ship.SetBlock(0, 1, Block.types["wall"]);
+		ship.SetBlock(-1, 1, Block.types["thruster"], -Vector2.right);
+		ship.SetBlock(1, 1, Block.types["thruster"], Vector2.right);
+		ship.SetBlock(0, -1, Block.types["thruster"], Vector2.up);
+		ship.SetBlock(0, 2,  Block.types["thruster"], -Vector2.up);
+
+		ship.UpdateBlocks();
+		return ship;
+	}
 	// Use this for initialization
 	void Start () {
 	

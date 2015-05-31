@@ -19,6 +19,8 @@ public class Block {
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 
+	public static List<Rect> atlasBoxes = new List<Rect>();
+
 	public static void Setup() {		
 		Block.wallLayer = LayerMask.NameToLayer("Block");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");

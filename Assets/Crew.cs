@@ -29,7 +29,6 @@ public class Crew : MonoBehaviour {
 
 		foreach (var hit in Physics2D.OverlapAreaAll((Vector2)collider.bounds.min, (Vector2)collider.bounds.max)) {
 			var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
-			Debug.LogFormat("{0} {1} {2}", ship, hit.gameObject.layer, Block.floorLayer);
 			if (ship != null && hit.gameObject.layer == Block.floorLayer) {
 				var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];
 				if (block != null) {
@@ -46,10 +45,12 @@ public class Crew : MonoBehaviour {
 			boardedShip = null;
 		} else if (newBlock != null && (standingBlock == null || newBlock.ship != standingBlock.ship)) {
 			standingBlock = newBlock;
-			boardedShip = standingBlock.ship;
-			transform.rotation = boardedShip.transform.rotation;
-			transform.parent = boardedShip.transform;
-			rigid.isKinematic = true;
+			if (standingBlock.ship.hasGravity) {
+				boardedShip = standingBlock.ship;
+				transform.rotation = boardedShip.transform.rotation;
+				transform.parent = boardedShip.transform;
+				rigid.isKinematic = true;
+			}
 		}
 					
 		

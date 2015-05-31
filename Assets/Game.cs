@@ -40,12 +40,16 @@ public class Game : MonoBehaviour {
 		Pool.CreatePools();
 
 		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
-		atlas.PackTextures(blockSprites, 0, Block.pixelSize*blockSprites.Count());
-		shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
-		
+		foreach (var box in atlas.PackTextures(blockSprites, 0, Block.pixelSize*blockSprites.Count())) {
+			Block.atlasBoxes.Add(box);
+		}
+
 		for (var i = 0; i < blockSprites.Length; i++) {
 			Block.types[blockSprites[i].name] = i;
 		}
+
+		shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+
 		
 				
 		float screenAspect = (float)Screen.width / (float)Screen.height;
@@ -63,6 +67,8 @@ public class Game : MonoBehaviour {
 		for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 60);
 		}
+
+		Generate.TestShip(new Vector2(0, 0));
 	}
 
 	void PlaceShipBlock(Vector2 pz, Block adjoiningBlock) {
