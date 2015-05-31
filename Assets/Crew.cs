@@ -14,10 +14,13 @@ public class Crew : MonoBehaviour {
 
 	public Block standingBlock = null;
 
+	public static Crew player;
+
 	// Use this for initialization
 	void Start () {
 		collider = GetComponent<BoxCollider2D>();
 		rigid = GetComponent<Rigidbody2D>();
+		player = this;
 	}
 
 	void UpdateGravity() {
@@ -51,13 +54,6 @@ public class Crew : MonoBehaviour {
 				transform.parent = boardedShip.transform;
 				rigid.isKinematic = true;
 			}
-		}
-					
-		
-		if (boardedShip != null) {
-			Debug.Log("on ship");
-		} else {
-			Debug.Log("off ship");
 		}
 	}
 	

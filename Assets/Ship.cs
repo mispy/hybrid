@@ -12,12 +12,12 @@ public class BlockMap {
 	private Block[,] blockArray;
 
 	public BlockMap() {
-		width = 2056;
-		height = 2056;
+		width = 128;
+		height = 128;
 		centerX = (int)Math.Floor(width/2.0);
 		centerY = (int)Math.Floor(height/2.0);
 		blockArray = new Block[width, height];
-	}
+	} 
 
 	public IEnumerable<IntVector2> Neighbors(IntVector2 bp) {
 		yield return new IntVector2(bp.x-1, bp.y);
@@ -73,28 +73,35 @@ public class BlockMap {
 	public Block this[int x, int y] {
 		get { return blockArray[centerX+x, centerY+y]; }
 		set {
-			value.pos.x = x;
-			value.pos.y = y;
+			if (value != null) {
+				value.pos.x = x;
+				value.pos.y = y;
+			}
+
 			blockArray[centerX+x, centerY+y] = value; 
 		}
 	}
 
 	public Block this[IntVector2 pos] {
-		get { return blockArray[centerX+pos.x, centerY+pos.y]; }
-		set { 
-			value.pos = pos;
-			blockArray[centerX+pos.x, centerY+pos.y] = value; 
-		}
+		get { return this[pos.x, pos.y]; }
+		set { this[pos.x, pos.y] = value; }
 	}
 }
 
 public class Ship : MonoBehaviour {
 	public BlockMap blocks;
 	public List<Block> thrusterBlocks = new List<Block>();
+	public List<Block> weaponBlocks = new List<Block>();
+
+	public Rigidbody2D rigidBody;
 
 	// Use this for initialization
 	void Awake () {
 		blocks = new BlockMap();
+		rigidBody = GetComponent<Rigidbody2D>();
+	}
+
+	void Start() {
 	}
 
 	public Block SetBlock(int x, int y, int blockType) {
@@ -108,6 +115,11 @@ public class Ship : MonoBehaviour {
 		block.orientation = orientation;
 		blocks[x, y] = block;
 		return block;
+	}
+
+	public void AttachBlock(int x, int y, Block block) {
+		block.ship = this;
+		blocks[x, y] = block;
 	}
 
 	public void ReceiveImpact(Rigidbody2D fromRigid, Block block) {
@@ -130,10 +142,30 @@ public class Ship : MonoBehaviour {
 		newShipScript.AddBlock(block, 0, 0);*/
 	}
 
+	public Ship BreakBlock(Block block) {
+		if (blocks.Count == 0) // no use breaking a single block into itself
+			return this;
+
+		blocks[block.pos] = null;
+		return this;
+
+		var newShipObj = Pool.Ship.TakeObject();
+		newShipObj.transform.position = BlockToWorldPos(block.pos);
+		var newShip = newShipObj.GetComponent<Ship>();
+		newShip.AttachBlock(0, 0, block);
+		newShip.UpdateBlocks();
+		var newRigid = newShipObj.GetComponent<Rigidbody2D>();
+		newRigid.velocity = rigidBody.velocity;
+		newRigid.angularVelocity = rigidBody.angularVelocity;
+		newShipObj.SetActive(true);
+
+		return newShip;
+	}
+
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
 		var localPos = transform.InverseTransformPoint(worldPos);
-		return new IntVector2((int)Math.Round(localPos.x / Block.worldSize),
-		                   (int)Math.Round(localPos.y / Block.worldSize));
+		return new IntVector2(Mathf.FloorToInt(localPos.x / Block.worldSize),
+		                   Mathf.FloorToInt(localPos.y / Block.worldSize));
 	}
 
 	public Vector2 BlockToLocalPos(IntVector2 blockPos) {
@@ -144,10 +176,13 @@ public class Ship : MonoBehaviour {
 		return transform.TransformPoint(BlockToLocalPos(blockPos));
 	}
 
-	public Dictionary<IntVector2, ParticleSystem> thrusterCache = new Dictionary<IntVector2, ParticleSystem>();
+	public Block BlockAtWorldPos(Vector2 worldPos) {
+		return blocks[WorldToBlockPos(worldPos)];
+	}
+
+	public Dictionary<IntVector2, ParticleSystem> particleCache = new Dictionary<IntVector2, ParticleSystem>();
 
 	public void FireThrusters(Vector2 orientation) {
-		var rigid = GetComponent<Rigidbody2D>();
 		foreach (var block in thrusterBlocks) {
 			if (block.orientation == orientation) {
 
@@ -159,17 +194,60 @@ public class Ship : MonoBehaviour {
 					worldOrient = transform.TransformVector(-block.orientation);
 				}
 
-				if (!thrusterCache.ContainsKey(block.pos)) {
+				if (!particleCache.ContainsKey(block.pos)) {
 					var ps = Pool.ParticleThrust.TakeObject().GetComponent<ParticleSystem>();
 					ps.gameObject.SetActive(true);
 					ps.transform.parent = transform;
 					ps.transform.localPosition = BlockToLocalPos(block.pos);
 					ps.transform.up = worldOrient;
-					thrusterCache[block.pos] = ps;
+					particleCache[block.pos] = ps;
 				}
-				var thrust = thrusterCache[block.pos];
+				var thrust = particleCache[block.pos];
 				thrust.Emit(1);
-				rigid.AddForceAtPosition(worldOrient * 0.001f, BlockToWorldPos(block.pos));
+				rigidBody.AddForceAtPosition(worldOrient * 0.005f, BlockToWorldPos(block.pos));
+			}
+		}
+	}
+
+	public void FireLasers() {
+		foreach (var block in weaponBlocks.ToArray()) {
+			Vector2 worldOrient;
+			if (block.orientation == Vector2.up || block.orientation == -Vector2.up) {
+				worldOrient = transform.TransformVector(block.orientation);
+			} else {
+				worldOrient = transform.TransformVector(-block.orientation);
+			}
+
+			ParticleSystem beam;
+			if (particleCache.ContainsKey(block.pos)) {
+				beam = particleCache[block.pos];
+			} else {
+				beam = Pool.ParticleBeam.TakeObject().GetComponent<ParticleSystem>();
+				beam.gameObject.SetActive(true);
+				beam.transform.parent = transform;
+				beam.transform.localPosition = BlockToLocalPos(block.pos);
+				beam.transform.up = worldOrient;
+				particleCache[block.pos] = beam;
+			}
+					
+			beam.Emit(1);
+
+			var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
+			foreach (var hitBlock in hitBlocks) {
+				var ship = hitBlock.ship;
+				if (ship == this) continue;
+				var newShip = ship.BreakBlock(hitBlock);
+
+				/*var awayDir = newShip.transform.position - ship.transform.position;
+				awayDir.Normalize();
+				// make the block fly away from the ship
+				newShip.rigidBody.AddForce(awayDir * Block.mass * 10);*/
+
+				//var towardDir = newShip.transform.position - beam.transform.position;
+				//towardDir.Normalize();
+				//newShip.rigidBody.AddForce(towardDir * Block.mass * 100);
+
+				ship.UpdateBlocks();
 			}
 		}
 	}
@@ -179,7 +257,7 @@ public class Ship : MonoBehaviour {
 			return;
 
 		var otherShip = collider.gameObject.transform.parent.GetComponent<Ship>();
-		otherShip.ReceiveImpact(GetComponent<Rigidbody2D>(), collider.gameObject.GetComponent<Block>());
+		otherShip.ReceiveImpact(rigidBody, collider.gameObject.GetComponent<Block>());
 	}
 
 	void OnParticleCollision(GameObject other) {
@@ -220,9 +298,14 @@ public class Ship : MonoBehaviour {
 		}
 
 		thrusterBlocks.Clear();
+		weaponBlocks.Clear();
 		foreach (var block in blocks.All()) {
 			if (block.type == Block.types["thruster"]) {
 				thrusterBlocks.Add(block);
+			}
+
+			if (block.type == Block.types["laser"]) {
+				weaponBlocks.Add(block);
 			}
 
 			if (block.type == Block.types["console"]) {
@@ -232,11 +315,10 @@ public class Ship : MonoBehaviour {
 
 		var mass = 0.0f;
 		foreach (var block in blocks.All()) {
-			mass += 0.0001f;
+			mass += Block.mass;
 		}
 		
-		var rigid = GetComponent<Rigidbody2D>();
-		rigid.mass = mass;
+		rigidBody.mass = mass;
 	}
 
 	void UpdateColliders() {

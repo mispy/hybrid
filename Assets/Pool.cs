@@ -3,14 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Pool {
+	public static Pool Ship;
 	public static Pool ParticleThrust;
 	public static Pool WallCollider;
 	public static Pool FloorCollider;
+	public static Pool ParticleBeam;
 	
 	public static void CreatePools() {
+		Pool.Ship = new Pool(Game.main.shipPrefab, 10);
 		Pool.ParticleThrust = new Pool(Game.main.thrustPrefab, 10);
 		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 10);
 		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 10);
+		Pool.ParticleBeam = new Pool(Game.main.particleBeamPrefab, 5);
 	}
 
 	public GameObject pooledObject;

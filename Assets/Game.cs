@@ -16,6 +16,7 @@ public class Game : MonoBehaviour {
 	public GameObject thrustPrefab;
 	public GameObject wallColliderPrefab;
 	public GameObject floorColliderPrefab;
+	public GameObject particleBeamPrefab;
 
 	private List<Block> placedBlocks = new List<Block>();
 
@@ -68,7 +69,7 @@ public class Game : MonoBehaviour {
 			Generate.Asteroid(new Vector2(-60, 0), 60);
 		}
 
-		Generate.TestShip(new Vector2(0, 0));
+		Generate.TestShip(new Vector2(5, 0));
 	}
 
 	void PlaceShipBlock(Vector2 pz, Block adjoiningBlock) {
@@ -116,7 +117,7 @@ public class Game : MonoBehaviour {
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Tab)) {
 			placingBlockType += 1;
-			if (placingBlockType > Block.types["thruster"]) {
+			if (placingBlockType > blockSprites.Length) {
 				placingBlockType = 0;
 			}
 
@@ -124,7 +125,7 @@ public class Game : MonoBehaviour {
 			placingShip.UpdateBlocks();
 		}
 
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 
 		var nearbyBlocks = Block.FindInRadius(pz, Block.worldSize);
@@ -207,6 +208,10 @@ public class Game : MonoBehaviour {
 			activeShip.FireThrusters(-Vector2.right);
 		}
 
+		if (Input.GetKey(KeyCode.Space)) {
+			activeShip.FireLasers();
+		}
+
 		if (Input.GetKey(KeyCode.X)) {
 			rigid.velocity = Vector3.zero;
 			rigid.angularVelocity = 0.0f;
@@ -230,7 +235,7 @@ public class Game : MonoBehaviour {
 			foreach (var hit in hits) {
 				if (hit.collider.attachedRigidbody != null) {
 					if (hit.collider.attachedRigidbody != rigid) {
-						hit.collider.attachedRigidbody.AddForce(-dir);
+						hit.collider.attachedRigidbody.AddForce(-dir * Block.mass * 10);
 					}
 				}
 			}

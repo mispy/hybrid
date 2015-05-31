@@ -21,6 +21,8 @@ public class Block {
 
 	public static List<Rect> atlasBoxes = new List<Rect>();
 
+	public static float mass = 0.0001f;
+
 	public static void Setup() {		
 		Block.wallLayer = LayerMask.NameToLayer("Block");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");
@@ -45,14 +47,27 @@ public class Block {
 		foreach (var hit in hits) {
 			if (hit.gameObject.transform.parent != null) {
 				var ship = hit.gameObject.transform.parent.GetComponent<Ship>();
-				var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];
-				if (block != null) {
-					nearbyBlocks.Add(block);
+				if (ship != null) {
+					var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];
+					if (block != null)
+						nearbyBlocks.Add(block);
 				}
 			}
 		}
 
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
+	}
+
+	public static IEnumerable<Block> FromHits(RaycastHit2D[] hits) {
+		foreach (var hit in hits) {
+			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
+			if (ship != null) {
+				var block = ship.BlockAtWorldPos(hit.collider.transform.position);
+				//Debug.LogFormat("{0} {1}", ship.WorldToBlockPos(hit.collider.transform.position), block);
+				if (block != null)
+					yield return block;
+			}
+		}
 	}
 
 	/*public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
@@ -78,7 +93,7 @@ public class Block {
 	public bool touched = true;
 
 	public int collisionLayer;
-
+		
 	public Block(Ship ship, int type) {
 		this.ship = ship;
 		this.type = type;
