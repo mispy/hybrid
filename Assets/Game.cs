@@ -76,24 +76,6 @@ public class Game : MonoBehaviour {
 		ship.blocks[bp] = block;
 		placedBlocks.Add(block);
 		ship.UpdateBlocks();
-
-		/*if (adjoiningBlock != null) {
-			var adjoiningPos = ship.blocks.Find(adjoiningBlock);
-			
-			if (blockPos.x < adjoiningPos.x) {
-				block.transform.Rotate(Vector3.forward * -90);
-				block.orientation = "left";
-			} else if (blockPos.x > adjoiningPos.x) {
-				block.transform.Rotate(Vector3.forward * 90);
-				block.orientation = "right";
-			} else if (blockPos.y > adjoiningPos.y) {
-				block.transform.Rotate(Vector3.forward * 180);
-				block.orientation = "up";
-			} else {
-				block.transform.Rotate(Vector3.forward * 0);
-				block.orientation = "down";
-			}
-		}*/
 	}
 
 
@@ -161,7 +143,6 @@ public class Game : MonoBehaviour {
 
 		if (Input.GetMouseButton(0)) {			
 			PlaceShipBlock(pz, adjoiningBlock);
-			return;
 		}
 
 		// Block place undo
@@ -175,9 +156,9 @@ public class Game : MonoBehaviour {
 
 		// Scroll zoom
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
-			Camera.main.orthographicSize--;
+			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
 		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {
-			Camera.main.orthographicSize++;
+			Camera.main.orthographicSize = (int)Camera.main.orthographicSize << 1;
 		}
 
 		if (activeShip == null)
