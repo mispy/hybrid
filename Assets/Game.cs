@@ -46,11 +46,11 @@ public class Game : MonoBehaviour {
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		var placingShipObj = Instantiate(shipPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
+		var placingShipObj = Pool.Ship.TakeObject();
 		placingShip = placingShipObj.GetComponent<Ship>();
 		placingShip.hasCollision = false;
 		placingShip.blocks[0, 0] = new Block(placingBlockType);
-		placingShip.UpdateBlocks();
+		placingShipObj.SetActive(true);
 
 		for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 60);
@@ -63,8 +63,9 @@ public class Game : MonoBehaviour {
 		Ship ship;
 		if (adjoiningBlock == null) {
 			// new ship
-			var shipObj = Instantiate(shipPrefab, new Vector3(pz.x, pz.y, 0f), Quaternion.identity) as GameObject;
+			var shipObj = Pool.Ship.TakeObject();
 			ship = shipObj.GetComponent<Ship>();
+			shipObj.SetActive(true);
 		} else {
 			ship = adjoiningBlock.ship;
 		}

@@ -2,7 +2,7 @@
 using System.Collections;
 public class Generate : MonoBehaviour {
 	public static Ship Asteroid(Vector2 pos, int radius) {
-		var shipObj = Instantiate(Game.main.shipPrefab, pos, Quaternion.identity) as GameObject;
+		var shipObj = Pool.Ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 		for (var x = -radius; x < radius; x++) {
 			for (var y = -radius; y < radius; y++) {
@@ -13,12 +13,13 @@ public class Generate : MonoBehaviour {
 				}
 			}
 		}
-		ship.UpdateBlocks();
+		shipObj.transform.position = pos;
+		shipObj.SetActive(true);
 		return ship;
 	}
 
 	public static Ship TestShip(Vector2 pos) {
-		var shipObj = Instantiate(Game.main.shipPrefab, pos, Quaternion.identity) as GameObject;
+		var shipObj = Pool.Ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 
 		ship.SetBlock(0, 0, Block.types["console"], Vector2.up);
@@ -34,10 +35,9 @@ public class Generate : MonoBehaviour {
 		ship.SetBlock(2, 1,  Block.types["thruster"], Vector2.right);
 		ship.SetBlock(-2, 1,  Block.types["thruster"], -Vector2.right);
 		ship.SetBlock(0, 3, Block.types["laser"], -Vector2.up);
-
-		ship.UpdateBlocks();
-		
 		shipObj.transform.Rotate(new Vector3(0, 0, 90));
+		shipObj.transform.position = pos;
+		shipObj.SetActive(true);
 
 		return ship;
 	}

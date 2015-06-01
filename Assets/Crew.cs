@@ -113,7 +113,7 @@ public class Crew : MonoBehaviour {
 			
 			rigidBody.velocity = vel;
 		} else {
-			Vector2 offset = new Vector2(0.0f, 0.0f);
+			/*Vector2 offset = new Vector2(0.0f, 0.0f);
 			if (Input.GetKey(KeyCode.W))
 				offset += new Vector2(0.0f, 0.1f);
 			if (Input.GetKey(KeyCode.S))
@@ -130,7 +130,7 @@ public class Crew : MonoBehaviour {
 			}
 
 			transform.Translate(offset);
-			lastMovement = offset;
+			lastMovement = offset;*/
 		}
 
 	}

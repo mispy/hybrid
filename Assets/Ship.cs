@@ -141,6 +141,12 @@ public class BlockMap {
 
 			var currentBlock = blockArray[centerX+x, centerY+y];
 
+			if (value != null) {
+				value.pos.x = x;
+				value.pos.y = y;
+				value.ship = ship;
+			}
+
 			if (value == null && currentBlock == null) {
 				return;
 			} else if (value == null && currentBlock != null) {
@@ -152,6 +158,8 @@ public class BlockMap {
 				for (var i = currentBlock.index; i < allBlocks.Count; i++) {
 					allBlocks[i].index = i;
 				}
+
+				ship.OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
 				value.index = allBlocks.Count;
@@ -166,6 +174,8 @@ public class BlockMap {
 
 				meshVertices.AddRange(GetVertices(x, y));
 				meshUV.AddRange(Block.GetUVs(value));
+
+				ship.OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock != null) {
 				// replacing an existing block
 				value.index = currentBlock.index;
@@ -182,12 +192,8 @@ public class BlockMap {
 				meshVertices[value.index*4 + 1] = vertices[1];
 				meshVertices[value.index*4 + 2] = vertices[2];
 				meshVertices[value.index*4 + 3] = vertices[3];
-			}
 
-			if (value != null) {
-				value.pos.x = x;
-				value.pos.y = y;
-				value.ship = ship;
+				ship.OnBlockChanged(value, currentBlock);
 			}
 
 			blockArray[centerX+x, centerY+y] = value; 
@@ -209,11 +215,11 @@ public class Ship : MonoBehaviour {
 
 	
 	private Mesh mesh;
-	
-	public List<GameObject> colliders;
-	
+
 	public bool hasCollision = true;
 	public bool hasGravity = false;
+
+	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
 
 	// Use this for initialization
 	void Awake () {
@@ -223,6 +229,13 @@ public class Ship : MonoBehaviour {
 	}
 
 	void Start() {
+		UpdateBlocks();
+
+		if (hasCollision) {
+			foreach (var block in blocks.All) {
+				UpdateCollider(block.pos);
+			}
+		}
 	}
 
 	public void SetBlock(int x, int y, int type) {
@@ -274,6 +287,41 @@ public class Ship : MonoBehaviour {
 		newShipObj.SetActive(true);
 
 		return newShip;
+	}
+
+	public void UpdateCollider(IntVector2 pos) {
+		var block = blocks[pos];
+		var hasCollider = colliders.ContainsKey(pos);
+		var isEdge = blocks.IsEdge(pos);
+
+		if (hasCollider && (!isEdge || colliders[pos].layer != block.collisionLayer)) {
+			colliders[pos].SetActive(false);
+			colliders.Remove(pos);
+			hasCollider = false;
+		}
+
+		if (!hasCollider && isEdge) {
+			GameObject colliderObj;
+			if (block.collisionLayer == Block.wallLayer)
+				colliderObj = Pool.WallCollider.TakeObject();
+			else
+				colliderObj = Pool.FloorCollider.TakeObject();
+			colliderObj.transform.parent = transform;
+			colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
+			colliders[pos] = colliderObj;
+			colliderObj.SetActive(true);
+		}
+	}
+
+	public void OnBlockChanged(Block newBlock, Block oldBlock) {
+		var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
+		if (gameObject.activeInHierarchy && hasCollision) {
+			foreach (var other in blocks.Neighbors(pos)) {
+				UpdateCollider(other);
+			}
+
+			UpdateCollider(pos);
+		}
 	}
 
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
@@ -407,10 +455,6 @@ public class Ship : MonoBehaviour {
 	public void UpdateBlocks() {
 		UpdateMesh();
 
-		if (hasCollision) {
-			UpdateColliders();
-		}
-
 		thrusterBlocks.Clear();
 		weaponBlocks.Clear();
 		foreach (var block in blocks.All) {
@@ -433,28 +477,6 @@ public class Ship : MonoBehaviour {
 		}
 		
 		rigidBody.mass = mass;
-	}
-
-	void UpdateColliders() {
-		foreach (var colliderObj in colliders) {
-			colliderObj.SetActive(false);
-		}
-
-		colliders.Clear();
-		foreach (var block in blocks.All) {
-			if (blocks.IsEdge(block.pos)) {
-				GameObject colliderObj;
-				if (block.collisionLayer == Block.wallLayer)
-					colliderObj = Pool.WallCollider.TakeObject();
-				else
-					colliderObj = Pool.FloorCollider.TakeObject();
-				colliderObj.SetActive(true);
-				colliderObj.transform.parent = transform;
-				colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
-				colliderObj.layer = block.collisionLayer;
-				colliders.Add(colliderObj);
-			}
-		}
 	}
 
 	void UpdateMesh() {
