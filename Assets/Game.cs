@@ -49,7 +49,7 @@ public class Game : MonoBehaviour {
 		var placingShipObj = Instantiate(shipPrefab, new Vector3(0, 0, 0), Quaternion.identity) as GameObject;
 		placingShip = placingShipObj.GetComponent<Ship>();
 		placingShip.hasCollision = false;
-		placingShip.SetBlock(0, 0, placingBlockType);
+		placingShip.blocks[0, 0] = new Block(placingBlockType);
 		placingShip.UpdateBlocks();
 
 		for (var i = 0; i < 1; i++) {
@@ -71,8 +71,9 @@ public class Game : MonoBehaviour {
 
 		var bp = ship.WorldToBlockPos(pz);
 
-		var block = ship.SetBlock(bp.x, bp.y, placingBlockType);
+		var block = new Block(placingShip.blocks[0,0].type);
 		block.orientation = placingShip.blocks[0,0].orientation;
+		ship.blocks[bp] = block;
 		placedBlocks.Add(block);
 		ship.UpdateBlocks();
 
@@ -104,11 +105,11 @@ public class Game : MonoBehaviour {
 	void Update() {
 		if (Input.GetKeyDown(KeyCode.Tab)) {
 			placingBlockType += 1;
-			if (placingBlockType > blockSprites.Length) {
+			if (placingBlockType >= blockSprites.Length) {
 				placingBlockType = 0;
 			}
 
-			placingShip.SetBlock(0, 0, placingBlockType);
+			placingShip.blocks[0, 0] = new Block(placingBlockType);
 			placingShip.UpdateBlocks();
 		}
 
@@ -119,11 +120,16 @@ public class Game : MonoBehaviour {
 		//if (adjoiningBlock != null) {
 		//	adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.white;
 		//}
+		adjoiningBlock = null;
 		if (nearbyBlocks.Count() > 0) {
-			adjoiningBlock = nearbyBlocks.First();
-			//adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.green;
-		} else {
-			adjoiningBlock = null;
+			foreach (var block in nearbyBlocks) {
+				// don't adjoin to itself
+				if (block != block.ship.BlockAtWorldPos(pz)) {
+					adjoiningBlock = block;
+				    break;
+				}
+			}
+			//adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.green;		}
 		}
 
 		placingShip.transform.position = pz;
@@ -144,14 +150,16 @@ public class Game : MonoBehaviour {
 				ori = Vector2.up;
 			}
 
+
 			if (ori != placingShip.blocks[0, 0].orientation) {
-				placingShip.blocks[0, 0].orientation = ori;
-				placingShip.blocks[0, 0].touched = true;
+				var block = placingShip.blocks[0, 0];
+				block.orientation = ori;
+				placingShip.blocks[0, 0] = block;
 				placingShip.UpdateBlocks();
 			}
 		}
 
-		if (Input.GetMouseButtonDown(0)) {			
+		if (Input.GetMouseButton(0)) {			
 			PlaceShipBlock(pz, adjoiningBlock);
 			return;
 		}

@@ -86,6 +86,20 @@ public class Block {
 
 		Game.main.shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
+
+	public static Vector2[] GetUVs(Block block) {		
+		if (block.orientation == Vector2.up) {
+			return Block.upUVs[block.type];
+		} else if (block.orientation == -Vector2.up) {
+			return Block.downUVs[block.type];
+		} else if (block.orientation == -Vector2.right) {
+			return Block.leftUVs[block.type];
+		} else if (block.orientation == Vector2.right) {
+			return Block.rightUVs[block.type];
+		}
+
+		throw new KeyNotFoundException();
+	}
 		
 	public static string GetTypeName(int blockType) {
 		foreach (var key in types.Keys) {
@@ -153,8 +167,7 @@ public class Block {
 
 	public int index;
 		
-	public Block(Ship ship, int type) {
-		this.ship = ship;
+	public Block(int type) {
 		this.type = type;
 
 		if (type == Block.types["floor"] || type == Block.types["console"]) {
