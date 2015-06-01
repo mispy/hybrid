@@ -35,8 +35,10 @@ public class Generate : MonoBehaviour {
 		ship.SetBlock(-2, 1,  Block.types["thruster"], -Vector2.right);
 		ship.SetBlock(0, 3, Block.types["laser"], -Vector2.up);
 
-		
 		ship.UpdateBlocks();
+		
+		shipObj.transform.Rotate(new Vector3(0, 0, 90));
+
 		return ship;
 	}
 	// Use this for initialization

@@ -30,7 +30,7 @@ public class Crew : MonoBehaviour {
 		if (boardedShip != null && boardedShip.blocks[boardedShip.WorldToBlockPos(transform.position)] != null)
 			return;
 
-		foreach (var hit in Physics2D.OverlapAreaAll((Vector2)collider.bounds.min, (Vector2)collider.bounds.max)) {
+		foreach (var hit in Physics.OverlapSphere(transform.position, collider.bounds.size.x)) {
 			var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
 			if (ship != null && hit.gameObject.layer == Block.floorLayer) {
 				var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];

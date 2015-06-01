@@ -12,8 +12,8 @@ public class BlockMap {
 	private Block[,] blockArray;
 
 	public BlockMap() {
-		width = 128;
-		height = 128;
+		width = 1;
+		height = 1;
 		centerX = (int)Math.Floor(width/2.0);
 		centerY = (int)Math.Floor(height/2.0);
 		blockArray = new Block[width, height];
@@ -70,9 +70,59 @@ public class BlockMap {
 		}
 	}
 
+	public bool WithinBounds(int x, int y) {
+		if (centerX+x >= width || centerX+x < 0 || centerY+y >= height || centerY+y < 0)
+			return false;
+
+		return true;
+	}
+
+	// dynamically reallocate array size to encompass the given point
+	// width/height are always a power of two
+	public void ExpandToEncompass(int x, int y) {
+		var oldWidth = width;
+		var oldHeight = height;
+
+		while (centerX+x >= width || centerX+x < 0) {
+			width = width << 1;
+			centerX = width/2;
+		}
+
+		while (centerY+y >= height || centerY+y < 0) {
+			height = height << 1;
+			centerY = height/2;
+		}
+
+		Debug.LogFormat("Expanding ship from {0},{1} to {2},{3} to encompass point at {4},{5}",
+		                oldWidth, oldHeight, width, height, x, y);
+
+		var newBlocks = new Block[width, height];
+
+		var widthOffset = Mathf.FloorToInt((width-oldWidth)/2.0f);
+		var heightOffset = Mathf.FloorToInt((height-oldHeight)/2.0f);
+
+		for (var i = 0; i < oldWidth; i++) {
+			for (var j = 0; j < oldHeight; j++) {
+				newBlocks[widthOffset+i, heightOffset+j] = blockArray[i,j];
+			}
+		}
+
+		blockArray = newBlocks;
+	}
+
 	public Block this[int x, int y] {
-		get { return blockArray[centerX+x, centerY+y]; }
+		get { 
+			if (WithinBounds(x, y)) {
+				return blockArray[centerX+x, centerY+y]; 
+			} else {
+				return null;
+			}
+		}
 		set {
+			if (!WithinBounds(x, y)) {
+				ExpandToEncompass(x, y);
+			}
+
 			if (value != null) {
 				value.pos.x = x;
 				value.pos.y = y;
@@ -209,13 +259,36 @@ public class Ship : MonoBehaviour {
 		}
 	}
 
+	private ParticleCollisionEvent[] collisionEvents = new ParticleCollisionEvent[16];
+	public void OnParticleCollision(GameObject psObj) {
+		var ps = psObj.GetComponent<ParticleSystem>();
+		var safeLength = ps.GetSafeCollisionEventSize();
+
+		if (collisionEvents.Length < safeLength) {
+			collisionEvents = new ParticleCollisionEvent[safeLength];
+		}
+
+		// get collision events for the gameObject that the script is attached to
+		var numCollisionEvents = ps.GetCollisionEvents(gameObject, collisionEvents);
+
+		for (var i = 0; i < numCollisionEvents; i++) {
+			//Debug.Log(collisionEvents[i].intersection);
+			var pos = collisionEvents[i].intersection;
+			var block = BlockAtWorldPos(pos);
+			if (block != null) {
+				BreakBlock(block);
+				UpdateBlocks();
+			}
+		}
+	}
+
 	public void FireLasers() {
 		foreach (var block in weaponBlocks.ToArray()) {
 			Vector2 worldOrient;
 			if (block.orientation == Vector2.up || block.orientation == -Vector2.up) {
-				worldOrient = transform.TransformVector(block.orientation);
+				worldOrient = transform.TransformDirection(-block.orientation);
 			} else {
-				worldOrient = transform.TransformVector(-block.orientation);
+				worldOrient = transform.TransformDirection(block.orientation);
 			}
 
 			ParticleSystem beam;
@@ -223,13 +296,14 @@ public class Ship : MonoBehaviour {
 				beam = particleCache[block.pos];
 			} else {
 				beam = Pool.ParticleBeam.TakeObject().GetComponent<ParticleSystem>();
-				beam.gameObject.SetActive(true);
 				beam.transform.parent = transform;
-				beam.transform.localPosition = BlockToLocalPos(block.pos);
+				beam.transform.position = BlockToWorldPos(block.pos) + (worldOrient * Block.worldSize);
 				beam.transform.up = worldOrient;
 				particleCache[block.pos] = beam;
+				beam.gameObject.SetActive(true);
 			}
 					
+			//beam.enableEmission = true;
 			beam.Emit(1);
 
 			var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
@@ -260,27 +334,13 @@ public class Ship : MonoBehaviour {
 		otherShip.ReceiveImpact(rigidBody, collider.gameObject.GetComponent<Block>());
 	}
 
-	void OnParticleCollision(GameObject other) {
-
-	}
 
 	void OnCollisionEnter(Collision collision) {
 	}
 
-	// This first list contains every vertex of the mesh that we are going to render
 	public List<Vector3> newVertices = new List<Vector3>();
-	
-	// The triangles tell Unity how to build each section of the mesh joining
-	// the vertices
 	public List<int> newTriangles = new List<int>();
-	
-	// The UV list is unimportant right now but it tells Unity how the texture is
-	// aligned on each polygon
 	public List<Vector2> newUV = new List<Vector2>();
-	
-	
-	// A mesh is made up of the vertices, triangles and UVs we are going to define,
-	// after we make them up we'll save them as this mesh
 	private Mesh mesh;
 
 	private int squareCount;
