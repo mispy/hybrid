@@ -12,7 +12,7 @@ public class Pool {
 	public static void CreatePools() {
 		Pool.Ship = new Pool(Game.main.shipPrefab, 16);
 		Pool.ParticleThrust = new Pool(Game.main.thrustPrefab, 16);
-		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 64);
+		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 128);
 		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 64);
 		Pool.ParticleBeam = new Pool(Game.main.particleBeamPrefab, 4);
 	}

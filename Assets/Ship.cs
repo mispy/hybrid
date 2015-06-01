@@ -36,17 +36,21 @@ public class BlockMap {
 	}
 	
 	public bool IsEdge(IntVector2 bp) {
-		if (this[bp] == null) {
-			return false;
-		}
-		
-		foreach (var neighbor in Neighbors(bp)) {
-			if (this[neighbor] == null || this[neighbor].collisionLayer != this[bp].collisionLayer) {
-				return true;
+		Profiler.BeginSample("IsEdge");
+
+		var ret = false;
+		var block = this[bp];
+		if (block != null) {
+			foreach (var neighbor in Neighbors(bp)) {
+				var other = this[neighbor];
+				if (other == null || other.collisionLayer != block.collisionLayer) {
+					ret = true;
+				}
 			}
 		}
-		
-		return false;
+
+		Profiler.EndSample();
+		return ret;
 	}
 
 	public IEnumerable<Block> All {
@@ -106,8 +110,11 @@ public class BlockMap {
 		meshVertices[i*4+3] = Vector3.zero;
 	}
 
-	public void ExpandBlockSequence() {
-		var newSize = blockSequence.Length << 1;
+	public void ExpandBlockSequence(int newSize=-1) {
+		if (newSize == -1)
+			newSize = blockSequence.Length << 1;
+
+		Debug.LogFormat("Expanding to {0}", newSize);
 
 		var newSequence = new Block[newSize];
 		var newTriangles = new int[newSize*6];
@@ -135,11 +142,11 @@ public class BlockMap {
 
 	public Block this[IntVector2 bp] {
 		get {
-			if (blockPositions.ContainsKey(bp)) {
-				return blockPositions[bp];
-			} else {
-				return null;
-			}
+			Profiler.BeginSample("blocks[]");
+			Block ret = null;
+			blockPositions.TryGetValue(bp, out ret);
+			Profiler.EndSample();
+			return ret;
 		}
 		set {
 			var currentBlock = this[bp];
@@ -191,8 +198,6 @@ public class BlockMap {
 
 public class Ship : MonoBehaviour {
 	public BlockMap blocks;
-	public List<Block> thrusterBlocks = new List<Block>();
-	public List<Block> weaponBlocks = new List<Block>();
 
 	public Rigidbody rigidBody;
 
@@ -216,10 +221,13 @@ public class Ship : MonoBehaviour {
 
 		if (hasCollision) {
 			foreach (var block in blocks.All) {
-				UpdateCollider(block.pos);
+				if (blocks.IsEdge(block.pos)) {
+					AddCollider(block);
+				}
 			}
 		}
-		InvokeRepeating("UpdateMesh", 0.0f, 0.1f);
+
+		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
 	}
 
 	public void SetBlock(int x, int y, int type) {
@@ -273,7 +281,25 @@ public class Ship : MonoBehaviour {
 		return newShip;
 	}
 
+	public void AddCollider(Block block) {
+		Profiler.BeginSample("AddCollider");
+
+		GameObject colliderObj;
+		if (block.collisionLayer == Block.wallLayer)
+			colliderObj = Pool.WallCollider.TakeObject();
+		else
+			colliderObj = Pool.FloorCollider.TakeObject();
+		colliderObj.transform.parent = transform;
+		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
+		colliders[block.pos] = colliderObj;
+		colliderObj.SetActive(true);
+
+		Profiler.EndSample();
+	}
+
 	public void UpdateCollider(IntVector2 pos) {
+		Profiler.BeginSample("UpdateCollider");
+
 		var block = blocks[pos];
 		var hasCollider = colliders.ContainsKey(pos);
 		var isEdge = blocks.IsEdge(pos);
@@ -285,16 +311,10 @@ public class Ship : MonoBehaviour {
 		}
 
 		if (!hasCollider && isEdge) {
-			GameObject colliderObj;
-			if (block.collisionLayer == Block.wallLayer)
-				colliderObj = Pool.WallCollider.TakeObject();
-			else
-				colliderObj = Pool.FloorCollider.TakeObject();
-			colliderObj.transform.parent = transform;
-			colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
-			colliders[pos] = colliderObj;
-			colliderObj.SetActive(true);
+			AddCollider(block);
 		}
+
+		Profiler.EndSample();
 	}
 
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
@@ -316,21 +336,13 @@ public class Ship : MonoBehaviour {
 	}
 
 	public void UpdateBlocks() {
+		Profiler.BeginSample("UpdateBlocks");
+
 		QueueMeshUpdate();
 
-		thrusterBlocks.Clear();
-		weaponBlocks.Clear();
 		var mass = 0.0f;
 		
 		foreach (var block in blocks.All) {
-			if (block.type == Block.types["thruster"]) {
-				thrusterBlocks.Add(block);
-			}
-			
-			if (block.type == Block.types["laser"]) {
-				weaponBlocks.Add(block);
-			}
-			
 			if (block.type == Block.types["console"]) {
 				hasGravity = true;
 			}
@@ -340,6 +352,7 @@ public class Ship : MonoBehaviour {
 		
 		rigidBody.mass = mass;
 
+		Profiler.EndSample();
 	}
 
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
@@ -365,7 +378,9 @@ public class Ship : MonoBehaviour {
 	public Dictionary<IntVector2, ParticleSystem> particleCache = new Dictionary<IntVector2, ParticleSystem>();
 
 	public void FireThrusters(Vector2 orientation) {
-		foreach (var block in thrusterBlocks) {
+		foreach (var block in blocks.All) {
+			if (block.type != Block.types["thruster"]) continue;
+
 			if (block.orientation == orientation) {
 
 				// need to flip thrusters on the vertical axis so they point the right way
@@ -414,7 +429,9 @@ public class Ship : MonoBehaviour {
 	}
 
 	public void FireLasers() {
-		foreach (var block in weaponBlocks.ToArray()) {
+		foreach (var block in blocks.All) {
+			if (block.type != Block.types["laser"]) continue;
+
 			Vector2 worldOrient;
 			if (block.orientation == Vector2.up || block.orientation == -Vector2.up) {
 				worldOrient = transform.TransformDirection(-block.orientation);

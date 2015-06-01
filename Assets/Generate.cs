@@ -4,12 +4,15 @@ public class Generate : MonoBehaviour {
 	public static Ship Asteroid(Vector2 pos, int radius) {
 		var shipObj = Pool.Ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
+		ship.blocks.ExpandBlockSequence(8192);
+
 		for (var x = -radius; x < radius; x++) {
 			for (var y = -radius; y < radius; y++) {
 				if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
 
-					var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-					ship.SetBlock(x, y, Block.types["wall"], ori[Random.Range(0, 3)]);
+					//var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
+					ship.blocks[x, y] = new Block(Block.types["wall"]);
+					//ship.SetBlock(x, y, Block.types["wall"], ori[Random.Range(0, 3)]);
 				}
 			}
 		}
