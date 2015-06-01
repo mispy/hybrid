@@ -10,31 +10,33 @@ public class Pool {
 	public static Pool ParticleBeam;
 	
 	public static void CreatePools() {
-		Pool.Ship = new Pool(Game.main.shipPrefab, 10);
-		Pool.ParticleThrust = new Pool(Game.main.thrustPrefab, 10);
-		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 10);
-		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 10);
-		Pool.ParticleBeam = new Pool(Game.main.particleBeamPrefab, 5);
+		Pool.Ship = new Pool(Game.main.shipPrefab, 16);
+		Pool.ParticleThrust = new Pool(Game.main.thrustPrefab, 16);
+		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 64);
+		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 64);
+		Pool.ParticleBeam = new Pool(Game.main.particleBeamPrefab, 4);
 	}
 
-	public GameObject pooledObject;
+	public GameObject prefab;
 	public List<GameObject> pooledObjects;
 
 	public Pool(GameObject prefab, int startingAmount) {
-		pooledObject = prefab;
+		this.prefab = prefab;
 		pooledObjects = new List<GameObject>();
 		for(int i = 0; i < startingAmount; i++)
 		{
-			GameObject obj = Object.Instantiate(pooledObject) as GameObject;
+			GameObject obj = Object.Instantiate(prefab) as GameObject;
 			obj.SetActive(false);
 			pooledObjects.Add(obj);
 		}
 	}
 	
 	public GameObject TakeObject() {
+		GameObject obj = null;
+
 		for (int i = 0; i < pooledObjects.Count; i++) {
 			if (pooledObjects[i] == null) {
-				GameObject obj = Object.Instantiate(pooledObject) as GameObject;
+				obj = Object.Instantiate(prefab) as GameObject;
 				obj.SetActive(false);
 				pooledObjects[i] = obj;
 				return pooledObjects[i];
@@ -45,9 +47,15 @@ public class Pool {
 			}
 		}
 
-		GameObject obj2 = Object.Instantiate(pooledObject) as GameObject;
-		obj2.SetActive(false);
-		pooledObjects.Add(obj2);
-		return obj2;
+		// need more! double the available objects
+		var currentTotal = pooledObjects.Count;
+		for (var i = 0; i < currentTotal; i++) {
+			GameObject obj2 = Object.Instantiate(prefab) as GameObject;
+			obj2.SetActive(false);
+			pooledObjects.Add(obj2);
+			if (obj == null) obj = obj2;
+		}
+
+		return obj;
 	}
 }

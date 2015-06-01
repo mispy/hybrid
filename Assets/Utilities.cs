@@ -18,6 +18,11 @@ public struct IntVector2 {
 		return String.Format("IntVector2<{0}, {1}>", x, y);
 	}
 
+	public override int GetHashCode()
+	{
+		return x.GetHashCode() ^ y.GetHashCode();
+	}
+	
 	public IntVector2(int x, int y) {
 		this.x = x;
 		this.y = y;

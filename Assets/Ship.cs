@@ -10,23 +10,22 @@ public class BlockMap {
 	public int centerX;
 	public int centerY;
 
-	private Block[,] blockArray;
-	private List<Block> allBlocks;
-
-	public List<Vector3> meshVertices = new List<Vector3>();
-	public List<int> meshTriangles = new List<int>();
-	public List<Vector2> meshUV = new List<Vector2>();
-
+	private Dictionary<IntVector2, Block> blockPositions;
+	private Block[] blockSequence;
+	public Vector3[] meshVertices;
+	public Vector2[] meshUV;
+	public int[] meshTriangles;
+	
 	public Ship ship;
 
 	public BlockMap(Ship ship) {
-		width = 1;
-		height = 1;
-		centerX = width/2;
-		centerY = height/2;
-		blockArray = new Block[width, height];	
-		allBlocks = new List<Block>();
 		this.ship = ship;
+
+		blockPositions = new Dictionary<IntVector2, Block>(); 
+		blockSequence = new Block[1];
+		meshVertices = new Vector3[1*4];
+		meshUV = new Vector2[1*4];
+		meshTriangles = new int[1*6];
 	} 
 
 	public IEnumerable<IntVector2> Neighbors(IntVector2 bp) {
@@ -50,67 +49,15 @@ public class BlockMap {
 		return false;
 	}
 
-	public List<Block> All {
+	public IEnumerable<Block> All {
 		get {
-			return allBlocks;
+			return blockPositions.Values;
 		}
 	}
 
 	public int Count {
 		get {
-			return allBlocks.Count;
-		}
-	}
-
-	public bool WithinBounds(int x, int y) {
-		if (centerX+x >= width || centerX+x < 0 || centerY+y >= height || centerY+y < 0)
-			return false;
-
-		return true;
-	}
-
-	public void SetDimensions(int newWidth, int newHeight) {
-		var newBlocks = new Block[newWidth, newHeight];
-
-		var widthOffset = (newWidth-width)/2;
-		var heightOffset = (newHeight-height)/2;
-		
-		for (var i = 0; i < width; i++) {
-			for (var j = 0; j < height; j++) {
-				newBlocks[widthOffset+i, heightOffset+j] = blockArray[i,j];
-			}
-		}
-
-		width = newWidth;
-		height = newHeight;
-		centerX = newWidth/2;
-		centerY = newHeight/2;
-		blockArray = newBlocks;
-	}
-
-	// dynamically reallocate array size to encompass the given point as needed
-	// width/height are always a power of two
-	public void ExpandToEncompass(int x, int y) {
-		var newWidth = width;
-		var newHeight = height;
-		var newCenterX = centerX;
-		var newCenterY = centerY;
-
-		while (newCenterX+x >= newWidth || newCenterX+x < 0) {
-			newWidth = newWidth << 1;
-			newCenterX = Mathf.FloorToInt(newWidth/2.0f);
-		}
-
-		while (newCenterY+y >= newHeight || newCenterY+y < 0) {
-			newHeight = newHeight << 1;
-			newCenterY = Mathf.FloorToInt(newHeight/2.0f);
-		}
-
-		if (newWidth != width || newHeight != height) {
-			//Debug.LogFormat("Expanding ship from {0},{1} to {2},{3} to encompass point at {4},{5}",
-			//                width, height, newWidth, newHeight, x, y);
-			
-			SetDimensions(newWidth, newHeight);
+			return blockPositions.Count;
 		}
 	}
 
@@ -128,81 +75,117 @@ public class BlockMap {
 	
 	}
 
-	public Block this[int x, int y] {
-		get { 
-			if (WithinBounds(x, y)) {
-				return blockArray[centerX+x, centerY+y]; 
+	public void AttachToMesh(Block block) {		
+		var i = block.index;
+		blockSequence[i] = block;
+
+		meshTriangles[i*6] = i*4;
+		meshTriangles[i*6+1] = (i*4)+1;
+		meshTriangles[i*6+2] = (i*4)+3;
+		meshTriangles[i*6+3] = (i*4)+1;
+		meshTriangles[i*6+4] = (i*4)+2;
+		meshTriangles[i*6+5] = (i*4)+3;
+		
+		var verts = GetVertices(block.pos.x, block.pos.y).ToList();
+		meshVertices[i*4] = verts[0];
+		meshVertices[i*4+1] = verts[1];
+		meshVertices[i*4+2] = verts[2];
+		meshVertices[i*4+3] = verts[3];
+		
+		var uvs = Block.GetUVs(block);
+		meshUV[i*4] = uvs[0];
+		meshUV[i*4+1] = uvs[1];
+		meshUV[i*4+2] = uvs[2];
+		meshUV[i*4+3] = uvs[3];
+	}
+
+	public void ClearMeshPos(int i) {
+		meshVertices[i*4] = Vector3.zero;
+		meshVertices[i*4+1] = Vector3.zero;
+		meshVertices[i*4+2] = Vector3.zero;
+		meshVertices[i*4+3] = Vector3.zero;
+	}
+
+	public void ExpandBlockSequence() {
+		var newSize = blockSequence.Length << 1;
+
+		var newSequence = new Block[newSize];
+		var newTriangles = new int[newSize*6];
+		var newVertices = new Vector3[newSize*4];
+		var newUV = new Vector2[newSize*4];
+
+		for (var i = 0; i < blockSequence.Length; i++) {
+			newSequence[i] = blockSequence[i];
+		}
+
+		for (var i = 0; i < meshTriangles.Length; i++) {
+			newTriangles[i] = meshTriangles[i];
+		}
+
+		for (var i = 0; i < meshVertices.Length; i++) {
+			newVertices[i] = meshVertices[i];
+			newUV[i] = meshUV[i];
+		}
+	
+		blockSequence = newSequence;
+		meshTriangles = newTriangles;
+		meshVertices = newVertices;
+		meshUV = newUV;
+	}
+
+	public Block this[IntVector2 bp] {
+		get {
+			if (blockPositions.ContainsKey(bp)) {
+				return blockPositions[bp];
 			} else {
 				return null;
 			}
 		}
 		set {
-			ExpandToEncompass(x, y);
-
-			var currentBlock = blockArray[centerX+x, centerY+y];
+			var currentBlock = this[bp];
 
 			if (value != null) {
-				value.pos.x = x;
-				value.pos.y = y;
-				value.ship = ship;
+				value.pos = bp;
+				value.ship = ship;				
+				blockPositions[bp] = value; 
+			} else {
+				blockPositions.Remove(bp);
 			}
+
 
 			if (value == null && currentBlock == null) {
 				return;
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
-				meshTriangles.RemoveRange(meshTriangles.Count - 6, 6);
-				meshVertices.RemoveRange(currentBlock.index, 4);
-				meshUV.RemoveRange(currentBlock.index, 4);
-				allBlocks.RemoveAt(currentBlock.index);
-				for (var i = currentBlock.index; i < allBlocks.Count; i++) {
-					allBlocks[i].index = i;
-				}
-
+				ClearMeshPos(currentBlock.index);
 				ship.OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
-				value.index = allBlocks.Count;
-				allBlocks.Add(value);
+				while (true) {
+					for (var i = 0; i < blockSequence.Length; i++) {
+						if (blockSequence[i] == null) {
+							value.index = i;
+							AttachToMesh(value);
+							ship.OnBlockChanged(value, currentBlock);					
+							return;
+						}
+					}
 
-				meshTriangles.Add(value.index*4);
-				meshTriangles.Add((value.index*4)+1);
-				meshTriangles.Add((value.index*4)+3);
-				meshTriangles.Add((value.index*4)+1);
-				meshTriangles.Add((value.index*4)+2);
-				meshTriangles.Add((value.index*4)+3);
-
-				meshVertices.AddRange(GetVertices(x, y));
-				meshUV.AddRange(Block.GetUVs(value));
-
-				ship.OnBlockChanged(value, currentBlock);
+					ExpandBlockSequence();
+				}
 			} else if (value != null && currentBlock != null) {
 				// replacing an existing block
 				value.index = currentBlock.index;
-				allBlocks[value.index] = value;
-
-				var uvs = Block.GetUVs(value);
-				meshUV[value.index*4] = uvs[0];
-				meshUV[value.index*4 + 1] = uvs[1];
-				meshUV[value.index*4 + 2] = uvs[2];
-				meshUV[value.index*4 + 3] = uvs[3];
-
-				var vertices = GetVertices(x, y).ToArray();
-				meshVertices[value.index*4] = vertices[0];
-				meshVertices[value.index*4 + 1] = vertices[1];
-				meshVertices[value.index*4 + 2] = vertices[2];
-				meshVertices[value.index*4 + 3] = vertices[3];
-
+				AttachToMesh(value);
 				ship.OnBlockChanged(value, currentBlock);
 			}
 
-			blockArray[centerX+x, centerY+y] = value; 
 		}
 	}
 
-	public Block this[IntVector2 pos] {
-		get { return this[pos.x, pos.y]; }
-		set { this[pos.x, pos.y] = value; }
+	public Block this[int x, int y] {
+		get { return this[new IntVector2(x, y)]; }
+		set { this[new IntVector2(x, y)] = value; }
 	}
 }
 
@@ -236,6 +219,7 @@ public class Ship : MonoBehaviour {
 				UpdateCollider(block.pos);
 			}
 		}
+		InvokeRepeating("UpdateMesh", 0.0f, 0.1f);
 	}
 
 	public void SetBlock(int x, int y, int type) {
@@ -314,14 +298,48 @@ public class Ship : MonoBehaviour {
 	}
 
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
-		if (gameObject.activeInHierarchy && hasCollision) {
-			foreach (var other in blocks.Neighbors(pos)) {
-				UpdateCollider(other);
-			}
+		Profiler.BeginSample("OnBlockChanged");
+		if (gameObject.activeInHierarchy) {			
+			QueueMeshUpdate();
 
-			UpdateCollider(pos);
+			var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
+			
+			if (hasCollision) {
+				foreach (var other in blocks.Neighbors(pos)) {
+					UpdateCollider(other);
+				}
+				
+				UpdateCollider(pos);
+			}
 		}
+		Profiler.EndSample();
+	}
+
+	public void UpdateBlocks() {
+		QueueMeshUpdate();
+
+		thrusterBlocks.Clear();
+		weaponBlocks.Clear();
+		var mass = 0.0f;
+		
+		foreach (var block in blocks.All) {
+			if (block.type == Block.types["thruster"]) {
+				thrusterBlocks.Add(block);
+			}
+			
+			if (block.type == Block.types["laser"]) {
+				weaponBlocks.Add(block);
+			}
+			
+			if (block.type == Block.types["console"]) {
+				hasGravity = true;
+			}
+			
+			mass += Block.mass;
+		}
+		
+		rigidBody.mass = mass;
+
 	}
 
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
@@ -391,7 +409,6 @@ public class Ship : MonoBehaviour {
 			var block = BlockAtWorldPos(pos);
 			if (block != null) {
 				BreakBlock(block);
-				UpdateBlocks();
 			}
 		}
 	}
@@ -434,8 +451,6 @@ public class Ship : MonoBehaviour {
 				//var towardDir = newShip.transform.position - beam.transform.position;
 				//towardDir.Normalize();
 				//newShip.rigidBody.AddForce(towardDir * Block.mass * 100);
-
-				ship.UpdateBlocks();
 			}
 		}
 	}
@@ -452,39 +467,24 @@ public class Ship : MonoBehaviour {
 	void OnCollisionEnter(Collision collision) {
 	}
 
-	public void UpdateBlocks() {
-		UpdateMesh();
+	private bool needMeshUpdate = false;
 
-		thrusterBlocks.Clear();
-		weaponBlocks.Clear();
-		foreach (var block in blocks.All) {
-			if (block.type == Block.types["thruster"]) {
-				thrusterBlocks.Add(block);
-			}
-
-			if (block.type == Block.types["laser"]) {
-				weaponBlocks.Add(block);
-			}
-
-			if (block.type == Block.types["console"]) {
-				hasGravity = true;
-			}
-		}
-
-		var mass = 0.0f;
-		foreach (var block in blocks.All) {
-			mass += Block.mass;
-		}
-		
-		rigidBody.mass = mass;
+	void QueueMeshUpdate() {
+		needMeshUpdate = true;
 	}
 
 	void UpdateMesh() {
+		Profiler.BeginSample("UpdateMesh");
+
+		if (!needMeshUpdate) return;
 		//mesh.Clear();
-		mesh.vertices = blocks.meshVertices.ToArray();
-		mesh.triangles = blocks.meshTriangles.ToArray();
-		mesh.uv = blocks.meshUV.ToArray();
+		mesh.vertices = blocks.meshVertices;
+		mesh.triangles = blocks.meshTriangles;
+		mesh.uv = blocks.meshUV;
 		//mesh.Optimize();
-		//mesh.RecalculateNormals();		
+		//mesh.RecalculateNormals();	
+		needMeshUpdate = false;
+
+		Profiler.EndSample();
 	}
 }

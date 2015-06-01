@@ -53,7 +53,7 @@ public class Game : MonoBehaviour {
 		placingShipObj.SetActive(true);
 
 		for (var i = 0; i < 1; i++) {
-			Generate.Asteroid(new Vector2(-60, 0), 60);
+			Generate.Asteroid(new Vector2(-60, 0), 50);
 		}
 
 		Generate.TestShip(new Vector2(5, 0));
@@ -76,7 +76,6 @@ public class Game : MonoBehaviour {
 		block.orientation = placingShip.blocks[0,0].orientation;
 		ship.blocks[bp] = block;
 		placedBlocks.Add(block);
-		ship.UpdateBlocks();
 	}
 
 
@@ -93,7 +92,6 @@ public class Game : MonoBehaviour {
 			}
 
 			placingShip.blocks[0, 0] = new Block(placingBlockType);
-			placingShip.UpdateBlocks();
 		}
 
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -138,7 +136,6 @@ public class Game : MonoBehaviour {
 				var block = placingShip.blocks[0, 0];
 				block.orientation = ori;
 				placingShip.blocks[0, 0] = block;
-				placingShip.UpdateBlocks();
 			}
 		}
 
@@ -151,7 +148,6 @@ public class Game : MonoBehaviour {
 			var block = placedBlocks[placedBlocks.Count - 1];	
 			var ship = block.ship;
 			ship.blocks[block.pos] = null;
-			ship.UpdateBlocks();
 			placedBlocks.Remove(block);
 		}
 
