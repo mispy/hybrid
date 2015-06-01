@@ -19,15 +19,72 @@ public class Block {
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 
-	public static List<Rect> atlasBoxes = new List<Rect>();
-
 	public static float mass = 0.0001f;
 
-	public static void Setup() {		
+	// the core sequence of each block type sprite
+	public static Texture2D[] sprites;
+
+	// precalculated uv coordinates for each block type and orientation
+	public static Vector2[][] upUVs;
+	public static Vector2[][] downUVs;
+	public static Vector2[][] leftUVs;
+	public static Vector2[][] rightUVs;
+
+	public static void Setup(Texture2D[] blockSprites) {
+		Block.sprites = blockSprites;
 		Block.wallLayer = LayerMask.NameToLayer("Block");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");
 		Block.wallColliderPrefab = Game.main.wallColliderPrefab;
 		Block.floorColliderPrefab = Game.main.floorColliderPrefab;
+				
+		// let's compress all the block sprites into a single tilesheet texture
+		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
+
+		var boxes = atlas.PackTextures(Block.sprites, 0, Block.pixelSize*Block.sprites.Count());
+
+		Block.tileWidth = (float)Block.pixelSize / atlas.width;
+		Block.tileHeight = (float)Block.pixelSize / atlas.height;
+
+		upUVs = new Vector2[Block.sprites.Length][];
+		downUVs = new Vector2[Block.sprites.Length][];
+		leftUVs = new Vector2[Block.sprites.Length][];
+		rightUVs = new Vector2[Block.sprites.Length][];
+
+		for (var i = 0; i < Block.sprites.Length; i++) {			
+			Block.types[Block.sprites[i].name] = i;
+
+			var box = boxes[i];
+
+			upUVs[i] = new Vector2[] {
+				new Vector2(box.xMin, box.yMin + Block.tileHeight),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin),
+				new Vector2(box.xMin, box.yMin)
+			};
+
+			downUVs[i] = new Vector2[] {
+				new Vector2(box.xMin, box.yMin),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
+				new Vector2(box.xMin, box.yMin + Block.tileHeight)
+			};
+
+			leftUVs[i] = new Vector2[] {
+				new Vector2(box.xMin + Block.tileWidth, box.yMin),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
+				new Vector2(box.xMin, box.yMin + Block.tileHeight),
+				new Vector2(box.xMin, box.yMin)
+			};
+
+			rightUVs[i] = new Vector2[] {
+				new Vector2(box.xMin, box.yMin + Block.tileHeight),
+				new Vector2(box.xMin, box.yMin),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin),
+				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight)
+			};
+		}
+
+		Game.main.shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 		
 	public static string GetTypeName(int blockType) {
@@ -93,6 +150,8 @@ public class Block {
 	public bool touched = true;
 
 	public int collisionLayer;
+
+	public int index;
 		
 	public Block(Ship ship, int type) {
 		this.ship = ship;

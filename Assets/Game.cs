@@ -37,21 +37,8 @@ public class Game : MonoBehaviour {
 		if (Game.main != null) return;
 		Game.main = this;
 
-		Block.Setup();
-		Pool.CreatePools();
-
-		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
-		foreach (var box in atlas.PackTextures(blockSprites, 0, Block.pixelSize*blockSprites.Count())) {
-			Block.atlasBoxes.Add(box);
-		}
-
-		for (var i = 0; i < blockSprites.Length; i++) {
-			Block.types[blockSprites[i].name] = i;
-		}
-
-		shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
-
-		
+		Block.Setup(blockSprites);
+		Pool.CreatePools();		
 				
 		float screenAspect = (float)Screen.width / (float)Screen.height;
 		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;

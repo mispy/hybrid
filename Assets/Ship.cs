@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BlockMap {
 	public int width;
@@ -10,13 +11,19 @@ public class BlockMap {
 	public int centerY;
 
 	private Block[,] blockArray;
+	private List<Block> allBlocks;
+
+	public List<Vector3> meshVertices;
+	public List<int> meshTriangles;
+	public List<Vector2> meshUV;
 
 	public BlockMap() {
 		width = 1;
 		height = 1;
 		centerX = (int)Math.Floor(width/2.0);
 		centerY = (int)Math.Floor(height/2.0);
-		blockArray = new Block[width, height];
+		blockArray = new Block[width, height];	
+		allBlocks = new List<Block>();
 	} 
 
 	public IEnumerable<IntVector2> Neighbors(IntVector2 bp) {
@@ -39,34 +46,16 @@ public class BlockMap {
 		
 		return false;
 	}
-	
-	public IEnumerable<Block> All() {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (blockArray[x, y] != null) {
-					yield return blockArray[x, y];
-				}
-			}
-		}
-	}
 
-	public IEnumerable<IntVector2> AllPositions() {
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				if (blockArray[x, y] != null) {
-					yield return new IntVector2(x-centerX, y-centerY);
-				}
-			}
+	public List<Block> All {
+		get {
+			return allBlocks;
 		}
 	}
 
 	public int Count {
 		get {
-			var i = 0;
-			foreach (var pos in AllPositions()) {
-				i += 1;
-			}
-			return i;
+			return allBlocks.Count;
 		}
 	}
 
@@ -77,37 +66,49 @@ public class BlockMap {
 		return true;
 	}
 
-	// dynamically reallocate array size to encompass the given point
-	// width/height are always a power of two
-	public void ExpandToEncompass(int x, int y) {
-		var oldWidth = width;
-		var oldHeight = height;
+	public void SetDimensions(int newWidth, int newHeight) {
+		var newBlocks = new Block[newWidth, newHeight];
 
-		while (centerX+x >= width || centerX+x < 0) {
-			width = width << 1;
-			centerX = width/2;
-		}
-
-		while (centerY+y >= height || centerY+y < 0) {
-			height = height << 1;
-			centerY = height/2;
-		}
-
-		Debug.LogFormat("Expanding ship from {0},{1} to {2},{3} to encompass point at {4},{5}",
-		                oldWidth, oldHeight, width, height, x, y);
-
-		var newBlocks = new Block[width, height];
-
-		var widthOffset = Mathf.FloorToInt((width-oldWidth)/2.0f);
-		var heightOffset = Mathf.FloorToInt((height-oldHeight)/2.0f);
-
-		for (var i = 0; i < oldWidth; i++) {
-			for (var j = 0; j < oldHeight; j++) {
+		var widthOffset = Mathf.FloorToInt((newWidth-width)/2.0f);
+		var heightOffset = Mathf.FloorToInt((newHeight-height)/2.0f);
+		
+		for (var i = 0; i < width; i++) {
+			for (var j = 0; j < height; j++) {
 				newBlocks[widthOffset+i, heightOffset+j] = blockArray[i,j];
 			}
 		}
 
+		width = newWidth;
+		height = newHeight;
+		centerX = Mathf.FloorToInt(newWidth/2.0f);
+		centerY = Mathf.FloorToInt(newHeight/2.0f);
 		blockArray = newBlocks;
+	}
+
+	// dynamically reallocate array size to encompass the given point as needed
+	// width/height are always a power of two
+	public void ExpandToEncompass(int x, int y) {
+		var newWidth = width;
+		var newHeight = height;
+		var newCenterX = centerX;
+		var newCenterY = centerY;
+
+		while (newCenterX+x >= newWidth || newCenterX+x < 0) {
+			newWidth = newWidth << 1;
+			newCenterX = Mathf.FloorToInt(newWidth/2.0f);
+		}
+
+		while (newCenterY+y >= newHeight || newCenterY+y < 0) {
+			newHeight = newHeight << 1;
+			newCenterY = Mathf.FloorToInt(newHeight/2.0f);
+		}
+
+		if (newWidth != width || newHeight != height) {
+			Debug.LogFormat("Expanding ship from {0},{1} to {2},{3} to encompass point at {4},{5}",
+			                width, height, newWidth, newHeight, x, y);
+			
+			SetDimensions(newWidth, newHeight);
+		}
 	}
 
 	public Block this[int x, int y] {
@@ -119,13 +120,20 @@ public class BlockMap {
 			}
 		}
 		set {
-			if (!WithinBounds(x, y)) {
-				ExpandToEncompass(x, y);
-			}
+			ExpandToEncompass(x, y);
 
-			if (value != null) {
+			if (value == null) {
+				var currentBlock = blockArray[centerX+x, centerY+y];
+
+				if (currentBlock != null) {
+					allBlocks.RemoveAt(currentBlock.index);
+				}
+			} else {
 				value.pos.x = x;
 				value.pos.y = y;
+				value.index = allBlocks.Count;
+
+				allBlocks.Add(value);
 			}
 
 			blockArray[centerX+x, centerY+y] = value; 
@@ -359,7 +367,7 @@ public class Ship : MonoBehaviour {
 
 		thrusterBlocks.Clear();
 		weaponBlocks.Clear();
-		foreach (var block in blocks.All()) {
+		foreach (var block in blocks.All) {
 			if (block.type == Block.types["thruster"]) {
 				thrusterBlocks.Add(block);
 			}
@@ -374,7 +382,7 @@ public class Ship : MonoBehaviour {
 		}
 
 		var mass = 0.0f;
-		foreach (var block in blocks.All()) {
+		foreach (var block in blocks.All) {
 			mass += Block.mass;
 		}
 		
@@ -387,7 +395,7 @@ public class Ship : MonoBehaviour {
 		}
 
 		colliders.Clear();
-		foreach (var block in blocks.All()) {
+		foreach (var block in blocks.All) {
 			if (blocks.IsEdge(block.pos)) {
 				GameObject colliderObj;
 				if (block.collisionLayer == Block.wallLayer)
@@ -404,7 +412,7 @@ public class Ship : MonoBehaviour {
 	}
 
 	void UpdateMesh() {
-		foreach (var block in blocks.All()) {
+		foreach (var block in blocks.All) {
 			AlignBlockToMesh(block);
 		}
 
@@ -428,18 +436,6 @@ public class Ship : MonoBehaviour {
 		mesh = GetComponent<MeshFilter>().mesh;
 		var rend = GetComponent<MeshRenderer>();
 
-		if (Block.tileWidth == 0) {
-			Block.tileWidth = (float)Block.pixelSize / rend.material.mainTexture.width;
-			Block.tileHeight = (float)Block.pixelSize / rend.material.mainTexture.height;
-		}
-
-		var tilesPerRow = Mathf.RoundToInt(rend.material.mainTexture.width / (float)Block.pixelSize);
-		var tilesPerCol = Mathf.RoundToInt(rend.material.mainTexture.height / (float)Block.pixelSize);
-
-		var index = new Vector2(Block.atlasBoxes[block.type].xMin, Block.atlasBoxes[block.type].yMin);
-
-		mesh = GetComponent<MeshFilter>().mesh;
-
 		var localPos = BlockToLocalPos(block.pos);
 		float x = localPos.x;
 		float y = localPos.y;
@@ -456,29 +452,17 @@ public class Ship : MonoBehaviour {
 		newTriangles.Add((squareCount*4)+1);
 		newTriangles.Add((squareCount*4)+2);
 		newTriangles.Add((squareCount*4)+3);
-
-		if (block.orientation == Vector2.up) {
-			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y));
-			newUV.Add(new Vector2 (index.x, index.y));
-		} else if (block.orientation == -Vector2.up) {			
-			newUV.Add(new Vector2 (index.x, index.y));
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y));
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));		
-		} else if (block.orientation == Vector2.right) {
-			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (index.x, index.y));
-			newUV.Add(new Vector2 ( index.x + Block.tileWidth, index.y));
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
-		} else if (block.orientation == -Vector2.right) {
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y));
-			newUV.Add(new Vector2 (index.x + Block.tileWidth, index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (index.x, index.y + Block.tileHeight));
-			newUV.Add(new Vector2 (index.x, index.y));
-		}
 			
+		if (block.orientation == Vector2.up) {
+			newUV.AddRange(Block.upUVs[block.type]);
+		} else if (block.orientation == -Vector2.up) {
+			newUV.AddRange(Block.downUVs[block.type]);
+		} else if (block.orientation == -Vector2.right) {
+			newUV.AddRange(Block.leftUVs[block.type]);
+		} else if (block.orientation == Vector2.right) {
+			newUV.AddRange(Block.rightUVs[block.type]);
+		}
+
 		squareCount++;
 	}
 }
