@@ -37,8 +37,12 @@ public class Game : MonoBehaviour {
 		if (Game.main != null) return;
 		Game.main = this;
 
+		Shields.prefab = Resources.Load("Shields") as GameObject;
+
+
 		Block.Setup(blockSprites);
 		Pool.CreatePools();		
+
 				
 		float screenAspect = (float)Screen.width / (float)Screen.height;
 		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;
@@ -53,7 +57,7 @@ public class Game : MonoBehaviour {
 		placingShipObj.SetActive(true);
 
 		for (var i = 0; i < 1; i++) {
-			Generate.Asteroid(new Vector2(-60, 0), 50);
+			Generate.Asteroid(new Vector2(-60, 0), 30);
 		}
 
 		Generate.TestShip(new Vector2(5, 0));

@@ -208,6 +208,9 @@ public class Ship : MonoBehaviour {
 	public bool hasGravity = false;
 
 	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
+	public Shields shields;
+
+	public Vector3 localCenter;
 
 	// Use this for initialization
 	void Awake () {
@@ -228,6 +231,14 @@ public class Ship : MonoBehaviour {
 		}
 
 		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
+
+		if (hasCollision && hasGravity) {
+			var shieldObj = Pool.shields.TakeObject();
+			shields = shieldObj.GetComponent<Shields>();
+			shieldObj.transform.parent = transform;
+			shieldObj.transform.localPosition = localCenter;
+			shieldObj.SetActive(true);
+		}
 	}
 
 	public void SetBlock(int x, int y, int type) {
@@ -242,40 +253,28 @@ public class Ship : MonoBehaviour {
 	}
 
 	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
-		// no point breaking off a single block from itself
-		/*if (blocks.Count == 1) return;
-		var myRigid = GetComponent<Rigidbody2D>();
-
-		var impactVelocity = myRigid.velocity - fromRigid.velocity;
+		var impactVelocity = rigidBody.velocity - fromRigid.velocity;
 		var impactForce = impactVelocity.magnitude * fromRigid.mass;
-		if (impactForce < 5) return;
+		//if (impactForce < 5) return;
 
 		// break it off into a separate fragment
-		var newShip = Instantiate(Game.main.shipPrefab, block.transform.position, block.transform.rotation) as GameObject;
-		var newRigid = newShip.GetComponent<Rigidbody2D>();
-		newRigid.velocity = myRigid.velocity;
-		newRigid.angularVelocity = myRigid.angularVelocity;
-		
-		var newShipScript = newShip.GetComponent<Ship>();
-		RemoveBlock(block);
-		newShipScript.AddBlock(block, 0, 0);*/
+		//BreakBlock(block);
 	}
 
 	public Ship BreakBlock(Block block) {
-		if (blocks.Count == 0) // no use breaking a single block into itself
+		if (blocks.Count == 1) // no use breaking a single block into itself
 			return this;
 
 		blocks[block.pos] = null;
-		return this;
 
 		var newShipObj = Pool.Ship.TakeObject();
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
 		newShip.UpdateBlocks();
-		var newRigid = newShipObj.GetComponent<Rigidbody>();
-		newRigid.velocity = rigidBody.velocity;
-		newRigid.angularVelocity = rigidBody.angularVelocity;
+		newShip.rigidBody.velocity = rigidBody.velocity;
+		newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;
+		//newShip.hasCollision = false;
 		newShipObj.SetActive(true);
 
 		return newShip;
@@ -332,6 +331,7 @@ public class Ship : MonoBehaviour {
 				UpdateCollider(pos);
 			}
 		}
+
 		Profiler.EndSample();
 	}
 
@@ -341,17 +341,39 @@ public class Ship : MonoBehaviour {
 		QueueMeshUpdate();
 
 		var mass = 0.0f;
-		
+		var sumPos = new IntVector2(0, 0);
+
+		var maxY = 0;
+		var minY = 0;
+		var maxX = 0;
+		var minX = 0;
+
 		foreach (var block in blocks.All) {
 			if (block.type == Block.types["console"]) {
 				hasGravity = true;
 			}
 			
 			mass += Block.mass;
+			sumPos.x += block.pos.x;
+			sumPos.y += block.pos.y;
+
+			if (block.pos.x > maxX)
+				maxX = block.pos.x;
+			if (block.pos.y > maxY)
+				maxY = block.pos.y;
+			if (block.pos.x < minX)
+				minX = block.pos.x;
+			if (block.pos.y < minY)
+				minY = block.pos.y;
 		}
 		
 		rigidBody.mass = mass;
 
+		sumPos.x /= blocks.Count;
+		sumPos.y /= blocks.Count;
+		localCenter = BlockToLocalPos(sumPos);
+		rigidBody.centerOfMass = localCenter;
+				
 		Profiler.EndSample();
 	}
 
@@ -372,7 +394,10 @@ public class Ship : MonoBehaviour {
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
-		return blocks[WorldToBlockPos(worldPos)];
+		Profiler.BeginSample("BlockAtWorldPos");
+		var block = blocks[WorldToBlockPos(worldPos)];
+		Profiler.EndSample();
+		return block;
 	}
 
 	public Dictionary<IntVector2, ParticleSystem> particleCache = new Dictionary<IntVector2, ParticleSystem>();
@@ -460,10 +485,10 @@ public class Ship : MonoBehaviour {
 				if (ship == this) continue;
 				var newShip = ship.BreakBlock(hitBlock);
 
-				/*var awayDir = newShip.transform.position - ship.transform.position;
+				var awayDir = newShip.transform.position - ship.transform.position;
 				awayDir.Normalize();
 				// make the block fly away from the ship
-				newShip.rigidBody.AddForce(awayDir * Block.mass * 10);*/
+				newShip.rigidBody.AddForce(awayDir * Block.mass * 1000);
 
 				//var towardDir = newShip.transform.position - beam.transform.position;
 				//towardDir.Normalize();
@@ -472,17 +497,37 @@ public class Ship : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter2D(Collider2D collider) {
-		if (collider.gameObject.transform.parent == null)
-			return;
-
-		var otherShip = collider.gameObject.transform.parent.GetComponent<Ship>();
-		otherShip.ReceiveImpact(rigidBody, collider.gameObject.GetComponent<Block>());
-	}
-
-
 	void OnCollisionEnter(Collision collision) {
+		var shields = collision.collider.gameObject.GetComponent<Shields>();
+		if (shields != null) {
+			shields.OnCollisionEnter(collision);
+			return;
+		}
+
+		var otherShip = collision.rigidbody.gameObject.GetComponent<Ship>();
+		if (otherShip != null) {
+			var block = otherShip.BlockAtWorldPos(collision.collider.transform.position);
+			if (block != null)
+				otherShip.ReceiveImpact(rigidBody, block);
+		}
 	}
+
+	void OnCollisionStay(Collision collision) {
+		var shields = collision.collider.gameObject.GetComponent<Shields>();
+		if (shields != null) {
+			shields.OnCollisionStay(collision);
+			return;
+		}
+	}
+
+	void OnCollisionExit(Collision collision) {
+		var shields = collision.collider.gameObject.GetComponent<Shields>();
+		if (shields != null) {
+			shields.OnCollisionExit(collision);
+			return;
+		}
+	}
+
 
 	private bool needMeshUpdate = false;
 
@@ -494,12 +539,16 @@ public class Ship : MonoBehaviour {
 		Profiler.BeginSample("UpdateMesh");
 
 		if (!needMeshUpdate) return;
-		//mesh.Clear();
+		mesh.Clear();
 		mesh.vertices = blocks.meshVertices;
 		mesh.triangles = blocks.meshTriangles;
 		mesh.uv = blocks.meshUV;
-		//mesh.Optimize();
-		//mesh.RecalculateNormals();	
+		mesh.Optimize();
+		mesh.RecalculateNormals();	
+
+
+		if (shields != null)
+			shields.transform.localScale = new Vector3(mesh.bounds.size.x + 1, mesh.bounds.size.y + 1, 1);	
 		needMeshUpdate = false;
 
 		Profiler.EndSample();
