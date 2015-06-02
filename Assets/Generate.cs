@@ -195,6 +195,21 @@ public class Generate : MonoBehaviour {
 			}
 		}
 
+		for (var y = height; y > -height; y--) {
+			Block block = null;
+			for (var x = 0; x < width; x++) {
+				if (ship.blocks[x,y] != null && ship.blocks[x,y].type == Block.types["floor"]) {
+					block = ship.blocks[x,y];
+					break;
+				}
+			}
+
+			if (block != null) {
+				ship.SetBlock(block.pos.x, block.pos.y, Block.types["console"], Vector2.up);
+				break;
+			}
+		}
+
 
 		/*for (var i = 0; i < leaves.Count; i++) {
 			for (var j = 0; j < leaves.Count; j++) {

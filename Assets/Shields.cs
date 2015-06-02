@@ -16,7 +16,7 @@ public class Shields : MonoBehaviour {
 	}
 
 	void Update(){
-		renderer.sharedMaterial.SetFloat("_Offset", Mathf.Repeat(Time.time, 1));
+		renderer.material.SetFloat("_Offset", Mathf.Repeat(Time.time, 1));
 		//renderer.sharedMaterial.SetFloat("_RadialFactor", Mathf.Repeat(Time.time, 1));
 
 		var easeIn = Interpolate.Ease(Interpolate.EaseType.EaseInCubic);
@@ -24,21 +24,21 @@ public class Shields : MonoBehaviour {
 
 		if (elapsedTime < duration) {
 			if (elapsedTime < duration/2.0f) {
-				renderer.sharedMaterial.SetFloat("_RadialFactor", easeIn(0.0f, 1.0f, elapsedTime, duration/2.0f));
+				renderer.material.SetFloat("_RadialFactor", easeIn(0.0f, 1.0f, elapsedTime, duration/2.0f));
 			} else {
-				renderer.sharedMaterial.SetVector("_Position", -contactPoint);
-				renderer.sharedMaterial.SetFloat("_RadialFactor", 1.0f - easeOut(0.0f, 1.0f, elapsedTime - duration/2.0f, duration/2.0f));
+				renderer.material.SetVector("_Position", -contactPoint);
+				renderer.material.SetFloat("_RadialFactor", 1.0f - easeOut(0.0f, 1.0f, elapsedTime - duration/2.0f, duration/2.0f));
 			}
 			if (!staying)
 				elapsedTime += Time.deltaTime;
 		} else {
-			renderer.sharedMaterial.SetFloat("_RadialFactor", 0.0f);
+			renderer.material.SetFloat("_RadialFactor", 0.1f);
 		}
 	}
 	
 	public void OnCollisionEnter(Collision collision) {
 		contactPoint = transform.InverseTransformPoint(collision.contacts[0].point);
-		renderer.sharedMaterial.SetVector("_Position", contactPoint);
+		renderer.material.SetVector("_Position", contactPoint);
 
 		if (elapsedTime > duration) {
 			elapsedTime = 0.0f;

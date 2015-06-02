@@ -13,7 +13,7 @@ public class Crew : MonoBehaviour {
 	public Vector2 lastMovement;
 
 	public Block standingBlock = null;
-
+	public IntVector2 targetBlockPos;
 	public static Crew player;
 
 	// Use this for initialization
@@ -24,16 +24,21 @@ public class Crew : MonoBehaviour {
 	}
 
 	void UpdateGravity() {
-		Block newBlock = null;
-		return;
 		// if we're on a ship, just check if we can stay on that ship
-		if (boardedShip != null && boardedShip.blocks[boardedShip.WorldToBlockPos(transform.position)] != null)
-			return;
+		if (boardedShip != null) {
+			var block = boardedShip.BlockAtLocalPos(transform.localPosition);
+			if (block != null) {
+				standingBlock = block;
+				return;
+			}
+		}
+
+		Block newBlock = null;
 
 		foreach (var hit in Physics.OverlapSphere(transform.position, collider.bounds.size.x)) {
 			var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
 			if (ship != null && hit.gameObject.layer == Block.floorLayer) {
-				var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];
+				var block = ship.BlockAtWorldPos(hit.transform.position);
 				if (block != null) {
 					newBlock = block;
 					break;
@@ -56,7 +61,31 @@ public class Crew : MonoBehaviour {
 			}
 		}
 	}
-	
+
+	IEnumerator MoveToBlock() {
+		Debug.Log("moving");
+		var speed = 0.1f;
+		var targetPos = (Vector3)boardedShip.BlockToLocalPos(targetBlockPos);
+
+		while (true) {
+			var pos = transform.localPosition;
+			var dist = targetPos - pos;
+
+			if (dist.magnitude > speed) {
+				dist.Normalize();
+				dist = dist*speed;
+			}
+
+			transform.localPosition += dist;
+
+			if (Vector3.Distance(transform.localPosition, targetPos) < Vector3.kEpsilon) {
+				break;
+			}
+
+			yield return null;
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		UpdateGravity();
@@ -113,24 +142,27 @@ public class Crew : MonoBehaviour {
 			
 			rigidBody.velocity = vel;
 		} else {
-			/*Vector2 offset = new Vector2(0.0f, 0.0f);
-			if (Input.GetKey(KeyCode.W))
-				offset += new Vector2(0.0f, 0.1f);
-			if (Input.GetKey(KeyCode.S))
-				offset += new Vector2(0.0f, -0.1f);
-			if (Input.GetKey(KeyCode.A))
-				offset += new Vector2(-0.1f, 0.0f);
-			if (Input.GetKey(KeyCode.D))
-				offset += new Vector2(0.1f, 0.0f);
+			var bp = standingBlock.pos;
 
-			foreach (var hit in Physics2D.OverlapAreaAll((Vector2)collider.bounds.min+offset, (Vector2)collider.bounds.max+offset)) {
-				if (hit.gameObject != gameObject && hit.gameObject.layer != Block.floorLayer) {
-					return;
+			//Debug.LogFormat("{0} {1}", bp, targetBlockPos);
+			if (Input.GetKey(KeyCode.W))
+				bp.y += 1;
+			if (Input.GetKey(KeyCode.S))
+				bp.y -= 1;
+			if (Input.GetKey(KeyCode.A))
+				bp.x -= 1;
+			if (Input.GetKey(KeyCode.D))
+				bp.x += 1;
+
+			var destBlock = boardedShip.blocks[bp];
+
+			if (destBlock == null || destBlock.collisionLayer == Block.floorLayer) {
+				if (bp != standingBlock.pos && bp != targetBlockPos) {
+					targetBlockPos = bp;
+					StopCoroutine("MoveToBlock");
+					StartCoroutine("MoveToBlock");
 				}
 			}
-
-			transform.Translate(offset);
-			lastMovement = offset;*/
 		}
 
 	}

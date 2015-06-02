@@ -116,13 +116,11 @@ public class Block {
 		List<Block> nearbyBlocks = new List<Block>();
 
 		foreach (var hit in hits) {
-			if (hit.gameObject.transform.parent != null) {
-				var ship = hit.gameObject.transform.parent.GetComponent<Ship>();
-				if (ship != null) {
-					var block = ship.blocks[ship.WorldToBlockPos(hit.transform.position)];
-					if (block != null)
-						nearbyBlocks.Add(block);
-				}
+			if (hit.gameObject.CompareTag("Block")) {
+			var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
+				var block = ship.BlockAtWorldPos(hit.transform.position);
+				if (block != null)
+					nearbyBlocks.Add(block);
 			}
 		}
 

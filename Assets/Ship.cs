@@ -200,7 +200,7 @@ public class Ship : MonoBehaviour {
 	public BlockMap blocks;
 
 	public Rigidbody rigidBody;
-
+	public MeshRenderer renderer;
 	
 	private Mesh mesh;
 
@@ -216,7 +216,8 @@ public class Ship : MonoBehaviour {
 	void Awake () {
 		blocks = new BlockMap(this);
 		rigidBody = GetComponent<Rigidbody>();
-		mesh = GetComponent<MeshFilter>().mesh;		
+		renderer = GetComponent<MeshRenderer>();
+		mesh = GetComponent<MeshFilter>().mesh;	
 	}
 
 	void Start() {
@@ -239,6 +240,8 @@ public class Ship : MonoBehaviour {
 			shieldObj.transform.localPosition = localCenter;
 			shieldObj.SetActive(true);
 		}
+		renderer.material.color = Color.green;
+ 
 	}
 
 	public void SetBlock(int x, int y, int type) {
@@ -378,12 +381,15 @@ public class Ship : MonoBehaviour {
 	}
 
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
-		var localPos = transform.InverseTransformPoint(worldPos);
-		// remember that blocks go around the center point of the center block at [0,0]
-
-		return new IntVector2(Mathf.FloorToInt((localPos.x + Block.worldSize/2.0f) / Block.worldSize),
-		                   Mathf.FloorToInt((localPos.y + Block.worldSize/2.0f) / Block.worldSize));
+		return LocalToBlockPos(transform.InverseTransformPoint(worldPos));
 	}
+
+	public IntVector2 LocalToBlockPos(Vector3 localPos) {
+		// remember that blocks go around the center point of the center block at [0,0]		
+		return new IntVector2(Mathf.FloorToInt((localPos.x + Block.worldSize/2.0f) / Block.worldSize),
+		                      Mathf.FloorToInt((localPos.y + Block.worldSize/2.0f) / Block.worldSize));
+	}
+
 
 	public Vector2 BlockToLocalPos(IntVector2 blockPos) {
 		return new Vector2(blockPos.x*Block.worldSize, blockPos.y*Block.worldSize);
@@ -391,6 +397,10 @@ public class Ship : MonoBehaviour {
 
 	public Vector2 BlockToWorldPos(IntVector2 blockPos) {
 		return transform.TransformPoint(BlockToLocalPos(blockPos));
+	}
+
+	public Block BlockAtLocalPos(Vector3 localPos) {
+		return blocks[LocalToBlockPos(localPos)];
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
@@ -426,7 +436,7 @@ public class Ship : MonoBehaviour {
 				}
 				var thrust = particleCache[block.pos];
 				thrust.Emit(1);
-				rigidBody.AddForceAtPosition(worldOrient * 0.005f, BlockToWorldPos(block.pos));
+				rigidBody.AddForce(worldOrient * Block.mass * 10);
 			}
 		}
 	}
@@ -547,8 +557,14 @@ public class Ship : MonoBehaviour {
 		mesh.RecalculateNormals();	
 
 
-		if (shields != null)
-			shields.transform.localScale = new Vector3(mesh.bounds.size.x + 1, mesh.bounds.size.y + 1, 1);	
+		if (shields != null) {
+			var hypo = Mathf.Sqrt(mesh.bounds.size.x*mesh.bounds.size.x + mesh.bounds.size.y*mesh.bounds.size.y);
+			var scale = new Vector3(mesh.bounds.size.x, mesh.bounds.size.y, 1);
+			scale.x += hypo * mesh.bounds.size.x / (mesh.bounds.size.x+mesh.bounds.size.y);
+			scale.y += hypo * mesh.bounds.size.y / (mesh.bounds.size.x+mesh.bounds.size.y);
+
+			shields.transform.localScale = scale;
+		}
 		needMeshUpdate = false;
 
 		Profiler.EndSample();
