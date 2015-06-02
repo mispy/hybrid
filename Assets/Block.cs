@@ -19,7 +19,7 @@ public class Block {
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 
-	public static float mass = 0.0001f;
+	public static float mass = 0.001f;
 
 	// the core sequence of each block type sprite
 	public static Texture2D[] sprites;
