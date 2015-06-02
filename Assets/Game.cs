@@ -60,7 +60,9 @@ public class Game : MonoBehaviour {
 			Generate.Asteroid(new Vector2(-60, 0), 30);
 		}
 
-		Generate.TestShip(new Vector2(5, 0));
+		//Generate.TestShip(new Vector2(5, 0));
+
+		Generate.EllipsoidShip(new Vector2(5, 0), 30, 20);
 	}
 
 	void PlaceShipBlock(Vector2 pz, Block adjoiningBlock) {

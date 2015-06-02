@@ -156,6 +156,14 @@ public class Block {
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.transform.position));
 	}*/
 
+	public int x {
+		get { return pos.x; }
+	}
+
+	public int y {
+		get { return pos.y; }
+	}
+
 	public Ship ship;
 	public IntVector2 pos = new IntVector2();
 	public int type;

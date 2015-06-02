@@ -114,7 +114,7 @@ public class BlockMap {
 		if (newSize == -1)
 			newSize = blockSequence.Length << 1;
 
-		Debug.LogFormat("Expanding to {0}", newSize);
+		//Debug.LogFormat("Expanding to {0}", newSize);
 
 		var newSequence = new Block[newSize];
 		var newTriangles = new int[newSize*6];
@@ -272,10 +272,10 @@ public class Ship : MonoBehaviour {
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
 		newShip.UpdateBlocks();
+		newShipObj.SetActive(true);
 		newShip.rigidBody.velocity = rigidBody.velocity;
 		newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;
 		//newShip.hasCollision = false;
-		newShipObj.SetActive(true);
 
 		return newShip;
 	}
