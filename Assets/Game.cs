@@ -18,6 +18,8 @@ public class Game : MonoBehaviour {
 	public GameObject floorColliderPrefab;
 	public GameObject particleBeamPrefab;
 
+	public Ship testShip;
+
 	private List<Block> placedBlocks = new List<Block>();
 
 	public Crew player;
@@ -62,7 +64,7 @@ public class Game : MonoBehaviour {
 
 		//Generate.TestShip(new Vector2(5, 0));
 
-		Generate.EllipsoidShip(new Vector2(18, 0), 20, 10);
+		testShip =	Generate.EllipsoidShip(new Vector2(18, 0), 20, 10);
 	}
 
 	void PlaceShipBlock(Vector2 pz, Block adjoiningBlock) {

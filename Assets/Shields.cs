@@ -32,7 +32,7 @@ public class Shields : MonoBehaviour {
 			if (!staying)
 				elapsedTime += Time.deltaTime;
 		} else {
-			renderer.material.SetFloat("_RadialFactor", 0.1f);
+			renderer.material.SetFloat("_RadialFactor", 0.0f);
 		}
 	}
 	

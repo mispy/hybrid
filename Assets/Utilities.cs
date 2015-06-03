@@ -5,6 +5,15 @@ public struct IntVector2 {
 	public int x;
 	public int y;
 
+	public static double Distance(IntVector2 v1, IntVector2 v2) {
+		return Math.Sqrt(Math.Pow(v1.x - v2.x, 2) + Math.Pow(v1.y - v2.y, 2));
+	}
+
+
+	public static IntVector2 operator -(IntVector2 v1, IntVector2 v2) {
+		return new IntVector2(v1.x - v2.x, v1.y - v2.y);
+	}
+
 	public static bool operator ==(IntVector2 v1, IntVector2 v2) {
 		return v1.x == v2.x && v1.y == v2.y;
 	}

@@ -195,7 +195,7 @@ public class Generate : MonoBehaviour {
 			}
 		}
 
-		for (var y = height; y > -height; y--) {
+		for (var y = height/2; y > -height/2; y--) {
 			Block block = null;
 			for (var x = 0; x < width; x++) {
 				if (ship.blocks[x,y] != null && ship.blocks[x,y].type == Block.types["floor"]) {
@@ -232,6 +232,11 @@ public class Generate : MonoBehaviour {
 			}
 		}*/
 		AssignThrusters(ship);
+
+		/*int y2 = -3;
+		for (var x = -width/2-1; x < -width/2+2; x++) {
+			ship.SetBlock(x, y2, Block.types["floor"]);
+		}*/
 
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);

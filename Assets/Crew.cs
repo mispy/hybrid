@@ -36,6 +36,7 @@ public class Crew : MonoBehaviour {
 		Block newBlock = null;
 
 		foreach (var hit in Physics.OverlapSphere(transform.position, collider.bounds.size.x)) {
+			if (hit.attachedRigidbody == null) continue;
 			var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
 			if (ship != null && hit.gameObject.layer == Block.floorLayer) {
 				var block = ship.BlockAtWorldPos(hit.transform.position);
@@ -89,7 +90,6 @@ public class Crew : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		UpdateGravity();
-	
 		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {
 			rigidBody.isKinematic = false;
 			transform.parent = null;
@@ -120,7 +120,6 @@ public class Crew : MonoBehaviour {
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
 		}
-
 		if (boardedShip == null) {
 			var speed = 60f * Time.deltaTime;
 			Vector2 vel = rigidBody.velocity;
