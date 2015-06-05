@@ -28,8 +28,6 @@ public class AICrew : MonoBehaviour {
 		}
 
 		path = ship.blocks.PathBetween(currentPos, console.pos);
-
-		Debug.Log(path);
 	}
 		
 	void Awake() {

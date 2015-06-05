@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,7 @@ public class Crew : MonoBehaviour {
 
 	void UpdateGravity() {
 		// if we're on a ship, just check if we can stay on that ship
-		if (boardedShip != null) {
+		if (boardedShip != null && boardedShip.hasGravity) {
 			var block = boardedShip.BlockAtLocalPos(transform.localPosition);
 			if (block != null) {
 				standingBlock = block;
@@ -91,19 +92,18 @@ public class Crew : MonoBehaviour {
 	void Update () {
 		UpdateGravity();
 		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {
-			rigidBody.isKinematic = false;
-			transform.parent = null;
 			Game.main.activeShip = null;
 			return;
 		}
 
-		if (Game.main.activeShip != null) return;
+		if (boardedShip) {
+			Game.main.debugText.text = String.Format("Velocity: {0} {1}", boardedShip.rigidBody.velocity.x, boardedShip.rigidBody.velocity.y);
+		}
+		
+		if (Game.main.activeShip != null) return;				
 
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
 			Game.main.activeShip = interactBlock.ship;
-			rigidBody.isKinematic = true;
-			transform.rotation = Game.main.activeShip.transform.rotation;
-			transform.parent = Game.main.activeShip.gameObject.transform;
 			return;
 		}
 
@@ -120,6 +120,7 @@ public class Crew : MonoBehaviour {
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
 		}
+
 		if (boardedShip == null) {
 			var speed = 60f * Time.deltaTime;
 			Vector2 vel = rigidBody.velocity;

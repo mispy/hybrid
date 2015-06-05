@@ -18,6 +18,8 @@ public class BlockMap {
 
 	public Ship ship;
 
+	public Dictionary<int, List<Block>> blockTypeCache;
+
 	public BlockMap(Ship ship) {
 		this.ship = ship;
 
@@ -31,6 +33,11 @@ public class BlockMap {
 		minY = 0;
 		maxX = 0;
 		maxY = 0;
+
+		blockTypeCache = new Dictionary<int, List<Block>>();
+		foreach (var type in Block.types.Values) {
+			blockTypeCache[type] = new List<Block>();
+		}
 	} 
 
 	public IntVector2[] Neighbors(IntVector2 bp) {
@@ -148,13 +155,19 @@ public class BlockMap {
 	}
 
 	public Block FindType(int type) {
-		foreach (var block in blockSequence) {
-			if (block.type == type) {
-				return block;
-			}
+		foreach (var block in blockTypeCache[type]) {
+			return block;
 		}
 
 		return null;
+	}
+
+	public bool HasType(int type) {
+		return blockTypeCache[type].Count > 0;
+	}
+
+	public bool HasType(string typeName) {
+		return blockTypeCache[Block.types[typeName]].Count > 0;
 	}
 
 	public Block this[IntVector2 bp] {
@@ -191,6 +204,7 @@ public class BlockMap {
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
 				ClearMeshPos(currentBlock.index);
+				blockTypeCache[currentBlock.type].Remove(currentBlock);
 				ship.OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
@@ -199,6 +213,7 @@ public class BlockMap {
 						if (blockSequence[i] == null) {
 							value.index = i;
 							AttachToMesh(value);
+							blockTypeCache[value.type].Add(value);
 							ship.OnBlockChanged(value, currentBlock);					
 							return;
 						}
@@ -210,6 +225,8 @@ public class BlockMap {
 				// replacing an existing block
 				value.index = currentBlock.index;
 				AttachToMesh(value);
+				blockTypeCache[currentBlock.type].Remove(currentBlock);
+				blockTypeCache[value.type].Add(value);
 				ship.OnBlockChanged(value, currentBlock);
 			}
 
@@ -226,7 +243,7 @@ public class BlockMap {
 	}
 
 	public List<IntVector2> PathBetween(IntVector2 start, IntVector2 end) {
-		Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
+		//Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
 		// nodes that have already been analyzed and have a path from the start to them
 		var closedSet = new List<IntVector2>();
 		// nodes that have been identified as a neighbor of an analyzed node, but have 
@@ -342,7 +359,7 @@ public class Ship : MonoBehaviour {
 	public bool hasGravity = false;
 	
 	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
-	public Shields shields;
+	public Shields shields = null;
 	
 	public Vector3 localCenter;
 	
@@ -355,8 +372,6 @@ public class Ship : MonoBehaviour {
 	}
 	
 	void Start() {
-		UpdateBlocks();
-		
 		if (hasCollision) {
 			foreach (var block in blocks.All) {
 				if (blocks.IsEdge(block.pos)) {
@@ -364,17 +379,13 @@ public class Ship : MonoBehaviour {
 				}
 			}
 		}
-		
+				
+		UpdateMass();	
+		UpdateShields();	
+		UpdateGravity();
+
+		QueueMeshUpdate();
 		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
-		
-		if (hasCollision && hasGravity) {
-			var shieldObj = Pool.shields.TakeObject();
-			shields = shieldObj.GetComponent<Shields>();
-			shieldObj.transform.parent = transform;
-			shieldObj.transform.localPosition = localCenter;
-			shieldObj.SetActive(true);
-		}
-		renderer.material.color = Color.green;
 	}
 
 	public void SetBlock(int x, int y, int type) {
@@ -407,7 +418,6 @@ public class Ship : MonoBehaviour {
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
-		newShip.UpdateBlocks();
 		newShipObj.SetActive(true);
 		newShip.rigidBody.velocity = rigidBody.velocity;
 		newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;
@@ -452,65 +462,87 @@ public class Ship : MonoBehaviour {
 		Profiler.EndSample();
 	}
 
+
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		Profiler.BeginSample("OnBlockChanged");
-		if (gameObject.activeInHierarchy) {			
-			QueueMeshUpdate();
 
-			var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
-			
-			if (hasCollision) {
-				foreach (var other in blocks.Neighbors(pos)) {
-					UpdateCollider(other);
-				}
-				
-				UpdateCollider(pos);
-			}
-		}
+		// Inactive ships do not automatically update on block change, to allow
+		// for performant pre-runtime mass construction. kinda like turning the power
+		// off so you can stick your hand in there
+		// - mispy
+		if (!gameObject.activeInHierarchy) return;
+		var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
+
+		UpdateCollision(pos);
+
+		var oldMass = oldBlock == null ? 0 : oldBlock.mass;
+		var newMass = newBlock == null ? 0 : newBlock.mass;
+		if (oldMass != newMass)
+			UpdateMass();
+
+		if (Block.IsType(newBlock, "shieldgen") || Block.IsType(oldBlock, "shieldgen"))
+			UpdateShields();
+
+		if (Block.IsType(newBlock, "gravgen") || Block.IsType(oldBlock, "gravgen"))
+			UpdateGravity();
+
+
+		QueueMeshUpdate();		
 
 		Profiler.EndSample();
 	}
-
-	public void UpdateBlocks() {
-		Profiler.BeginSample("UpdateBlocks");
-
-		QueueMeshUpdate();
-
-		var mass = 0.0f;
-		var sumPos = new IntVector2(0, 0);
-
-		var maxY = 0;
-		var minY = 0;
-		var maxX = 0;
-		var minX = 0;
-
-		foreach (var block in blocks.All) {
-			if (block.type == Block.types["console"]) {
-				hasGravity = true;
-			}
-			
-			mass += Block.mass;
-			sumPos.x += block.pos.x;
-			sumPos.y += block.pos.y;
-
-			if (block.pos.x > maxX)
-				maxX = block.pos.x;
-			if (block.pos.y > maxY)
-				maxY = block.pos.y;
-			if (block.pos.x < minX)
-				minX = block.pos.x;
-			if (block.pos.y < minY)
-				minY = block.pos.y;
+	
+	public void UpdateCollision(IntVector2 pos) {
+		if (!hasCollision) return;
+		
+		foreach (var other in blocks.Neighbors(pos)) {
+			UpdateCollider(other);
 		}
 		
-		rigidBody.mass = mass;
+		UpdateCollider(pos);
+	}
 
-		sumPos.x /= blocks.Count;
-		sumPos.y /= blocks.Count;
-		localCenter = BlockToLocalPos(sumPos);
+	public void UpdateMass() {		
+		var totalMass = 0.0f;
+		var avgPos = new IntVector2(0, 0);
+		
+		foreach (var block in blocks.All) {
+			totalMass += block.mass;
+			avgPos.x += block.pos.x;
+			avgPos.y += block.pos.y;
+		}
+		
+		rigidBody.mass = totalMass;
+		
+		avgPos.x /= blocks.Count;
+		avgPos.y /= blocks.Count;
+		localCenter = BlockToLocalPos(avgPos);
 		rigidBody.centerOfMass = localCenter;
-				
-		Profiler.EndSample();
+	}
+
+	public void UpdateShields() {
+		if (blocks.HasType("shieldgen") && shields == null) {
+			var shieldObj = Pool.shields.TakeObject();
+			shields = shieldObj.GetComponent<Shields>();
+			shieldObj.transform.parent = transform;
+			shieldObj.transform.localPosition = localCenter;
+			shieldObj.SetActive(true);
+		} else if (!blocks.HasType("shieldgen") && shields != null) {
+			shields.gameObject.SetActive(false);
+			shields = null;
+		}
+	}
+
+	public void UpdateGravity() {
+		if (blocks.HasType("gravgen") && hasGravity == false) {
+			hasGravity = true;
+			rigidBody.drag = 5;
+			rigidBody.angularDrag = 5;
+		} else if (!blocks.HasType("gravgen") && hasGravity == true) {
+			hasGravity = false;
+			rigidBody.drag = 0;
+			rigidBody.angularDrag = 0;
+		}
 	}
 
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
@@ -569,7 +601,7 @@ public class Ship : MonoBehaviour {
 				}
 				var thrust = particleCache[block.pos];
 				thrust.Emit(1);
-				rigidBody.AddForce(worldOrient * Block.mass * 10);
+				rigidBody.AddForce(worldOrient * Math.Min(rigidBody.mass * 10, Block.defaultMass * 1000));
 			}
 		}
 	}
@@ -631,7 +663,7 @@ public class Ship : MonoBehaviour {
 				var awayDir = newShip.transform.position - ship.transform.position;
 				awayDir.Normalize();
 				// make the block fly away from the ship
-				newShip.rigidBody.AddForce(awayDir * Block.mass * 1000);
+				newShip.rigidBody.AddForce(awayDir * Block.defaultMass * 1000);
 
 				//var towardDir = newShip.transform.position - beam.transform.position;
 				//towardDir.Normalize();
@@ -641,7 +673,6 @@ public class Ship : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		var shields = collision.collider.gameObject.GetComponent<Shields>();
 		if (shields != null) {
 			shields.OnCollisionEnter(collision);
 			return;
@@ -656,7 +687,6 @@ public class Ship : MonoBehaviour {
 	}
 
 	void OnCollisionStay(Collision collision) {
-		var shields = collision.collider.gameObject.GetComponent<Shields>();
 		if (shields != null) {
 			shields.OnCollisionStay(collision);
 			return;
@@ -664,7 +694,6 @@ public class Ship : MonoBehaviour {
 	}
 
 	void OnCollisionExit(Collision collision) {
-		var shields = collision.collider.gameObject.GetComponent<Shields>();
 		if (shields != null) {
 			shields.OnCollisionExit(collision);
 			return;

@@ -19,7 +19,7 @@ public class Block {
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 
-	public static float mass = 0.001f;
+	public static float defaultMass = 0.001f;
 
 	// the core sequence of each block type sprite
 	public static Texture2D[] sprites;
@@ -110,6 +110,10 @@ public class Block {
 		throw new KeyNotFoundException();
 	}
 
+	public static bool IsType(Block block, string typeName) {
+		return block != null && block.type == Block.types[typeName];
+	}
+
 	public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
 		var hits = Physics.OverlapSphere(center, radius);
 
@@ -162,6 +166,10 @@ public class Block {
 
 	public int y {
 		get { return pos.y; }
+	}
+
+	public float mass {
+		get { return Block.defaultMass; }
 	}
 
 	public Ship ship;

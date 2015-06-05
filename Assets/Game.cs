@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Linq;
@@ -17,6 +18,8 @@ public class Game : MonoBehaviour {
 	public GameObject wallColliderPrefab;
 	public GameObject floorColliderPrefab;
 	public GameObject particleBeamPrefab;
+	public Text debugText;
+
 
 	public Ship testShip;
 
@@ -216,7 +219,7 @@ public class Game : MonoBehaviour {
 			foreach (var hit in hits) {
 				if (hit.collider.attachedRigidbody != null) {
 					if (hit.collider.attachedRigidbody != rigid) {
-						hit.collider.attachedRigidbody.AddForce(-dir * Block.mass * 10);
+						hit.collider.attachedRigidbody.AddForce(-dir * Block.defaultMass * 10);
 					}
 				}
 			}
