@@ -348,6 +348,8 @@ public class BlockMap {
 }
 
 public class Ship : MonoBehaviour {
+	public static List<Ship> allActive = new List<Ship>();
+
 	public BlockMap blocks;
 	
 	public Rigidbody rigidBody;
@@ -386,6 +388,12 @@ public class Ship : MonoBehaviour {
 
 		QueueMeshUpdate();
 		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
+
+		Ship.allActive.Add(this);
+	}
+
+	void OnDisable() {
+		Ship.allActive.Remove(this);
 	}
 
 	public void SetBlock(int x, int y, int type) {

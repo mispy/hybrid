@@ -133,6 +133,17 @@ public class Block {
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
 	}
 
+	public static Block AtWorldPos(Vector2 worldPos) {
+		foreach (var ship in Ship.allActive) {
+			var block = ship.BlockAtWorldPos(worldPos);
+
+			if (block != null)
+				return block;
+		}
+
+		return null;
+	}
+
 	public static IEnumerable<Block> FromHits(RaycastHit[] hits) {
 		foreach (var hit in hits) {
 			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
