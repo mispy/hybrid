@@ -139,6 +139,14 @@ public class Crew : MonoBehaviour {
 		rigidBody.velocity = vel;
 	}
 
+	public bool designing;
+
+	void StartDesigning() {
+	}
+
+	void StopDesigning() {
+	}
+
 	// Update is called once per frame
 	void Update () {
 		UpdateCurrentBlock();

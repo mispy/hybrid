@@ -20,6 +20,8 @@ public class Game : MonoBehaviour {
 	public GameObject particleBeamPrefab;
 	public Text debugText;
 
+	public bool designing;
+
 
 	public Ship testShip;
 
@@ -87,11 +89,6 @@ public class Game : MonoBehaviour {
 		block.orientation = placingShip.blocks[0,0].orientation;
 		ship.blocks[bp] = block;
 		placedBlocks.Add(block);
-	}
-
-
-	void OnDrawGizmos() {
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 	}
 
 	// Update is called once per frame
