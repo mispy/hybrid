@@ -46,7 +46,7 @@ public class Game : MonoBehaviour {
 
 		Block.Setup(blockSprites);
 		Pool.CreatePools();		
-						
+
 		float screenAspect = (float)Screen.width / (float)Screen.height;
 		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;
 		Bounds bounds = new Bounds(
@@ -133,7 +133,7 @@ public class Game : MonoBehaviour {
 			foreach (var hit in hits) {
 				if (hit.collider.attachedRigidbody != null) {
 					if (hit.collider.attachedRigidbody != rigid) {
-						hit.collider.attachedRigidbody.AddForce(-dir * Block.defaultMass * 10);
+						hit.collider.attachedRigidbody.AddForce(-dir * Block.types["wall"].mass * 10);
 					}
 				}
 			}

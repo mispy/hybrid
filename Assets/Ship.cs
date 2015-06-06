@@ -307,7 +307,7 @@ public class Ship : MonoBehaviour {
 				}
 				var thrust = particleCache[block.pos];
 				thrust.Emit(1);
-				rigidBody.AddForce(worldOrient * Math.Min(rigidBody.mass * 10, Block.defaultMass * 1000));
+				rigidBody.AddForce(worldOrient * Math.Min(rigidBody.mass * 10, Block.types["wall"].mass * 1000));
 			}
 		}
 	}
@@ -371,7 +371,7 @@ public class Ship : MonoBehaviour {
 				var awayDir = newShip.transform.position - ship.transform.position;
 				awayDir.Normalize();
 				// make the block fly away from the ship
-				newShip.rigidBody.AddForce(awayDir * Block.defaultMass * 1000);
+				newShip.rigidBody.AddForce(awayDir * Block.types["wall"].mass * 1000);
 
 				//var towardDir = newShip.transform.position - beam.transform.position;
 				//towardDir.Normalize();
