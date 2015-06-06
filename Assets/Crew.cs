@@ -12,7 +12,7 @@ public class Crew : MonoBehaviour {
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
-	public Ship currentShip = null;
+	public Ship linkedShip = null;
 	public Block currentBlock = null;
 	public bool isGravityLocked = false;
 
@@ -33,7 +33,7 @@ public class Crew : MonoBehaviour {
 	IEnumerator MoveToBlock() {
 		Debug.Log("moving");
 		var speed = 0.1f;
-		var targetPos = (Vector3)currentShip.BlockToLocalPos(targetBlockPos);
+		var targetPos = (Vector3)linkedShip.BlockToLocalPos(targetBlockPos);
 
 		while (true) {
 			var pos = transform.localPosition;
@@ -55,39 +55,28 @@ public class Crew : MonoBehaviour {
 	}
 
 	void UpdateCurrentBlock() {
-		// if we're on a ship, just check if we can stay on that ship
-		if (currentShip != null) {
-			var block = currentShip.BlockAtWorldPos(transform.position);
-
-			if (block != null) {
-				currentBlock = block;
-			} else {
-				currentBlock = null;
-				OnShipLeave(currentShip);
-			}
-		} else {
-			currentBlock = Block.AtWorldPos(transform.position);
-			if (currentBlock != null) {
-				OnShipEnter(currentBlock.ship);
-			}
-		}		
+		currentBlock = Block.AtWorldPos(transform.position);
+		if (currentBlock != null && currentBlock.ship != linkedShip) {
+			if (linkedShip != null) OnShipLeave(linkedShip);
+			OnShipEnter(currentBlock.ship);
+		}
 	}
 
 	void OnShipEnter(Ship ship) {
 		Debug.Log("entering ship");
-		currentShip = ship;
+		linkedShip = ship;
 	}
 
 	void OnShipLeave(Ship ship) {
 		Debug.Log("leaving ship");
-		currentShip = null;
+		linkedShip = null;
 	}
 
 	void UpdateGravityLock() {
-		var hasGravity = currentShip != null && currentShip.hasGravity;
+		var hasGravity = currentBlock != null && linkedShip != null && linkedShip.hasGravity;
 		if (hasGravity && !isGravityLocked) {
-			transform.rotation = currentShip.transform.rotation;
-			transform.parent = currentShip.transform;
+			transform.rotation = linkedShip.transform.rotation;
+			transform.parent = linkedShip.transform;
 			rigidBody.isKinematic = true;
 			isGravityLocked = true;
 		} else if (!hasGravity && isGravityLocked) {
@@ -110,7 +99,7 @@ public class Crew : MonoBehaviour {
 		if (Input.GetKey(KeyCode.D))
 			bp.x += 1;
 		
-		var destBlock = currentShip.blocks[bp];
+		var destBlock = linkedShip.blocks[bp];
 		
 		if (destBlock == null || destBlock.collisionLayer == Block.floorLayer) {
 			if (bp != currentBlock.pos && bp != targetBlockPos) {
@@ -157,6 +146,21 @@ public class Crew : MonoBehaviour {
 		}
 
 		if (!designer.enabled) {
+			Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+
+			if (Input.GetMouseButton(0)) {
+				var ship = Ship.AtWorldPos(pz);
+
+				if (ship != null) {
+					var blockPos = ship.WorldToBlockPos(pz);
+					var blueBlock = ship.blueprint.blocks[blockPos];
+					if (blueBlock == null) {
+						ship.blocks[blockPos] = null;
+					} else {
+						ship.blocks[blockPos] = new Block(ship.blueprint.blocks[blockPos]);
+					}
+				}
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {

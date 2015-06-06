@@ -28,6 +28,17 @@ public class Ship : MonoBehaviour {
 		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
 	}
 
+	public static Ship AtWorldPos(Vector2 worldPos) {
+		foreach (var ship in Ship.allActive) {
+			var blockPos = ship.WorldToBlockPos(worldPos);
+			if (ship.blocks[blockPos] != null || ship.blueprint.blocks[blockPos] != null) {
+				return ship;
+			}
+		}
+
+		return null;
+	}
+
 	// Use this for initialization
 	void Awake () {
 		blocks = new BlockMap();
