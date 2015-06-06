@@ -9,6 +9,7 @@ public class Pool {
 	public static Pool WallCollider;
 	public static Pool FloorCollider;
 	public static Pool ParticleBeam;
+	public static Pool blueprint;
 
 	public static void CreatePools() {
 		Pool.Ship = new Pool(Game.main.shipPrefab, 16);
@@ -17,6 +18,7 @@ public class Pool {
 		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 128);
 		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 64);
 		Pool.ParticleBeam = new Pool(Game.main.particleBeamPrefab, 4);
+		Pool.blueprint = new Pool(Blueprint.prefab, 16);
 	}
 
 	public GameObject prefab;

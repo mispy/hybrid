@@ -45,7 +45,7 @@ public class Game : MonoBehaviour {
 		Game.main = this;
 
 		Shields.prefab = Resources.Load("Shields") as GameObject;
-
+		Blueprint.prefab = Resources.Load("Blueprint") as GameObject;
 
 		Block.Setup(blockSprites);
 		Pool.CreatePools();		
