@@ -108,6 +108,8 @@ public class Designer : MonoBehaviour {
 
 		if (Input.GetMouseButton(0)) {			
 			PlaceBlock(pz, adjoiningBlock);
+		} else if (Input.GetMouseButton(1)) {
+			designShip.blueprint.blocks[blockPos] = null;
 		}
 	}
 }

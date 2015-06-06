@@ -156,6 +156,9 @@ public class Crew : MonoBehaviour {
 			}
 		}
 
+		if (!designer.enabled) {
+		}
+
 		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {
 			Game.main.activeShip = null;
 			return;

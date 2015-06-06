@@ -188,12 +188,17 @@ public class Block {
 	public IntVector2 pos = new IntVector2();
 	public int type;
 	public Vector2 orientation = -Vector2.right;
-	
-	public bool touched = true;
 
 	public int collisionLayer;
 
 	public int index;
+
+	// copy constructor
+	public Block(Block block) {
+		this.type = block.type;
+		this.orientation = block.orientation;
+		this.collisionLayer = block.collisionLayer;
+	}
 		
 	public Block(int type) {
 		this.type = type;
