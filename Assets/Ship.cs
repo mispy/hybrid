@@ -82,7 +82,7 @@ public class Ship : MonoBehaviour {
 		blueprint.blocks[x, y] = block2;
 	}
 
-	public void SetBlock(int x, int y, int type, Vector2 orientation) {
+	public void SetBlock(int x, int y, int type, Orientation orientation) {
 		var block = new Block(type);
 		block.orientation = orientation;
 		blocks[x, y] = block;
@@ -273,7 +273,7 @@ public class Ship : MonoBehaviour {
 
 	public Dictionary<IntVector2, ParticleSystem> particleCache = new Dictionary<IntVector2, ParticleSystem>();
 
-	public void FireThrusters(Vector2 orientation) {
+	public void FireThrusters(Orientation orientation) {
 		foreach (var block in blocks.All) {
 			if (block.type != Block.types["thruster"]) continue;
 
@@ -281,10 +281,12 @@ public class Ship : MonoBehaviour {
 
 				// need to flip thrusters on the vertical axis so they point the right way
 				Vector2 worldOrient;
-				if (block.orientation == Vector2.up || block.orientation == -Vector2.up) {
-					worldOrient = transform.TransformVector(block.orientation);
+				if (block.orientation == Orientation.up) {
+					worldOrient = transform.TransformVector(Vector2.up);
+				} else if (block.orientation == Orientation.down) {
+					worldOrient = transform.TransformVector(-Vector2.up);
 				} else {
-					worldOrient = transform.TransformVector(-block.orientation);
+					worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
 				}
 
 				if (!particleCache.ContainsKey(block.pos)) {
@@ -329,10 +331,12 @@ public class Ship : MonoBehaviour {
 			if (block.type != Block.types["laser"]) continue;
 
 			Vector2 worldOrient;
-			if (block.orientation == Vector2.up || block.orientation == -Vector2.up) {
-				worldOrient = transform.TransformDirection(-block.orientation);
+			if (block.orientation == Orientation.up) {
+				worldOrient = transform.TransformVector(Vector2.up);
+			} else if (block.orientation == Orientation.down) {
+				worldOrient = transform.TransformVector(-Vector2.up);
 			} else {
-				worldOrient = transform.TransformDirection(block.orientation);
+				worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
 			}
 
 			ParticleSystem beam;

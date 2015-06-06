@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System;
 
+public enum Orientation {
+	up = 1,
+	down = -1,
+	left = 2,
+	right = -2
+}
+
 public struct IntVector2 {
 	public int x;
 	public int y;

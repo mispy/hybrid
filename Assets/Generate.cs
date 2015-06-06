@@ -30,19 +30,19 @@ public class Generate : MonoBehaviour {
 		var shipObj = Pool.ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 
-		ship.SetBlock(0, 0, Block.types["console"], Vector2.up);
+		ship.SetBlock(0, 0, Block.types["console"], Orientation.up);
 		ship.SetBlock(0, 1, Block.types["wall"]);
-		ship.SetBlock(-1, 1, Block.types["wall"], -Vector2.right);
-		ship.SetBlock(1, 1, Block.types["wall"], Vector2.right);
-		ship.SetBlock(0, -1, Block.types["thruster"], Vector2.up);
+		ship.SetBlock(-1, 1, Block.types["wall"], Orientation.left);
+		ship.SetBlock(1, 1, Block.types["wall"], Orientation.right);
+		ship.SetBlock(0, -1, Block.types["thruster"], Orientation.up);
 		ship.SetBlock(0, 2, Block.types["wall"]);
-		ship.SetBlock(1, 2,  Block.types["thruster"], -Vector2.up);
-		ship.SetBlock(-1, 2,  Block.types["thruster"], -Vector2.up);
-		ship.SetBlock(2, 2,  Block.types["wall"], -Vector2.up);
-		ship.SetBlock(-2, 2,  Block.types["wall"], -Vector2.up);
-		ship.SetBlock(2, 1,  Block.types["thruster"], Vector2.right);
-		ship.SetBlock(-2, 1,  Block.types["thruster"], -Vector2.right);
-		ship.SetBlock(0, 3, Block.types["laser"], -Vector2.up);
+		ship.SetBlock(1, 2,  Block.types["thruster"], Orientation.down);
+		ship.SetBlock(-1, 2,  Block.types["thruster"], Orientation.down);
+		ship.SetBlock(2, 2,  Block.types["wall"], Orientation.down);
+		ship.SetBlock(-2, 2,  Block.types["wall"], Orientation.down);
+		ship.SetBlock(2, 1,  Block.types["thruster"], Orientation.right);
+		ship.SetBlock(-2, 1,  Block.types["thruster"], Orientation.left);
+		ship.SetBlock(0, 3, Block.types["laser"], Orientation.down);
 		shipObj.transform.Rotate(new Vector3(0, 0, 90));
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);
@@ -121,19 +121,19 @@ public class Generate : MonoBehaviour {
 	public static void AssignThrusters(Ship ship) {
 		foreach (var block in ship.blocks.All.ToArray()) {
 			if (ship.blocks[block.x-1, block.y] == null) {
-				ship.SetBlock(block.x-1, block.y, Block.types["thruster"], -Vector2.right);
+				ship.SetBlock(block.x-1, block.y, Block.types["thruster"], Orientation.left);
 			}
 
 			if (ship.blocks[block.x, block.y-1] == null) {
-				ship.SetBlock(block.x, block.y-1, Block.types["thruster"], Vector2.up);
+				ship.SetBlock(block.x, block.y-1, Block.types["thruster"], Orientation.up);
 			}
 
 			if (ship.blocks[block.x+1, block.y] == null) {
-				ship.SetBlock(block.x+1, block.y, Block.types["thruster"], Vector2.right);
+				ship.SetBlock(block.x+1, block.y, Block.types["thruster"], Orientation.right);
 			}
 
 			if (ship.blocks[block.x, block.y+1] == null) {
-				ship.SetBlock(block.x, block.y+1, Block.types["thruster"], -Vector2.up);
+				ship.SetBlock(block.x, block.y+1, Block.types["thruster"], Orientation.down);
 			}
 		}
 	}
@@ -205,7 +205,7 @@ public class Generate : MonoBehaviour {
 			}
 
 			if (block != null) {
-				ship.SetBlock(block.pos.x, block.pos.y, Block.types["console"], Vector2.up);
+				ship.SetBlock(block.pos.x, block.pos.y, Block.types["console"], Orientation.up);
 				break;
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,13 +90,13 @@ public class Block {
 	}
 
 	public static Vector2[] GetUVs(Block block) {		
-		if (block.orientation == Vector2.up) {
+		if (block.orientation == Orientation.up) {
 			return Block.upUVs[block.type];
-		} else if (block.orientation == -Vector2.up) {
+		} else if (block.orientation == Orientation.down) {
 			return Block.downUVs[block.type];
-		} else if (block.orientation == -Vector2.right) {
+		} else if (block.orientation == Orientation.left) {
 			return Block.leftUVs[block.type];
-		} else if (block.orientation == Vector2.right) {
+		} else if (block.orientation == Orientation.right) {
 			return Block.rightUVs[block.type];
 		}
 
@@ -187,7 +188,7 @@ public class Block {
 	public Ship ship;
 	public IntVector2 pos = new IntVector2();
 	public int type;
-	public Vector2 orientation = -Vector2.right;
+	public Orientation orientation = Orientation.up;
 
 	public int collisionLayer;
 

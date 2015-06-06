@@ -88,15 +88,15 @@ public class Designer : MonoBehaviour {
 			cursor.transform.position = designShip.BlockToWorldPos(blockPos);
 			cursor.transform.rotation = designShip.transform.rotation;
 			
-			Vector2 ori;
+			Orientation ori;
 			if (blockPos.x < adjoiningBlock.pos.x) {
-				ori = -Vector2.right;
+				ori = Orientation.left;
 			} else if (blockPos.x > adjoiningBlock.pos.x) {
-				ori = Vector2.right;
+				ori = Orientation.right;
 			} else if (blockPos.y > adjoiningBlock.pos.y) {
-				ori = -Vector2.up;
+				ori = Orientation.down;
 			} else {
-				ori = Vector2.up;
+				ori = Orientation.up;
 			}
 			
 			if (ori != cursor.blocks[0, 0].orientation) {

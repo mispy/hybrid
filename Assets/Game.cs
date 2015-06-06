@@ -66,6 +66,14 @@ public class Game : MonoBehaviour {
 	void Update() {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
+		if (Input.GetKeyDown(KeyCode.F5)) {
+			Save.SaveGame();
+		}
+
+		if (Input.GetKeyDown(KeyCode.F9)) {
+			Save.LoadGame();
+		}
+
 		// Scroll zoom
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
@@ -79,21 +87,21 @@ public class Game : MonoBehaviour {
 		var rigid = activeShip.rigidBody;	
 
 		if (Input.GetKey(KeyCode.W)) {
-			activeShip.FireThrusters(Vector2.up);		
+			activeShip.FireThrusters(Orientation.up);		
 		}
 
 		if (Input.GetKey(KeyCode.S)) {
-			activeShip.FireThrusters(-Vector2.up);
+			activeShip.FireThrusters(Orientation.down);
 		}
 
 		if (Input.GetKey(KeyCode.A)) {
 			//rigid.AddTorque(0.1f);
-			activeShip.FireThrusters(Vector2.right);
+			activeShip.FireThrusters(Orientation.right);
 		}
 
 		if (Input.GetKey(KeyCode.D)) {
 			//rigid.AddTorque(-0.1f);
-			activeShip.FireThrusters(-Vector2.right);
+			activeShip.FireThrusters(Orientation.left);
 		}
 
 		if (Input.GetKey(KeyCode.Space)) {
