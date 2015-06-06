@@ -21,13 +21,15 @@ public class Crew : MonoBehaviour {
 	public Designer designer;
 	public bool isDesigning;
 
-
-	// Use this for initialization
-	void Start () {
+	void Awake() {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
 		designer = GetComponent<Designer>();
 		player = this;
+	}
+		
+	// Use this for initialization
+	void Start () {
 	}
 
 	IEnumerator MoveToBlock() {

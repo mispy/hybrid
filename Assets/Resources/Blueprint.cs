@@ -9,12 +9,15 @@ public class Blueprint : MonoBehaviour {
 	public MeshRenderer renderer;	
 	private Mesh mesh;
 
-
-	void Awake() {
+	void Clear() {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
+	}
+
+	void Awake() {
 		renderer = GetComponent<MeshRenderer>();
 		mesh = GetComponent<MeshFilter>().mesh;	
+		Clear();
 	}
 
 	void OnBlockChanged(Block newBlock, Block oldBlock) {
@@ -25,6 +28,10 @@ public class Blueprint : MonoBehaviour {
 	// Use this for initialization
 	void OnEnable() {
 		UpdateMesh();
+	}
+
+	void OnDisable() {
+		Clear();
 	}
 	
 	void UpdateMesh() {

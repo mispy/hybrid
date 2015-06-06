@@ -16,7 +16,7 @@ public class BlockMap {
 	public int maxY;
 	public int minY;
 
-	public Dictionary<int, List<Block>> blockTypeCache;
+	public Dictionary<BlockType, List<Block>> blockTypeCache;
 
 	public delegate void OnBlockChangedDelegate(Block newBlock, Block oldBlock);
 	public OnBlockChangedDelegate OnBlockChanged;
@@ -33,7 +33,7 @@ public class BlockMap {
 		maxX = 0;
 		maxY = 0;
 
-		blockTypeCache = new Dictionary<int, List<Block>>();
+		blockTypeCache = new Dictionary<BlockType, List<Block>>();
 		foreach (var type in Block.types.Values) {
 			blockTypeCache[type] = new List<Block>();
 		}
@@ -153,16 +153,12 @@ public class BlockMap {
 		meshUV = newUV;
 	}
 
-	public Block FindType(int type) {
-		foreach (var block in blockTypeCache[type]) {
+	public Block FindType(string typeName) {
+		foreach (var block in blockTypeCache[Block.types[typeName]]) {
 			return block;
 		}
 
 		return null;
-	}
-
-	public bool HasType(int type) {
-		return blockTypeCache[type].Count > 0;
 	}
 
 	public bool HasType(string typeName) {

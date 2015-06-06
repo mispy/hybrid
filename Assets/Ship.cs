@@ -39,13 +39,17 @@ public class Ship : MonoBehaviour {
 		return null;
 	}
 
-	// Use this for initialization
-	public void Awake () {
+	public void Clear() {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
+	}
+
+	// Use this for initialization
+	public void Awake () {
 		rigidBody = GetComponent<Rigidbody>();
 		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
+		Clear();
 	}
 	
 	void OnEnable() {		
@@ -72,16 +76,17 @@ public class Ship : MonoBehaviour {
 
 	void OnDisable() {
 		Ship.allActive.Remove(this);
+		Clear();
 	}
 
-	public void SetBlock(int x, int y, int type) {
+	public void SetBlock(int x, int y, BlockType type) {
 		var block = new Block(type);
 		blocks[x, y] = block;
 		var block2 = new Block(type);
 		blueprint.blocks[x, y] = block2;
 	}
 
-	public void SetBlock(int x, int y, int type, Orientation orientation) {
+	public void SetBlock(int x, int y, BlockType type, Orientation orientation) {
 		var block = new Block(type);
 		block.orientation = orientation;
 		blocks[x, y] = block;
@@ -182,6 +187,7 @@ public class Ship : MonoBehaviour {
 		if (Block.IsType(newBlock, "gravgen") || Block.IsType(oldBlock, "gravgen"))
 			UpdateGravity();
 
+		particleCache.Remove(pos);
 
 		QueueMeshUpdate();		
 
@@ -334,9 +340,9 @@ public class Ship : MonoBehaviour {
 
 			Vector2 worldOrient;
 			if (block.orientation == Orientation.up) {
-				worldOrient = transform.TransformVector(Vector2.up);
-			} else if (block.orientation == Orientation.down) {
 				worldOrient = transform.TransformVector(-Vector2.up);
+			} else if (block.orientation == Orientation.down) {
+				worldOrient = transform.TransformVector(Vector2.up);
 			} else {
 				worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
 			}
@@ -355,7 +361,7 @@ public class Ship : MonoBehaviour {
 					
 			//beam.enableEmission = true;
 			beam.Emit(1);
-
+				
 			var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
 			foreach (var hitBlock in hitBlocks) {
 				var ship = hitBlock.ship;

@@ -60,6 +60,7 @@ public class Designer : MonoBehaviour {
 
 	public void PlaceBlock(Vector2 worldPos, Block adjoiningBlock = null) {
 		if (adjoiningBlock == null) {
+			// new ship!
 			var shipObj = Pool.ship.TakeObject();
 			SetDesignShip(shipObj.GetComponent<Ship>());
 			shipObj.SetActive(true);
@@ -75,9 +76,9 @@ public class Designer : MonoBehaviour {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 		if (Input.GetKeyDown(KeyCode.Tab)) {
-			var nextBlockType = cursor.blocks[0,0].type + 1;
+			var nextBlockType = Block.allTypes.IndexOf(cursor.blocks[0,0].type) + 1;
 			if (nextBlockType >= Block.types.Count) nextBlockType = 0;
-			cursor.blocks[0,0] = new Block(nextBlockType);
+			cursor.blocks[0,0] = new Block(Block.allTypes[nextBlockType]);
 		}
 
 		var blockPos = designShip.WorldToBlockPos(pz);

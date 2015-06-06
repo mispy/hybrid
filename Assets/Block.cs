@@ -4,8 +4,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public class BlockType {
+	public GameObject prefab;
+	public float mass;
+	public string name;
+	
+	// precalculated uv coordinates for each orientation
+	public Vector2[] upUVs;
+	public Vector2[] downUVs;
+	public Vector2[] leftUVs;
+	public Vector2[] rightUVs;
+
+	public BlockType(string name, float mass = 0.001f, GameObject prefab = null) {
+		this.name = name;
+		this.mass = mass;
+		this.prefab = prefab;
+
+		Block.allTypes.Add(this);
+	}
+}
+
 public class Block {
-	public static Dictionary<string, int> types = new Dictionary<string, int>();
+	public static Dictionary<string, BlockType> types = new Dictionary<string, BlockType>();
+	public static List<BlockType> allTypes = new List<BlockType>();
 
 	public static int pixelSize = 32; // the size of a block in pixels
 	public static float worldSize = 1f; // the size of the block in worldspace coordinates
@@ -24,13 +45,7 @@ public class Block {
 
 	// the core sequence of each block type sprite
 	public static Texture2D[] sprites;
-
-	// precalculated uv coordinates for each block type and orientation
-	public static Vector2[][] upUVs;
-	public static Vector2[][] downUVs;
-	public static Vector2[][] leftUVs;
-	public static Vector2[][] rightUVs;
-
+	
 	public static void Setup(Texture2D[] blockSprites) {
 		Block.sprites = blockSprites;
 		Block.wallLayer = LayerMask.NameToLayer("Block");
@@ -46,38 +61,37 @@ public class Block {
 		Block.tileWidth = (float)Block.pixelSize / atlas.width;
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
 
-		upUVs = new Vector2[Block.sprites.Length][];
-		downUVs = new Vector2[Block.sprites.Length][];
-		leftUVs = new Vector2[Block.sprites.Length][];
-		rightUVs = new Vector2[Block.sprites.Length][];
-
 		for (var i = 0; i < Block.sprites.Length; i++) {			
-			Block.types[Block.sprites[i].name] = i;
+			var name = Block.sprites[i].name;
+			if (!Block.types.ContainsKey(name)) {
+				Block.types[name] = new BlockType(name);
+			}
+			var type = Block.types[name];
 
 			var box = boxes[i];
 
-			upUVs[i] = new Vector2[] {
+			type.upUVs = new Vector2[] {
 				new Vector2(box.xMin, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin),
 				new Vector2(box.xMin, box.yMin)
 			};
 
-			downUVs[i] = new Vector2[] {
+			type.downUVs = new Vector2[] {
 				new Vector2(box.xMin, box.yMin),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin, box.yMin + Block.tileHeight)
 			};
 
-			leftUVs[i] = new Vector2[] {
+			type.leftUVs = new Vector2[] {
 				new Vector2(box.xMin + Block.tileWidth, box.yMin),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin, box.yMin)
 			};
 
-			rightUVs[i] = new Vector2[] {
+			type.rightUVs = new Vector2[] {
 				new Vector2(box.xMin, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin, box.yMin),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin),
@@ -91,22 +105,13 @@ public class Block {
 
 	public static Vector2[] GetUVs(Block block) {		
 		if (block.orientation == Orientation.up) {
-			return Block.upUVs[block.type];
+			return block.type.upUVs;
 		} else if (block.orientation == Orientation.down) {
-			return Block.downUVs[block.type];
+			return block.type.downUVs;
 		} else if (block.orientation == Orientation.left) {
-			return Block.leftUVs[block.type];
+			return block.type.leftUVs;
 		} else if (block.orientation == Orientation.right) {
-			return Block.rightUVs[block.type];
-		}
-
-		throw new KeyNotFoundException();
-	}
-		
-	public static string GetTypeName(int blockType) {
-		foreach (var key in types.Keys) {
-			if (types[key] == blockType)
-				return key;
+			return block.type.rightUVs;
 		}
 
 		throw new KeyNotFoundException();
@@ -187,7 +192,7 @@ public class Block {
 
 	public Ship ship;
 	public IntVector2 pos = new IntVector2();
-	public int type;
+	public BlockType type;
 	public Orientation orientation = Orientation.up;
 
 	public int collisionLayer;
@@ -201,7 +206,7 @@ public class Block {
 		this.collisionLayer = block.collisionLayer;
 	}
 		
-	public Block(int type) {
+	public Block(BlockType type) {
 		this.type = type;
 
 		if (type == Block.types["floor"] || type == Block.types["console"]) {

@@ -11,7 +11,7 @@ public class AICrew : MonoBehaviour {
 		var ship = Game.main.testShip;
 
 		var currentPos = ship.WorldToBlockPos(transform.position);
-		var console = ship.blocks.FindType(Block.types["console"]);
+		var console = ship.blocks.FindType("console");
 
 		var nearestBlock = ship.blocks[currentPos];
 		if (nearestBlock == null) {

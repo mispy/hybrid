@@ -12,7 +12,7 @@ public class Save {
 		var data = new BlockData();
 		data.x = block.pos.x;
 		data.y = block.pos.y;
-		data.type = block.type;
+		data.typeName = block.type.name;
 		data.orientation = (int)block.orientation;
 		return data;
 	}
@@ -39,13 +39,20 @@ public class Save {
 
 		return data;
 	}
-
+		
 	public static GameData Serialize(Game game) {
 		var data = new GameData();
 		data.ships = new ShipData[Ship.allActive.Count];
 		for (var i = 0; i < data.ships.Length; i++) {
 			data.ships[i] = Save.Serialize(Ship.allActive[i]);
 		}
+
+
+		data.player.position = Crew.player.transform.position;
+		data.player.rotation = Crew.player.transform.rotation;
+		data.player.velocity = Crew.player.rigidBody.velocity;
+		data.player.angularVelocity = Crew.player.rigidBody.angularVelocity;
+		
 		return data;
 	}
 
@@ -60,7 +67,7 @@ public class Save {
 	}
 
 	public static Block Load(BlockData data) {
-		var block = new Block(data.type);
+		var block = new Block(Block.types[data.typeName]);
 		block.orientation = (Orientation)data.orientation;
 		return block;
 	}
@@ -86,6 +93,14 @@ public class Save {
 		return ship;
 	}
 
+	public static Crew Load(CrewData crewData) {
+		Crew.player.transform.position = crewData.position;
+		Crew.player.transform.rotation = crewData.rotation;
+		Crew.player.rigidBody.velocity = crewData.velocity;
+		Crew.player.rigidBody.angularVelocity = crewData.angularVelocity;
+		return Crew.player;
+	}
+
 	public static void LoadGame() {
 		foreach (var ship in Ship.allActive.ToArray()) {
 			Pool.Recycle(ship.gameObject);
@@ -104,12 +119,15 @@ public class Save {
 		foreach (var shipData in data.ships) {
 			var ship = Save.Load(shipData);
 		}
+
+		Crew.player = Save.Load(data.player);
 	}
 }
 
 [Serializable]
 public class GameData {
 	public ShipData[] ships;
+	public CrewData player;
 }
 
 [Serializable]
@@ -126,11 +144,14 @@ public class ShipData {
 public struct BlockData {
 	public int x;
 	public int y;
-	public int type;
+	public string typeName;
 	public int orientation;
 }
 
 [Serializable]
 public struct CrewData {
 	public Vector2 position;
+	public Quaternion rotation;
+	public Vector2 velocity;
+	public Vector3 angularVelocity;
 }
