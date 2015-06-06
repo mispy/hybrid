@@ -40,7 +40,7 @@ public class Ship : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Awake () {
+	public void Awake () {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
 		rigidBody = GetComponent<Rigidbody>();
@@ -48,7 +48,9 @@ public class Ship : MonoBehaviour {
 		mesh = GetComponent<MeshFilter>().mesh;	
 	}
 	
-	void Start() {		
+	void OnEnable() {		
+		Debug.Log("ship start");
+
 		if (hasCollision) {
 			foreach (var block in blocks.All) {
 				if (blocks.IsEdge(block.pos)) {
@@ -66,9 +68,6 @@ public class Ship : MonoBehaviour {
 		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
 
 		Ship.allActive.Add(this);
-	}
-
-	void Update() {
 	}
 
 	void OnDisable() {
@@ -164,7 +163,10 @@ public class Ship : MonoBehaviour {
 		// for performant pre-runtime mass construction. kinda like turning the power
 		// off so you can stick your hand in there
 		// - mispy
-		if (!gameObject.activeInHierarchy) return;
+		if (!gameObject.activeInHierarchy) {
+			Profiler.EndSample();
+			return;
+		}
 		var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
 
 		UpdateCollision(pos);

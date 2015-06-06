@@ -18,12 +18,13 @@ public class Blueprint : MonoBehaviour {
 	}
 
 	void OnBlockChanged(Block newBlock, Block oldBlock) {
+		if (!gameObject.activeInHierarchy) return;
 		UpdateMesh();
 	}
 
 	// Use this for initialization
-	void Start () {
-		//ship = gameObject.transform.parent.GetComponent<Ship>();
+	void OnEnable() {
+		UpdateMesh();
 	}
 	
 	void UpdateMesh() {

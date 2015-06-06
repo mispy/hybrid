@@ -233,7 +233,7 @@ public class Generate : MonoBehaviour {
 		}*/
 		AssignThrusters(ship);
 
-		int y2 = 3;
+		int y2 = 0;
 		for (var x = -width/2-1; x < -width/2+2; x++) {
 			ship.SetBlock(x, y2, Block.types["floor"]);
 		}

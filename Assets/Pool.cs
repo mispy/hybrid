@@ -21,6 +21,10 @@ public class Pool {
 		Pool.ship = new Pool(Ship.prefab, 16);
 	}
 
+	public static void Recycle(GameObject obj) {
+		obj.SetActive(false);
+	}
+
 	public GameObject prefab;
 	public List<GameObject> pooledObjects;
 
@@ -46,7 +50,7 @@ public class Pool {
 				return pooledObjects[i];
 			}
 
-			if (!pooledObjects[i].activeInHierarchy) {
+			if (!pooledObjects[i].activeSelf) {
 				return pooledObjects[i];
 			}
 		}

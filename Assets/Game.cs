@@ -53,13 +53,15 @@ public class Game : MonoBehaviour {
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		for (var i = 0; i < 1; i++) {
+		Save.LoadGame();
+
+		/*for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 30);
 		}
 
 		//Generate.TestShip(new Vector2(5, 0));
 
-		testShip =	Generate.EllipsoidShip(new Vector2(18, 0), 20, 10);
+		testShip =	Generate.EllipsoidShip(new Vector2(18, 0), 20, 10);*/
 	}
 
 	// Update is called once per frame

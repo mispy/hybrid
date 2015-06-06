@@ -21,6 +21,8 @@ public class Save {
 		var data = new ShipData();
 		data.position = ship.transform.position;
 		data.rotation = ship.transform.rotation;
+		data.velocity = ship.rigidBody.velocity;
+		data.angularVelocity = ship.rigidBody.angularVelocity;
 
 		data.blocks = new BlockData[ship.blocks.Count];
 		data.blueprintBlocks = new BlockData[ship.blueprint.blocks.Count];
@@ -48,11 +50,11 @@ public class Save {
 	}
 
 	public static void SaveGame() {
-		var path = Application.persistentDataPath + "/main.xml";
+		var path = Application.dataPath + "/Saves/main.xml";
 		var data = Serialize(Game.main);
 		var serializer = new XmlSerializer(typeof(GameData));
 
-		using (var stream = new FileStream(path, FileMode.Truncate)) {
+		using (var stream = new FileStream(path, FileMode.Create)) {
 			serializer.Serialize(stream, data);
 		}
 	}
@@ -66,8 +68,11 @@ public class Save {
 	public static Ship Load(ShipData data) {
 		var shipObj = Pool.ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
+		ship.Awake();
 		ship.transform.position = data.position;
 		ship.transform.rotation = data.rotation;
+		ship.rigidBody.velocity = data.velocity;
+		ship.rigidBody.angularVelocity = data.angularVelocity;
 
 		foreach (var blockData in data.blocks) {
 			ship.blocks[blockData.x, blockData.y] = Save.Load(blockData);
@@ -83,10 +88,11 @@ public class Save {
 
 	public static void LoadGame() {
 		foreach (var ship in Ship.allActive.ToArray()) {
-			GameObject.Destroy(ship.gameObject);
+			Pool.Recycle(ship.gameObject);
 		}
 
-		var path = Application.persistentDataPath + "/main.xml";
+
+		var path = Application.dataPath + "/Saves/main.xml";
 		var serializer = new XmlSerializer(typeof(GameData));
 
 		GameData data;
@@ -110,6 +116,8 @@ public class GameData {
 public class ShipData {
 	public Vector2 position;
 	public Quaternion rotation;
+	public Vector2 velocity;
+	public Vector3 angularVelocity;
 	public BlockData[] blocks;
 	public BlockData[] blueprintBlocks;
 }
