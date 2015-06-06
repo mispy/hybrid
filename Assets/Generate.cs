@@ -16,7 +16,7 @@ public class Generate : MonoBehaviour {
 				if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
 
 					//var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-					ship.blocks[x, y] = new Block(Block.types["wall"]);
+					ship.SetBlock(x, y, Block.types["wall"]);
 					//ship.SetBlock(x, y, Block.types["wall"], ori[Random.Range(0, 3)]);
 				}
 			}
@@ -148,7 +148,7 @@ public class Generate : MonoBehaviour {
 				var dist = (new Vector2(x, y) - new Vector2(0,0));
 				if (dist.magnitude < Mathf.Max(width, height) && dist.x <= width && dist.y <= height) {					
 					//var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-					ship.blocks[x, y] = new Block(Block.types["wall"]);
+					ship.SetBlock(x, y, Block.types["wall"]);
 					//ship.SetBlock(x, y, Block.types["wall"], ori[Random.Range(0, 3)]);
 				}
 			}

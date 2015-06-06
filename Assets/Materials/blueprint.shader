@@ -54,12 +54,12 @@
      
      half3 diff = p1 * 4 - p2 - p3 - p4 - p5;
      half len = dot(diff,diff);
-     if( len >= _Threshold )
-         original.xyzw = half4(1.0f,1.0f,1.0f,1.0f);
-     else
-         original = half4(0.3f,0.5f,0.8f,1.0f);
+     //if( len >= _Threshold )
+     //    original.xyzw = half4(1.0f,1.0f,1.0f,1.0f);
+     //else
+     //    original = half4(0.3f,0.5f,0.8f,1.0f);
         
-     original = half4(original[0], original[1], original[2], original[3]);
+     original = half4(original[0]/1.5, original[1]/1.5, original[2]*2, original[3]/1.2);
          
      return original;
  }

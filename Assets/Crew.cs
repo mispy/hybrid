@@ -12,17 +12,21 @@ public class Crew : MonoBehaviour {
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
-
 	public Ship currentShip = null;
 	public Block currentBlock = null;
 	public bool isGravityLocked = false;
 
 	public IntVector2 targetBlockPos;
 
+	public Designer designer;
+	public bool isDesigning;
+
+
 	// Use this for initialization
 	void Start () {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
+		designer = GetComponent<Designer>();
 		player = this;
 	}
 
@@ -139,27 +143,27 @@ public class Crew : MonoBehaviour {
 		rigidBody.velocity = vel;
 	}
 
-	public bool designing;
-
-	void StartDesigning() {
-	}
-
-	void StopDesigning() {
-	}
-
 	// Update is called once per frame
 	void Update () {
 		UpdateCurrentBlock();
 		UpdateGravityLock();
+
+		if (Input.GetKeyDown(KeyCode.F1)) {
+			if (!designer.enabled)
+				designer.enabled = true;
+			else {
+				designer.enabled = false;
+			}
+		}
 
 		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {
 			Game.main.activeShip = null;
 			return;
 		}
 
-		if (currentShip) {
+		/*if (currentShip) {
 			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
-		}
+		}*/
 		
 		if (Game.main.activeShip != null) return;				
 
@@ -181,7 +185,6 @@ public class Crew : MonoBehaviour {
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
 		}
-
 
 		if (isGravityLocked) {
 			HandleLockedMovement();

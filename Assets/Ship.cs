@@ -23,7 +23,11 @@ public class Ship : MonoBehaviour {
 	public Shields shields = null;
 	
 	public Vector3 localCenter;
-	
+
+	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
+		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
+	}
+
 	// Use this for initialization
 	void Awake () {
 		blocks = new BlockMap();
@@ -53,6 +57,9 @@ public class Ship : MonoBehaviour {
 		Ship.allActive.Add(this);
 	}
 
+	void Update() {
+	}
+
 	void OnDisable() {
 		Ship.allActive.Remove(this);
 	}
@@ -60,12 +67,18 @@ public class Ship : MonoBehaviour {
 	public void SetBlock(int x, int y, int type) {
 		var block = new Block(type);
 		blocks[x, y] = block;
+		var block2 = new Block(type);
+		blueprint.blocks[x, y] = block2;
 	}
 
 	public void SetBlock(int x, int y, int type, Vector2 orientation) {
 		var block = new Block(type);
 		block.orientation = orientation;
 		blocks[x, y] = block;
+
+		var block2 = new Block(type);
+		block2.orientation = orientation;
+		blueprint.blocks[x, y] = block2;
 	}
 
 	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
@@ -389,8 +402,7 @@ public class Ship : MonoBehaviour {
 		mesh.uv = blocks.meshUV;
 		mesh.Optimize();
 		mesh.RecalculateNormals();	
-
-
+		
 		if (shields != null) {
 			var hypo = Mathf.Sqrt(mesh.bounds.size.x*mesh.bounds.size.x + mesh.bounds.size.y*mesh.bounds.size.y);
 			var scale = new Vector3(mesh.bounds.size.x, mesh.bounds.size.y, 1);

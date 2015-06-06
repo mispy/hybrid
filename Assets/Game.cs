@@ -20,9 +20,6 @@ public class Game : MonoBehaviour {
 	public GameObject particleBeamPrefab;
 	public Text debugText;
 
-	public bool designing;
-
-
 	public Ship testShip;
 
 	private List<Block> placedBlocks = new List<Block>();
@@ -40,6 +37,7 @@ public class Game : MonoBehaviour {
 		
 	// Use this for initialization
 	void Awake () {		
+		if (Game.main != null) return;
 		Game.main = this;
 
 		Shields.prefab = Resources.Load("Shields") as GameObject;
@@ -55,11 +53,6 @@ public class Game : MonoBehaviour {
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		var placingShipObj = Pool.blueprint.TakeObject();
-		placingShip = placingShipObj.GetComponent<Blueprint>();
-		placingShip.blocks[0, 0] = new Block(placingBlockType);
-		placingShipObj.SetActive(true);
-
 		for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 30);
 		}
@@ -69,92 +62,9 @@ public class Game : MonoBehaviour {
 		testShip =	Generate.EllipsoidShip(new Vector2(18, 0), 20, 10);
 	}
 
-	void PlaceShipBlock(Vector2 pz, Block adjoiningBlock) {
-		Ship ship;
-		if (adjoiningBlock == null) {
-			// new ship
-			var shipObj = Pool.ship.TakeObject();
-			ship = shipObj.GetComponent<Ship>();
-			shipObj.SetActive(true);
-		} else {
-			ship = adjoiningBlock.ship;
-		}
-
-		var bp = ship.WorldToBlockPos(pz);
-
-		var block = new Block(placingShip.blocks[0,0].type);
-		block.orientation = placingShip.blocks[0,0].orientation;
-		ship.blueprint.blocks[bp] = block;
-		placedBlocks.Add(block);
-	}
-
 	// Update is called once per frame
 	void Update() {
-		if (Input.GetKeyDown(KeyCode.Tab)) {
-			placingBlockType += 1;
-			if (placingBlockType >= blockSprites.Length) {
-				placingBlockType = 0;
-			}
-
-			placingShip.blocks[0, 0] = new Block(placingBlockType);
-		}
-
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
-
-		var nearbyBlocks = Block.FindInRadius(pz, Block.worldSize);
-		//if (adjoiningBlock != null) {
-		//	adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.white;
-		//}
-		adjoiningBlock = null;
-		if (nearbyBlocks.Count() > 0) {
-			foreach (var block in nearbyBlocks) {
-				// don't adjoin to itself
-				if (block != block.ship.BlockAtWorldPos(pz)) {
-					adjoiningBlock = block;
-				    break;
-				}
-			}
-			//adjoiningBlock.gameObject.GetComponent<Renderer>().material.color = Color.green;		}
-		}
-
-		placingShip.transform.position = pz;
-		if (adjoiningBlock != null) {
-			var ship = adjoiningBlock.ship;
-			var blockPos = ship.WorldToBlockPos(pz);
-			placingShip.transform.position = ship.BlockToWorldPos(blockPos);
-			placingShip.transform.rotation = ship.transform.rotation;
-
-			Vector2 ori;
-			if (blockPos.x < adjoiningBlock.pos.x) {
-				ori = -Vector2.right;
-			} else if (blockPos.x > adjoiningBlock.pos.x) {
-				ori = Vector2.right;
-			} else if (blockPos.y > adjoiningBlock.pos.y) {
-				ori = -Vector2.up;
-			} else {
-				ori = Vector2.up;
-			}
-
-
-			if (ori != placingShip.blocks[0, 0].orientation) {
-				var block = placingShip.blocks[0, 0];
-				block.orientation = ori;
-				placingShip.blocks[0, 0] = block;
-			}
-		}
-
-		if (Input.GetMouseButton(0)) {			
-			PlaceShipBlock(pz, adjoiningBlock);
-		}
-
-		// Block place undo
-		if (Input.GetKeyDown(KeyCode.Z)) {
-			var block = placedBlocks[placedBlocks.Count - 1];	
-			var ship = block.ship;
-			ship.blocks[block.pos] = null;
-			placedBlocks.Remove(block);
-		}
 
 		// Scroll zoom
 		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
