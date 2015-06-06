@@ -33,33 +33,30 @@ public class Game : MonoBehaviour {
 
 	private Block adjoiningBlock = null;
 
-	// this "ship" is really just the block we are placing
-	public Ship placingShip;
+	public Blueprint placingShip;
 	private int placingBlockType = 0;
 
 	public Texture2D[] blockSprites;
 		
 	// Use this for initialization
 	void Awake () {		
-		if (Game.main != null) return;
 		Game.main = this;
 
 		Shields.prefab = Resources.Load("Shields") as GameObject;
 		Blueprint.prefab = Resources.Load("Blueprint") as GameObject;
+		Ship.prefab = Resources.Load("Ship") as GameObject;
 
 		Block.Setup(blockSprites);
 		Pool.CreatePools();		
-
-				
+						
 		float screenAspect = (float)Screen.width / (float)Screen.height;
 		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;
 		Bounds bounds = new Bounds(
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		var placingShipObj = Pool.Ship.TakeObject();
-		placingShip = placingShipObj.GetComponent<Ship>();
-		placingShip.hasCollision = false;
+		var placingShipObj = Pool.blueprint.TakeObject();
+		placingShip = placingShipObj.GetComponent<Blueprint>();
 		placingShip.blocks[0, 0] = new Block(placingBlockType);
 		placingShipObj.SetActive(true);
 
@@ -76,7 +73,7 @@ public class Game : MonoBehaviour {
 		Ship ship;
 		if (adjoiningBlock == null) {
 			// new ship
-			var shipObj = Pool.Ship.TakeObject();
+			var shipObj = Pool.ship.TakeObject();
 			ship = shipObj.GetComponent<Ship>();
 			shipObj.SetActive(true);
 		} else {
@@ -87,7 +84,7 @@ public class Game : MonoBehaviour {
 
 		var block = new Block(placingShip.blocks[0,0].type);
 		block.orientation = placingShip.blocks[0,0].orientation;
-		ship.blocks[bp] = block;
+		ship.blueprint.blocks[bp] = block;
 		placedBlocks.Add(block);
 	}
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Ship : MonoBehaviour {
+	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
 
 	public BlockMap blocks;
@@ -28,11 +29,11 @@ public class Ship : MonoBehaviour {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
 		rigidBody = GetComponent<Rigidbody>();
-		renderer = GetComponent<MeshRenderer>();
+		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
 	}
 	
-	void Start() {
+	void Start() {		
 		if (hasCollision) {
 			foreach (var block in blocks.All) {
 				if (blocks.IsEdge(block.pos)) {
@@ -40,6 +41,7 @@ public class Ship : MonoBehaviour {
 				}
 			}
 		}
+
 				
 		UpdateMass();	
 		UpdateShields();	
@@ -81,7 +83,7 @@ public class Ship : MonoBehaviour {
 
 		blocks[block.pos] = null;
 
-		var newShipObj = Pool.Ship.TakeObject();
+		var newShipObj = Pool.ship.TakeObject();
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
@@ -181,9 +183,11 @@ public class Ship : MonoBehaviour {
 		}
 		
 		rigidBody.mass = totalMass;
-		
-		avgPos.x /= blocks.Count;
-		avgPos.y /= blocks.Count;
+
+		if (blocks.Count > 0) {
+			avgPos.x /= blocks.Count;
+			avgPos.y /= blocks.Count;
+		}
 		localCenter = BlockToLocalPos(avgPos);
 		rigidBody.centerOfMass = localCenter;
 	}

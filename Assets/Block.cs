@@ -84,7 +84,8 @@ public class Block {
 			};
 		}
 
-		Game.main.shipPrefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Ship.prefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Blueprint.prefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
 	public static Vector2[] GetUVs(Block block) {		

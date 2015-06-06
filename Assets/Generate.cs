@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class Generate : MonoBehaviour {
 	public static Ship Asteroid(Vector2 pos, int radius) {
-		var shipObj = Pool.Ship.TakeObject();
+		var shipObj = Pool.ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 		ship.blocks.ExpandBlockSequence(8192);
 
@@ -27,7 +27,7 @@ public class Generate : MonoBehaviour {
 	}
 
 	public static Ship TestShip(Vector2 pos) {
-		var shipObj = Pool.Ship.TakeObject();
+		var shipObj = Pool.ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 
 		ship.SetBlock(0, 0, Block.types["console"], Vector2.up);
@@ -139,7 +139,7 @@ public class Generate : MonoBehaviour {
 	}
 
 	public static Ship EllipsoidShip(Vector2 pos, int width, int height) {
-		var shipObj = Pool.Ship.TakeObject();
+		var shipObj = Pool.ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 		ship.blocks.ExpandBlockSequence(width*height);
 		

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Pool {
-	public static Pool Ship;
+	public static Pool ship;
 	public static Pool shields;
 	public static Pool ParticleThrust;
 	public static Pool WallCollider;
@@ -12,13 +12,13 @@ public class Pool {
 	public static Pool blueprint;
 
 	public static void CreatePools() {
-		Pool.Ship = new Pool(Game.main.shipPrefab, 16);
+		Pool.blueprint = new Pool(Blueprint.prefab, 16);
 		Pool.shields = new Pool(Shields.prefab, 16);
 		Pool.ParticleThrust = new Pool(Game.main.thrustPrefab, 16);
 		Pool.WallCollider = new Pool(Block.wallColliderPrefab, 128);
 		Pool.FloorCollider = new Pool(Block.floorColliderPrefab, 64);
 		Pool.ParticleBeam = new Pool(Game.main.particleBeamPrefab, 4);
-		Pool.blueprint = new Pool(Blueprint.prefab, 16);
+		Pool.ship = new Pool(Ship.prefab, 16);
 	}
 
 	public GameObject prefab;
