@@ -4,7 +4,6 @@ using System.Collections;
 public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
 	public BlockMap blocks;
-	public Ship ship;
 
 	public MeshRenderer renderer;	
 	private Mesh mesh;

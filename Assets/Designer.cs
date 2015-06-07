@@ -16,6 +16,7 @@ public class Designer : MonoBehaviour {
 	void OnEnable() {
 		if (cursor == null) {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
+			cursorObj.name = "Cursor";
 			cursor = cursorObj.GetComponent<Blueprint>();
 			cursor.blocks[0, 0] = new Block(Block.types["wall"]);
 			cursorObj.SetActive(true);
@@ -46,7 +47,7 @@ public class Designer : MonoBehaviour {
 
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
 		var neighborBlocks = new List<Block>();
-		foreach (var bp in designShip.blocks.Neighbors(blockPos)) {
+		foreach (var bp in designShip.blueprint.blocks.Neighbors(blockPos)) {
 			var block = designShip.blueprint.blocks[bp];
 			if (block != null) 
 				neighborBlocks.Add(block);
@@ -59,14 +60,15 @@ public class Designer : MonoBehaviour {
 	}
 
 	public void PlaceBlock(Vector2 worldPos, Block adjoiningBlock = null) {
-		if (adjoiningBlock == null) {
+		var blockPos = designShip.WorldToBlockPos(worldPos);		
+
+		if (adjoiningBlock == null && designShip.blueprint.blocks[blockPos] == null) {
 			// new ship!
 			var shipObj = Pool.For("Ship").TakeObject();
 			SetDesignShip(shipObj.GetComponent<Ship>());
 			shipObj.SetActive(true);
 		}
 
-		var blockPos = designShip.WorldToBlockPos(worldPos);		
 		var block = new Block(cursor.blocks[0,0].type);
 		block.orientation = cursor.blocks[0,0].orientation;
 		designShip.blueprint.blocks[blockPos] = block;

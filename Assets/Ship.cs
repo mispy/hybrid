@@ -395,8 +395,7 @@ public class Ship : PoolBehaviour {
 			tractorBeam.Stop();
 		}
 	}
-	
-	
+
 	private bool needMeshUpdate = false;
 
 	void QueueMeshUpdate() {
