@@ -9,6 +9,12 @@ public class TractorBeam : MonoBehaviour {
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		beam = GetComponent<ParticleSystem>();
+		beam.enableEmission = false;
+	}
+
+	public void Stop() {
+		beam.Clear();
+		beam.enableEmission = false;
 	}
 
 	public void Fire(Vector3 worldPos) {		
@@ -16,7 +22,10 @@ public class TractorBeam : MonoBehaviour {
 		if (targetRotation != transform.rotation) {
 			beam.Clear();
 		}
+		Debug.Log("firing");
+		transform.rotation = targetRotation;
 		beam.startLifetime = Vector3.Distance(transform.position, worldPos) / Math.Abs(beam.startSpeed);
+		beam.enableEmission = true;
 		var dir = (worldPos - transform.position);
 		dir.Normalize();
 		RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.05f, dir, Vector3.Distance(transform.position, worldPos));

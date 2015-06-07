@@ -31,8 +31,6 @@ public class Game : MonoBehaviour {
 	public Blueprint placingShip;
 	private int placingBlockType = 0;
 
-	public Texture2D[] blockSprites;
-		
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
 	public static GameObject Prefab(string name) {
@@ -52,7 +50,12 @@ public class Game : MonoBehaviour {
 			}
 		}
 
-		Block.Setup(blockSprites);
+		var blockSprites = new List<Texture2D>();
+		resources = Resources.LoadAll("Blocks");
+		foreach (var obj in resources) {
+			blockSprites.Add(obj as Texture2D);
+		}
+		Block.Setup(blockSprites.ToArray());
 		Pool.CreatePools();		
 
 		float screenAspect = (float)Screen.width / (float)Screen.height;
@@ -122,13 +125,9 @@ public class Game : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButton(1)) {
-			foreach (var tractorBeam in activeShip.GetBlockComponents<TractorBeam>()) {
-				tractorBeam.Fire(pz);
-			}
+			activeShip.StartTractorBeam(pz);
 		} else {
-			if (currentBeam != null) {
-				Destroy(currentBeam);
-			}
+			activeShip.StopTractorBeam();
 		}
 	}
 }

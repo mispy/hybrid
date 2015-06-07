@@ -11,16 +11,6 @@ public class Thruster : MonoBehaviour {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		ps = GetComponent<ParticleSystem>();
 		block = ship.BlockAtWorldPos(transform.position);
-		Vector2 worldOrient;
-		if (block.orientation == Orientation.up) {
-			worldOrient = ship.transform.TransformVector(Vector2.up);
-		} else if (block.orientation == Orientation.down) {
-			worldOrient = ship.transform.TransformVector(-Vector2.up);
-		} else {
-			worldOrient = ship.transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
-		}
-		
-		transform.up = worldOrient;
 	}
 	
 	public void Fire() {		

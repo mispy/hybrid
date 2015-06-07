@@ -61,6 +61,7 @@ public class Block {
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
 
 		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
+		new BlockType("beamCannon", prefab: Game.Prefab("BeamCannon"));
 		new BlockType("thruster", prefab: Game.Prefab("Thruster"));
 
 		for (var i = 0; i < Block.sprites.Length; i++) {			

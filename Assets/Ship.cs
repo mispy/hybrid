@@ -215,9 +215,19 @@ public class Ship : PoolBehaviour {
 	}
 
 	public void AddBlockComponent(Block block) {
+		Vector2 worldOrient;
+		if (block.orientation == Orientation.up) {
+			worldOrient = transform.TransformVector(Vector2.up);
+		} else if (block.orientation == Orientation.down) {
+			worldOrient = transform.TransformVector(-Vector2.up);
+		} else {
+			worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
+		}
+		
 		var obj = Pool.For(block.type.prefab).TakeObject();		
 		obj.transform.parent = transform;
 		obj.transform.position = BlockToWorldPos(block.pos);
+		obj.transform.up = worldOrient;
 		blockComponents[block] = obj;
 		obj.SetActive(true);
 	}
@@ -316,6 +326,14 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
+	
+	public void FireLasers() {
+		foreach (var beam in GetBlockComponents<BeamCannon>()) {
+			beam.Fire();
+		}
+	}
+
+
 	private ParticleCollisionEvent[] collisionEvents = new ParticleCollisionEvent[16];
 	public void OnParticleCollision(GameObject psObj) {
 		var ps = psObj.GetComponent<ParticleSystem>();
@@ -335,52 +353,6 @@ public class Ship : PoolBehaviour {
 			if (block != null) {
 				BreakBlock(block);
 			}
-		}
-	}
-
-	public void FireLasers() {
-		foreach (var block in blocks.All) {
-			if (block.type != Block.types["laser"]) continue;
-
-			Vector2 worldOrient;
-			if (block.orientation == Orientation.up) {
-				worldOrient = transform.TransformVector(-Vector2.up);
-			} else if (block.orientation == Orientation.down) {
-				worldOrient = transform.TransformVector(Vector2.up);
-			} else {
-				worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
-			}
-
-			ParticleSystem beam;
-			if (particleCache.ContainsKey(block.pos)) {
-				beam = particleCache[block.pos];
-			} else {
-				/*beam = Pool.ParticleBeam.TakeObject().GetComponent<ParticleSystem>();
-				beam.transform.parent = transform;
-				beam.transform.position = BlockToWorldPos(block.pos) + (worldOrient * Block.worldSize);
-				beam.transform.up = worldOrient;
-				particleCache[block.pos] = beam;
-				beam.gameObject.SetActive(true);*/
-			}
-					
-			//beam.enableEmission = true;
-			//beam.Emit(1);
-				
-			/*var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
-			foreach (var hitBlock in hitBlocks) {
-				var ship = hitBlock.ship;
-				if (ship == this) continue;
-				var newShip = ship.BreakBlock(hitBlock);
-
-				var awayDir = newShip.transform.position - ship.transform.position;
-				awayDir.Normalize();
-				// make the block fly away from the ship
-				newShip.rigidBody.AddForce(awayDir * Block.types["wall"].mass * 1000);
-
-				//var towardDir = newShip.transform.position - beam.transform.position;
-				//towardDir.Normalize();
-				//newShip.rigidBody.AddForce(towardDir * Block.mass * 100);
-			}*/
 		}
 	}
 
@@ -412,7 +384,19 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
+	public void StartTractorBeam(Vector2 pz) {
+		foreach (var tractorBeam in GetBlockComponents<TractorBeam>()) {
+			tractorBeam.Fire(pz);
+		}
+	}
 
+	public void StopTractorBeam() {
+		foreach (var tractorBeam in GetBlockComponents<TractorBeam>()) {
+			tractorBeam.Stop();
+		}
+	}
+	
+	
 	private bool needMeshUpdate = false;
 
 	void QueueMeshUpdate() {

@@ -43,6 +43,7 @@ public class Pool {
 
 	public Pool(GameObject prefab, int startingAmount) {
 		this.prefab = prefab;
+		prefab.SetActive(false);
 		pooledObjects = new List<GameObject>();
 		for(int i = 0; i < startingAmount; i++)
 		{

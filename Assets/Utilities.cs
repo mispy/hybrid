@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System;
 
-public abstract class PoolBehaviour : MonoBehaviour {
-	public abstract void OnCreate();
-	public abstract void OnRecycle();
+public class PoolBehaviour : MonoBehaviour {
+	public virtual void OnCreate() { }
+	public virtual void OnRecycle() { }
 }
 
 public enum Orientation {
