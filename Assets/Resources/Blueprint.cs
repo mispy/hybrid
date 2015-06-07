@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 
 [Serializable]
-public class Blueprint : PoolBehaviour, ISerializationCallbackReceiver {
+public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
 	public BlockMap blocks;
 	private Ship ship;
@@ -34,11 +34,21 @@ public class Blueprint : PoolBehaviour, ISerializationCallbackReceiver {
 		UpdateMesh();
 	}
 
-	// Use this for initialization
-	public void OnEnable() {
+	public override void OnFirstEnable() {
 		UpdateMesh();
 	}
 
+	public override void OnRestoreEnable() {
+		foreach (var data in blocks.saveData) {
+			var block = Block.Deserialize(data);
+			block.ship = ship;
+			blocks[data.x, data.y] = block;
+		}
+
+
+		blocks.OnBlockChanged = OnBlockChanged;		
+		UpdateMesh();
+	}
 
 	public override void OnRecycle() {
 		Clear();

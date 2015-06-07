@@ -46,23 +46,36 @@ public class Ship : PoolBehaviour {
 	public override void OnCreate() {
 		blocks.OnBlockChanged = OnBlockChanged;
 	}
-
-	public override void OnAwake() {
-		rigidBody = GetComponent<Rigidbody>();
-		renderer = GetComponent<MeshRenderer>();		
-		mesh = GetComponent<MeshFilter>().mesh;	
-		Debug.Log("ship awake");
-	}
 		
 	public void Clear() {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
 	}
 
+	public override void OnBeforeEnable() {
+		rigidBody = GetComponent<Rigidbody>();
+		renderer = GetComponent<MeshRenderer>();		
+		mesh = GetComponent<MeshFilter>().mesh;	
+	}
+		
+	public override void OnFirstEnable() {
+		if (hasCollision) {
+			foreach (var block in blocks.All) {
+				if (blocks.IsEdge(block.pos)) {
+					AddCollider(block);
+				}
+			}
+		}
+		
+		foreach (var block in blocks.All) {
+			if (block.type.prefab != null)
+				AddBlockComponent(block);
+		}
+		
+		Activate();
+	}
 
-	public override void OnRestore() {
-		Debug.Log("Ship OnRestore");
-
+	public override void OnRestoreEnable() {
 		foreach (var data in blocks.saveData) {
 			var block = Block.Deserialize(data);
 			block.ship = this;
@@ -85,24 +98,6 @@ public class Ship : PoolBehaviour {
 
 		Activate();
 	}
-		
-	void Start() {
-		Debug.Log("ship start");
-		if (hasCollision) {
-			foreach (var block in blocks.All) {
-				if (blocks.IsEdge(block.pos)) {
-					AddCollider(block);
-				}
-			}
-		}
-
-		foreach (var block in blocks.All) {
-			if (block.type.prefab != null)
-				AddBlockComponent(block);
-		}
-
-		Activate();
-	}
 
 	void Activate() {	
 		UpdateMass();	
@@ -116,7 +111,6 @@ public class Ship : PoolBehaviour {
 	}
 
 	public override void OnRecycle() {
-		Debug.Log("OnRecylce");
 		Ship.allActive.Remove(this);
 		Clear();
 	}
@@ -210,7 +204,6 @@ public class Ship : PoolBehaviour {
 		Profiler.EndSample();
 	}
 
-
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		Profiler.BeginSample("OnBlockChanged");
 		if (newBlock != null) newBlock.ship = this;
@@ -238,8 +231,9 @@ public class Ship : PoolBehaviour {
 		if (Block.IsType(newBlock, "gravgen") || Block.IsType(oldBlock, "gravgen"))
 			UpdateGravity();
 
-		if (oldBlock != null && oldBlock.type.prefab != null)
+		if (oldBlock != null && oldBlock.type.prefab != null && blockComponents.ContainsKey(oldBlock))
 			Pool.Recycle(blockComponents[oldBlock].gameObject);
+
 
 		if (newBlock != null && newBlock.type.prefab != null) {
 			AddBlockComponent(newBlock);

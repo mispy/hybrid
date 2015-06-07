@@ -7,17 +7,18 @@ public class PoolBehaviour : MonoBehaviour, ISerializationCallbackReceiver {
 	public virtual void OnPreSerialize() { }
 	public virtual void OnAnyDeserialize() { }
 	public virtual void OnSecondDeserialize() { }
-	public virtual void OnAnyEnable() { }
+	public virtual void OnBeforeEnable() { }
 	public virtual void OnFirstEnable() { }
+	public virtual void OnRestoreEnable() { }
 	public virtual void OnAwake() { }
-	public virtual void OnRestore() { }
 
-	public bool isAwake = false;
-	public bool hasBeenEnabled = false;
+	[SerializeField]
+	private bool isAwake = false;
+	[SerializeField]
+	private bool hasBeenEnabled = false;
 
 	public void Awake() {
 		OnAwake();
-		isAwake = true;
 	}
 
 	public void OnBeforeSerialize() {
@@ -26,18 +27,18 @@ public class PoolBehaviour : MonoBehaviour, ISerializationCallbackReceiver {
 	public void OnAfterDeserialize() {
 		OnAnyDeserialize();
 
-		if (isAwake) {
+		if (hasBeenEnabled) {
 			OnSecondDeserialize();
 		}
 	}
 
 	public void OnEnable() {		
-		OnAnyEnable();
+		OnBeforeEnable();
 
 		if (!hasBeenEnabled) {
 			OnFirstEnable();
 		} else {
-			OnRestore();
+			OnRestoreEnable();
 		}
 		hasBeenEnabled = true;
 	}

@@ -193,8 +193,6 @@ public class Crew : MonoBehaviour {
 
 		var nearbyBlocks = Block.FindInRadius(transform.position, Block.worldSize*1f);
 		foreach (var block in nearbyBlocks) {
-			Debug.Log(block);
-
 			if (block.type == Block.types["console"]) {
 				interactBlock = block;
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
