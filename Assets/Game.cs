@@ -12,9 +12,6 @@ public class Game : MonoBehaviour {
 
 	public Text debugText;
 
-
-	public Ship activeShip = null;
-
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
 	public static GameObject Prefab(string name) {
@@ -48,8 +45,6 @@ public class Game : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
 		if (Input.GetKeyDown(KeyCode.F5)) {
 			Save.SaveGame();
 		}
@@ -63,44 +58,6 @@ public class Game : MonoBehaviour {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
 		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize << 1;
-		}
-
-		if (activeShip == null)
-			return;
-
-		var rigid = activeShip.rigidBody;	
-
-		if (Input.GetKey(KeyCode.W)) {
-			activeShip.FireThrusters(Orientation.up);		
-		}
-
-		if (Input.GetKey(KeyCode.S)) {
-			activeShip.FireThrusters(Orientation.down);
-		}
-
-		if (Input.GetKey(KeyCode.A)) {
-			//rigid.AddTorque(0.1f);
-			activeShip.FireThrusters(Orientation.right);
-		}
-
-		if (Input.GetKey(KeyCode.D)) {
-			//rigid.AddTorque(-0.1f);
-			activeShip.FireThrusters(Orientation.left);
-		}
-
-		if (Input.GetKey(KeyCode.Space)) {
-			activeShip.FireLasers();
-		}
-
-		if (Input.GetKey(KeyCode.X)) {
-			rigid.velocity = Vector3.zero;
-			rigid.angularVelocity = Vector3.zero;
-		}
-
-		if (Input.GetMouseButton(1)) {
-			activeShip.StartTractorBeam(pz);
-		} else {
-			activeShip.StopTractorBeam();
 		}
 	}
 }

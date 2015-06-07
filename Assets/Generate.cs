@@ -11,6 +11,7 @@ public class Generate : MonoBehaviour {
 		var ship = shipObj.GetComponent<Ship>();
 		ship.blocks.ExpandBlockSequence(8192);
 
+		ship.name = "Asteroid";
 		for (var x = -radius; x < radius; x++) {
 			for (var y = -radius; y < radius; y++) {
 				if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
@@ -30,6 +31,7 @@ public class Generate : MonoBehaviour {
 		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 
+		ship.name = "Test Ship";
 		ship.SetBlock(0, 0, Block.types["console"], Orientation.up);
 		ship.SetBlock(0, 1, Block.types["wall"]);
 		ship.SetBlock(-1, 1, Block.types["wall"], Orientation.left);

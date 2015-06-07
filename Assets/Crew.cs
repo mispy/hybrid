@@ -12,6 +12,7 @@ public class Crew : MonoBehaviour {
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
+	public Ship controlShip = null;
 	public Ship linkedShip = null;
 	public Block currentBlock = null;
 	public bool isGravityLocked = false;
@@ -26,6 +27,7 @@ public class Crew : MonoBehaviour {
 		rigidBody = GetComponent<Rigidbody>();
 		designer = GetComponent<Designer>();
 		player = this;
+		this.name = "Player";
 	}
 		
 	// Use this for initialization
@@ -134,6 +136,45 @@ public class Crew : MonoBehaviour {
 		rigidBody.velocity = vel;
 	}
 
+	void HandleShipInput() {
+		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+
+		var rigid = controlShip.rigidBody;	
+		
+		if (Input.GetKey(KeyCode.W)) {
+			controlShip.FireThrusters(Orientation.up);		
+		}
+		
+		if (Input.GetKey(KeyCode.S)) {
+			controlShip.FireThrusters(Orientation.down);
+		}
+		
+		if (Input.GetKey(KeyCode.A)) {
+			//rigid.AddTorque(0.1f);
+			controlShip.FireThrusters(Orientation.right);
+		}
+		
+		if (Input.GetKey(KeyCode.D)) {
+			//rigid.AddTorque(-0.1f);
+			controlShip.FireThrusters(Orientation.left);
+		}
+		
+		if (Input.GetKey(KeyCode.Space)) {
+			controlShip.FireLasers();
+		}
+		
+		if (Input.GetKey(KeyCode.X)) {
+			rigid.velocity = Vector3.zero;
+			rigid.angularVelocity = Vector3.zero;
+		}
+		
+		if (Input.GetMouseButton(1)) {
+			controlShip.StartTractorBeam(pz);
+		} else {
+			controlShip.StopTractorBeam();
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		UpdateCurrentBlock();
@@ -165,8 +206,8 @@ public class Crew : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.E) && Game.main.activeShip != null) {
-			Game.main.activeShip = null;
+		if (Input.GetKeyDown(KeyCode.E) && controlShip != null) {
+			controlShip = null;
 			return;
 		}
 
@@ -174,13 +215,10 @@ public class Crew : MonoBehaviour {
 			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
 		}*/
 		
-		if (Game.main.activeShip != null) return;				
-
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
-			Game.main.activeShip = interactBlock.ship;
+			controlShip = interactBlock.ship;
 			return;
 		}	
-
 		
 		if (interactBlock != null) {
 			//interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
@@ -195,10 +233,14 @@ public class Crew : MonoBehaviour {
 			}
 		}
 
-		if (isGravityLocked) {
-			HandleLockedMovement();
+		if (controlShip != null) {
+			HandleShipInput();
 		} else {
-			HandleFreeMovement();
-		}	
+			if (isGravityLocked) {
+				HandleLockedMovement();
+			} else {
+				HandleFreeMovement();
+			}	
+		}
 	}
 }

@@ -3,14 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Pool {
+	public static GameObject holder;
+
 	public static Dictionary<GameObject, Pool> pools = new Dictionary<GameObject, Pool>();
 
 	public static void CreatePools() {
+		Pool.holder = new GameObject();
+		Pool.holder.name = "Pool";
 		Pool.For("WallCollider", 128);
 		Pool.For("FloorCollider", 64);
 	}
 
 	public static void Recycle(GameObject obj) {
+		obj.transform.parent = Pool.holder.transform;
 		obj.SetActive(false);
 		foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
 			comp.OnRecycle();
@@ -39,6 +44,7 @@ public class Pool {
 		for(int i = 0; i < startingAmount; i++)
 		{
 			GameObject obj = Object.Instantiate(prefab) as GameObject;
+			obj.transform.parent = Pool.holder.transform;
 			foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
 				comp.OnCreate();
 			}
@@ -50,13 +56,8 @@ public class Pool {
 		GameObject obj = null;
 
 		for (int i = 0; i < pooledObjects.Count; i++) {
-			if (pooledObjects[i] == null) {
-				obj = Object.Instantiate(prefab) as GameObject;
-				pooledObjects[i] = obj;
-				return pooledObjects[i];
-			}
-
 			if (!pooledObjects[i].activeSelf) {
+				pooledObjects[i].transform.parent = Game.main.transform;
 				return pooledObjects[i];
 			}
 		}
@@ -65,10 +66,12 @@ public class Pool {
 		var currentTotal = pooledObjects.Count;
 		for (var i = 0; i < currentTotal; i++) {
 			GameObject obj2 = Object.Instantiate(prefab) as GameObject;
+			obj2.transform.parent = Pool.holder.transform;
 			pooledObjects.Add(obj2);
 			if (obj == null) obj = obj2;
 		}
 
+		obj.transform.parent = Game.main.transform;
 		return obj;
 	}
 }
