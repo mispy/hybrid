@@ -7,7 +7,7 @@ using System.Linq;
 public class Crew : MonoBehaviour {
 	public static Crew player;
 
-	public Block interactBlock = null;
+	private Block interactBlock = null;
 
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
@@ -25,8 +25,12 @@ public class Crew : MonoBehaviour {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
 		designer = GetComponent<Designer>();
-		player = this;
 	}
+
+	void OnEnable() {
+		Crew.player = this;
+	}
+
 		
 	// Use this for initialization
 	void Start () {
@@ -175,14 +179,12 @@ public class Crew : MonoBehaviour {
 		}*/
 		
 
-
 		if (Game.main.activeShip != null) return;				
 
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
 			Game.main.activeShip = interactBlock.ship;
 			return;
 		}	
-
 		
 		if (interactBlock != null) {
 			//interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
@@ -191,6 +193,8 @@ public class Crew : MonoBehaviour {
 
 		var nearbyBlocks = Block.FindInRadius(transform.position, Block.worldSize*1f);
 		foreach (var block in nearbyBlocks) {
+			Debug.Log(block);
+
 			if (block.type == Block.types["console"]) {
 				interactBlock = block;
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;

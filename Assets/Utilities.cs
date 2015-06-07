@@ -1,9 +1,58 @@
 ﻿using UnityEngine;
 using System;
 
-public class PoolBehaviour : MonoBehaviour {
+public class PoolBehaviour : MonoBehaviour, ISerializationCallbackReceiver {
 	public virtual void OnCreate() { }
 	public virtual void OnRecycle() { }
+	public virtual void OnPreSerialize() { }
+	public virtual void OnAnyDeserialize() { }
+	public virtual void OnSecondDeserialize() { }
+	public virtual void OnAnyEnable() { }
+	public virtual void OnFirstEnable() { }
+	public virtual void OnAwake() { }
+	public virtual void OnRestore() { }
+
+	public bool isAwake = false;
+	public bool hasBeenEnabled = false;
+
+	public void Awake() {
+		OnAwake();
+		isAwake = true;
+	}
+
+	public void OnBeforeSerialize() {
+	}
+
+	public void OnAfterDeserialize() {
+		OnAnyDeserialize();
+
+		if (isAwake) {
+			OnSecondDeserialize();
+		}
+	}
+
+	public void OnEnable() {		
+		OnAnyEnable();
+
+		if (!hasBeenEnabled) {
+			OnFirstEnable();
+		} else {
+			OnRestore();
+		}
+		hasBeenEnabled = true;
+	}
+
+	private Block _block;
+	public Block block {
+		get { return _block; }
+		set { _block = value; }
+	}
+}
+
+public interface IBlockComponent {
+	GameObject gameObject { get; }
+	Transform transform { get; }
+	Block block { get; set; }
 }
 
 public enum Orientation {

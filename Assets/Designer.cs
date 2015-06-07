@@ -15,7 +15,7 @@ public class Designer : MonoBehaviour {
 		
 	void OnEnable() {
 		if (cursor == null) {
-			var cursorObj = Pool.blueprint.TakeObject();
+			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursor = cursorObj.GetComponent<Blueprint>();
 			cursor.blocks[0, 0] = new Block(Block.types["wall"]);
 			cursorObj.SetActive(true);
@@ -61,7 +61,7 @@ public class Designer : MonoBehaviour {
 	public void PlaceBlock(Vector2 worldPos, Block adjoiningBlock = null) {
 		if (adjoiningBlock == null) {
 			// new ship!
-			var shipObj = Pool.ship.TakeObject();
+			var shipObj = Pool.For("Ship").TakeObject();
 			SetDesignShip(shipObj.GetComponent<Ship>());
 			shipObj.SetActive(true);
 		}

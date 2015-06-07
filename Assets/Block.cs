@@ -10,6 +10,7 @@ public class BlockType {
 	public GameObject prefab;
 	public float mass;
 	public string name;
+	public int collisionLayer;
 	
 	// precalculated uv coordinates for each orientation
 	public Vector2[] upUVs;
@@ -17,10 +18,11 @@ public class BlockType {
 	public Vector2[] leftUVs;
 	public Vector2[] rightUVs;
 
-	public BlockType(string name, float mass = 0.001f, GameObject prefab = null) {
+	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Block") {
 		this.name = name;
 		this.mass = mass;
 		this.prefab = prefab;
+		this.collisionLayer = LayerMask.NameToLayer(layer);
 
 		Block.manager.allTypes.Add(this);
 		Block.types[name] = this;
@@ -77,9 +79,11 @@ public class Block {
 		foreach (var hit in hits) {
 			if (hit.gameObject.GetComponent<BoxCollider>() != null) {
 				var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
+
 				if (ship != null) {
 					var block = ship.BlockAtWorldPos(hit.transform.position);
-					if (block != null)
+					Debug.Log(block);
+					if (block != null) 
 						nearbyBlocks.Add(block);
 				}
 			}
@@ -138,34 +142,44 @@ public class Block {
 		get { return type.mass; }
 	}
 
-	public Ship ship;
-	public IntVector2 pos = new IntVector2();
-	public BlockType type;
+	public BlockType type {
+		get { return Block.types[typeName]; }
+		set { typeName = value.name; }
+	}
+
+	public int collisionLayer {
+		get { return type.collisionLayer; }
+	}
+
+	public override string ToString()
+	{
+		return String.Format("Block<{0}: {1}, {2}, {3}>", ship, typeName, x, y);
+	}
+	
+	public string typeName;
 	public Orientation orientation = Orientation.up;
 
-	public int collisionLayer;
 
+	public Ship ship;
+	public IntVector2 pos = new IntVector2();
 	public int index;
 
 	// copy constructor
 	public Block(Block block) {
-		this.type = block.type;
+		this.typeName = block.typeName;
 		this.orientation = block.orientation;
-		this.collisionLayer = block.collisionLayer;
+	}
+
+	public Block(string typeName) {
+		this.typeName = typeName;
 	}
 		
 	public Block(BlockType type) {
-		this.type = type;
-
-		if (type.name == "floor" || type.name == "console") {
-			collisionLayer = LayerMask.NameToLayer("Floor");
-		} else {
-			collisionLayer = LayerMask.NameToLayer("Block");
-		}
+		this.typeName = type.name;
 	}
 
 	public static Block Deserialize(BlockData data) {
-		var block = new Block(data.type);
+		var block = new Block(data.typeName);
 		block.orientation = (Orientation)data.orientation;
 		return block;
 	}
@@ -174,7 +188,7 @@ public class Block {
 		var data = new BlockData();
 		data.x = pos.x;
 		data.y = pos.y;
-		data.type = type;
+		data.typeName = type.name;
 		data.orientation = (int)orientation;
 		return data;
 	}
@@ -184,6 +198,6 @@ public class Block {
 public struct BlockData {
 	public int x;
 	public int y;
-	public BlockType type;
+	public string typeName;
 	public int orientation;
 }

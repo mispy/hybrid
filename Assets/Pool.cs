@@ -3,20 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Pool {
-	public static Pool ship;
-	public static Pool blueprint;
-	public static Pool shields;
-	public static Pool wallCollider;
-	public static Pool floorCollider;
 
 	public static Dictionary<GameObject, Pool> pools = new Dictionary<GameObject, Pool>();
 
+	public static PoolManager manager;
+
 	public static void CreatePools() {
-		Pool.blueprint = Pool.For("Blueprint");
-		Pool.shields = Pool.For("Shields");
-		Pool.wallCollider = new Pool(Game.Prefab("WallCollider"), 128);
-		Pool.floorCollider = new Pool(Game.Prefab("FloorCollider"), 64);
-		Pool.ship = Pool.For("Ship");
+		Pool.For("WallCollider", 128);
+		Pool.For("FloorCollider", 64);
 	}
 
 	public static void Recycle(GameObject obj) {
@@ -26,13 +20,15 @@ public class Pool {
 		}
 	}
 
-	public static Pool For(string name) {
-		return Pool.For(Game.Prefab(name));
+	public static Pool For(string name, int startingAmount = 16) {
+		return Pool.For(Game.Prefab(name), startingAmount);
 	}
 
-	public static Pool For(GameObject prefab) {
-		if (!pools.ContainsKey(prefab)) {
-			pools[prefab] = new Pool(prefab, 16);
+	public static Pool For(GameObject prefab, int startingAmount = 16) {
+		if (!Pool.pools.ContainsKey(prefab)) {
+			var pool = new Pool(prefab, startingAmount);
+			Pool.manager.allPools.Add(pool);
+			Pool.pools[prefab] = pool;
 		}
 
 		return pools[prefab];

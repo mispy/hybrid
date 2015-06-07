@@ -2,15 +2,13 @@
 using System;
 using System.Collections;
 
-public class Thruster : MonoBehaviour {
+public class Thruster : PoolBehaviour, IBlockComponent {
 	public ParticleSystem ps;
 	public Ship ship;
-	public Block block;
 
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		ps = GetComponent<ParticleSystem>();
-		block = ship.BlockAtWorldPos(transform.position);
 	}
 	
 	public void Fire() {		

@@ -15,11 +15,7 @@ public class BlockManager : MonoBehaviour, ISerializationCallbackReceiver {
 		foreach (var type in allTypes) {
 			Block.types[type.name] = type;
 		}
-
-
-		Debug.LogFormat("{0} {1}", allTypes.Count, Block.types.Count);
 	}
-
 
 	public void Setup() {
 		Block.manager = this;
@@ -36,10 +32,13 @@ public class BlockManager : MonoBehaviour, ISerializationCallbackReceiver {
 
 		Block.tileWidth = (float)Block.pixelSize / atlas.width;
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
-		
+
+		new BlockType("floor", layer: "Floor");
+		new BlockType("console", layer: "Floor");
 		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
 		new BlockType("beamCannon", prefab: Game.Prefab("BeamCannon"));
 		new BlockType("thruster", prefab: Game.Prefab("Thruster"));
+
 		
 		for (var i = 0; i < sprites.Count; i++) {			
 			var name = sprites[i].name;

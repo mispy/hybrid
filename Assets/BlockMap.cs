@@ -26,7 +26,6 @@ public class BlockMap : ISerializationCallbackReceiver {
 
 	public Dictionary<string, List<Block>> blockTypeCache = new Dictionary<string, List<Block>>();
 
-
 	public delegate void OnBlockChangedDelegate(Block newBlock, Block oldBlock);
 	public OnBlockChangedDelegate OnBlockChanged;
 
@@ -38,7 +37,7 @@ public class BlockMap : ISerializationCallbackReceiver {
 
 	[SerializeField]
 	public BlockData[] saveData;
-
+	
 	public void OnBeforeSerialize() {
 		saveData = new BlockData[this.Count];
 		var allBlocks = this.All.ToArray();
@@ -48,10 +47,8 @@ public class BlockMap : ISerializationCallbackReceiver {
 		}
 	}
 
-	public void OnAfterDeserialize() {		
-		foreach (var data in saveData) {
-			this[data.x, data.y] = Block.Deserialize(data);
-		}
+	public void OnAfterDeserialize() {	
+		Debug.Log(saveData.Length);
 	}
 
 	public BlockMap() {
@@ -211,8 +208,8 @@ public class BlockMap : ISerializationCallbackReceiver {
 				value.pos = bp;
 				blockPositions[bp] = value; 
 
-				if (!blockTypeCache.ContainsKey(value.type.name)) {
-					blockTypeCache[value.type.name] = new List<Block>();
+				if (!blockTypeCache.ContainsKey(value.typeName)) {
+					blockTypeCache[value.typeName] = new List<Block>();
 				}
 
 				if (bp.x > maxX)
@@ -233,7 +230,7 @@ public class BlockMap : ISerializationCallbackReceiver {
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
 				ClearMeshPos(currentBlock.index);
-				blockTypeCache[currentBlock.type.name].Remove(currentBlock);
+				blockTypeCache[currentBlock.typeName].Remove(currentBlock);
 				BlockChangeEvent(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
@@ -242,7 +239,7 @@ public class BlockMap : ISerializationCallbackReceiver {
 						if (blockSequence[i] == null) {
 							value.index = i;
 							AttachToMesh(value);
-							blockTypeCache[value.type.name].Add(value);
+							blockTypeCache[value.typeName].Add(value);
 							BlockChangeEvent(value, currentBlock);					
 							return;
 						}
@@ -254,8 +251,9 @@ public class BlockMap : ISerializationCallbackReceiver {
 				// replacing an existing block
 				value.index = currentBlock.index;
 				AttachToMesh(value);
-				blockTypeCache[currentBlock.type.name].Remove(currentBlock);
-				blockTypeCache[value.type.name].Add(value);
+					
+				blockTypeCache[currentBlock.typeName].Remove(currentBlock);
+				blockTypeCache[value.typeName].Add(value);
 				BlockChangeEvent(value, currentBlock);
 			}
 

@@ -36,8 +36,6 @@ public class Game : MonoBehaviour, ISerializationCallbackReceiver {
 
 	// Use this for initialization
 	void Awake () {		
-		Game.main = this;
-
 		var resources = Resources.LoadAll("");
 		foreach (var obj in resources) {
 			var gobj = obj as GameObject;
@@ -50,6 +48,7 @@ public class Game : MonoBehaviour, ISerializationCallbackReceiver {
 		Block.manager = GetComponent<BlockManager>();
 		Block.manager.Setup();
 
+		Pool.manager = GetComponent<PoolManager>();
 		Pool.CreatePools();		
 		
 		/*float screenAspect = (float)Screen.width / (float)Screen.height;
@@ -66,6 +65,11 @@ public class Game : MonoBehaviour, ISerializationCallbackReceiver {
 		}
 
 		Generate.TestShip(new Vector2(5, 0));
+	}
+
+	void OnEnable() {
+
+		Game.main = this;
 	}
 
 	// Update is called once per frame

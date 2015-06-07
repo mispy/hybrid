@@ -3,13 +3,20 @@ using System;
 using System.Collections;
 
 [Serializable]
-public class Blueprint : PoolBehaviour {
+public class Blueprint : PoolBehaviour, ISerializationCallbackReceiver {
 	public static GameObject prefab;
 	public BlockMap blocks;
 	private Ship ship;
 
 	public MeshRenderer renderer;	
 	private Mesh mesh;
+
+	public void OnBeforeSerialize() {
+	}
+
+	public void OnAfterDeserialize() {
+		blocks.OnBlockChanged = OnBlockChanged;
+	}
 
 	public void Clear() {
 		blocks = new BlockMap();
@@ -31,6 +38,7 @@ public class Blueprint : PoolBehaviour {
 	public void OnEnable() {
 		UpdateMesh();
 	}
+
 
 	public override void OnRecycle() {
 		Clear();

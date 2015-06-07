@@ -9,23 +9,24 @@ public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
 
-	public BlockMap blocks;
+	public BlockMap blocks = new BlockMap();
 	public Blueprint blueprint;
 	
 	public Rigidbody rigidBody;
 	public MeshRenderer renderer;
 	
 	private Mesh mesh;
-	
+
+	public bool isActive = false;
 	public bool hasCollision = true;
 	public bool hasGravity = false;
 	
-	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
 	public Shields shields = null;
 	
 	public Vector3 localCenter;
 
-	public Dictionary<Block, GameObject> blockComponents = new Dictionary<Block, GameObject>();
+	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
+	public Dictionary<Block, IBlockComponent> blockComponents = new Dictionary<Block, IBlockComponent>();
 
 	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
 		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
@@ -42,22 +43,51 @@ public class Ship : PoolBehaviour {
 		return null;
 	}
 
+	public override void OnCreate() {
+		blocks.OnBlockChanged = OnBlockChanged;
+	}
+
+	public override void OnAwake() {
+		rigidBody = GetComponent<Rigidbody>();
+		renderer = GetComponent<MeshRenderer>();		
+		mesh = GetComponent<MeshFilter>().mesh;	
+		Debug.Log("ship awake");
+	}
+		
 	public void Clear() {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
 	}
 
-    public void Awake() {
-		rigidBody = GetComponent<Rigidbody>();
-		renderer = GetComponent<MeshRenderer>();		
-		mesh = GetComponent<MeshFilter>().mesh;	
-	}
 
-	public override void OnCreate() {
-		Clear();
+	public override void OnRestore() {
+		Debug.Log("Ship OnRestore");
+
+		foreach (var data in blocks.saveData) {
+			var block = Block.Deserialize(data);
+			block.ship = this;
+			blocks[data.x, data.y] = block;
+		}
+
+		blocks.OnBlockChanged = OnBlockChanged;		
+
+		var existingCols = gameObject.GetComponentsInChildren<BoxCollider>();
+		if (existingCols.Length > 0) {
+			foreach (var col in existingCols) {
+				colliders[WorldToBlockPos(col.transform.position)] = col.gameObject;
+			}
+		}
+
+		foreach (var comp in gameObject.GetComponentsInChildren<IBlockComponent>()) {
+			comp.block = BlockAtWorldPos(comp.transform.position);
+			blockComponents[comp.block] = comp;
+		}
+
+		Activate();
 	}
-	
-	void OnEnable() {		
+		
+	void Start() {
+		Debug.Log("ship start");
 		if (hasCollision) {
 			foreach (var block in blocks.All) {
 				if (blocks.IsEdge(block.pos)) {
@@ -65,15 +95,19 @@ public class Ship : PoolBehaviour {
 				}
 			}
 		}
-						
-		UpdateMass();	
-		UpdateShields();	
-		UpdateGravity();
 
 		foreach (var block in blocks.All) {
 			if (block.type.prefab != null)
 				AddBlockComponent(block);
 		}
+
+		Activate();
+	}
+
+	void Activate() {	
+		UpdateMass();	
+		UpdateShields();	
+		UpdateGravity();
 
 		QueueMeshUpdate();
 		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
@@ -82,6 +116,7 @@ public class Ship : PoolBehaviour {
 	}
 
 	public override void OnRecycle() {
+		Debug.Log("OnRecylce");
 		Ship.allActive.Remove(this);
 		Clear();
 	}
@@ -106,7 +141,7 @@ public class Ship : PoolBehaviour {
 	public IEnumerable<T> GetBlockComponents<T>() {
 		var comps = new List<T>();
 		foreach (var obj in blockComponents.Values) {
-			var comp = obj.GetComponent<T>();
+			var comp = obj.gameObject.GetComponent<T>();
 			if (comp != null) comps.Add(comp);
 		}
 		return comps;
@@ -127,7 +162,7 @@ public class Ship : PoolBehaviour {
 
 		blocks[block.pos] = null;
 
-		var newShipObj = Pool.ship.TakeObject();
+		var newShipObj = Pool.For("Ship").TakeObject();
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
@@ -144,9 +179,9 @@ public class Ship : PoolBehaviour {
 
 		GameObject colliderObj;
 		if (block.collisionLayer == Block.wallLayer)
-			colliderObj = Pool.wallCollider.TakeObject();
+			colliderObj = Pool.For("WallCollider").TakeObject();
 		else
-			colliderObj = Pool.floorCollider.TakeObject();
+			colliderObj = Pool.For("FloorCollider").TakeObject();
 		colliderObj.transform.parent = transform;
 		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
 		colliders[block.pos] = colliderObj;
@@ -204,12 +239,11 @@ public class Ship : PoolBehaviour {
 			UpdateGravity();
 
 		if (oldBlock != null && oldBlock.type.prefab != null)
-			Pool.Recycle(blockComponents[oldBlock]);
+			Pool.Recycle(blockComponents[oldBlock].gameObject);
 
 		if (newBlock != null && newBlock.type.prefab != null) {
 			AddBlockComponent(newBlock);
 		}
-
 
 		particleCache.Remove(pos);
 
@@ -232,7 +266,6 @@ public class Ship : PoolBehaviour {
 		obj.transform.parent = transform;
 		obj.transform.position = BlockToWorldPos(block.pos);
 		obj.transform.up = worldOrient;
-		blockComponents[block] = obj;
 		obj.SetActive(true);
 	}
 
@@ -268,7 +301,7 @@ public class Ship : PoolBehaviour {
 
 	public void UpdateShields() {
 		if (blocks.HasType("shieldgen") && shields == null) {
-			var shieldObj = Pool.shields.TakeObject();
+			var shieldObj = Pool.For("Shields").TakeObject();
 			shields = shieldObj.GetComponent<Shields>();
 			shieldObj.transform.parent = transform;
 			shieldObj.transform.localPosition = localCenter;
@@ -277,6 +310,7 @@ public class Ship : PoolBehaviour {
 			shields.gameObject.SetActive(false);
 			shields = null;
 		}
+
 	}
 
 	public void UpdateGravity() {

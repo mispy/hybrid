@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class TractorBeam : MonoBehaviour {
+public class TractorBeam : PoolBehaviour, IBlockComponent {
 	public ParticleSystem beam;
 	public Ship ship;
 

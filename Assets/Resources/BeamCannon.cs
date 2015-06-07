@@ -2,17 +2,16 @@
 using System;
 using System.Collections;
 
-public class BeamCannon : PoolBehaviour {
+public class BeamCannon : PoolBehaviour, IBlockComponent {
 	public ParticleSystem ps;
 	public Ship ship;
 	public Block block;
 	
 	void OnEnable() {
-		ship = transform.parent.gameObject.GetComponent<Ship>();
+		ship = transform.parent.gameObject.GetComponent<Ship>();		
 		ps = GetComponent<ParticleSystem>();
-		block = ship.BlockAtWorldPos(transform.position);
 	}
-	
+
 	public void Fire() {		
 		ps.Emit(1);		
 		/*var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
