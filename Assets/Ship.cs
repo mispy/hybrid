@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[Serializable]
 public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
@@ -46,19 +47,13 @@ public class Ship : PoolBehaviour {
 		blocks.OnBlockChanged = OnBlockChanged;
 	}
 
-	public IEnumerable<T> GetBlockComponents<T>() {
-		var comps = new List<T>();
-		foreach (var obj in blockComponents.Values) {
-			var comp = obj.GetComponent<T>();
-			if (comp != null) comps.Add(comp);
-		}
-		return comps;
-	}
-
-    public override void OnCreate() {
+    public void Awake() {
 		rigidBody = GetComponent<Rigidbody>();
 		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
+	}
+
+	public override void OnCreate() {
 		Clear();
 	}
 	
@@ -90,7 +85,7 @@ public class Ship : PoolBehaviour {
 		Ship.allActive.Remove(this);
 		Clear();
 	}
-
+		
 	public void SetBlock(int x, int y, BlockType type) {
 		var block = new Block(type);
 		blocks[x, y] = block;
@@ -108,6 +103,15 @@ public class Ship : PoolBehaviour {
 		blueprint.blocks[x, y] = block2;
 	}
 
+	public IEnumerable<T> GetBlockComponents<T>() {
+		var comps = new List<T>();
+		foreach (var obj in blockComponents.Values) {
+			var comp = obj.GetComponent<T>();
+			if (comp != null) comps.Add(comp);
+		}
+		return comps;
+	}
+	
 	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
 		var impactVelocity = rigidBody.velocity - fromRigid.velocity;
 		var impactForce = impactVelocity.magnitude * fromRigid.mass;

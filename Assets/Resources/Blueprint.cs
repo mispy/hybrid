@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 
+[Serializable]
 public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
 	public BlockMap blocks;
-	public Ship ship;
+	private Ship ship;
 
 	public MeshRenderer renderer;	
 	private Mesh mesh;

@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[Serializable]
 public class BlockType {
+
 	public GameObject prefab;
 	public float mass;
 	public string name;
@@ -20,14 +22,13 @@ public class BlockType {
 		this.mass = mass;
 		this.prefab = prefab;
 
-		Block.allTypes.Add(this);
+		Block.manager.allTypes.Add(this);
 		Block.types[name] = this;
 	}
 }
 
 public class Block {
 	public static Dictionary<string, BlockType> types = new Dictionary<string, BlockType>();
-	public static List<BlockType> allTypes = new List<BlockType>();
 
 	public static int pixelSize = 32; // the size of a block in pixels
 	public static float worldSize = 1f; // the size of the block in worldspace coordinates
@@ -44,66 +45,10 @@ public class Block {
 
 	// the core sequence of each block type sprite
 	public static Texture2D[] sprites;
+
+	public static BlockManager manager;
 	
 	public static void Setup(Texture2D[] blockSprites) {
-		Block.sprites = blockSprites;
-		Block.wallLayer = LayerMask.NameToLayer("Block");
-		Block.floorLayer = LayerMask.NameToLayer("Floor");
-		Block.wallColliderPrefab = Game.main.wallColliderPrefab;
-		Block.floorColliderPrefab = Game.main.floorColliderPrefab;
-				
-		// let's compress all the block sprites into a single tilesheet texture
-		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
-
-		var boxes = atlas.PackTextures(Block.sprites, 0, Block.pixelSize*Block.sprites.Count());
-
-		Block.tileWidth = (float)Block.pixelSize / atlas.width;
-		Block.tileHeight = (float)Block.pixelSize / atlas.height;
-
-		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
-		new BlockType("beamCannon", prefab: Game.Prefab("BeamCannon"));
-		new BlockType("thruster", prefab: Game.Prefab("Thruster"));
-
-		for (var i = 0; i < Block.sprites.Length; i++) {			
-			var name = Block.sprites[i].name;
-			if (!Block.types.ContainsKey(name)) {
-				new BlockType(name);
-			}
-			var type = Block.types[name];
-
-			var box = boxes[i];
-
-			type.upUVs = new Vector2[] {
-				new Vector2(box.xMin, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin, box.yMin)
-			};
-
-			type.downUVs = new Vector2[] {
-				new Vector2(box.xMin, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin + Block.tileHeight)
-			};
-
-			type.leftUVs = new Vector2[] {
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin)
-			};
-
-			type.rightUVs = new Vector2[] {
-				new Vector2(box.xMin, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight)
-			};
-		}
-
-		Game.Prefab("Ship").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
-		Game.Prefab("Blueprint").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
 	public static Vector2[] GetUVs(Block block) {		
@@ -212,10 +157,33 @@ public class Block {
 	public Block(BlockType type) {
 		this.type = type;
 
-		if (type == Block.types["floor"] || type == Block.types["console"]) {
+		if (type.name == "floor" || type.name == "console") {
 			collisionLayer = LayerMask.NameToLayer("Floor");
 		} else {
 			collisionLayer = LayerMask.NameToLayer("Block");
 		}
 	}
+
+	public static Block Deserialize(BlockData data) {
+		var block = new Block(data.type);
+		block.orientation = (Orientation)data.orientation;
+		return block;
+	}
+	
+	public BlockData Serialize() {
+		var data = new BlockData();
+		data.x = pos.x;
+		data.y = pos.y;
+		data.type = type;
+		data.orientation = (int)orientation;
+		return data;
+	}
+}
+
+[Serializable]
+public struct BlockData {
+	public int x;
+	public int y;
+	public BlockType type;
+	public int orientation;
 }

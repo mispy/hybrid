@@ -7,64 +7,59 @@ using System.Collections.Generic;
 using System.Reflection;
 using Random = UnityEngine.Random;
 
-public class Game : MonoBehaviour {
+public class Game : MonoBehaviour, ISerializationCallbackReceiver {
 	public static Game main;
 
-	public GameObject shipPrefab;
-
-	public GameObject currentBeam;
-	public GameObject wallColliderPrefab;
-	public GameObject floorColliderPrefab;
-	public GameObject particleBeamPrefab;
 	public Text debugText;
 
-	public Ship testShip;
-
 	private List<Block> placedBlocks = new List<Block>();
-
-	public Crew player;
 
 	public Ship activeShip = null;
 
 	private Block adjoiningBlock = null;
 
-	public Blueprint placingShip;
-	private int placingBlockType = 0;
-
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
-
 	public static GameObject Prefab(string name) {
 		return prefabs[name];
 	}
 
+	public List<GameObject> prefabList = new List<GameObject>();
+
+	public void OnBeforeSerialize() {
+	}
+
+	public void OnAfterDeserialize() {
+		foreach (var prefab in prefabList) {
+			prefabs[prefab.name] = prefab;
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {		
-		if (Game.main != null) return;
 		Game.main = this;
 
 		var resources = Resources.LoadAll("");
 		foreach (var obj in resources) {
 			var gobj = obj as GameObject;
 			if (gobj != null) {
+				prefabList.Add(gobj);
 				prefabs[obj.name] = gobj;
 			}
 		}
 
-		var blockSprites = new List<Texture2D>();
-		resources = Resources.LoadAll("Blocks");
-		foreach (var obj in resources) {
-			blockSprites.Add(obj as Texture2D);
-		}
-		Block.Setup(blockSprites.ToArray());
-		Pool.CreatePools();		
+		Block.manager = GetComponent<BlockManager>();
+		Block.manager.Setup();
 
-		float screenAspect = (float)Screen.width / (float)Screen.height;
-		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;
+		Pool.CreatePools();		
+		
+		/*float screenAspect = (float)Screen.width / (float)Screen.height;
+		float cameraHeight = Camera.main.orthographicSize * 2;
 		Bounds bounds = new Bounds(
-			GetComponent<Camera>().transform.position,
-			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+			Camera.main.transform.position,
+			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));*/
 
 		//Save.LoadGame();
+
 
 		for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 30);

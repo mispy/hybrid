@@ -14,8 +14,8 @@ public class Pool {
 	public static void CreatePools() {
 		Pool.blueprint = Pool.For("Blueprint");
 		Pool.shields = Pool.For("Shields");
-		Pool.wallCollider = new Pool(Block.wallColliderPrefab, 128);
-		Pool.floorCollider = new Pool(Block.floorColliderPrefab, 64);
+		Pool.wallCollider = new Pool(Game.Prefab("WallCollider"), 128);
+		Pool.floorCollider = new Pool(Game.Prefab("FloorCollider"), 64);
 		Pool.ship = Pool.For("Ship");
 	}
 

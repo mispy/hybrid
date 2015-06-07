@@ -4,22 +4,55 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class BlockMap {
+[Serializable]
+public class BlockMap : ISerializationCallbackReceiver {
 	private Dictionary<IntVector2, Block> blockPositions;
 	private Block[] blockSequence;
+	[NonSerialized]
 	public Vector3[] meshVertices;
+	[NonSerialized]
 	public Vector2[] meshUV;
+	[NonSerialized]
 	public int[] meshTriangles;
 
+	[NonSerialized]
 	public int maxX;
+	[NonSerialized]
 	public int minX;
+	[NonSerialized]
 	public int maxY;
+	[NonSerialized]
 	public int minY;
 
-	public Dictionary<BlockType, List<Block>> blockTypeCache;
+	public Dictionary<string, List<Block>> blockTypeCache = new Dictionary<string, List<Block>>();
+
 
 	public delegate void OnBlockChangedDelegate(Block newBlock, Block oldBlock);
 	public OnBlockChangedDelegate OnBlockChanged;
+
+	private void BlockChangeEvent(Block newBlock, Block oldBlock) {
+		if (OnBlockChanged != null) {
+			OnBlockChanged(newBlock, oldBlock);
+		}
+	}
+
+	[SerializeField]
+	public BlockData[] saveData;
+
+	public void OnBeforeSerialize() {
+		saveData = new BlockData[this.Count];
+		var allBlocks = this.All.ToArray();
+
+		for (var i = 0; i < allBlocks.Length; i++) {
+			saveData[i] = allBlocks[i].Serialize();
+		}
+	}
+
+	public void OnAfterDeserialize() {		
+		foreach (var data in saveData) {
+			this[data.x, data.y] = Block.Deserialize(data);
+		}
+	}
 
 	public BlockMap() {
 		blockPositions = new Dictionary<IntVector2, Block>(); 
@@ -32,11 +65,6 @@ public class BlockMap {
 		minY = 0;
 		maxX = 0;
 		maxY = 0;
-
-		blockTypeCache = new Dictionary<BlockType, List<Block>>();
-		foreach (var type in Block.types.Values) {
-			blockTypeCache[type] = new List<Block>();
-		}
 	} 
 
 	public IntVector2[] Neighbors(IntVector2 bp) {
@@ -154,7 +182,10 @@ public class BlockMap {
 	}
 
 	public Block FindType(string typeName) {
-		foreach (var block in blockTypeCache[Block.types[typeName]]) {
+		if (!blockTypeCache.ContainsKey(typeName))
+			return null;
+
+		foreach (var block in blockTypeCache[typeName]) {
 			return block;
 		}
 
@@ -162,7 +193,7 @@ public class BlockMap {
 	}
 
 	public bool HasType(string typeName) {
-		return blockTypeCache[Block.types[typeName]].Count > 0;
+		return blockTypeCache.ContainsKey(typeName) && blockTypeCache[typeName].Count > 0;
 	}
 
 	public Block this[IntVector2 bp] {
@@ -179,6 +210,10 @@ public class BlockMap {
 			if (value != null) {
 				value.pos = bp;
 				blockPositions[bp] = value; 
+
+				if (!blockTypeCache.ContainsKey(value.type.name)) {
+					blockTypeCache[value.type.name] = new List<Block>();
+				}
 
 				if (bp.x > maxX)
 					maxX = bp.x;
@@ -198,8 +233,8 @@ public class BlockMap {
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
 				ClearMeshPos(currentBlock.index);
-				blockTypeCache[currentBlock.type].Remove(currentBlock);
-				OnBlockChanged(value, currentBlock);
+				blockTypeCache[currentBlock.type.name].Remove(currentBlock);
+				BlockChangeEvent(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
 				while (true) {
@@ -207,8 +242,8 @@ public class BlockMap {
 						if (blockSequence[i] == null) {
 							value.index = i;
 							AttachToMesh(value);
-							blockTypeCache[value.type].Add(value);
-							OnBlockChanged(value, currentBlock);					
+							blockTypeCache[value.type.name].Add(value);
+							BlockChangeEvent(value, currentBlock);					
 							return;
 						}
 					}
@@ -219,9 +254,9 @@ public class BlockMap {
 				// replacing an existing block
 				value.index = currentBlock.index;
 				AttachToMesh(value);
-				blockTypeCache[currentBlock.type].Remove(currentBlock);
-				blockTypeCache[value.type].Add(value);
-				OnBlockChanged(value, currentBlock);
+				blockTypeCache[currentBlock.type.name].Remove(currentBlock);
+				blockTypeCache[value.type.name].Add(value);
+				BlockChangeEvent(value, currentBlock);
 			}
 
 		}

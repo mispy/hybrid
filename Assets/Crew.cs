@@ -174,6 +174,8 @@ public class Crew : MonoBehaviour {
 			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
 		}*/
 		
+
+
 		if (Game.main.activeShip != null) return;				
 
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
