@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Ship : MonoBehaviour {
+public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
 
@@ -23,6 +23,8 @@ public class Ship : MonoBehaviour {
 	public Shields shields = null;
 	
 	public Vector3 localCenter;
+
+	public Dictionary<Block, GameObject> blockComponents = new Dictionary<Block, GameObject>();
 
 	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
 		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
@@ -44,8 +46,16 @@ public class Ship : MonoBehaviour {
 		blocks.OnBlockChanged = OnBlockChanged;
 	}
 
-	// Use this for initialization
-	public void Awake () {
+	public IEnumerable<T> GetBlockComponents<T>() {
+		var comps = new List<T>();
+		foreach (var obj in blockComponents.Values) {
+			var comp = obj.GetComponent<T>();
+			if (comp != null) comps.Add(comp);
+		}
+		return comps;
+	}
+
+    public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
 		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
@@ -53,8 +63,6 @@ public class Ship : MonoBehaviour {
 	}
 	
 	void OnEnable() {		
-		Debug.Log("ship start");
-
 		if (hasCollision) {
 			foreach (var block in blocks.All) {
 				if (blocks.IsEdge(block.pos)) {
@@ -62,11 +70,15 @@ public class Ship : MonoBehaviour {
 				}
 			}
 		}
-
-				
+						
 		UpdateMass();	
 		UpdateShields();	
 		UpdateGravity();
+
+		foreach (var block in blocks.All) {
+			if (block.type.prefab != null)
+				AddBlockComponent(block);
+		}
 
 		QueueMeshUpdate();
 		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
@@ -74,7 +86,7 @@ public class Ship : MonoBehaviour {
 		Ship.allActive.Add(this);
 	}
 
-	void OnDisable() {
+	public override void OnRecycle() {
 		Ship.allActive.Remove(this);
 		Clear();
 	}
@@ -128,9 +140,9 @@ public class Ship : MonoBehaviour {
 
 		GameObject colliderObj;
 		if (block.collisionLayer == Block.wallLayer)
-			colliderObj = Pool.WallCollider.TakeObject();
+			colliderObj = Pool.wallCollider.TakeObject();
 		else
-			colliderObj = Pool.FloorCollider.TakeObject();
+			colliderObj = Pool.floorCollider.TakeObject();
 		colliderObj.transform.parent = transform;
 		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
 		colliders[block.pos] = colliderObj;
@@ -187,13 +199,29 @@ public class Ship : MonoBehaviour {
 		if (Block.IsType(newBlock, "gravgen") || Block.IsType(oldBlock, "gravgen"))
 			UpdateGravity();
 
+		if (oldBlock != null && oldBlock.type.prefab != null)
+			Pool.Recycle(blockComponents[oldBlock]);
+
+		if (newBlock != null && newBlock.type.prefab != null) {
+			AddBlockComponent(newBlock);
+		}
+
+
 		particleCache.Remove(pos);
 
 		QueueMeshUpdate();		
 
 		Profiler.EndSample();
 	}
-	
+
+	public void AddBlockComponent(Block block) {
+		var obj = Pool.For(block.type.prefab).TakeObject();		
+		obj.transform.parent = transform;
+		obj.transform.position = BlockToWorldPos(block.pos);
+		blockComponents[block] = obj;
+		obj.SetActive(true);
+	}
+
 	public void UpdateCollision(IntVector2 pos) {
 		if (!hasCollision) return;
 		
@@ -282,33 +310,9 @@ public class Ship : MonoBehaviour {
 	public Dictionary<IntVector2, ParticleSystem> particleCache = new Dictionary<IntVector2, ParticleSystem>();
 
 	public void FireThrusters(Orientation orientation) {
-		foreach (var block in blocks.All) {
-			if (block.type != Block.types["thruster"]) continue;
-
-			if (block.orientation == orientation) {
-
-				// need to flip thrusters on the vertical axis so they point the right way
-				Vector2 worldOrient;
-				if (block.orientation == Orientation.up) {
-					worldOrient = transform.TransformVector(Vector2.up);
-				} else if (block.orientation == Orientation.down) {
-					worldOrient = transform.TransformVector(-Vector2.up);
-				} else {
-					worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
-				}
-
-				if (!particleCache.ContainsKey(block.pos)) {
-					var ps = Pool.ParticleThrust.TakeObject().GetComponent<ParticleSystem>();
-					ps.gameObject.SetActive(true);
-					ps.transform.parent = transform;
-					ps.transform.localPosition = BlockToLocalPos(block.pos);
-					ps.transform.up = worldOrient;
-					particleCache[block.pos] = ps;
-				}
-				var thrust = particleCache[block.pos];
-				thrust.Emit(1);
-				rigidBody.AddForce(worldOrient * Math.Min(rigidBody.mass * 10, Block.types["wall"].mass * 1000));
-			}
+		foreach (var thruster in GetBlockComponents<Thruster>()) {
+			if (thruster.block.orientation == orientation)
+				thruster.Fire();
 		}
 	}
 
@@ -351,18 +355,18 @@ public class Ship : MonoBehaviour {
 			if (particleCache.ContainsKey(block.pos)) {
 				beam = particleCache[block.pos];
 			} else {
-				beam = Pool.ParticleBeam.TakeObject().GetComponent<ParticleSystem>();
+				/*beam = Pool.ParticleBeam.TakeObject().GetComponent<ParticleSystem>();
 				beam.transform.parent = transform;
 				beam.transform.position = BlockToWorldPos(block.pos) + (worldOrient * Block.worldSize);
 				beam.transform.up = worldOrient;
 				particleCache[block.pos] = beam;
-				beam.gameObject.SetActive(true);
+				beam.gameObject.SetActive(true);*/
 			}
 					
 			//beam.enableEmission = true;
-			beam.Emit(1);
+			//beam.Emit(1);
 				
-			var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
+			/*var hitBlocks = Block.FromHits(Util.ParticleCast(beam));
 			foreach (var hitBlock in hitBlocks) {
 				var ship = hitBlock.ship;
 				if (ship == this) continue;
@@ -376,7 +380,7 @@ public class Ship : MonoBehaviour {
 				//var towardDir = newShip.transform.position - beam.transform.position;
 				//towardDir.Normalize();
 				//newShip.rigidBody.AddForce(towardDir * Block.mass * 100);
-			}
+			}*/
 		}
 	}
 

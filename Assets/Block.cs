@@ -21,6 +21,7 @@ public class BlockType {
 		this.prefab = prefab;
 
 		Block.allTypes.Add(this);
+		Block.types[name] = this;
 	}
 }
 
@@ -59,10 +60,13 @@ public class Block {
 		Block.tileWidth = (float)Block.pixelSize / atlas.width;
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
 
+		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
+		new BlockType("thruster", prefab: Game.Prefab("Thruster"));
+
 		for (var i = 0; i < Block.sprites.Length; i++) {			
 			var name = Block.sprites[i].name;
 			if (!Block.types.ContainsKey(name)) {
-				Block.types[name] = new BlockType(name);
+				new BlockType(name);
 			}
 			var type = Block.types[name];
 
@@ -97,8 +101,8 @@ public class Block {
 			};
 		}
 
-		Ship.prefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
-		Blueprint.prefab.GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Game.Prefab("Ship").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Game.Prefab("Blueprint").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
 	public static Vector2[] GetUVs(Block block) {		

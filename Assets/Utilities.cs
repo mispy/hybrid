@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System;
 
+public abstract class PoolBehaviour : MonoBehaviour {
+	public abstract void OnCreate();
+	public abstract void OnRecycle();
+}
+
 public enum Orientation {
 	up = 1,
 	down = -1,

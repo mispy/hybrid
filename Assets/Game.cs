@@ -12,9 +12,7 @@ public class Game : MonoBehaviour {
 
 	public GameObject shipPrefab;
 
-	public GameObject tractorBeam;
 	public GameObject currentBeam;
-	public GameObject thrustPrefab;
 	public GameObject wallColliderPrefab;
 	public GameObject floorColliderPrefab;
 	public GameObject particleBeamPrefab;
@@ -35,14 +33,24 @@ public class Game : MonoBehaviour {
 
 	public Texture2D[] blockSprites;
 		
+	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+
+	public static GameObject Prefab(string name) {
+		return prefabs[name];
+	}
+
 	// Use this for initialization
 	void Awake () {		
 		if (Game.main != null) return;
 		Game.main = this;
 
-		Shields.prefab = Resources.Load("Shields") as GameObject;
-		Blueprint.prefab = Resources.Load("Blueprint") as GameObject;
-		Ship.prefab = Resources.Load("Ship") as GameObject;
+		var resources = Resources.LoadAll("");
+		foreach (var obj in resources) {
+			var gobj = obj as GameObject;
+			if (gobj != null) {
+				prefabs[obj.name] = gobj;
+			}
+		}
 
 		Block.Setup(blockSprites);
 		Pool.CreatePools();		
@@ -53,15 +61,13 @@ public class Game : MonoBehaviour {
 			GetComponent<Camera>().transform.position,
 			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
 
-		Save.LoadGame();
+		//Save.LoadGame();
 
-		/*for (var i = 0; i < 1; i++) {
+		for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 30);
 		}
 
 		Generate.TestShip(new Vector2(5, 0));
-
-		testShip =	Generate.EllipsoidShip(new Vector2(18, 0), 20, 10);*/
 	}
 
 	// Update is called once per frame
@@ -116,26 +122,8 @@ public class Game : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButton(1)) {
-			var targetRotation = Quaternion.LookRotation((Vector3)pz - activeShip.transform.position);
-			if (currentBeam == null) {
-				currentBeam = Instantiate(tractorBeam, new Vector3(activeShip.transform.position.x, activeShip.transform.position.y, 1), targetRotation) as GameObject;
-			}
-			var ps = currentBeam.GetComponent<ParticleSystem>();
-			if (targetRotation != currentBeam.transform.rotation) {
-				ps.Clear();
-			}
-			currentBeam.transform.position = new Vector3(activeShip.transform.position.x, activeShip.transform.position.y, 1);
-			currentBeam.transform.rotation = targetRotation;
-			ps.startLifetime = Vector3.Distance(activeShip.transform.position, pz) / Math.Abs(ps.startSpeed);
-			var dir = (pz - (Vector2)activeShip.transform.position);
-			dir.Normalize();
-			RaycastHit[] hits = Physics.SphereCastAll(activeShip.transform.position, 0.05f, dir, Vector3.Distance(activeShip.transform.position, pz));
-			foreach (var hit in hits) {
-				if (hit.collider.attachedRigidbody != null) {
-					if (hit.collider.attachedRigidbody != rigid) {
-						hit.collider.attachedRigidbody.AddForce(-dir * Block.types["wall"].mass * 10);
-					}
-				}
+			foreach (var tractorBeam in activeShip.GetBlockComponents<TractorBeam>()) {
+				tractorBeam.Fire(pz);
 			}
 		} else {
 			if (currentBeam != null) {

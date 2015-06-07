@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Blueprint : MonoBehaviour {
+public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
 	public BlockMap blocks;
 	public Ship ship;
@@ -9,28 +9,28 @@ public class Blueprint : MonoBehaviour {
 	public MeshRenderer renderer;	
 	private Mesh mesh;
 
-	void Clear() {
+	public void Clear() {
 		blocks = new BlockMap();
 		blocks.OnBlockChanged = OnBlockChanged;
 	}
 
-	void Awake() {
+	public override void OnCreate() {
 		renderer = GetComponent<MeshRenderer>();
 		mesh = GetComponent<MeshFilter>().mesh;	
 		Clear();
 	}
 
-	void OnBlockChanged(Block newBlock, Block oldBlock) {
+	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		if (!gameObject.activeInHierarchy) return;
 		UpdateMesh();
 	}
 
 	// Use this for initialization
-	void OnEnable() {
+	public void OnEnable() {
 		UpdateMesh();
 	}
 
-	void OnDisable() {
+	public override void OnRecycle() {
 		Clear();
 	}
 	

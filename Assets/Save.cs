@@ -75,7 +75,6 @@ public class Save {
 	public static Ship Load(ShipData data) {
 		var shipObj = Pool.ship.TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
-		ship.Awake();
 		ship.transform.position = data.position;
 		ship.transform.rotation = data.rotation;
 		ship.rigidBody.velocity = data.velocity;

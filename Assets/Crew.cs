@@ -179,7 +179,7 @@ public class Crew : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
 			Game.main.activeShip = interactBlock.ship;
 			return;
-		}
+		}	
 
 		
 		if (interactBlock != null) {
