@@ -10,26 +10,10 @@ using Random = UnityEngine.Random;
 public class Game : MonoBehaviour {
 	public static Game main;
 
-	public GameObject shipPrefab;
-
-	public GameObject currentBeam;
-	public GameObject wallColliderPrefab;
-	public GameObject floorColliderPrefab;
-	public GameObject particleBeamPrefab;
 	public Text debugText;
 
-	public Ship testShip;
-
-	private List<Block> placedBlocks = new List<Block>();
-
-	public Crew player;
 
 	public Ship activeShip = null;
-
-	private Block adjoiningBlock = null;
-
-	public Blueprint placingShip;
-	private int placingBlockType = 0;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
@@ -39,7 +23,6 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {		
-		if (Game.main != null) return;
 		Game.main = this;
 
 		var resources = Resources.LoadAll("");
@@ -50,19 +33,9 @@ public class Game : MonoBehaviour {
 			}
 		}
 
-		var blockSprites = new List<Texture2D>();
-		resources = Resources.LoadAll("Blocks");
-		foreach (var obj in resources) {
-			blockSprites.Add(obj as Texture2D);
-		}
-		Block.Setup(blockSprites.ToArray());
-		Pool.CreatePools();		
 
-		float screenAspect = (float)Screen.width / (float)Screen.height;
-		float cameraHeight = GetComponent<Camera>().orthographicSize * 2;
-		Bounds bounds = new Bounds(
-			GetComponent<Camera>().transform.position,
-			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+		Block.Setup();
+		Pool.CreatePools();		
 
 		//Save.LoadGame();
 

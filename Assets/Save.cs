@@ -73,7 +73,7 @@ public class Save {
 	}
 
 	public static Ship Load(ShipData data) {
-		var shipObj = Pool.ship.TakeObject();
+		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 		ship.transform.position = data.position;
 		ship.transform.rotation = data.rotation;

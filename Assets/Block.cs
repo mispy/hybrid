@@ -8,6 +8,7 @@ public class BlockType {
 	public GameObject prefab;
 	public float mass;
 	public string name;
+	public int collisionLayer;
 	
 	// precalculated uv coordinates for each orientation
 	public Vector2[] upUVs;
@@ -15,10 +16,11 @@ public class BlockType {
 	public Vector2[] leftUVs;
 	public Vector2[] rightUVs;
 
-	public BlockType(string name, float mass = 0.001f, GameObject prefab = null) {
+	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Block") {
 		this.name = name;
 		this.mass = mass;
 		this.prefab = prefab;
+		this.collisionLayer = LayerMask.NameToLayer(layer);
 
 		Block.allTypes.Add(this);
 		Block.types[name] = this;
@@ -45,12 +47,16 @@ public class Block {
 	// the core sequence of each block type sprite
 	public static Texture2D[] sprites;
 	
-	public static void Setup(Texture2D[] blockSprites) {
-		Block.sprites = blockSprites;
+	public static void Setup() {
+		var blockSprites = new List<Texture2D>();
+		var resources = Resources.LoadAll("Blocks");
+		foreach (var obj in resources) {
+			blockSprites.Add(obj as Texture2D);
+		}
+		sprites = blockSprites.ToArray();
+
 		Block.wallLayer = LayerMask.NameToLayer("Block");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");
-		Block.wallColliderPrefab = Game.main.wallColliderPrefab;
-		Block.floorColliderPrefab = Game.main.floorColliderPrefab;
 				
 		// let's compress all the block sprites into a single tilesheet texture
 		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
@@ -60,6 +66,8 @@ public class Block {
 		Block.tileWidth = (float)Block.pixelSize / atlas.width;
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
 
+		new BlockType("floor", layer: "Floor");
+		new BlockType("console", layer: "Floor");
 		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
 		new BlockType("beamCannon", prefab: Game.Prefab("BeamCannon"));
 		new BlockType("thruster", prefab: Game.Prefab("Thruster"));

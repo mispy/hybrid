@@ -123,7 +123,7 @@ public class Ship : PoolBehaviour {
 
 		blocks[block.pos] = null;
 
-		var newShipObj = Pool.ship.TakeObject();
+		var newShipObj = Pool.For("Ship").TakeObject();
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
@@ -140,9 +140,9 @@ public class Ship : PoolBehaviour {
 
 		GameObject colliderObj;
 		if (block.collisionLayer == Block.wallLayer)
-			colliderObj = Pool.wallCollider.TakeObject();
+			colliderObj = Pool.For("WallCollider").TakeObject();
 		else
-			colliderObj = Pool.floorCollider.TakeObject();
+			colliderObj = Pool.For("FloorCollider").TakeObject();
 		colliderObj.transform.parent = transform;
 		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
 		colliders[block.pos] = colliderObj;
@@ -264,7 +264,7 @@ public class Ship : PoolBehaviour {
 
 	public void UpdateShields() {
 		if (blocks.HasType("shieldgen") && shields == null) {
-			var shieldObj = Pool.shields.TakeObject();
+			var shieldObj = Pool.For("Shields").TakeObject();
 			shields = shieldObj.GetComponent<Shields>();
 			shieldObj.transform.parent = transform;
 			shieldObj.transform.localPosition = localCenter;

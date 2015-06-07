@@ -8,7 +8,7 @@ public class AICrew : MonoBehaviour {
 	private CharacterController controller;
 
 	void PathToConsole() {
-		var ship = Game.main.testShip;
+		var ship = Ship.allActive[0];
 
 		var currentPos = ship.WorldToBlockPos(transform.position);
 		var console = ship.blocks.FindType("console");
@@ -42,7 +42,7 @@ public class AICrew : MonoBehaviour {
 		var speed = 0.3f;
 
 		if (path != null && path.Count > 0) {
-			Vector3 worldPos = Game.main.testShip.BlockToWorldPos(path[0]);
+			Vector3 worldPos = Ship.allActive[0].BlockToWorldPos(path[0]);
 			var dist = worldPos - transform.position;
 
 			if (dist.magnitude < speed) {
