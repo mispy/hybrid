@@ -357,12 +357,19 @@ public class Ship : PoolBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision) {
-		if (shields != null) {
+		var obj = collision.rigidbody.gameObject;
+
+		if (shields != null && collision.contacts[0].thisCollider.gameObject == shields.gameObject) {
 			shields.OnCollisionEnter(collision);
 			return;
 		}
 
-		var otherShip = collision.rigidbody.gameObject.GetComponent<Ship>();
+		if (obj.tag == "Item") {
+			Debug.Log("collected an item!");
+			Pool.Recycle(obj);
+		}
+
+		var otherShip = obj.GetComponent<Ship>();
 		if (otherShip != null) {
 			var block = otherShip.BlockAtWorldPos(collision.collider.transform.position);
 			if (block != null)
@@ -418,6 +425,7 @@ public class Ship : PoolBehaviour {
 			var scale = new Vector3(mesh.bounds.size.x, mesh.bounds.size.y, 1);
 			scale.x += hypo * mesh.bounds.size.x / (mesh.bounds.size.x+mesh.bounds.size.y);
 			scale.y += hypo * mesh.bounds.size.y / (mesh.bounds.size.x+mesh.bounds.size.y);
+			scale.z = Math.Max(scale.x, scale.y);
 
 			shields.transform.localScale = scale;
 		}

@@ -12,6 +12,7 @@ public class Pool {
 		Pool.holder.name = "Pool";
 		Pool.For("WallCollider", 128);
 		Pool.For("FloorCollider", 64);
+		Pool.For("Item", 128);
 	}
 
 	public static void Recycle(GameObject obj) {
