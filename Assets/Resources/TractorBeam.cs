@@ -43,7 +43,7 @@ public class TractorBeam : MonoBehaviour {
 		beam.enableEmission = true;
 		var dir = (worldPos - transform.position);
 		dir.Normalize();
-		RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.05f, dir, Vector3.Distance(transform.position, worldPos));
+		RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.10f, dir, Vector3.Distance(transform.position, worldPos));
 		foreach (var hit in hits) {
 			var rigid = hit.collider.attachedRigidbody;
 			if (rigid != null) {

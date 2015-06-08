@@ -44,13 +44,17 @@ public class Pool {
 		pooledObjects = new List<GameObject>();
 		for(int i = 0; i < startingAmount; i++)
 		{
-			GameObject obj = Object.Instantiate(prefab) as GameObject;
-			obj.transform.parent = Pool.holder.transform;
-			foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
-				comp.OnCreate();
-			}
-			pooledObjects.Add(obj);
+			pooledObjects.Add(CreateNew());
 		}
+	}
+
+	public GameObject CreateNew() {
+		GameObject obj = Object.Instantiate(prefab) as GameObject;
+		obj.transform.parent = Pool.holder.transform;
+		foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
+			comp.OnCreate();
+		}
+		return obj;
 	}
 	
 	public GameObject TakeObject() {
@@ -66,8 +70,7 @@ public class Pool {
 		// need more! double the available objects
 		var currentTotal = pooledObjects.Count;
 		for (var i = 0; i < currentTotal; i++) {
-			GameObject obj2 = Object.Instantiate(prefab) as GameObject;
-			obj2.transform.parent = Pool.holder.transform;
+			var obj2 = CreateNew();
 			pooledObjects.Add(obj2);
 			if (obj == null) obj = obj2;
 		}

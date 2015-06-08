@@ -8,7 +8,7 @@ public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
 
-	public BlockMap blocks;
+	public BlockMap blocks = new BlockMap();
 	public Blueprint blueprint;
 	
 	public Rigidbody rigidBody;
@@ -59,7 +59,7 @@ public class Ship : PoolBehaviour {
 		rigidBody = GetComponent<Rigidbody>();
 		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
-		Clear();
+		blocks.OnBlockChanged = OnBlockChanged;
 	}
 	
 	void OnEnable() {		

@@ -18,10 +18,12 @@ public class MissileLauncher : PoolBehaviour {
 		Debug.Log("firing!");
 		var missile = Pool.For("Missile").TakeObject();
 		missile.transform.position = transform.position;
+		missile.transform.rotation = transform.rotation;
 		var mcol = missile.GetComponent<BoxCollider>();
 		var rigid = missile.GetComponent<Rigidbody>();
-		rigid.AddForce(transform.TransformDirection(Vector3.up)*10);
 		missile.SetActive(true);
+		rigid.velocity = ship.rigidBody.velocity;
+		rigid.AddForce(-transform.up*0.2f);
 		Physics.IgnoreCollision(collider, mcol);
 		if (ship.shields) {
 			Physics.IgnoreCollision(ship.shields.GetComponent<Collider>(), mcol, true);
