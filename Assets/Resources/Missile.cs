@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class Missile : MonoBehaviour
 {
-	public Transform explosionPrefab;
-	public float explosionForce = 0.01f;
-	public float explosionRadius = 2f;
+	public float explosionForce;
+	public float explosionRadius;
 	public float detonationImpactVelocity = 10;
 
 	private IEnumerator OnCollisionEnter(Collision col)
@@ -16,8 +15,8 @@ public class Missile : MonoBehaviour
 			float velocityAlongCollisionNormal =
 				Vector3.Project(col.relativeVelocity, col.contacts[0].normal).magnitude;
 			
-			if (velocityAlongCollisionNormal > detonationImpactVelocity)
-			{
+			//if (velocityAlongCollisionNormal > detonationImpactVelocity)
+			//{
 				var explosion = Pool.For("Explosion").TakeObject().GetComponent<Explosion>();
 				explosion.transform.position = col.contacts[0].point;
 				explosion.transform.rotation = Quaternion.LookRotation(col.contacts[0].normal);
@@ -25,7 +24,7 @@ public class Missile : MonoBehaviour
 				explosion.Explode(explosionRadius, explosionForce);
 
 				Pool.Recycle(gameObject);
-			}
+			//}
 		}
 		
 		yield return null;

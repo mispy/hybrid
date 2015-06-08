@@ -24,16 +24,16 @@ public class Designer : MonoBehaviour {
 			cursor.gameObject.SetActive(true);
 		}
 
-		Game.main.debugText.text = "Design Mode Active";
-		Game.main.debugText.color = Color.green;		
+		//Game.main.debugText.text = "Design Mode Active";
+		//Game.main.debugText.color = Color.green;		
 		SetDesignShip(Ship.ClosestTo(transform.position).First());
 	}
 	
 	void OnDisable() {
 		cursor.gameObject.SetActive(false);
 		designShip.renderer.enabled = true;
-		Game.main.debugText.text = "";
-		Game.main.debugText.color = Color.white;
+		//Game.main.debugText.text = "";
+		//Game.main.debugText.color = Color.white;
 	}
 
 	void SetDesignShip(Ship ship) {

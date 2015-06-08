@@ -45,11 +45,11 @@ public class Explosion : PoolBehaviour
 
 		foreach (var block in toBreak) {
 			var ns = block.ship.BreakBlock(block);
-			rigidbodies.Add(ns.rigidBody);
+			rigidbodies.Add(ns.GetComponent<Rigidbody>());
 		}
 
 		foreach (var rb in rigidbodies) {
-			rb.AddExplosionForce(force, transform.position, radius, 1, ForceMode.Impulse);
+			rb.AddExplosionForce(Math.Min(force, rb.mass*20), transform.position, radius, 1, ForceMode.Impulse);
 		}
 	}
 }

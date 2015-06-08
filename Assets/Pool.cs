@@ -15,12 +15,19 @@ public class Pool {
 		Pool.For("Item", 128);
 	}
 
-	public static void Recycle(GameObject obj) {
-		obj.transform.parent = Pool.holder.transform;
-		obj.SetActive(false);
-		foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
+	public static void OnRecycle(GameObject obj) {
+		foreach (Transform child in obj.transform) {
+			Pool.OnRecycle(child.gameObject);
+		}
+		
+		foreach (var comp in obj.GetComponents<PoolBehaviour>()) {
 			comp.OnRecycle();
 		}
+	}
+
+	public static void Recycle(GameObject obj) {
+		Pool.OnRecycle(obj);
+		Object.Destroy(obj);	
 	}
 
 	public static Pool For(string name, int startingAmount = 16) {
@@ -50,6 +57,7 @@ public class Pool {
 
 	public GameObject CreateNew() {
 		GameObject obj = Object.Instantiate(prefab) as GameObject;
+		obj.SetActive(false);
 		obj.transform.parent = Pool.holder.transform;
 		foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
 			comp.OnCreate();
@@ -61,7 +69,11 @@ public class Pool {
 		GameObject obj = null;
 
 		for (int i = 0; i < pooledObjects.Count; i++) {
-			if (!pooledObjects[i].activeSelf) {
+			if (pooledObjects[i] == null) {
+				pooledObjects[i] = CreateNew();
+				pooledObjects[i].transform.parent = Game.main.transform;
+				return pooledObjects[i];
+			} else if (!pooledObjects[i].activeSelf) {
 				pooledObjects[i].transform.parent = Game.main.transform;
 				return pooledObjects[i];
 			}
@@ -70,12 +82,11 @@ public class Pool {
 		// need more! double the available objects
 		var currentTotal = pooledObjects.Count;
 		for (var i = 0; i < currentTotal; i++) {
-			var obj2 = CreateNew();
-			pooledObjects.Add(obj2);
-			if (obj == null) obj = obj2;
+			pooledObjects.Add(CreateNew());
 		}
 
-		obj.transform.parent = Game.main.transform;
-		return obj;
+		Debug.Log(pooledObjects.Count);
+
+		return TakeObject();
 	}
 }

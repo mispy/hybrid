@@ -3,18 +3,18 @@
   <ships>
     <ShipData>
       <position>
-        <x>-59.9985657</x>
-        <y>2.40802765E-05</y>
+        <x>-59.9973145</x>
+        <y>4.80189919E-05</y>
       </position>
       <rotation>
         <x>0</x>
         <y>0</y>
-        <z>-1.49011612E-08</z>
+        <z>-1.67638046E-08</z>
         <w>1</w>
         <eulerAngles>
           <x>0</x>
           <y>0</y>
-          <z>-1.70754731E-06</z>
+          <z>-1.9209906E-06</z>
         </eulerAngles>
       </rotation>
       <velocity>
@@ -33861,18 +33861,18 @@
     </ShipData>
     <ShipData>
       <position>
-        <x>10.9696426</x>
-        <y>1.07947266</y>
+        <x>-13.2802773</x>
+        <y>3.99416137</y>
       </position>
       <rotation>
         <x>0</x>
         <y>0</y>
-        <z>0.729543269</z>
-        <w>0.683934748</w>
+        <z>0.7324463</z>
+        <w>0.6808249</w>
         <eulerAngles>
           <x>0</x>
           <y>0</y>
-          <z>93.6962357</z>
+          <z>94.18375</z>
         </eulerAngles>
       </rotation>
       <velocity>
@@ -34113,6 +34113,30 @@
           <typeName>thruster</typeName>
           <orientation>1</orientation>
         </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>2</y>
+          <typeName>wall</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>3</y>
+          <typeName>tractorBeam</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>2</y>
+          <typeName>wall</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>3</y>
+          <typeName>tractorBeam</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
       </blocks>
       <blueprintBlocks>
         <BlockData>
@@ -34343,23 +34367,47 @@
           <typeName>thruster</typeName>
           <orientation>1</orientation>
         </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>2</y>
+          <typeName>wall</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>2</y>
+          <typeName>wall</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>3</y>
+          <typeName>tractorBeam</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>3</y>
+          <typeName>tractorBeam</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
       </blueprintBlocks>
     </ShipData>
   </ships>
   <player>
     <position>
-      <x>10.9696426</x>
-      <y>1.07947266</y>
+      <x>-13.2802773</x>
+      <y>3.99416137</y>
     </position>
     <rotation>
       <x>0</x>
       <y>0</y>
-      <z>0.729543269</z>
-      <w>0.683934748</w>
+      <z>0.7324463</z>
+      <w>0.6808249</w>
       <eulerAngles>
         <x>0</x>
         <y>0</y>
-        <z>93.6962357</z>
+        <z>94.18375</z>
       </eulerAngles>
     </rotation>
     <velocity>

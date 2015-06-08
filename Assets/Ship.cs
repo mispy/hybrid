@@ -47,12 +47,11 @@ public class Ship : PoolBehaviour {
 	}
 
 	public IEnumerable<T> GetBlockComponents<T>() {
-		var comps = new List<T>();
-		foreach (var obj in blockComponents.Values) {
-			var comp = obj.GetComponent<T>();
-			if (comp != null) comps.Add(comp);
-		}
-		return comps;
+		return GetComponentsInChildren<T>();
+	}
+
+	public bool HasBlockComponent<T>() {
+		return GetBlockComponents<T>().ToList().Count > 0;
 	}
 
     public override void OnCreate() {
@@ -117,22 +116,28 @@ public class Ship : PoolBehaviour {
 		//BreakBlock(block);
 	}
 
-	public Ship BreakBlock(Block block) {
-		if (blocks.Count == 1) // no use breaking a single block into itself
-			return this;
-
+	public GameObject BreakBlock(Block block) {
 		blocks[block.pos] = null;
-
-		var newShipObj = Pool.For("Ship").TakeObject();
+		
+		/*var newShipObj = Pool.For("Ship").TakeObject();
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
 		var newShip = newShipObj.GetComponent<Ship>();
 		newShip.blocks[0, 0] = block;
 		newShipObj.SetActive(true);
 		newShip.rigidBody.velocity = rigidBody.velocity;
-		newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;
+		newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;*/
 		//newShip.hasCollision = false;
 
-		return newShip;
+		var obj = Pool.For("Item").TakeObject();
+		obj.transform.position = BlockToWorldPos(block.pos);
+		obj.SetActive(true);
+		var rigid = obj.GetComponent<Rigidbody>();
+		rigid.velocity = rigidBody.velocity;
+		rigid.angularVelocity = rigidBody.angularVelocity;
+
+		if (blocks.Count == 0) Pool.Recycle(gameObject);
+
+		return obj;
 	}
 
 	public void AddCollider(Block block) {
@@ -185,7 +190,6 @@ public class Ship : PoolBehaviour {
 			return;
 		}
 		var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
-
 		UpdateCollision(pos);
 
 		var oldMass = oldBlock == null ? 0 : oldBlock.mass;
@@ -365,8 +369,13 @@ public class Ship : PoolBehaviour {
 		}
 
 		if (obj.tag == "Item") {
-			Debug.Log("collected an item!");
-			Pool.Recycle(obj);
+			if (HasBlockComponent<TractorBeam>()) {
+				Pool.Recycle(obj);
+			}
+			//foreach (var beam in GetBlockComponents<TractorBeam>()) {
+				//if (beam.captured.Contains(obj.GetComponent<Collider>())) {
+				//}
+			//}
 		}
 
 		var otherShip = obj.GetComponent<Ship>();
