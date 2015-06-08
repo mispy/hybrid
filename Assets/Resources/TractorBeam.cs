@@ -37,7 +37,6 @@ public class TractorBeam : MonoBehaviour {
 
 		var targetRotation = Quaternion.LookRotation((Vector3)worldPos - transform.position);
 		if (targetRotation != transform.rotation) {
-			beam.Clear();
 		}
 		transform.rotation = targetRotation;
 		beam.startLifetime = Vector3.Distance(transform.position, worldPos) / Math.Abs(beam.startSpeed);

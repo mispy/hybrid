@@ -160,7 +160,11 @@ public class Crew : MonoBehaviour {
 		}
 		
 		if (Input.GetKey(KeyCode.Space)) {
-			controlShip.FireLasers();
+			Debug.Log("firing???");
+			foreach (var launcher in controlShip.GetBlockComponents<MissileLauncher>()) {
+				Debug.Log("firing?");
+				launcher.Fire(pz);
+			}
 		}
 		
 		if (Input.GetKey(KeyCode.X)) {

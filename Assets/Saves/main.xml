@@ -33861,18 +33861,18 @@
     </ShipData>
     <ShipData>
       <position>
-        <x>6.04073143</x>
-        <y>1.67169559</y>
+        <x>10.9696426</x>
+        <y>1.07947266</y>
       </position>
       <rotation>
-        <x>1.05453513E-09</x>
-        <y>-1.1103104E-09</y>
-        <z>0.7234002</z>
-        <w>0.6904291</w>
+        <x>0</x>
+        <y>0</y>
+        <z>0.729543269</z>
+        <w>0.683934748</w>
         <eulerAngles>
-          <x>1.75471811E-07</x>
-          <y>-4.285416E-10</y>
-          <z>92.6718445</z>
+          <x>0</x>
+          <y>0</y>
+          <z>93.6962357</z>
         </eulerAngles>
       </rotation>
       <velocity>
@@ -33913,7 +33913,7 @@
           <x>0</x>
           <y>-1</y>
           <typeName>floor</typeName>
-          <orientation>1</orientation>
+          <orientation>2</orientation>
         </BlockData>
         <BlockData>
           <x>0</x>
@@ -33948,13 +33948,13 @@
         <BlockData>
           <x>2</x>
           <y>1</y>
-          <typeName>thruster</typeName>
-          <orientation>-2</orientation>
+          <typeName>wall</typeName>
+          <orientation>1</orientation>
         </BlockData>
         <BlockData>
           <x>-2</x>
           <y>1</y>
-          <typeName>thruster</typeName>
+          <typeName>wall</typeName>
           <orientation>2</orientation>
         </BlockData>
         <BlockData>
@@ -33964,16 +33964,70 @@
           <orientation>-1</orientation>
         </BlockData>
         <BlockData>
-          <x>1</x>
+          <x>2</x>
+          <y>3</y>
+          <typeName>missileLauncher</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>3</y>
+          <typeName>missileLauncher</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
           <y>0</y>
-          <typeName>shieldgen</typeName>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>1</y>
+          <typeName>thruster</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-1</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-2</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>-2</y>
+          <typeName>thruster</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
           <orientation>1</orientation>
         </BlockData>
         <BlockData>
-          <x>1</x>
-          <y>-1</y>
-          <typeName>floor</typeName>
+          <x>-1</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
           <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-4</y>
+          <typeName>thruster</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-1</x>
+          <y>-2</y>
+          <typeName>floor</typeName>
+          <orientation>1</orientation>
         </BlockData>
         <BlockData>
           <x>-1</x>
@@ -33984,24 +34038,78 @@
         <BlockData>
           <x>-1</x>
           <y>0</y>
-          <typeName>gravgen</typeName>
-          <orientation>1</orientation>
-        </BlockData>
-        <BlockData>
-          <x>-1</x>
-          <y>-2</y>
-          <typeName>thruster</typeName>
-          <orientation>1</orientation>
+          <typeName>shieldgen</typeName>
+          <orientation>-1</orientation>
         </BlockData>
         <BlockData>
           <x>0</x>
           <y>-2</y>
-          <typeName>thruster</typeName>
-          <orientation>1</orientation>
+          <typeName>floor</typeName>
+          <orientation>-2</orientation>
         </BlockData>
         <BlockData>
           <x>1</x>
           <y>-2</y>
+          <typeName>floor</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>1</x>
+          <y>-1</y>
+          <typeName>floor</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>1</x>
+          <y>0</y>
+          <typeName>gravgen</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>0</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>1</y>
+          <typeName>thruster</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-1</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-2</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>-2</y>
+          <typeName>thruster</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>1</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-4</y>
           <typeName>thruster</typeName>
           <orientation>1</orientation>
         </BlockData>
@@ -34035,7 +34143,7 @@
           <x>0</x>
           <y>-1</y>
           <typeName>floor</typeName>
-          <orientation>1</orientation>
+          <orientation>2</orientation>
         </BlockData>
         <BlockData>
           <x>0</x>
@@ -34070,13 +34178,13 @@
         <BlockData>
           <x>2</x>
           <y>1</y>
-          <typeName>thruster</typeName>
-          <orientation>-2</orientation>
+          <typeName>wall</typeName>
+          <orientation>1</orientation>
         </BlockData>
         <BlockData>
           <x>-2</x>
           <y>1</y>
-          <typeName>thruster</typeName>
+          <typeName>wall</typeName>
           <orientation>2</orientation>
         </BlockData>
         <BlockData>
@@ -34086,15 +34194,27 @@
           <orientation>-1</orientation>
         </BlockData>
         <BlockData>
-          <x>-1</x>
-          <y>0</y>
-          <typeName>gravgen</typeName>
-          <orientation>1</orientation>
+          <x>2</x>
+          <y>3</y>
+          <typeName>missileLauncher</typeName>
+          <orientation>-1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>3</y>
+          <typeName>missileLauncher</typeName>
+          <orientation>-1</orientation>
         </BlockData>
         <BlockData>
           <x>1</x>
           <y>0</y>
-          <typeName>shieldgen</typeName>
+          <typeName>gravgen</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>1</x>
+          <y>-1</y>
+          <typeName>floor</typeName>
           <orientation>1</orientation>
         </BlockData>
         <BlockData>
@@ -34104,26 +34224,122 @@
           <orientation>2</orientation>
         </BlockData>
         <BlockData>
-          <x>1</x>
-          <y>-1</y>
-          <typeName>floor</typeName>
-          <orientation>-2</orientation>
-        </BlockData>
-        <BlockData>
-          <x>0</x>
-          <y>-2</y>
-          <typeName>thruster</typeName>
-          <orientation>1</orientation>
-        </BlockData>
-        <BlockData>
-          <x>1</x>
-          <y>-2</y>
-          <typeName>thruster</typeName>
-          <orientation>1</orientation>
+          <x>-1</x>
+          <y>0</y>
+          <typeName>shieldgen</typeName>
+          <orientation>-1</orientation>
         </BlockData>
         <BlockData>
           <x>-1</x>
           <y>-2</y>
+          <typeName>floor</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>1</x>
+          <y>-2</y>
+          <typeName>floor</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>0</x>
+          <y>-2</y>
+          <typeName>floor</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>0</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-1</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-2</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>0</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-1</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-2</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-1</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>1</x>
+          <y>-3</y>
+          <typeName>wall</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>1</y>
+          <typeName>thruster</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>3</x>
+          <y>-2</y>
+          <typeName>thruster</typeName>
+          <orientation>-2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>1</y>
+          <typeName>thruster</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-3</x>
+          <y>-2</y>
+          <typeName>thruster</typeName>
+          <orientation>2</orientation>
+        </BlockData>
+        <BlockData>
+          <x>-2</x>
+          <y>-4</y>
+          <typeName>thruster</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+        <BlockData>
+          <x>2</x>
+          <y>-4</y>
           <typeName>thruster</typeName>
           <orientation>1</orientation>
         </BlockData>
@@ -34132,18 +34348,18 @@
   </ships>
   <player>
     <position>
-      <x>6.04073143</x>
-      <y>1.67169559</y>
+      <x>10.9696426</x>
+      <y>1.07947266</y>
     </position>
     <rotation>
-      <x>1.05453513E-09</x>
-      <y>-1.1103104E-09</y>
-      <z>0.7234002</z>
-      <w>0.6904291</w>
+      <x>0</x>
+      <y>0</y>
+      <z>0.729543269</z>
+      <w>0.683934748</w>
       <eulerAngles>
-        <x>1.75471811E-07</x>
-        <y>-4.285416E-10</y>
-        <z>92.6718445</z>
+        <x>0</x>
+        <y>0</y>
+        <z>93.6962357</z>
       </eulerAngles>
     </rotation>
     <velocity>
