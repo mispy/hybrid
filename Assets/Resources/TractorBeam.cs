@@ -36,8 +36,18 @@ public class TractorBeam : MonoBehaviour {
 				col.attachedRigidbody.drag -= 5;
 			}
 		}
-
 		captured.Clear();
+
+		var targetDist = (worldPos - transform.position);
+		var targetDir = targetDist.normalized;
+
+		var targetHits = Physics.RaycastAll(transform.position, targetDir, targetDist.magnitude);;
+		foreach (var hit in targetHits) {
+			if (hit.rigidbody == ship.rigidBody) {
+				Stop();
+				return;
+			}
+		}
 
 		var targetRotation = Quaternion.LookRotation((Vector3)worldPos - transform.position);
 		if (targetRotation != transform.rotation) {
@@ -45,14 +55,12 @@ public class TractorBeam : MonoBehaviour {
 		transform.rotation = targetRotation;
 		beam.startLifetime = Vector3.Distance(transform.position, worldPos) / Math.Abs(beam.startSpeed);
 		beam.enableEmission = true;
-		var dir = (worldPos - transform.position);
-		dir.Normalize();
-		RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.20f, dir, Vector3.Distance(transform.position, worldPos));
+		RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.20f, targetDir, targetDist.magnitude);
 		foreach (var hit in hits) {
 			var rigid = hit.collider.attachedRigidbody;
 			if (rigid != null) {
 				if (rigid != ship.rigidBody) {
-					rigid.AddForce(-dir * Math.Min(rigid.mass*2, Block.types["wall"].mass) * 100);
+					rigid.AddForce(-targetDir * Math.Min(rigid.mass*2, Block.types["wall"].mass) * 100);
 					if (shieldCol != null)
 						Physics.IgnoreCollision(hit.collider, shieldCol);
 					hit.collider.attachedRigidbody.drag += 5;
