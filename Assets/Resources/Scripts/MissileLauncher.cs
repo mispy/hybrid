@@ -20,23 +20,24 @@ public class MissileLauncher : PoolBehaviour {
 		if (Time.time - lastFireTime < timeBetweenShots)
 			return;
 
-		if (Util.TurretBlocked(ship, transform.position, worldPos, 0.3f)) {
+		/*if (Util.TurretBlocked(ship, transform.position, worldPos, 0.3f)) {
 			return;
 		}
 
+		var targetDir = (worldPos-transform.position).normalized;
+		var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);*/
+
 		lastFireTime = Time.time;
 
-		var targetDir = (worldPos-transform.position).normalized;
-		var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
 
 		var missile = Pool.For("Missile").TakeObject();
 		missile.transform.position = transform.position;
-		missile.transform.rotation = targetRotation;
+		missile.transform.rotation = transform.rotation;
 		var mcol = missile.GetComponent<BoxCollider>();
 		var rigid = missile.GetComponent<Rigidbody>();
 		missile.SetActive(true);
 		rigid.velocity = ship.rigidBody.velocity;
-		rigid.AddForce(targetDir*0.2f);
+		rigid.AddForce(-transform.up*0.2f);
 		Physics.IgnoreCollision(collider, mcol);
 		if (ship.shields) {
 			Physics.IgnoreCollision(ship.shields.GetComponent<Collider>(), mcol, true);

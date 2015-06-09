@@ -51,5 +51,11 @@ public class Explosion : PoolBehaviour
 		foreach (var rb in rigidbodies) {
 			rb.AddExplosionForce(Math.Min(force, rb.mass*20), transform.position, radius, 1, ForceMode.Impulse);
 		}
+
+		Invoke("Cleanup", 1.0f);
+	}
+
+	public void Cleanup() {
+		Pool.Recycle(gameObject);
 	}
 }

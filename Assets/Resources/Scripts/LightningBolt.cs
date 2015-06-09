@@ -16,16 +16,17 @@ public class LightningBolt : MonoBehaviour
 	
 	Perlin noise;
 	float oneOverZigs;
-	
-	private Particle[] particles;
+
+	private ParticleSystem ps;
+	private ParticleSystem.Particle[] particles;
 	
 	void Start()
 	{
 		oneOverZigs = 1f / (float)zigs;
-		GetComponent<ParticleEmitter>().emit = false;
-
-		GetComponent<ParticleEmitter>().Emit(zigs);
-		particles = GetComponent<ParticleEmitter>().particles;
+		ps = GetComponent<ParticleSystem>();
+		ps.enableEmission = false;
+		ps.Emit(zigs);
+		particles = new ParticleSystem.Particle[ps.maxParticles];
 	}
 	
 	void Update ()
@@ -36,7 +37,9 @@ public class LightningBolt : MonoBehaviour
 		float timex = Time.time * speed * 0.1365143f;
 		float timey = Time.time * speed * 1.21688f;
 		float timez = Time.time * speed * 2.5564f;
-		
+
+		var numLiveParticles = ps.GetParticles(particles);
+
 		for (int i=0; i < particles.Length; i++)
 		{
 			Vector3 position = Vector3.Lerp(transform.position, target.position, oneOverZigs * (float)i);
@@ -47,12 +50,12 @@ public class LightningBolt : MonoBehaviour
 			
 			particles[i].position = position;
 			particles[i].color = Color.white;
-			particles[i].energy = 1f;
+			particles[i].lifetime = 1f;
 		}
-		
-		GetComponent<ParticleEmitter>().particles = particles;
-		
-		if (GetComponent<ParticleEmitter>().particleCount >= 2)
+
+		ps.SetParticles(particles, numLiveParticles);
+
+		if (ps.particleCount >= 2)
 		{
 			if (startLight)
 				startLight.transform.position = particles[0].position;
