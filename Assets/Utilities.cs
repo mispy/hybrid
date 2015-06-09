@@ -56,4 +56,34 @@ public class Util {
 		var length = ps.startSpeed * ps.startLifetime;
 		return Physics.SphereCastAll(ps.transform.position, radius, ps.transform.up, length);
 	}
+
+	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos) {		
+		var targetDist = (targetPos - turretPos);
+		var targetDir = targetDist.normalized;
+		
+		var targetHits = Physics.RaycastAll(turretPos, targetDir, targetDist.magnitude);
+		foreach (var hit in targetHits) {
+			if (hit.rigidbody == ship.rigidBody) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos, float radius) {		
+		var targetDist = (targetPos - turretPos);
+		var targetDir = targetDist.normalized;
+		
+		var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Block", "Floor" }));
+		foreach (var hit in targetHits) {
+			if (ship.WorldToBlockPos(hit.collider.transform.position) != ship.WorldToBlockPos(turretPos)) {
+				Debug.Log(ship.WorldToBlockPos(hit.collider.transform.position));
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 }
