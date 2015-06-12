@@ -21,6 +21,7 @@ public class TractorBeam : MonoBehaviour {
 		if (ship.shields != null) {
 			var shieldCol = ship.shields.GetComponent<SphereCollider>();
 			foreach (var col in captured) {
+				if (!col.enabled) continue;
 				Physics.IgnoreCollision(col, shieldCol, false);
 			}
 		}

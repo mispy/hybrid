@@ -5,8 +5,10 @@ public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
 	public BlockMap blocks;
 
+
 	public MeshRenderer renderer;	
 	private Mesh mesh;
+	private Ship ship;
 
 	public void Clear() {
 		blocks = new BlockMap();
@@ -19,14 +21,21 @@ public class Blueprint : PoolBehaviour {
 		Clear();
 	}
 
-	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		if (!gameObject.activeInHierarchy) return;
+	// Use this for initialization
+	public void OnEnable() {
+		ship = gameObject.GetComponentInParent<Ship>();
 		UpdateMesh();
 	}
 
-	// Use this for initialization
-	public void OnEnable() {
+	public void OnBlockChanged(Block newBlock, Block oldBlock) {
+		if (!gameObject.activeInHierarchy) return;
+		newBlock.scrapContent = 0;
 		UpdateMesh();
+	}
+
+	public Block BlockAtWorldPos(Vector2 worldPos) {
+		var block = blocks[ship.WorldToBlockPos(worldPos)];
+		return block;
 	}
 
 	public override void OnRecycle() {

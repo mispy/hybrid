@@ -9,6 +9,7 @@ public class BlockType {
 	public float mass;
 	public string name;
 	public int collisionLayer;
+	public int scrapRequired;
 	
 	// precalculated uv coordinates for each orientation
 	public Vector2[] upUVs;
@@ -16,11 +17,13 @@ public class BlockType {
 	public Vector2[] leftUVs;
 	public Vector2[] rightUVs;
 
-	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Block") {
+	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Block",
+	                 int scrapRequired = 1) {
 		this.name = name;
 		this.mass = mass;
 		this.prefab = prefab;
 		this.collisionLayer = LayerMask.NameToLayer(layer);
+		this.scrapRequired = scrapRequired;
 
 		Block.allTypes.Add(this);
 		Block.types[name] = this;
@@ -163,6 +166,17 @@ public class Block {
 		return null;
 	}
 
+	public static Block BlueprintAtWorldPos(Vector2 worldPos) {
+		foreach (var ship in Ship.allActive) {
+			var block = ship.blueprint.BlockAtWorldPos(worldPos);
+
+			if (block != null)
+				return block;
+		}
+
+		return null;
+	}
+
 	public static IEnumerable<Block> FromHits(RaycastHit[] hits) {
 		foreach (var hit in hits) {
 			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
@@ -208,8 +222,9 @@ public class Block {
 	public Orientation orientation = Orientation.up;
 
 	public int collisionLayer;
-
 	public int index;
+
+	public int scrapContent;
 
 	// copy constructor
 	public Block(Block block) {
@@ -220,6 +235,7 @@ public class Block {
 		
 	public Block(BlockType type) {
 		this.type = type;
+		this.scrapContent = type.scrapRequired;
 
 		if (type == Block.types["floor"] || type == Block.types["console"]) {
 			collisionLayer = LayerMask.NameToLayer("Floor");

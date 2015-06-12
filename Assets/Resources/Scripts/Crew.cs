@@ -16,6 +16,7 @@ public class Crew : MonoBehaviour {
 	public Ship linkedShip = null;
 	public Block currentBlock = null;
 	public bool isGravityLocked = false;
+	public Constructor constructor;
 
 	public IntVector2 targetBlockPos;
 
@@ -26,16 +27,12 @@ public class Crew : MonoBehaviour {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
 		designer = GetComponent<Designer>();
+		constructor = GetComponentInChildren<Constructor>();
 		player = this;
 		this.name = "Player";
 	}
-		
-	// Use this for initialization
-	void Start () {
-	}
 
 	IEnumerator MoveToBlock() {
-		Debug.Log("moving");
 		var speed = 0.1f;
 		var targetPos = (Vector3)linkedShip.BlockToLocalPos(targetBlockPos);
 
@@ -175,13 +172,14 @@ public class Crew : MonoBehaviour {
 		} else {
 			controlShip.StopTractorBeam();
 		}
+		
+		
+		/*if (currentShip) {
+			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
+		}*/
 	}
 
-	// Update is called once per frame
-	void Update () {
-		UpdateCurrentBlock();
-		UpdateGravityLock();
-
+	void HandleCrewInput() {		
 		if (Input.GetKeyDown(KeyCode.F1)) {
 			if (!designer.enabled)
 				designer.enabled = true;
@@ -189,12 +187,17 @@ public class Crew : MonoBehaviour {
 				designer.enabled = false;
 			}
 		}
-
+		
+		if (Input.GetKeyDown(KeyCode.E) && controlShip != null) {
+			controlShip = null;
+			return;
+		}
+		
 		if (!designer.enabled) {
-			Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
 			if (Input.GetMouseButton(0)) {
-				var ship = Ship.AtWorldPos(pz);
+				constructor.StartBuilding();
+				
+				/*var ship = Ship.AtWorldPos(pz);
 
 				if (ship != null) {
 					var blockPos = ship.WorldToBlockPos(pz);
@@ -204,19 +207,12 @@ public class Crew : MonoBehaviour {
 					} else {
 						ship.blocks[blockPos] = new Block(ship.blueprint.blocks[blockPos]);
 					}
-				}
+				}*/
+			} else {
+				constructor.StopBuilding();
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.E) && controlShip != null) {
-			controlShip = null;
-			return;
-		}
-
-		/*if (currentShip) {
-			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
-		}*/
-		
 		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
 			controlShip = interactBlock.ship;
 			return;
@@ -226,7 +222,7 @@ public class Crew : MonoBehaviour {
 			//interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
 		}
 		interactBlock = null;
-
+		
 		var nearbyBlocks = Block.FindInRadius(transform.position, Block.worldSize*1f);
 		foreach (var block in nearbyBlocks) {
 			if (block.type == Block.types["console"]) {
@@ -234,15 +230,24 @@ public class Crew : MonoBehaviour {
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
 		}
+		
+		if (isGravityLocked) {
+			HandleLockedMovement();
+		} else {
+			HandleFreeMovement();
+		}		
+	}
+
+	// Update is called once per frame
+	void Update () {
+		UpdateCurrentBlock();
+		UpdateGravityLock();
 
 		if (controlShip != null) {
 			HandleShipInput();
 		} else {
-			if (isGravityLocked) {
-				HandleLockedMovement();
-			} else {
-				HandleFreeMovement();
-			}	
+			HandleCrewInput();
 		}
+
 	}
 }
