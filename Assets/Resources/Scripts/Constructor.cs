@@ -5,7 +5,6 @@ using System.Collections;
 
 public class Constructor : MonoBehaviour
 {
-	public Vector3 target;
 	public int zigs = 100;
 	public float speed = 1f;
 	public float scale = 1f;
@@ -19,10 +18,13 @@ public class Constructor : MonoBehaviour
 	private ParticleSystem.Particle[] particles;
 	private Text text;
 	private bool isBuilding = false;
+	private Vector2 target;
+	private Block targetBlock;
 
 	void Awake() {
 		ps = GetComponent<ParticleSystem>();
 		text = GameObject.Find("ConstructorText").GetComponent<Text>();
+		noise = new Perlin();
 	}
 	
 	public void StartBuilding() {
@@ -36,6 +38,8 @@ public class Constructor : MonoBehaviour
 		particles = new ParticleSystem.Particle[ps.maxParticles];
 		AlignParticles();
 
+		StartCoroutine("AddMaterial");
+
 		isBuilding = true;
 	}
 
@@ -45,15 +49,32 @@ public class Constructor : MonoBehaviour
 		Debug.Log("StopBuilding");
 
 		ps.Clear();
+		StopCoroutine("AddMaterial");
+
 		isBuilding = false;
+	}
+
+	IEnumerator AddMaterial() {
+		while (true) {
+			if (targetBlock.scrapContent == targetBlock.type.scrapRequired) {
+				break;
+			}
+
+			targetBlock.scrapContent += 1;
+
+			if (targetBlock.scrapContent == targetBlock.type.scrapRequired) {
+				targetBlock.ship.blocks[targetBlock.pos] = new Block(targetBlock);
+			}
+			yield return new WaitForSeconds(0.01f);
+		}
 	}
 	
 	void Update() {
 		target = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-		var block = Block.BlueprintAtWorldPos(target);
+		targetBlock = Block.AtWorldPos(target, allowBlueprint: true);
 		
-		if (block != null) {
-			text.text = String.Format("{0}/{1}", block.scrapContent, block.type.scrapRequired);
+		if (targetBlock != null) {
+			text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
 		}
 
 		if (isBuilding) {
@@ -62,16 +83,13 @@ public class Constructor : MonoBehaviour
 	}	
 
 	void AlignParticles() {
-		if (noise == null)
-			noise = new Perlin();
-		
 		float timex = Time.time * speed * 0.1365143f;
 		float timey = Time.time * speed * 1.21688f;
 		float timez = Time.time * speed * 2.5564f;
 		
 		var numLiveParticles = ps.GetParticles(particles);
-		
-		for (int i=0; i < particles.Length; i++)
+
+		for (int i = 0; i < particles.Length; i++)
 		{
 			Vector3 position = Vector3.Lerp(transform.position, target, oneOverZigs * (float)i);
 			Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),

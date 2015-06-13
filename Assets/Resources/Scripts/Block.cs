@@ -18,7 +18,7 @@ public class BlockType {
 	public Vector2[] rightUVs;
 
 	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Block",
-	                 int scrapRequired = 1) {
+	                 int scrapRequired = 30) {
 		this.name = name;
 		this.mass = mass;
 		this.prefab = prefab;
@@ -155,9 +155,14 @@ public class Block {
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
 	}
 
-	public static Block AtWorldPos(Vector2 worldPos) {
+	public static Block AtWorldPos(Vector2 worldPos, bool allowBlueprint = false) {
 		foreach (var ship in Ship.allActive) {
 			var block = ship.BlockAtWorldPos(worldPos);
+
+			if (block != null)
+				return block;
+
+			block = ship.blueprint.BlockAtWorldPos(worldPos);
 
 			if (block != null)
 				return block;
@@ -225,6 +230,8 @@ public class Block {
 	public int index;
 
 	public int scrapContent;
+
+	public bool isBlueprint = false;
 
 	// copy constructor
 	public Block(Block block) {

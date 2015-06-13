@@ -21,16 +21,21 @@ public class Blueprint : PoolBehaviour {
 		Clear();
 	}
 
+	public void Awake() {
+		ship = gameObject.GetComponentInParent<Ship>();
+	}
+
 	// Use this for initialization
 	public void OnEnable() {
-		ship = gameObject.GetComponentInParent<Ship>();
 		UpdateMesh();
 	}
 
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		if (!gameObject.activeInHierarchy) return;
+		newBlock.isBlueprint = true;
 		newBlock.scrapContent = 0;
-		UpdateMesh();
+		newBlock.ship = ship;
+		if (gameObject.activeInHierarchy)
+			UpdateMesh();
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
