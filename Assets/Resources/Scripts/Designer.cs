@@ -7,13 +7,11 @@ public class Designer : MonoBehaviour {
 	public Ship designShip;
 	public Blueprint cursor;
 
-	void Awake() {		
+	void Awake() {
+		this.enabled = false;
 	}
 
-	void Start() {
-	}
-		
-	void OnEnable() {
+	public void StartDesigning() {
 		if (cursor == null) {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursorObj.name = "Cursor";
@@ -27,13 +25,17 @@ public class Designer : MonoBehaviour {
 		Game.main.debugText.text = "Designing Ship";
 		Game.main.debugText.color = Color.green;		
 		SetDesignShip(Ship.ClosestTo(transform.position).First());
+
+		this.enabled = true;
 	}
 	
-	void OnDisable() {
+	public void StopDesigning() {
 		cursor.gameObject.SetActive(false);
 		designShip.renderer.enabled = true;
 		Game.main.debugText.text = "";
 		Game.main.debugText.color = Color.white;
+
+		this.enabled = false;
 	}
 
 	void SetDesignShip(Ship ship) {

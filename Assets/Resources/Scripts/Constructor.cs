@@ -56,12 +56,14 @@ public class Constructor : MonoBehaviour
 
 	IEnumerator AddMaterial() {
 		while (true) {
-			if (targetBlock.scrapContent != targetBlock.type.scrapRequired) {
-				targetBlock.scrapContent += 1;
-			}
+			if (targetBlock != null) {
+				if (targetBlock.scrapContent != targetBlock.type.scrapRequired) {
+					targetBlock.scrapContent += 1;
+				}
 
-			if (targetBlock.scrapContent == targetBlock.type.scrapRequired) {
-				targetBlock.ship.blocks[targetBlock.pos] = new Block(targetBlock);
+				if (targetBlock.scrapContent == targetBlock.type.scrapRequired) {
+					targetBlock.ship.blocks[targetBlock.pos] = new Block(targetBlock);
+				}
 			}
 
 			yield return new WaitForSeconds(0.01f);

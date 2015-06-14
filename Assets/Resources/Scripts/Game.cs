@@ -15,6 +15,10 @@ public class Game : MonoBehaviour {
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
 	public static GameObject Prefab(string name) {
+		if (!prefabs.ContainsKey(name)) {
+			Debug.LogFormat("No prefab found for {0}. Available prefabs are: {1}", name, String.Join(", ", prefabs.Keys.ToArray()));
+		}
+
 		return prefabs[name];
 	}
 
@@ -22,15 +26,15 @@ public class Game : MonoBehaviour {
 	void Awake () {		
 		Game.main = this;
 
-		var resources = Resources.LoadAll("");
+		var resources = Resources.LoadAll("Prefabs");
+		
 		foreach (var obj in resources) {
 			var gobj = obj as GameObject;
 			if (gobj != null) {
 				prefabs[obj.name] = gobj;
 			}
 		}
-
-
+		
 		Block.Setup();
 		Pool.CreatePools();		
 

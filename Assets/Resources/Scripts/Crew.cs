@@ -6,7 +6,6 @@ using System.Linq;
 
 public class Crew : MonoBehaviour {
 	public static Crew player;
-
 	public Block interactBlock = null;
 
 	public Rigidbody rigidBody;
@@ -20,16 +19,14 @@ public class Crew : MonoBehaviour {
 
 	public IntVector2 targetBlockPos;
 
-	public Designer designer;
-	public bool isDesigning;
-
-	void Awake() {
+	void Start() {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
-		designer = GetComponent<Designer>();
+
+		var obj = Pool.For("Constructor").TakeObject();
+		obj.transform.parent = transform;
+		obj.SetActive(true);
 		constructor = GetComponentInChildren<Constructor>();
-		player = this;
-		this.name = "Player";
 	}
 
 	IEnumerator MoveToBlock() {
@@ -87,167 +84,8 @@ public class Crew : MonoBehaviour {
 		}
 	}
 
-	void HandleLockedMovement() {
-		var bp = currentBlock.pos;
-		
-		//Debug.LogFormat("{0} {1}", bp, targetBlockPos);
-		if (Input.GetKey(KeyCode.W))
-			bp.y += 1;
-		if (Input.GetKey(KeyCode.S))
-			bp.y -= 1;
-		if (Input.GetKey(KeyCode.A))
-			bp.x -= 1;
-		if (Input.GetKey(KeyCode.D))
-			bp.x += 1;
-		
-		var destBlock = linkedShip.blocks[bp];
-		
-		if (destBlock == null || destBlock.collisionLayer == Block.floorLayer) {
-			if (bp != currentBlock.pos && bp != targetBlockPos) {
-				targetBlockPos = bp;
-				StopCoroutine("MoveToBlock");
-				StartCoroutine("MoveToBlock");
-			}
-		}
-	}
-
-	void HandleFreeMovement() {
-		var speed = 60f * Time.deltaTime;
-		Vector2 vel = rigidBody.velocity;
-		if (Input.GetKey(KeyCode.W)) {
-			vel += (Vector2)transform.up * speed;
-		}
-		
-		if (Input.GetKey(KeyCode.A)) {
-			vel += -(Vector2)transform.right * speed;
-		}
-		
-		if (Input.GetKey(KeyCode.D)) {
-			vel += (Vector2)transform.right * speed;
-		}
-		
-		if (Input.GetKey(KeyCode.S)) {
-			vel += -(Vector2)transform.up * speed; 
-		}
-		
-		rigidBody.velocity = vel;
-	}
-
-	void HandleShipInput() {
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
-		var rigid = controlShip.rigidBody;	
-		
-		if (Input.GetKey(KeyCode.W)) {
-			controlShip.FireThrusters(Orientation.up);		
-		}
-		
-		if (Input.GetKey(KeyCode.S)) {
-			controlShip.FireThrusters(Orientation.down);
-		}
-		
-		if (Input.GetKey(KeyCode.A)) {
-			//rigid.AddTorque(0.1f);
-			controlShip.FireThrusters(Orientation.right);
-		}
-		
-		if (Input.GetKey(KeyCode.D)) {
-			//rigid.AddTorque(-0.1f);
-			controlShip.FireThrusters(Orientation.left);
-		}
-		
-		if (Input.GetMouseButton(0)) {
-			foreach (var launcher in controlShip.GetBlockComponents<MissileLauncher>()) {
-				launcher.Fire(pz);
-			}
-		}
-		
-		if (Input.GetKey(KeyCode.X)) {
-			rigid.velocity = Vector3.zero;
-			rigid.angularVelocity = Vector3.zero;
-		}
-		
-		if (Input.GetMouseButton(1)) {
-			controlShip.StartTractorBeam(pz);
-		} else {
-			controlShip.StopTractorBeam();
-		}
-		
-		
-		/*if (currentShip) {
-			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
-		}*/
-	}
-
-	void HandleCrewInput() {		
-		if (Input.GetKeyDown(KeyCode.F1)) {
-			if (!designer.enabled)
-				designer.enabled = true;
-			else {
-				designer.enabled = false;
-			}
-		}
-		
-		if (Input.GetKeyDown(KeyCode.E) && controlShip != null) {
-			controlShip = null;
-			return;
-		}
-		
-		if (!designer.enabled) {
-			if (Input.GetMouseButton(0)) {
-				constructor.StartBuilding();
-				
-				/*var ship = Ship.AtWorldPos(pz);
-
-				if (ship != null) {
-					var blockPos = ship.WorldToBlockPos(pz);
-					var blueBlock = ship.blueprint.blocks[blockPos];
-					if (blueBlock == null) {
-						ship.blocks[blockPos] = null;
-					} else {
-						ship.blocks[blockPos] = new Block(ship.blueprint.blocks[blockPos]);
-					}
-				}*/
-			} else {
-				constructor.StopBuilding();
-			}
-		}
-
-		if (Input.GetKeyDown(KeyCode.E) && interactBlock != null) {
-			controlShip = interactBlock.ship;
-			return;
-		}	
-		
-		if (interactBlock != null) {
-			//interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
-		}
-		interactBlock = null;
-		
-		var nearbyBlocks = Block.FindInRadius(transform.position, Block.worldSize*1f);
-		foreach (var block in nearbyBlocks) {
-			if (block.type == Block.types["console"]) {
-				interactBlock = block;
-				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
-			}
-		}
-		
-		if (isGravityLocked) {
-			HandleLockedMovement();
-		} else {
-			HandleFreeMovement();
-		}		
-	}
-
-	// Update is called once per frame
-	void Update () {
+	void Update() {
 		UpdateCurrentBlock();
 		UpdateGravityLock();
-
-		if (controlShip != null) {
-			HandleShipInput();
-		} else {
-			HandleCrewInput();
-		}
-
 	}
 }
