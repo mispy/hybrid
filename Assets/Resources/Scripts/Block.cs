@@ -221,23 +221,25 @@ public class Block {
 		get { return type.mass; }
 	}
 
-	public Ship ship;
-	public IntVector2 pos = new IntVector2();
 	public BlockType type;
-	public Orientation orientation = Orientation.up;
-
 	public int collisionLayer;
-	public int index;
-
 	public int scrapContent;
 
+	// these attributes relate to where the block is, rather
+	// than what it does
+	public Ship ship;
 	public bool isBlueprint = false;
+	public int index;
+	public IntVector2 pos = new IntVector2();
+	public Orientation orientation = Orientation.up;
 
 	// copy constructor
 	public Block(Block block) {
 		this.type = block.type;
 		this.orientation = block.orientation;
 		this.collisionLayer = block.collisionLayer;
+		this.scrapContent = block.scrapContent;
+		this.isBlueprint = block.isBlueprint;
 	}
 		
 	public Block(BlockType type) {
