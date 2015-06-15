@@ -9,7 +9,7 @@ public class PlayerInput : MonoBehaviour {
 	public Designer designer;
 
 	void Awake() {
-		crew = GetComponent<Crew>();
+		crew = GetComponentInParent<Crew>();
 		designer = gameObject.AddComponent<Designer>();
 		Crew.player = crew;
 		this.name = "Player";
