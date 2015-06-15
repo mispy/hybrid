@@ -108,6 +108,8 @@ public class PlayerInput : MonoBehaviour {
 	}
 	
 	void HandleCrewInput() {		
+		var pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+
 		if (Input.GetKeyDown(KeyCode.F1)) {
 			if (!designer.enabled)
 				designer.StartDesigning();
@@ -123,7 +125,8 @@ public class PlayerInput : MonoBehaviour {
 		
 		if (!designer.enabled) {
 			if (Input.GetMouseButton(0)) {
-				crew.constructor.StartBuilding();
+				var targetBlock = Block.AtWorldPos(pz, allowBlueprint: true);
+				crew.constructor.StartBuilding(targetBlock);
 			} else {
 				crew.constructor.StopBuilding();
 			}
@@ -146,7 +149,7 @@ public class PlayerInput : MonoBehaviour {
 				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
 			}
 		}
-		
+
 		if (crew.isGravityLocked) {
 			HandleLockedMovement();
 		} else {

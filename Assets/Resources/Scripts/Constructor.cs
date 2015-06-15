@@ -10,7 +10,8 @@ public class Constructor : MonoBehaviour
 	public float scale = 1f;
 	public Light startLight;
 	public Light endLight;
-	
+	private Block targetBlock;
+
 	Perlin noise;
 	float oneOverZigs;
 
@@ -18,8 +19,6 @@ public class Constructor : MonoBehaviour
 	private ParticleSystem.Particle[] particles;
 	private Text text;
 	private bool isBuilding = false;
-	private Vector2 target;
-	private Block targetBlock;
 
 	void Awake() {
 		ps = GetComponent<ParticleSystem>();
@@ -27,8 +26,16 @@ public class Constructor : MonoBehaviour
 		noise = new Perlin();
 	}
 	
-	public void StartBuilding() {
-		if (isBuilding) return;
+	public void StartBuilding(Block targetBlock) {
+		if (isBuilding) {
+			if (targetBlock != this.targetBlock)
+				StopBuilding();
+			else
+				return;
+		}
+
+		if (targetBlock == null) return;
+		this.targetBlock = targetBlock;
 
 		Debug.Log("StartBuilding");
 
@@ -71,13 +78,10 @@ public class Constructor : MonoBehaviour
 	}
 	
 	void Update() {
-		target = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-		targetBlock = Block.AtWorldPos(target, allowBlueprint: true);
-		
-		if (targetBlock != null) {
-			text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
-		}
+		if (targetBlock == null) return;
 
+		text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
+	
 		if (isBuilding) {
 			AlignParticles();
 		}
@@ -89,6 +93,7 @@ public class Constructor : MonoBehaviour
 		float timez = Time.time * speed * 2.5564f;
 		
 		var numLiveParticles = ps.GetParticles(particles);
+		var target = targetBlock.ship.BlockToWorldPos(targetBlock.pos);
 
 		for (int i = 0; i < particles.Length; i++)
 		{

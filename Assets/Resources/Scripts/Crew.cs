@@ -19,12 +19,13 @@ public class Crew : MonoBehaviour {
 
 	public IntVector2 targetBlockPos;
 
-	void Start() {
+	void Awake() {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
 
-		var obj = Pool.For("Constructor").TakeObject();
+		var obj = Pool.For("Constructor").TakeObject();	
 		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		constructor = GetComponentInChildren<Constructor>();
 	}

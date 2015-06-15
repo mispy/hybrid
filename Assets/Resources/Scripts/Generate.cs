@@ -45,9 +45,14 @@ public class Generate : MonoBehaviour {
 		ship.SetBlock(2, 1,  Block.types["thruster"], Orientation.right);
 		ship.SetBlock(-2, 1,  Block.types["thruster"], Orientation.left);
 		ship.SetBlock(0, 3, Block.types["tractorBeam"], Orientation.down);
+
 		shipObj.transform.Rotate(new Vector3(0, 0, 90));
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);
+
+		foreach (var block in ship.blocks.All.ToArray()) {
+			ship.blocks[block.pos] = null;
+		}
 
 		return ship;
 	}

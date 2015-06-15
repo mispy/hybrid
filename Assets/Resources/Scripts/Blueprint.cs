@@ -8,7 +8,7 @@ public class Blueprint : PoolBehaviour {
 
 	public MeshRenderer renderer;	
 	private Mesh mesh;
-	private Ship ship;
+	public Ship ship;
 
 	public void Clear() {
 		blocks = new BlockMap();
@@ -19,10 +19,6 @@ public class Blueprint : PoolBehaviour {
 		renderer = GetComponent<MeshRenderer>();
 		mesh = GetComponent<MeshFilter>().mesh;	
 		Clear();
-	}
-
-	public void Awake() {
-		ship = gameObject.GetComponentInParent<Ship>();
 	}
 
 	// Use this for initialization

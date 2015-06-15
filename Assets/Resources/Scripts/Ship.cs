@@ -59,6 +59,13 @@ public class Ship : PoolBehaviour {
 		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
 		blocks.OnBlockChanged = OnBlockChanged;
+
+		var obj = Pool.For("Blueprint").TakeObject();
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		obj.SetActive(true);
+		blueprint = obj.GetComponent<Blueprint>();
+		blueprint.ship = this;
 	}
 	
 	void OnEnable() {		

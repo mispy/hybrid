@@ -221,6 +221,10 @@ public class Block {
 		get { return type.mass; }
 	}
 
+	public bool IsFilled {
+		get { return type.scrapRequired == scrapContent; }
+	}
+
 	public BlockType type;
 	public int collisionLayer;
 	public int scrapContent;
