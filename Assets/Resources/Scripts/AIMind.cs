@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public abstract class MindTask {
+	public bool isStarted = false;
 	public bool isFinished = false;
 	public abstract void Start();
 	public abstract void Update();
@@ -21,6 +22,7 @@ public class BuildTask : MindTask {
 
 	public override void Start() {
 		mind.crew.constructor.StartBuilding(targetBlock);
+		isStarted = true;
 	}
 
 	public override void Update() {
@@ -51,11 +53,36 @@ public class AIMind : MonoBehaviour {
 	void Start() {
 		myShip = Ship.allActive[1];
 		//InvokeRepeating("PathToConsole", 0.0f, 1.0f);
+	}
 
-		foreach (var block in myShip.blueprint.blocks.All) {
-			var task = new BuildTask(this, block);
-			taskQueue.Enqueue(task);
+	void UpdateTasks() {
+		if (task != null) {
+			task.Update();
+			
+			if (task.isFinished)
+				task = null;
 		}
+		
+		if (task == null && taskQueue.Count > 0) {
+			task = taskQueue.Dequeue();
+			task.Start();
+		}
+
+		if (task == null) {
+			task = FindNextTask();
+			if (task != null)
+				task.Start();
+		}
+	}
+
+	MindTask FindNextTask() {
+		foreach (var block in myShip.blueprint.blocks.All) {
+			if (!block.IsFilled) {
+				return new BuildTask(this, block);
+			}
+		}
+
+		return null;
 	}
 
 	void Update() {
@@ -73,17 +100,7 @@ public class AIMind : MonoBehaviour {
 			}
 		}
 
-		if (task != null) {
-			task.Update();
-		
-			if (task.isFinished)
-				task = null;
-		}
-
-		if (task == null && taskQueue.Count > 0) {
-			task = taskQueue.Dequeue();
-			task.Start();
-		}
+		UpdateTasks();
 	}
 
 	void PathToConsole() {
