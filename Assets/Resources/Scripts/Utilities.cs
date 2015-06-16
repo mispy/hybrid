@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public class PoolBehaviour : MonoBehaviour {
 	public virtual void OnCreate() { }
@@ -86,4 +88,17 @@ public class Util {
 		return false;
 	}
 
+	public static Vector2[] cardinals = new Vector2[] { Vector2.up, -Vector2.up, Vector2.right, -Vector2.right };
+
+	public static Dictionary<Vector2, Orientation> cardinalToOrient = new Dictionary<Vector2, Orientation>() {
+		{ Vector2.up, Orientation.up },
+		{ -Vector2.up, Orientation.down },
+		{ Vector2.right, Orientation.right },
+		{ -Vector2.right, Orientation.left }
+	};
+
+	public static Vector2 Cardinalize(Vector2 vec) {
+		var normal = vec.normalized;
+		return cardinals.OrderBy((c) => Vector2.Distance(c, normal)).First();
+	}
 }

@@ -12,7 +12,6 @@ public class PlayerInput : MonoBehaviour {
 		crew = GetComponentInParent<Crew>();
 		designer = gameObject.AddComponent<Designer>();
 		Crew.player = crew;
-		this.name = "Player";
 	}
 
 	void HandleLockedMovement() {

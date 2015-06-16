@@ -35,6 +35,8 @@ public class Crew : MonoBehaviour {
 		var targetPos = (Vector3)linkedShip.BlockToLocalPos(targetBlockPos);
 
 		while (true) {
+			if (!isGravityLocked) break;
+
 			var pos = transform.localPosition;
 			var dist = targetPos - pos;
 

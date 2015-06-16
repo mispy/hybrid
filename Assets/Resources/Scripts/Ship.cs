@@ -298,6 +298,12 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
+	public void MoveTowards(Vector2 worldPos) {
+		var localDir = transform.InverseTransformDirection((worldPos - (Vector2)transform.position).normalized);
+		var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
+		FireThrusters((Orientation)(-(int)orient));
+	}
+
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
 		return LocalToBlockPos(transform.InverseTransformPoint(worldPos));
 	}
@@ -369,6 +375,8 @@ public class Ship : PoolBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		var obj = collision.rigidbody.gameObject;
+
+		if (collision.contacts.Length == 0) return;
 
 		if (shields != null && collision.contacts[0].thisCollider.gameObject == shields.gameObject) {
 			shields.OnCollisionEnter(collision);

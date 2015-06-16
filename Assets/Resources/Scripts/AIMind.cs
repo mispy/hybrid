@@ -138,8 +138,6 @@ public class AIMind : MonoBehaviour {
 		Vector3 worldPos = myShip.BlockToWorldPos(blockPath[0]);
 		var dist = worldPos - transform.position;
 		
-		Debug.Log(dist.magnitude);
-		
 		if (dist.magnitude < 1f) {
 			crew.transform.position = worldPos;
 			blockPath.RemoveAt(0);
