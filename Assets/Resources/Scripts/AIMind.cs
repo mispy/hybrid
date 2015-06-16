@@ -3,12 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public abstract class MindTask {
-	public bool isStarted = false;
+public class MindTask {
 	public bool isFinished = false;
-	public abstract void Start();
-	public abstract void Update();
-	public abstract void Stop();
+	public virtual void Start() { }
+	public virtual void Update() { }
+	public virtual void Stop() { isFinished = true; }
 }
 
 public class BuildTask : MindTask {
@@ -22,7 +21,6 @@ public class BuildTask : MindTask {
 
 	public override void Start() {
 		mind.crew.constructor.StartBuilding(targetBlock);
-		isStarted = true;
 	}
 
 	public override void Update() {
@@ -36,8 +34,26 @@ public class BuildTask : MindTask {
 	}
 }
 
+public class AttachTask : MindTask {
+	public readonly AIMind mind;
+	public readonly Block targetBlock;
+
+	public AttachTask(AIMind mind, Block targetBlock) {
+		this.mind = mind;
+		this.targetBlock = targetBlock;
+	}
+
+	public override void Update() {
+		if (mind.crew.currentBlock == targetBlock) {
+			Stop();
+		} else {
+			mind.PathToBlock(targetBlock);
+		}
+	}
+}
+
 public class AIMind : MonoBehaviour {
-	private List<IntVector2> path;
+	private List<IntVector2> blockPath = new List<IntVector2>();
 	private CharacterController controller;
 
 	public Crew crew;
@@ -52,7 +68,7 @@ public class AIMind : MonoBehaviour {
 	
 	void Start() {
 		myShip = Ship.allActive[1];
-		//InvokeRepeating("PathToConsole", 0.0f, 1.0f);
+		InvokeRepeating("UpdateTasks", 0.0f, 0.2f);
 	}
 
 	void UpdateTasks() {
@@ -75,39 +91,67 @@ public class AIMind : MonoBehaviour {
 		}
 	}
 
-	MindTask FindNextTask() {
+	MindTask FindNextTask() {		
 		foreach (var block in myShip.blueprint.blocks.All) {
 			if (!block.IsFilled) {
 				return new BuildTask(this, block);
 			}
 		}
 
-		return null;
-	}
-
-	void Update() {
-		var speed = 0.3f;
-		
-		if (path != null && path.Count > 0) {
-			Vector3 worldPos = Ship.allActive[0].BlockToWorldPos(path[0]);
-			var dist = worldPos - transform.position;
-			
-			if (dist.magnitude < speed) {
-				transform.position = worldPos;
-				path.RemoveAt(0);
-			} else {
-				controller.Move(dist.normalized * speed);
+		foreach (var block in myShip.blueprint.blocks.All) {
+			if (block.type.name == "console") {
+				return new AttachTask(this, block);
 			}
 		}
 
-		UpdateTasks();
+		return null;
 	}
 
-	void PathToConsole() {
-		var ship = Ship.allActive[0];
 
+	void Update() {
+		if (crew.isGravityLocked) {
+			UpdateLockedMovement();
+		} else {
+			UpdateFreeMovement();
+		}
+	}
+
+	void UpdateLockedMovement() {		
+		if (blockPath.Count == 0) return;
+
+		var bp = blockPath[0];
+
+		if (bp == crew.currentBlock.pos) {
+			blockPath.RemoveAt(0);
+		} else if (bp != crew.targetBlockPos) {
+			crew.targetBlockPos = bp;
+			crew.StopCoroutine("MoveToBlock");
+			crew.StartCoroutine("MoveToBlock");
+		}
+	}
+
+	void UpdateFreeMovement() {
+		if (blockPath.Count == 0) return;
+
+		var speed = 10f;	
+		
+		Vector3 worldPos = myShip.BlockToWorldPos(blockPath[0]);
+		var dist = worldPos - transform.position;
+		
+		Debug.Log(dist.magnitude);
+		
+		if (dist.magnitude < 1f) {
+			crew.transform.position = worldPos;
+			blockPath.RemoveAt(0);
+			crew.rigidBody.velocity = Vector3.zero;
+		} else {
+			crew.rigidBody.velocity = dist.normalized * speed;
+		}
+	}
+
+	public void PathToBlock(Block block) {
+		var ship = block.ship;
 		var currentPos = ship.WorldToBlockPos(transform.position);
-		var console = ship.blocks.FindType("console");
 
 		var nearestBlock = ship.blocks[currentPos];
 		if (nearestBlock == null) {
@@ -119,10 +163,19 @@ public class AIMind : MonoBehaviour {
 
 		if (nearestBlock == null) {
 			// we're not next to the ship yet, just move towards it
-			path = new List<IntVector2>() { console.pos };
-			return;
+			blockPath = new List<IntVector2>() { block.pos };
+		} else {
+			blockPath = ship.blocks.PathBetween(currentPos, block.pos);
 		}
 
-		path = ship.blocks.PathBetween(currentPos, console.pos);
+		var lineSeq = new List<Vector2>();
+		lineSeq.Add(transform.position);
+		foreach (var pos in blockPath) {
+			lineSeq.Add(ship.BlockToWorldPos(pos));
+		}
+		
+		for (var i = 1; i < lineSeq.Count; i++) {
+			Debug.DrawLine(lineSeq[i-1], lineSeq[i], Color.green);
+		}
 	}
 }

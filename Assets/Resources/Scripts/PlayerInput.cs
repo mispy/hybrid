@@ -106,7 +106,7 @@ public class PlayerInput : MonoBehaviour {
 			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
 		}*/
 	}
-	
+
 	void HandleCrewInput() {		
 		var pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
@@ -133,7 +133,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 		
 		if (Input.GetKeyDown(KeyCode.E) && crew.interactBlock != null) {
-			crew.controlShip = crew.interactBlock.ship;
+			crew.SitAtConsole(crew.interactBlock);
 			return;
 		}	
 		

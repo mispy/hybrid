@@ -51,7 +51,7 @@ public class Generate : MonoBehaviour {
 		shipObj.SetActive(true);
 
 		foreach (var block in ship.blocks.All.ToArray()) {
-			ship.blocks[block.pos] = null;
+			//ship.blocks[block.pos] = null;
 		}
 
 		return ship;
@@ -244,6 +244,12 @@ public class Generate : MonoBehaviour {
 		for (var x = -width/2-1; x < -width/2+2; x++) {
 			ship.SetBlock(x, y2, Block.types["floor"]);
 		}
+
+		var b = ship.blocks.FindType("floor");
+		ship.SetBlock(b.pos.x, b.pos.y, Block.types["gravgen"]);
+
+		b = ship.blocks.FindType("floor");
+		ship.SetBlock(b.pos.x, b.pos.y, Block.types["shieldgen"]);
 
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);

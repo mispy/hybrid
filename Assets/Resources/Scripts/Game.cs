@@ -44,7 +44,7 @@ public class Game : MonoBehaviour {
 			Generate.Asteroid(new Vector2(-60, 0), 30);
 		}
 
-		Generate.TestShip(new Vector2(5, 0));
+		Generate.EllipsoidShip(new Vector2(12, 0), 20, 10);
 	}
 
 	// Update is called once per frame

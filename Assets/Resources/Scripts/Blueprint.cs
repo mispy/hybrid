@@ -28,7 +28,6 @@ public class Blueprint : PoolBehaviour {
 
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		newBlock.isBlueprint = true;
-		newBlock.scrapContent = 0;
 		newBlock.ship = ship;
 		if (gameObject.activeInHierarchy)
 			UpdateMesh();

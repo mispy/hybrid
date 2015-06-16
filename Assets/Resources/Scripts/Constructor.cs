@@ -8,6 +8,7 @@ public class Constructor : MonoBehaviour
 	public int zigs = 100;
 	public float speed = 1f;
 	public float scale = 1f;
+	public float range = 3f;
 	public Light startLight;
 	public Light endLight;
 	private Block targetBlock;

@@ -61,6 +61,10 @@ public class Crew : MonoBehaviour {
 		}
 	}
 
+	public void SitAtConsole(Block block)  {
+		controlShip = block.ship;
+	}
+
 	void OnShipEnter(Ship ship) {
 		Debug.Log("entering ship");
 		linkedShip = ship;
