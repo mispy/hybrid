@@ -22,8 +22,8 @@ public class Designer : MonoBehaviour {
 			cursor.gameObject.SetActive(true);
 		}
 
-		Game.main.debugText.text = "Designing Ship";
-		Game.main.debugText.color = Color.green;		
+		//Game.main.debugText.text = "Designing Ship";
+		//Game.main.debugText.color = Color.green;		
 		SetDesignShip(Ship.ClosestTo(transform.position).First());
 
 		this.enabled = true;
@@ -32,8 +32,8 @@ public class Designer : MonoBehaviour {
 	public void StopDesigning() {
 		cursor.gameObject.SetActive(false);
 		designShip.renderer.enabled = true;
-		Game.main.debugText.text = "";
-		Game.main.debugText.color = Color.white;
+		//Game.main.debugText.text = "";
+		//Game.main.debugText.color = Color.white;
 
 		this.enabled = false;
 	}
@@ -99,9 +99,9 @@ public class Designer : MonoBehaviour {
 			} else if (blockPos.x > adjoiningBlock.pos.x) {
 				ori = Orientation.right;
 			} else if (blockPos.y > adjoiningBlock.pos.y) {
-				ori = Orientation.down;
-			} else {
 				ori = Orientation.up;
+			} else {
+				ori = Orientation.down;
 			}
 			
 			if (ori != cursor.blocks[0, 0].orientation) {

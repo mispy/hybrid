@@ -226,19 +226,12 @@ public class Ship : PoolBehaviour {
 	}
 
 	public void AddBlockComponent(Block block) {
-		Vector2 worldOrient;
-		if (block.orientation == Orientation.up) {
-			worldOrient = transform.TransformVector(Vector2.up);
-		} else if (block.orientation == Orientation.down) {
-			worldOrient = transform.TransformVector(-Vector2.up);
-		} else {
-			worldOrient = transform.TransformVector(block.orientation == Orientation.left ? Vector2.right : -Vector2.right);
-		}
-		
+		Vector2 worldOrient = transform.TransformVector(Util.orientToCardinal[block.orientation]);
+
 		var obj = Pool.For(block.type.prefab).TakeObject();		
 		obj.transform.parent = transform;
 		obj.transform.position = BlockToWorldPos(block.pos);
-		obj.transform.up = worldOrient;
+		obj.transform.up = -worldOrient;
 		blockComponents[block] = obj;
 		obj.SetActive(true);
 	}

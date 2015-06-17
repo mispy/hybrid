@@ -66,11 +66,11 @@ public class PlayerInput : MonoBehaviour {
 		var rigid = crew.controlShip.rigidBody;	
 		
 		if (Input.GetKey(KeyCode.W)) {
-			crew.controlShip.FireThrusters(Orientation.up);		
+			crew.controlShip.FireThrusters(Orientation.down);		
 		}
 		
 		if (Input.GetKey(KeyCode.S)) {
-			crew.controlShip.FireThrusters(Orientation.down);
+			crew.controlShip.FireThrusters(Orientation.up);
 		}
 		
 		if (Input.GetKey(KeyCode.A)) {

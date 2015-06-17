@@ -132,7 +132,7 @@ public class Generate : MonoBehaviour {
 			}
 
 			if (ship.blocks[block.x, block.y-1] == null) {
-				ship.SetBlock(block.x, block.y-1, Block.types["thruster"], Orientation.up);
+				ship.SetBlock(block.x, block.y-1, Block.types["thruster"], Orientation.down);
 			}
 
 			if (ship.blocks[block.x+1, block.y] == null) {
@@ -140,7 +140,7 @@ public class Generate : MonoBehaviour {
 			}
 
 			if (ship.blocks[block.x, block.y+1] == null) {
-				ship.SetBlock(block.x, block.y+1, Block.types["thruster"], Orientation.down);
+				ship.SetBlock(block.x, block.y+1, Block.types["thruster"], Orientation.up);
 			}
 		}
 	}

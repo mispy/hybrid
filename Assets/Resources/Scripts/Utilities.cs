@@ -97,6 +97,13 @@ public class Util {
 		{ -Vector2.right, Orientation.left }
 	};
 
+	public static Dictionary<Orientation, Vector2> orientToCardinal = new Dictionary<Orientation, Vector2>() {
+		{ Orientation.up, Vector2.up },
+		{ Orientation.down, -Vector2.up },
+		{ Orientation.right, Vector2.right },
+		{ Orientation.left, -Vector2.right }
+	};
+
 	public static Vector2 Cardinalize(Vector2 vec) {
 		var normal = vec.normalized;
 		return cardinals.OrderBy((c) => Vector2.Distance(c, normal)).First();

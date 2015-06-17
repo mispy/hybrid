@@ -85,14 +85,14 @@ public class Block {
 
 			var box = boxes[i];
 
-			type.downUVs = new Vector2[] {
+			type.upUVs = new Vector2[] {
 				new Vector2(box.xMin, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin),
 				new Vector2(box.xMin, box.yMin)
 			};
 
-			type.upUVs = new Vector2[] {
+			type.downUVs = new Vector2[] {
 				new Vector2(box.xMin, box.yMin),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin),
 				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
