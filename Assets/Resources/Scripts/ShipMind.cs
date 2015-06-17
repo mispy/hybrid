@@ -25,7 +25,7 @@ public class ShipMind : MonoBehaviour {
 		}
 
 		if (targetShip != null) {
-			//ship.MoveTowards(targetShip.transform.position);
+			ship.MoveTowards(Crew.player.transform.position);
 		}
 	}
 }
