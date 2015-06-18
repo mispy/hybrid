@@ -13,6 +13,13 @@ public class ShipMind : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		foreach (var tractor in ship.GetBlockComponents<TractorBeam>()) {
+			foreach (var target in tractor.GetViableTargets()) {
+				if (target.CompareTag("Item")) {
+					tractor.Fire(target.transform.position);
+				}
+			}
+		}
 
 
 		Ship targetShip = null;
@@ -25,7 +32,7 @@ public class ShipMind : MonoBehaviour {
 		}
 
 		if (targetShip != null) {
-			ship.MoveTowards(Crew.player.transform.position);
+			//ship.MoveTowards(targetShip.transform.position);
 		}
 	}
 }

@@ -9,6 +9,8 @@ public class TractorBeam : MonoBehaviour {
 
 	public List<Collider> captured = new List<Collider>();
 
+	public float range = 10f;
+
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		beam = GetComponent<ParticleSystem>();
@@ -23,6 +25,14 @@ public class TractorBeam : MonoBehaviour {
 			foreach (var col in captured) {
 				if (!col.enabled) continue;
 				Physics.IgnoreCollision(col, shieldCol, false);
+			}
+		}
+	}
+
+	public IEnumerable<GameObject> GetViableTargets() {
+		foreach (var collider in Physics.OverlapSphere(transform.position, this.range)) {
+			if (!Util.TurretBlocked(ship, transform.position, collider.transform.position)) {
+				yield return collider.gameObject;
 			}
 		}
 	}
