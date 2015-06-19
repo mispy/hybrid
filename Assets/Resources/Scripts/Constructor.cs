@@ -11,34 +11,33 @@ public class Constructor : MonoBehaviour
 	public float range = 3f;
 	public Light startLight;
 	public Light endLight;
-	private Block targetBlue;
 
+	 
 	Perlin noise;
 	float oneOverZigs;
 
 	private ParticleSystem ps;
 	private ParticleSystem.Particle[] particles;
 	private Text text;
-	private bool isBuilding = false;
+
+	public bool isBuilding = false;
+	public bool isFinished = false;
+
+	private Vector3 targetPos;
+	public Block targetBlock = null;
+	public BlueprintBlock targetBlue = null;
+
 
 	void Awake() {
 		ps = GetComponent<ParticleSystem>();
 		text = GameObject.Find("ConstructorText").GetComponent<Text>();
 		noise = new Perlin();
 	}
-	
-	public void StartBuilding(Block targetBlock) {
-		if (isBuilding) {
-			if (targetBlock != this.targetBlock)
-				StopBuilding();
-			else
-				return;
-		}
 
-		if (targetBlock == null) return;
-		this.targetBlock = targetBlock;
+	public void Build(Vector3 targetPos) {
+		this.targetPos = targetPos;
 
-		Debug.Log("StartBuilding");
+		if (isBuilding) return;
 
 		oneOverZigs = 1f / (float)zigs;
 		ps.enableEmission = false;
@@ -46,31 +45,56 @@ public class Constructor : MonoBehaviour
 		particles = new ParticleSystem.Particle[ps.maxParticles];
 		AlignParticles();
 
-		StartCoroutine("BuildBlock");
+		StartCoroutine("UpdateBuild");
 
 		isBuilding = true;
+	}
+
+	public void Build(Block targetBlock) {
+		Build(targetBlock.ship.BlockToWorldPos(targetBlock.pos));
 	}
 
 	public void StopBuilding() {
 		if (!isBuilding) return;
 
-		Debug.Log("StopBuilding");
-
+		StopCoroutine("UpdateBuild");
 		ps.Clear();
-		StopCoroutine("BuildBlock");
 
 		isBuilding = false;
 	}
 
-	IEnumerator BuildBlock() {
+	IEnumerator UpdateBuild() {
 		while (true) {
+			isFinished = false;
+			if (targetBlue == null && targetBlock == null) {
+				isFinished = true;
+				yield return new WaitForSeconds(0.1f); // nothing to be done here!
+				continue;
+			}
+
+			// check if there's a current block we need to get rid of
+			bool isRemoving = false;
 			if (targetBlock != null) {
-				if (targetBlock.scrapContent != targetBlock.type.scrapRequired) {
-					targetBlock.scrapContent += 1;
+				if (targetBlue == null || targetBlue.type != targetBlock.type || targetBlue.orientation != targetBlock.orientation)
+					isRemoving = true;
+			}
+
+			if (isRemoving) {
+				targetBlock.scrapContent -= 1;
+				
+				if (targetBlock.scrapContent <= 0) {
+					targetBlock.ship.blocks[targetBlock.pos] = null;
+				}
+			} else {
+				if (targetBlock == null) { // gotta make a new block
+					targetBlock = new Block(targetBlue);
+					targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
 				}
 
-				if (targetBlock.scrapContent == targetBlock.type.scrapRequired) {
-					targetBlock.ship.blocks[targetBlock.pos] = new Block(targetBlock);
+				if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
+					targetBlock.scrapContent += 1;
+				} else {
+					isFinished = true;
 				}
 			}
 
@@ -79,26 +103,29 @@ public class Constructor : MonoBehaviour
 	}
 	
 	void Update() {
-		if (targetBlock == null) return;
+		AlignParticles();
 
-		text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
-	
-		if (isBuilding) {
-			AlignParticles();
-		}
+		var ship = Ship.AtWorldPos(targetPos);
+		if (ship == null) return;
+		var blockPos = ship.WorldToBlockPos(targetPos);
+		targetBlue = (BlueprintBlock)ship.blueprint.blocks[blockPos];
+		targetBlock = ship.blocks[blockPos];
+
+		//text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
 	}	
 
 	void AlignParticles() {
+		if (!isBuilding || targetPos == null) return;
+
 		float timex = Time.time * speed * 0.1365143f;
 		float timey = Time.time * speed * 1.21688f;
 		float timez = Time.time * speed * 2.5564f;
 		
 		var numLiveParticles = ps.GetParticles(particles);
-		var target = targetBlock.ship.BlockToWorldPos(targetBlock.pos);
 
 		for (int i = 0; i < particles.Length; i++)
 		{
-			Vector3 position = Vector3.Lerp(transform.position, target, oneOverZigs * (float)i);
+			Vector3 position = Vector3.Lerp(transform.position, targetPos, oneOverZigs * (float)i);
 			Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),
 			                             noise.Noise(timey + position.x, timey + position.y, timey + position.z),
 			                             noise.Noise(timez + position.x, timez + position.y, timez + position.z));
@@ -108,7 +135,7 @@ public class Constructor : MonoBehaviour
 			particles[i].color = Color.white;
 			particles[i].lifetime = 1f;
 		}
-		
+			
 		ps.SetParticles(particles, numLiveParticles);
 		
 		if (ps.particleCount >= 2)

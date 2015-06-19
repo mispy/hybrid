@@ -71,9 +71,9 @@ public class Designer : MonoBehaviour {
 			shipObj.SetActive(true);
 		}
 
-		var block = new Block(cursor.blocks[0,0].type);
+		var block = new BlueprintBlock(cursor.blocks[0,0].type);
 		block.orientation = cursor.blocks[0,0].orientation;
-		designShip.blueprint.blocks[blockPos] = block;
+		designShip.blueprint.SetBlock(blockPos, block);
 	}
 
 	void Update() {		

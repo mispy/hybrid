@@ -56,7 +56,7 @@ public class BlockMap {
 		if (block != null) {
 			foreach (var neighbor in Neighbors(bp)) {
 				var other = this[neighbor];
-				if (other == null || other.collisionLayer != block.collisionLayer) {
+				if (other == null || other.CollisionLayer != block.CollisionLayer) {
 					ret = true;
 				}
 			}
@@ -233,7 +233,7 @@ public class BlockMap {
 	}
 
 	public bool IsPassable(IntVector2 bp) {
-		return (this[bp] == null || this[bp].collisionLayer == Block.floorLayer);
+		return (this[bp] == null || this[bp].CollisionLayer == Block.floorLayer);
 	}
 
 	public List<IntVector2> PathBetween(IntVector2 start, IntVector2 end) {

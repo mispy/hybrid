@@ -29,7 +29,7 @@ public class PlayerInput : MonoBehaviour {
 		
 		var destBlock = crew.boardedShip.blocks[bp];
 		
-		if (destBlock == null || destBlock.collisionLayer == Block.floorLayer) {
+		if (destBlock == null || destBlock.CollisionLayer == Block.floorLayer) {
 			if (bp != crew.currentBlock.pos && bp != crew.targetBlockPos) {
 				crew.targetBlockPos = bp;
 				crew.StopCoroutine("MoveToBlock");
@@ -121,8 +121,7 @@ public class PlayerInput : MonoBehaviour {
 
 		if (!designer.enabled) {
 			if (Input.GetMouseButton(0)) {
-				var targetBlock = Block.AtWorldPos(pz, allowBlueprint: true);
-				crew.constructor.StartBuilding(targetBlock);
+				crew.constructor.Build(pz);
 			} else {
 				crew.constructor.StopBuilding();
 			}

@@ -26,9 +26,13 @@ public class Blueprint : PoolBehaviour {
 		UpdateMesh();
 	}
 
+	public void SetBlock(IntVector2 blockPos, BlueprintBlock block) {
+		blocks[blockPos] = block;
+	}
+
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		newBlock.isBlueprint = true;
-		newBlock.ship = ship;
+		if (newBlock != null)
+			newBlock.ship = ship;
 		if (gameObject.activeInHierarchy)
 			UpdateMesh();
 	}

@@ -20,10 +20,11 @@ public class BuildTask : MindTask {
 	}
 
 	public override void Start() {
-		mind.crew.constructor.StartBuilding(targetBlock);
 	}
 
 	public override void Update() {
+		mind.crew.constructor.Build(targetBlock);
+
 		if (targetBlock.IsFilled)
 			Stop();
 	}

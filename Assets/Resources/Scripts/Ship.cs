@@ -100,7 +100,7 @@ public class Ship : PoolBehaviour {
 	public void SetBlock(int x, int y, BlockType type) {
 		var block = new Block(type);
 		blocks[x, y] = block;
-		var block2 = new Block(type);
+		var block2 = new BlueprintBlock(type);
 		blueprint.blocks[x, y] = block2;
 	}
 
@@ -109,7 +109,7 @@ public class Ship : PoolBehaviour {
 		block.orientation = orientation;
 		blocks[x, y] = block;
 
-		var block2 = new Block(type);
+		var block2 = new BlueprintBlock(type);
 		block2.orientation = orientation;
 		blueprint.blocks[x, y] = block2;
 	}
@@ -151,7 +151,7 @@ public class Ship : PoolBehaviour {
 		Profiler.BeginSample("AddCollider");
 
 		GameObject colliderObj;
-		if (block.collisionLayer == Block.wallLayer)
+		if (block.CollisionLayer == Block.wallLayer)
 			colliderObj = Pool.For("WallCollider").TakeObject();
 		else
 			colliderObj = Pool.For("FloorCollider").TakeObject();
@@ -170,7 +170,7 @@ public class Ship : PoolBehaviour {
 		var hasCollider = colliders.ContainsKey(pos);
 		var isEdge = blocks.IsEdge(pos);
 
-		if (hasCollider && (!isEdge || colliders[pos].layer != block.collisionLayer)) {
+		if (hasCollider && (!isEdge || colliders[pos].layer != block.CollisionLayer)) {
 			colliders[pos].SetActive(false);
 			colliders.Remove(pos);
 			hasCollider = false;

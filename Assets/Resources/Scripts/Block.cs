@@ -229,14 +229,16 @@ public class Block {
 		get { return ship != null && ship.blocks[pos] == this; }
 	}
 
+	public int CollisionLayer {
+		get { return type.collisionLayer; }
+	}
+
 	public BlockType type;
-	public int collisionLayer;
 	public int scrapContent;
 
 	// these attributes relate to where the block is, rather
 	// than what it does
 	public Ship ship;
-	public bool isBlueprint = false;
 	public int index;
 	public IntVector2 pos = new IntVector2();
 	public Orientation orientation = Orientation.up;
@@ -245,19 +247,25 @@ public class Block {
 	public Block(Block block) {
 		this.type = block.type;
 		this.orientation = block.orientation;
-		this.collisionLayer = block.collisionLayer;
 		this.scrapContent = block.scrapContent;
-		this.isBlueprint = block.isBlueprint;
 	}
 		
 	public Block(BlockType type) {
 		this.type = type;
 		this.scrapContent = type.scrapRequired;
+	}
 
-		if (type == Block.types["floor"] || type == Block.types["console"]) {
-			collisionLayer = LayerMask.NameToLayer("Floor");
-		} else {
-			collisionLayer = LayerMask.NameToLayer("Block");
-		}
+	public Block(BlueprintBlock blue) {
+		this.type = blue.type;
+		this.orientation = blue.orientation;
+		this.scrapContent = 0;
+	}
+}
+
+public class BlueprintBlock : Block {
+	public BlueprintBlock(Block block) : base(block) {
+	}
+
+	public BlueprintBlock(BlockType type) : base(type) {
 	}
 }
