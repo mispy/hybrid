@@ -231,7 +231,7 @@ public class Ship : PoolBehaviour {
 		var obj = Pool.For(block.type.prefab).TakeObject();		
 		obj.transform.parent = transform;
 		obj.transform.position = BlockToWorldPos(block.pos);
-		obj.transform.up = -worldOrient;
+		obj.transform.up = worldOrient;
 		blockComponents[block] = obj;
 		obj.SetActive(true);
 	}

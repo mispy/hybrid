@@ -15,6 +15,6 @@ public class Thruster : MonoBehaviour {
 	
 	public void Fire() {		
 		ps.Emit(1);
-		ship.rigidBody.AddForce(transform.up * Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000));
+		ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000));
 	}
 }

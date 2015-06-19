@@ -11,13 +11,28 @@ public class TractorBeam : MonoBehaviour {
 
 	public float range = 10f;
 
-	void OnEnable() {
-		ship = transform.parent.gameObject.GetComponent<Ship>();
-		beam = GetComponent<ParticleSystem>();
-		beam.enableEmission = false;
+	public bool isActive = false;
+	public Vector2 targetPos;
+		
+	public IEnumerable<GameObject> GetViableTargets() {
+		foreach (var collider in Physics.OverlapSphere(transform.position, this.range)) {
+			if (!Util.TurretBlocked(ship, transform.position, collider.transform.position)) {
+				yield return collider.gameObject;
+			}
+		}
 	}
 
+	public void Fire(Vector2 worldPos) {	
+		targetPos = worldPos;
+		isActive = true;
+	}
+	
+	
 	public void Stop() {
+		if (!isActive) return;
+
+		isActive = false;
+
 		beam.Clear();
 		beam.enableEmission = false;
 		if (ship.shields != null) {
@@ -29,47 +44,51 @@ public class TractorBeam : MonoBehaviour {
 		}
 	}
 
-	public IEnumerable<GameObject> GetViableTargets() {
-		foreach (var collider in Physics.OverlapSphere(transform.position, this.range)) {
-			if (!Util.TurretBlocked(ship, transform.position, collider.transform.position)) {
-				yield return collider.gameObject;
-			}
+	void OnEnable() {
+		ship = transform.parent.gameObject.GetComponent<Ship>();
+		beam = GetComponent<ParticleSystem>();
+		beam.enableEmission = false;
+	}
+
+	void Start() {
+		StartCoroutine("BeamCoroutine");
+	}
+		
+	IEnumerator BeamCoroutine() {
+		while (true) {
+			UpdateBeam();
+			yield return new WaitForSeconds(0.01f);
 		}
 	}
 
-	public void Fire(Vector3 worldPos) {	
+	void UpdateBeam() {
+		if (!isActive) return;
+
 		Collider shieldCol = null;
 		if (ship.shields != null)
 			shieldCol = ship.shields.GetComponent<SphereCollider>();
-
+		
 		foreach (var col in captured) {
 			if (col != null && col.attachedRigidbody != null) {
 				col.attachedRigidbody.drag -= 5;
 			}
 		}
 		captured.Clear();
-
-
-		if (Util.TurretBlocked(ship, transform.position, worldPos)) {
+		
+		if (Util.TurretBlocked(ship, transform.position, targetPos)) {
 			return;
 		}
-
-		var targetDist = (worldPos - transform.position);
+		
+		var targetDist = (targetPos - (Vector2)transform.position);
 		var targetDir = targetDist.normalized;
-
+		
 		var targetHits = Physics.RaycastAll(transform.position, targetDir, targetDist.magnitude);;
-		foreach (var hit in targetHits) {
-			if (hit.rigidbody == ship.rigidBody) {
-				Stop();
-				return;
-			}
-		}
 
-		var targetRotation = Quaternion.LookRotation((Vector3)worldPos - transform.position);
+		var targetRotation = Quaternion.LookRotation((Vector3)targetPos - transform.position);
 		if (targetRotation != transform.rotation) {
 		}
 		transform.rotation = targetRotation;
-		beam.startLifetime = Vector3.Distance(transform.position, worldPos) / Math.Abs(beam.startSpeed);
+		beam.startLifetime = Vector3.Distance(transform.position, targetPos) / Math.Abs(beam.startSpeed);
 		beam.enableEmission = true;
 		RaycastHit[] hits = Physics.SphereCastAll(transform.position, 0.20f, targetDir, targetDist.magnitude);
 		foreach (var hit in hits) {
@@ -84,9 +103,5 @@ public class TractorBeam : MonoBehaviour {
 				}
 			}
 		}		
-	}
-	
-	void Update() {
-		
 	}
 }

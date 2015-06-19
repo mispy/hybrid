@@ -16,7 +16,14 @@ public class TorpedoLauncher : PoolBehaviour {
 		collider = ship.colliders[block.pos].GetComponent<Collider>();
 	}
 
-	public void Fire(Vector3 worldPos) {	
+	public Collider GetProbableHit(float maxDistance = 50f) {
+		RaycastHit hit;
+		Physics.Raycast(transform.position, transform.up, out hit, maxDistance);	
+		Debug.Log(hit.collider);
+		return hit.collider;
+	}
+
+	public void Fire() {	
 		if (Time.time - lastFireTime < timeBetweenShots)
 			return;
 
@@ -37,7 +44,7 @@ public class TorpedoLauncher : PoolBehaviour {
 		var rigid = torpedo.GetComponent<Rigidbody>();
 		torpedo.SetActive(true);
 		rigid.velocity = ship.rigidBody.velocity;
-		rigid.AddForce(-transform.up*0.2f);
+		rigid.AddForce(transform.up*0.2f);
 		Physics.IgnoreCollision(collider, mcol);
 		if (ship.shields) {
 			Physics.IgnoreCollision(ship.shields.GetComponent<Collider>(), mcol, true);

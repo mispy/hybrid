@@ -87,7 +87,7 @@ public class PlayerInput : MonoBehaviour {
 		
 		if (Input.GetMouseButton(0)) {
 			foreach (var launcher in ship.GetBlockComponents<TorpedoLauncher>()) {
-				launcher.Fire(pz);
+				launcher.Fire();
 			}
 		}
 		
