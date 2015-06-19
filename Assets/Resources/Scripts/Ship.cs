@@ -296,8 +296,6 @@ public class Ship : PoolBehaviour {
 		var diff = (targetRotation - transform.rotation.eulerAngles).z;
 		//Debug.LogFormat("{0} {1} {2}", targetRotation, transform.rotation.eulerAngles, diff);
 
-		Debug.Log(diff);
-
 		if (diff > 10) {
 			FireAttitudeThrusters(Orientation.right);
 		} else if (diff < -10) {

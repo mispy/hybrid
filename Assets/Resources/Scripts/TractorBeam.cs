@@ -9,7 +9,7 @@ public class TractorBeam : MonoBehaviour {
 
 	public List<Collider> captured = new List<Collider>();
 
-	public float range = 10f;
+	private float range = 10f;
 
 	public bool isActive = false;
 	public Vector2 targetPos;

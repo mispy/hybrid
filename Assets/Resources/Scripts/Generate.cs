@@ -38,14 +38,19 @@ public class Generate : MonoBehaviour {
 		ship.SetBlock(0, 1, Block.types["wall"]);
 		ship.SetBlock(-1, 1, Block.types["wall"], Orientation.left);
 		ship.SetBlock(1, 1, Block.types["wall"], Orientation.right);
-		ship.SetBlock(0, -1, Block.types["thruster"], Orientation.down);
+		//ship.SetBlock(0, -1, Block.types["thruster"], Orientation.down);
 		ship.SetBlock(1, -1, Block.types["thruster"], Orientation.down);
 		ship.SetBlock(-1, -1, Block.types["thruster"], Orientation.down);
 		ship.SetBlock(0, 2, Block.types["wall"]);
 		ship.SetBlock(1, 2,  Block.types["thruster"], Orientation.up);
 		ship.SetBlock(-1, 2,  Block.types["thruster"], Orientation.up);
-		ship.SetBlock(2, 2,  Block.types["wall"], Orientation.down);
-		ship.SetBlock(-2, 2,  Block.types["wall"], Orientation.down);
+		ship.SetBlock(2, 2,  Block.types["wall"]);
+		ship.SetBlock(2, 3,  Block.types["tractorBeam"], Orientation.up);
+
+		ship.SetBlock(-2, 2,  Block.types["wall"]);
+		ship.SetBlock(-2, 3,  Block.types["tractorBeam"], Orientation.up);
+
+
 		ship.SetBlock(2, 1,  Block.types["thruster"], Orientation.right);
 		ship.SetBlock(-2, 1,  Block.types["thruster"], Orientation.left);
 		ship.SetBlock(0, 3, Block.types["torpedoLauncher"], Orientation.up);

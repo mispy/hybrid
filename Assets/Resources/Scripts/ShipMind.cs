@@ -43,7 +43,7 @@ public class ShipMind : MonoBehaviour {
 	void UpdateMovement() {		
 		Ship targetShip = null;
 		
-		foreach (var otherShip in Ship.allActive) {
+		foreach (var otherShip in Ship.ClosestTo(transform.position)) {
 			if (IsEnemy(otherShip)) {
 				targetShip = otherShip;
 				break;
@@ -57,7 +57,7 @@ public class ShipMind : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//UpdateTractors();
+		UpdateTractors();
 		UpdateWeapons();
 		UpdateMovement();
 	}
