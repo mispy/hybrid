@@ -60,7 +60,12 @@ public class PlayerInput : MonoBehaviour {
 		crew.rigidBody.velocity = vel;
 	}
 	
-	void HandleShipInput() {
+	void HandleShipInput() {				
+		if (Input.GetKeyDown(KeyCode.E) && crew.controlShip != null) {
+			crew.controlShip = null;
+			return;
+		}
+
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 		
 		var rigid = crew.controlShip.rigidBody;	
@@ -116,12 +121,7 @@ public class PlayerInput : MonoBehaviour {
 				designer.StopDesigning();
 			}
 		}
-		
-		if (Input.GetKeyDown(KeyCode.E) && crew.controlShip != null) {
-			crew.controlShip = null;
-			return;
-		}
-		
+
 		if (!designer.enabled) {
 			if (Input.GetMouseButton(0)) {
 				var targetBlock = Block.AtWorldPos(pz, allowBlueprint: true);
