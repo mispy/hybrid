@@ -37,6 +37,9 @@ public class Constructor : MonoBehaviour
 	public void Build(Vector3 targetPos) {
 		this.targetPos = targetPos;
 
+		CancelInvoke("StopBuilding");
+		Invoke("StopBuilding", 0.1f);
+
 		if (isBuilding) return;
 
 		oneOverZigs = 1f / (float)zigs;

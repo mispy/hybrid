@@ -31,7 +31,6 @@ public class Thruster : MonoBehaviour {
 	}
 
 	public void Stop() {
-		Debug.Log("Stop");
 		isFiring = false;
 		isFiringAttitude = false;
 	}

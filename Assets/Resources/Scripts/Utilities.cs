@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class PoolBehaviour : MonoBehaviour {
 	public virtual void OnCreate() { }
@@ -107,5 +108,9 @@ public class Util {
 	public static Vector2 Cardinalize(Vector2 vec) {
 		var normal = vec.normalized;
 		return cardinals.OrderBy((c) => Vector2.Distance(c, normal)).First();
+	}
+
+	public static Orientation RandomOrientation() {
+		return cardinalToOrient.Values.ToList()[Random.Range(0, 3)];
 	}
 }

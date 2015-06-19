@@ -45,15 +45,17 @@ public class Game : MonoBehaviour {
 		}*/
 
 		//Generate.EllipsoidShip(new Vector2(12, 0), 20, 10);
-		for (var i = 0; i < 30; i++) {
+
+		//Generate.TestShip(new Vector2(5, 0));
+		for (var i = 0; i < 10; i++) {
 			Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 		}
 
-		InvokeRepeating("GenerateShip", 0.0f, 1.0f);
+		//InvokeRepeating("GenerateShip", 0.0f, 1.0f);
 	}
 
 	void GenerateShip() {
-		Generate.TestShip(new Vector2(Random.Range(-25, 25), Random.Range(-25, 25)));
+		Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 	}
 
 	// Update is called once per frame

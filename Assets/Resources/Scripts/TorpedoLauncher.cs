@@ -7,7 +7,7 @@ public class TorpedoLauncher : PoolBehaviour {
 	public Ship ship;
 	public Block block;
 	public Collider collider;
-	private float timeBetweenShots = 0.1f;
+	private float timeBetweenShots = 1f;
 	private float lastFireTime = 0f;
 
 	void OnEnable() {
@@ -19,7 +19,6 @@ public class TorpedoLauncher : PoolBehaviour {
 	public Collider GetProbableHit(float maxDistance = 50f) {
 		RaycastHit hit;
 		Physics.Raycast(transform.position, transform.up, out hit, maxDistance);	
-		Debug.Log(hit.collider);
 		return hit.collider;
 	}
 

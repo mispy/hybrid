@@ -17,8 +17,8 @@ public class Generate : MonoBehaviour {
 				if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
 
 					//var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-					ship.SetBlock(x, y, Block.types["wall"]);
-					//ship.SetBlock(x, y, Block.types["wall"], ori[Random.Range(0, 3)]);
+					ship.SetBlock(x, y, "wall");
+					//ship.SetBlock(x, y, "wall"], ori[Random.Range(0, 3)]);
 				}
 			}
 		}
@@ -32,33 +32,59 @@ public class Generate : MonoBehaviour {
 		var ship = shipObj.GetComponent<Ship>();
 
 		ship.name = "Test Ship";
-		ship.SetBlock(0, 0, Block.types["console"], Orientation.up);
-		ship.SetBlock(1, 0, Block.types["gravgen"]);
-		ship.SetBlock(-1, 0, Block.types["floor"]);
-		ship.SetBlock(0, 1, Block.types["wall"]);
-		ship.SetBlock(-1, 1, Block.types["wall"], Orientation.left);
-		ship.SetBlock(1, 1, Block.types["wall"], Orientation.right);
-		//ship.SetBlock(0, -1, Block.types["thruster"], Orientation.down);
-		ship.SetBlock(1, -1, Block.types["thruster"], Orientation.down);
-		ship.SetBlock(-1, -1, Block.types["thruster"], Orientation.down);
-		ship.SetBlock(0, 2, Block.types["wall"]);
-		ship.SetBlock(1, 2,  Block.types["thruster"], Orientation.up);
-		ship.SetBlock(-1, 2,  Block.types["thruster"], Orientation.up);
-		ship.SetBlock(2, 2,  Block.types["wall"]);
-		ship.SetBlock(2, 3,  Block.types["tractorBeam"], Orientation.up);
+		ship.SetBlock(0, 0, "console", Orientation.up);
+		ship.SetBlock(1, 0, "gravgen");
+		ship.SetBlock(-1, 0, "floor");
+		ship.SetBlock(-2, 0, "wall");
+		ship.SetBlock(2, 0, "wall");
 
-		ship.SetBlock(-2, 2,  Block.types["wall"]);
-		ship.SetBlock(-2, 3,  Block.types["tractorBeam"], Orientation.up);
+		ship.SetBlock(0, 1, "wall");
+		ship.SetBlock(-1, 1, "wall", Orientation.left);
+		ship.SetBlock(1, 1, "wall", Orientation.right);
+
+		ship.SetBlock(-2, -1, "wall");
+		ship.SetBlock(2, -1, "wall");
+		ship.SetBlock(-1, -1, "wall");
+		ship.SetBlock(1, -1, "wall");
+		ship.SetBlock(0, -1, "floor");
+
+		ship.SetBlock(-1, -2, "thruster", Orientation.down);
+		ship.SetBlock(1, -2, "thruster", Orientation.down);
+
+		//ship.SetBlock(0, -1, "thruster"], Orientation.down);
+		ship.SetBlock(0, 2, "wall");
+		ship.SetBlock(1, 2,  "thruster", Orientation.up);
+		ship.SetBlock(-1, 2,  "thruster", Orientation.up);
+		ship.SetBlock(2, 2,  "wall");
+		ship.SetBlock(2, 3,  "tractorBeam", Orientation.up);
+
+		ship.SetBlock(-2, 2,  "wall");
+		ship.SetBlock(-2, 3,  "tractorBeam", Orientation.up);
 
 
-		ship.SetBlock(2, 1,  Block.types["thruster"], Orientation.right);
-		ship.SetBlock(-2, 1,  Block.types["thruster"], Orientation.left);
-		ship.SetBlock(0, 3, Block.types["torpedoLauncher"], Orientation.up);
+		ship.SetBlock(2, 1,  "thruster", Orientation.right);
+		ship.SetBlock(-2, 1,  "thruster", Orientation.left);
+		ship.SetBlock(0, 3, "torpedoLauncher", Orientation.up);
+
+		/*var blocks = Block.types.Values.ToList();
+		blocks.Remove("shieldgen"]);
+		blocks.Remove("beamCannon"]);
+
+		for (var i = -3; i < 3; i++) {
+			for (var j = -3; j < 3; j++) {
+				ship.SetBlock(i, j, blocks[Random.Range(0, blocks.Count-1)], Util.RandomOrientation());
+			}
+		}*/
 
 		shipObj.transform.Rotate(new Vector3(0, 0, 90));
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);
 
+		var crewObj = Pool.For("AICutie").TakeObject();
+		crewObj.transform.position = ship.BlockToWorldPos(new IntVector2(0, 0));
+		crewObj.SetActive(true);
+		crewObj.GetComponentInChildren<CrewMind>().myShip = ship;
+		
 		foreach (var block in ship.blocks.All.ToArray()) {
 			//ship.blocks[block.pos] = null;
 		}
@@ -69,20 +95,20 @@ public class Generate : MonoBehaviour {
 	public static void Room(Ship ship, int x, int y, int width, int height) {
 		for (var i = x; i < x+width; i++) {
 			for (var j = y; j < y+height; j++) {
-				ship.SetBlock(i, j, Block.types["floor"]);
+				ship.SetBlock(i, j, "floor");
 			}
 		}
 	}
 
 	public static void HorizontalTunnel(Ship ship, int y, int x1, int x2) {
 		for (var x = Math.Min(x1, x2); x < Math.Max(x1, x2); x++) {
-			ship.SetBlock(x, y, Block.types["floor"]);
+			ship.SetBlock(x, y, "floor");
 		}
 	}
 
 	public static void VerticalTunnel(Ship ship, int x, int y1, int y2) {
 		for (var y = Math.Min(y1, y2); y < Math.Max(y1, y2); y++) {
-			ship.SetBlock(x, y, Block.types["floor"]);
+			ship.SetBlock(x, y, "floor");
 		}
 	}
 
@@ -106,14 +132,14 @@ public class Generate : MonoBehaviour {
 			var maxX = (int)Math.Max(r1.center.x, r2.center.x);
 			
 			for (var x = minX; x < maxX; x++) {
-				ship.SetBlock(x, (int)r1.center.y, Block.types["floor"]);
+				ship.SetBlock(x, (int)r1.center.y, "floor"]);
 			}
 		} else if ((r1.xMin < r2.xMin && r1.xMax > r2.xMin) || (r2.xMin < r1.xMin && r2.xMax > r1.xMin)) {
 			var minY = (int)Math.Min(r1.center.y, r2.center.y);
 			var maxY = (int)Math.Max(r1.center.y, r2.center.y);
 			
 			for (var y = minY; y < maxY; y++) {
-				ship.SetBlock((int)r1.center.x, y, Block.types["floor"]);
+				ship.SetBlock((int)r1.center.x, y, "floor"]);
 			}
 		}*/
 	}
@@ -137,19 +163,19 @@ public class Generate : MonoBehaviour {
 	public static void AssignThrusters(Ship ship) {
 		foreach (var block in ship.blocks.All.ToArray()) {
 			if (ship.blocks[block.x-1, block.y] == null) {
-				ship.SetBlock(block.x-1, block.y, Block.types["thruster"], Orientation.left);
+				ship.SetBlock(block.x-1, block.y, "thruster", Orientation.left);
 			}
 
 			if (ship.blocks[block.x, block.y-1] == null) {
-				ship.SetBlock(block.x, block.y-1, Block.types["thruster"], Orientation.down);
+				ship.SetBlock(block.x, block.y-1, "thruster", Orientation.down);
 			}
 
 			if (ship.blocks[block.x+1, block.y] == null) {
-				ship.SetBlock(block.x+1, block.y, Block.types["thruster"], Orientation.right);
+				ship.SetBlock(block.x+1, block.y, "thruster", Orientation.right);
 			}
 
 			if (ship.blocks[block.x, block.y+1] == null) {
-				ship.SetBlock(block.x, block.y+1, Block.types["thruster"], Orientation.up);
+				ship.SetBlock(block.x, block.y+1, "thruster", Orientation.up);
 			}
 		}
 	}
@@ -164,8 +190,8 @@ public class Generate : MonoBehaviour {
 				var dist = (new Vector2(x, y) - new Vector2(0,0));
 				if (dist.magnitude < Mathf.Max(width, height) && dist.x <= width && dist.y <= height) {					
 					//var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-					ship.SetBlock(x, y, Block.types["wall"]);
-					//ship.SetBlock(x, y, Block.types["wall"], ori[Random.Range(0, 3)]);
+					ship.SetBlock(x, y, "wall");
+					//ship.SetBlock(x, y, "wall"], ori[Random.Range(0, 3)]);
 				}
 			}
 		}
@@ -214,14 +240,14 @@ public class Generate : MonoBehaviour {
 		for (var y = height/2; y > -height/2; y--) {
 			Block block = null;
 			for (var x = 0; x < width; x++) {
-				if (ship.blocks[x,y] != null && ship.blocks[x,y].type == Block.types["floor"]) {
+				if (ship.blocks[x,y] != null && ship.blocks[x,y].type.name == "floor") {
 					block = ship.blocks[x,y];
 					break;
 				}
 			}
 
 			if (block != null) {
-				ship.SetBlock(block.pos.x, block.pos.y, Block.types["console"], Orientation.up);
+				ship.SetBlock(block.pos.x, block.pos.y, "console", Orientation.up);
 				break;
 			}
 		}
@@ -235,14 +261,14 @@ public class Generate : MonoBehaviour {
 					var maxX = (int)Math.Max(leaves[i].center.x, leaves[j].center.x);
 					
 					for (var x = minX; x < maxX; x++) {
-						ship.SetBlock(x, (int)leaves[i].center.y, Block.types["floor"]);
+						ship.SetBlock(x, (int)leaves[i].center.y, "floor"]);
 					}
 				} else if (leaves[i].center.x == leaves[j].center.x) {
 					var minY = (int)Math.Min(leaves[i].center.y, leaves[j].center.y);
 					var maxY = (int)Math.Max(leaves[i].center.y, leaves[j].center.y);
 					
 					for (var y = minY; y < maxY; y++) {
-						ship.SetBlock((int)leaves[i].center.x, y, Block.types["floor"]);
+						ship.SetBlock((int)leaves[i].center.x, y, "floor"]);
 					}
 				}
 			}
@@ -251,14 +277,14 @@ public class Generate : MonoBehaviour {
 
 		int y2 = 0;
 		for (var x = -width/2-1; x < -width/2+2; x++) {
-			ship.SetBlock(x, y2, Block.types["floor"]);
+			ship.SetBlock(x, y2, "floor");
 		}
 
 		var b = ship.blocks.FindType("floor");
-		ship.SetBlock(b.pos.x, b.pos.y, Block.types["gravgen"]);
+		ship.SetBlock(b.pos.x, b.pos.y, "gravgen");
 
 		b = ship.blocks.FindType("floor");
-		ship.SetBlock(b.pos.x, b.pos.y, Block.types["shieldgen"]);
+		ship.SetBlock(b.pos.x, b.pos.y, "shieldgen");
 
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);

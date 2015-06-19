@@ -49,12 +49,12 @@ public class Blueprint : PoolBehaviour {
 	void UpdateMesh() {
 		Profiler.BeginSample("UpdateMesh");
 		
-		/*mesh.Clear();
+		mesh.Clear();
 		mesh.vertices = blocks.meshVertices;
 		mesh.triangles = blocks.meshTriangles;
 		mesh.uv = blocks.meshUV;
 		mesh.Optimize();
-		mesh.RecalculateNormals();	*/
+		mesh.RecalculateNormals();
 
 		Profiler.EndSample();
 	}

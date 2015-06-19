@@ -98,10 +98,15 @@ public class Ship : PoolBehaviour {
 	}
 
 	public void SetBlock(int x, int y, BlockType type) {
+
 		var block = new Block(type);
 		blocks[x, y] = block;
 		var block2 = new BlueprintBlock(type);
 		blueprint.blocks[x, y] = block2;
+	}
+
+	public void SetBlock(int x, int y, string typeName) {
+		SetBlock(x, y, Block.types[typeName]);
 	}
 
 	public void SetBlock(int x, int y, BlockType type, Orientation orientation) {
@@ -112,6 +117,10 @@ public class Ship : PoolBehaviour {
 		var block2 = new BlueprintBlock(type);
 		block2.orientation = orientation;
 		blueprint.blocks[x, y] = block2;
+	}
+
+	public void SetBlock(int x, int y, string typeName, Orientation orientation) {
+		SetBlock(x, y, Block.types[typeName], orientation);	
 	}
 
 	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
@@ -281,29 +290,39 @@ public class Ship : PoolBehaviour {
 
 	public void UpdateGravity() {
 		if (blocks.HasType("gravgen") && hasGravity == false) {
-			hasGravity = true;
+			//hasGravity = true;
 			rigidBody.drag = 5;
 			rigidBody.angularDrag = 5;
 		} else if (!blocks.HasType("gravgen") && hasGravity == true) {
-			hasGravity = false;
+			//hasGravity = false;
 			rigidBody.drag = 0;
 			rigidBody.angularDrag = 0;
 		}
+		hasGravity = true;
 	}
 
-	public void MoveTowards(Vector2 worldPos) {
-		var targetRotation = Quaternion.LookRotation((Vector2)transform.position - worldPos, Vector3.forward).eulerAngles;
-		var diff = (targetRotation - transform.rotation.eulerAngles).z;
-		//Debug.LogFormat("{0} {1} {2}", targetRotation, transform.rotation.eulerAngles, diff);
+	public void RotateTowards(Vector2 worldPos) {
+		var dir = (worldPos - (Vector2)transform.position).normalized;
+		float angle = Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg - 90;
+		var currentAngle = transform.localEulerAngles.z;
 
-		if (diff > 10) {
-			FireAttitudeThrusters(Orientation.right);
-		} else if (diff < -10) {
-			FireAttitudeThrusters(Orientation.left);
-		} else {
-			FireThrusters(Orientation.down);
+		if (Math.Abs(360+angle - currentAngle) < Math.Abs(angle - currentAngle)) {
+			angle = 360+angle;
 		}
 
+		if (angle > currentAngle + 10) {
+			FireAttitudeThrusters(Orientation.right);
+		} else if (angle < currentAngle - 10) {
+			FireAttitudeThrusters(Orientation.left);
+		}
+
+	}
+
+	public void MoveTowards(Vector3 worldPos) {
+		var dist = (worldPos - transform.position).magnitude;
+		if ((worldPos - (transform.position + transform.up)).magnitude < dist) {
+			FireThrusters(Orientation.down);
+		}
 		/*var localDir = transform.InverseTransformDirection((worldPos - (Vector2)transform.position).normalized);
 		var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
 		FireThrusters((Orientation)(-(int)orient));*/

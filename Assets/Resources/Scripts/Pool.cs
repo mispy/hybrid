@@ -85,8 +85,6 @@ public class Pool {
 			pooledObjects.Add(CreateNew());
 		}
 
-		Debug.Log(pooledObjects.Count);
-
 		return TakeObject();
 	}
 }

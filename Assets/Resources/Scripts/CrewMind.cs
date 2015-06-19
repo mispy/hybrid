@@ -11,10 +11,10 @@ public class MindTask {
 }
 
 public class BuildTask : MindTask {
-	public readonly AIMind mind;
+	public readonly CrewMind mind;
 	public readonly Block targetBlock;
 
-	public BuildTask(AIMind mind, Block targetBlock) {
+	public BuildTask(CrewMind mind, Block targetBlock) {
 		this.mind = mind;
 		this.targetBlock = targetBlock;
 	}
@@ -22,24 +22,19 @@ public class BuildTask : MindTask {
 	public override void Start() {
 	}
 
-	public override void Update() {
+	public override void Update() {		
 		mind.crew.constructor.Build(targetBlock);
 
 		if (targetBlock.IsFilled)
 			Stop();
 	}
-
-	public override void Stop() {
-		mind.crew.constructor.StopBuilding();
-		isFinished = true;
-	}
 }
 
 public class AttachTask : MindTask {
-	public readonly AIMind mind;
+	public readonly CrewMind mind;
 	public readonly Block targetBlock;
 
-	public AttachTask(AIMind mind, Block targetBlock) {
+	public AttachTask(CrewMind mind, Block targetBlock) {
 		this.mind = mind;
 		this.targetBlock = targetBlock;
 	}
@@ -53,7 +48,7 @@ public class AttachTask : MindTask {
 	}
 }
 
-public class AIMind : MonoBehaviour {
+public class CrewMind : MonoBehaviour {
 	private List<IntVector2> blockPath = new List<IntVector2>();
 	private CharacterController controller;
 
@@ -68,8 +63,7 @@ public class AIMind : MonoBehaviour {
 	}
 	
 	void Start() {
-		myShip = Ship.allActive[1];
-		InvokeRepeating("UpdateTasks", 0.0f, 0.2f);
+		InvokeRepeating("UpdateTasks", 0.0f, 0.05f);
 	}
 
 	void UpdateTasks() {
@@ -94,12 +88,12 @@ public class AIMind : MonoBehaviour {
 
 	MindTask FindNextTask() {		
 		foreach (var block in myShip.blueprint.blocks.All) {
-			if (!block.IsFilled) {
+			if (myShip.blocks[block.pos] == null) {
 				return new BuildTask(this, block);
 			}
 		}
 
-		foreach (var block in myShip.blueprint.blocks.All) {
+		foreach (var block in myShip.blocks.All) {
 			if (block.type.name == "console") {
 				return new AttachTask(this, block);
 			}
@@ -164,7 +158,8 @@ public class AIMind : MonoBehaviour {
 			// we're not next to the ship yet, just move towards it
 			blockPath = new List<IntVector2>() { block.pos };
 		} else {
-			blockPath = ship.blocks.PathBetween(currentPos, block.pos);
+			var path = ship.blocks.PathBetween(currentPos, block.pos);
+			if (path != null) blockPath = path;
 		}
 
 		var lineSeq = new List<Vector2>();

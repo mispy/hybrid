@@ -48,17 +48,21 @@ public class ShipMind : MonoBehaviour {
 				targetShip = otherShip;
 				break;
 			}
-		}
+		}			
 		
 		if (targetShip != null) {
-			myShip.MoveTowards(targetShip.transform.position);
+			myShip.RotateTowards(targetShip.transform.position);
+			var dist = (targetShip.transform.position - transform.position).magnitude;
+			if (dist > 10f) {
+				myShip.MoveTowards(targetShip.transform.position);
+			}
 		}
 	}
 
 	// Update is called once per frame
 	void Update () {
 		UpdateTractors();
-		UpdateWeapons();
+	    UpdateWeapons();
 		UpdateMovement();
 	}
 }
