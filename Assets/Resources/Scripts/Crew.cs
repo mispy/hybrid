@@ -6,16 +6,16 @@ using System.Linq;
 
 public class Crew : MonoBehaviour {
 	public static Crew player;
-	public Block interactBlock = null;
 
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
-	public Ship controlShip = null;
-	public Ship linkedShip = null;
+	public Ship boardedShip = null;
 	public Block currentBlock = null;
 	public bool isGravityLocked = false;
 	public Constructor constructor;
+
+	public Block controlConsole = null;
 
 	public IntVector2 targetBlockPos;
 
@@ -32,7 +32,7 @@ public class Crew : MonoBehaviour {
 
 	IEnumerator MoveToBlock() {
 		var speed = 0.1f;
-		var targetPos = (Vector3)linkedShip.BlockToLocalPos(targetBlockPos);
+		var targetPos = (Vector3)boardedShip.BlockToLocalPos(targetBlockPos);
 
 		while (true) {
 			if (!isGravityLocked) break;
@@ -57,31 +57,31 @@ public class Crew : MonoBehaviour {
 
 	void UpdateCurrentBlock() {
 		currentBlock = Block.AtWorldPos(transform.position);
-		if (currentBlock != null && currentBlock.ship != linkedShip) {
-			if (linkedShip != null) OnShipLeave(linkedShip);
+		if (currentBlock != null && currentBlock.ship != boardedShip) {
+			if (boardedShip != null) OnShipLeave(boardedShip);
 			OnShipEnter(currentBlock.ship);
 		}
 	}
 
-	public void SitAtConsole(Block block)  {
-		controlShip = block.ship;
+	public void UseBlock(Block block)  {
+		controlConsole = block;
 	}
 
 	void OnShipEnter(Ship ship) {
 		Debug.Log("entering ship");
-		linkedShip = ship;
+		boardedShip = ship;
 	}
 
 	void OnShipLeave(Ship ship) {
 		Debug.Log("leaving ship");
-		linkedShip = null;
+		boardedShip = null;
 	}
 
 	void UpdateGravityLock() {
-		var hasGravity = currentBlock != null && linkedShip != null && linkedShip.hasGravity;
+		var hasGravity = currentBlock != null && boardedShip != null && boardedShip.hasGravity;
 		if (hasGravity && !isGravityLocked) {
-			transform.rotation = linkedShip.transform.rotation;
-			transform.parent = linkedShip.transform;
+			transform.rotation = boardedShip.transform.rotation;
+			transform.parent = boardedShip.transform;
 			rigidBody.isKinematic = true;
 			isGravityLocked = true;
 		} else if (!hasGravity && isGravityLocked) {

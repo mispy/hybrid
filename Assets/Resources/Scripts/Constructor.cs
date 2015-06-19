@@ -11,7 +11,7 @@ public class Constructor : MonoBehaviour
 	public float range = 3f;
 	public Light startLight;
 	public Light endLight;
-	private Block targetBlock;
+	private Block targetBlue;
 
 	Perlin noise;
 	float oneOverZigs;

@@ -224,6 +224,10 @@ public class Block {
 	public bool IsFilled {
 		get { return type.scrapRequired == scrapContent; }
 	}
+		
+	public bool IsActive {
+		get { return ship != null && ship.blocks[pos] == this; }
+	}
 
 	public BlockType type;
 	public int collisionLayer;

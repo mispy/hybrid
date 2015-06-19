@@ -27,7 +27,7 @@ public class PlayerInput : MonoBehaviour {
 		if (Input.GetKey(KeyCode.D))
 			bp.x += 1;
 		
-		var destBlock = crew.linkedShip.blocks[bp];
+		var destBlock = crew.boardedShip.blocks[bp];
 		
 		if (destBlock == null || destBlock.collisionLayer == Block.floorLayer) {
 			if (bp != crew.currentBlock.pos && bp != crew.targetBlockPos) {
@@ -61,35 +61,32 @@ public class PlayerInput : MonoBehaviour {
 	}
 	
 	void HandleShipInput() {				
-		if (Input.GetKeyDown(KeyCode.E) && crew.controlShip != null) {
-			crew.controlShip = null;
-			return;
-		}
+		var ship = crew.controlConsole.ship;
 
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 		
-		var rigid = crew.controlShip.rigidBody;	
+		var rigid = ship.rigidBody;	
 		
 		if (Input.GetKey(KeyCode.W)) {
-			crew.controlShip.FireThrusters(Orientation.down);		
+			ship.FireThrusters(Orientation.down);		
 		}
 		
 		if (Input.GetKey(KeyCode.S)) {
-			crew.controlShip.FireThrusters(Orientation.up);
+			ship.FireThrusters(Orientation.up);
 		}
 		
 		if (Input.GetKey(KeyCode.A)) {
 			//rigid.AddTorque(0.1f);
-			crew.controlShip.FireThrusters(Orientation.right);
+			ship.FireThrusters(Orientation.right);
 		}
 		
 		if (Input.GetKey(KeyCode.D)) {
 			//rigid.AddTorque(-0.1f);
-			crew.controlShip.FireThrusters(Orientation.left);
+			ship.FireThrusters(Orientation.left);
 		}
 		
 		if (Input.GetMouseButton(0)) {
-			foreach (var launcher in crew.controlShip.GetBlockComponents<TorpedoLauncher>()) {
+			foreach (var launcher in ship.GetBlockComponents<TorpedoLauncher>()) {
 				launcher.Fire(pz);
 			}
 		}
@@ -100,9 +97,9 @@ public class PlayerInput : MonoBehaviour {
 		}
 		
 		if (Input.GetMouseButton(1)) {
-			crew.controlShip.StartTractorBeam(pz);
+			ship.StartTractorBeam(pz);
 		} else {
-			crew.controlShip.StopTractorBeam();
+			ship.StopTractorBeam();
 		}
 		
 		
@@ -131,23 +128,10 @@ public class PlayerInput : MonoBehaviour {
 			}
 		}
 		
-		if (Input.GetKeyDown(KeyCode.E) && crew.interactBlock != null) {
-			crew.SitAtConsole(crew.interactBlock);
+		if (Input.GetKeyDown(KeyCode.E) && crew.currentBlock != null) {
+			crew.UseBlock(crew.currentBlock);
 			return;
 		}	
-		
-		if (crew.interactBlock != null) {
-			//interactBlock.GetComponent<SpriteRenderer>().color = Color.white;
-		}
-		crew.interactBlock = null;
-		
-		var nearbyBlocks = Block.FindInRadius(transform.position, Block.worldSize*1f);
-		foreach (var block in nearbyBlocks) {
-			if (block.type == Block.types["console"]) {
-				crew.interactBlock = block;
-				//interactBlock.GetComponent<SpriteRenderer>().color = Color.yellow;
-			}
-		}
 
 		if (crew.isGravityLocked) {
 			HandleLockedMovement();
@@ -158,8 +142,12 @@ public class PlayerInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (crew.controlShip != null) {
-			HandleShipInput();
+		if (crew.controlConsole != null) {
+			if (Input.GetKeyDown(KeyCode.E)) {
+				crew.controlConsole = null;
+			} else {
+				HandleShipInput();
+			}
 		} else {
 			HandleCrewInput();
 		}
