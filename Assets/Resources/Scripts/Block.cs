@@ -17,7 +17,7 @@ public class BlockType {
 	public Vector2[] leftUVs;
 	public Vector2[] rightUVs;
 
-	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Block",
+	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Wall",
 	                 int scrapRequired = 30) {
 		this.name = name;
 		this.mass = mass;
@@ -58,7 +58,7 @@ public class Block {
 		}
 		sprites = blockSprites.ToArray();
 
-		Block.wallLayer = LayerMask.NameToLayer("Block");
+		Block.wallLayer = LayerMask.NameToLayer("Wall");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");
 				
 		// let's compress all the block sprites into a single tilesheet texture

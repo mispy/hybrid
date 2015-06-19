@@ -78,7 +78,7 @@ public class Util {
 		var targetDist = (targetPos - turretPos);
 		var targetDir = targetDist.normalized;
 		
-		var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Block", "Floor" }));
+		var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
 		foreach (var hit in targetHits) {
 			if (ship.WorldToBlockPos(hit.collider.transform.position) != ship.WorldToBlockPos(turretPos)) {
 				Debug.Log(ship.WorldToBlockPos(hit.collider.transform.position));

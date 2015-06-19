@@ -107,7 +107,7 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	void HandleCrewInput() {		
-		var pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 		if (Input.GetKeyDown(KeyCode.F1)) {
 			if (!designer.enabled)

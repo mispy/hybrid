@@ -21,7 +21,6 @@ public class Constructor : MonoBehaviour
 	private Text text;
 
 	public bool isBuilding = false;
-	public bool isFinished = false;
 
 	private Vector3 targetPos;
 	public Block targetBlock = null;
@@ -46,9 +45,8 @@ public class Constructor : MonoBehaviour
 		ps.enableEmission = false;
 		ps.Emit(zigs);
 		particles = new ParticleSystem.Particle[ps.maxParticles];
-		AlignParticles();
 
-		StartCoroutine("UpdateBuild");
+		StartCoroutine("UpdateBuildCoroutine");
 
 		isBuilding = true;
 	}
@@ -60,65 +58,75 @@ public class Constructor : MonoBehaviour
 	public void StopBuilding() {
 		if (!isBuilding) return;
 
-		StopCoroutine("UpdateBuild");
+		StopCoroutine("UpdateBuildCoroutine");
 		ps.Clear();
 
 		isBuilding = false;
 	}
 
-	IEnumerator UpdateBuild() {
+	void UpdateBuild() {
+		if (targetBlue == null && targetBlock == null) {
+			return;
+		}
+		
+		// check if there's a current block we need to get rid of
+		bool isRemoving = false;
+		if (targetBlock != null) {
+			if (targetBlue == null || targetBlue.type != targetBlock.type || targetBlue.orientation != targetBlock.orientation)
+				isRemoving = true;
+		}
+		
+		if (isRemoving) {
+			targetBlock.scrapContent -= 1;
+			
+			if (targetBlock.scrapContent <= 0) {
+				targetBlock.ship.blocks[targetBlock.pos] = null;
+			}
+		} else {
+			if (targetBlock == null) { // gotta make a new block
+				targetBlock = new Block(targetBlue);
+				targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
+			}
+			
+			if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
+				targetBlock.scrapContent += 1;
+			}
+		}
+	}
+
+	IEnumerator UpdateBuildCoroutine() {
 		while (true) {
-			isFinished = false;
-			if (targetBlue == null && targetBlock == null) {
-				isFinished = true;
-				yield return new WaitForSeconds(0.1f); // nothing to be done here!
-				continue;
-			}
-
-			// check if there's a current block we need to get rid of
-			bool isRemoving = false;
-			if (targetBlock != null) {
-				if (targetBlue == null || targetBlue.type != targetBlock.type || targetBlue.orientation != targetBlock.orientation)
-					isRemoving = true;
-			}
-
-			if (isRemoving) {
-				targetBlock.scrapContent -= 1;
-				
-				if (targetBlock.scrapContent <= 0) {
-					targetBlock.ship.blocks[targetBlock.pos] = null;
-				}
-			} else {
-				if (targetBlock == null) { // gotta make a new block
-					targetBlock = new Block(targetBlue);
-					targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
-				}
-
-				if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
-					targetBlock.scrapContent += 1;
-				} else {
-					isFinished = true;
-				}
-			}
-
+			UpdateBuild();
 			yield return new WaitForSeconds(0.01f);
 		}
 	}
 	
 	void Update() {
-		AlignParticles();
+		if (!isBuilding) return;
+		var hitPos = targetPos;
+		var dist = targetPos - transform.position;
+		foreach (var hit in Physics.RaycastAll(transform.position, dist.normalized, dist.magnitude, LayerMask.GetMask(new string[] { "Wall" }))) {
+			if (hit.collider != null) {
+				hitPos = hit.point;
+				break;
+			}
+			Debug.Log(hit.collider);
+		}
 
-		var ship = Ship.AtWorldPos(targetPos);
+		AlignParticles(hitPos);
+
+		var ship = Ship.AtWorldPos(hitPos);
 		if (ship == null) return;
-		var blockPos = ship.WorldToBlockPos(targetPos);
+
+		var blockPos = ship.WorldToBlockPos(hitPos);
 		targetBlue = (BlueprintBlock)ship.blueprint.blocks[blockPos];
 		targetBlock = ship.blocks[blockPos];
 
 		//text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
 	}	
 
-	void AlignParticles() {
-		if (!isBuilding || targetPos == null) return;
+	void AlignParticles(Vector2 hitPos) {
+		if (!isBuilding || hitPos == null) return;
 
 		float timex = Time.time * speed * 0.1365143f;
 		float timey = Time.time * speed * 1.21688f;
@@ -128,7 +136,7 @@ public class Constructor : MonoBehaviour
 
 		for (int i = 0; i < particles.Length; i++)
 		{
-			Vector3 position = Vector3.Lerp(transform.position, targetPos, oneOverZigs * (float)i);
+			Vector3 position = Vector3.Lerp(transform.position, hitPos, oneOverZigs * (float)i);
 			Vector3 offset = new Vector3(noise.Noise(timex + position.x, timex + position.y, timex + position.z),
 			                             noise.Noise(timey + position.x, timey + position.y, timey + position.z),
 			                             noise.Noise(timez + position.x, timez + position.y, timez + position.z));
