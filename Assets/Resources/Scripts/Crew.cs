@@ -61,6 +61,9 @@ public class Crew : MonoBehaviour {
 			if (boardedShip != null) OnShipLeave(boardedShip);
 			OnShipEnter(currentBlock.ship);
 		}
+
+		if (currentBlock != controlConsole)
+			controlConsole = null;
 	}
 
 	public void UseBlock(Block block)  {

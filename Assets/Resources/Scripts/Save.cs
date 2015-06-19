@@ -85,7 +85,7 @@ public class Save {
 		}
 
 		foreach (var blockData in data.blueprintBlocks) {
-			ship.blueprint.blocks[blockData.x, blockData.y] = Save.Load(blockData);
+			ship.blueprint.blocks[blockData.x, blockData.y] = new BlueprintBlock(Save.Load(blockData));
 		}
 
 		shipObj.SetActive(true);

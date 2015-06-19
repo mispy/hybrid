@@ -24,7 +24,11 @@ public class Designer : MonoBehaviour {
 
 		//Game.main.debugText.text = "Designing Ship";
 		//Game.main.debugText.color = Color.green;		
-		SetDesignShip(Ship.ClosestTo(transform.position).First());
+		if (Crew.player.currentBlock != null) {
+			SetDesignShip(Crew.player.currentBlock.ship);
+		} else {
+			SetDesignShip(Ship.ClosestTo(transform.position).First());
+		}
 
 		this.enabled = true;
 	}
