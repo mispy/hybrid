@@ -33,18 +33,22 @@ public class Generate : MonoBehaviour {
 
 		ship.name = "Test Ship";
 		ship.SetBlock(0, 0, Block.types["console"], Orientation.up);
+		ship.SetBlock(1, 0, Block.types["gravgen"]);
+		ship.SetBlock(-1, 0, Block.types["floor"]);
 		ship.SetBlock(0, 1, Block.types["wall"]);
 		ship.SetBlock(-1, 1, Block.types["wall"], Orientation.left);
 		ship.SetBlock(1, 1, Block.types["wall"], Orientation.right);
-		ship.SetBlock(0, -1, Block.types["thruster"], Orientation.up);
+		ship.SetBlock(0, -1, Block.types["thruster"], Orientation.down);
+		ship.SetBlock(1, -1, Block.types["thruster"], Orientation.down);
+		ship.SetBlock(-1, -1, Block.types["thruster"], Orientation.down);
 		ship.SetBlock(0, 2, Block.types["wall"]);
-		ship.SetBlock(1, 2,  Block.types["thruster"], Orientation.down);
-		ship.SetBlock(-1, 2,  Block.types["thruster"], Orientation.down);
+		ship.SetBlock(1, 2,  Block.types["thruster"], Orientation.up);
+		ship.SetBlock(-1, 2,  Block.types["thruster"], Orientation.up);
 		ship.SetBlock(2, 2,  Block.types["wall"], Orientation.down);
 		ship.SetBlock(-2, 2,  Block.types["wall"], Orientation.down);
 		ship.SetBlock(2, 1,  Block.types["thruster"], Orientation.right);
 		ship.SetBlock(-2, 1,  Block.types["thruster"], Orientation.left);
-		ship.SetBlock(0, 3, Block.types["tractorBeam"], Orientation.down);
+		ship.SetBlock(0, 3, Block.types["torpedoLauncher"], Orientation.up);
 
 		shipObj.transform.Rotate(new Vector3(0, 0, 90));
 		shipObj.transform.position = pos;

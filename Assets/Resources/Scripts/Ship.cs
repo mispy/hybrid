@@ -292,9 +292,23 @@ public class Ship : PoolBehaviour {
 	}
 
 	public void MoveTowards(Vector2 worldPos) {
-		var localDir = transform.InverseTransformDirection((worldPos - (Vector2)transform.position).normalized);
+		var targetRotation = Quaternion.LookRotation((Vector2)transform.position - worldPos, Vector3.forward).eulerAngles;
+		var diff = (targetRotation - transform.rotation.eulerAngles).z;
+		//Debug.LogFormat("{0} {1} {2}", targetRotation, transform.rotation.eulerAngles, diff);
+
+		Debug.Log(diff);
+
+		if (diff > 10) {
+			FireAttitudeThrusters(Orientation.right);
+		} else if (diff < -10) {
+			FireAttitudeThrusters(Orientation.left);
+		} else {
+			FireThrusters(Orientation.down);
+		}
+
+		/*var localDir = transform.InverseTransformDirection((worldPos - (Vector2)transform.position).normalized);
 		var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
-		FireThrusters((Orientation)(-(int)orient));
+		FireThrusters((Orientation)(-(int)orient));*/
 	}
 
 	public IntVector2 WorldToBlockPos(Vector2 worldPos) {

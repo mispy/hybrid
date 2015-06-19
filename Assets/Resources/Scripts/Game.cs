@@ -40,11 +40,14 @@ public class Game : MonoBehaviour {
 
 		//Save.LoadGame();
 
-		for (var i = 0; i < 1; i++) {
+		/*for (var i = 0; i < 1; i++) {
 			Generate.Asteroid(new Vector2(-60, 0), 30);
-		}
+		}*/
 
-		Generate.EllipsoidShip(new Vector2(12, 0), 20, 10);
+		//Generate.EllipsoidShip(new Vector2(12, 0), 20, 10);
+		for (var i = 0; i < 10; i++) {
+			Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
+		}
 	}
 
 	// Update is called once per frame

@@ -34,7 +34,7 @@ public class ShipMind : MonoBehaviour {
 
 			var otherShip = hit.gameObject.GetComponentInParent<Ship>();
 
-			if (IsEnemy(otherShip)) {
+			if (otherShip != null && IsEnemy(otherShip)) {
 				launcher.Fire();
 			}
 		}
@@ -57,7 +57,7 @@ public class ShipMind : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		UpdateTractors();
+		//UpdateTractors();
 		UpdateWeapons();
 		UpdateMovement();
 	}

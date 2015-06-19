@@ -7,6 +7,9 @@ public class Thruster : MonoBehaviour {
 	public Ship ship;
 	public Block block;
 
+	private bool isFiring = false;
+	private bool isFiringAttitude = false;
+
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		ps = GetComponent<ParticleSystem>();
@@ -14,20 +17,43 @@ public class Thruster : MonoBehaviour {
 	}
 	
 	public void Fire() {		
-		ps.Emit(1);
-		ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * 4.0f);
+		isFiringAttitude = false;
+		isFiring = true;
+		CancelInvoke("Stop");
+		Invoke("Stop", 0.1f);
 	}
 
 	public void FireAttitude() {
-		ps.Emit(1);
+		isFiring = false;
+		isFiringAttitude = true;
+		CancelInvoke("Stop");
+		Invoke("Stop", 0.1f);
+	}
 
-		var dist = transform.localPosition - ship.localCenter;
-		var force = Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * 2.0f;
+	public void Stop() {
+		Debug.Log("Stop");
+		isFiring = false;
+		isFiringAttitude = false;
+	}
 
-		if (dist.x > 0) {
-			ship.rigidBody.AddRelativeTorque(Vector3.forward * force);
-		} else {
-			ship.rigidBody.AddRelativeTorque(Vector3.back * force);
+	void Update() {
+		if (isFiring || isFiringAttitude) {
+			ps.Emit(1);
+		}
+	}
+
+	void FixedUpdate() {
+		if (isFiring) {
+			ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 300f);
+		} else if (isFiringAttitude) {			
+			var dist = transform.localPosition - ship.localCenter;
+			var force = Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 200f;
+			
+			if (dist.x > 0) {
+				ship.rigidBody.AddRelativeTorque(Vector3.forward * force);
+			} else {
+				ship.rigidBody.AddRelativeTorque(Vector3.back * force);
+			}
 		}
 	}
 }
