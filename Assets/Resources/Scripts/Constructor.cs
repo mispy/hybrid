@@ -46,7 +46,7 @@ public class Constructor : MonoBehaviour
 		particles = new ParticleSystem.Particle[ps.maxParticles];
 		AlignParticles();
 
-		StartCoroutine("AddMaterial");
+		StartCoroutine("BuildBlock");
 
 		isBuilding = true;
 	}
@@ -57,12 +57,12 @@ public class Constructor : MonoBehaviour
 		Debug.Log("StopBuilding");
 
 		ps.Clear();
-		StopCoroutine("AddMaterial");
+		StopCoroutine("BuildBlock");
 
 		isBuilding = false;
 	}
 
-	IEnumerator AddMaterial() {
+	IEnumerator BuildBlock() {
 		while (true) {
 			if (targetBlock != null) {
 				if (targetBlock.scrapContent != targetBlock.type.scrapRequired) {

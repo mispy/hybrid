@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MissileLauncher : PoolBehaviour {
+public class TorpedoLauncher : PoolBehaviour {
 	public Ship ship;
 	public Block block;
 	public Collider collider;
@@ -30,12 +30,12 @@ public class MissileLauncher : PoolBehaviour {
 		lastFireTime = Time.time;
 
 
-		var missile = Pool.For("Missile").TakeObject();
-		missile.transform.position = transform.position;
-		missile.transform.rotation = transform.rotation;
-		var mcol = missile.GetComponent<BoxCollider>();
-		var rigid = missile.GetComponent<Rigidbody>();
-		missile.SetActive(true);
+		var torpedo = Pool.For("Torpedo").TakeObject();
+		torpedo.transform.position = transform.position;
+		torpedo.transform.rotation = transform.rotation;
+		var mcol = torpedo.GetComponent<BoxCollider>();
+		var rigid = torpedo.GetComponent<Rigidbody>();
+		torpedo.SetActive(true);
 		rigid.velocity = ship.rigidBody.velocity;
 		rigid.AddForce(-transform.up*0.2f);
 		Physics.IgnoreCollision(collider, mcol);

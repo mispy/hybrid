@@ -74,7 +74,7 @@ public class Block {
 		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
 		new BlockType("beamCannon", prefab: Game.Prefab("BeamCannon"));
 		new BlockType("thruster", prefab: Game.Prefab("Thruster"));
-		new BlockType("missileLauncher", prefab: Game.Prefab("MissileLauncher"));
+		new BlockType("torpedoLauncher", prefab: Game.Prefab("TorpedoLauncher"));
 
 		for (var i = 0; i < Block.sprites.Length; i++) {			
 			var name = Block.sprites[i].name;

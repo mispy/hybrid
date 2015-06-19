@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Missile : MonoBehaviour
+public class Torpedo : MonoBehaviour
 {
 	public float explosionForce;
 	public float explosionRadius;
