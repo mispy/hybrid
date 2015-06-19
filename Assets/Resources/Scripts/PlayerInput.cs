@@ -76,13 +76,11 @@ public class PlayerInput : MonoBehaviour {
 		}
 		
 		if (Input.GetKey(KeyCode.A)) {
-			//rigid.AddTorque(0.1f);
-			ship.FireThrusters(Orientation.right);
+			ship.FireAttitudeThrusters(Orientation.right);
 		}
 		
 		if (Input.GetKey(KeyCode.D)) {
-			//rigid.AddTorque(-0.1f);
-			ship.FireThrusters(Orientation.left);
+			ship.FireAttitudeThrusters(Orientation.left);
 		}
 		
 		if (Input.GetMouseButton(0)) {

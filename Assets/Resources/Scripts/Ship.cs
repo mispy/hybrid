@@ -336,6 +336,13 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
+	public void FireAttitudeThrusters(Orientation orientation) {
+		foreach (var thruster in GetBlockComponents<Thruster>()) {
+			if (thruster.block.orientation == orientation)
+				thruster.FireAttitude();
+		}
+	}
+
 	
 	public void FireLasers() {
 		foreach (var beam in GetBlockComponents<BeamCannon>()) {
