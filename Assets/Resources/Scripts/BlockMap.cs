@@ -47,6 +47,20 @@ public class BlockMap {
 			new IntVector2(bp.x, bp.y+1)
 		};
 	}
+
+	public IntVector2[] NeighborsWithDiagonal(IntVector2 bp) {
+		return new IntVector2[] {
+			new IntVector2(bp.x-1, bp.y),
+			new IntVector2(bp.x+1, bp.y),
+			new IntVector2(bp.x, bp.y-1),
+			new IntVector2(bp.x, bp.y+1),
+
+			new IntVector2(bp.x-1, bp.y-1),
+			new IntVector2(bp.x-1, bp.y+1),
+			new IntVector2(bp.x+1, bp.y-1),
+			new IntVector2(bp.x+1, bp.y+1)
+		};
+	}
 	
 	public bool IsEdge(IntVector2 bp) {
 		Profiler.BeginSample("IsEdge");

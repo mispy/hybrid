@@ -7,8 +7,8 @@ public class Thruster : MonoBehaviour {
 	public Ship ship;
 	public Block block;
 
-	private bool isFiring = false;
-	private bool isFiringAttitude = false;
+	public bool isFiring = false;
+	public bool isFiringAttitude = false;
 
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();

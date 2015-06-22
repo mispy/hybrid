@@ -32,9 +32,7 @@ public class PlayerInput : MonoBehaviour {
 		
 		if (destBlock == null || destBlock.CollisionLayer == Block.floorLayer) {
 			if (bp != currentBP && bp != crew.maglockMoveBlockPos) {
-				crew.maglockMoveBlockPos = bp;
-				crew.StopCoroutine("MoveToBlock");
-				crew.StartCoroutine("MoveToBlock");
+				crew.MaglockMove(bp);
 			}
 		}
 	}

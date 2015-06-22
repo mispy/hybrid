@@ -17,6 +17,7 @@ public class Crew : MonoBehaviour {
 	// Crew can be maglocked to a ship even if they don't have a current block
 	// bc they attach to the sides as well
 	public Ship maglockShip = null;
+	public IntVector2 currentBlockPos;
 	public IntVector2 maglockMoveBlockPos;
 	public Block currentBlock = null;
 
@@ -34,7 +35,7 @@ public class Crew : MonoBehaviour {
 		constructor = GetComponentInChildren<Constructor>();
 	}
 
-	IEnumerator MoveToBlock() {
+	IEnumerator MaglockMoveCoroutine() {
 		var speed = 0.1f;
 		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
 
@@ -59,11 +60,10 @@ public class Crew : MonoBehaviour {
 		}
 	}
 
-	void UpdateCurrentBlock() {
-		currentBlock = Block.AtWorldPos(transform.position);
-
-		if (currentBlock != controlConsole)
-			controlConsole = null;
+	public void MaglockMove(IntVector2 bp) {
+		maglockMoveBlockPos = bp;
+		StopCoroutine("MaglockMoveCoroutine");
+		StartCoroutine("MaglockMoveCoroutine");
 	}
 
 	public void UseBlock(Block block)  {
@@ -75,6 +75,8 @@ public class Crew : MonoBehaviour {
 		transform.rotation = maglockShip.transform.rotation;
 		transform.parent = maglockShip.transform;
 		rigidBody.isKinematic = true;
+
+		MaglockMove(ship.WorldToBlockPos(transform.position));
 	}
 
 	void StopMaglock() {
@@ -89,7 +91,7 @@ public class Crew : MonoBehaviour {
 		if (ship.blocks[blockPos] != null)
 			return true;
 
-		foreach (var bp in ship.blocks.Neighbors(blockPos)) {
+		foreach (var bp in ship.blocks.NeighborsWithDiagonal(blockPos)) {
 			if (ship.blocks[bp] != null)
 				return true;
 		}
@@ -97,23 +99,34 @@ public class Crew : MonoBehaviour {
 		return false;
 	}
 
-	void UpdateMaglock() {
-		if (maglockShip != null && CanMaglock(maglockShip))
-			return;
-
-		foreach (var ship in Ship.allActive) {
-			if (CanMaglock(ship)) {
-				SetMaglock(ship);
-				return;
+	Ship FindMaglockShip() {
+		if (maglockShip != null && CanMaglock(maglockShip)) {
+			return maglockShip;
+		} else {
+			foreach (var ship in Ship.allActive) {
+				if (CanMaglock(ship)) return ship;
 			}
-		}
 
-		// nothing to maglock
-		StopMaglock();
+			return null;
+		}
+	}
+
+	void UpdateMaglock() {
+		var ship = FindMaglockShip();
+
+		if (maglockShip != null && ship != maglockShip)
+			StopMaglock();
+
+		if (maglockShip == null && ship != maglockShip)
+			SetMaglock(ship);
+
+		if (maglockShip != null) {
+			currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
+			currentBlock = maglockShip.blocks[currentBlockPos];
+		}
 	}
 
 	void Update() {
-		UpdateCurrentBlock();
 		UpdateMaglock();
 	}
 }
