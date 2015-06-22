@@ -19,6 +19,12 @@ public class BlockType : MonoBehaviour {
 	public float mass;
 
 	public int scrapRequired = 30;
+
+	[Header("Description")]
+	[TextArea]
+	public string descriptionHeader;
+	[TextArea]
+	public string descriptionBody;
 	
 	// precalculated uv coordinates for each orientation
 	[HideInInspector]
