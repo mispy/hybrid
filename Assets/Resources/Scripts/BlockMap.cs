@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Random = UnityEngine.Random;
 
 public class BlockMap {
 	private Dictionary<IntVector2, Block> blockPositions;
@@ -92,13 +93,20 @@ public class BlockMap {
 		}
 	}
 
-	public IEnumerable<Vector3> GetVertices(int x, int y) {
-		var lx = x * Block.worldSize;
-		var ly = y * Block.worldSize;
+	public IEnumerable<Vector3> GetVertices(Block block) {
+		var lx = block.pos.x * Block.worldSize;
+		var ly = block.pos.y * Block.worldSize;
+
+		var offsetX = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
+		var offsetX2 = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
+		var offsetX3 = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
+		var offsetX4 = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
+
+
 		yield return new Vector3(lx - Block.worldSize / 2, ly + Block.worldSize / 2, 0);
 		yield return new Vector3(lx + Block.worldSize / 2, ly + Block.worldSize / 2, 0);
-		yield return new Vector3(lx + Block.worldSize / 2, ly - Block.worldSize / 2, 0);
-		yield return new Vector3(lx - Block.worldSize / 2, ly - Block.worldSize / 2, 0);
+		yield return new Vector3(offsetX3 + lx + Block.worldSize / 2, ly - Block.worldSize / 2, 0);
+		yield return new Vector3(offsetX4 + lx - Block.worldSize / 2, ly - Block.worldSize / 2, 0);
 	/*meshVertices.Add(new Vector3(lx, ly, 0));
 				meshVertices.Add(new Vector3(lx + Block.worldSize, ly, 0));
 				meshVertices.Add(new Vector3(lx + Block.worldSize, ly - Block.worldSize, 0));
@@ -117,7 +125,7 @@ public class BlockMap {
 		meshTriangles[i*6+4] = (i*4)+2;
 		meshTriangles[i*6+5] = (i*4)+3;
 		
-		var verts = GetVertices(block.pos.x, block.pos.y).ToList();
+		var verts = GetVertices(block).ToList();
 		meshVertices[i*4] = verts[0];
 		meshVertices[i*4+1] = verts[1];
 		meshVertices[i*4+2] = verts[2];

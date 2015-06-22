@@ -116,7 +116,7 @@ public class CrewMind : MonoBehaviour {
 
 		var bp = blockPath[0];
 
-		if (bp == crew.currentBlock.pos) {
+		if (bp == crew.currentBlockPos) {
 			blockPath.RemoveAt(0);
 		} else if (bp != crew.maglockMoveBlockPos) {
 			crew.maglockMoveBlockPos = bp;

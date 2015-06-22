@@ -460,7 +460,7 @@ public class Ship : PoolBehaviour {
 
 	private bool needMeshUpdate = false;
 
-	void QueueMeshUpdate() {
+	public void QueueMeshUpdate() {
 		needMeshUpdate = true;
 	}
 

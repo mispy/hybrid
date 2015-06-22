@@ -233,6 +233,21 @@ public class Block {
 		get { return type.collisionLayer; }
 	}
 
+	public float PercentFilled {
+		get { return this.scrapContent / (float)this.type.scrapRequired; }
+	}
+
+
+	public void TakeDamage(int amount) {
+		this.scrapContent -= amount;
+
+		if (this.scrapContent <= 0) {
+			ship.BreakBlock(this);
+		} else {
+			ship.blocks[pos] = this;
+		}
+	}
+
 	public BlockType type;
 	public int scrapContent;
 
