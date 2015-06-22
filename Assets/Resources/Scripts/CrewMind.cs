@@ -88,11 +88,11 @@ public class CrewMind : MonoBehaviour {
 	}
 
 	MindTask FindNextTask() {		
-		foreach (var block in myShip.blueprint.blocks.All) {
+		/*foreach (var block in myShip.blueprint.blocks.All) {
 			if (myShip.blocks[block.pos] == null) {
 				return new BuildTask(this, block);
 			}
-		}
+		}*/	
 
 		foreach (var block in myShip.blocks.All) {
 			if (block.type.name == "console") {

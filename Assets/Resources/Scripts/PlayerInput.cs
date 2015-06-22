@@ -11,6 +11,7 @@ public class PlayerInput : MonoBehaviour {
 	void Awake() {
 		crew = GetComponentInParent<Crew>();
 		designer = gameObject.AddComponent<Designer>();
+		designer.enabled = false;
 		Crew.player = crew;
 	}
 

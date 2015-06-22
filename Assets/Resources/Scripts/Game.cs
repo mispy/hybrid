@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 public class Game : MonoBehaviour {
 	public static Game main;
 
+	public Canvas canvas;
 	public Text debugText;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
@@ -51,7 +52,7 @@ public class Game : MonoBehaviour {
 		//	Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 		//}
 
-		InvokeRepeating("GenerateShip", 0.0f, 1.0f);
+		//InvokeRepeating("GenerateShip", 0.0f, 1.0f);
 	}
 
 	void GenerateShip() {

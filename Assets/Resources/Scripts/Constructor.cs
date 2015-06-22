@@ -101,7 +101,7 @@ public class Constructor : MonoBehaviour
 			yield return new WaitForSeconds(0.01f);
 		}
 	}
-	
+
 	void Update() {
 		if (!isBuilding) return;
 		var hitPos = targetPos;

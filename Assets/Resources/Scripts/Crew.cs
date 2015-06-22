@@ -80,10 +80,11 @@ public class Crew : MonoBehaviour {
 	}
 
 	void StopMaglock() {
-		gameObject.transform.parent = null;
+		gameObject.transform.parent = Game.main.transform;
 		rigidBody.isKinematic = false;
 		maglockShip.maglockedCrew.Remove(this);
 		maglockShip = null;
+		currentBlock = null;
 	}
 	
 	bool CanMaglock(Ship ship) {

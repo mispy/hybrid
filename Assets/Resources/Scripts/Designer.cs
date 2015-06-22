@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+
 
 public class Designer : MonoBehaviour {
 	public Ship designShip;
 	public Blueprint cursor;
 
-	void Awake() {
-		this.enabled = false;
-	}
-
-	public void StartDesigning() {
+	public void StartDesigning() {		
+		MainUI.blockSelector.Enable();
+		
 		if (cursor == null) {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursorObj.name = "Cursor";
@@ -32,8 +33,11 @@ public class Designer : MonoBehaviour {
 	}
 	
 	public void StopDesigning() {
+		MainUI.blockSelector.Disable();
+
 		cursor.gameObject.SetActive(false);
-		designShip.renderer.enabled = true;
+		if (designShip != null)
+			designShip.renderer.enabled = true;
 		//Game.main.debugText.text = "";
 		//Game.main.debugText.color = Color.white;
 
@@ -106,7 +110,10 @@ public class Designer : MonoBehaviour {
 				cursor.blocks[0, 0] = block;
 			}
 		}
-		
+
+		if (EventSystem.current.IsPointerOverGameObject())
+			return;
+
 		if (Input.GetMouseButton(0)) {			
 			PlaceBlock(pz, adjoiningBlock);
 		} else if (Input.GetMouseButton(1)) {
@@ -124,11 +131,9 @@ public class Designer : MonoBehaviour {
 	}
 
 	void Update() {		
-		if (Input.GetKeyDown(KeyCode.Tab)) {
-			var nextBlockType = Block.allTypes.IndexOf(cursor.blocks[0,0].type) + 1;
-			if (nextBlockType >= Block.types.Count) nextBlockType = 0;
-			cursor.blocks[0,0] = new Block(Block.allTypes[nextBlockType]);
-		}
+		var selectedType = MainUI.blockSelector.selectedType;
+		if (cursor.blocks[0,0].type != selectedType)
+			cursor.blocks[0,0] = new Block(selectedType);
 
 		if (designShip != null) {
 			UpdateWithShip();
