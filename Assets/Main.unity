@@ -240,6 +240,10 @@ Prefab:
       propertyPath: m_FontData.m_FontSize
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 22430192, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 134.199997
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
   m_IsPrefabParent: 0
@@ -879,7 +883,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -312, y: 167}
+  m_AnchoredPosition: {x: -312, y: 130.699997}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &2004456367
