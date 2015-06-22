@@ -34,6 +34,18 @@ public class Game : MonoBehaviour {
 		}
 	}
 
+	public static bool inputBlocked = false;
+	public static string inputBlocker;
+
+	public static void BlockInput(string blocker) {
+		inputBlocked = true;
+		inputBlocker = blocker;
+	}
+
+	public static void UnblockInput() {
+		inputBlocked = false;
+	}
+
 	// Use this for initialization
 	void Awake () {		
 		Game.main = this;
@@ -63,15 +75,23 @@ public class Game : MonoBehaviour {
 		//	Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 		//}
 
-		InvokeRepeating("GenerateShip", 0.0f, 1.0f);
+		//InvokeRepeating("GenerateShip", 0.0f, 1.0f);
 	}
 
 	void GenerateShip() {
 		Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 	}
 
+
+
 	// Update is called once per frame
 	void Update() {
+		if (Game.inputBlocked) return;
+
+		if (Input.GetKeyDown(KeyCode.BackQuote)) {
+
+		}
+
 		if (Input.GetKeyDown(KeyCode.F5)) {
 			Save.SaveGame();
 		}

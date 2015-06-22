@@ -26,7 +26,14 @@
         <y>0</y>
         <z>0</z>
       </angularVelocity>
-      <blocks />
+      <blocks>
+        <BlockData>
+          <x>-16</x>
+          <y>3</y>
+          <typeName>console</typeName>
+          <orientation>1</orientation>
+        </BlockData>
+      </blocks>
       <blueprintBlocks>
         <BlockData>
           <x>-16</x>
@@ -541,8 +548,8 @@
   </ships>
   <player>
     <position>
-      <x>-18.461319</x>
-      <y>0</y>
+      <x>-16</x>
+      <y>3</y>
     </position>
     <rotation>
       <x>0</x>
@@ -556,7 +563,7 @@
       </eulerAngles>
     </rotation>
     <velocity>
-      <x>8.09902558E-05</x>
+      <x>0</x>
       <y>0</y>
     </velocity>
     <angularVelocity>

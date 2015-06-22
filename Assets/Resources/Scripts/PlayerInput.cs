@@ -139,6 +139,8 @@ public class PlayerInput : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (Game.inputBlocked) return;
+
 		if (crew.controlConsole != null) {
 			if (Input.GetKeyDown(KeyCode.E)) {
 				crew.controlConsole = null;
