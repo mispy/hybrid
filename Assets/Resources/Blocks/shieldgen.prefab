@@ -34,7 +34,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &438110
 Transform:
   m_ObjectHideFlags: 1
@@ -117,34 +117,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: shieldgen
-  friendlyName: Shield Generator
   texture: {fileID: 2800000, guid: f685e9add74ddde4a90912f5d2fe6cda, type: 3}
   uiSprite: {fileID: 21300000, guid: 1615f755457e28c4aa9e322fa7ef999e, type: 3}
   isComplexBlock: 1
   mass: .00100000005
   scrapRequired: 30
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: '<size=16>Shield Generator</size>
+
+    <color="yellow">System</color>'
+  descriptionBody: Advanced energy shield generator. Projects a protective bubble
+    around a ship.
   upUVs:
-  - {x: .25, y: 1}
   - {x: .5, y: 1}
+  - {x: .75, y: 1}
+  - {x: .75, y: .5}
   - {x: .5, y: .5}
-  - {x: .25, y: .5}
   downUVs:
-  - {x: .25, y: .5}
   - {x: .5, y: .5}
+  - {x: .75, y: .5}
+  - {x: .75, y: 1}
   - {x: .5, y: 1}
-  - {x: .25, y: 1}
   leftUVs:
-  - {x: .25, y: 1}
-  - {x: .25, y: .5}
-  - {x: .5, y: .5}
   - {x: .5, y: 1}
+  - {x: .5, y: .5}
+  - {x: .75, y: .5}
+  - {x: .75, y: 1}
   rightUVs:
-  - {x: .5, y: .5}
+  - {x: .75, y: .5}
+  - {x: .75, y: 1}
   - {x: .5, y: 1}
-  - {x: .25, y: 1}
-  - {x: .25, y: .5}
+  - {x: .5, y: .5}
 --- !u!135 &13565164
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -188,6 +190,17 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: friendlyName
       value: Shield Generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: '<size=16>Shield Generator</size>
+
+        <color="yellow">System</color>'
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: Advanced energy shield generator. Projects a protective bubble around
+        a ship.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

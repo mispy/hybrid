@@ -40,14 +40,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: floor
-  friendlyName: Floor
   texture: {fileID: 2800000, guid: e4cfd6b86c88d6b48b4e879419d20e9c, type: 3}
   uiSprite: {fileID: 21300000, guid: 52684cd79ba038c48b396b45748587aa, type: 3}
   isComplexBlock: 0
   mass: .00100000005
   scrapRequired: 30
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: '<size=16>Interior Floor</size>
+
+    <color=grey>Structure</color>'
+  descriptionBody: A basic metal floor tile. Can be traversed by crew.
   upUVs:
   - {x: 0, y: 1}
   - {x: .25, y: 1}
@@ -103,6 +104,16 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: friendlyName
       value: Floor
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: '<size=16>Interior Floor</size>
+
+        <color=grey>Structure</color>'
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: A basic metal floor tile. Can be traversed by crew.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

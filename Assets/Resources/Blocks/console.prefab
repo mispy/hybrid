@@ -40,14 +40,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: console
-  friendlyName: Console
   texture: {fileID: 2800000, guid: 3c168f1043857744aaded25e21a79738, type: 3}
   uiSprite: {fileID: 21300000, guid: 2142b65a95d0ebb4d8912e72b9ca259b, type: 3}
   isComplexBlock: 0
   mass: .00100000005
   scrapRequired: 30
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: '<size=16>Navigation Console</size>
+
+    <color="lime">Console</color>'
+  descriptionBody: Primary navigation console. Press "E" on one of these to control
+    your ship.
   upUVs:
   - {x: 0, y: .5}
   - {x: .25, y: .5}
@@ -91,6 +93,17 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: friendlyName
       value: Console
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: '<size=16>Navigation Console</size>
+
+        <color="lime">Console</color>'
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: Primary navigation console. Press "E" on one of these to control your
+        ship.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

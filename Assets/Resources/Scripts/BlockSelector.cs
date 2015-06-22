@@ -4,16 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BlockSelector : MonoBehaviour {
-	public RectTransform panel;
-	public float startX;
-	public float startY;
-
-	public List<Button> blockButtons = new List<Button>();
+	public RectTransform blockDescriber;
 	public BlockType selectedType;
+	float startX;
+	float startY;
+	RectTransform panel;
+	List<Button> blockButtons = new List<Button>();
 
 	void Awake() {
-		selectedType = Block.allTypes[0];
-
 		MainUI.blockSelector = this;
 		panel = GetComponent<RectTransform>();
 		startX = -panel.sizeDelta.x/2;
@@ -51,6 +49,11 @@ public class BlockSelector : MonoBehaviour {
 			var x = startX + Block.pixelSize/2 + i * (Block.pixelSize + 5);
 			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, -Block.pixelSize*4, 0), new Vector3(x, 0, 0), 0.1f));
 		}
+
+		blockDescriber.gameObject.SetActive(true);
+
+		if (selectedType == null)
+			SelectBlock(1);
 	}
 
 	public void Disable() {
@@ -58,12 +61,23 @@ public class BlockSelector : MonoBehaviour {
 			var x = button.transform.localPosition.x;
 			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, 0, 0), new Vector3(x, -Block.pixelSize*4, 0), 0.1f));
 		}
+
+
+		blockDescriber.gameObject.SetActive(false);
 	}
 
 	void SelectBlock(int i) {
 		selectedType = Block.allTypes[i-1];
 		foreach (var button in blockButtons) button.image.color = Color.white;
 		blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+
+		var header = blockDescriber.FindChild("HeaderText").GetComponent<Text>();
+		var body = blockDescriber.FindChild("BodyText").GetComponent<Text>();
+		var icon = blockDescriber.GetComponentInChildren<Button>();
+
+		header.text = selectedType.descriptionHeader;
+		body.text = selectedType.descriptionBody;
+		icon.image.sprite = selectedType.uiSprite;
 	}
 
 	void Update() {

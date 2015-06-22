@@ -6,9 +6,6 @@ public class BlockType : MonoBehaviour {
 	[HideInInspector]
 	public string name;
 
-	[Tooltip("The name of the block as seen by players.")]
-	public string friendlyName;
-
 	public Texture2D texture;
 	public Sprite uiSprite;
 

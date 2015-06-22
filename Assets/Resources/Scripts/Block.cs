@@ -21,14 +21,33 @@ public class Block {
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 
+	public static string[] blockOrder = new string[] {
+		"console",
+		"floor",
+		"wall",
+		"thruster",
+		"tractorBeam",
+		"gravgen",
+		"shieldgen",
+		"torpedoLauncher"
+	};
+
 	public static void Setup() {
-		Block.allTypes = Game.LoadPrefabs<BlockType>("Blocks").ToList();
-		Texture2D[] blockTextures = Block.allTypes.Select(type => type.texture).ToArray();
-		foreach (var type in allTypes) {
+		foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
 			type.name = type.gameObject.name;
 			Block.types[type.name] = type;
 		}
 
+		foreach (var name in blockOrder) {
+			Block.allTypes.Add(Block.types[name]);
+		}
+
+		foreach (var type in Block.types.Values) {
+			if (!Block.allTypes.Contains(type))
+				Block.allTypes.Add(type);
+		}
+		Texture2D[] blockTextures = Block.allTypes.Select(type => type.texture).ToArray();
+		
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");
 				

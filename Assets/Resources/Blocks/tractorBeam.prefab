@@ -59,34 +59,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: tractorBeam
-  friendlyName: Tractor Beam
   texture: {fileID: 2800000, guid: 688357250ad35f24d942a95453c45401, type: 3}
   uiSprite: {fileID: 21300000, guid: 15b793fc1f9cdbb4d9f3f8535b1f7f2d, type: 3}
   isComplexBlock: 1
   mass: .00100000005
   scrapRequired: 30
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: '<size=16>Tractor Beam</size>
+
+    <color=aqua>Utility</color>'
+  descriptionBody: A versatile gravity manipulation device. Useful for harvesting
+    nearby resources.
   upUVs:
-  - {x: .5, y: 1}
-  - {x: .75, y: 1}
-  - {x: .75, y: .5}
   - {x: .5, y: .5}
+  - {x: .75, y: .5}
+  - {x: .75, y: 0}
+  - {x: .5, y: 0}
   downUVs:
-  - {x: .5, y: .5}
+  - {x: .5, y: 0}
+  - {x: .75, y: 0}
   - {x: .75, y: .5}
-  - {x: .75, y: 1}
-  - {x: .5, y: 1}
+  - {x: .5, y: .5}
   leftUVs:
-  - {x: .5, y: 1}
   - {x: .5, y: .5}
+  - {x: .5, y: 0}
+  - {x: .75, y: 0}
   - {x: .75, y: .5}
-  - {x: .75, y: 1}
   rightUVs:
+  - {x: .75, y: 0}
   - {x: .75, y: .5}
-  - {x: .75, y: 1}
-  - {x: .5, y: 1}
   - {x: .5, y: .5}
+  - {x: .5, y: 0}
 --- !u!198 &19899392
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1215,6 +1217,17 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: friendlyName
       value: Tractor Beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: '<size=16>Tractor Beam</size>
+
+        <color=aqua>Utility</color>'
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: A versatile gravity manipulation device. Useful for harvesting nearby
+        resources.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
