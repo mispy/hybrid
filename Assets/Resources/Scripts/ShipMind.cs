@@ -61,6 +61,9 @@ public class ShipMind : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		var pilot = myShip.FindPilot();
+		if (pilot == null || pilot == Crew.player) return;
+
 		UpdateTractors();
 	    UpdateWeapons();
 		UpdateMovement();

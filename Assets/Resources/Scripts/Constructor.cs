@@ -85,12 +85,13 @@ public class Constructor : MonoBehaviour
 		} else {
 			if (targetBlock == null) { // gotta make a new block
 				targetBlock = new Block(targetBlue);
-				targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
 			}
 			
 			if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
 				targetBlock.scrapContent += 1;
 			}
+
+			targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
 		}
 	}
 

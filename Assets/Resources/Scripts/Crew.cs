@@ -72,16 +72,17 @@ public class Crew : MonoBehaviour {
 
 	void SetMaglock(Ship ship) {
 		maglockShip = ship;
+		maglockShip.maglockedCrew.Add(this);
 		transform.rotation = maglockShip.transform.rotation;
 		transform.parent = maglockShip.transform;
 		rigidBody.isKinematic = true;
-
 		MaglockMove(ship.WorldToBlockPos(transform.position));
 	}
 
 	void StopMaglock() {
 		gameObject.transform.parent = null;
 		rigidBody.isKinematic = false;
+		maglockShip.maglockedCrew.Remove(this);
 		maglockShip = null;
 	}
 	

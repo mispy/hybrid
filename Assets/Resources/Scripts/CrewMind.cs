@@ -41,6 +41,7 @@ public class AttachTask : MindTask {
 
 	public override void Update() {
 		if (mind.crew.currentBlock == targetBlock) {
+			mind.crew.controlConsole = targetBlock;
 			Stop();
 		} else {
 			mind.PathToBlock(targetBlock);

@@ -8,6 +8,21 @@ public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
 
+	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
+		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
+	}
+	
+	public static Ship AtWorldPos(Vector2 worldPos) {
+		foreach (var ship in Ship.allActive) {
+			var blockPos = ship.WorldToBlockPos(worldPos);
+			if (ship.blocks[blockPos] != null || ship.blueprint.blocks[blockPos] != null) {
+				return ship;
+			}
+		}
+		
+		return null;
+	}
+
 	public BlockMap blocks = new BlockMap();
 	public Blueprint blueprint;
 	
@@ -26,20 +41,7 @@ public class Ship : PoolBehaviour {
 
 	public Dictionary<Block, GameObject> blockComponents = new Dictionary<Block, GameObject>();
 
-	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
-		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
-	}
-
-	public static Ship AtWorldPos(Vector2 worldPos) {
-		foreach (var ship in Ship.allActive) {
-			var blockPos = ship.WorldToBlockPos(worldPos);
-			if (ship.blocks[blockPos] != null || ship.blueprint.blocks[blockPos] != null) {
-				return ship;
-			}
-		}
-
-		return null;
-	}
+	public List<Crew> maglockedCrew = new List<Crew>();
 
 	public void Clear() {
 		blocks = new BlockMap();
@@ -430,6 +432,15 @@ public class Ship : PoolBehaviour {
 			if (block != null)
 				otherShip.ReceiveImpact(rigidBody, block);
 		}
+	}
+
+	public Crew FindPilot() {
+		foreach (var crew in maglockedCrew) {
+			if (crew.controlConsole != null)
+				return crew;
+		}
+
+		return null;
 	}
 
 	void OnCollisionStay(Collision collision) {

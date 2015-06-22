@@ -97,16 +97,12 @@ public class BlockMap {
 		var lx = block.pos.x * Block.worldSize;
 		var ly = block.pos.y * Block.worldSize;
 
-		var offsetX = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
-		var offsetX2 = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
-		var offsetX3 = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
-		var offsetX4 = Random.Range(block.PercentFilled-1, Math.Abs(block.PercentFilled-1));
+		var m = block.PercentFilled;
 
-
-		yield return new Vector3(lx - Block.worldSize / 2, ly + Block.worldSize / 2, 0);
-		yield return new Vector3(lx + Block.worldSize / 2, ly + Block.worldSize / 2, 0);
-		yield return new Vector3(offsetX3 + lx + Block.worldSize / 2, ly - Block.worldSize / 2, 0);
-		yield return new Vector3(offsetX4 + lx - Block.worldSize / 2, ly - Block.worldSize / 2, 0);
+		yield return new Vector3(lx - Block.worldSize*m / 2, ly + Block.worldSize*m / 2, 0);
+		yield return new Vector3(lx + Block.worldSize*m / 2, ly + Block.worldSize*m / 2, 0);
+		yield return new Vector3(lx + Block.worldSize*m / 2, ly - Block.worldSize*m / 2, 0);
+		yield return new Vector3(lx - Block.worldSize*m / 2, ly - Block.worldSize*m / 2, 0);
 	/*meshVertices.Add(new Vector3(lx, ly, 0));
 				meshVertices.Add(new Vector3(lx + Block.worldSize, ly, 0));
 				meshVertices.Add(new Vector3(lx + Block.worldSize, ly - Block.worldSize, 0));

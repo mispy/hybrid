@@ -24,10 +24,8 @@ public class Designer : MonoBehaviour {
 
 		//Game.main.debugText.text = "Designing Ship";
 		//Game.main.debugText.color = Color.green;		
-		if (Crew.player.currentBlock != null) {
-			SetDesignShip(Crew.player.currentBlock.ship);
-		} else {
-			SetDesignShip(Ship.ClosestTo(transform.position).First());
+		if (Crew.player.maglockShip != null) {
+			SetDesignShip(Crew.player.maglockShip);
 		}
 
 		this.enabled = true;
@@ -66,32 +64,26 @@ public class Designer : MonoBehaviour {
 	}
 
 	public void PlaceBlock(Vector2 worldPos, Block adjoiningBlock = null) {
-		var blockPos = designShip.WorldToBlockPos(worldPos);		
-
-		if (adjoiningBlock == null && designShip.blueprint.blocks[blockPos] == null) {
+		if (designShip == null || (adjoiningBlock == null && designShip.blueprint.blocks[designShip.WorldToBlockPos(worldPos)] == null)) {
 			// new ship!
 			var shipObj = Pool.For("Ship").TakeObject();
 			SetDesignShip(shipObj.GetComponent<Ship>());
 			shipObj.SetActive(true);
 		}
 
+		var blockPos = designShip.WorldToBlockPos(worldPos);
 		var block = new BlueprintBlock(cursor.blocks[0,0].type);
 		block.orientation = cursor.blocks[0,0].orientation;
 		designShip.blueprint.SetBlock(blockPos, block);
 	}
 
-	void Update() {		
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
-		if (Input.GetKeyDown(KeyCode.Tab)) {
-			var nextBlockType = Block.allTypes.IndexOf(cursor.blocks[0,0].type) + 1;
-			if (nextBlockType >= Block.types.Count) nextBlockType = 0;
-			cursor.blocks[0,0] = new Block(Block.allTypes[nextBlockType]);
-		}
+	void UpdateWithShip() {
+		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 		var blockPos = designShip.WorldToBlockPos(pz);
 		var adjoiningBlock = FindAdjoiningBlock(pz, blockPos);
-
+		
 		cursor.transform.position = pz;
 		if (adjoiningBlock != null) {
 			cursor.transform.position = designShip.BlockToWorldPos(blockPos);
@@ -114,11 +106,34 @@ public class Designer : MonoBehaviour {
 				cursor.blocks[0, 0] = block;
 			}
 		}
-
+		
 		if (Input.GetMouseButton(0)) {			
 			PlaceBlock(pz, adjoiningBlock);
 		} else if (Input.GetMouseButton(1)) {
 			designShip.blueprint.blocks[blockPos] = null;
+		}
+	}
+
+	void UpdateNoShip() {
+		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+		cursor.transform.position = pz;
+
+		if (Input.GetMouseButtonDown(0)) {
+			PlaceBlock(pz);
+		}
+	}
+
+	void Update() {		
+		if (Input.GetKeyDown(KeyCode.Tab)) {
+			var nextBlockType = Block.allTypes.IndexOf(cursor.blocks[0,0].type) + 1;
+			if (nextBlockType >= Block.types.Count) nextBlockType = 0;
+			cursor.blocks[0,0] = new Block(Block.allTypes[nextBlockType]);
+		}
+
+		if (designShip != null) {
+			UpdateWithShip();
+		} else {
+			UpdateNoShip();
 		}
 	}
 }
