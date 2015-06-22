@@ -3,10 +3,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(ParticleSystem))]
 public class TractorBeam : MonoBehaviour {
 	public ParticleSystem beam;
+	[HideInInspector]
 	public Ship ship;
 
+	[HideInInspector]
 	public List<Collider> captured = new List<Collider>();
 
 	private float range = 10f;
@@ -46,7 +49,6 @@ public class TractorBeam : MonoBehaviour {
 
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
-		beam = GetComponent<ParticleSystem>();
 		beam.enableEmission = false;
 	}
 

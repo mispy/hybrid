@@ -2,8 +2,10 @@
 using System;
 using System.Collections;
 
+[RequireComponent(typeof(ParticleSystem))]
 public class Thruster : MonoBehaviour {
 	public ParticleSystem ps;
+	[HideInInspector]
 	public Ship ship;
 	public Block block;
 
@@ -12,7 +14,6 @@ public class Thruster : MonoBehaviour {
 
 	void OnEnable() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
-		ps = GetComponent<ParticleSystem>();
 		block = ship.BlockAtWorldPos(transform.position);
 	}
 	

@@ -84,7 +84,7 @@ public class Ship : PoolBehaviour {
 		UpdateGravity();
 
 		foreach (var block in blocks.All) {
-			if (block.type.prefab != null)
+			if (block.type.gameObject != null)
 				AddBlockComponent(block);
 		}
 
@@ -221,10 +221,10 @@ public class Ship : PoolBehaviour {
 		if (Block.IsType(newBlock, "gravgen") || Block.IsType(oldBlock, "gravgen"))
 			UpdateGravity();
 
-		if (oldBlock != null && oldBlock.type.prefab != null)
+		if (oldBlock != null && oldBlock.type.isComplexBlock)
 			Pool.Recycle(blockComponents[oldBlock]);
 
-		if (newBlock != null && newBlock.type.prefab != null) {
+		if (newBlock != null && newBlock.type.isComplexBlock) {
 			AddBlockComponent(newBlock);
 		}
 
@@ -239,7 +239,7 @@ public class Ship : PoolBehaviour {
 	public void AddBlockComponent(Block block) {
 		Vector2 worldOrient = transform.TransformVector(Util.orientToCardinal[block.orientation]);
 
-		var obj = Pool.For(block.type.prefab).TakeObject();		
+		var obj = Pool.For(block.type.gameObject).TakeObject();		
 		obj.transform.parent = transform;
 		obj.transform.position = BlockToWorldPos(block.pos);
 		obj.transform.up = worldOrient;

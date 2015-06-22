@@ -23,6 +23,17 @@ public class Game : MonoBehaviour {
 		return prefabs[name];
 	}
 
+	public static IEnumerable<T> LoadPrefabs<T>(string path) {
+		var resources = Resources.LoadAll(path);
+		foreach (var obj in resources) {
+			var gobj = obj as GameObject;
+			if (gobj != null) {
+				var comp = gobj.GetComponent<T>();
+				if (comp != null) yield return comp;
+			}
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {		
 		Game.main = this;

@@ -4,32 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class BlockType {
-	public GameObject prefab;
-	public float mass;
-	public string name;
-	public int collisionLayer;
-	public int scrapRequired;
-	
-	// precalculated uv coordinates for each orientation
-	public Vector2[] upUVs;
-	public Vector2[] downUVs;
-	public Vector2[] leftUVs;
-	public Vector2[] rightUVs;
-
-	public BlockType(string name, float mass = 0.001f, GameObject prefab = null, string layer = "Wall",
-	                 int scrapRequired = 30) {
-		this.name = name;
-		this.mass = mass;
-		this.prefab = prefab;
-		this.collisionLayer = LayerMask.NameToLayer(layer);
-		this.scrapRequired = scrapRequired;
-
-		Block.allTypes.Add(this);
-		Block.types[name] = this;
-	}
-}
-
 public class Block {
 	public static Dictionary<string, BlockType> types = new Dictionary<string, BlockType>();
 	public static List<BlockType> allTypes = new List<BlockType>();
@@ -47,42 +21,26 @@ public class Block {
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 
-	// the core sequence of each block type sprite
-	public static Texture2D[] sprites;
-	
 	public static void Setup() {
-		var blockSprites = new List<Texture2D>();
-		var resources = Resources.LoadAll("Blocks");
-		foreach (var obj in resources) {
-			blockSprites.Add(obj as Texture2D);
+		Block.allTypes = Game.LoadPrefabs<BlockType>("Blocks").ToList();
+		Texture2D[] blockTextures = Block.allTypes.Select(type => type.texture).ToArray();
+		foreach (var type in allTypes) {
+			type.name = type.gameObject.name;
+			Block.types[type.name] = type;
 		}
-		sprites = blockSprites.ToArray();
 
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");
 				
-		// let's compress all the block sprites into a single tilesheet texture
+		// let's compress all the block textures into a single tilesheet
 		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
-
-		var boxes = atlas.PackTextures(Block.sprites, 0, Block.pixelSize*Block.sprites.Count());
+		var boxes = atlas.PackTextures(blockTextures, 0, Block.pixelSize*blockTextures.Length);
 
 		Block.tileWidth = (float)Block.pixelSize / atlas.width;
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
 
-		new BlockType("floor", layer: "Floor");
-		new BlockType("console", layer: "Floor");
-		new BlockType("tractorBeam", prefab: Game.Prefab("TractorBeam"));
-		new BlockType("beamCannon", prefab: Game.Prefab("BeamCannon"));
-		new BlockType("thruster", prefab: Game.Prefab("Thruster"));
-		new BlockType("torpedoLauncher", prefab: Game.Prefab("TorpedoLauncher"));
-
-		for (var i = 0; i < Block.sprites.Length; i++) {			
-			var name = Block.sprites[i].name;
-			if (!Block.types.ContainsKey(name)) {
-				new BlockType(name);
-			}
-			var type = Block.types[name];
-
+		for (var i = 0; i < Block.allTypes.Count; i++) {			
+			var type = Block.allTypes[i];
 			var box = boxes[i];
 
 			type.upUVs = new Vector2[] {
@@ -230,7 +188,7 @@ public class Block {
 	}
 
 	public int CollisionLayer {
-		get { return type.collisionLayer; }
+		get { return type.gameObject.layer; }
 	}
 
 	public float PercentFilled {

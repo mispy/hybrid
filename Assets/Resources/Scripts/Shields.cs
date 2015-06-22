@@ -4,15 +4,14 @@ using System.Collections;
 public class Shields : MonoBehaviour {
 	public static GameObject prefab;
 
-	public float effectTime;
 	public MeshRenderer renderer;
+	public float effectTime;
 	public Vector3 contactPoint;
 	private float elapsedTime = 0.0f;
 	private float duration = 0.0f;
 	private bool staying = false;
 
 	void Awake() {
-		renderer = GetComponent<MeshRenderer>();
 	}
 
 	void Update(){

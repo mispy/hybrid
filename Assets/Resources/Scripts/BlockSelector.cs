@@ -8,7 +8,6 @@ public class BlockSelector : MonoBehaviour {
 	public float startX;
 	public float startY;
 
-	public Dictionary<string, Sprite> blockSprites = new Dictionary<string, Sprite>();
 	public List<Button> blockButtons = new List<Button>();
 	public BlockType selectedType;
 
@@ -19,11 +18,6 @@ public class BlockSelector : MonoBehaviour {
 		panel = GetComponent<RectTransform>();
 		startX = -panel.sizeDelta.x/2;
 		startY = panel.sizeDelta.y/2;
-
-		var resources = Resources.LoadAll("BlockSprites");
-		foreach (var obj in resources) {
-			blockSprites[obj.name] = (obj as Sprite);
-		}
 	}
 
 	IEnumerator AnimateButtonCoroutine(Button button, Vector3 startPos, Vector3 endPos, float duration) {
@@ -44,7 +38,7 @@ public class BlockSelector : MonoBehaviour {
 				button.transform.localScale = new Vector3(1, 1, 1);
 				blockButtons.Add(button);
 
-				button.image.sprite = blockSprites[type.name];
+				button.image.sprite = type.uiSprite;
 			}
 		}
 
@@ -66,12 +60,16 @@ public class BlockSelector : MonoBehaviour {
 		}
 	}
 
+	void SelectBlock(int i) {
+		selectedType = Block.allTypes[i-1];
+		foreach (var button in blockButtons) button.image.color = Color.white;
+		blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+	}
+
 	void Update() {
 		int i = Util.GetNumericKeyDown();
 		if (i > 0 && i <= Block.allTypes.Count) {
-			selectedType = Block.allTypes[i-1];
-			foreach (var button in blockButtons) button.image.color = Color.white;
-			blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+			SelectBlock(i);
 		}
 	}
 }

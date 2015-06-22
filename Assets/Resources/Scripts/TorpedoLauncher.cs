@@ -4,8 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class TorpedoLauncher : PoolBehaviour {
+	[HideInInspector]
 	public Ship ship;
 	public Block block;
+	[HideInInspector]
 	public Collider collider;
 	private float timeBetweenShots = 1f;
 	private float lastFireTime = 0f;
