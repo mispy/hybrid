@@ -10,14 +10,18 @@ public class Crew : MonoBehaviour {
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
-	public Ship boardedShip = null;
-	public Block currentBlock = null;
-	public bool isGravityLocked = false;
 	public Constructor constructor;
+
+
+
+	// Crew can be maglocked to a ship even if they don't have a current block
+	// bc they attach to the sides as well
+	public Ship maglockShip = null;
+	public IntVector2 maglockMoveBlockPos;
+	public Block currentBlock = null;
 
 	public Block controlConsole = null;
 
-	public IntVector2 targetBlockPos;
 
 	void Awake() {
 		collider = GetComponent<BoxCollider>();
@@ -32,10 +36,10 @@ public class Crew : MonoBehaviour {
 
 	IEnumerator MoveToBlock() {
 		var speed = 0.1f;
-		var targetPos = (Vector3)boardedShip.BlockToLocalPos(targetBlockPos);
+		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
 
 		while (true) {
-			if (!isGravityLocked) break;
+			if (maglockShip == null) break;
 
 			var pos = transform.localPosition;
 			var dist = targetPos - pos;
@@ -57,10 +61,6 @@ public class Crew : MonoBehaviour {
 
 	void UpdateCurrentBlock() {
 		currentBlock = Block.AtWorldPos(transform.position);
-		if (currentBlock != null && currentBlock.ship != boardedShip) {
-			if (boardedShip != null) OnShipLeave(boardedShip);
-			OnShipEnter(currentBlock.ship);
-		}
 
 		if (currentBlock != controlConsole)
 			controlConsole = null;
@@ -70,32 +70,50 @@ public class Crew : MonoBehaviour {
 		controlConsole = block;
 	}
 
-	void OnShipEnter(Ship ship) {
-		Debug.Log("entering ship");
-		boardedShip = ship;
+	void SetMaglock(Ship ship) {
+		maglockShip = ship;
+		transform.rotation = maglockShip.transform.rotation;
+		transform.parent = maglockShip.transform;
+		rigidBody.isKinematic = true;
 	}
 
-	void OnShipLeave(Ship ship) {
-		Debug.Log("leaving ship");
-		boardedShip = null;
+	void StopMaglock() {
+		gameObject.transform.parent = null;
+		rigidBody.isKinematic = false;
+		maglockShip = null;
 	}
+	
+	bool CanMaglock(Ship ship) {
+		var blockPos = ship.WorldToBlockPos(transform.position);
 
-	void UpdateGravityLock() {
-		var hasGravity = currentBlock != null && boardedShip != null && boardedShip.hasGravity;
-		if (hasGravity && !isGravityLocked) {
-			transform.rotation = boardedShip.transform.rotation;
-			transform.parent = boardedShip.transform;
-			rigidBody.isKinematic = true;
-			isGravityLocked = true;
-		} else if (!hasGravity && isGravityLocked) {
-			gameObject.transform.parent = null;
-			rigidBody.isKinematic = false;
-			isGravityLocked = false;
+		if (ship.blocks[blockPos] != null)
+			return true;
+
+		foreach (var bp in ship.blocks.Neighbors(blockPos)) {
+			if (ship.blocks[bp] != null)
+				return true;
 		}
+
+		return false;
+	}
+
+	void UpdateMaglock() {
+		if (maglockShip != null && CanMaglock(maglockShip))
+			return;
+
+		foreach (var ship in Ship.allActive) {
+			if (CanMaglock(ship)) {
+				SetMaglock(ship);
+				return;
+			}
+		}
+
+		// nothing to maglock
+		StopMaglock();
 	}
 
 	void Update() {
 		UpdateCurrentBlock();
-		UpdateGravityLock();
+		UpdateMaglock();
 	}
 }

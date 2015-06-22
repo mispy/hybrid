@@ -104,7 +104,7 @@ public class CrewMind : MonoBehaviour {
 
 
 	void Update() {
-		if (crew.isGravityLocked) {
+		if (crew.maglockShip != null) {
 			UpdateLockedMovement();
 		} else {
 			UpdateFreeMovement();
@@ -118,8 +118,8 @@ public class CrewMind : MonoBehaviour {
 
 		if (bp == crew.currentBlock.pos) {
 			blockPath.RemoveAt(0);
-		} else if (bp != crew.targetBlockPos) {
-			crew.targetBlockPos = bp;
+		} else if (bp != crew.maglockMoveBlockPos) {
+			crew.maglockMoveBlockPos = bp;
 			crew.StopCoroutine("MoveToBlock");
 			crew.StartCoroutine("MoveToBlock");
 		}

@@ -15,8 +15,9 @@ public class PlayerInput : MonoBehaviour {
 	}
 
 	void HandleLockedMovement() {
-		var bp = crew.currentBlock.pos;
-		
+		var currentBP = crew.maglockShip.WorldToBlockPos(crew.transform.position);
+		var bp = currentBP;
+
 		//Debug.LogFormat("{0} {1}", bp, targetBlockPos);
 		if (Input.GetKey(KeyCode.W))
 			bp.y += 1;
@@ -27,11 +28,11 @@ public class PlayerInput : MonoBehaviour {
 		if (Input.GetKey(KeyCode.D))
 			bp.x += 1;
 		
-		var destBlock = crew.boardedShip.blocks[bp];
+		var destBlock = crew.maglockShip.blocks[bp];
 		
 		if (destBlock == null || destBlock.CollisionLayer == Block.floorLayer) {
-			if (bp != crew.currentBlock.pos && bp != crew.targetBlockPos) {
-				crew.targetBlockPos = bp;
+			if (bp != currentBP && bp != crew.maglockMoveBlockPos) {
+				crew.maglockMoveBlockPos = bp;
 				crew.StopCoroutine("MoveToBlock");
 				crew.StartCoroutine("MoveToBlock");
 			}
@@ -130,7 +131,7 @@ public class PlayerInput : MonoBehaviour {
 			return;
 		}	
 
-		if (crew.isGravityLocked) {
+		if (crew.maglockShip != null) {
 			HandleLockedMovement();
 		} else {
 			HandleFreeMovement();
