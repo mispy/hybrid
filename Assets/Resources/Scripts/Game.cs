@@ -82,14 +82,17 @@ public class Game : MonoBehaviour {
 		Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 	}
 
-
+	public Text debugMenu;
 
 	// Update is called once per frame
 	void Update() {
 		if (Game.inputBlocked) return;
 
 		if (Input.GetKeyDown(KeyCode.BackQuote)) {
-
+			if (debugMenu.gameObject.activeInHierarchy)
+				debugMenu.gameObject.SetActive(false);
+			else
+				debugMenu.gameObject.SetActive(true);
 		}
 
 		if (Input.GetKeyDown(KeyCode.F5)) {

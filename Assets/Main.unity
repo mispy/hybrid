@@ -158,7 +158,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22451918, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22451918, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -448,7 +448,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 1917075418}
-  debugText: {fileID: 0}
+  debugText: {fileID: 1700680373}
+  debugMenu: {fileID: 1700680373}
 --- !u!114 &632897231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,7 +610,7 @@ RectTransform:
   m_Children:
   - {fileID: 1131154580}
   m_Father: {fileID: 1917075419}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -2.40006924, y: 137.000031}
@@ -741,7 +742,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1917075419}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 307.200012, y: 137}
@@ -866,7 +867,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22480774, guid: 080a1d8d2aba3854ea0a34afc98fc9a0, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 22480774, guid: 080a1d8d2aba3854ea0a34afc98fc9a0, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -925,13 +926,14 @@ GameObject:
   - 224: {fileID: 1700680372}
   - 222: {fileID: 1700680374}
   - 114: {fileID: 1700680373}
+  - 114: {fileID: 1700680375}
   m_Layer: 5
   m_Name: DebugMenu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1700680372
 RectTransform:
   m_ObjectHideFlags: 0
@@ -943,7 +945,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1917075419}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -312, y: 100.699997}
@@ -974,52 +976,24 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 3. Spawn Enemy Ship
 --- !u!222 &1700680374
 CanvasRenderer:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1700680371}
---- !u!1 &1768105570
-GameObject:
+--- !u!114 &1700680375
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 224: {fileID: 1768105573}
-  - 222: {fileID: 1768105572}
-  m_Layer: 5
-  m_Name: DebugText
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!222 &1768105572
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1768105570}
---- !u!224 &1768105573
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1768105570}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1917075419}
-  m_RootOrder: 0
-  m_AnchorMin: {x: .5, y: .5}
-  m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -312, y: 137}
-  m_SizeDelta: {x: 160, y: 30}
-  m_Pivot: {x: .5, y: .5}
+  m_GameObject: {fileID: 1700680371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058108d0d5bea0e488b5fe191ba4de39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1854202919 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 22480774, guid: 080a1d8d2aba3854ea0a34afc98fc9a0,
@@ -1107,7 +1081,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1768105573}
   - {fileID: 1295230502}
   - {fileID: 902054481}
   - {fileID: 1854202919}
