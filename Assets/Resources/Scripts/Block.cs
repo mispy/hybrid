@@ -53,41 +53,48 @@ public class Block {
 				
 		// let's compress all the block textures into a single tilesheet
 		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
-		var boxes = atlas.PackTextures(blockTextures, 0, Block.pixelSize*blockTextures.Length);
+		var boxes = atlas.PackTextures(blockTextures, 1, Block.pixelSize*blockTextures.Length*1);
 
-		Block.tileWidth = (float)Block.pixelSize / atlas.width;
+		Block.tileWidth =  (float)Block.pixelSize / atlas.width;
 		Block.tileHeight = (float)Block.pixelSize / atlas.height;
+
+
+		/* There's some fiddliness here to do with texture bleeding and padding. We need a pixel
+		 * of padding around each block to prevent white lines (possibly as a result of bilinear filtering?)
+		 * but we then need to remove that padding in the UVs to prevent black lines. - mispy */
+		var fracX = 1f/atlas.width;
+		var fracY = 1f/atlas.height;
 
 		for (var i = 0; i < Block.allTypes.Count; i++) {			
 			var type = Block.allTypes[i];
 			var box = boxes[i];
 
 			type.upUVs = new Vector2[] {
-				new Vector2(box.xMin, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin, box.yMin)
+				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY)
 			};
 
 			type.downUVs = new Vector2[] {
-				new Vector2(box.xMin, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin + Block.tileHeight)
+				new Vector2(box.xMin + fracX, box.yMin + fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY)
 			};
 
 			type.rightUVs = new Vector2[] {
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin)
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY)
 			};
 
 			type.leftUVs = new Vector2[] {
-				new Vector2(box.xMin, box.yMin + Block.tileHeight),
-				new Vector2(box.xMin, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin),
-				new Vector2(box.xMin + Block.tileWidth, box.yMin + Block.tileHeight)
+				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY)
 			};
 		}
 
