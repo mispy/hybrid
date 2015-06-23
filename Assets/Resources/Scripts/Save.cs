@@ -56,16 +56,6 @@ public class Save {
 		return data;
 	}
 
-	public static void SaveGame() {
-		var path = Application.dataPath + "/Saves/main.xml";
-		var data = Serialize(Game.main);
-		var serializer = new XmlSerializer(typeof(GameData));
-
-		using (var stream = new FileStream(path, FileMode.Create)) {
-			serializer.Serialize(stream, data);
-		}
-	}
-
 	public static Block Load(BlockData data) {
 		var block = new Block(Block.types[data.typeName]);
 		block.orientation = (Orientation)data.orientation;
@@ -98,6 +88,16 @@ public class Save {
 		Crew.player.rigidBody.velocity = crewData.velocity;
 		Crew.player.rigidBody.angularVelocity = crewData.angularVelocity;
 		return Crew.player;
+	}
+
+	public static void SaveGame() {
+		var path = Application.dataPath + "/Saves/main.xml";
+		var data = Serialize(Game.main);
+		var serializer = new XmlSerializer(typeof(GameData));
+		
+		using (var stream = new FileStream(path, FileMode.Create)) {
+			serializer.Serialize(stream, data);
+		}
 	}
 
 	public static void LoadGame() {

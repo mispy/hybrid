@@ -34,6 +34,15 @@ public class Game : MonoBehaviour {
 		}
 	}
 
+	public void BriefMessage(string message) {
+		messageText.text = message;
+		Invoke("ClearMessage", 2.0f);
+	}
+
+	public void ClearMessage() {
+		messageText.text = "";
+	}
+
 	public static bool inputBlocked = false;
 	public static string inputBlocker;
 
@@ -47,6 +56,7 @@ public class Game : MonoBehaviour {
 	}
 
 	public ShipDesigner shipDesigner;
+	public Text messageText;
 
 	// Use this for initialization
 	void Awake () {		

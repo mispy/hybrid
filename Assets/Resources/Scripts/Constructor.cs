@@ -29,7 +29,6 @@ public class Constructor : MonoBehaviour
 
 	void Awake() {
 		ps = GetComponent<ParticleSystem>();
-		text = GameObject.Find("ConstructorText").GetComponent<Text>();
 		noise = new Perlin();
 	}
 

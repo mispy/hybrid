@@ -453,6 +453,7 @@ MonoBehaviour:
   canvas: {fileID: 1917075418}
   debugText: {fileID: 1700680373}
   shipDesigner: {fileID: 902054483}
+  messageText: {fileID: 1295230503}
   debugMenu: {fileID: 1700680373}
 --- !u!114 &632897231
 MonoBehaviour:
@@ -735,7 +736,7 @@ GameObject:
   - 222: {fileID: 1295230504}
   - 114: {fileID: 1295230503}
   m_Layer: 5
-  m_Name: ConstructorText
+  m_Name: MessageText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -755,8 +756,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 307.200012, y: 137}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 193.599976, y: 137}
+  m_SizeDelta: {x: 387.200012, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1295230503
 MonoBehaviour:
@@ -958,8 +959,8 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -312, y: 100.699997}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -311.700012, y: -14.6000004}
+  m_SizeDelta: {x: 160.600006, y: 260.700012}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1700680373
 MonoBehaviour:
@@ -986,7 +987,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 3. Spawn Enemy Ship
+  m_Text: '1. Save Ship
+
+    2. Load Ship
+
+    3. Spawn Enemy Ship'
 --- !u!222 &1700680374
 CanvasRenderer:
   m_ObjectHideFlags: 0
