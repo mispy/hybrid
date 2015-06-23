@@ -6,13 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-public class Designer : MonoBehaviour {
+public class ShipDesigner : MonoBehaviour {
 	public Ship designShip;
 	public Blueprint cursor;
 
-	public void StartDesigning() {		
-		MainUI.blockSelector.Enable();
-		
+	public void OnEnable() {		
 		if (cursor == null) {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursorObj.name = "Cursor";
@@ -28,20 +26,14 @@ public class Designer : MonoBehaviour {
 		if (Crew.player.maglockShip != null) {
 			SetDesignShip(Crew.player.maglockShip);
 		}
-
-		this.enabled = true;
 	}
 	
-	public void StopDesigning() {
-		MainUI.blockSelector.Disable();
-
+	public void OnDisable() {
 		cursor.gameObject.SetActive(false);
 		if (designShip != null)
 			designShip.renderer.enabled = true;
 		//Game.main.debugText.text = "";
 		//Game.main.debugText.color = Color.white;
-
-		this.enabled = false;
 	}
 
 	void SetDesignShip(Ship ship) {

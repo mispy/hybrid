@@ -46,6 +46,8 @@ public class Game : MonoBehaviour {
 		inputBlocked = false;
 	}
 
+	public ShipDesigner shipDesigner;
+
 	// Use this for initialization
 	void Awake () {		
 		Game.main = this;

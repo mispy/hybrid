@@ -11,7 +11,7 @@ public class Crew : MonoBehaviour {
 	public BoxCollider collider;
 
 	public Constructor constructor;
-
+	
 
 
 	// Crew can be maglocked to a ship even if they don't have a current block

@@ -28,8 +28,9 @@ GameObject:
   - 224: {fileID: 22451918}
   - 114: {fileID: 11418220}
   - 222: {fileID: 22293398}
+  - 114: {fileID: 11487040}
   m_Layer: 5
-  m_Name: BlockSelector
+  m_Name: ShipDesigner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -279,6 +280,19 @@ MonoBehaviour:
   m_Text: 'Torpedo Launcher
 
     <size=14><color="red">Weapon</color></size>'
+--- !u!114 &11487040
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 870e44af46c23044e8cf980024d107d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  designShip: {fileID: 0}
+  cursor: {fileID: 0}
 --- !u!222 &22250490
 CanvasRenderer:
   m_ObjectHideFlags: 1

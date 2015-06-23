@@ -27,7 +27,7 @@ public class BlockSelector : MonoBehaviour {
 		}
 	}
 
-	public void Enable() {
+	public void OnEnable() {
 		if (blockButtons.Count == 0) {
 			foreach (var type in Block.allTypes) {
 				var button = GameObject.Instantiate(Game.Prefab("BlockButton")).GetComponent<Button>();
@@ -50,21 +50,16 @@ public class BlockSelector : MonoBehaviour {
 			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, -Block.pixelSize*4, 0), new Vector3(x, 0, 0), 0.1f));
 		}
 
-		blockDescriber.gameObject.SetActive(true);
-
 		if (selectedType == null)
 			SelectBlock(1);
 	}
 
-	public void Disable() {
+	/*public void Dismiss() {
 		foreach (var button in blockButtons) {
 			var x = button.transform.localPosition.x;
-			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, 0, 0), new Vector3(x, -Block.pixelSize*4, 0), 0.1f));
+			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, 0, 0), new Vector3(x, -Block.pixelSize*4, 0), 0.1f, true));
 		}
-
-
-		blockDescriber.gameObject.SetActive(false);
-	}
+	}*/
 
 	void SelectBlock(int i) {
 		selectedType = Block.allTypes[i-1];

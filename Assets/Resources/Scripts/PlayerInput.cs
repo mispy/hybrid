@@ -6,12 +6,9 @@ using System.Linq;
 
 public class PlayerInput : MonoBehaviour {
 	public Crew crew;
-	public Designer designer;
 
 	void Awake() {
 		crew = GetComponentInParent<Crew>();
-		designer = gameObject.AddComponent<Designer>();
-		designer.enabled = false;
 		Crew.player = crew;
 	}
 
@@ -110,14 +107,14 @@ public class PlayerInput : MonoBehaviour {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 		if (Input.GetKeyDown(KeyCode.F1)) {
-			if (!designer.enabled)
-				designer.StartDesigning();
-			else {
-				designer.StopDesigning();
+			if (Game.main.shipDesigner.gameObject.activeInHierarchy) {
+				Game.main.shipDesigner.gameObject.SetActive(false);
+			} else {
+				Game.main.shipDesigner.gameObject.SetActive(true);
 			}
 		}
 
-		if (!designer.enabled) {
+		if (!Game.main.shipDesigner.gameObject.activeInHierarchy) {
 			if (Input.GetMouseButton(0)) {
 				crew.constructor.Build(pz);
 			} else {

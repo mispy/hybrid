@@ -202,7 +202,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 199696, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 157474, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
       propertyPath: m_Name
@@ -243,6 +243,10 @@ Prefab:
     - target: {fileID: 22430192, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
       propertyPath: m_AnchoredPosition.y
       value: 134.199997
+      objectReference: {fileID: 0}
+    - target: {fileID: 129626, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0e4c1121f7a09334e9ae15e5ccd88785, type: 2}
@@ -404,7 +408,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crew: {fileID: 0}
-  designer: {fileID: 0}
 --- !u!1 &632897228
 GameObject:
   m_ObjectHideFlags: 0
@@ -449,6 +452,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1917075418}
   debugText: {fileID: 1700680373}
+  shipDesigner: {fileID: 902054483}
   debugMenu: {fileID: 1700680373}
 --- !u!114 &632897231
 MonoBehaviour:
@@ -513,6 +517,12 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22451918, guid: 0e4c1121f7a09334e9ae15e5ccd88785,
     type: 2}
   m_PrefabInternal: {fileID: 134754281}
+--- !u!114 &902054483 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11487040, guid: 0e4c1121f7a09334e9ae15e5ccd88785,
+    type: 2}
+  m_PrefabInternal: {fileID: 134754281}
+  m_Script: {fileID: 11500000, guid: 870e44af46c23044e8cf980024d107d8, type: 3}
 --- !u!1 &1131154579
 GameObject:
   m_ObjectHideFlags: 0
