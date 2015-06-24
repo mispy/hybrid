@@ -11,7 +11,6 @@ public class Constructor : MonoBehaviour
 	public float range = 3f;
 	public Light startLight;
 	public Light endLight;
-
 	 
 	Perlin noise;
 	float oneOverZigs;
@@ -107,7 +106,7 @@ public class Constructor : MonoBehaviour
 		var dist = targetPos - transform.position;
 		foreach (var hit in Physics.RaycastAll(transform.position, dist.normalized, dist.magnitude, LayerMask.GetMask(new string[] { "Wall" }))) {
 			if (hit.collider != null) {
-				hitPos = hit.point;
+				hitPos = hit.collider.gameObject.transform.position;
 				break;
 			}
 			Debug.Log(hit.collider);
