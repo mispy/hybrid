@@ -454,18 +454,6 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
-	public void EnableRendering() {
-		foreach (var chunk in blocks.AllChunks) {
-			chunk.renderer.enabled = true;
-		}
-	}
-
-	public void DisableRendering() {
-		foreach (var chunk in blocks.AllChunks) {
-			chunk.renderer.enabled = false;
-		}
-	}
-
 	void UpdateMesh() {
 		Profiler.BeginSample("UpdateMesh");
 

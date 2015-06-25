@@ -34,15 +34,17 @@ public class DebugMenu : MonoBehaviour {
 		ship.transform.position = new Vector3(0, 0, 0);
 	}
 
-	public void MakeAsteroids() {		
+	public void MakeAsteroid(Vector2 pos) {		
 		var sectorWidth = 200;
 		var sectorHeight = 200;
 		
-		for (var i = 0; i < 1; i++) {
-			var radius = Random.Range(10, 30);
-			var pos = new Vector2(Random.Range(-sectorWidth, sectorWidth), Random.Range(-sectorHeight, sectorHeight));
-			if (Physics.OverlapSphere(pos, radius).Length == 0)
+		for (var i = 0; i < 10; i++) {
+			var radius = Random.Range(10, 50);
+			//var pos = new Vector2(Random.Range(-sectorWidth, sectorWidth), Random.Range(-sectorHeight, sectorHeight));
+			if (Physics.OverlapSphere(pos, radius).Length == 0) {
 				Generate.Asteroid(pos, radius);
+				break;
+			}
 		}
 	}
 
@@ -64,7 +66,7 @@ public class DebugMenu : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha4)) {
-			MakeAsteroids();
+			MakeAsteroid(pz);
 		}
 	}
 }

@@ -2,31 +2,67 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name />
   <position>
-    <x>-12.3175383</x>
-    <y>-8.738348</y>
+    <x>13.6017</x>
+    <y>0.0319623724</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.4823847</z>
-    <w>0.8759595</w>
+    <z>0.546056569</z>
+    <w>-0.8377483</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>57.68254</z>
+      <z>293.8062</z>
     </eulerAngles>
   </rotation>
   <velocity>
-    <x>0.0266238712</x>
-    <y>-0.424947947</y>
+    <x>0</x>
+    <y>0</y>
   </velocity>
   <angularVelocity>
     <x>0</x>
     <y>0</y>
-    <z>-0.0265766177</z>
+    <z>0</z>
   </angularVelocity>
   <blocks>
     <BlockData>
+      <x>-12</x>
+      <y>-4</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-3</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-1</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>-6</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>-5</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
       <x>-11</x>
       <y>-4</y>
       <typeName>wall</typeName>
@@ -49,6 +85,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>-7</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-10</x>
@@ -84,6 +126,12 @@
       <x>-10</x>
       <y>-1</y>
       <typeName>floor</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>-8</y>
+      <typeName>thruster</typeName>
       <orientation>-1</orientation>
     </BlockData>
     <BlockData>
@@ -127,6 +175,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>-9</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-8</x>
@@ -175,6 +229,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>-10</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-7</x>
@@ -229,6 +289,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
@@ -292,6 +358,12 @@
     </BlockData>
     <BlockData>
       <x>-5</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-5</x>
       <y>-10</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -349,6 +421,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>-12</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
@@ -481,6 +559,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-12</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-2</x>
@@ -611,7 +695,31 @@
     <BlockData>
       <x>-1</x>
       <y>-1</y>
-      <typeName>floor</typeName>
+      <typeName>gravgen</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>0</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>2</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>3</y>
+      <typeName>tractorBeam</typeName>
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
@@ -643,6 +751,12 @@
       <y>4</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>5</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-10</x>
@@ -687,10 +801,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-10</x>
+      <y>7</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-9</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-9</x>
@@ -735,10 +855,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-9</x>
+      <y>8</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-8</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-8</x>
@@ -789,10 +915,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-8</x>
+      <y>9</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-7</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-7</x>
@@ -849,10 +981,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-7</x>
+      <y>10</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-6</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
@@ -917,8 +1055,8 @@
     <BlockData>
       <x>-5</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-5</x>
@@ -981,10 +1119,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-5</x>
+      <y>11</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-4</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
@@ -1053,10 +1197,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-4</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-3</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-3</x>
@@ -1125,6 +1275,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-3</x>
+      <y>12</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-2</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -1197,6 +1353,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-2</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-1</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -1211,14 +1373,14 @@
     <BlockData>
       <x>-1</x>
       <y>2</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-1</x>
       <y>3</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-1</x>
@@ -1266,6 +1428,12 @@
       <x>-1</x>
       <y>11</y>
       <typeName>wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-1</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1397,7 +1565,13 @@
     <BlockData>
       <x>1</x>
       <y>-1</y>
-      <typeName>floor</typeName>
+      <typeName>gravgen</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>2</x>
+      <y>-12</y>
+      <typeName>tractorBeam</typeName>
       <orientation>-1</orientation>
     </BlockData>
     <BlockData>
@@ -1409,8 +1583,8 @@
     <BlockData>
       <x>2</x>
       <y>-10</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>2</x>
@@ -1475,13 +1649,13 @@
     <BlockData>
       <x>3</x>
       <y>-10</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>3</x>
       <y>-9</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1531,6 +1705,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
+      <y>-12</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>4</x>
@@ -1547,7 +1727,7 @@
     <BlockData>
       <x>4</x>
       <y>-9</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1597,6 +1777,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>5</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>5</x>
@@ -1607,13 +1793,13 @@
     <BlockData>
       <x>5</x>
       <y>-9</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>5</x>
       <y>-8</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1657,6 +1843,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
@@ -1673,13 +1865,13 @@
     <BlockData>
       <x>6</x>
       <y>-8</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
       <y>-7</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1717,6 +1909,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>7</x>
+      <y>-10</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>7</x>
@@ -1733,13 +1931,13 @@
     <BlockData>
       <x>7</x>
       <y>-7</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>7</x>
       <y>-6</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1771,6 +1969,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>8</x>
+      <y>-9</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>8</x>
@@ -1787,13 +1991,13 @@
     <BlockData>
       <x>8</x>
       <y>-6</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>8</x>
       <y>-5</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1819,6 +2023,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>9</x>
+      <y>-8</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
@@ -1830,24 +2040,24 @@
       <x>9</x>
       <y>-6</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
       <y>-5</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
       <y>-4</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
       <y>-3</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1861,6 +2071,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
+      <y>-7</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>10</x>
@@ -1883,20 +2099,32 @@
     <BlockData>
       <x>10</x>
       <y>-3</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>10</x>
       <y>-2</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>10</x>
       <y>-1</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-6</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-5</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>11</x>
@@ -1921,6 +2149,30 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-4</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-3</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-1</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
@@ -1943,43 +2195,43 @@
     <BlockData>
       <x>0</x>
       <y>3</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>4</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>5</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>6</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>7</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>8</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>9</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1992,6 +2244,12 @@
       <x>0</x>
       <y>11</y>
       <typeName>wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2009,13 +2267,13 @@
     <BlockData>
       <x>1</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
       <y>3</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2067,10 +2325,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>1</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>2</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>2</x>
@@ -2139,10 +2403,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>2</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>3</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>3</x>
@@ -2208,13 +2478,19 @@
       <x>3</x>
       <y>11</y>
       <typeName>wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
+      <y>12</y>
+      <typeName>tractorBeam</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>4</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>4</x>
@@ -2283,10 +2559,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>4</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>5</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>5</x>
@@ -2328,7 +2610,7 @@
       <x>5</x>
       <y>7</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>5</x>
@@ -2349,10 +2631,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>5</x>
+      <y>11</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>6</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
@@ -2388,18 +2676,18 @@
       <x>6</x>
       <y>6</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
       <y>7</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
       <y>8</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2417,8 +2705,8 @@
     <BlockData>
       <x>7</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>7</x>
@@ -2453,8 +2741,8 @@
     <BlockData>
       <x>7</x>
       <y>6</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>7</x>
@@ -2475,10 +2763,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>7</x>
+      <y>10</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>8</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>8</x>
@@ -2507,13 +2801,13 @@
     <BlockData>
       <x>8</x>
       <y>5</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>8</x>
       <y>6</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2529,10 +2823,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>8</x>
+      <y>9</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>9</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
@@ -2549,19 +2849,19 @@
     <BlockData>
       <x>9</x>
       <y>3</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
       <y>4</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
       <y>5</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2577,27 +2877,33 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>9</x>
+      <y>8</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>10</x>
       <y>0</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>10</x>
       <y>1</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>10</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>10</x>
       <y>3</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2619,6 +2925,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>10</x>
+      <y>7</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>11</x>
       <y>0</y>
       <typeName>wall</typeName>
@@ -2647,10 +2959,70 @@
       <y>4</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>5</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>0</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>3</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>-2</orientation>
     </BlockData>
   </blocks>
   <blueprintBlocks>
     <BlockData>
+      <x>-12</x>
+      <y>-4</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-3</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-1</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>-6</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>-5</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
       <x>-11</x>
       <y>-4</y>
       <typeName>wall</typeName>
@@ -2673,6 +3045,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>-7</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-10</x>
@@ -2708,6 +3086,12 @@
       <x>-10</x>
       <y>-1</y>
       <typeName>floor</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>-8</y>
+      <typeName>thruster</typeName>
       <orientation>-1</orientation>
     </BlockData>
     <BlockData>
@@ -2751,6 +3135,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>-9</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-8</x>
@@ -2799,6 +3189,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>-10</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-7</x>
@@ -2853,6 +3249,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
@@ -2916,6 +3318,12 @@
     </BlockData>
     <BlockData>
       <x>-5</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-5</x>
       <y>-10</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -2973,6 +3381,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>-12</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
@@ -3105,6 +3519,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-12</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-2</x>
@@ -3235,7 +3655,31 @@
     <BlockData>
       <x>-1</x>
       <y>-1</y>
-      <typeName>floor</typeName>
+      <typeName>gravgen</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>0</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>2</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>3</y>
+      <typeName>tractorBeam</typeName>
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
@@ -3267,6 +3711,12 @@
       <y>4</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>5</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-10</x>
@@ -3311,10 +3761,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-10</x>
+      <y>7</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-9</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-9</x>
@@ -3359,10 +3815,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-9</x>
+      <y>8</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-8</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-8</x>
@@ -3413,10 +3875,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-8</x>
+      <y>9</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-7</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-7</x>
@@ -3473,10 +3941,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-7</x>
+      <y>10</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-6</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
@@ -3541,8 +4015,8 @@
     <BlockData>
       <x>-5</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-5</x>
@@ -3605,10 +4079,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-5</x>
+      <y>11</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-4</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
@@ -3677,10 +4157,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-4</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-3</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>-3</x>
@@ -3749,6 +4235,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-3</x>
+      <y>12</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-2</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -3821,6 +4313,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-2</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-1</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -3835,14 +4333,14 @@
     <BlockData>
       <x>-1</x>
       <y>2</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-1</x>
       <y>3</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-1</x>
@@ -3893,6 +4391,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-1</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>0</x>
       <y>-11</y>
       <typeName>wall</typeName>
@@ -4021,7 +4525,13 @@
     <BlockData>
       <x>1</x>
       <y>-1</y>
-      <typeName>floor</typeName>
+      <typeName>gravgen</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>2</x>
+      <y>-12</y>
+      <typeName>tractorBeam</typeName>
       <orientation>-1</orientation>
     </BlockData>
     <BlockData>
@@ -4158,6 +4668,12 @@
     </BlockData>
     <BlockData>
       <x>4</x>
+      <y>-12</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
       <y>-11</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4221,6 +4737,12 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>5</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>5</x>
@@ -4284,6 +4806,12 @@
     </BlockData>
     <BlockData>
       <x>6</x>
+      <y>-11</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
       <y>-10</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4344,6 +4872,12 @@
     </BlockData>
     <BlockData>
       <x>7</x>
+      <y>-10</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>7</x>
       <y>-9</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4398,6 +4932,12 @@
     </BlockData>
     <BlockData>
       <x>8</x>
+      <y>-9</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>8</x>
       <y>-8</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4446,6 +4986,12 @@
     </BlockData>
     <BlockData>
       <x>9</x>
+      <y>-8</y>
+      <typeName>thruster</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>9</x>
       <y>-7</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4488,6 +5034,12 @@
     </BlockData>
     <BlockData>
       <x>10</x>
+      <y>-7</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
       <y>-6</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4524,6 +5076,18 @@
     </BlockData>
     <BlockData>
       <x>11</x>
+      <y>-6</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-5</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
       <y>-4</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
@@ -4545,6 +5109,30 @@
       <y>-1</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-4</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-3</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-1</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
@@ -4567,43 +5155,43 @@
     <BlockData>
       <x>0</x>
       <y>3</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>4</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>5</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>6</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>7</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>8</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>9</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4616,6 +5204,12 @@
       <x>0</x>
       <y>11</y>
       <typeName>wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4633,13 +5227,13 @@
     <BlockData>
       <x>1</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
       <y>3</y>
-      <typeName>wall</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4691,10 +5285,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>1</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>2</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>2</x>
@@ -4763,10 +5363,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>2</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>3</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>3</x>
@@ -4832,13 +5438,19 @@
       <x>3</x>
       <y>11</y>
       <typeName>wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
+      <y>12</y>
+      <typeName>tractorBeam</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>4</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>4</x>
@@ -4907,10 +5519,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>4</x>
+      <y>12</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>5</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>5</x>
@@ -4973,10 +5591,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>5</x>
+      <y>11</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>6</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
@@ -5041,8 +5665,8 @@
     <BlockData>
       <x>7</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>7</x>
@@ -5099,10 +5723,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>7</x>
+      <y>10</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>8</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>8</x>
@@ -5153,10 +5783,16 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>8</x>
+      <y>9</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>9</x>
       <y>0</y>
-      <typeName>wall</typeName>
-      <orientation>1</orientation>
+      <typeName>floor</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>9</x>
@@ -5201,6 +5837,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>9</x>
+      <y>8</y>
+      <typeName>torpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>10</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -5243,6 +5885,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>10</x>
+      <y>7</y>
+      <typeName>thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>11</x>
       <y>0</y>
       <typeName>wall</typeName>
@@ -5271,6 +5919,30 @@
       <y>4</y>
       <typeName>wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>5</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>0</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>3</y>
+      <typeName>tractorBeam</typeName>
+      <orientation>-2</orientation>
     </BlockData>
   </blueprintBlocks>
 </ShipData>

@@ -130,6 +130,18 @@ public class BlockMap : MonoBehaviour {
 			return AllBlocks.Count();
 		}
 	}
+	
+	public void EnableRendering() {
+		foreach (var chunk in AllChunks) {
+			chunk.renderer.enabled = true;
+		}
+	}
+	
+	public void DisableRendering() {
+		foreach (var chunk in AllChunks) {
+			chunk.renderer.enabled = false;
+		}
+	}
 
 	public Block this[IntVector2 bp] {
 		get {

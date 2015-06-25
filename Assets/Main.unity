@@ -991,7 +991,9 @@ MonoBehaviour:
 
     2. Load Ship
 
-    3. Spawn Enemy Ship'
+    3. Spawn Enemy Ship
+
+    4. Spawn Asteroid'
 --- !u!222 &1700680374
 CanvasRenderer:
   m_ObjectHideFlags: 0

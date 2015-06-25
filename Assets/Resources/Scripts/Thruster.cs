@@ -47,7 +47,7 @@ public class Thruster : MonoBehaviour {
 			ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 300f);
 		} else if (isFiringAttitude) {			
 			var dist = transform.localPosition - ship.localCenter;
-			var force = Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 200f;
+			var force = Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 300f;
 			
 			if (dist.x > 0) {
 				ship.rigidBody.AddRelativeTorque(Vector3.forward * force);

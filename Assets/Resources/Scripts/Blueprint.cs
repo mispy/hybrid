@@ -33,6 +33,7 @@ public class Blueprint : PoolBehaviour {
 		var texture = chunk.renderer.material.mainTexture;
 		chunk.renderer.material = blueprintMaterial;
 		chunk.renderer.material.mainTexture = texture;
+		blocks.DisableRendering();
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
