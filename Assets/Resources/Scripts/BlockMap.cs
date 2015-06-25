@@ -152,6 +152,9 @@ public class BlockMap : MonoBehaviour {
 			var localX = trueX%chunkWidth;
 			var localY = trueY%chunkHeight;
 
+			if (chunkX < 0 || chunkX >= chunkWidth || chunkY < 0 || chunkY >= chunkHeight)
+				return null;
+
 			var chunk = chunks[chunkX, chunkY];
 			if (chunk == null) return null;
 
