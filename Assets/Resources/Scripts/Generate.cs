@@ -9,7 +9,6 @@ public class Generate : MonoBehaviour {
 	public static Ship Asteroid(Vector2 pos, int radius) {
 		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
-		ship.blocks.ExpandBlockSequence(8192);
 
 		ship.name = "Asteroid";
 		for (var x = -radius; x < radius; x++) {
@@ -84,10 +83,6 @@ public class Generate : MonoBehaviour {
 		crewObj.transform.position = ship.BlockToWorldPos(new IntVector2(0, 0));
 		crewObj.SetActive(true);
 		crewObj.GetComponentInChildren<CrewMind>().myShip = ship;
-		
-		foreach (var block in ship.blocks.All.ToArray()) {
-			//ship.blocks[block.pos] = null;
-		}
 
 		return ship;
 	}
@@ -161,7 +156,7 @@ public class Generate : MonoBehaviour {
 	}
 
 	public static void AssignThrusters(Ship ship) {
-		foreach (var block in ship.blocks.All.ToArray()) {
+		foreach (var block in ship.blocks.AllBlocks.ToArray()) {
 			if (ship.blocks[block.x-1, block.y] == null) {
 				ship.SetBlock(block.x-1, block.y, "thruster", Orientation.left);
 			}
@@ -183,8 +178,7 @@ public class Generate : MonoBehaviour {
 	public static Ship EllipsoidShip(Vector2 pos, int width, int height) {
 		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
-		ship.blocks.ExpandBlockSequence(width*height);
-		
+
 		for (var x = -width/2; x < width/2; x++) {
 			for (var y = -height/2; y < height/2; y++) {
 				var dist = (new Vector2(x, y) - new Vector2(0,0));
@@ -280,10 +274,10 @@ public class Generate : MonoBehaviour {
 			ship.SetBlock(x, y2, "floor");
 		}
 
-		var b = ship.blocks.FindType("floor");
+		var b = ship.blocks.FindType("floor").First();
 		ship.SetBlock(b.pos.x, b.pos.y, "gravgen");
 
-		b = ship.blocks.FindType("floor");
+		b = ship.blocks.FindType("floor").First();
 		ship.SetBlock(b.pos.x, b.pos.y, "shieldgen");
 
 		shipObj.transform.position = pos;

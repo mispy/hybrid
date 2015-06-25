@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class BlockChunk : MonoBehaviour {
+public class BlockChunk : PoolBehaviour {
 	public int width = 32;
 	public int height = 32;
 
@@ -15,7 +15,7 @@ public class BlockChunk : MonoBehaviour {
 	private Vector2[] meshUV;
 	private int[] meshTriangles;
 
-	void Awake() {
+	public override void OnCreate() {
 		renderer = GetComponent<MeshRenderer>();
 		mesh = GetComponent<MeshFilter>().mesh;
 		blockArray = new Block[width*height];
@@ -25,18 +25,11 @@ public class BlockChunk : MonoBehaviour {
 	}
 
 	void Start() {
-		for (var x = 0; x < width; x++) {
-			for (var y = 0; y < height; y++) {
-				this[x, y] = new Block(Block.types["wall"]);
-			}
-		}
-
-		UpdateMesh();
 	}
 
 	public IEnumerable<Vector3> GetVertices(Block block) {
-		var lx = block.chunkX * Block.worldSize;
-		var ly = block.chunkY * Block.worldSize;
+		var lx = block.localX * Block.worldSize;
+		var ly = block.localY * Block.worldSize;
 		
 		var m = block.PercentFilled;
 		
@@ -74,6 +67,17 @@ public class BlockChunk : MonoBehaviour {
 		meshVertices[i*4+3] = Vector3.zero;
 	}
 
+	public IEnumerable<Block> AllBlocks {
+		get {
+			for (var i = 0; i < width; i++) {
+				for (var j = 0; j < height; j++) {
+					var block = blockArray[width * j + i];
+					if (block != null) yield return block;
+				}
+			}
+		}
+	}
+
 	public Block this[int x, int y] {
 		get {
 			var i = width * y + x;
@@ -87,10 +91,12 @@ public class BlockChunk : MonoBehaviour {
 			if (value == null) {
 				ClearMeshPos(i);
 			} else {
-				value.chunkX = x;
-				value.chunkY = y;
+				value.localX = x;
+				value.localY = y;
 				AttachToMesh(value, i);
 			}
+
+			UpdateMesh();
 		}
 	}
 

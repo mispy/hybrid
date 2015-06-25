@@ -10,20 +10,15 @@ public class Blueprint : PoolBehaviour {
 	private Mesh mesh;
 	public Ship ship;
 
-	public void Clear() {
-		blocks = new BlockMap();
-		blocks.OnBlockChanged = OnBlockChanged;
-	}
-
 	public override void OnCreate() {
 		renderer = GetComponent<MeshRenderer>();
-		mesh = GetComponent<MeshFilter>().mesh;	
-		Clear();
+		mesh = GetComponent<MeshFilter>().mesh;
+		blocks = GetComponent<BlockMap>();
+		blocks.OnBlockChanged = OnBlockChanged;
 	}
 
 	// Use this for initialization
 	public void OnEnable() {
-		UpdateMesh();
 	}
 
 	public void SetBlock(IntVector2 blockPos, BlueprintBlock block) {
@@ -33,8 +28,6 @@ public class Blueprint : PoolBehaviour {
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		if (newBlock != null)
 			newBlock.ship = ship;
-		if (gameObject.activeInHierarchy)
-			UpdateMesh();
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
@@ -43,19 +36,5 @@ public class Blueprint : PoolBehaviour {
 	}
 
 	public override void OnRecycle() {
-		Clear();
-	}
-	
-	void UpdateMesh() {
-		Profiler.BeginSample("UpdateMesh");
-		
-		mesh.Clear();
-		mesh.vertices = blocks.meshVertices;
-		mesh.triangles = blocks.meshTriangles;
-		mesh.uv = blocks.meshUV;
-		mesh.Optimize();
-		mesh.RecalculateNormals();
-
-		Profiler.EndSample();
 	}
 }

@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 491556}
   - 54: {fileID: 5450076}
   - 114: {fileID: 11458402}
+  - 114: {fileID: 11426060}
   - 33: {fileID: 3374346}
   - 23: {fileID: 2316330}
   - 114: {fileID: 11470960}
@@ -78,6 +79,29 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 56
   m_CollisionDetection: 1
+--- !u!114 &11426060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxX: 0
+  minX: 0
+  maxY: 0
+  minY: 0
+  centerBlockX: 256
+  centerBlockY: 256
+  centerChunkX: 8
+  centerChunkY: 8
+  chunkWidth: 32
+  chunkHeight: 32
+  widthInChunks: 16
+  heightInChunks: 16
 --- !u!114 &11458402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba064c45dceb374ba6b4a4bf3817d32, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  blocks: {fileID: 0}
   blueprint: {fileID: 0}
   rigidBody: {fileID: 0}
   renderer: {fileID: 0}

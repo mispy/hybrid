@@ -27,12 +27,12 @@ public class Save {
 		data.blocks = new BlockData[ship.blocks.Count];
 		data.blueprintBlocks = new BlockData[ship.blueprint.blocks.Count];
 
-		var allBlocks = ship.blocks.All.ToArray();
+		var allBlocks = ship.blocks.AllBlocks.ToArray();
 		for (var i = 0; i < allBlocks.Length; i++) {
 			data.blocks[i] = Save.Serialize(allBlocks[i]);
 		}
 
-		var blueBlocks = ship.blueprint.blocks.All.ToArray();
+		var blueBlocks = ship.blueprint.blocks.AllBlocks.ToArray();
 		for (var i = 0; i < blueBlocks.Length; i++) {
 			data.blueprintBlocks[i] = Save.Serialize(blueBlocks[i]);
 		}

@@ -243,8 +243,9 @@ public class Block {
 	public IntVector2 pos = new IntVector2();
 	public Orientation orientation = Orientation.up;
 
-	public int chunkX;
-	public int chunkY;
+	// relative to current chunk
+	public int localX;
+	public int localY;
 
 	// copy constructor
 	public Block(Block block) {

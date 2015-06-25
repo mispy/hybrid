@@ -23,7 +23,7 @@ public class Ship : PoolBehaviour {
 		return null;
 	}
 
-	public BlockMap blocks = new BlockMap();
+	public BlockMap blocks;
 	public Blueprint blueprint;
 	
 	public Rigidbody rigidBody;
@@ -43,11 +43,6 @@ public class Ship : PoolBehaviour {
 
 	public List<Crew> maglockedCrew = new List<Crew>();
 
-	public void Clear() {
-		blocks = new BlockMap();
-		blocks.OnBlockChanged = OnBlockChanged;
-	}
-
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
 	}
@@ -60,6 +55,7 @@ public class Ship : PoolBehaviour {
 		rigidBody = GetComponent<Rigidbody>();
 		renderer = GetComponent<MeshRenderer>();		
 		mesh = GetComponent<MeshFilter>().mesh;	
+		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockChanged = OnBlockChanged;
 
 		var obj = Pool.For("Blueprint").TakeObject();
@@ -72,7 +68,7 @@ public class Ship : PoolBehaviour {
 	
 	void OnEnable() {		
 		if (hasCollision) {
-			foreach (var block in blocks.All) {
+			foreach (var block in blocks.AllBlocks) {
 				if (blocks.IsEdge(block.pos)) {
 					AddCollider(block);
 				}
@@ -83,7 +79,7 @@ public class Ship : PoolBehaviour {
 		UpdateShields();	
 		UpdateGravity();
 
-		foreach (var block in blocks.All) {
+		foreach (var block in blocks.AllBlocks) {
 			if (block.type.isComplexBlock)
 				AddBlockComponent(block);
 		}
@@ -96,7 +92,6 @@ public class Ship : PoolBehaviour {
 
 	public override void OnRecycle() {
 		Ship.allActive.Remove(this);
-		Clear();
 	}
 
 	public void SetBlock(int x, int y, BlockType type) {
@@ -261,7 +256,7 @@ public class Ship : PoolBehaviour {
 		var totalMass = 0.0f;
 		var avgPos = new IntVector2(0, 0);
 		
-		foreach (var block in blocks.All) {
+		foreach (var block in blocks.AllBlocks) {
 			totalMass += block.mass;
 			avgPos.x += block.pos.x;
 			avgPos.y += block.pos.y;
@@ -478,14 +473,6 @@ public class Ship : PoolBehaviour {
 	void UpdateMesh() {
 		Profiler.BeginSample("UpdateMesh");
 
-		if (!needMeshUpdate) return;
-		mesh.Clear();
-		mesh.vertices = blocks.meshVertices;
-		mesh.triangles = blocks.meshTriangles;
-		mesh.uv = blocks.meshUV;
-		mesh.Optimize();
-		mesh.RecalculateNormals();	
-		
 		if (shields != null) {
 			var hypo = Mathf.Sqrt(mesh.bounds.size.x*mesh.bounds.size.x + mesh.bounds.size.y*mesh.bounds.size.y);
 			var scale = new Vector3(mesh.bounds.size.x, mesh.bounds.size.y, 1);

@@ -35,7 +35,7 @@ public class Explosion : PoolBehaviour
 			var ship = rb.GetComponent<Ship>();		
 			if (ship == null) continue;
 
-			foreach (var block in ship.blocks.All) {
+			foreach (var block in ship.blocks.AllBlocks) {
 				var dist = ((Vector3)ship.BlockToWorldPos(block.pos) - transform.position).magnitude;
 				if (dist < radius) {
 					toBreak.Add(block);

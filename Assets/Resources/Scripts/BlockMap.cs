@@ -5,17 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public class BlockMap {
-	private Dictionary<IntVector2, Block> blockPositions;
-	private Block[] blockSequence;
-	public Vector3[] meshVertices;
-	public Vector2[] meshUV;
-	public int[] meshTriangles;
-
+public class BlockMap : MonoBehaviour {
 	public int maxX;
 	public int minX;
 	public int maxY;
 	public int minY;
+	public int centerBlockX;
+	public int centerBlockY;
+	public int centerChunkX;
+	public int centerChunkY;
+
+	public int chunkWidth;
+	public int chunkHeight;
+	public int widthInChunks;
+	public int heightInChunks;
+	public BlockChunk[,] chunks;
 
 	public Dictionary<BlockType, List<Block>> blockTypeCache;
 
@@ -23,17 +27,22 @@ public class BlockMap {
 	public OnBlockChangedDelegate OnBlockChanged;
 
 	public BlockMap() {
-		blockPositions = new Dictionary<IntVector2, Block>(); 
-		blockSequence = new Block[1];
-		meshVertices = new Vector3[1*4];
-		meshUV = new Vector2[1*4];
-		meshTriangles = new int[1*6];
-
 		minX = 0;
 		minY = 0;
 		maxX = 0;
 		maxY = 0;
 
+		chunkWidth = 32;
+		chunkHeight = 32;
+		widthInChunks = 16;
+		heightInChunks = 16;
+		chunks = new BlockChunk[chunkWidth, chunkHeight];
+
+		centerChunkX = widthInChunks/2;
+		centerChunkY = heightInChunks/2;
+		centerBlockX = centerChunkX * chunkWidth;
+		centerBlockY = centerChunkY * chunkHeight;
+		
 		blockTypeCache = new Dictionary<BlockType, List<Block>>();
 		foreach (var type in Block.types.Values) {
 			blockTypeCache[type] = new List<Block>();
@@ -81,167 +90,102 @@ public class BlockMap {
 		return ret;
 	}
 
-	public IEnumerable<Block> All {
-		get {
-			return blockPositions.Values;
-		}
-	}
-
-	public int Count {
-		get {
-			return blockPositions.Count;
-		}
-	}
-
-	public IEnumerable<Vector3> GetVertices(Block block) {
-		var lx = block.pos.x * Block.worldSize;
-		var ly = block.pos.y * Block.worldSize;
-
-		var m = block.PercentFilled;
-
-		yield return new Vector3(lx - Block.worldSize*m / 2, ly + Block.worldSize*m / 2, 0);
-		yield return new Vector3(lx + Block.worldSize*m / 2, ly + Block.worldSize*m / 2, 0);
-		yield return new Vector3(lx + Block.worldSize*m / 2, ly - Block.worldSize*m / 2, 0);
-		yield return new Vector3(lx - Block.worldSize*m / 2, ly - Block.worldSize*m / 2, 0);
-	/*meshVertices.Add(new Vector3(lx, ly, 0));
-				meshVertices.Add(new Vector3(lx + Block.worldSize, ly, 0));
-				meshVertices.Add(new Vector3(lx + Block.worldSize, ly - Block.worldSize, 0));
-				meshVertices.Add(new Vector3(lx, ly - Block.worldSize, 0));*/
-	
-	}
-
-	public void AttachToMesh(Block block) {		
-		var i = block.index;
-		blockSequence[i] = block;
-
-		meshTriangles[i*6] = i*4;
-		meshTriangles[i*6+1] = (i*4)+1;
-		meshTriangles[i*6+2] = (i*4)+3;
-		meshTriangles[i*6+3] = (i*4)+1;
-		meshTriangles[i*6+4] = (i*4)+2;
-		meshTriangles[i*6+5] = (i*4)+3;
-		
-		var verts = GetVertices(block).ToList();
-		meshVertices[i*4] = verts[0];
-		meshVertices[i*4+1] = verts[1];
-		meshVertices[i*4+2] = verts[2];
-		meshVertices[i*4+3] = verts[3];
-		
-		var uvs = Block.GetUVs(block);
-		meshUV[i*4] = uvs[0];
-		meshUV[i*4+1] = uvs[1];
-		meshUV[i*4+2] = uvs[2];
-		meshUV[i*4+3] = uvs[3];
-	}
-
-	public void ClearMeshPos(int i) {
-		meshVertices[i*4] = Vector3.zero;
-		meshVertices[i*4+1] = Vector3.zero;
-		meshVertices[i*4+2] = Vector3.zero;
-		meshVertices[i*4+3] = Vector3.zero;
-	}
-
-	public void ExpandBlockSequence(int newSize=-1) {
-		if (newSize == -1)
-			newSize = blockSequence.Length << 1;
-
-		//Debug.LogFormat("Expanding to {0}", newSize);
-
-		var newSequence = new Block[newSize];
-		var newTriangles = new int[newSize*6];
-		var newVertices = new Vector3[newSize*4];
-		var newUV = new Vector2[newSize*4];
-
-		for (var i = 0; i < blockSequence.Length; i++) {
-			newSequence[i] = blockSequence[i];
-		}
-
-		for (var i = 0; i < meshTriangles.Length; i++) {
-			newTriangles[i] = meshTriangles[i];
-		}
-
-		for (var i = 0; i < meshVertices.Length; i++) {
-			newVertices[i] = meshVertices[i];
-			newUV[i] = meshUV[i];
-		}
-	
-		blockSequence = newSequence;
-		meshTriangles = newTriangles;
-		meshVertices = newVertices;
-		meshUV = newUV;
-	}
-
-	public Block FindType(string typeName) {
+	public IEnumerable<Block> FindType(string typeName) {
 		foreach (var block in blockTypeCache[Block.types[typeName]]) {
-			return block;
+			yield return block;
 		}
-
-		return null;
 	}
 
 	public bool HasType(string typeName) {
 		return blockTypeCache[Block.types[typeName]].Count > 0;
 	}
 
+	public IEnumerable<BlockChunk> AllChunks {
+		get {
+			for (var i = 0; i < widthInChunks; i++) {
+				for (var j = 0; j < heightInChunks; j++) {
+					var chunk = chunks[i, j];
+					if (chunk != null) yield return chunk;
+				}
+			}
+		}
+	}
+
+	public IEnumerable<Block> AllBlocks {
+		get {
+			foreach (var chunk in AllChunks) {
+				foreach (var block in chunk.AllBlocks) {
+					yield return block;
+				}
+			}
+		}
+	}
+
+	public int Count {
+		get {
+			return AllBlocks.Count();
+		}
+	}
+
 	public Block this[IntVector2 bp] {
 		get {
-			Profiler.BeginSample("blocks[]");
-			Block ret = null;
-			blockPositions.TryGetValue(bp, out ret);
-			Profiler.EndSample();
-			return ret;
+			var trueX = centerBlockX + bp.x;
+			var trueY = centerBlockY + bp.y;
+			var chunkX = trueX/chunkWidth;
+			var chunkY = trueY/chunkHeight;
+			var localX = trueX%chunkWidth;
+			var localY = trueY%chunkHeight;
+
+			var chunk = chunks[chunkX, chunkY];
+			if (chunk == null) return null;
+
+			return chunk[localX, localY];
 		}
 		set {
-			var currentBlock = this[bp];
+			var trueX = centerBlockX + bp.x;
+			var trueY = centerBlockY + bp.y;
+			var trueChunkX = trueX/chunkWidth;
+			var trueChunkY = trueY/chunkHeight;
+			var localX = trueX%chunkWidth;
+			var localY = trueY%chunkHeight;
 
-			if (value != null) {
-				value.pos = bp;
-				blockPositions[bp] = value; 
+			var chunk = chunks[trueChunkX, trueChunkY];
+			if (chunk == null) {
+				//Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
 
-				if (bp.x > maxX)
-					maxX = bp.x;
-				if (bp.y > maxY)
-					maxY = bp.y;
-				if (bp.x < minX)
-					minX = bp.x;
-				if (bp.y < minY)
-					minY = bp.y;
-			} else {
-				blockPositions.Remove(bp);
+				chunk = Pool.For("BlockChunk").TakeObject().GetComponent<BlockChunk>();
+				chunk.transform.parent = transform;
+				chunk.transform.localPosition = new Vector2(
+					(trueChunkX - centerChunkX) * chunkWidth * Block.worldSize, 
+					(trueChunkY - centerChunkY) * chunkHeight * Block.worldSize
+				);	
+				//Debug.Log(chunk.transform.localPosition);
+				chunk.gameObject.SetActive(true);
+				chunks[trueChunkX, trueChunkY] = chunk;
 			}
 
+			var currentBlock = chunk[localX, localY];
+			chunk[localX, localY] = value;
+			if (value != null) {
+				value.pos = bp;
+			}
 
 			if (value == null && currentBlock == null) {
 				return;
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
-				ClearMeshPos(currentBlock.index);
 				blockTypeCache[currentBlock.type].Remove(currentBlock);
 				OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
-				while (true) {
-					for (var i = 0; i < blockSequence.Length; i++) {
-						if (blockSequence[i] == null) {
-							value.index = i;
-							AttachToMesh(value);
-							blockTypeCache[value.type].Add(value);
-							OnBlockChanged(value, currentBlock);					
-							return;
-						}
-					}
-
-					ExpandBlockSequence();
-				}
+				blockTypeCache[value.type].Add(value);
+				OnBlockChanged(value, currentBlock);					
 			} else if (value != null && currentBlock != null) {
 				// replacing an existing block
-				value.index = currentBlock.index;
-				AttachToMesh(value);
 				blockTypeCache[currentBlock.type].Remove(currentBlock);
 				blockTypeCache[value.type].Add(value);
 				OnBlockChanged(value, currentBlock);
 			}
-
 		}
 	}
 
