@@ -31,18 +31,18 @@ public class ShipDesigner : MonoBehaviour {
 	public void OnDisable() {
 		cursor.gameObject.SetActive(false);
 		if (designShip != null)
-			designShip.renderer.enabled = true;
+			designShip.GetComponent<Renderer>().enabled = true;
 		//Game.main.debugText.text = "";
 		//Game.main.debugText.color = Color.white;
 	}
 
 	void SetDesignShip(Ship ship) {
 		if (designShip != null) {
-			designShip.renderer.enabled = true;
+			designShip.GetComponent<Renderer>().enabled = true;
 		}
 
 		designShip = ship;
-		designShip.renderer.enabled = false;
+		designShip.GetComponent<Renderer>().enabled = false;
 	}
 
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {

@@ -7,11 +7,13 @@ public class BlockChunk : PoolBehaviour {
 	public int width = 32;
 	public int height = 32;
 
-	private MeshRenderer renderer;
-	private Mesh mesh;
+	[HideInInspector]
+	public MeshRenderer renderer;
+	[HideInInspector]
+	public Mesh mesh;
 	
 	public Block[] blockArray;
-	public Vector3[] meshVertices;
+	private Vector3[] meshVertices;
 	private Vector2[] meshUV;
 	private int[] meshTriangles;
 	

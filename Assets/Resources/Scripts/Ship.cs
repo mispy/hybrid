@@ -27,10 +27,7 @@ public class Ship : PoolBehaviour {
 	public Blueprint blueprint;
 	
 	public Rigidbody rigidBody;
-	public MeshRenderer renderer;
-	
-	private Mesh mesh;
-	
+
 	public bool hasCollision = true;
 	public bool hasGravity = false;
 	
@@ -53,8 +50,6 @@ public class Ship : PoolBehaviour {
 
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
-		renderer = GetComponent<MeshRenderer>();		
-		mesh = GetComponent<MeshFilter>().mesh;	
 		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockChanged = OnBlockChanged;
 
@@ -473,7 +468,7 @@ public class Ship : PoolBehaviour {
 	void UpdateMesh() {
 		Profiler.BeginSample("UpdateMesh");
 
-		if (shields != null) {
+		/*if (shields != null) {
 			var hypo = Mathf.Sqrt(mesh.bounds.size.x*mesh.bounds.size.x + mesh.bounds.size.y*mesh.bounds.size.y);
 			var scale = new Vector3(mesh.bounds.size.x, mesh.bounds.size.y, 1);
 			scale.x += hypo * mesh.bounds.size.x / (mesh.bounds.size.x+mesh.bounds.size.y);
@@ -481,7 +476,7 @@ public class Ship : PoolBehaviour {
 			scale.z = Math.Max(scale.x, scale.y);
 
 			shields.transform.localScale = scale;
-		}
+		}*/
 		needMeshUpdate = false;
 
 		Profiler.EndSample();

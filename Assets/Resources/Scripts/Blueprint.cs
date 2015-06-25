@@ -3,18 +3,17 @@ using System.Collections;
 
 public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
+	public Material blueprintMaterial;
+
+	[HideInInspector]
 	public BlockMap blocks;
-
-
-	public MeshRenderer renderer;	
-	private Mesh mesh;
+	[HideInInspector]
 	public Ship ship;
 
 	public override void OnCreate() {
-		renderer = GetComponent<MeshRenderer>();
-		mesh = GetComponent<MeshFilter>().mesh;
 		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockChanged = OnBlockChanged;
+		blocks.OnChunkCreated = OnChunkCreated;
 	}
 
 	// Use this for initialization
@@ -28,6 +27,12 @@ public class Blueprint : PoolBehaviour {
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		if (newBlock != null)
 			newBlock.ship = ship;
+	}
+
+	public void OnChunkCreated(BlockChunk chunk) {
+		var texture = chunk.renderer.material.mainTexture;
+		chunk.renderer.material = blueprintMaterial;
+		chunk.renderer.material.mainTexture = texture;
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {

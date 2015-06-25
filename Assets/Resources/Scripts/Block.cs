@@ -98,8 +98,6 @@ public class Block {
 			};
 		}
 
-		Game.Prefab("Ship").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
-		Game.Prefab("Blueprint").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 		Game.Prefab("BlockChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 

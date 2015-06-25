@@ -26,6 +26,10 @@ public class BlockMap : MonoBehaviour {
 	public delegate void OnBlockChangedDelegate(Block newBlock, Block oldBlock);
 	public OnBlockChangedDelegate OnBlockChanged;
 
+	public delegate void OnChunkCreatedDelegate(BlockChunk newChunk);
+	public OnChunkCreatedDelegate OnChunkCreated;
+
+
 	public BlockMap() {
 		minX = 0;
 		minY = 0;
@@ -162,6 +166,9 @@ public class BlockMap : MonoBehaviour {
 				//Debug.Log(chunk.transform.localPosition);
 				chunk.gameObject.SetActive(true);
 				chunks[trueChunkX, trueChunkY] = chunk;
+
+				if (OnChunkCreated != null)
+					OnChunkCreated(chunk);
 			}
 
 			var currentBlock = chunk[localX, localY];
