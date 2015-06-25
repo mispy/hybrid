@@ -22,9 +22,9 @@ public class Block {
 	public static GameObject floorColliderPrefab;
 
 	public static string[] blockOrder = new string[] {
-		"console",
 		"floor",
 		"wall",
+		"console",
 		"thruster",
 		"tractorBeam",
 		"gravgen",
@@ -232,7 +232,7 @@ public class Block {
 	}
 
 	public BlockType type;
-	public int scrapContent;
+	public float scrapContent;
 
 	// these attributes relate to where the block is, rather
 	// than what it does

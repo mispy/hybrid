@@ -987,9 +987,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '1. Load Ship
+  m_Text: '1. Save Ship
 
-    2. Ship Ship
+    2. Load Ship
 
     3. Spawn Enemy Ship'
 --- !u!222 &1700680374

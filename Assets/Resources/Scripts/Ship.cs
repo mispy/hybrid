@@ -79,9 +79,6 @@ public class Ship : PoolBehaviour {
 				AddBlockComponent(block);
 		}
 
-		QueueMeshUpdate();
-		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
-
 		Ship.allActive.Add(this);
 	}
 
@@ -156,7 +153,7 @@ public class Ship : PoolBehaviour {
 			colliderObj = Pool.For("WallCollider").TakeObject();
 		else
 			colliderObj = Pool.For("FloorCollider").TakeObject();
-		colliderObj.transform.parent = transform;
+		colliderObj.transform.SetParent(transform);
 		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
 		colliders[block.pos] = colliderObj;
 		colliderObj.SetActive(true);
@@ -220,8 +217,6 @@ public class Ship : PoolBehaviour {
 
 
 		particleCache.Remove(pos);
-
-		QueueMeshUpdate();		
 
 		Profiler.EndSample();
 	}
@@ -459,10 +454,16 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
-	private bool needMeshUpdate = false;
+	public void EnableRendering() {
+		foreach (var chunk in blocks.AllChunks) {
+			chunk.renderer.enabled = true;
+		}
+	}
 
-	public void QueueMeshUpdate() {
-		needMeshUpdate = true;
+	public void DisableRendering() {
+		foreach (var chunk in blocks.AllChunks) {
+			chunk.renderer.enabled = false;
+		}
 	}
 
 	void UpdateMesh() {
@@ -477,7 +478,6 @@ public class Ship : PoolBehaviour {
 
 			shields.transform.localScale = scale;
 		}*/
-		needMeshUpdate = false;
 
 		Profiler.EndSample();
 	}

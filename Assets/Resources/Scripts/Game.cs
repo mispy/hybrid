@@ -86,7 +86,7 @@ public class Game : MonoBehaviour {
 
 		//InvokeRepeating("GenerateShip", 0.0f, 1.0f);
 
-		//debugMenu.GetComponent<DebugMenu>().LoadShip();
+		debugMenu.GetComponent<DebugMenu>().LoadShip();
 	}
 
 	void GenerateShip() {

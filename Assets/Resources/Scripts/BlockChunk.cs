@@ -90,6 +90,8 @@ public class BlockChunk : PoolBehaviour {
 		}
 
 		set {
+			Profiler.BeginSample("BlockChunk[x,y]");
+
 			var i = width * y + x;
 			blockArray[i] = value;
 
@@ -102,6 +104,7 @@ public class BlockChunk : PoolBehaviour {
 			}
 
 			QueueMeshUpdate();
+			Profiler.EndSample();
 		}
 	}
 

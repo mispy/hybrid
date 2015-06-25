@@ -19,6 +19,7 @@ public class Save {
 
 	public static ShipData Serialize(Ship ship) {
 		var data = new ShipData();
+		data.name = ship.name;
 		data.position = ship.transform.position;
 		data.rotation = ship.transform.rotation;
 		data.velocity = ship.rigidBody.velocity;
@@ -65,10 +66,7 @@ public class Save {
 	public static Ship Load(ShipData data) {
 		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
-		ship.transform.position = data.position;
-		ship.transform.rotation = data.rotation;
-		ship.rigidBody.velocity = data.velocity;
-		ship.rigidBody.angularVelocity = data.angularVelocity;
+		ship.name = data.name;
 
 		foreach (var blockData in data.blocks) {
 			ship.blocks[blockData.x, blockData.y] = Save.Load(blockData);
@@ -78,6 +76,12 @@ public class Save {
 			ship.blueprint.blocks[blockData.x, blockData.y] = new BlueprintBlock(Save.Load(blockData));
 		}
 
+		ship.transform.position = data.position;
+		ship.transform.rotation = data.rotation;
+		ship.rigidBody.velocity = data.velocity;
+		ship.rigidBody.angularVelocity = data.angularVelocity;
+
+		
 		shipObj.SetActive(true);
 		return ship;
 	}
@@ -131,6 +135,7 @@ public class GameData {
 
 [Serializable]
 public class ShipData {
+	public string name;
 	public Vector2 position;
 	public Quaternion rotation;
 	public Vector2 velocity;

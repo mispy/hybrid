@@ -25,6 +25,10 @@ public class Constructor : MonoBehaviour
 	public Block targetBlock = null;
 	public BlueprintBlock targetBlue = null;
 
+	[Tooltip("Amount of scrap removed per second")]
+	public float removeSpeed;
+	[Tooltip("Amount of scrap added per second")]
+	public float addSpeed;
 
 	void Awake() {
 		ps = GetComponent<ParticleSystem>();
@@ -44,8 +48,6 @@ public class Constructor : MonoBehaviour
 		ps.Emit(zigs);
 		particles = new ParticleSystem.Particle[ps.maxParticles];
 
-		StartCoroutine("UpdateBuildCoroutine");
-
 		isBuilding = true;
 	}
 
@@ -56,7 +58,6 @@ public class Constructor : MonoBehaviour
 	public void StopBuilding() {
 		if (!isBuilding) return;
 
-		StopCoroutine("UpdateBuildCoroutine");
 		ps.Clear();
 
 		isBuilding = false;
@@ -75,10 +76,12 @@ public class Constructor : MonoBehaviour
 		}
 		
 		if (isRemoving) {
-			targetBlock.scrapContent -= 1;
-			
+			targetBlock.scrapContent -= removeSpeed*Time.deltaTime;
 			if (targetBlock.scrapContent <= 0) {
 				targetBlock.ship.blocks[targetBlock.pos] = null;
+			} else {
+				// force a block update
+				targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
 			}
 		} else {
 			if (targetBlock == null) { // gotta make a new block
@@ -86,19 +89,13 @@ public class Constructor : MonoBehaviour
 			}
 			
 			if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
-				targetBlock.scrapContent += 1;
+				targetBlock.scrapContent += addSpeed*Time.deltaTime;
 			}
 
 			targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
 		}
 	}
 
-	IEnumerator UpdateBuildCoroutine() {
-		while (true) {
-			UpdateBuild();
-			yield return new WaitForSeconds(0.01f);
-		}
-	}
 
 	void Update() {
 		if (!isBuilding) return;
@@ -121,6 +118,7 @@ public class Constructor : MonoBehaviour
 		targetBlue = (BlueprintBlock)ship.blueprint.blocks[blockPos];
 		targetBlock = ship.blocks[blockPos];
 
+		UpdateBuild();
 		//text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
 	}	
 
