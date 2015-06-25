@@ -76,9 +76,6 @@ public class Game : MonoBehaviour {
 
 		//Save.LoadGame();
 
-		for (var i = 0; i < 1; i++) {
-			Generate.Asteroid(new Vector2(-60, 0), 30);
-		}
 
 		//Generate.EllipsoidShip(new Vector2(12, 0), 20, 10);
 

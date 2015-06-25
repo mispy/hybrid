@@ -5,8 +5,6 @@ using System.Xml;
 using System.Xml.Serialization;
 
 public class DebugMenu : MonoBehaviour {
-
-
 	public void SaveShip() {
 		var ship = Crew.player.maglockShip;
 		if (ship == null) return;
@@ -36,6 +34,18 @@ public class DebugMenu : MonoBehaviour {
 		ship.transform.position = new Vector3(0, 0, 0);
 	}
 
+	public void MakeAsteroids() {		
+		var sectorWidth = 200;
+		var sectorHeight = 200;
+		
+		for (var i = 0; i < 1; i++) {
+			var radius = Random.Range(10, 30);
+			var pos = new Vector2(Random.Range(-sectorWidth, sectorWidth), Random.Range(-sectorHeight, sectorHeight));
+			if (Physics.OverlapSphere(pos, radius).Length == 0)
+				Generate.Asteroid(pos, radius);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -51,6 +61,10 @@ public class DebugMenu : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Alpha3)) {
 			if (Ship.AtWorldPos(pz) == null)
 				Generate.TestShip(pz);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha4)) {
+			MakeAsteroids();
 		}
 	}
 }

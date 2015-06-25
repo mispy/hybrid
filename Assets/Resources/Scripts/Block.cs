@@ -100,6 +100,7 @@ public class Block {
 
 		Game.Prefab("Ship").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 		Game.Prefab("Blueprint").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Game.Prefab("BlockChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
 	public static Vector2[] GetUVs(Block block) {		
@@ -241,6 +242,9 @@ public class Block {
 	public int index;
 	public IntVector2 pos = new IntVector2();
 	public Orientation orientation = Orientation.up;
+
+	public int chunkX;
+	public int chunkY;
 
 	// copy constructor
 	public Block(Block block) {

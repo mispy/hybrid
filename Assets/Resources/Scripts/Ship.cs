@@ -84,7 +84,7 @@ public class Ship : PoolBehaviour {
 		UpdateGravity();
 
 		foreach (var block in blocks.All) {
-			if (block.type.gameObject != null)
+			if (block.type.isComplexBlock)
 				AddBlockComponent(block);
 		}
 
