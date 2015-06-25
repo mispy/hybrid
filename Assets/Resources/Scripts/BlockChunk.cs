@@ -14,6 +14,8 @@ public class BlockChunk : PoolBehaviour {
 	public Vector3[] meshVertices;
 	private Vector2[] meshUV;
 	private int[] meshTriangles;
+	
+	private bool needMeshUpdate = false;
 
 	public override void OnCreate() {
 		renderer = GetComponent<MeshRenderer>();
@@ -25,6 +27,7 @@ public class BlockChunk : PoolBehaviour {
 	}
 
 	void Start() {
+		InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
 	}
 
 	public IEnumerable<Vector3> GetVertices(Block block) {
@@ -96,16 +99,25 @@ public class BlockChunk : PoolBehaviour {
 				AttachToMesh(value, i);
 			}
 
-			UpdateMesh();
+			QueueMeshUpdate();
 		}
 	}
 
+	
+	public void QueueMeshUpdate() {
+		needMeshUpdate = true;
+	}
+
 	public void UpdateMesh() {
+		if (!needMeshUpdate) return;
+
 		mesh.Clear();
 		mesh.vertices = meshVertices;
 		mesh.triangles = meshTriangles;
 		mesh.uv = meshUV;
 		mesh.Optimize();
 		mesh.RecalculateNormals();	
+
+		needMeshUpdate = false;
 	}
 }
