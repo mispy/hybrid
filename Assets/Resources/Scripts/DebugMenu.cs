@@ -21,7 +21,7 @@ public class DebugMenu : MonoBehaviour {
 	}
 
 	public void LoadShip() {
-		var path = Directory.GetFiles(Application.dataPath + "/Ships/")[0];
+		var path = Application.dataPath + "/Ships/Test Ship.xml";//Directory.GetFiles(Application.dataPath + "/Ships/")[0];
 		var serializer = new XmlSerializer(typeof(ShipData));
 		
 		ShipData data;
@@ -41,7 +41,7 @@ public class DebugMenu : MonoBehaviour {
 		for (var i = 0; i < 10; i++) {
 			var radius = Random.Range(10, 50);
 			//var pos = new Vector2(Random.Range(-sectorWidth, sectorWidth), Random.Range(-sectorHeight, sectorHeight));
-			if (Physics.OverlapSphere(pos, radius).Length == 0) {
+			if (Physics.OverlapSphere(pos, radius*Block.worldSize).Length == 0) {
 				Generate.Asteroid(pos, radius);
 				break;
 			}

@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <name>Test Ship</name>
   <position>
-    <x>4.294823</x>
-    <y>1.04701233</y>
+    <x>-0.864756167</x>
+    <y>8.667617</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.8330793</z>
-    <w>0.553153634</w>
+    <z>0.700217068</z>
+    <w>0.7139301</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>112.832733</z>
+      <z>88.88884</z>
     </eulerAngles>
   </rotation>
   <velocity>

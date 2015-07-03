@@ -115,12 +115,12 @@ public class Game : MonoBehaviour {
 		}
 
 		// Scroll zoom
-		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize > 6) {
+		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize > 4) {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
-			Debug.Log(Camera.main.orthographicSize);
-		} else if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.orthographicSize < 96) {
+			//Debug.Log(Camera.main.orthographicSize);
+		} else if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.orthographicSize < 64) {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize << 1;
-			Debug.Log(Camera.main.orthographicSize);
+			//Debug.Log(Camera.main.orthographicSize);
 		}
 	}
 }

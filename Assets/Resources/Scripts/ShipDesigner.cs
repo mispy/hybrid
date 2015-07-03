@@ -15,7 +15,7 @@ public class ShipDesigner : MonoBehaviour {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursorObj.name = "Cursor";
 			cursor = cursorObj.GetComponent<Blueprint>();
-			cursor.blocks[0, 0] = new Block(Block.types["wall"]);
+			cursor.blocks[0, 0] = new BlueprintBlock(Block.types["wall"]);
 			cursor.blocks.EnableRendering();
 			cursorObj.SetActive(true);
 		} else {
@@ -32,7 +32,6 @@ public class ShipDesigner : MonoBehaviour {
 	public void OnDisable() {
 		cursor.gameObject.SetActive(false);
 		if (designShip != null) {
-			designShip.blueprint.blocks.DisableRendering();
 			designShip.blocks.EnableRendering();
 		}
 		//Game.main.debugText.text = "";
@@ -41,13 +40,11 @@ public class ShipDesigner : MonoBehaviour {
 
 	void SetDesignShip(Ship ship) {
 		if (designShip != null) {
-			designShip.blueprint.blocks.DisableRendering();
 			designShip.blocks.EnableRendering();
 		}
 
 		designShip = ship;
 		designShip.blocks.DisableRendering();
-		designShip.blueprint.blocks.EnableRendering();
 	}
 
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {

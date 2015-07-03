@@ -25,8 +25,9 @@ public class Blueprint : PoolBehaviour {
 	}
 
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		if (newBlock != null)
-			newBlock.ship = ship;
+		if (newBlock == null) return;
+
+		newBlock.ship = ship;
 	}
 
 	public void OnChunkCreated(BlockChunk chunk) {

@@ -216,8 +216,20 @@ public class Block {
 		get { return type.gameObject.layer; }
 	}
 
+	public bool IsBlueprint {
+		get {
+			return (this is BlueprintBlock);
+		}
+	}
+
 	public float PercentFilled {
-		get { return this.scrapContent / (float)this.type.scrapRequired; }
+		get { 
+			if (this.IsBlueprint) {
+				return 1.0f;
+			} else {
+				return this.scrapContent / (float)this.type.scrapRequired; 
+			}
+		}
 	}
 
 

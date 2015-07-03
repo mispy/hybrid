@@ -36,7 +36,7 @@ public class Crew : MonoBehaviour {
 	}
 
 	IEnumerator MaglockMoveCoroutine() {
-		var speed = 0.1f;
+		var speed = 0.05f;
 		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
 
 		while (true) {
@@ -77,12 +77,19 @@ public class Crew : MonoBehaviour {
 		transform.parent = maglockShip.transform;
 		rigidBody.isKinematic = true;
 		MaglockMove(ship.WorldToBlockPos(transform.position));
+
+		if (this == Crew.player)
+			maglockShip.blueprint.blocks.EnableRendering();
 	}
 
 	void StopMaglock() {
 		gameObject.transform.parent = Game.main.transform;
 		rigidBody.isKinematic = false;
 		maglockShip.maglockedCrew.Remove(this);
+
+		if (this == Crew.player)
+			maglockShip.blueprint.blocks.DisableRendering();
+
 		maglockShip = null;
 		currentBlock = null;
 	}

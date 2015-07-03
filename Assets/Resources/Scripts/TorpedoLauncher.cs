@@ -9,7 +9,7 @@ public class TorpedoLauncher : PoolBehaviour {
 	public Block block;
 	[HideInInspector]
 	public Collider collider;
-	private float timeBetweenShots = 1f;
+	private float timeBetweenShots = 0.1f;
 	private float lastFireTime = 0f;
 
 	void OnEnable() {
@@ -45,7 +45,7 @@ public class TorpedoLauncher : PoolBehaviour {
 		var rigid = torpedo.GetComponent<Rigidbody>();
 		torpedo.SetActive(true);
 		rigid.velocity = ship.rigidBody.velocity;
-		rigid.AddForce(transform.up*0.2f);
+		rigid.AddForce(transform.up*0.5f);
 		Physics.IgnoreCollision(collider, mcol);
 		if (ship.shields) {
 			Physics.IgnoreCollision(ship.shields.GetComponent<Collider>(), mcol, true);
