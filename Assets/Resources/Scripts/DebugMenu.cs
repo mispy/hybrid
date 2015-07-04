@@ -21,7 +21,7 @@ public class DebugMenu : MonoBehaviour {
 	}
 
 	public void LoadShip() {
-		var path = Application.dataPath + "/Ships/Test Ship.xml";//Directory.GetFiles(Application.dataPath + "/Ships/")[0];
+		var path = Application.dataPath + "/Ships/Asteroid.xml";//Directory.GetFiles(Application.dataPath + "/Ships/")[0];
 		var serializer = new XmlSerializer(typeof(ShipData));
 		
 		ShipData data;

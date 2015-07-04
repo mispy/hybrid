@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>3.11342931</x>
-    <y>0.193439275</y>
+    <x>0.246030673</x>
+    <y>0.02007956</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.5735767</z>
-    <w>-0.8191518</w>
+    <z>0.577072442</z>
+    <w>-0.816693</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>289.999969</z>
+      <z>289.510223</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -1323,12 +1323,6 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>12</y>
-      <typeName>torpedoLauncher</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
       <x>-1</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -2183,20 +2177,14 @@
     <BlockData>
       <x>0</x>
       <y>10</y>
-      <typeName>floor</typeName>
-      <orientation>2</orientation>
+      <typeName>console</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>11</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>0</x>
-      <y>12</y>
-      <typeName>torpedoLauncher</typeName>
-      <orientation>1</orientation>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -2346,12 +2334,6 @@
       <x>2</x>
       <y>11</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>2</x>
-      <y>12</y>
-      <typeName>torpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4229,12 +4211,6 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>12</y>
-      <typeName>torpedoLauncher</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
       <x>-1</x>
       <y>0</y>
       <typeName>floor</typeName>
@@ -5089,20 +5065,14 @@
     <BlockData>
       <x>0</x>
       <y>10</y>
-      <typeName>floor</typeName>
-      <orientation>2</orientation>
+      <typeName>console</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>11</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>0</x>
-      <y>12</y>
-      <typeName>torpedoLauncher</typeName>
-      <orientation>1</orientation>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -5252,12 +5222,6 @@
       <x>2</x>
       <y>11</y>
       <typeName>wall</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>2</x>
-      <y>12</y>
-      <typeName>torpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>

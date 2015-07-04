@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +40,8 @@ public class Ship : PoolBehaviour {
 	public Dictionary<Block, GameObject> blockComponents = new Dictionary<Block, GameObject>();
 
 	public List<Crew> maglockedCrew = new List<Crew>();
+
+	public float scrapAvailable = 1000;
 
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
@@ -402,9 +405,8 @@ public class Ship : PoolBehaviour {
 		}
 
 		if (obj.tag == "Item") {
-			if (HasBlockComponent<TractorBeam>()) {
-				Pool.Recycle(obj);
-			}
+			scrapAvailable += 10;
+			Pool.Recycle(obj);
 			//foreach (var beam in GetBlockComponents<TractorBeam>()) {
 				//if (beam.captured.Contains(obj.GetComponent<Collider>())) {
 				//}
@@ -469,4 +471,5 @@ public class Ship : PoolBehaviour {
 
 		Profiler.EndSample();
 	}
+
 }

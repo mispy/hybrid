@@ -83,12 +83,12 @@ MonoBehaviour:
   blocks: {fileID: 0}
   blueprint: {fileID: 0}
   rigidBody: {fileID: 0}
-  renderer: {fileID: 0}
   hasCollision: 1
   hasGravity: 0
   shields: {fileID: 0}
   localCenter: {x: 0, y: 0, z: 0}
   maglockedCrew: []
+  scrapAvailable: 1000
 --- !u!114 &11470960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,7 +107,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: scrapAvailable
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 100938}

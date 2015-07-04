@@ -46,20 +46,20 @@
      half4 original = tex2D(_MainTex, i.uv[0]);
  
      // a very simple cross gradient filter
-     half3 p1 = original.rgb;
-     half3 p2 = tex2D( _MainTex, i.uv[1] ).rgb;
-     half3 p3 = tex2D( _MainTex, i.uv[2] ).rgb;
-     half3 p4 = tex2D( _MainTex, i.uv[1] ).rgb;
-     half3 p5 = tex2D( _MainTex, i.uv[2] ).rgb;
+     //half3 p1 = original.rgb;
+     //half3 p2 = tex2D( _MainTex, i.uv[1] ).rgb;
+     //half3 p3 = tex2D( _MainTex, i.uv[2] ).rgb;
+     //half3 p4 = tex2D( _MainTex, i.uv[1] ).rgb;
+     //half3 p5 = tex2D( _MainTex, i.uv[2] ).rgb;
      
-     half3 diff = p1 * 4 - p2 - p3 - p4 - p5;
-     half len = dot(diff,diff);
+     //half3 diff = p1 * 4 - p2 - p3 - p4 - p5;
+     //half len = dot(diff,diff);
      //if( len >= _Threshold )
      //    original.xyzw = half4(1.0f,1.0f,1.0f,1.0f);
      //else
      //    original = half4(0.3f,0.5f,0.8f,1.0f);
         
-     original = half4(original[0]/1.5, original[1]/1.5, original[2]*2, original[3]/1.2);
+     //original = half4(original[0]/1.5, original[1]/1.5, original[2]*2, original[3]/1.2);
          
      return original;
  }

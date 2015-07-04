@@ -18,6 +18,7 @@ public class Constructor : MonoBehaviour
 	private ParticleSystem ps;
 	private ParticleSystem.Particle[] particles;
 	private Text text;
+	private Crew crew;
 
 	public bool isBuilding = false;
 
@@ -67,6 +68,8 @@ public class Constructor : MonoBehaviour
 		if (targetBlue == null && targetBlock == null) {
 			return;
 		}
+
+		var builder = Crew.player.maglockShip;
 		
 		// check if there's a current block we need to get rid of
 		bool isRemoving = false;
@@ -76,7 +79,11 @@ public class Constructor : MonoBehaviour
 		}
 		
 		if (isRemoving) {
-			targetBlock.scrapContent -= removeSpeed*Time.deltaTime;
+			var change = removeSpeed*Time.deltaTime;
+
+			targetBlock.scrapContent -= change;
+			builder.scrapAvailable += change;
+
 			if (targetBlock.scrapContent <= 0) {
 				targetBlock.ship.blocks[targetBlock.pos] = null;
 			} else {
@@ -89,7 +96,11 @@ public class Constructor : MonoBehaviour
 			}
 			
 			if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
-				targetBlock.scrapContent += addSpeed*Time.deltaTime;
+				var change = addSpeed*Time.deltaTime;
+				if (builder.scrapAvailable >= change) {
+					builder.scrapAvailable -= change;
+					targetBlock.scrapContent += change;
+				}
 			}
 
 			targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
