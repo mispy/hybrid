@@ -35,8 +35,9 @@ public class Crew : MonoBehaviour {
 		constructor = GetComponentInChildren<Constructor>();
 	}
 
+	// this seems broken
 	IEnumerator MaglockMoveCoroutine() {
-		var speed = 0.2f;
+		var speed = 1f;
 		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
 
 		while (true) {
@@ -47,7 +48,7 @@ public class Crew : MonoBehaviour {
 
 			if (dist.magnitude > speed) {
 				dist.Normalize();
-				dist = dist*speed;
+				dist = dist*speed*Time.deltaTime;
 			}
 
 			transform.localPosition += dist;
@@ -56,7 +57,7 @@ public class Crew : MonoBehaviour {
 				break;
 			}
 
-			yield return null;
+			yield return new WaitForEndOfFrame();
 		}
 	}
 
