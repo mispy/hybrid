@@ -389,6 +389,10 @@ MonoScript:
   m_Namespace: UnityEngine.UI
   m_AssemblyName: UnityEngine.UI.dll
   m_IsEditorScript: 0
+--- !u!4 &243468877 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 411462, guid: 9e9ee0ba2ba4aa9428f3ae22a5f79d89, type: 2}
+  m_PrefabInternal: {fileID: 1911991036}
 --- !u!1 &473694246
 GameObject:
   m_ObjectHideFlags: 0
@@ -542,7 +546,7 @@ GameObject:
   - 114: {fileID: 632897230}
   - 114: {fileID: 632897231}
   m_Layer: 0
-  m_Name: Game
+  m_Name: Sector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -559,6 +563,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1514068296}
+  - {fileID: 243468877}
+  - {fileID: 1907682573}
   m_Father: {fileID: 0}
   m_RootOrder: 1
 --- !u!114 &632897230
@@ -1194,12 +1200,39 @@ RectTransform:
   m_PrefabParentObject: {fileID: 22480774, guid: 080a1d8d2aba3854ea0a34afc98fc9a0,
     type: 2}
   m_PrefabInternal: {fileID: 1667621268}
+--- !u!1 &1907682572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1907682573}
+  m_Layer: 0
+  m_Name: Temp
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1907682573
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1907682572}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 632897229}
+  m_RootOrder: 2
 --- !u!1001 &1911991036
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 632897229}
     m_Modifications:
     - target: {fileID: 411462, guid: 9e9ee0ba2ba4aa9428f3ae22a5f79d89, type: 2}
       propertyPath: m_LocalPosition.x
@@ -1231,7 +1264,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 411462, guid: 9e9ee0ba2ba4aa9428f3ae22a5f79d89, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 411462, guid: 9e9ee0ba2ba4aa9428f3ae22a5f79d89, type: 2}
       propertyPath: m_LocalScale.x

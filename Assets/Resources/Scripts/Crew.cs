@@ -35,36 +35,8 @@ public class Crew : MonoBehaviour {
 		constructor = GetComponentInChildren<Constructor>();
 	}
 
-	// this seems broken
-	IEnumerator MaglockMoveCoroutine() {
-		var speed = 1f;
-		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
-
-		while (true) {
-			if (maglockShip == null) break;
-
-			var pos = transform.localPosition;
-			var dist = targetPos - pos;
-
-			if (dist.magnitude > speed) {
-				dist.Normalize();
-				dist = dist*speed*Time.deltaTime;
-			}
-
-			transform.localPosition += dist;
-
-			if (Vector3.Distance(transform.localPosition, targetPos) < Vector3.kEpsilon) {
-				break;
-			}
-
-			yield return new WaitForEndOfFrame();
-		}
-	}
-
 	public void MaglockMove(IntVector2 bp) {
 		maglockMoveBlockPos = bp;
-		StopCoroutine("MaglockMoveCoroutine");
-		StartCoroutine("MaglockMoveCoroutine");
 	}
 
 	public void UseBlock(Block block)  {
@@ -120,6 +92,21 @@ public class Crew : MonoBehaviour {
 			return null;
 		}
 	}
+	
+	void UpdateMaglockMove() {
+		var speed = 15f;
+		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
+		
+		var pos = transform.localPosition;
+		var dist = targetPos - pos;
+		
+		if (dist.magnitude > speed*Time.deltaTime) {
+			dist.Normalize();
+			dist = dist*speed*Time.deltaTime;
+		}
+		
+		transform.localPosition += dist;
+	}
 
 	void UpdateMaglock() {
 		var ship = FindMaglockShip();
@@ -134,7 +121,11 @@ public class Crew : MonoBehaviour {
 			currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
 			currentBlock = maglockShip.blocks[currentBlockPos];
 		}
+
+		if (maglockShip != null)
+			UpdateMaglockMove();
 	}
+
 
 	void Update() {
 		UpdateMaglock();
