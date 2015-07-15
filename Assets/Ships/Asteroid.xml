@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>0.246030673</x>
-    <y>0.02007956</y>
+    <x>-0.244149432</x>
+    <y>-0.6337347</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.577072442</z>
-    <w>-0.816693</w>
+    <z>0.5596188</z>
+    <w>-0.8287502</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>289.510223</z>
+      <z>291.941132</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -34,6 +34,12 @@
     </BlockData>
     <BlockData>
       <x>-12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
       <y>-1</y>
       <typeName>thruster</typeName>
       <orientation>2</orientation>
@@ -683,6 +689,12 @@
     <BlockData>
       <x>-12</x>
       <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>2</y>
       <typeName>thruster</typeName>
       <orientation>2</orientation>
     </BlockData>
@@ -2106,6 +2118,12 @@
       <x>12</x>
       <y>-3</y>
       <typeName>tractorBeam</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
@@ -2903,6 +2921,12 @@
     <BlockData>
       <x>12</x>
       <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>2</y>
       <typeName>thruster</typeName>
       <orientation>-2</orientation>
     </BlockData>
@@ -2922,6 +2946,12 @@
     </BlockData>
     <BlockData>
       <x>-12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
       <y>-1</y>
       <typeName>thruster</typeName>
       <orientation>2</orientation>
@@ -3571,6 +3601,12 @@
     <BlockData>
       <x>-12</x>
       <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>2</y>
       <typeName>thruster</typeName>
       <orientation>2</orientation>
     </BlockData>
@@ -4994,6 +5030,12 @@
       <x>12</x>
       <y>-3</y>
       <typeName>tractorBeam</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-2</y>
+      <typeName>thruster</typeName>
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
@@ -5791,6 +5833,12 @@
     <BlockData>
       <x>12</x>
       <y>1</y>
+      <typeName>thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>2</y>
       <typeName>thruster</typeName>
       <orientation>-2</orientation>
     </BlockData>

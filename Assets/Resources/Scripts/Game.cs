@@ -86,7 +86,15 @@ public class Game : MonoBehaviour {
 
 		//InvokeRepeating("GenerateShip", 0.0f, 1.0f);
 
-		debugMenu.GetComponent<DebugMenu>().LoadShip();
+		var debug = debugMenu.GetComponent<DebugMenu>();
+		
+		debug.LoadShip();
+
+		var sectorSize = 200;
+
+		for (var i = 0; i < 50; i++) {
+			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
+		}
 	}
 
 	void GenerateShip() {

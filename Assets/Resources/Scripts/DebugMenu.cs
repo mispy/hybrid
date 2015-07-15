@@ -20,7 +20,7 @@ public class DebugMenu : MonoBehaviour {
 		Game.main.BriefMessage("Saved " + path);
 	}
 
-	public void LoadShip() {
+	public Ship LoadShip() {
 		var path = Application.dataPath + "/Ships/Asteroid.xml";//Directory.GetFiles(Application.dataPath + "/Ships/")[0];
 		var serializer = new XmlSerializer(typeof(ShipData));
 		
@@ -32,6 +32,7 @@ public class DebugMenu : MonoBehaviour {
 
 		var ship = Save.Load(data);
 		ship.transform.position = new Vector3(0, 0, 0);
+		return ship;
 	}
 
 	public void MakeAsteroid(Vector2 pos) {		
