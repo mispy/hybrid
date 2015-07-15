@@ -64,6 +64,8 @@ public class CrewMind : MonoBehaviour {
 	}
 	
 	void Start() {
+		if (Crew.player == this.crew)
+			return;
 		InvokeRepeating("UpdateTasks", 0.0f, 0.05f);
 	}
 
@@ -103,12 +105,21 @@ public class CrewMind : MonoBehaviour {
 
 
 	void Update() {
-		if (Crew.player == this) return;
+		if (Crew.player == this.crew) {
+			this.gameObject.SetActive(false);
+			return;
+		}
 
 		if (crew.maglockShip != null) {
 			UpdateLockedMovement();
 		} else {
 			UpdateFreeMovement();
+		}
+
+		foreach (var other in Crew.all) {
+			if (other == Crew.player) {
+				crew.weapon.Fire(other.transform.position);
+			}
 		}
 	}
 

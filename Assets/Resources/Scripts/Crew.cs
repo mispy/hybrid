@@ -6,12 +6,15 @@ using System.Linq;
 
 public class Crew : MonoBehaviour {
 	public static Crew player;
+	public static List<Crew> all = new List<Crew>();
 
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
 	public Constructor constructor;
-	
+
+	public int maxHealth = 100;
+	public int health = 100;
 
 
 	// Crew can be maglocked to a ship even if they don't have a current block
@@ -23,16 +26,31 @@ public class Crew : MonoBehaviour {
 
 	public Block controlConsole = null;
 
+	public CrewWeapon weapon;
+
+	public void TakeDamage(int amount) {
+		health -= amount;
+
+		if (health <= 0)
+			Pool.Recycle(this.gameObject);
+	}
 
 	void Awake() {
 		collider = GetComponent<BoxCollider>();
 		rigidBody = GetComponent<Rigidbody>();
+		weapon = GetComponent<CrewWeapon>();
 
 		var obj = Pool.For("Constructor").TakeObject();	
 		obj.transform.parent = transform;
 		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		constructor = GetComponentInChildren<Constructor>();
+
+		Crew.all.Add(this);
+	}
+
+	void OnRecycle() {
+		Crew.all.Remove(this);
 	}
 
 	public void MaglockMove(IntVector2 bp) {

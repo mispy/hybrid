@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11414088}
   - 54: {fileID: 5461298}
   - 65: {fileID: 6559640}
+  - 114: {fileID: 11495430}
   m_Layer: 10
   m_Name: Crew
   m_TagString: Untagged
@@ -29,8 +30,9 @@ GameObject:
   - 224: {fileID: 22444710}
   - 222: {fileID: 22209732}
   - 114: {fileID: 11496124}
+  - 114: {fileID: 11452668}
   m_Layer: 10
-  m_Name: Image
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +79,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 148404}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 22445374}
@@ -137,7 +139,10 @@ MonoBehaviour:
   rigidBody: {fileID: 0}
   collider: {fileID: 0}
   constructor: {fileID: 0}
+  maxHealth: 100
+  health: 100
   maglockShip: {fileID: 0}
+  weapon: {fileID: 0}
 --- !u!114 &11420038
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -167,6 +172,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crew: {fileID: 0}
   myShip: {fileID: 0}
+--- !u!114 &11452668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 159712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 519d5927ddafa3149a9c0d9bc3badcfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11495430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d66973bbdb6bb3546b842c034b649b48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11496124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -311,6 +338,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

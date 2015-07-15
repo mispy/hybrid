@@ -22,7 +22,7 @@ TagManager:
   - Shields
   - Item
   - Projectile
-  - 
+  - InteriorProjectile
   - 
   - 
   - 
@@ -45,6 +45,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Projectiles
+    uniqueID: 3919247975
     locked: 0
   - name: UI
     uniqueID: 1169726945

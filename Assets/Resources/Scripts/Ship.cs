@@ -84,7 +84,7 @@ public class Ship : PoolBehaviour {
 
 		Ship.allActive.Add(this);
 	}
-
+		
 	public override void OnRecycle() {
 		Ship.allActive.Remove(this);
 	}
