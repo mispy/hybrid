@@ -103,6 +103,8 @@ public class CrewMind : MonoBehaviour {
 
 
 	void Update() {
+		if (Crew.player == this) return;
+
 		if (crew.maglockShip != null) {
 			UpdateLockedMovement();
 		} else {

@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &159712
 GameObject:
   m_ObjectHideFlags: 1
@@ -31,6 +31,22 @@ GameObject:
   - 114: {fileID: 11496124}
   m_Layer: 10
   m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &160250
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 427516}
+  - 114: {fileID: 11450768}
+  m_Layer: 10
+  m_Name: CrewMind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65,8 +81,21 @@ Transform:
   m_LocalScale: {x: 2.5, y: 2.5, z: 2.5}
   m_Children:
   - {fileID: 22445374}
+  - {fileID: 427516}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!4 &427516
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160250}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 422348}
+  m_RootOrder: 1
 --- !u!54 &5461298
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -125,6 +154,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11450768
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80bfe9202e60473499670f9548f3f617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crew: {fileID: 0}
+  myShip: {fileID: 0}
 --- !u!114 &11496124
 MonoBehaviour:
   m_ObjectHideFlags: 1

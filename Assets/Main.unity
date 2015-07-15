@@ -962,6 +962,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 427516, guid: d90bd97262cf23d4eb089601dd66cf72, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d90bd97262cf23d4eb089601dd66cf72, type: 2}
   m_IsPrefabParent: 0
@@ -1007,10 +1011,6 @@ Prefab:
     - target: {fileID: 422348, guid: d90bd97262cf23d4eb089601dd66cf72, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 148404, guid: d90bd97262cf23d4eb089601dd66cf72, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d90bd97262cf23d4eb089601dd66cf72, type: 2}
@@ -1167,7 +1167,9 @@ MonoBehaviour:
 
     3. Spawn Enemy Ship
 
-    4. Spawn Asteroid'
+    4. Spawn Asteroid
+
+    5. Spawn Crew'
 --- !u!222 &1700680374
 CanvasRenderer:
   m_ObjectHideFlags: 0

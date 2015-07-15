@@ -3,6 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Linq;
 
 public class DebugMenu : MonoBehaviour {
 	public void SaveShip() {
@@ -49,6 +50,13 @@ public class DebugMenu : MonoBehaviour {
 		}
 	}
 
+	public void SpawnCrew(Vector2 pos) {
+		var crewObj = Pool.For("Crew").TakeObject();
+		crewObj.transform.position = pos;
+		crewObj.SetActive(true);
+		crewObj.GetComponentInChildren<CrewMind>().myShip = Ship.ClosestTo(pos).First();
+	}
+
 	// Update is called once per frame
 	void Update () {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -68,6 +76,10 @@ public class DebugMenu : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Alpha4)) {
 			MakeAsteroid(pz);
+		}
+
+		if (Input.GetKeyDown(KeyCode.Alpha5)) {
+			SpawnCrew(pz);
 		}
 	}
 }
