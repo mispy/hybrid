@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>-0.244149432</x>
-    <y>-0.6337347</y>
+    <x>0</x>
+    <y>0</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.5596188</z>
-    <w>-0.8287502</w>
+    <z>0.5596182</z>
+    <w>-0.8287506</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>291.941132</z>
+      <z>291.941223</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -1109,8 +1109,8 @@
     <BlockData>
       <x>-4</x>
       <y>0</y>
-      <typeName>floor</typeName>
-      <orientation>-2</orientation>
+      <typeName>powerNode</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
@@ -4021,8 +4021,8 @@
     <BlockData>
       <x>-4</x>
       <y>0</y>
-      <typeName>floor</typeName>
-      <orientation>-2</orientation>
+      <typeName>powerNode</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
