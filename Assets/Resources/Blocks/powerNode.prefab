@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 416556}
   - 212: {fileID: 21298858}
+  - 114: {fileID: 11463748}
   m_Layer: 5
   m_Name: PowerCircle
   m_TagString: Untagged
@@ -42,6 +43,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 465998}
   - 114: {fileID: 11496076}
+  - 114: {fileID: 11422770}
   m_Layer: 8
   m_Name: powerNode
   m_TagString: Untagged
@@ -130,6 +132,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!114 &11422770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad0126302a47374596a53f36381021e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11428352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,6 +164,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11463748
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 109426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce8c36334a38728468116074c01de91c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11496076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -168,11 +192,10 @@ MonoBehaviour:
   isComplexBlock: 1
   mass: .00100000005
   scrapRequired: 30
-  descriptionHeader: '<size=16>Inertial Dampener</size>
+  descriptionHeader: '<size=16>Power Node</size>
 
     <color="yellow">System</color>'
-  descriptionBody: Projects a gravitational field which returns ships to a local resting
-    state when perturbed. Helpful to avoid spinning wildly!
+  descriptionBody: Powers stuff
   upUVs:
   - {x: .5703125, y: .8046875}
   - {x: .8046875, y: .8046875}
@@ -274,7 +297,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: .200000003, y: 0}
+  m_AnchoredPosition: {x: .200000003, y: .200000003}
   m_SizeDelta: {x: .100000001, y: .5}
   m_Pivot: {x: .5, y: .5}
 --- !u!1001 &100100000
@@ -321,6 +344,16 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: 1169726945
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: '<size=16>Power Node</size>
+
+        <color="yellow">System</color>'
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: Powers stuff
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
