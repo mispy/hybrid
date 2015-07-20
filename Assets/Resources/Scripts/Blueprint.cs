@@ -31,9 +31,9 @@ public class Blueprint : PoolBehaviour {
 	}
 
 	public void OnChunkCreated(BlockChunk chunk) {
-		//var texture = chunk.renderer.material.mainTexture;
-		//chunk.renderer.material = blueprintMaterial;
-		//chunk.renderer.material.mainTexture = texture;
+		var texture = chunk.renderer.material.mainTexture;
+		chunk.renderer.material = blueprintMaterial;
+		chunk.renderer.material.mainTexture = texture;
 		chunk.renderer.material.color = Color.cyan;
 		blocks.DisableRendering();
 	}

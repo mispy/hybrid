@@ -6,7 +6,7 @@
  
  SubShader {
      Pass {
-         ZTest Always Cull Off ZWrite Off
+         ZTest LEqual
          Blend SrcAlpha OneMinusSrcAlpha
          Fog { Mode off }
  
@@ -22,7 +22,7 @@
  
  struct v2f {
      half4 pos : POSITION;
-     half2 uv[5] : TEXCOORD0;
+     half2 uv : TEXCOORD0;
  };
  
  v2f vert( appdata_img v )
@@ -30,11 +30,7 @@
      v2f o;
      o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
      half2 uv = MultiplyUV( UNITY_MATRIX_TEXTURE0, v.texcoord );
-     o.uv[0] = uv;
-     o.uv[1] = uv + half2(-_MainTex_TexelSize.x, -_MainTex_TexelSize.y);
-     o.uv[2] = uv + half2(+_MainTex_TexelSize.x, -_MainTex_TexelSize.y);
-     o.uv[3] = uv + half2(+_MainTex_TexelSize.x, +_MainTex_TexelSize.y);
-     o.uv[4] = uv + half2(-_MainTex_TexelSize.x, +_MainTex_TexelSize.y);
+     o.uv = uv;
      return o;
  }
  
@@ -64,6 +60,21 @@ half3 RGBtoHSV(in half3 RGB)
 	return half3(HCV.x, S, HCV.z);
 }
 
+half3 RGBtoHSL(in half3 RGB)
+{
+	half3 HCV = RGBtoHCV(RGB);
+	half L = HCV.z - HCV.y * 0.5;
+	half S = HCV.y / (1 - abs(L * 2 - 1) + Epsilon);
+	return half3(HCV.x, S, L);
+}
+
+half3 HSLtoRGB(in half3 HSL)
+{
+	half3 RGB = HUEtoRGB(HSL.x);
+	half C = (1 - abs(2 * HSL.z - 1)) * HSL.y;
+	return (RGB - 0.5) * C + HSL.z;
+}
+
 half3 HSVtoRGB(in half3 HSV)
 {
 	half3 RGB = HUEtoRGB(HSV.x);
@@ -72,14 +83,30 @@ half3 HSVtoRGB(in half3 HSV)
 
  half4 frag (v2f i) : COLOR
  {
-     half4 origColor = tex2D(_MainTex, i.uv[0]);
+     half4 origColor = tex2D(_MainTex, i.uv);
+     half4 baseColor = half4(0, 0, 0, 1);
+     half4 highlightColor = half4(1, 0, 0, 1);
      
-     half3 hsv = RGBtoHSV(origColor);
-     hsv.x = 0;
-     half3 destColor = HSVtoRGB(hsv);
-     half4 final = half4(destColor.x, destColor.y, destColor.z, origColor.w);
+     half3 origHSL = RGBtoHSL(origColor);
+     half3 baseHSL = RGBtoHSL(baseColor);
+     half3 highlightHSL = RGBtoHSL(highlightColor);
+     
+     half3 outHSL = origHSL;
+     if (origHSL.y < 0.2) {
+     	outHSL.x = baseHSL.x;
+     	outHSL.y = lerp(outHSL.y, baseHSL.y, 0.5);
+     	outHSL.z = lerp(outHSL.z, baseHSL.z, 0.5);
+     } else {
+     	outHSL.x = highlightHSL.x;
+    	outHSL.y = lerp(outHSL.y, highlightHSL.y, 0.5);
+    	outHSL.z = lerp(outHSL.z, highlightHSL.z, 0.5);
+     }
+           
+     half3 outColor = HSLtoRGB(outHSL);
+     half4 final = half4(outColor.x, outColor.y, outColor.z, origColor.w);
          
-     return final;
+     //return final;
+     return origColor;
  }
  ENDCG
      }

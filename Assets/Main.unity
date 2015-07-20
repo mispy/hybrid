@@ -622,6 +622,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1917075418}
   debugText: {fileID: 1700680373}
+  currentSector: {fileID: 632897228}
   shipDesigner: {fileID: 902054483}
   messageText: {fileID: 1295230503}
   debugMenu: {fileID: 1700680373}

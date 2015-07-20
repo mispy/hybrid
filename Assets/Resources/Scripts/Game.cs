@@ -12,6 +12,7 @@ public class Game : MonoBehaviour {
 
 	public Canvas canvas;
 	public Text debugText;
+	public GameObject currentSector;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
@@ -106,6 +107,10 @@ public class Game : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		if (Game.inputBlocked) return;
+
+		if (Input.GetKeyDown(KeyCode.M)) {
+			currentSector.SetActive(false);
+		}
 
 		if (Input.GetKeyDown(KeyCode.BackQuote)) {
 			if (debugMenu.gameObject.activeInHierarchy)
