@@ -127,4 +127,18 @@ public class Util {
 		if (Input.GetKeyDown(KeyCode.Alpha9)) return 9;
 		return -1;
 	}
+
+	public static Bounds GetCameraBounds() {
+		var camera = Camera.main;
+		float screenAspect = (float)Screen.width / (float)Screen.height;
+		float cameraHeight = camera.orthographicSize * 2;
+		Bounds bounds = new Bounds(
+			camera.transform.position,
+			new Vector3(cameraHeight * screenAspect, cameraHeight, 0));
+		return bounds;	
+	}
+
+	public static Color RandomColor() {
+		return new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+	}
 }
