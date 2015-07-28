@@ -31,7 +31,7 @@ public class DebugMenu : MonoBehaviour {
 			data = serializer.Deserialize(stream) as ShipData;
 		}
 
-		var ship = Save.Load(data);
+		var ship = Save.LoadShip(data);
 		ship.transform.position = new Vector3(0, 0, 0);
 		return ship;
 	}

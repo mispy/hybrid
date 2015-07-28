@@ -79,10 +79,10 @@ public class Generate : MonoBehaviour {
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);
 
-		var crewObj = Pool.For("AICutie").TakeObject();
+/*		var crewObj = Pool.For("Crew").TakeObject();
 		crewObj.transform.position = ship.BlockToWorldPos(new IntVector2(0, 0));
 		crewObj.SetActive(true);
-		crewObj.GetComponentInChildren<CrewMind>().myShip = ship;
+		crewObj.GetComponentInChildren<CrewMind>().myShip = ship;*/
 
 		return ship;
 	}

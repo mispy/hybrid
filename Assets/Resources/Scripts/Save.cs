@@ -63,7 +63,7 @@ public class Save {
 		return block;
 	}
 
-	public static Ship Load(ShipData data) {
+	public static Ship LoadShip(ShipData data) {
 		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();
 		ship.name = data.name;
@@ -120,7 +120,7 @@ public class Save {
 		}
 
 		foreach (var shipData in data.ships) {
-			var ship = Save.Load(shipData);
+			var ship = Save.LoadShip(shipData);
 		}
 
 		Crew.player = Save.Load(data.player);
