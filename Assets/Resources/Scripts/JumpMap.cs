@@ -6,32 +6,38 @@ using System.Linq;
 public class JumpMap : MonoBehaviour {
 		
 	float jumpRange = 5f;
+	Color hoverColor = new Color (0.95f, 0.64f, 0.38f, 0.05f);
+	Color currentColor = new Color (0f, 1f, 1f, 1f);
+
 	LineRenderer lineRenderer;
-	List<GameObject> beacons = new List<GameObject>();
+	List<JumpBeacon> beacons = new List<JumpBeacon>();
+	JumpBeacon hoverBeacon;
+	JumpBeacon shipBeacon;
 
 	// Use this for initialization
 	void Start () {
 		var bounds = Util.GetCameraBounds();
-		gameObject.AddComponent<LineRenderer>();
 
 		for (var i = 0; i < 20; i++) {
-			var beacon = Pool.For("JumpBeacon").TakeObject();
+			var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();
 			beacon.transform.parent = transform;
 			var x = Random.Range(bounds.min.x, bounds.max.x);
 			var y = Random.Range(bounds.min.y, bounds.max.y);
 			beacon.transform.position = new Vector2(x, y);
 			var rend = beacon.GetComponent<Renderer>();
-			rend.material.color = Util.RandomColor();	
-			beacon.SetActive(true);	
+			//rend.material.color = Util.RandomColor();	
+			beacon.gameObject.SetActive(true);	
 
 			beacons.Add(beacon);
 		}
 
 		var positions = new List<Vector3>();
+
+		SetShipBeacon (beacons[0]);
 	}
 
-	void DrawConnections(GameObject beacon) {
-		var lineRenderer = gameObject.GetComponent<LineRenderer>();
+	void DrawConnections(JumpBeacon beacon, Color color) {
+		var lineRenderer = beacon.gameObject.GetComponent<LineRenderer>();
 
 		var points = new List<Vector3>();
 		foreach (var b2 in beacons) {
@@ -44,27 +50,48 @@ public class JumpMap : MonoBehaviour {
 
 		var width = 0.05f;
 		lineRenderer.SetWidth(width, width);
-		lineRenderer.SetColors(Color.white, Color.white);
 		lineRenderer.SetVertexCount(points.Count);
 
 		for (var i = 0; i < points.Count; i++) {
 			lineRenderer.SetPosition(i, points[i]);
 		}
 
+		lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+		lineRenderer.material.color = color;
+		lineRenderer.SetColors(color, color);
 	}
 
+	void SetShipBeacon(JumpBeacon beacon) {
+		if (shipBeacon != null) {
+			shipBeacon.GetComponent<LineRenderer> ().enabled = false;
+		}
 
-	void AddConnection(GameObject b1, GameObject b2) {
-
-		lineRenderer.SetPosition(0, b1.transform.position);
-		lineRenderer.SetPosition(1, b2.transform.position);
-		lineRenderer.SetColors(Color.white, Color.white);
+		shipBeacon = beacon;
+		DrawConnections(shipBeacon, currentColor);
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-		var beacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First ();
-		DrawConnections(beacon);
+
+		var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First ();
+
+		if (hoverBeacon != nearMouseBeacon) {
+			if (hoverBeacon != null && hoverBeacon != shipBeacon) {
+				hoverBeacon.GetComponent<LineRenderer> ().enabled = false;
+			}
+					
+			hoverBeacon = nearMouseBeacon;
+			if (hoverBeacon != shipBeacon) {
+				hoverBeacon.GetComponent<LineRenderer> ().enabled = true;
+				DrawConnections(hoverBeacon, hoverColor);
+			}
+		}
+
+		if (Input.GetMouseButtonDown(0)) {
+			if (hoverBeacon != shipBeacon && Vector3.Distance (hoverBeacon.transform.position, shipBeacon.transform.position) < jumpRange) {
+				SetShipBeacon(hoverBeacon);
+			}
+		}
 	}
 }

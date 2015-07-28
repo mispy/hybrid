@@ -87,4 +87,8 @@ public class Pool {
 
 		return TakeObject();
 	}
+
+	public T Take<T>() {
+		return TakeObject().GetComponent<T>();
+	}
 }
