@@ -89,7 +89,7 @@ public class Game : MonoBehaviour {
 
 		var debug = debugMenu.GetComponent<DebugMenu>();
 		
-		debug.LoadShip();
+		//debug.LoadShip();
 
 		var sectorSize = 200;
 
