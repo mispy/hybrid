@@ -117,10 +117,14 @@ public class CrewMind : MonoBehaviour {
 		}
 
 		foreach (var other in Crew.all) {
-			if (other == Crew.player) {
+			if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {
 				crew.weapon.Fire(other.transform.position);
 			}
 		}
+	}
+
+	bool IsEnemy(Crew other) {
+		return other == Crew.player;
 	}
 
 	void UpdateLockedMovement() {		

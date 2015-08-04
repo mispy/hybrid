@@ -144,7 +144,6 @@ public class Crew : MonoBehaviour {
 			UpdateMaglockMove();
 	}
 
-
 	void Update() {
 		UpdateMaglock();
 	}

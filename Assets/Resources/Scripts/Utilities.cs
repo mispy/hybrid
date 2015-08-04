@@ -89,6 +89,17 @@ public class Util {
 		return false;
 	}
 
+	public static bool LineOfSight(GameObject obj, Vector3 targetPos) {
+		var targetDist = (targetPos - obj.transform.position);
+		var targetDir = targetDist.normalized;
+		
+		var targetHits = Physics.RaycastAll(obj.transform.position, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Wall" }));
+		if (targetHits.Length > 0)
+			return false;
+		else
+			return true;
+	}
+
 	public static Vector2[] cardinals = new Vector2[] { Vector2.up, -Vector2.up, Vector2.right, -Vector2.right };
 
 	public static Dictionary<Vector2, Orientation> cardinalToOrient = new Dictionary<Vector2, Orientation>() {
