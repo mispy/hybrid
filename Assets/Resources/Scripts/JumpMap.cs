@@ -33,7 +33,8 @@ public class JumpMap : MonoBehaviour {
 
 		var positions = new List<Vector3>();
 
-		SetShipBeacon (beacons[0]);
+		SetShipBeacon(beacons[0]);
+		DrawFactions();
 	}
 
 	void DrawConnections(JumpBeacon beacon, Color color) {
@@ -70,8 +71,17 @@ public class JumpMap : MonoBehaviour {
 		DrawConnections(shipBeacon, currentColor);
 	}
 
+	void DrawFactions() {
+		var beacon = beacons[0];
+		var circle = Pool.For("FactionCircle").TakeObject();
+		circle.transform.parent = beacon.transform;
+		circle.transform.localPosition = Vector3.zero;
+		circle.GetComponent<SpriteRenderer>().color = Color.green;
+		circle.SetActive(true);
+	}
+
 	// Update is called once per frame
-	void Update () {
+	void Update() {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 		var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First ();
