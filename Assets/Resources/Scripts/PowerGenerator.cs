@@ -3,8 +3,8 @@ using System.Collections;
 
 public class PowerGenerator : MonoBehaviour {
 	Ship ship;
-	int supplyRadius = 10;
-	float output = 10f;
+	public int supplyRadius;
+	public float outputRate;
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class PowerGenerator : MonoBehaviour {
 		foreach (var node in ship.GetBlockComponents<PowerNode>()) {
 			if (Vector3.Distance(transform.position, node.transform.position) <= node.supplyRadius+supplyRadius) {
 				if (node.charge < node.maxCharge)
-					node.charge += output*Time.deltaTime;
+					node.charge += outputRate*Time.deltaTime;
 			}
 		}
 	}

@@ -94,7 +94,7 @@ public class CrewMind : MonoBehaviour {
 			if (myShip.blocks[block.pos] == null) {
 				return new BuildTask(this, block);
 			}
-		}*/	
+		}*/		
 
 		foreach (var block in myShip.blocks.FindType("console")) {
 			return new AttachTask(this, block);

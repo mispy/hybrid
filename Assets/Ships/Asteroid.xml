@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>0</x>
-    <y>0</y>
+    <x>0.000366190623</x>
+    <y>-0.4359126</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.5596185</z>
-    <w>-0.8287504</w>
+    <z>0.559067965</z>
+    <w>-0.8291219</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>291.9412</z>
+      <z>292.017273</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -917,7 +917,7 @@
     <BlockData>
       <x>-7</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -971,7 +971,7 @@
     <BlockData>
       <x>-6</x>
       <y>0</y>
-      <typeName>generator</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1049,7 +1049,7 @@
     <BlockData>
       <x>-5</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1109,7 +1109,7 @@
     <BlockData>
       <x>-4</x>
       <y>0</y>
-      <typeName>powerNode</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1199,7 +1199,7 @@
     <BlockData>
       <x>-3</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2136,7 +2136,7 @@
       <x>0</x>
       <y>0</y>
       <typeName>floor</typeName>
-      <orientation>-2</orientation>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
@@ -2369,7 +2369,7 @@
     <BlockData>
       <x>3</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2525,7 +2525,7 @@
     <BlockData>
       <x>5</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2663,7 +2663,7 @@
     <BlockData>
       <x>7</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3829,7 +3829,7 @@
     <BlockData>
       <x>-7</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3883,7 +3883,7 @@
     <BlockData>
       <x>-6</x>
       <y>0</y>
-      <typeName>generator</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3961,7 +3961,7 @@
     <BlockData>
       <x>-5</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4021,7 +4021,7 @@
     <BlockData>
       <x>-4</x>
       <y>0</y>
-      <typeName>powerNode</typeName>
+      <typeName>floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4111,7 +4111,7 @@
     <BlockData>
       <x>-3</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5048,7 +5048,7 @@
       <x>0</x>
       <y>0</y>
       <typeName>floor</typeName>
-      <orientation>-2</orientation>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
@@ -5281,7 +5281,7 @@
     <BlockData>
       <x>3</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5437,7 +5437,7 @@
     <BlockData>
       <x>5</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5575,7 +5575,7 @@
     <BlockData>
       <x>7</x>
       <y>2</y>
-      <typeName>wall</typeName>
+      <typeName>powerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>

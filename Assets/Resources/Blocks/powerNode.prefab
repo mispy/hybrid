@@ -27,6 +27,7 @@ GameObject:
   - 224: {fileID: 22412756}
   - 222: {fileID: 22243418}
   - 114: {fileID: 11428352}
+  - 114: {fileID: 11483514}
   m_Layer: 10
   m_Name: PowerBar
   m_TagString: Untagged
@@ -143,6 +144,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad0126302a47374596a53f36381021e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  supplyRadius: 2
+  maxCharge: 100
+  outputRate: 10
 --- !u!114 &11428352
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,6 +179,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8c36334a38728468116074c01de91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11483514
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 150830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4264a666b4569944d9cff7cae1dc9c02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11496076
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,25 +212,25 @@ MonoBehaviour:
     <color="yellow">System</color>'
   descriptionBody: Powers stuff
   upUVs:
-  - {x: .5703125, y: .8046875}
-  - {x: .8046875, y: .8046875}
-  - {x: .8046875, y: .5703125}
-  - {x: .5703125, y: .5703125}
+  - {x: .0078125, y: .54296875}
+  - {x: .2421875, y: .54296875}
+  - {x: .2421875, y: .42578125}
+  - {x: .0078125, y: .42578125}
   downUVs:
-  - {x: .5703125, y: .5703125}
-  - {x: .8046875, y: .5703125}
-  - {x: .8046875, y: .8046875}
-  - {x: .5703125, y: .8046875}
+  - {x: .0078125, y: .42578125}
+  - {x: .2421875, y: .42578125}
+  - {x: .2421875, y: .54296875}
+  - {x: .0078125, y: .54296875}
   leftUVs:
-  - {x: .5703125, y: .8046875}
-  - {x: .5703125, y: .5703125}
-  - {x: .8046875, y: .5703125}
-  - {x: .8046875, y: .8046875}
+  - {x: .0078125, y: .54296875}
+  - {x: .0078125, y: .42578125}
+  - {x: .2421875, y: .42578125}
+  - {x: .2421875, y: .54296875}
   rightUVs:
-  - {x: .8046875, y: .5703125}
-  - {x: .8046875, y: .8046875}
-  - {x: .5703125, y: .8046875}
-  - {x: .5703125, y: .5703125}
+  - {x: .2421875, y: .42578125}
+  - {x: .2421875, y: .54296875}
+  - {x: .0078125, y: .54296875}
+  - {x: .0078125, y: .42578125}
 --- !u!212 &21298858
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -354,6 +369,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: descriptionBody
       value: Powers stuff
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: supplyRadius
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
