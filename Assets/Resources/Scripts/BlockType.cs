@@ -3,6 +3,8 @@ using UnityEngine.Serialization;
 using System.Collections;
 
 public class BlockType : MonoBehaviour {
+	public static string Generator = "generator";
+
 	[HideInInspector]
 	public string name;
 
@@ -16,6 +18,9 @@ public class BlockType : MonoBehaviour {
 	public float mass;
 
 	public int scrapRequired = 30;
+
+	[Tooltip("Amount of power consumed by second.")]
+	public float powerConsumption = 0f;
 
 	[Header("Description")]
 	[TextArea]

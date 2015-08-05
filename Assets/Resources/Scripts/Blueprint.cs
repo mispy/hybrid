@@ -12,8 +12,8 @@ public class Blueprint : PoolBehaviour {
 
 	public override void OnCreate() {
 		blocks = GetComponent<BlockMap>();
-		blocks.OnBlockChanged = OnBlockChanged;
-		blocks.OnChunkCreated = OnChunkCreated;
+		blocks.OnBlockChanged += OnBlockChanged;
+		blocks.OnChunkCreated += OnChunkCreated;
 	}
 
 	// Use this for initialization

@@ -54,7 +54,7 @@ public class Ship : PoolBehaviour {
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
 		blocks = GetComponent<BlockMap>();
-		blocks.OnBlockChanged = OnBlockChanged;
+		blocks.OnBlockChanged += OnBlockChanged;
 
 		var obj = Pool.For("Blueprint").TakeObject();
 		obj.transform.parent = transform;

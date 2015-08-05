@@ -232,7 +232,6 @@ public class Block {
 		}
 	}
 
-
 	public void TakeDamage(int amount) {
 		this.scrapContent -= amount;
 

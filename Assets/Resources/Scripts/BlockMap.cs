@@ -23,11 +23,11 @@ public class BlockMap : MonoBehaviour {
 
 	public Dictionary<BlockType, List<Block>> blockTypeCache;
 
-	public delegate void OnBlockChangedDelegate(Block newBlock, Block oldBlock);
-	public OnBlockChangedDelegate OnBlockChanged;
+	public delegate void BlockChangedHandler(Block newBlock, Block oldBlock);
+	public event BlockChangedHandler OnBlockChanged;
 
-	public delegate void OnChunkCreatedDelegate(BlockChunk newChunk);
-	public OnChunkCreatedDelegate OnChunkCreated;
+	public delegate void ChunkCreatedHandler(BlockChunk newChunk);
+	public event ChunkCreatedHandler OnChunkCreated;
 
 
 	public BlockMap() {
