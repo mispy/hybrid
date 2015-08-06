@@ -2,9 +2,10 @@
 using System.Collections;
 
 public class PowerNode : MonoBehaviour {
-	public int supplyRadius;
+	public Block block;
+	public int powerSupplyRadius;
+	public float powerSupplyRate;
 	public float maxCharge;
-	public float outputRate;
 
 	float _charge = 0f;
 	public float charge {
@@ -24,17 +25,6 @@ public class PowerNode : MonoBehaviour {
 
 	void Start () {
 		ship = GetComponentInParent<Ship>();
-	}
-
-	void Update() {
-		foreach (var node in ship.GetBlockComponents<PowerNode>()) {
-			if (Vector3.Distance(transform.position, node.transform.position) <= node.supplyRadius+supplyRadius) {
-				var change = outputRate * Time.deltaTime;
-				if (charge > change && charge > node.charge && charge - change >= node.charge) {
-					this.charge -= change;
-					node.charge += change;
-				}
-			}
-		}
+		block = ship.BlockAtWorldPos(transform.position);
 	}
 }

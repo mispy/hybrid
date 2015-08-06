@@ -245,6 +245,12 @@ public class Block {
 	public BlockType type;
 	public float scrapContent;
 
+	public float powerConsumeRate {
+		get {
+			return type.powerConsumeRate;
+		}
+	}
+
 	// these attributes relate to where the block is, rather
 	// than what it does
 	public Ship ship;

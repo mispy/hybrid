@@ -4,6 +4,7 @@ using System.Collections;
 
 public class BlockType : MonoBehaviour {
 	public static string Generator = "generator";
+	public static string PowerNode = "powerNode";
 
 	[HideInInspector]
 	public string name;
@@ -20,7 +21,7 @@ public class BlockType : MonoBehaviour {
 	public int scrapRequired = 30;
 
 	[Tooltip("Amount of power consumed by second.")]
-	public float powerConsumption = 0f;
+	public float powerConsumeRate = 0f;
 
 	[Header("Description")]
 	[TextArea]

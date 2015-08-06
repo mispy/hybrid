@@ -12,6 +12,7 @@ GameObject:
   - 114: {fileID: 11458402}
   - 114: {fileID: 11426060}
   - 114: {fileID: 11470960}
+  - 114: {fileID: 11463666}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -89,6 +90,17 @@ MonoBehaviour:
   localCenter: {x: 0, y: 0, z: 0}
   maglockedCrew: []
   scrapAvailable: 1000
+--- !u!114 &11463666
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651f7901f940cb44595ba375f2c1e795, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11470960
 MonoBehaviour:
   m_ObjectHideFlags: 1

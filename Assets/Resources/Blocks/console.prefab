@@ -45,31 +45,32 @@ MonoBehaviour:
   isComplexBlock: 0
   mass: .00100000005
   scrapRequired: 30
+  powerConsumeRate: 0
   descriptionHeader: '<size=16>Navigation Console</size>
 
     <color="lime">Console</color>'
   descriptionBody: Primary navigation console. Press "E" on one of these to control
     your ship.
   upUVs:
-  - {x: 0, y: .5}
-  - {x: .25, y: .5}
-  - {x: .25, y: 0}
-  - {x: 0, y: 0}
+  - {x: .5703125, y: .12109375}
+  - {x: .8046875, y: .12109375}
+  - {x: .8046875, y: .00390625}
+  - {x: .5703125, y: .00390625}
   downUVs:
-  - {x: 0, y: 0}
-  - {x: .25, y: 0}
-  - {x: .25, y: .5}
-  - {x: 0, y: .5}
+  - {x: .5703125, y: .00390625}
+  - {x: .8046875, y: .00390625}
+  - {x: .8046875, y: .12109375}
+  - {x: .5703125, y: .12109375}
   leftUVs:
-  - {x: 0, y: .5}
-  - {x: 0, y: 0}
-  - {x: .25, y: 0}
-  - {x: .25, y: .5}
+  - {x: .5703125, y: .12109375}
+  - {x: .5703125, y: .00390625}
+  - {x: .8046875, y: .00390625}
+  - {x: .8046875, y: .12109375}
   rightUVs:
-  - {x: .25, y: 0}
-  - {x: .25, y: .5}
-  - {x: 0, y: .5}
-  - {x: 0, y: 0}
+  - {x: .8046875, y: .00390625}
+  - {x: .8046875, y: .12109375}
+  - {x: .5703125, y: .12109375}
+  - {x: .5703125, y: .00390625}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
