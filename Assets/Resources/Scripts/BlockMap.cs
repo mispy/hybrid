@@ -29,7 +29,6 @@ public class BlockMap : MonoBehaviour {
 	public delegate void ChunkCreatedHandler(BlockChunk newChunk);
 	public event ChunkCreatedHandler OnChunkCreated;
 
-
 	public BlockMap() {
 		minX = 0;
 		minY = 0;
@@ -133,13 +132,13 @@ public class BlockMap : MonoBehaviour {
 	
 	public void EnableRendering() {
 		foreach (var chunk in AllChunks) {
-			chunk.renderer.enabled = true;
+			//chunk.renderer.enabled = true;
 		}
 	}
 	
 	public void DisableRendering() {
 		foreach (var chunk in AllChunks) {
-			chunk.renderer.enabled = false;
+			//chunk.renderer.enabled = false;
 		}
 	}
 

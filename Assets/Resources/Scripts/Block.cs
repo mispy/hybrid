@@ -123,8 +123,8 @@ public class Tile {
 			baseTile.down = new Tile(baseTile, Rot4.Down, downUVs);
 			baseTile.left = new Tile(baseTile, Rot4.Left, leftUVs);
 		}
-		
-		Game.Prefab("BlockChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+
+		Game.Prefab("TileChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
 	public readonly BaseTile baseTile;
@@ -308,6 +308,22 @@ public class Block {
 			} else {
 				return this.scrapContent / (float)this.type.scrapRequired; 
 			}
+		}
+	}
+
+	public Tile Tile {
+		get {
+			if (orientation == Orientation.up) {
+				return type.baseTile.up;
+			} if (orientation == Orientation.right) {
+				return type.baseTile.right;
+			} if (orientation == Orientation.down) {
+				return type.baseTile.down;
+			} if (orientation == Orientation.left) {
+				return type.baseTile.left;
+			}
+
+			return type.baseTile.up;
 		}
 	}
 

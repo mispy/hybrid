@@ -13,7 +13,7 @@ public class Blueprint : PoolBehaviour {
 	public override void OnCreate() {
 		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockChanged += OnBlockChanged;
-		blocks.OnChunkCreated += OnChunkCreated;
+		//blocks.OnChunkCreated += OnChunkCreated;
 	}
 
 	// Use this for initialization
@@ -30,13 +30,13 @@ public class Blueprint : PoolBehaviour {
 		newBlock.ship = ship;
 	}
 
-	public void OnChunkCreated(BlockChunk chunk) {
+	/*public void OnChunkCreated(BlockChunk chunk) {
 		var texture = chunk.renderer.material.mainTexture;
 		chunk.renderer.material = blueprintMaterial;
 		chunk.renderer.material.mainTexture = texture;
 		chunk.renderer.material.color = Color.cyan;
 		blocks.DisableRendering();
-	}
+	}*/
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
 		var block = blocks[ship.WorldToBlockPos(worldPos)];

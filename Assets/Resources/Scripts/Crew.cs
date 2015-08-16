@@ -69,8 +69,8 @@ public class Crew : MonoBehaviour {
 		rigidBody.isKinematic = true;
 		MaglockMove(ship.WorldToBlockPos(transform.position));
 
-		if (this == Crew.player)
-			maglockShip.blueprint.blocks.EnableRendering();
+		//if (this == Crew.player)
+		//	maglockShip.blueprint.blocks.EnableRendering();
 	}
 
 	void StopMaglock() {

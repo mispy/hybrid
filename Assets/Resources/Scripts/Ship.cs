@@ -45,6 +45,8 @@ public class Ship : PoolBehaviour {
 
 	public GameObject collidersObj;
 
+	public TileLayer tileLayer;
+
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
 	}
@@ -56,6 +58,7 @@ public class Ship : PoolBehaviour {
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
 		blocks = GetComponent<BlockMap>();
+		tileLayer = GetComponent<TileLayer>();
 		blocks.OnBlockChanged += OnBlockChanged;
 
 		var obj = Pool.For("Blueprint").TakeObject();
@@ -197,6 +200,8 @@ public class Ship : PoolBehaviour {
 	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 		Profiler.BeginSample("OnBlockChanged");
 		if (newBlock != null) newBlock.ship = this;
+
+		tileLayer[newBlock.pos] = newBlock.Tile;
 
 		// Inactive ships do not automatically update on block change, to allow
 		// for performant pre-runtime mass construction. kinda like turning the power
