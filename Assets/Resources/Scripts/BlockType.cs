@@ -39,5 +39,5 @@ public class BlockType : MonoBehaviour {
 	[HideInInspector]
 	public Vector2[] rightUVs;
 
-	public Tile tile;
+	public BaseTile baseTile;
 }

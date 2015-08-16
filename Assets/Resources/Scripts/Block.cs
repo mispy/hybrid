@@ -8,18 +8,32 @@ public class Tileable {
 	public string name;
 	public int tileWidth;
 	public int tileHeight;
-	public Tile[,] tiles;
+	public BaseTile[,] tiles;
+	public Texture2D texture;
 
 	public Tileable(int width, int height) {
 		tileWidth = width;
 		tileHeight = height;
-		tiles = new Tile[width, height];
+		tiles = new BaseTile[width, height];
+	}
+}
+
+public class BaseTile {
+	public readonly Texture2D texture; 
+
+	public Tile up;
+	public Tile right;
+	public Tile down;
+	public Tile left;
+
+	public BaseTile(Texture2D texture) {
+		this.texture = texture;
 	}
 }
 
 public class Tile {
 	public static List<Texture2D> textures = new List<Texture2D>();
-	public static List<Tile> allTiles = new List<Tile>();
+	public static List<BaseTile> baseTiles = new List<BaseTile>();
 	public static Dictionary<string, Tileable> tileables = new Dictionary<string, Tileable>();
 
 	public static int pixelSize = 32; // the size of a tile in pixels
@@ -34,12 +48,12 @@ public class Tile {
 			var tileWidth = texture.width / Tile.pixelSize;
 			var tileHeight = texture.height / Tile.pixelSize;
 			var tileable = new Tileable(tileWidth, tileHeight);
+			tileable.texture = texture;
 
 			if (texture.width == Tile.pixelSize && texture.height == Tile.pixelSize) {
-				var tile = new Tile();
-				tile.texture = texture;
-				tileable.tiles[0, 0] = tile;
-				Tile.allTiles.Add(tile);
+				var baseTile = new BaseTile(texture);
+				tileable.tiles[0, 0] = baseTile;
+				Tile.baseTiles.Add(baseTile);
 			} else {
 				for (var x = 0; x < tileWidth; x++) {
 					for (var y = 0; y < tileHeight; y++) {
@@ -47,11 +61,10 @@ public class Tile {
 						var tileTex = new Texture2D(Tile.pixelSize, Tile.pixelSize, texture.format, false);
 						tileTex.SetPixels(pixels);
 						tileTex.Apply();
-						var tile = new Tile();
-						tile.texture = tileTex;
-						tileable.tiles[x, y] = tile;
+						var baseTile = new BaseTile(tileTex);
+						tileable.tiles[x, y] = baseTile;
 						//Debug.LogFormat("{0} {1} {2} {3} {4}", x, y, tileWidth, tileHeight, texture.name);
-						Tile.allTiles.Add(tile);
+						Tile.baseTiles.Add(baseTile);
 					}
 				}
 			}
@@ -60,7 +73,7 @@ public class Tile {
 		}
 		
 		// let's compress all the textures into a single tilesheet
-		Texture2D[] textures = allTiles.Select(type => type.texture).ToArray();
+		Texture2D[] textures = baseTiles.Select(type => type.texture).ToArray();
 		var atlas = new Texture2D(pixelSize*100, pixelSize*100);
 		var boxes = atlas.PackTextures(textures, 1, pixelSize*textures.Length*1);
 		
@@ -73,53 +86,56 @@ public class Tile {
 		var fracX = 1f/atlas.width;
 		var fracY = 1f/atlas.height;
 		
-		for (var i = 0; i < allTiles.Count; i++) {			
-			var tile = allTiles[i];
+		for (var i = 0; i < baseTiles.Count; i++) {			
+			var baseTile = baseTiles[i];
 			var box = boxes[i];
 
-			tile.upUVs = new Vector2[] {
+			var upUVs = new Vector2[] {
 				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
 				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
 				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
 				new Vector2(box.xMin + fracX, box.yMin + fracY)
 			};
+
+			var rightUVs = new Vector2[] {
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY)
+			};
 			
-			tile.downUVs = new Vector2[] {
+			var downUVs = new Vector2[] {
 				new Vector2(box.xMin + fracX, box.yMin + fracY),
 				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
 				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
 				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY)
 			};
-			
-			tile.rightUVs = new Vector2[] {
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracY)
-			};
-			
-			tile.leftUVs = new Vector2[] {
+
+			var leftUVs = new Vector2[] {
 				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
 				new Vector2(box.xMin + fracX, box.yMin + fracY),
 				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
 				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY)
 			};
+
+			baseTile.up = new Tile(baseTile, Rot4.Up, upUVs);
+			baseTile.right = new Tile(baseTile, Rot4.Right, rightUVs);
+			baseTile.down = new Tile(baseTile, Rot4.Down, downUVs);
+			baseTile.left = new Tile(baseTile, Rot4.Left, leftUVs);
 		}
 		
 		Game.Prefab("BlockChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
-	public Texture2D texture;
+	public readonly BaseTile baseTile;
+	public readonly Rot4 rot;	
+	public readonly Vector2[] uvs;
 
-	// precalculated uv coordinates for each orientation
-	[HideInInspector]
-	public Vector2[] upUVs;
-	[HideInInspector]
-	public Vector2[] downUVs;
-	[HideInInspector]
-	public Vector2[] leftUVs;
-	[HideInInspector]
-	public Vector2[] rightUVs;
+	public Tile(BaseTile baseTile, Rot4 rot, Vector2[] uvs) {
+		this.baseTile = baseTile;
+		this.rot = rot;
+		this.uvs = uvs;
+	}
 }
 
 public class Block {
@@ -157,7 +173,7 @@ public class Block {
 			if (!Block.allTypes.Contains(type))
 				Block.allTypes.Add(type);
 
-			type.tile = Tile.tileables[type.name].tiles[0, 0];
+			type.baseTile = Tile.tileables[type.name].tiles[0, 0];
 		}
 
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
@@ -166,13 +182,13 @@ public class Block {
 
 	public static Vector2[] GetUVs(Block block) {		
 		if (block.orientation == Orientation.up) {
-			return block.type.tile.upUVs;
+			return block.type.baseTile.up.uvs;
 		} else if (block.orientation == Orientation.down) {
-			return block.type.tile.downUVs;
+			return block.type.baseTile.down.uvs;
 		} else if (block.orientation == Orientation.left) {
-			return block.type.tile.leftUVs;
+			return block.type.baseTile.left.uvs;
 		} else if (block.orientation == Orientation.right) {
-			return block.type.tile.rightUVs;
+			return block.type.baseTile.right.uvs;
 		}
 
 		throw new KeyNotFoundException();
