@@ -82,7 +82,8 @@ public class Game : MonoBehaviour {
 				prefabs[obj.name] = gobj;
 			}
 		}
-		
+
+		Tile.Setup();
 		Block.Setup();
 		Pool.CreatePools();		
 

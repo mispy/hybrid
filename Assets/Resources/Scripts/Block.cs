@@ -4,9 +4,23 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public class Tileable {
+	public string name;
+	public int tileWidth;
+	public int tileHeight;
+	public Tile[,] tiles;
+
+	public Tileable(int width, int height) {
+		tileWidth = width;
+		tileHeight = height;
+		tiles = new Tile[width, height];
+	}
+}
+
 public class Tile {
-	public static List<Texture2D> textures;
-	public static List<Tile> allTiles;
+	public static List<Texture2D> textures = new List<Texture2D>();
+	public static List<Tile> allTiles = new List<Tile>();
+	public static Dictionary<string, Tileable> tileables = new Dictionary<string, Tileable>();
 
 	public static int pixelSize = 32; // the size of a tile in pixels
 	public static float worldSize = 1f; // the size of a tile in worldspace coordinates
@@ -17,20 +31,41 @@ public class Tile {
 
 	public static void Setup() {
 		foreach (var texture in Game.LoadTextures("Tileables")) {
-			var tile = new Tile();
-			tile.texture = texture;
-			allTiles.Add(tile);
+			var tileWidth = texture.width / Tile.pixelSize;
+			var tileHeight = texture.height / Tile.pixelSize;
+			var tileable = new Tileable(tileWidth, tileHeight);
+
+			if (texture.width == Tile.pixelSize && texture.height == Tile.pixelSize) {
+				var tile = new Tile();
+				tile.texture = texture;
+				tileable.tiles[0, 0] = tile;
+				Tile.allTiles.Add(tile);
+			} else {
+				for (var x = 0; x < tileWidth; x++) {
+					for (var y = 0; y < tileHeight; y++) {
+						Color[] pixels = texture.GetPixels(x*Tile.pixelSize, y*Tile.pixelSize, Tile.pixelSize, Tile.pixelSize);
+						var tileTex = new Texture2D(Tile.pixelSize, Tile.pixelSize, texture.format, false);
+						tileTex.SetPixels(pixels);
+						tileTex.Apply();
+						var tile = new Tile();
+						tile.texture = tileTex;
+						tileable.tiles[x, y] = tile;
+						//Debug.LogFormat("{0} {1} {2} {3} {4}", x, y, tileWidth, tileHeight, texture.name);
+						Tile.allTiles.Add(tile);
+					}
+				}
+			}
+
+			tileables[texture.name] = tileable;
 		}
 		
 		// let's compress all the textures into a single tilesheet
 		Texture2D[] textures = allTiles.Select(type => type.texture).ToArray();
 		var atlas = new Texture2D(pixelSize*100, pixelSize*100);
-		var boxes = atlas.PackTextures(textures, 1, pixelSize*textures.Count*1);
+		var boxes = atlas.PackTextures(textures, 1, pixelSize*textures.Length*1);
 		
 		Tile.fracWidth = (float)pixelSize / atlas.width;
 		Tile.fracHeight = (float)pixelSize / atlas.height;
-
-
 		
 		/* There's some fiddliness here to do with texture bleeding and padding. We need a pixel
 		 * of padding around each tile to prevent white lines (possibly as a result of bilinear filtering?)
@@ -71,7 +106,7 @@ public class Tile {
 			};
 		}
 		
-		Game.Prefab("TileChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Game.Prefab("BlockChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
 	}
 
 	public Texture2D texture;
@@ -85,15 +120,11 @@ public class Tile {
 	public Vector2[] leftUVs;
 	[HideInInspector]
 	public Vector2[] rightUVs;
-
-
-
 }
 
 public class Block {
 	public static Dictionary<string, BlockType> types = new Dictionary<string, BlockType>();
 	public static List<BlockType> allTypes = new List<BlockType>();
-
 		
 	public static int wallLayer;
 	public static int floorLayer;
@@ -125,71 +156,23 @@ public class Block {
 		foreach (var type in Block.types.Values) {
 			if (!Block.allTypes.Contains(type))
 				Block.allTypes.Add(type);
+
+			type.tile = Tile.tileables[type.name].tiles[0, 0];
 		}
-		Texture2D[] blockTextures = Block.allTypes.Select(type => type.texture).ToArray();
-		
+
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
-		Block.floorLayer = LayerMask.NameToLayer("Floor");
-				
-		// let's compress all the block textures into a single tilesheet
-		var atlas = new Texture2D(Block.pixelSize*100, Block.pixelSize*100);
-		var boxes = atlas.PackTextures(blockTextures, 1, Block.pixelSize*blockTextures.Length*1);
-
-		Block.tileWidth =  (float)Block.pixelSize / atlas.width;
-		Block.tileHeight = (float)Block.pixelSize / atlas.height;
-
-
-		/* There's some fiddliness here to do with texture bleeding and padding. We need a pixel
-		 * of padding around each block to prevent white lines (possibly as a result of bilinear filtering?)
-		 * but we then need to remove that padding in the UVs to prevent black lines. - mispy */
-		var fracX = 1f/atlas.width;
-		var fracY = 1f/atlas.height;
-
-		for (var i = 0; i < Block.allTypes.Count; i++) {			
-			var type = Block.allTypes[i];
-			var box = boxes[i];
-
-			type.upUVs = new Vector2[] {
-				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracY)
-			};
-
-			type.downUVs = new Vector2[] {
-				new Vector2(box.xMin + fracX, box.yMin + fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY)
-			};
-
-			type.rightUVs = new Vector2[] {
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracY)
-			};
-
-			type.leftUVs = new Vector2[] {
-				new Vector2(box.xMin + fracX, box.yMin + Block.tileHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + Block.tileWidth - fracX, box.yMin + Block.tileHeight - fracY)
-			};
-		}
-
-		Game.Prefab("BlockChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+		Block.floorLayer = LayerMask.NameToLayer("Floor");				
 	}
 
 	public static Vector2[] GetUVs(Block block) {		
 		if (block.orientation == Orientation.up) {
-			return block.type.upUVs;
+			return block.type.tile.upUVs;
 		} else if (block.orientation == Orientation.down) {
-			return block.type.downUVs;
+			return block.type.tile.downUVs;
 		} else if (block.orientation == Orientation.left) {
-			return block.type.leftUVs;
+			return block.type.tile.leftUVs;
 		} else if (block.orientation == Orientation.right) {
-			return block.type.rightUVs;
+			return block.type.tile.rightUVs;
 		}
 
 		throw new KeyNotFoundException();

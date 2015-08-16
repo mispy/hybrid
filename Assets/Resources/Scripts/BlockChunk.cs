@@ -33,15 +33,15 @@ public class BlockChunk : PoolBehaviour {
 	}
 
 	public IEnumerable<Vector3> GetVertices(Block block) {
-		var lx = block.localX * Block.worldSize;
-		var ly = block.localY * Block.worldSize;
+		var lx = block.localX * Tile.worldSize;
+		var ly = block.localY * Tile.worldSize;
 		
 		var m = block.PercentFilled;
 		
-		yield return new Vector3(lx - Block.worldSize*m / 2, ly + Block.worldSize*m / 2, 0);
-		yield return new Vector3(lx + Block.worldSize*m / 2, ly + Block.worldSize*m / 2, 0);
-		yield return new Vector3(lx + Block.worldSize*m / 2, ly - Block.worldSize*m / 2, 0);
-		yield return new Vector3(lx - Block.worldSize*m / 2, ly - Block.worldSize*m / 2, 0);
+		yield return new Vector3(lx - Tile.worldSize*m / 2, ly + Tile.worldSize*m / 2, 0);
+		yield return new Vector3(lx + Tile.worldSize*m / 2, ly + Tile.worldSize*m / 2, 0);
+		yield return new Vector3(lx + Tile.worldSize*m / 2, ly - Tile.worldSize*m / 2, 0);
+		yield return new Vector3(lx - Tile.worldSize*m / 2, ly - Tile.worldSize*m / 2, 0);
 	}
 
 	public void AttachToMesh(Block block, int i) {	

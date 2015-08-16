@@ -43,7 +43,7 @@ public class DebugMenu : MonoBehaviour {
 		for (var i = 0; i < 10; i++) {
 			var radius = Random.Range(10, 50);
 			//var pos = new Vector2(Random.Range(-sectorWidth, sectorWidth), Random.Range(-sectorHeight, sectorHeight));
-			if (Physics.OverlapSphere(pos, radius*Block.worldSize).Length == 0) {
+			if (Physics.OverlapSphere(pos, radius*Tile.worldSize).Length == 0) {
 				Generate.Asteroid(pos, radius);
 				break;
 			}

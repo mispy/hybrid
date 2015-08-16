@@ -175,8 +175,8 @@ public class BlockMap : MonoBehaviour {
 				chunk = Pool.For("BlockChunk").TakeObject().GetComponent<BlockChunk>();
 				chunk.transform.parent = transform;
 				chunk.transform.localPosition = new Vector2(
-					(trueChunkX - centerChunkX) * chunkWidth * Block.worldSize, 
-					(trueChunkY - centerChunkY) * chunkHeight * Block.worldSize
+					(trueChunkX - centerChunkX) * chunkWidth * Tile.worldSize, 
+					(trueChunkY - centerChunkY) * chunkHeight * Tile.worldSize
 				);	
 				//Debug.Log(chunk.transform.localPosition);
 				chunk.gameObject.SetActive(true);

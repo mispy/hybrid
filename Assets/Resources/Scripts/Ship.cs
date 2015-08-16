@@ -333,13 +333,13 @@ public class Ship : PoolBehaviour {
 
 	public IntVector2 LocalToBlockPos(Vector3 localPos) {
 		// remember that blocks go around the center point of the center block at [0,0]		
-		return new IntVector2(Mathf.FloorToInt((localPos.x + Block.worldSize/2.0f) / Block.worldSize),
-		                      Mathf.FloorToInt((localPos.y + Block.worldSize/2.0f) / Block.worldSize));
+		return new IntVector2(Mathf.FloorToInt((localPos.x + Tile.worldSize/2.0f) / Tile.worldSize),
+		                      Mathf.FloorToInt((localPos.y + Tile.worldSize/2.0f) / Tile.worldSize));
 	}
 
 
 	public Vector2 BlockToLocalPos(IntVector2 blockPos) {
-		return new Vector2(blockPos.x*Block.worldSize, blockPos.y*Block.worldSize);
+		return new Vector2(blockPos.x*Tile.worldSize, blockPos.y*Tile.worldSize);
 	}
 
 	public Vector2 BlockToWorldPos(IntVector2 blockPos) {

@@ -46,8 +46,8 @@ public class BlockSelector : MonoBehaviour {
 			var text = button.GetComponentInChildren<Text>();
 			text.text = (i+1).ToString();
 				
-			var x = startX + Block.pixelSize/2 + i * (Block.pixelSize + 5);
-			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, -Block.pixelSize*4, 0), new Vector3(x, 0, 0), 0.1f));
+			var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
+			StartCoroutine(AnimateButtonCoroutine(button, new Vector3(x, -Tile.pixelSize*4, 0), new Vector3(x, 0, 0), 0.1f));
 		}
 
 		if (selectedType == null)
