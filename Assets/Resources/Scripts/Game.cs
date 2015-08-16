@@ -35,6 +35,17 @@ public class Game : MonoBehaviour {
 		}
 	}
 
+	public static IEnumerable<Texture2D> LoadTextures(string path) {
+		var resources = Resources.LoadAll(path);
+		foreach (var obj in resources) {
+			var tex = obj as Texture2D;
+			if (tex != null) {
+				yield return tex;
+			}
+		}
+	}
+
+
 	public void BriefMessage(string message) {
 		messageText.text = message;
 		Invoke("ClearMessage", 2.0f);

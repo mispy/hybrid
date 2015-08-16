@@ -4,16 +4,96 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public class Tile {
+	public static List<Texture2D> textures;
+	public static List<Tile> allTiles;
+
+	public static int pixelSize = 32; // the size of a tile in pixels
+	public static float worldSize = 1f; // the size of a tile in worldspace coordinates
+	
+	// size of a tile as fraction of tilesheet size
+	public static float fracWidth = 0; 
+	public static float fracHeight = 0;
+
+	public static void Setup() {
+		foreach (var texture in Game.LoadTextures("Tileables")) {
+			var tile = new Tile();
+			tile.texture = texture;
+			allTiles.Add(tile);
+		}
+		
+		// let's compress all the textures into a single tilesheet
+		Texture2D[] textures = allTiles.Select(type => type.texture).ToArray();
+		var atlas = new Texture2D(pixelSize*100, pixelSize*100);
+		var boxes = atlas.PackTextures(textures, 1, pixelSize*textures.Count*1);
+		
+		Tile.fracWidth = (float)pixelSize / atlas.width;
+		Tile.fracHeight = (float)pixelSize / atlas.height;
+
+
+		
+		/* There's some fiddliness here to do with texture bleeding and padding. We need a pixel
+		 * of padding around each tile to prevent white lines (possibly as a result of bilinear filtering?)
+		 * but we then need to remove that padding in the UVs to prevent black lines. - mispy */
+		var fracX = 1f/atlas.width;
+		var fracY = 1f/atlas.height;
+		
+		for (var i = 0; i < allTiles.Count; i++) {			
+			var tile = allTiles[i];
+			var box = boxes[i];
+
+			tile.upUVs = new Vector2[] {
+				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY)
+			};
+			
+			tile.downUVs = new Vector2[] {
+				new Vector2(box.xMin + fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY)
+			};
+			
+			tile.rightUVs = new Vector2[] {
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY)
+			};
+			
+			tile.leftUVs = new Vector2[] {
+				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY)
+			};
+		}
+		
+		Game.Prefab("TileChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
+	}
+
+	public Texture2D texture;
+
+	// precalculated uv coordinates for each orientation
+	[HideInInspector]
+	public Vector2[] upUVs;
+	[HideInInspector]
+	public Vector2[] downUVs;
+	[HideInInspector]
+	public Vector2[] leftUVs;
+	[HideInInspector]
+	public Vector2[] rightUVs;
+
+
+
+}
+
 public class Block {
 	public static Dictionary<string, BlockType> types = new Dictionary<string, BlockType>();
 	public static List<BlockType> allTypes = new List<BlockType>();
 
-	public static int pixelSize = 32; // the size of a block in pixels
-	public static float worldSize = 1f; // the size of the block in worldspace coordinates
-
-	// size of a block as fraction of tilesheet size
-	public static float tileWidth = 0; 
-	public static float tileHeight = 0;
 		
 	public static int wallLayer;
 	public static int floorLayer;
