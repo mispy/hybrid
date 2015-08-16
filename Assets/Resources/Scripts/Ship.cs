@@ -43,6 +43,8 @@ public class Ship : PoolBehaviour {
 
 	public float scrapAvailable = 1000;
 
+	public GameObject collidersObj;
+
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
 	}
@@ -62,6 +64,13 @@ public class Ship : PoolBehaviour {
 		obj.SetActive(true);
 		blueprint = obj.GetComponent<Blueprint>();
 		blueprint.ship = this;
+
+		obj = Pool.For("Holder").TakeObject();
+		obj.name = "Colliders";
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		obj.SetActive(true);
+		collidersObj = obj;
 	}
 	
 	void OnEnable() {		
@@ -156,7 +165,7 @@ public class Ship : PoolBehaviour {
 			colliderObj = Pool.For("WallCollider").TakeObject();
 		else
 			colliderObj = Pool.For("FloorCollider").TakeObject();
-		colliderObj.transform.SetParent(transform);
+		colliderObj.transform.SetParent(collidersObj.transform);
 		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
 		colliders[block.pos] = colliderObj;
 		colliderObj.SetActive(true);
