@@ -177,14 +177,7 @@ public class BlockMap : PoolBehaviour {
 	public BlockChunk NewChunk(BlockChunk[,] chunks, int trueChunkX, int trueChunkY) {
 		//Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
 		
-		var chunk = Pool.For("BlockChunk").TakeObject().GetComponent<BlockChunk>();
-		chunk.transform.parent = transform;
-		chunk.transform.localPosition = new Vector2(
-			(trueChunkX - centerChunkX) * chunkWidth * Tile.worldSize, 
-			(trueChunkY - centerChunkY) * chunkHeight * Tile.worldSize
-			);	
-		//Debug.Log(chunk.transform.localPosition);
-		chunk.gameObject.SetActive(true);
+		var chunk = new BlockChunk();
 		chunks[trueChunkX, trueChunkY] = chunk;
 		
 		if (OnChunkCreated != null)

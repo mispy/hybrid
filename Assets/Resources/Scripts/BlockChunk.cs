@@ -5,13 +5,13 @@ using System.Linq;
 
 
 
-public class BlockChunk : PoolBehaviour {
+public class BlockChunk {
 	public int width = 32;
 	public int height = 32;
 
 	public Block[] blockArray;
 
-	public override void OnCreate() {
+	public BlockChunk() {
 		blockArray = new Block[width*height];
 	}
 
