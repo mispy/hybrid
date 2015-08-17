@@ -178,6 +178,7 @@ public class Block {
 		}
 	}
 
+
 	public float scrapContent;
 
 	public float powerConsumeRate {

@@ -16,6 +16,27 @@ public class Tileable {
 		tileHeight = height;
 		tiles = new BaseTile[width, height];
 	}
+
+	
+	public Tile GetRotatedTile(int x, int y, Orientation orientation) {
+		if (orientation == Orientation.right) {
+			var t = x;
+			x = y;
+			y = tileHeight - t - 1;
+			return tiles[x, y].right;
+		} else if (orientation == Orientation.down) {
+			x = tileWidth - x - 1;
+			y = tileHeight - y - 1;
+			return tiles[x, y].down;
+		} else if (orientation == Orientation.left) {
+			var t = x;
+			x = tileWidth - y - 1;
+			y = t;
+			return tiles[x, y].left;
+		}
+
+		return tiles[x, y].up;
+	}
 }
 
 public class BaseTile {

@@ -245,7 +245,7 @@ public class Ship : PoolBehaviour {
 
 		var obj = Pool.For(block.type.gameObject).TakeObject();		
 		obj.transform.parent = transform;
-		obj.transform.position = BlockToWorldPos(block.pos);
+		obj.transform.position = BlockToWorldPos(block);
 		obj.transform.up = worldOrient;
 		blockComponents[block] = obj;
 		obj.SetActive(true);
@@ -351,8 +351,18 @@ public class Ship : PoolBehaviour {
 		return new Vector2(blockPos.x*Tile.worldSize, blockPos.y*Tile.worldSize);
 	}
 
+	public Vector2 BlockToLocalPos(Block block) {
+		var centerX = block.pos.x + block.Width/2.0f;
+		var centerY = block.pos.y + block.Height/2.0f;
+		return new Vector2(centerX * Tile.worldSize - Tile.worldSize/2.0f, centerY * Tile.worldSize - Tile.worldSize/2.0f);
+	}
+
 	public Vector2 BlockToWorldPos(IntVector3 blockPos) {
 		return transform.TransformPoint(BlockToLocalPos(blockPos));
+	}
+
+	public Vector2 BlockToWorldPos(Block block) {
+		return transform.TransformPoint(BlockToLocalPos(block));
 	}
 
 	public Block BlockAtLocalPos(Vector3 localPos) {

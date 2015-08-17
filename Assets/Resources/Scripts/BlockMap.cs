@@ -36,8 +36,6 @@ public class BlockMap : PoolBehaviour {
 	public delegate void ChunkCreatedHandler(BlockChunk newChunk);
 	public event ChunkCreatedHandler OnChunkCreated;
 
-	private bool needsMassUpdate = false;
-
 	public BlockMap() {
 		minX = 0;
 		minY = 0;
@@ -195,6 +193,62 @@ public class BlockMap : PoolBehaviour {
 		return chunk;
 	}
 
+	public void SetChunkedValue(int x, int y, int layer, Block block) {
+		BlockChunk[,] chunks = baseChunks;
+		if (layer == Block.topLayer)
+			chunks = topChunks;
+
+		var trueX = centerBlockX + x;
+		var trueY = centerBlockY + y;
+		var trueChunkX = trueX/chunkWidth;
+		var trueChunkY = trueY/chunkHeight;
+		var localX = trueX%chunkWidth;
+		var localY = trueY%chunkHeight;
+
+		var chunk = chunks[trueChunkX, trueChunkY];
+
+		if (chunk == null) {
+			if (block == null) return;
+			chunk = NewChunk(chunks, trueChunkX, trueChunkY);
+		}
+
+		chunk[localX, localY] = block;
+	}
+
+	public void SetTileValue(int x, int y, int layer, Tile tile) {
+		var tileLayer = baseTiles;
+		if (layer == Block.topLayer)
+			tileLayer = topTiles;
+
+		tileLayer[x, y] = tile;
+	}
+
+	public void RemoveBlock(Block block) {
+		for (var i = 0; i < block.Width; i++) {
+			for (var j = 0; j < block.Height; j++) {
+				SetChunkedValue(block.pos.x + i, block.pos.y + j, block.pos.z, null);
+				SetTileValue(block.pos.x + i, block.pos.y + j, block.pos.z, null);
+			}
+		}
+
+		blockTypeCache[block.type.GetType()].Remove(block);
+		if (OnBlockRemoved != null) OnBlockRemoved(block);
+	}
+
+	public void AssignBlock(Block block, IntVector3 bp) {
+		block.pos = bp;
+
+		for (var i = 0; i < block.Width; i++) {
+			for (var j = 0; j < block.Height; j++) {
+				SetChunkedValue(bp.x + i, bp.y + j, bp.z, block);
+				SetTileValue(bp.x + i, bp.y + j, bp.z, block.type.tileable.GetRotatedTile(i, j, block.orientation));
+			}
+		}
+	
+		blockTypeCache[block.type.GetType()].Add(block);
+		if (OnBlockAdded != null) OnBlockAdded(block);
+	}
+
 	public Block this[IntVector3 bp] {
 		get {
 			BlockChunk[,] chunks = topChunks;
@@ -219,60 +273,14 @@ public class BlockMap : PoolBehaviour {
 		set {
 			Profiler.BeginSample("BlockChunk[bp]=");
 
-			BlockChunk[,] chunks = topChunks;
-			if (bp.z == Block.baseLayer)
-				chunks = baseChunks;
-
-			var trueX = centerBlockX + bp.x;
-			var trueY = centerBlockY + bp.y;
-			var trueChunkX = trueX/chunkWidth;
-			var trueChunkY = trueY/chunkHeight;
-			var localX = trueX%chunkWidth;
-			var localY = trueY%chunkHeight;
-
-			var chunk = chunks[trueChunkX, trueChunkY];
-
-			if (chunk == null && value != null) {
-				chunk = NewChunk(chunks, trueChunkX, trueChunkY);
+			for (var i = 0; i < value.Width; i++) {
+				for (var j = 0; j < value.Height; j++) {
+					var current = this[new IntVector3(bp.x + i, bp.y + j, bp.z)];
+					if (current != null) RemoveBlock(current);
+				}
 			}
 
-			var currentBlock = chunk[localX, localY];
-			chunk[localX, localY] = value;
-			if (value != null) {
-				value.pos = bp;
-
-				// Add to the tilemap if needed
-				//if (value is BlueprintBlock || !value.type.isComplexBlock) {
-					if (bp.z == Block.baseLayer)
-						baseTiles[bp] = value.Tile;
-					else
-						topTiles[bp] = value.Tile;
-				//}
-			}
-
-			if (value == null && currentBlock == null) {
-				// nothing to be done
-			} else if (value == null && currentBlock != null) {
-				// removing an existing block	
-				blockTypeCache[currentBlock.type.GetType()].Remove(currentBlock);
-
-				if (bp.z == Block.baseLayer)
-					baseTiles[bp] = null;
-				else
-					topTiles[bp] = null;
-
-				if (OnBlockRemoved != null) OnBlockRemoved(currentBlock);
-			} else if (value != null && currentBlock == null) {
-				// adding a new block
-				blockTypeCache[value.type.GetType()].Add(value);
-				if (OnBlockAdded != null) OnBlockAdded(value);
-			} else if (value != null && currentBlock != null) {
-				// replacing an existing block
-				blockTypeCache[currentBlock.type.GetType()].Remove(currentBlock);
-				blockTypeCache[value.type.GetType()].Add(value);
-				if (OnBlockRemoved != null) OnBlockRemoved(currentBlock);
-				if (OnBlockAdded != null) OnBlockAdded(value);
-			}
+			AssignBlock(value, bp);
 
 			Profiler.EndSample();	
 		}
