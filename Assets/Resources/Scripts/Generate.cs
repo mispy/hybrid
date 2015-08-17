@@ -80,7 +80,7 @@ public class Generate : MonoBehaviour {
 		shipObj.SetActive(true);
 
 /*		var crewObj = Pool.For("Crew").TakeObject();
-		crewObj.transform.position = ship.BlockToWorldPos(new IntVector2(0, 0));
+		crewObj.transform.position = ship.BlockToWorldPos(new IntVector3(0, 0));
 		crewObj.SetActive(true);
 		crewObj.GetComponentInChildren<CrewMind>().myShip = ship;*/
 
@@ -234,7 +234,7 @@ public class Generate : MonoBehaviour {
 		for (var y = height/2; y > -height/2; y--) {
 			Block block = null;
 			for (var x = 0; x < width; x++) {
-				if (ship.blocks[x,y] != null && ship.blocks[x,y].Is<Floor>()) {
+				if (ship.blocks[x,y] != null && Block.Is<Floor>(ship.blocks[x,y])) {
 					block = ship.blocks[x,y];
 					break;
 				}

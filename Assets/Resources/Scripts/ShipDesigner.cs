@@ -47,7 +47,7 @@ public class ShipDesigner : MonoBehaviour {
 		designShip.blocks.DisableRendering();
 	}
 
-	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
+	Block FindAdjoiningBlock(Vector2 worldPos, IntVector3 blockPos) {
 		var neighborBlocks = new List<Block>();
 		foreach (var bp in designShip.blueprint.blocks.Neighbors(blockPos)) {
 			var block = designShip.blueprint.blocks[bp];

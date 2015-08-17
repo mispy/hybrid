@@ -11,7 +11,10 @@ public class Block {
 	
 	public static int wallLayer;
 	public static int floorLayer;
-	
+
+	public static int baseLayer;
+	public static int topLayer;
+
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
 	
@@ -29,18 +32,20 @@ public class Block {
 	public static void Setup() {
 		foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
 			Block.types[type.GetType()] = type;
-			Block.typeByName[type.name] = type;
+			Block.typeByName[type.GetType().Name] = type;
 		}
 		
 		foreach (var type in Block.types.Values) {
 			if (!Block.allTypes.Contains(type))
 				Block.allTypes.Add(type);
-			
-			type.baseTile = Tile.tileables[type.name].tiles[0, 0];
+			type.baseTile = Tile.tileables[type.GetType().Name].tiles[0, 0];
 		}
-		
+
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");				
+
+		Block.baseLayer = 0;
+		Block.topLayer = 1;
 	}
 	
 	public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
@@ -100,11 +105,12 @@ public class Block {
 			}
 		}
 	}
-	public BlockType type;
 
-	public bool Is<T>() {
-		return type.GetComponent<T>() != null;
+	public static bool Is<T>(Block block) {
+		return block != null && block.type is T;
 	}
+
+	public BlockType type;
 
 	public int x {
 		get { return pos.x; }
@@ -188,7 +194,7 @@ public class Block {
 	// than what it does
 	public Ship ship;
 	public int index;
-	public IntVector2 pos = new IntVector2();
+	public IntVector3 pos = new IntVector3();
 	public Orientation orientation = Orientation.up;
 
 	// relative to current chunk

@@ -50,7 +50,7 @@ public class AttachTask : MindTask {
 }
 
 public class CrewMind : MonoBehaviour {
-	private List<IntVector2> blockPath = new List<IntVector2>();
+	private List<IntVector3> blockPath = new List<IntVector3>();
 	private CharacterController controller;
 
 	public Crew crew;
@@ -172,7 +172,7 @@ public class CrewMind : MonoBehaviour {
 
 		if (nearestBlock == null) {
 			// we're not next to the ship yet, just move towards it
-			blockPath = new List<IntVector2>() { block.pos };
+			blockPath = new List<IntVector3>() { block.pos };
 		} else {
 			var path = ship.blocks.PathBetween(currentPos, block.pos);
 			if (path != null) blockPath = path;

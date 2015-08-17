@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public class BlockMap : MonoBehaviour {
+public class BlockMap : PoolBehaviour {
 	public int maxX;
 	public int minX;
 	public int maxY;
@@ -19,7 +19,10 @@ public class BlockMap : MonoBehaviour {
 	public int chunkHeight;
 	public int widthInChunks;
 	public int heightInChunks;
-	public BlockChunk[,] chunks;
+	public BlockChunk[,] baseChunks;
+	public BlockChunk[,] topChunks;
+	public TileLayer baseTiles;
+	public TileLayer topTiles;
 
 	public Dictionary<Type, List<Block>> blockTypeCache;
 
@@ -39,7 +42,8 @@ public class BlockMap : MonoBehaviour {
 		chunkHeight = 32;
 		widthInChunks = 16;
 		heightInChunks = 16;
-		chunks = new BlockChunk[chunkWidth, chunkHeight];
+		baseChunks = new BlockChunk[chunkWidth, chunkHeight];
+		topChunks = new BlockChunk[chunkWidth, chunkHeight];
 
 		centerChunkX = widthInChunks/2;
 		centerChunkY = heightInChunks/2;
@@ -52,32 +56,48 @@ public class BlockMap : MonoBehaviour {
 				blockTypeCache[comp.GetType()] = new List<Block>();
 			}
 		}
+	}
+
+	public override void OnCreate() {
+		var obj = Pool.For("TileLayer").TakeObject();
+		obj.name = "TileLayer (Base)";
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		obj.SetActive(true);
+		baseTiles = obj.GetComponent<TileLayer>();
+		
+		obj = Pool.For("TileLayer").TakeObject();
+		obj.name = "TileLayer (Top)";
+		obj.transform.parent = transform;
+		obj.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+		obj.SetActive(true);
+		topTiles = obj.GetComponent<TileLayer>();
 	} 
 
-	public IntVector2[] Neighbors(IntVector2 bp) {
-		return new IntVector2[] {
-			new IntVector2(bp.x-1, bp.y),
-			new IntVector2(bp.x+1, bp.y),
-	 		new IntVector2(bp.x, bp.y-1),
-			new IntVector2(bp.x, bp.y+1)
+	public IntVector3[] Neighbors(IntVector3 bp) {
+		return new IntVector3[] {
+			new IntVector3(bp.x-1, bp.y),
+			new IntVector3(bp.x+1, bp.y),
+	 		new IntVector3(bp.x, bp.y-1),
+			new IntVector3(bp.x, bp.y+1)
 		};
 	}
 
-	public IntVector2[] NeighborsWithDiagonal(IntVector2 bp) {
-		return new IntVector2[] {
-			new IntVector2(bp.x-1, bp.y),
-			new IntVector2(bp.x+1, bp.y),
-			new IntVector2(bp.x, bp.y-1),
-			new IntVector2(bp.x, bp.y+1),
+	public IntVector3[] NeighborsWithDiagonal(IntVector3 bp) {
+		return new IntVector3[] {
+			new IntVector3(bp.x-1, bp.y),
+			new IntVector3(bp.x+1, bp.y),
+			new IntVector3(bp.x, bp.y-1),
+			new IntVector3(bp.x, bp.y+1),
 
-			new IntVector2(bp.x-1, bp.y-1),
-			new IntVector2(bp.x-1, bp.y+1),
-			new IntVector2(bp.x+1, bp.y-1),
-			new IntVector2(bp.x+1, bp.y+1)
+			new IntVector3(bp.x-1, bp.y-1),
+			new IntVector3(bp.x-1, bp.y+1),
+			new IntVector3(bp.x+1, bp.y-1),
+			new IntVector3(bp.x+1, bp.y+1)
 		};
 	}
 	
-	public bool IsEdge(IntVector2 bp) {
+	public bool IsEdge(IntVector3 bp) {
 		Profiler.BeginSample("IsEdge");
 
 		var ret = false;
@@ -109,7 +129,9 @@ public class BlockMap : MonoBehaviour {
 		get {
 			for (var i = 0; i < widthInChunks; i++) {
 				for (var j = 0; j < heightInChunks; j++) {
-					var chunk = chunks[i, j];
+					var chunk = baseChunks[i, j];
+					if (chunk != null) yield return chunk;
+					chunk = topChunks[i, j];
 					if (chunk != null) yield return chunk;
 				}
 			}
@@ -133,19 +155,27 @@ public class BlockMap : MonoBehaviour {
 	}
 	
 	public void EnableRendering() {
-		foreach (var chunk in AllChunks) {
-			//chunk.renderer.enabled = true;
+		baseTiles.EnableRendering();
+		topTiles.EnableRendering();
+		foreach (var renderer in GetComponentsInChildren<SpriteRenderer>()) {
+			renderer.enabled = true;
 		}
 	}
 	
 	public void DisableRendering() {
-		foreach (var chunk in AllChunks) {
-			//chunk.renderer.enabled = false;
+		baseTiles.DisableRendering();
+		topTiles.DisableRendering();
+		foreach (var renderer in GetComponentsInChildren<SpriteRenderer>()) {
+			renderer.enabled = false;
 		}
 	}
 
-	public Block this[IntVector2 bp] {
+	public Block this[IntVector3 bp] {
 		get {
+			BlockChunk[,] chunks = topChunks;
+			if (bp.z == Block.baseLayer)
+				chunks = baseChunks;
+
 			var trueX = centerBlockX + bp.x;
 			var trueY = centerBlockY + bp.y;
 			var chunkX = trueX/chunkWidth;
@@ -162,6 +192,10 @@ public class BlockMap : MonoBehaviour {
 			return chunk[localX, localY];
 		}
 		set {
+			BlockChunk[,] chunks = topChunks;
+			if (bp.z == Block.baseLayer)
+				chunks = baseChunks;
+
 			var trueX = centerBlockX + bp.x;
 			var trueY = centerBlockY + bp.y;
 			var trueChunkX = trueX/chunkWidth;
@@ -170,7 +204,8 @@ public class BlockMap : MonoBehaviour {
 			var localY = trueY%chunkHeight;
 
 			var chunk = chunks[trueChunkX, trueChunkY];
-			if (chunk == null) {
+
+			if (chunk == null && value != null) {
 				//Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
 
 				chunk = Pool.For("BlockChunk").TakeObject().GetComponent<BlockChunk>();
@@ -191,60 +226,61 @@ public class BlockMap : MonoBehaviour {
 			chunk[localX, localY] = value;
 			if (value != null) {
 				value.pos = bp;
+
+				// Add to the tilemap if needed
+				if (value is BlueprintBlock || !value.type.isComplexBlock) {
+					if (value.pos.z == 0)
+						baseTiles[value.pos] = value.Tile;
+					else
+						topTiles[value.pos] = value.Tile;
+				}
 			}
 
 			if (value == null && currentBlock == null) {
 				return;
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
-				foreach (var comp in currentBlock.type.GetComponents<BlockType>()) {
-					blockTypeCache[comp.GetType()].Remove(currentBlock);
-				}
+				blockTypeCache[currentBlock.type.GetType()].Remove(currentBlock);
 				OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
-				foreach (var comp in value.type.GetComponents<BlockType>()) {
-					blockTypeCache[comp.GetType()].Add(value);
-				}
+				blockTypeCache[value.type.GetType()].Add(value);
 				OnBlockChanged(value, currentBlock);					
 			} else if (value != null && currentBlock != null) {
 				// replacing an existing block
-				foreach (var comp in currentBlock.type.GetComponents<BlockType>()) {
-					blockTypeCache[comp.GetType()].Remove(currentBlock);
-				}
-				foreach (var comp in value.type.GetComponents<BlockType>()) {
-					blockTypeCache[comp.GetType()].Add(value);
-				}
-
+				blockTypeCache[currentBlock.type.GetType()].Remove(currentBlock);
+				blockTypeCache[value.type.GetType()].Add(value);
 				OnBlockChanged(value, currentBlock);
 			}
+
+			
 		}
 	}
 
 	public Block this[int x, int y] {
-		get { return this[new IntVector2(x, y)]; }
-		set { this[new IntVector2(x, y)] = value; }
+		get { return this[new IntVector3(x, y)]; }
+		set { this[new IntVector3(x, y)] = value; }
 	}
 
-	public bool IsPassable(IntVector2 bp) {
+	public bool IsPassable(IntVector3 bp) {
 		return (this[bp] == null || this[bp].CollisionLayer == Block.floorLayer);
 	}
 
-	public List<IntVector2> PathBetween(IntVector2 start, IntVector2 end) {
+	public List<IntVector3> PathBetween(IntVector3 start, IntVector3 end) {
 		//Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
 		// nodes that have already been analyzed and have a path from the start to them
-		var closedSet = new List<IntVector2>();
+		var closedSet = new List<IntVector3>();
 		// nodes that have been identified as a neighbor of an analyzed node, but have 
 		// yet to be fully analyzed
-		var openSet = new List<IntVector2> { start };
+		var openSet = new List<IntVector3> { start };
 		// a dictionary identifying the optimal origin Cell to each node. this is used 
 		// to back-track from the end to find the optimal path
-		var cameFrom = new Dictionary<IntVector2, IntVector2>();
+		var cameFrom = new Dictionary<IntVector3, IntVector3>();
 		// a dictionary indicating how far each analyzed node is from the start
-		var currentDistance = new Dictionary<IntVector2, int>();
+		var currentDistance = new Dictionary<IntVector3, int>();
 		// a dictionary indicating how far it is expected to reach the end, if the path 
 		// travels through the specified node. 
-		var predictedDistance = new Dictionary<IntVector2, float>();
+		var predictedDistance = new Dictionary<IntVector3, float>();
 		
 		// initialize the start node as having a distance of 0, and an estmated distance 
 		// of y-distance + x-distance, which is the optimal path in a square grid that 
@@ -324,9 +360,9 @@ public class BlockMap : MonoBehaviour {
 	/// <param name="cameFrom">A list of nodes and the origin to that node.</param>
 	/// <param name="current">The destination node being sought out.</param>
 	/// <returns>The shortest path from the start to the destination node.</returns>
-	public List<IntVector2> ReconstructPath(Dictionary<IntVector2, IntVector2> cameFrom, IntVector2 current) {
+	public List<IntVector3> ReconstructPath(Dictionary<IntVector3, IntVector3> cameFrom, IntVector3 current) {
 		if (!cameFrom.Keys.Contains(current)) {
-			return new List<IntVector2> { current };
+			return new List<IntVector3> { current };
 		}
 		
 		var path = ReconstructPath(cameFrom, cameFrom[current]);

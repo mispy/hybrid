@@ -33,7 +33,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &408074
 Transform:
   m_ObjectHideFlags: 1
@@ -70,13 +70,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f509c44179e9784f966ec0a8a733764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Thruster
   isComplexBlock: 1
   mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
   descriptionHeader: 
   descriptionBody: 
+  blockLayer: 0
   ps: {fileID: 0}
   ship: {fileID: 0}
   isFiring: 0

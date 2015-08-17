@@ -32,7 +32,7 @@ public class Ship : PoolBehaviour {
 	public bool hasCollision = true;
 	public bool hasGravity = false;
 	
-	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
+	public Dictionary<IntVector3, GameObject> colliders = new Dictionary<IntVector3, GameObject>();
 	public Shields shields = null;
 	
 	public Vector3 localCenter;
@@ -44,9 +44,6 @@ public class Ship : PoolBehaviour {
 	public float scrapAvailable = 1000;
 
 	public GameObject collidersObj;
-
-	public TileLayer baseTiles;
-	public TileLayer topTiles;
 
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
@@ -74,20 +71,6 @@ public class Ship : PoolBehaviour {
 		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		collidersObj = obj;
-
-		obj = Pool.For("TileLayer").TakeObject();
-		obj.name = "TileLayer (Base)";
-		obj.transform.parent = transform;
-		obj.transform.position = transform.position;
-		obj.SetActive(true);
-		baseTiles = obj.GetComponent<TileLayer>();
-
-		obj = Pool.For("TileLayer").TakeObject();
-		obj.name = "TileLayer (Top)";
-		obj.transform.parent = transform;
-		obj.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
-		obj.SetActive(true);
-		topTiles = obj.GetComponent<TileLayer>();
 	}
 	
 	void OnEnable() {		
@@ -188,7 +171,7 @@ public class Ship : PoolBehaviour {
 		Profiler.EndSample();
 	}
 
-	public void UpdateCollider(IntVector2 pos) {
+	public void UpdateCollider(IntVector3 pos) {
 		Profiler.BeginSample("UpdateCollider");
 
 		var block = blocks[pos];
@@ -213,13 +196,6 @@ public class Ship : PoolBehaviour {
 		Profiler.BeginSample("OnBlockChanged");
 		if (newBlock != null) newBlock.ship = this;
 
-		if (newBlock.Is<PowerNode>()) {
-			baseTiles[newBlock.pos] = Tile.tileables["Wall"].tiles[0,0].up;
-			topTiles[newBlock.pos] = newBlock.Tile;
-		} else {
-			baseTiles[newBlock.pos] = newBlock.Tile;
-		}
-
 		// Inactive ships do not automatically update on block change, to allow
 		// for performant pre-runtime mass construction. kinda like turning the power
 		// off so you can stick your hand in there
@@ -236,10 +212,10 @@ public class Ship : PoolBehaviour {
 		if (oldMass != newMass)
 			UpdateMass();
 
-		if (newBlock.Is<ShieldGenerator>() || oldBlock.Is<ShieldGenerator>())
+		if (Block.Is<ShieldGenerator>(newBlock) || Block.Is<ShieldGenerator>(oldBlock))
 			UpdateShields();
 
-		if (newBlock.Is<InertiaStabilizer>() || oldBlock.Is<InertiaStabilizer>())
+		if (Block.Is<InertiaStabilizer>(newBlock) || Block.Is<InertiaStabilizer>(oldBlock))
 			UpdateGravity();
 
 		if (oldBlock != null && oldBlock.type.isComplexBlock)
@@ -266,7 +242,7 @@ public class Ship : PoolBehaviour {
 		obj.SetActive(true);
 	}
 
-	public void UpdateCollision(IntVector2 pos) {
+	public void UpdateCollision(IntVector3 pos) {
 		if (!hasCollision) return;
 		
 		foreach (var other in blocks.Neighbors(pos)) {
@@ -278,7 +254,7 @@ public class Ship : PoolBehaviour {
 
 	public void UpdateMass() {		
 		var totalMass = 0.0f;
-		var avgPos = new IntVector2(0, 0);
+		var avgPos = new IntVector3(0, 0);
 		
 		foreach (var block in blocks.AllBlocks) {
 			totalMass += block.mass;
@@ -349,22 +325,22 @@ public class Ship : PoolBehaviour {
 		FireThrusters((Orientation)(-(int)orient));*/
 	}
 
-	public IntVector2 WorldToBlockPos(Vector2 worldPos) {
+	public IntVector3 WorldToBlockPos(Vector2 worldPos) {
 		return LocalToBlockPos(transform.InverseTransformPoint(worldPos));
 	}
 
-	public IntVector2 LocalToBlockPos(Vector3 localPos) {
+	public IntVector3 LocalToBlockPos(Vector3 localPos) {
 		// remember that blocks go around the center point of the center block at [0,0]		
-		return new IntVector2(Mathf.FloorToInt((localPos.x + Tile.worldSize/2.0f) / Tile.worldSize),
+		return new IntVector3(Mathf.FloorToInt((localPos.x + Tile.worldSize/2.0f) / Tile.worldSize),
 		                      Mathf.FloorToInt((localPos.y + Tile.worldSize/2.0f) / Tile.worldSize));
 	}
 
 
-	public Vector2 BlockToLocalPos(IntVector2 blockPos) {
+	public Vector2 BlockToLocalPos(IntVector3 blockPos) {
 		return new Vector2(blockPos.x*Tile.worldSize, blockPos.y*Tile.worldSize);
 	}
 
-	public Vector2 BlockToWorldPos(IntVector2 blockPos) {
+	public Vector2 BlockToWorldPos(IntVector3 blockPos) {
 		return transform.TransformPoint(BlockToLocalPos(blockPos));
 	}
 
@@ -379,7 +355,7 @@ public class Ship : PoolBehaviour {
 		return block;
 	}
 
-	public Dictionary<IntVector2, ParticleSystem> particleCache = new Dictionary<IntVector2, ParticleSystem>();
+	public Dictionary<IntVector3, ParticleSystem> particleCache = new Dictionary<IntVector3, ParticleSystem>();
 
 	public void FireThrusters(Orientation orientation) {
 		foreach (var thruster in GetBlockComponents<Thruster>()) {

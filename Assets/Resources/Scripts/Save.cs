@@ -58,7 +58,6 @@ public class Save {
 	}
 
 	public static Block Load(BlockData data) {
-		Debug.Log(data.typeName);
 		var block = new Block(Block.typeByName[data.typeName]);
 		block.orientation = (Orientation)data.orientation;
 		return block;

@@ -53,7 +53,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 104774}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.77382922, y: .685475588, z: 75}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 406110}
@@ -70,13 +70,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5715f6c0af933b841b534d6c1f47d328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
-  isComplexBlock: 0
+  isComplexBlock: 1
   mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
   descriptionHeader: 
   descriptionBody: 
+  blockLayer: 0
   powerSupplyRadius: 5
   powerSupplyRate: 20
 --- !u!114 &11487514
@@ -183,6 +183,22 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: 2c90c1e2c3b1fc244972aa75ad7a6bb5,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: isComplexBlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 104774}

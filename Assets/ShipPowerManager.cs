@@ -18,7 +18,7 @@ public class ShipPowerManager : MonoBehaviour {
 	void Update () {		
 		foreach (var generator in ship.GetBlockComponents<PowerGenerator>()) {
 			foreach (var node in ship.GetBlockComponents<PowerNode>()) {
-				if (IntVector2.Distance(generator.block.pos, node.block.pos) <= generator.powerSupplyRadius+node.powerSupplyRadius) {
+				if (IntVector3.Distance(generator.block.pos, node.block.pos) <= generator.powerSupplyRadius+node.powerSupplyRadius) {
 					if (node.charge < node.maxCharge)
 						node.charge += generator.powerSupplyRate*Time.deltaTime;
 				}
@@ -28,7 +28,7 @@ public class ShipPowerManager : MonoBehaviour {
 
 		foreach (var node in ship.GetBlockComponents<PowerNode>()) {
 			foreach (var otherNode in ship.GetBlockComponents<PowerNode>()) {
-				if (IntVector2.Distance(node.block.pos, otherNode.block.pos) <= node.powerSupplyRadius+otherNode.powerSupplyRadius) {
+				if (IntVector3.Distance(node.block.pos, otherNode.block.pos) <= node.powerSupplyRadius+otherNode.powerSupplyRadius) {
 					var change = node.powerSupplyRate * Time.deltaTime;
 					if (node.charge > change && node.charge > otherNode.charge && node.charge - change >= otherNode.charge) {
 						node.charge -= change;

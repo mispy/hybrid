@@ -13,14 +13,22 @@ public class Blueprint : PoolBehaviour {
 	public override void OnCreate() {
 		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockChanged += OnBlockChanged;
-		//blocks.OnChunkCreated += OnChunkCreated;
 	}
 
-	// Use this for initialization
 	public void OnEnable() {
+		foreach (var chunk in blocks.baseTiles.AllChunks) {
+			OnChunkCreated(chunk);
+		}
+
+		foreach (var chunk in blocks.topTiles.AllChunks) {
+			OnChunkCreated(chunk);
+		}
+
+		blocks.baseTiles.OnChunkCreated += OnChunkCreated;
+		blocks.topTiles.OnChunkCreated += OnChunkCreated;
 	}
 
-	public void SetBlock(IntVector2 blockPos, BlueprintBlock block) {
+	public void SetBlock(IntVector3 blockPos, BlueprintBlock block) {
 		blocks[blockPos] = block;
 	}
 
@@ -30,13 +38,9 @@ public class Blueprint : PoolBehaviour {
 		newBlock.ship = ship;
 	}
 
-	/*public void OnChunkCreated(BlockChunk chunk) {
-		var texture = chunk.renderer.material.mainTexture;
-		chunk.renderer.material = blueprintMaterial;
-		chunk.renderer.material.mainTexture = texture;
+	public void OnChunkCreated(TileChunk chunk) {
 		chunk.renderer.material.color = Color.cyan;
-		blocks.DisableRendering();
-	}*/
+	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
 		var block = blocks[ship.WorldToBlockPos(worldPos)];

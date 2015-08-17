@@ -3,9 +3,6 @@ using UnityEngine.Serialization;
 using System.Collections;
 
 public class BlockType : MonoBehaviour {
-	[HideInInspector]
-	public string name;
-
 	[Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
 	public bool isComplexBlock = false;
 
@@ -24,4 +21,6 @@ public class BlockType : MonoBehaviour {
 	public string descriptionBody;
 
 	public BaseTile baseTile;
+
+	public int blockLayer = Block.baseLayer;
 }
