@@ -27,6 +27,7 @@ GameObject:
   - 4: {fileID: 433542}
   - 212: {fileID: 21242534}
   - 114: {fileID: 11493866}
+  - 114: {fileID: 11495430}
   m_Layer: 8
   m_Name: Thruster
   m_TagString: Untagged
@@ -81,6 +82,20 @@ MonoBehaviour:
   ship: {fileID: 0}
   isFiring: 0
   isFiringAttitude: 0
+--- !u!114 &11495430
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerConsumeRate: 10
+  powerAvailableThisUpdate: 0
+  isPowered: 0
 --- !u!198 &19837312
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1205,6 +1220,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: powerConsumeRate
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

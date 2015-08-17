@@ -10,13 +10,14 @@ GameObject:
   - 4: {fileID: 463192}
   - 212: {fileID: 21249230}
   - 114: {fileID: 11452616}
+  - 114: {fileID: 11424354}
   m_Layer: 8
   m_Name: InertiaStabilizer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &463192
 Transform:
   m_ObjectHideFlags: 1
@@ -29,6 +30,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11424354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerManager: {fileID: 0}
+  powerConsumeRate: 30
+  powerConsumedThisUpdate: 0
+  isPowered: 0
+  noPowerIndicator: {fileID: 0}
 --- !u!114 &11452616
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -40,7 +57,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b004b9b96dfd0f6428faab8e9aa4d115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isComplexBlock: 0
+  isComplexBlock: 1
   mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
@@ -128,6 +145,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: isComplexBlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: powerConsumeRate
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

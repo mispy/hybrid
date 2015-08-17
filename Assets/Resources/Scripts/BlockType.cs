@@ -2,6 +2,10 @@
 using UnityEngine.Serialization;
 using System.Collections;
 
+public class BlockComponent : MonoBehaviour {
+	public Block block;
+}
+
 public class BlockType : MonoBehaviour {
 	[Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
 	public bool isComplexBlock = false;

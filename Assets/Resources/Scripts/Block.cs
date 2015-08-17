@@ -142,6 +142,8 @@ public class Block {
 		}
 	}
 
+	public GameObject gameObject;
+
 	public float PercentFilled {
 		get { 
 			if (this.IsBlueprint) {

@@ -45,6 +45,7 @@ GameObject:
   - 4: {fileID: 465998}
   - 212: {fileID: 21279266}
   - 114: {fileID: 11422770}
+  - 114: {fileID: 11413074}
   m_Layer: 8
   m_Name: PowerNode
   m_TagString: Untagged
@@ -96,6 +97,20 @@ Transform:
   - {fileID: 22413760}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11413074
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerConsumeRate: 10
+  powerAvailableThisUpdate: 0
+  isPowered: 0
 --- !u!114 &11413602
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -389,6 +404,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: powerConsumeRate
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

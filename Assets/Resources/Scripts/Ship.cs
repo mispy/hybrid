@@ -37,8 +37,6 @@ public class Ship : PoolBehaviour {
 	
 	public Vector3 localCenter;
 
-	public Dictionary<Block, GameObject> blockComponents = new Dictionary<Block, GameObject>();
-
 	public List<Crew> maglockedCrew = new List<Crew>();
 
 	public float scrapAvailable = 1000;
@@ -206,8 +204,8 @@ public class Ship : PoolBehaviour {
 		if (!gameObject.activeInHierarchy)
 			return;
 
-		if (oldBlock.type.isComplexBlock)
-			Pool.Recycle(blockComponents[oldBlock]);
+		if (oldBlock.gameObject != null)
+			Pool.Recycle(oldBlock.gameObject);
 
 		UpdateBlock(oldBlock);
 
@@ -247,8 +245,13 @@ public class Ship : PoolBehaviour {
 		obj.transform.parent = transform;
 		obj.transform.position = BlockToWorldPos(block);
 		obj.transform.up = worldOrient;
-		blockComponents[block] = obj;
+		block.gameObject = obj;
+		foreach (var comp in block.gameObject.GetComponents<BlockComponent>()) {
+			comp.block = block;
+		}
+
 		obj.SetActive(true);
+
 	}
 
 	public void UpdateCollision(IntVector3 pos) {
@@ -281,6 +284,8 @@ public class Ship : PoolBehaviour {
 		}
 		localCenter = BlockToLocalPos(avgPos);
 		rigidBody.centerOfMass = localCenter;
+
+		needsMassUpdate = false;
 	}
 
 	public void UpdateShields() {

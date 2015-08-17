@@ -12,13 +12,20 @@ public class ShipPowerManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {		
-		foreach (var generator in ship.GetBlockComponents<PowerGenerator>()) {
-			foreach (var node in ship.GetBlockComponents<PowerNode>()) {
-				if (IntVector3.Distance(generator.block.pos, node.block.pos) <= generator.powerSupplyRadius+node.powerSupplyRadius) {
-					if (node.charge < node.maxCharge)
-						node.charge += generator.powerSupplyRate*Time.deltaTime;
-				}
+		UpdatePower();
+	}
 
+	void UpdatePower() {
+		var receivers = ship.GetBlockComponents<PowerReceiver>();
+
+		foreach (var generator in ship.GetBlockComponents<PowerGenerator>()) {
+			var availablePower = generator.powerSupplyRate * Time.deltaTime;
+
+			foreach (var receiver in receivers) {
+				if (IntVector3.Distance(generator.block.pos, receiver.block.pos) <= generator.powerSupplyRadius) {
+					availablePower = receiver.TakePower(availablePower);
+					if (availablePower <= 0) break;
+				}
 			}
 		}
 
@@ -32,6 +39,10 @@ public class ShipPowerManager : MonoBehaviour {
 					}
 				}
 			}
+		}
+
+		foreach (var receiver in receivers) {
+			receiver.UpdatePower();
 		}
 	}
 }
