@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class BlockSelector : MonoBehaviour {
 	public RectTransform blockDescriber;
-	public BlockType selectedType;
+	public BlockDef selectedType;
 	float startX;
 	float startY;
 	RectTransform panel;
@@ -36,7 +36,7 @@ public class BlockSelector : MonoBehaviour {
 				button.transform.localScale = new Vector3(1, 1, 1);
 				blockButtons.Add(button);
 
-				button.image.sprite = type.uiSprite;
+				button.image.sprite = type.GetComponent<SpriteRenderer>().sprite;
 			}
 		}
 
@@ -72,7 +72,7 @@ public class BlockSelector : MonoBehaviour {
 
 		header.text = selectedType.descriptionHeader;
 		body.text = selectedType.descriptionBody;
-		icon.image.sprite = selectedType.uiSprite;
+		icon.image.sprite = selectedType.GetComponent<SpriteRenderer>().sprite;
 	}
 
 	void Update() {

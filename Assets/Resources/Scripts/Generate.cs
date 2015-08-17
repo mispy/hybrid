@@ -274,10 +274,10 @@ public class Generate : MonoBehaviour {
 			ship.SetBlock(x, y2, "floor");
 		}
 
-		var b = ship.blocks.FindType("floor").First();
+		var b = ship.blocks.Find<Floor>().First();
 		ship.SetBlock(b.pos.x, b.pos.y, "gravgen");
 
-		b = ship.blocks.FindType("floor").First();
+		b = ship.blocks.Find<Floor>().First();
 		ship.SetBlock(b.pos.x, b.pos.y, "shieldgen");
 
 		shipObj.transform.position = pos;

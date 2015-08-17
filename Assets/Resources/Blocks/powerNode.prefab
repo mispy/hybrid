@@ -43,15 +43,16 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 465998}
+  - 212: {fileID: 21279266}
   - 114: {fileID: 11496076}
   - 114: {fileID: 11422770}
   m_Layer: 8
-  m_Name: powerNode
+  m_Name: PowerNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &192218
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,12 +199,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 178732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1f3d5362930e545b4d7ae9f6ba297d, type: 3}
+  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: powerNode
-  texture: {fileID: 2800000, guid: df42f6197458b0e4a9091fff086475e8, type: 3}
-  uiSprite: {fileID: 21300000, guid: c8579025cbdd60a498f66f32684ff8a2, type: 3}
+  name: PowerNode
   isComplexBlock: 1
   mass: .00100000005
   scrapRequired: 30
@@ -212,26 +211,32 @@ MonoBehaviour:
 
     <color="yellow">System</color>'
   descriptionBody: Powers stuff
-  upUVs:
-  - {x: .0078125, y: .54296875}
-  - {x: .2421875, y: .54296875}
-  - {x: .2421875, y: .42578125}
-  - {x: .0078125, y: .42578125}
-  downUVs:
-  - {x: .0078125, y: .42578125}
-  - {x: .2421875, y: .42578125}
-  - {x: .2421875, y: .54296875}
-  - {x: .0078125, y: .54296875}
-  leftUVs:
-  - {x: .0078125, y: .54296875}
-  - {x: .0078125, y: .42578125}
-  - {x: .2421875, y: .42578125}
-  - {x: .2421875, y: .54296875}
-  rightUVs:
-  - {x: .2421875, y: .42578125}
-  - {x: .2421875, y: .54296875}
-  - {x: .0078125, y: .54296875}
-  - {x: .0078125, y: .42578125}
+--- !u!212 &21279266
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 178732}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: df42f6197458b0e4a9091fff086475e8, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21298858
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -339,7 +344,7 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: aa26a5bfc086dc246a28d9bc8f562b64,
+      objectReference: {fileID: 21300000, guid: df42f6197458b0e4a9091fff086475e8,
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -382,6 +387,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: powerSupplyRate
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

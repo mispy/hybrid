@@ -21,7 +21,7 @@ public class BlockMap : MonoBehaviour {
 	public int heightInChunks;
 	public BlockChunk[,] chunks;
 
-	public Dictionary<BlockType, List<Block>> blockTypeCache;
+	public Dictionary<Type, List<Block>> blockTypeCache;
 
 	public delegate void BlockChangedHandler(Block newBlock, Block oldBlock);
 	public event BlockChangedHandler OnBlockChanged;
@@ -46,9 +46,11 @@ public class BlockMap : MonoBehaviour {
 		centerBlockX = centerChunkX * chunkWidth;
 		centerBlockY = centerChunkY * chunkHeight;
 		
-		blockTypeCache = new Dictionary<BlockType, List<Block>>();
+		blockTypeCache = new Dictionary<Type, List<Block>>();
 		foreach (var type in Block.types.Values) {
-			blockTypeCache[type] = new List<Block>();
+			foreach (var comp in type.GetComponents<BlockComponent>()) {
+				blockTypeCache[comp.GetType()] = new List<Block>();
+			}
 		}
 	} 
 
@@ -93,14 +95,14 @@ public class BlockMap : MonoBehaviour {
 		return ret;
 	}
 
-	public IEnumerable<Block> FindType(string typeName) {
-		foreach (var block in blockTypeCache[Block.types[typeName]]) {
+	public IEnumerable<Block> Find<T>() {
+		foreach (var block in blockTypeCache[typeof(T)]) {
 			yield return block;
 		}
 	}
 
-	public bool HasType(string typeName) {
-		return blockTypeCache[Block.types[typeName]].Count > 0;
+	public bool Has<T>() {
+		return blockTypeCache[typeof(T)].Count > 0;
 	}
 
 	public IEnumerable<BlockChunk> AllChunks {
@@ -195,16 +197,25 @@ public class BlockMap : MonoBehaviour {
 				return;
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
-				blockTypeCache[currentBlock.type].Remove(currentBlock);
+				foreach (var comp in currentBlock.type.GetComponents<BlockComponent>()) {
+					blockTypeCache[comp.GetType()].Remove(currentBlock);
+				}
 				OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
-				blockTypeCache[value.type].Add(value);
+				foreach (var comp in value.type.GetComponents<BlockComponent>()) {
+					blockTypeCache[comp.GetType()].Add(value);
+				}
 				OnBlockChanged(value, currentBlock);					
 			} else if (value != null && currentBlock != null) {
 				// replacing an existing block
-				blockTypeCache[currentBlock.type].Remove(currentBlock);
-				blockTypeCache[value.type].Add(value);
+				foreach (var comp in currentBlock.type.GetComponents<BlockComponent>()) {
+					blockTypeCache[comp.GetType()].Remove(currentBlock);
+				}
+				foreach (var comp in value.type.GetComponents<BlockComponent>()) {
+					blockTypeCache[comp.GetType()].Add(value);
+				}
+
 				OnBlockChanged(value, currentBlock);
 			}
 		}

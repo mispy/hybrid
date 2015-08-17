@@ -2,15 +2,9 @@
 using UnityEngine.Serialization;
 using System.Collections;
 
-public class BlockType : MonoBehaviour {
-	public static string Generator = "generator";
-	public static string PowerNode = "powerNode";
-
+public class BlockDef : MonoBehaviour {
 	[HideInInspector]
 	public string name;
-
-	public Texture2D texture;
-	public Sprite uiSprite;
 
 	[Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
 	public bool isComplexBlock = false;
@@ -28,16 +22,9 @@ public class BlockType : MonoBehaviour {
 	public string descriptionHeader;
 	[TextArea]
 	public string descriptionBody;
-	
-	// precalculated uv coordinates for each orientation
-	[HideInInspector]
-	public Vector2[] upUVs;
-	[HideInInspector]
-	public Vector2[] downUVs;
-	[HideInInspector]
-	public Vector2[] leftUVs;
-	[HideInInspector]
-	public Vector2[] rightUVs;
 
 	public BaseTile baseTile;
+}
+
+public class BlockComponent : MonoBehaviour {
 }

@@ -96,7 +96,7 @@ public class CrewMind : MonoBehaviour {
 			}
 		}*/		
 
-		foreach (var block in myShip.blocks.FindType("console")) {
+		foreach (var block in myShip.blocks.Find<Console>()) {
 			return new AttachTask(this, block);
 		}
 

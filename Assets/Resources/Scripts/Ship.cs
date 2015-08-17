@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
@@ -45,7 +45,8 @@ public class Ship : PoolBehaviour {
 
 	public GameObject collidersObj;
 
-	public TileLayer tileLayer;
+	public TileLayer baseTiles;
+	public TileLayer topTiles;
 
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
@@ -58,7 +59,6 @@ public class Ship : PoolBehaviour {
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
 		blocks = GetComponent<BlockMap>();
-		tileLayer = GetComponent<TileLayer>();
 		blocks.OnBlockChanged += OnBlockChanged;
 
 		var obj = Pool.For("Blueprint").TakeObject();
@@ -74,6 +74,20 @@ public class Ship : PoolBehaviour {
 		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		collidersObj = obj;
+
+		obj = Pool.For("TileLayer").TakeObject();
+		obj.name = "TileLayer (Base)";
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		obj.SetActive(true);
+		baseTiles = obj.GetComponent<TileLayer>();
+
+		obj = Pool.For("TileLayer").TakeObject();
+		obj.name = "TileLayer (Top)";
+		obj.transform.parent = transform;
+		obj.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
+		obj.SetActive(true);
+		topTiles = obj.GetComponent<TileLayer>();
 	}
 	
 	void OnEnable() {		
@@ -101,7 +115,7 @@ public class Ship : PoolBehaviour {
 		Ship.allActive.Remove(this);
 	}
 
-	public void SetBlock(int x, int y, BlockType type) {
+	public void SetBlock(int x, int y, BlockDef type) {
 
 		var block = new Block(type);
 		blocks[x, y] = block;
@@ -113,7 +127,7 @@ public class Ship : PoolBehaviour {
 		SetBlock(x, y, Block.types[typeName]);
 	}
 
-	public void SetBlock(int x, int y, BlockType type, Orientation orientation) {
+	public void SetBlock(int x, int y, BlockDef type, Orientation orientation) {
 		var block = new Block(type);
 		block.orientation = orientation;
 		blocks[x, y] = block;
@@ -201,7 +215,12 @@ public class Ship : PoolBehaviour {
 		Profiler.BeginSample("OnBlockChanged");
 		if (newBlock != null) newBlock.ship = this;
 
-		tileLayer[newBlock.pos] = newBlock.Tile;
+		if (newBlock.Is<PowerNode>()) {
+			baseTiles[newBlock.pos] = Tile.tileables["Wall"].tiles[0,0].up;
+			topTiles[newBlock.pos] = newBlock.Tile;
+		} else {
+			baseTiles[newBlock.pos] = newBlock.Tile;
+		}
 
 		// Inactive ships do not automatically update on block change, to allow
 		// for performant pre-runtime mass construction. kinda like turning the power
@@ -280,24 +299,24 @@ public class Ship : PoolBehaviour {
 	}
 
 	public void UpdateShields() {
-		if (blocks.HasType("shieldgen") && shields == null) {
+		if (blocks.Has<ShieldGenerator>() && shields == null) {
 			var shieldObj = Pool.For("Shields").TakeObject();
 			shields = shieldObj.GetComponent<Shields>();
 			shieldObj.transform.parent = transform;
 			shieldObj.transform.localPosition = localCenter;
 			shieldObj.SetActive(true);
-		} else if (!blocks.HasType("shieldgen") && shields != null) {
+		} else if (!blocks.Has<ShieldGenerator>() && shields != null) {
 			shields.gameObject.SetActive(false);
 			shields = null;
 		}
 	}
 
 	public void UpdateGravity() {
-		if (blocks.HasType("gravgen") && hasGravity == false) {
+		if (blocks.Has<InertiaStabilizer>() && hasGravity == false) {
 			//hasGravity = true;
 			rigidBody.drag = 5;
 			rigidBody.angularDrag = 5;
-		} else if (!blocks.HasType("gravgen") && hasGravity == true) {
+		} else if (!blocks.Has<InertiaStabilizer>() && hasGravity == true) {
 			//hasGravity = false;
 			rigidBody.drag = 0;
 			rigidBody.angularDrag = 0;

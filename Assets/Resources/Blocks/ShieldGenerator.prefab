@@ -27,14 +27,16 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 438110}
+  - 212: {fileID: 21275616}
   - 114: {fileID: 11495226}
+  - 114: {fileID: 11439228}
   m_Layer: 8
-  m_Name: shieldgen
+  m_Name: ShieldGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &438110
 Transform:
   m_ObjectHideFlags: 1
@@ -105,6 +107,17 @@ MonoBehaviour:
   renderer: {fileID: 2361788}
   effectTime: 0
   contactPoint: {x: 0, y: 0, z: 0}
+--- !u!114 &11439228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52012d0683a8fd340ba5aaf3999d8cf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11495226
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,40 +126,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 110374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1f3d5362930e545b4d7ae9f6ba297d, type: 3}
+  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: shieldgen
-  texture: {fileID: 2800000, guid: f685e9add74ddde4a90912f5d2fe6cda, type: 3}
-  uiSprite: {fileID: 21300000, guid: 1615f755457e28c4aa9e322fa7ef999e, type: 3}
+  name: ShieldGenerator
   isComplexBlock: 1
   mass: .00100000005
   scrapRequired: 30
+  powerConsumeRate: 0
   descriptionHeader: '<size=16>Shield Generator</size>
 
     <color="yellow">System</color>'
   descriptionBody: Advanced energy shield generator. Projects a protective bubble
     around a ship.
-  upUVs:
-  - {x: .5, y: 1}
-  - {x: .75, y: 1}
-  - {x: .75, y: .5}
-  - {x: .5, y: .5}
-  downUVs:
-  - {x: .5, y: .5}
-  - {x: .75, y: .5}
-  - {x: .75, y: 1}
-  - {x: .5, y: 1}
-  leftUVs:
-  - {x: .5, y: 1}
-  - {x: .5, y: .5}
-  - {x: .75, y: .5}
-  - {x: .75, y: 1}
-  rightUVs:
-  - {x: .75, y: .5}
-  - {x: .75, y: 1}
-  - {x: .5, y: 1}
-  - {x: .5, y: .5}
 --- !u!135 &13565164
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -159,6 +151,32 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: .5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!212 &21275616
+SpriteRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 110374}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: f685e9add74ddde4a90912f5d2fe6cda, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -201,6 +219,15 @@ Prefab:
       propertyPath: descriptionBody
       value: Advanced energy shield generator. Projects a protective bubble around
         a ship.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f685e9add74ddde4a90912f5d2fe6cda,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
