@@ -2,7 +2,7 @@
 using UnityEngine.Serialization;
 using System.Collections;
 
-public class BlockDef : MonoBehaviour {
+public class BlockType : MonoBehaviour {
 	[HideInInspector]
 	public string name;
 
@@ -24,7 +24,4 @@ public class BlockDef : MonoBehaviour {
 	public string descriptionBody;
 
 	public BaseTile baseTile;
-}
-
-public class BlockComponent : MonoBehaviour {
 }

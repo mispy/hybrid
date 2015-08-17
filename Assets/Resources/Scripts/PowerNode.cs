@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PowerNode : MonoBehaviour {
+public class PowerNode : BlockType {
 	public Block block;
 	public int powerSupplyRadius;
 	public float powerSupplyRate;

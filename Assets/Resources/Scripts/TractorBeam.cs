@@ -4,7 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(ParticleSystem))]
-public class TractorBeam : MonoBehaviour {
+public class TractorBeam : BlockType {
+	[HideInInspector]
 	public ParticleSystem beam;
 	[HideInInspector]
 	public Ship ship;
@@ -48,7 +49,8 @@ public class TractorBeam : MonoBehaviour {
 	}
 
 	void OnEnable() {
-		ship = transform.parent.gameObject.GetComponent<Ship>();
+		ship = GetComponentInParent<Ship>();
+		beam = GetComponentInChildren<ParticleSystem>();
 		beam.enableEmission = false;
 	}
 
@@ -97,7 +99,7 @@ public class TractorBeam : MonoBehaviour {
 			var rigid = hit.collider.attachedRigidbody;
 			if (rigid != null) {
 				if (rigid != ship.rigidBody) {
-					rigid.AddForce(-targetDir * Math.Min(rigid.mass*2, Block.types["wall"].mass) * 100);
+					rigid.AddForce(-targetDir * Math.Min(rigid.mass*2, Block.typeByName["Wall"].mass) * 100);
 					if (shieldCol != null)
 						Physics.IgnoreCollision(hit.collider, shieldCol);
 					hit.collider.attachedRigidbody.drag += 5;

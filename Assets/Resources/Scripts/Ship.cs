@@ -115,30 +115,28 @@ public class Ship : PoolBehaviour {
 		Ship.allActive.Remove(this);
 	}
 
-	public void SetBlock(int x, int y, BlockDef type) {
+	public void SetBlock<T>(int x, int y) {
+		var block = Block.Make<T>();
+		blocks[x, y] = block;
+		var block2 = BlueprintBlock.Make<T>();
+		blueprint.blocks[x, y] = block2;
+	}
 
+	public void SetBlock(int x, int y, BlockType type) {
 		var block = new Block(type);
 		blocks[x, y] = block;
 		var block2 = new BlueprintBlock(type);
 		blueprint.blocks[x, y] = block2;
 	}
 
-	public void SetBlock(int x, int y, string typeName) {
-		SetBlock(x, y, Block.types[typeName]);
-	}
-
-	public void SetBlock(int x, int y, BlockDef type, Orientation orientation) {
-		var block = new Block(type);
+	public void SetBlock<T>(int x, int y, Orientation orientation) {
+		var block = Block.Make<T>();
 		block.orientation = orientation;
 		blocks[x, y] = block;
 
-		var block2 = new BlueprintBlock(type);
+		var block2 = BlueprintBlock.Make<T>();
 		block2.orientation = orientation;
 		blueprint.blocks[x, y] = block2;
-	}
-
-	public void SetBlock(int x, int y, string typeName, Orientation orientation) {
-		SetBlock(x, y, Block.types[typeName], orientation);	
 	}
 
 	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
@@ -238,10 +236,10 @@ public class Ship : PoolBehaviour {
 		if (oldMass != newMass)
 			UpdateMass();
 
-		if (Block.IsType(newBlock, "shieldgen") || Block.IsType(oldBlock, "shieldgen"))
+		if (newBlock.Is<ShieldGenerator>() || oldBlock.Is<ShieldGenerator>())
 			UpdateShields();
 
-		if (Block.IsType(newBlock, "gravgen") || Block.IsType(oldBlock, "gravgen"))
+		if (newBlock.Is<InertiaStabilizer>() || oldBlock.Is<InertiaStabilizer>())
 			UpdateGravity();
 
 		if (oldBlock != null && oldBlock.type.isComplexBlock)

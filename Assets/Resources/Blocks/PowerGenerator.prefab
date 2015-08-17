@@ -9,10 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 410638}
   - 212: {fileID: 21201958}
-  - 114: {fileID: 11458612}
   - 114: {fileID: 11422968}
   m_Layer: 8
-  m_Name: Generator
+  m_Name: PowerGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,28 +70,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5715f6c0af933b841b534d6c1f47d328, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerSupplyRadius: 5
-  powerSupplyRate: 20
---- !u!114 &11458612
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: Generator
-  isComplexBlock: 1
-  mass: .00100000005
+  name: 
+  isComplexBlock: 0
+  mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
-  descriptionHeader: '<size=16>Power Node</size>
-
-    <color="yellow">System</color>'
-  descriptionBody: Powers stuff
+  descriptionHeader: 
+  descriptionBody: 
+  powerSupplyRadius: 5
+  powerSupplyRate: 20
 --- !u!114 &11487514
 MonoBehaviour:
   m_ObjectHideFlags: 1

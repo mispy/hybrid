@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShieldGenerator : BlockComponent {
+public class ShieldGenerator : BlockType {
 
 }

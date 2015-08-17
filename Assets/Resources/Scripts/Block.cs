@@ -5,15 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Block {
-	public static Dictionary<string, BlockDef> types = new Dictionary<string, BlockDef>();
-	public static List<BlockDef> allTypes = new List<BlockDef>();
-		
+	public static Dictionary<Type, BlockType> types = new Dictionary<Type, BlockType>();
+	public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
+	public static List<BlockType> allTypes = new List<BlockType>();
+	
 	public static int wallLayer;
 	public static int floorLayer;
-
+	
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
-
+	
 	public static string[] blockOrder = new string[] {
 		"Floor",
 		"Wall",
@@ -24,37 +25,29 @@ public class Block {
 		"ShieldGenerator",
 		"TorpedoLauncher"
 	};
-
+	
 	public static void Setup() {
-		foreach (var type in Game.LoadPrefabs<BlockDef>("Blocks")) {
-			type.name = type.gameObject.name;
-			Block.types[type.name] = type;
+		foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
+			Block.types[type.GetType()] = type;
+			Block.typeByName[type.name] = type;
 		}
-
-		foreach (var name in blockOrder) {
-			Block.allTypes.Add(Block.types[name]);
-		}
-
+		
 		foreach (var type in Block.types.Values) {
 			if (!Block.allTypes.Contains(type))
 				Block.allTypes.Add(type);
-
+			
 			type.baseTile = Tile.tileables[type.name].tiles[0, 0];
 		}
-
+		
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");				
 	}
-
-	public static bool IsType(Block block, string typeName) {
-		return block != null && block.type == Block.types[typeName];
-	}
-
+	
 	public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
 		var hits = Physics.OverlapSphere(center, radius);
-
+		
 		List<Block> nearbyBlocks = new List<Block>();
-
+		
 		foreach (var hit in hits) {
 			if (hit.gameObject.GetComponent<BoxCollider>() != null) {
 				var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
@@ -65,37 +58,37 @@ public class Block {
 				}
 			}
 		}
-
+		
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
 	}
-
+	
 	public static Block AtWorldPos(Vector2 worldPos, bool allowBlueprint = false) {
 		foreach (var ship in Ship.allActive) {
 			var block = ship.BlockAtWorldPos(worldPos);
-
+			
 			if (block != null)
 				return block;
-
+			
 			block = ship.blueprint.BlockAtWorldPos(worldPos);
-
+			
 			if (block != null)
 				return block;
 		}
-
+		
 		return null;
 	}
-
+	
 	public static Block BlueprintAtWorldPos(Vector2 worldPos) {
 		foreach (var ship in Ship.allActive) {
 			var block = ship.blueprint.BlockAtWorldPos(worldPos);
-
+			
 			if (block != null)
 				return block;
 		}
-
+		
 		return null;
 	}
-
+	
 	public static IEnumerable<Block> FromHits(RaycastHit[] hits) {
 		foreach (var hit in hits) {
 			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
@@ -107,8 +100,7 @@ public class Block {
 			}
 		}
 	}
-
-	public BlockDef type;
+	public BlockType type;
 
 	public bool Is<T>() {
 		return type.GetComponent<T>() != null;
@@ -203,7 +195,18 @@ public class Block {
 	public int localX;
 	public int localY;
 
-	public Block() {
+	public static Block Make<T>() {
+		return new Block(typeof(T));
+	}
+
+	public Block(Type T) {
+		this.type = Block.types[T];
+		this.scrapContent = type.scrapRequired;
+	}
+
+	public Block(BlockType type) {
+		this.type = type;
+		this.scrapContent = type.scrapRequired;
 	}
 
 	// copy constructor
@@ -211,11 +214,6 @@ public class Block {
 		this.type = block.type;
 		this.orientation = block.orientation;
 		this.scrapContent = block.scrapContent;
-	}
-		
-	public Block(BlockDef type) {
-		this.type = type;
-		this.scrapContent = type.scrapRequired;
 	}
 
 	public Block(BlueprintBlock blue) {
@@ -226,9 +224,11 @@ public class Block {
 }
 
 public class BlueprintBlock : Block {
-	public BlueprintBlock(Block block) : base(block) {
+	public static BlueprintBlock Make<T>() {
+		return new BlueprintBlock(typeof(T));
 	}
 
-	public BlueprintBlock(BlockDef type) : base(type) {
-	}
+	public BlueprintBlock(Block block) : base(block) { }
+	public BlueprintBlock(Type t) : base(t) { }
+	public BlueprintBlock(BlockType type) : base(type) { }
 }

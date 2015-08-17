@@ -28,7 +28,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 438110}
   - 212: {fileID: 21275616}
-  - 114: {fileID: 11495226}
   - 114: {fileID: 11439228}
   m_Layer: 8
   m_Name: ShieldGenerator
@@ -118,27 +117,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52012d0683a8fd340ba5aaf3999d8cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11495226
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 110374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: ShieldGenerator
+  name: 
   isComplexBlock: 1
-  mass: .00100000005
+  mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
-  descriptionHeader: '<size=16>Shield Generator</size>
-
-    <color="yellow">System</color>'
-  descriptionBody: Advanced energy shield generator. Projects a protective bubble
-    around a ship.
+  descriptionHeader: 
+  descriptionBody: 
 --- !u!135 &13565164
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -227,6 +212,10 @@ Prefab:
         type: 3}
     - target: {fileID: 0}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: isComplexBlock
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

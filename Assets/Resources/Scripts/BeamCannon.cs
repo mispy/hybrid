@@ -2,12 +2,12 @@
 using System;
 using System.Collections;
 
-public class BeamCannon : PoolBehaviour {
+public class BeamCannon : BlockType {
 	public ParticleSystem ps;
 	public Ship ship;
 	public Block block;
 	
-	void OnEnable() {
+	void Start() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		ps = GetComponent<ParticleSystem>();
 		block = ship.BlockAtWorldPos(transform.position);

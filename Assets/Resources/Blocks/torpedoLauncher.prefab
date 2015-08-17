@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 471530}
   - 212: {fileID: 21220014}
-  - 114: {fileID: 11451518}
   - 114: {fileID: 11412334}
   m_Layer: 8
   m_Name: TorpedoLauncher
@@ -41,29 +40,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66357761205dc9742aac4f14e62ebb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ship: {fileID: 0}
-  collider: {fileID: 0}
---- !u!114 &11451518
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   name: TorpedoLauncher
   isComplexBlock: 1
-  mass: .00100000005
+  mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
-  descriptionHeader: '<size=16>Torpedo Launcher</size>
-
-    <color="red">Weapon</color>'
-  descriptionBody: A heavy torpedo launcher. Fires fast-moving explosive projectiles
-    which only travel in a straight line.
+  descriptionHeader: 
+  descriptionBody: 
+  ship: {fileID: 0}
+  collider: {fileID: 0}
 --- !u!212 &21220014
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -146,6 +131,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: a5b0085290e02984da263ca3822e8278,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: isComplexBlock
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147808}

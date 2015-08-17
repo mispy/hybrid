@@ -44,7 +44,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 465998}
   - 212: {fileID: 21279266}
-  - 114: {fileID: 11496076}
   - 114: {fileID: 11422770}
   m_Layer: 8
   m_Name: PowerNode
@@ -145,6 +144,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad0126302a47374596a53f36381021e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: PowerNode
+  isComplexBlock: 0
+  mass: 0
+  scrapRequired: 30
+  powerConsumeRate: 0
+  descriptionHeader: 
+  descriptionBody: 
   powerSupplyRadius: 1
   powerSupplyRate: 10
   maxCharge: 100
@@ -191,26 +197,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4264a666b4569944d9cff7cae1dc9c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11496076
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 178732}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: PowerNode
-  isComplexBlock: 1
-  mass: .00100000005
-  scrapRequired: 30
-  powerConsumeRate: 0
-  descriptionHeader: '<size=16>Power Node</size>
-
-    <color="yellow">System</color>'
-  descriptionBody: Powers stuff
 --- !u!212 &21279266
 SpriteRenderer:
   m_ObjectHideFlags: 1

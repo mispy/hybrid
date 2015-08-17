@@ -2,8 +2,8 @@
 using System;
 using System.Collections;
 
-[RequireComponent(typeof(ParticleSystem))]
-public class Thruster : MonoBehaviour {
+public class Thruster : BlockType {
+	[HideInInspector]
 	public ParticleSystem ps;
 	[HideInInspector]
 	public Ship ship;
@@ -12,8 +12,9 @@ public class Thruster : MonoBehaviour {
 	public bool isFiring = false;
 	public bool isFiringAttitude = false;
 
-	void OnEnable() {
-		ship = transform.parent.gameObject.GetComponent<Ship>();
+	void Start() {
+		ship = GetComponentInParent<Ship>();
+		ps = GetComponentInChildren<ParticleSystem>();
 		block = ship.BlockAtWorldPos(transform.position);
 	}
 	
@@ -44,10 +45,10 @@ public class Thruster : MonoBehaviour {
 
 	void FixedUpdate() {
 		if (isFiring) {
-			ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 300f);
+			ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f);
 		} else if (isFiringAttitude) {			
 			var dist = transform.localPosition - ship.localCenter;
-			var force = Math.Min(ship.rigidBody.mass * 10, Block.types["wall"].mass * 1000) * Time.fixedDeltaTime * 300f;
+			var force = Math.Min(ship.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f;
 			
 			if (dist.x > 0) {
 				ship.rigidBody.AddRelativeTorque(Vector3.forward * force);

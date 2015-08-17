@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class BlockSelector : MonoBehaviour {
 	public RectTransform blockDescriber;
-	public BlockDef selectedType;
+	public BlockType selectedType;
 	float startX;
 	float startY;
 	RectTransform panel;

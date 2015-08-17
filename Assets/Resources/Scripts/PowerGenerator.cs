@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PowerGenerator : MonoBehaviour {
+public class PowerGenerator : BlockType {
 	Ship ship;
 	public Block block;
 	public int powerSupplyRadius;

@@ -41,6 +41,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 322bf00c605051745b7f88b3b73fa26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
+  isComplexBlock: 0
+  mass: 0
+  scrapRequired: 30
+  powerConsumeRate: 0
+  descriptionHeader: 
+  descriptionBody: 
 --- !u!114 &11434624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49,18 +56,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 179864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
+  m_Script: {fileID: 11500000, guid: 322bf00c605051745b7f88b3b73fa26f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Floor
+  name: 
   isComplexBlock: 0
-  mass: .00100000005
+  mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
-  descriptionHeader: '<size=16>Interior Floor</size>
-
-    <color=grey>Structure</color>'
-  descriptionBody: A basic metal floor tile. Can be traversed by crew.
+  descriptionHeader: 
+  descriptionBody: 
 --- !u!212 &21216936
 SpriteRenderer:
   m_ObjectHideFlags: 1

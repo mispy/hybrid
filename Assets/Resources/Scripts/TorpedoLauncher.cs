@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class TorpedoLauncher : PoolBehaviour {
+public class TorpedoLauncher : BlockType {
 	[HideInInspector]
 	public Ship ship;
 	public Block block;

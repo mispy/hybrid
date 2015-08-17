@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 463192}
   - 212: {fileID: 21249230}
   - 114: {fileID: 11452616}
-  - 114: {fileID: 11401612}
   m_Layer: 8
   m_Name: InertiaStabilizer
   m_TagString: Untagged
@@ -30,7 +29,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11401612
+--- !u!114 &11452616
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -41,27 +40,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b004b9b96dfd0f6428faab8e9aa4d115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11452616
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 140314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: InertiaStabilizer
+  name: 
   isComplexBlock: 0
-  mass: .00100000005
+  mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
-  descriptionHeader: '<size=16>Inertial Dampener</size>
-
-    <color="yellow">System</color>'
-  descriptionBody: Projects a gravitational field which returns ships to a local resting
-    state when perturbed. Helpful to avoid spinning wildly!
+  descriptionHeader: 
+  descriptionBody: 
 --- !u!212 &21249230
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -37,7 +37,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 143892}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
+  m_Script: {fileID: 11500000, guid: 44d8529ac8f04144bbec72863481cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
@@ -47,6 +47,8 @@ MonoBehaviour:
   powerConsumeRate: 0
   descriptionHeader: 
   descriptionBody: 
+  ps: {fileID: 0}
+  ship: {fileID: 0}
 --- !u!212 &21261630
 SpriteRenderer:
   m_ObjectHideFlags: 1

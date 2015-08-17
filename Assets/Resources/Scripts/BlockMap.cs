@@ -48,7 +48,7 @@ public class BlockMap : MonoBehaviour {
 		
 		blockTypeCache = new Dictionary<Type, List<Block>>();
 		foreach (var type in Block.types.Values) {
-			foreach (var comp in type.GetComponents<BlockComponent>()) {
+			foreach (var comp in type.GetComponents<BlockType>()) {
 				blockTypeCache[comp.GetType()] = new List<Block>();
 			}
 		}
@@ -197,22 +197,22 @@ public class BlockMap : MonoBehaviour {
 				return;
 			} else if (value == null && currentBlock != null) {
 				// removing an existing block
-				foreach (var comp in currentBlock.type.GetComponents<BlockComponent>()) {
+				foreach (var comp in currentBlock.type.GetComponents<BlockType>()) {
 					blockTypeCache[comp.GetType()].Remove(currentBlock);
 				}
 				OnBlockChanged(value, currentBlock);
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
-				foreach (var comp in value.type.GetComponents<BlockComponent>()) {
+				foreach (var comp in value.type.GetComponents<BlockType>()) {
 					blockTypeCache[comp.GetType()].Add(value);
 				}
 				OnBlockChanged(value, currentBlock);					
 			} else if (value != null && currentBlock != null) {
 				// replacing an existing block
-				foreach (var comp in currentBlock.type.GetComponents<BlockComponent>()) {
+				foreach (var comp in currentBlock.type.GetComponents<BlockType>()) {
 					blockTypeCache[comp.GetType()].Remove(currentBlock);
 				}
-				foreach (var comp in value.type.GetComponents<BlockComponent>()) {
+				foreach (var comp in value.type.GetComponents<BlockType>()) {
 					blockTypeCache[comp.GetType()].Add(value);
 				}
 

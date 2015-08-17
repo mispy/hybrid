@@ -67,19 +67,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 155840}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d66a0d3129a9b704d95d0f5ade2c637e, type: 3}
+  m_Script: {fileID: 11500000, guid: 75e5481c4dae7b94b97a340438f13836, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   name: TractorBeam
   isComplexBlock: 1
-  mass: .00100000005
+  mass: 0
   scrapRequired: 30
   powerConsumeRate: 0
-  descriptionHeader: '<size=16>Tractor Beam</size>
-
-    <color=aqua>Utility</color>'
-  descriptionBody: A versatile gravity manipulation device. Useful for harvesting
-    nearby resources.
+  descriptionHeader: 
+  descriptionBody: 
+  beam: {fileID: 0}
+  ship: {fileID: 0}
+  captured: []
+  isActive: 0
+  targetPos: {x: 0, y: 0}
 --- !u!198 &19840154
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1201,7 +1203,19 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: isComplexBlock
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 155840}
