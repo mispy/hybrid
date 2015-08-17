@@ -20,7 +20,7 @@ public class BlockType : MonoBehaviour {
 	[TextArea]
 	public string descriptionBody;
 
-	public BaseTile baseTile;
+	public Tileable tileable;
 
 	public int blockLayer = Block.baseLayer;
 }

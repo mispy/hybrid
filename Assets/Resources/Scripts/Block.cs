@@ -38,7 +38,7 @@ public class Block {
 		foreach (var type in Block.types.Values) {
 			if (!Block.allTypes.Contains(type))
 				Block.allTypes.Add(type);
-			type.baseTile = Tile.tileables[type.GetType().Name].tiles[0, 0];
+			type.tileable = Tile.tileables[type.GetType().Name];
 		}
 
 		Block.wallLayer = LayerMask.NameToLayer("Wall");
@@ -175,8 +175,6 @@ public class Block {
 
 		if (this.scrapContent <= 0) {
 			ship.BreakBlock(this);
-		} else {
-			ship.blocks[pos] = this;
 		}
 	}
 
@@ -200,6 +198,14 @@ public class Block {
 	// relative to current chunk
 	public int localX;
 	public int localY;
+
+	public int Width {
+		get { return type.tileable.tileWidth; }
+	}
+
+	public int Height {
+		get { return type.tileable.tileHeight; }
+	}
 
 	public static Block Make<T>() {
 		return new Block(typeof(T));

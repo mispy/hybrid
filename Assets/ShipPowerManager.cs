@@ -8,10 +8,6 @@ public class ShipPowerManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		ship = GetComponent<Ship>();
-		ship.blocks.OnBlockChanged += OnBlockChanged;
-	}
-	
-	public void OnBlockChanged(Block newBlock, Block oldBlock) {
 	}
 
 	// Update is called once per frame

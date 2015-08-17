@@ -45,6 +45,8 @@ public class Ship : PoolBehaviour {
 
 	public GameObject collidersObj;
 
+	private bool needsMassUpdate = true;
+
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>();
 	}
@@ -56,7 +58,8 @@ public class Ship : PoolBehaviour {
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
 		blocks = GetComponent<BlockMap>();
-		blocks.OnBlockChanged += OnBlockChanged;
+		blocks.OnBlockRemoved += OnBlockRemoved;
+		blocks.OnBlockAdded += OnBlockAdded;
 
 		var obj = Pool.For("Blueprint").TakeObject();
 		obj.transform.parent = transform;
@@ -92,6 +95,8 @@ public class Ship : PoolBehaviour {
 		}
 
 		Ship.allActive.Add(this);
+
+		InvokeRepeating("UpdateMass", 0.0f, 0.05f);
 	}
 		
 	public override void OnRecycle() {
@@ -191,44 +196,48 @@ public class Ship : PoolBehaviour {
 		Profiler.EndSample();
 	}
 
-
-	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		Profiler.BeginSample("OnBlockChanged");
-		if (newBlock != null) newBlock.ship = this;
+	public void OnBlockRemoved(Block oldBlock) {
+		Profiler.BeginSample("OnBlockRemoved");
 
 		// Inactive ships do not automatically update on block change, to allow
 		// for performant pre-runtime mass construction. kinda like turning the power
 		// off so you can stick your hand in there
 		// - mispy
-		if (!gameObject.activeInHierarchy) {
-			Profiler.EndSample();
+		if (!gameObject.activeInHierarchy)
 			return;
-		}
-		var pos = newBlock == null ? oldBlock.pos : newBlock.pos;
-		UpdateCollision(pos);
 
-		var oldMass = oldBlock == null ? 0 : oldBlock.mass;
-		var newMass = newBlock == null ? 0 : newBlock.mass;
-		if (oldMass != newMass)
-			UpdateMass();
-
-		if (Block.Is<ShieldGenerator>(newBlock) || Block.Is<ShieldGenerator>(oldBlock))
-			UpdateShields();
-
-		if (Block.Is<InertiaStabilizer>(newBlock) || Block.Is<InertiaStabilizer>(oldBlock))
-			UpdateGravity();
-
-		if (oldBlock != null && oldBlock.type.isComplexBlock)
+		if (oldBlock.type.isComplexBlock)
 			Pool.Recycle(blockComponents[oldBlock]);
 
-		if (newBlock != null && newBlock.type.isComplexBlock) {
-			AddBlockComponent(newBlock);
-		}
-
-
-		particleCache.Remove(pos);
+		UpdateBlock(oldBlock);
 
 		Profiler.EndSample();
+	}
+
+	public void OnBlockAdded(Block newBlock) {
+		newBlock.ship = this;
+
+		if (!gameObject.activeInHierarchy)
+			return;
+		
+		if (newBlock.type.isComplexBlock) {
+			AddBlockComponent(newBlock);
+		}	
+
+		UpdateBlock(newBlock);
+	}
+
+	public void UpdateBlock(Block block) {
+		if (block.mass != 0)
+			needsMassUpdate = true;
+
+		UpdateCollision(block.pos);
+
+		if (Block.Is<ShieldGenerator>(block))
+			UpdateShields();
+
+		if (Block.Is<InertiaStabilizer>(block))
+			UpdateGravity();
 	}
 
 	public void AddBlockComponent(Block block) {
@@ -253,6 +262,8 @@ public class Ship : PoolBehaviour {
 	}
 
 	public void UpdateMass() {		
+		if (!needsMassUpdate) return;
+
 		var totalMass = 0.0f;
 		var avgPos = new IntVector3(0, 0);
 		
@@ -354,8 +365,6 @@ public class Ship : PoolBehaviour {
 		Profiler.EndSample();
 		return block;
 	}
-
-	public Dictionary<IntVector3, ParticleSystem> particleCache = new Dictionary<IntVector3, ParticleSystem>();
 
 	public void FireThrusters(Orientation orientation) {
 		foreach (var thruster in GetBlockComponents<Thruster>()) {

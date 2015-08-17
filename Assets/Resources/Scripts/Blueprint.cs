@@ -12,7 +12,7 @@ public class Blueprint : PoolBehaviour {
 
 	public override void OnCreate() {
 		blocks = GetComponent<BlockMap>();
-		blocks.OnBlockChanged += OnBlockChanged;
+		blocks.OnBlockAdded += OnBlockAdded;
 	}
 
 	public void OnEnable() {
@@ -32,9 +32,7 @@ public class Blueprint : PoolBehaviour {
 		blocks[blockPos] = block;
 	}
 
-	public void OnBlockChanged(Block newBlock, Block oldBlock) {
-		if (newBlock == null) return;
-
+	public void OnBlockAdded(Block newBlock) {
 		newBlock.ship = ship;
 	}
 
