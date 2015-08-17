@@ -12,6 +12,7 @@ public class Save {
 		var data = new BlockData();
 		data.x = block.pos.x;
 		data.y = block.pos.y;
+		data.layer = block.pos.z;
 		data.typeName = block.type.name;
 		data.orientation = (int)block.orientation;
 		return data;
@@ -69,11 +70,11 @@ public class Save {
 		ship.name = data.name;
 
 		foreach (var blockData in data.blocks) {
-			ship.blocks[blockData.x, blockData.y] = Save.Load(blockData);
+			ship.blocks[blockData.x, blockData.y, blockData.layer] = Save.Load(blockData);
 		}
 
 		foreach (var blockData in data.blueprintBlocks) {
-			ship.blueprint.blocks[blockData.x, blockData.y] = new BlueprintBlock(Save.Load(blockData));
+			ship.blueprint.blocks[blockData.x, blockData.y, blockData.layer] = new BlueprintBlock(Save.Load(blockData));
 		}
 
 		ship.transform.position = data.position;
@@ -148,6 +149,7 @@ public class ShipData {
 public struct BlockData {
 	public int x;
 	public int y;
+	public int layer;
 	public string typeName;
 	public int orientation;
 }

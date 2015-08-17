@@ -167,9 +167,7 @@ MonoBehaviour:
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 1
-  powerSupplyRadius: 1
-  powerSupplyRate: 10
-  maxCharge: 100
+  powerSupplyRadius: 3
 --- !u!114 &11424552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -399,7 +397,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: powerSupplyRadius
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: powerSupplyRate

@@ -114,7 +114,8 @@ public class ShipDesigner : MonoBehaviour {
 		if (Input.GetMouseButton(0)) {			
 			PlaceBlock(pz, adjoiningBlock);
 		} else if (Input.GetMouseButton(1)) {
-			designShip.blueprint.blocks[blockPos] = null;
+			designShip.blueprint.blocks.RemoveTop(blockPos);
+			designShip.blocks.RemoveTop(blockPos);
 		}
 	}
 

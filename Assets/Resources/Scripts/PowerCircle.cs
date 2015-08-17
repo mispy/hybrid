@@ -14,7 +14,7 @@ public class PowerCircle : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		var supplyRadius = (powerNode == null ? powerGenerator.powerSupplyRadius : powerNode.powerSupplyRadius);
-		if (supplyRadius != transform.localScale.x) {
+		if (supplyRadius*3 != transform.localScale.x) {
 			transform.localScale = new Vector3(supplyRadius*3, supplyRadius*3, 1);
 		}
 	}

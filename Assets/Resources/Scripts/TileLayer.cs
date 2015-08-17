@@ -91,11 +91,12 @@ public class TileLayer : MonoBehaviour {
 			var localY = trueY%chunkHeight;
 			
 			var chunk = chunks[trueChunkX, trueChunkY];
-			if (chunk == null) {
+			if (chunk == null && value != null) {
 				//Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
 				
 				chunk = Pool.For("TileChunk").TakeObject().GetComponent<TileChunk>();
 				chunk.transform.parent = transform;
+				chunk.transform.rotation = transform.rotation;
 				chunk.transform.localPosition = new Vector2(
 					(trueChunkX - centerChunkX) * chunkWidth * Tile.worldSize, 
 					(trueChunkY - centerChunkY) * chunkHeight * Tile.worldSize
@@ -108,7 +109,6 @@ public class TileLayer : MonoBehaviour {
 					OnChunkCreated(chunk);
 			}
 			
-			var currentBlock = chunk[localX, localY];
 			chunk[localX, localY] = value;
 		}
 	}

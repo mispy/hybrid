@@ -49,12 +49,12 @@ TagManager:
   - name: Projectiles
     uniqueID: 3919247975
     locked: 0
-  - name: UI
-    uniqueID: 1169726945
-    locked: 0
   - name: Base
     uniqueID: 1912389071
     locked: 0
   - name: Top
     uniqueID: 3810536987
+    locked: 0
+  - name: UI
+    uniqueID: 1169726945
     locked: 0

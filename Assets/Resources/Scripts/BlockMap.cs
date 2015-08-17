@@ -242,6 +242,16 @@ public class BlockMap : PoolBehaviour {
 		if (OnBlockAdded != null) OnBlockAdded(block);
 	}
 
+	public void RemoveTop(IntVector3 bp) {
+		var top = this[bp.x, bp.y, Block.topLayer];
+		if (top != null)
+			RemoveBlock(top);
+		else {
+			var block = this[bp.x, bp.y, Block.baseLayer];
+			if (block != null) RemoveBlock(block);
+		}
+	}
+
 	public Block this[IntVector3 bp] {
 		get {
 			BlockChunk[,] chunks = topChunks;
@@ -266,14 +276,22 @@ public class BlockMap : PoolBehaviour {
 		set {
 			Profiler.BeginSample("BlockChunk[bp]=");
 
-			for (var i = 0; i < value.Width; i++) {
-				for (var j = 0; j < value.Height; j++) {
+			var width = 1;
+			var height = 1;
+			if (value != null) {
+				width = value.Width;
+				height = value.Height;
+			}
+
+			for (var i = 0; i < width; i++) {
+				for (var j = 0; j < height; j++) {
 					var current = this[new IntVector3(bp.x + i, bp.y + j, bp.z)];
 					if (current != null) RemoveBlock(current);
 				}
 			}
 
-			AssignBlock(value, bp);
+			if (value != null)
+				AssignBlock(value, bp);
 
 			Profiler.EndSample();	
 		}
@@ -282,6 +300,10 @@ public class BlockMap : PoolBehaviour {
 	public Block this[int x, int y] {
 		get { return this[new IntVector3(x, y)]; }
 		set { this[new IntVector3(x, y)] = value; }
+	}
+	public Block this[int x, int y, int layer] {
+		get { return this[new IntVector3(x, y, layer)]; }
+		set { this[new IntVector3(x, y, layer)] = value; }
 	}
 
 	public bool IsPassable(IntVector3 bp) {

@@ -16,7 +16,7 @@ public class PowerReserve : MonoBehaviour {
 
 	void OnPowerUpdate(float power) {
 		currentPower = Mathf.Min(maxPower, currentPower + power);
-		powerReceiver.powerConsumeRate = Mathf.Max(10f, maxPower-currentPower);
+		powerReceiver.powerConsumeRate = Mathf.Min(10f, maxPower-currentPower);
 
 		if (currentPower <= 0.0f) {
 			powerCircle.SetActive(false);
