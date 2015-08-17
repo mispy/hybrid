@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21216936}
   - 114: {fileID: 11425422}
   m_Layer: 9
-  m_Name: floor
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -71,9 +71,11 @@ public class ShipDesigner : MonoBehaviour {
 
 		var blockPos = designShip.WorldToBlockPos(worldPos);
 		var block = new BlueprintBlock(cursor.blocks[0,0].type);
+		blockPos.z = block.type.blockLayer;
+
 		block.orientation = cursor.blocks[0,0].orientation;
 		designShip.blueprint.SetBlock(blockPos, block);
-		designShip.SetBlock(blockPos.x, blockPos.y, block.type);
+		designShip.SetBlock(blockPos, block.type);
 	}
 
 

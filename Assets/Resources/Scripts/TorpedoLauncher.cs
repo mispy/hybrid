@@ -13,7 +13,7 @@ public class TorpedoLauncher : BlockType {
 	private float lastFireTime = 0f;
 
 	void OnEnable() {
-		ship = transform.parent.gameObject.GetComponent<Ship>();
+		ship = GetComponentInParent<Ship>();
 		block = ship.BlockAtWorldPos(transform.position);
 		collider = ship.colliders[block.pos].GetComponent<Collider>();
 	}

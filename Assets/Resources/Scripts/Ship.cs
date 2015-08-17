@@ -42,6 +42,7 @@ public class Ship : PoolBehaviour {
 	public float scrapAvailable = 1000;
 
 	public GameObject collidersObj;
+	public GameObject blocksObj;
 
 	private bool needsMassUpdate = true;
 
@@ -72,6 +73,13 @@ public class Ship : PoolBehaviour {
 		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		collidersObj = obj;
+		
+		obj = Pool.For("Holder").TakeObject();
+		obj.name = "Blocks";
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		obj.SetActive(true);
+		blocksObj = obj;
 	}
 	
 	void OnEnable() {		
@@ -106,6 +114,13 @@ public class Ship : PoolBehaviour {
 		blocks[x, y] = block;
 		var block2 = BlueprintBlock.Make<T>();
 		blueprint.blocks[x, y] = block2;
+	}
+
+	public void SetBlock(IntVector3 pos, BlockType type) {
+		var block = new Block(type);
+		blocks[pos] = block;
+		var block2 = new BlueprintBlock(type);
+		blueprint.blocks[pos] = block2;
 	}
 
 	public void SetBlock(int x, int y, BlockType type) {
@@ -242,7 +257,7 @@ public class Ship : PoolBehaviour {
 		Vector2 worldOrient = transform.TransformVector(Util.orientToCardinal[block.orientation]);
 
 		var obj = Pool.For(block.type.gameObject).TakeObject();		
-		obj.transform.parent = transform;
+		obj.transform.parent = blocksObj.transform;
 		obj.transform.position = BlockToWorldPos(block);
 		obj.transform.up = worldOrient;
 		block.gameObject = obj;

@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &463192
 Transform:
   m_ObjectHideFlags: 1
@@ -41,11 +41,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerManager: {fileID: 0}
   powerConsumeRate: 30
-  powerConsumedThisUpdate: 0
+  powerAvailableThisUpdate: 0
   isPowered: 0
-  noPowerIndicator: {fileID: 0}
 --- !u!114 &11452616
 MonoBehaviour:
   m_ObjectHideFlags: 1

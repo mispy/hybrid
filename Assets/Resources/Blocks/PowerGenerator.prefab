@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &171752
 GameObject:
   m_ObjectHideFlags: 0
@@ -78,7 +78,7 @@ MonoBehaviour:
   descriptionBody: 
   blockLayer: 0
   powerSupplyRadius: 5
-  powerSupplyRate: 20
+  powerSupplyRate: 100
 --- !u!114 &11487514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -172,7 +172,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: powerSupplyRate
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsActive

@@ -17,7 +17,8 @@ public class Torpedo : MonoBehaviour
 			
 			//if (velocityAlongCollisionNormal > detonationImpactVelocity)
 			//{
-				var explosion = Pool.For("Explosion").TakeObject().GetComponent<Explosion>();
+
+				var explosion = Pool.For("Explosion").Take<Explosion>();
 				explosion.transform.position = col.contacts[0].point;
 				explosion.transform.rotation = Quaternion.LookRotation(col.contacts[0].normal);
 				explosion.gameObject.SetActive(true);

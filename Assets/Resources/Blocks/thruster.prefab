@@ -34,7 +34,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &408074
 Transform:
   m_ObjectHideFlags: 1
@@ -80,6 +80,7 @@ MonoBehaviour:
   blockLayer: 0
   ps: {fileID: 0}
   ship: {fileID: 0}
+  power: {fileID: 0}
   isFiring: 0
   isFiringAttitude: 0
 --- !u!114 &11495430

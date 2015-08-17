@@ -57,6 +57,7 @@ public class Pool {
 
 	public GameObject CreateNew() {
 		GameObject obj = Object.Instantiate(prefab) as GameObject;
+		obj.name = prefab.name;
 		obj.SetActive(false);
 		obj.transform.parent = Pool.holder.transform;
 		foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {

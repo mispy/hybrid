@@ -25,7 +25,7 @@ public class Block {
 		"Thruster",
 		"TractorBeam",
 		"InertiaStabilizer",
-		"ShieldGenerator",
+		"PowerNode",
 		"TorpedoLauncher"
 	};
 	
@@ -33,6 +33,10 @@ public class Block {
 		foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
 			Block.types[type.GetType()] = type;
 			Block.typeByName[type.GetType().Name] = type;
+		}
+
+		foreach (var name in blockOrder) {
+			Block.allTypes.Add(Block.typeByName[name]);
 		}
 		
 		foreach (var type in Block.types.Values) {

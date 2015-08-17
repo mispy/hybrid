@@ -9,16 +9,22 @@ public class Thruster : BlockType {
 	public Ship ship;
 	public Block block;
 
+	public PowerReceiver power;
+
 	public bool isFiring = false;
 	public bool isFiringAttitude = false;
 
 	void Start() {
 		ship = GetComponentInParent<Ship>();
 		ps = GetComponentInChildren<ParticleSystem>();
+		power = GetComponent<PowerReceiver>();
 		block = ship.BlockAtWorldPos(transform.position);
 	}
 	
 	public void Fire() {		
+		if (!power.isPowered)
+			return;
+
 		isFiringAttitude = false;
 		isFiring = true;
 		CancelInvoke("Stop");
@@ -26,6 +32,9 @@ public class Thruster : BlockType {
 	}
 
 	public void FireAttitude() {
+		if (!power.isPowered)
+			return;
+
 		isFiring = false;
 		isFiringAttitude = true;
 		CancelInvoke("Stop");
