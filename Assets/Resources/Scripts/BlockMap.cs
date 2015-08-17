@@ -229,10 +229,10 @@ public class BlockMap : PoolBehaviour {
 
 				// Add to the tilemap if needed
 				if (value is BlueprintBlock || !value.type.isComplexBlock) {
-					if (value.pos.z == 0)
-						baseTiles[value.pos] = value.Tile;
+					if (bp.z == Block.baseLayer)
+						baseTiles[bp] = value.Tile;
 					else
-						topTiles[value.pos] = value.Tile;
+						topTiles[bp] = value.Tile;
 				}
 			}
 
@@ -242,6 +242,11 @@ public class BlockMap : PoolBehaviour {
 				// removing an existing block
 				blockTypeCache[currentBlock.type.GetType()].Remove(currentBlock);
 				OnBlockChanged(value, currentBlock);
+
+				if (bp.z == Block.baseLayer)
+					baseTiles[bp] = null;
+				else
+					topTiles[bp] = null;
 			} else if (value != null && currentBlock == null) {
 				// adding a new block
 				blockTypeCache[value.type.GetType()].Add(value);
