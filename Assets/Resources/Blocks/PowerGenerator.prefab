@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 410638}
   - 212: {fileID: 21201958}
   - 114: {fileID: 11422968}
+  - 114: {fileID: 11487552}
   m_Layer: 8
   m_Name: PowerGenerator
   m_TagString: Untagged
@@ -73,12 +74,9 @@ MonoBehaviour:
   isComplexBlock: 1
   mass: 0
   scrapRequired: 30
-  powerConsumeRate: 0
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
-  powerSupplyRadius: 5
-  powerSupplyRate: 100
 --- !u!114 &11487514
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -90,6 +88,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce8c36334a38728468116074c01de91c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11487552
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13a325f72a1bcef47ba3869dc698c3aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  supplyRadius: 5
+  supplyRate: 100
+  availablePower: 0
 --- !u!212 &21201958
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -198,6 +210,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: supplyRate
+      value: 100
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

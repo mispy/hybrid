@@ -1,54 +1,70 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ShipPowerManager : MonoBehaviour {
 	Ship ship;
-	float timePassed = 0.0f;
 
 	// Use this for initialization
 	void Start () {
 		ship = GetComponent<Ship>();
+		ship.blocks.OnBlockAdded += OnBlockChange;
+		ship.blocks.OnBlockRemoved += OnBlockChange;
+		OnBlockChange(null);
 	}
 
-	// Update is called once per frame
-	void Update () {		
-		timePassed += Time.deltaTime;
+	List<PowerProducer> producers;
+	List<PowerReceiver> receivers;
 
-		if (timePassed > 0.5f) {
-			UpdatePower(timePassed);
-			timePassed = 0.0f;
-		}
-	}
-
-	void UpdatePower(float deltaTime) {
-		var receivers = ship.GetBlockComponents<PowerReceiver>();
-
-		foreach (var generator in ship.GetBlockComponents<PowerGenerator>()) {
-			var availablePower = generator.powerSupplyRate * deltaTime;
-
-			foreach (var receiver in receivers) {
-				if (IntVector3.Distance(generator.block.pos, receiver.block.pos) <= generator.powerSupplyRadius) {
-					availablePower = receiver.TakePower(availablePower, deltaTime);
-					if (availablePower <= 0) break;
-				}
-			}
-		}
-
-		/*foreach (var node in ship.GetBlockComponents<PowerNode>()) {
-			foreach (var otherNode in ship.GetBlockComponents<PowerNode>()) {
-				if (IntVector3.Distance(node.block.pos, otherNode.block.pos) <= node.powerSupplyRadius+otherNode.powerSupplyRadius) {
-					var change = node.powerSupplyRate * deltaTime;
-					if (node.charge > change && node.charge > otherNode.charge && node.charge - change >= otherNode.charge) {
-						node.charge -= change;
-						otherNode.charge += change;
-					}
-				}
-			}
-		}*/
+	void OnBlockChange(Block block) {
+		producers = ship.GetBlockComponents<PowerProducer>().ToList();
+		receivers = ship.GetBlockComponents<PowerReceiver>().ToList();
 
 		foreach (var receiver in receivers) {
-			receiver.UpdatePower(deltaTime);
+			receiver.availableProducers.Clear();
 		}
+		
+		foreach (var producer in producers) {
+			foreach (var receiver in receivers) {
+				if (producer.gameObject == receiver.gameObject)
+					continue;
+
+				if (IntVector3.Distance(producer.block.pos, receiver.block.pos) <= producer.supplyRadius) {
+					receiver.availableProducers.Add(producer);
+				}
+			}
+		}
+	}
+
+	void UpdatePower(float deltaTime) {		
+		foreach (var producer in producers) {
+			producer.availablePower = producer.supplyRate*deltaTime;
+		}
+
+		foreach (var receiver in receivers) {
+			var powerNeeded = receiver.consumeRate*deltaTime;
+			var availablePower = 0.0f;
+			foreach (var producer in receiver.availableProducers) {
+				availablePower += producer.availablePower;
+			}
+
+			if (availablePower < powerNeeded) {
+				receiver.Depowered();
+				continue;
+			} else {
+				var powerTaken = 0.0f;
+				foreach (var producer in receiver.availableProducers) {
+					var toTake = Mathf.Min(producer.availablePower, powerNeeded - powerTaken);
+					powerTaken += producer.TakePower(toTake);
+					if (powerTaken >= powerNeeded) break;
+				}
+				receiver.Powered(powerNeeded);
+			}
+		}
+	}
+
+	void Update() {
+		UpdatePower(Time.deltaTime);
 	}
 }

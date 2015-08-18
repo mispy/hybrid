@@ -2,18 +2,16 @@
 using System.Collections;
 
 public class PowerCircle : MonoBehaviour {
-	PowerNode powerNode;
-	PowerGenerator powerGenerator;
+	PowerProducer producer;
 
 	// Use this for initialization
 	void Start() {
-		powerNode = GetComponentInParent<PowerNode>();
-		powerGenerator = GetComponentInParent<PowerGenerator>();
+		producer = GetComponentInParent<PowerProducer>();
 	}
 	
 	// Update is called once per frame
 	void Update() {
-		var supplyRadius = (powerNode == null ? powerGenerator.powerSupplyRadius : powerNode.powerSupplyRadius);
+		var supplyRadius = producer.supplyRadius;
 		if (supplyRadius*3 != transform.localScale.x) {
 			transform.localScale = new Vector3(supplyRadius*3, supplyRadius*3, 1);
 		}

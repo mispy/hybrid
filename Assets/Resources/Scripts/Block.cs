@@ -187,12 +187,6 @@ public class Block {
 
 	public float scrapContent;
 
-	public float powerConsumeRate {
-		get {
-			return type.powerConsumeRate;
-		}
-	}
-
 	public int collisionLayer;
 
 	// these attributes relate to where the block is, rather

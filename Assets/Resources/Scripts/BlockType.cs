@@ -15,9 +15,6 @@ public class BlockType : MonoBehaviour {
 
 	public int scrapRequired = 30;
 
-	[Tooltip("Amount of power consumed by second.")]
-	public float powerConsumeRate = 0f;
-
 	[Header("Description")]
 	[TextArea]
 	public string descriptionHeader;

@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>1.75694954</x>
-    <y>0.295901984</y>
+    <x>0.6192499</x>
+    <y>-0.2318273</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.572675169</z>
-    <w>-0.8197823</w>
+    <z>0.5701104</z>
+    <w>-0.821568131</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>290.126038</z>
+      <z>290.4842</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -790,6 +790,48 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
+      <x>-11</x>
+      <y>-1</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>-4</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>-6</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>-8</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-5</x>
+      <y>-10</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>-11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-12</x>
       <y>0</y>
       <layer>0</layer>
@@ -1644,22 +1686,43 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-11</x>
+      <y>2</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>5</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>7</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-6</x>
-      <y>1</y>
+      <y>9</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
-      <y>1</y>
+      <y>10</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>1</y>
+      <x>-1</x>
+      <y>11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
@@ -2505,6 +2568,48 @@
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
+      <x>2</x>
+      <y>-11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
+      <y>-10</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>8</x>
+      <y>-7</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
+      <y>-5</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-2</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>0</x>
       <y>0</y>
       <layer>0</layer>
@@ -3416,13 +3521,6 @@
     </BlockData>
     <BlockData>
       <x>12</x>
-      <y>0</y>
-      <layer>0</layer>
-      <typeName>Thruster</typeName>
-      <orientation>-2</orientation>
-    </BlockData>
-    <BlockData>
-      <x>12</x>
       <y>1</y>
       <layer>0</layer>
       <typeName>Thruster</typeName>
@@ -3441,6 +3539,48 @@
       <layer>0</layer>
       <typeName>TractorBeam</typeName>
       <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>2</x>
+      <y>11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>5</x>
+      <y>10</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>7</x>
+      <y>8</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>9</x>
+      <y>6</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
+      <y>4</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>1</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
     </BlockData>
   </blocks>
   <blueprintBlocks>
@@ -4208,6 +4348,48 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
+      <x>-11</x>
+      <y>-1</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>-4</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>-6</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>-8</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-5</x>
+      <y>-10</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>-11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-12</x>
       <y>0</y>
       <layer>0</layer>
@@ -5062,22 +5244,43 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-11</x>
+      <y>2</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>5</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>7</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-6</x>
-      <y>1</y>
+      <y>9</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-4</x>
-      <y>1</y>
+      <y>10</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>1</y>
+      <x>-1</x>
+      <y>11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
@@ -5923,6 +6126,48 @@
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
+      <x>2</x>
+      <y>-11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
+      <y>-10</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>8</x>
+      <y>-7</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
+      <y>-5</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-2</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>0</x>
       <y>0</y>
       <layer>0</layer>
@@ -6834,13 +7079,6 @@
     </BlockData>
     <BlockData>
       <x>12</x>
-      <y>0</y>
-      <layer>0</layer>
-      <typeName>Thruster</typeName>
-      <orientation>-2</orientation>
-    </BlockData>
-    <BlockData>
-      <x>12</x>
       <y>1</y>
       <layer>0</layer>
       <typeName>Thruster</typeName>
@@ -6859,6 +7097,48 @@
       <layer>0</layer>
       <typeName>TractorBeam</typeName>
       <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>2</x>
+      <y>11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>5</x>
+      <y>10</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>7</x>
+      <y>8</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>9</x>
+      <y>6</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
+      <y>4</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>1</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
     </BlockData>
   </blueprintBlocks>
 </ShipData>
