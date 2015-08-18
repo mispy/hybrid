@@ -94,7 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consumeRate: 1
-  powerAvailableThisUpdate: 0
   isPowered: 0
   availableProducers: []
 --- !u!198 &19840154

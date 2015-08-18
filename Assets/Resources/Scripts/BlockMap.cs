@@ -31,7 +31,6 @@ public class BlockMap : PoolBehaviour {
 	public delegate void BlockAddedOrRemovedHandler(Block block);
 	public event BlockAddedHandler OnBlockAdded;
 	public event BlockRemovedHandler OnBlockRemoved;
-	public event BlockAddedOrRemovedHandler OnBlockAddedOrRemoved;
 
 	public delegate void ChunkCreatedHandler(BlockChunk newChunk);
 	public event ChunkCreatedHandler OnChunkCreated;
@@ -224,8 +223,12 @@ public class BlockMap : PoolBehaviour {
 			}
 		}
 
+		if (block.gameObject != null)
+			Pool.Recycle(block.gameObject);		
+
+		block.ship = null;
 		blockTypeCache[block.type.GetType()].Remove(block);
-		if (OnBlockRemoved != null) OnBlockRemoved(block);
+		if (OnBlockRemoved != null) OnBlockRemoved(block);		
 	}
 
 	public void AssignBlock(Block block, IntVector3 bp) {

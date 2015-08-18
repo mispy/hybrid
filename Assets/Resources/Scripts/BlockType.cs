@@ -6,7 +6,7 @@ public class BlockComponent : MonoBehaviour {
 	public Block block;
 }
 
-public class BlockType : MonoBehaviour {
+public class BlockType : BlockComponent {
 	[Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
 	public bool isComplexBlock = false;
 

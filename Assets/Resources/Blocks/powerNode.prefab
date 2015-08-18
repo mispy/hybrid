@@ -110,8 +110,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  consumeRate: 10
+  consumeRate: 1
   isPowered: 0
+  isDynamic: 1
   availableProducers: []
 --- !u!114 &11413602
 MonoBehaviour:
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   powerReceiver: {fileID: 0}
   currentPower: 0
-  maxPower: 100
+  maxPower: 1000
 --- !u!114 &11425782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -196,8 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a325f72a1bcef47ba3869dc698c3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  supplyRadius: 3
-  supplyRate: 10
+  supplyRadius: 4
+  supplyRate: 0
   availablePower: 0
 --- !u!114 &11428352
 MonoBehaviour:
@@ -409,7 +410,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: supplyRadius
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: powerSupplyRadius
@@ -445,7 +446,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxPower
-      value: 100
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: blockLayer
@@ -453,11 +454,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: consumeRate
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: supplyRate
-      value: 10
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: isDynamic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

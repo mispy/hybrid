@@ -7,7 +7,9 @@ public class PowerReceiver : BlockComponent {
 	[HideInInspector]
 	public bool isPowered;
 
-	public delegate void PowerAddedHandler(float power);
+	public bool isDynamic;
+
+	public delegate void PowerAddedHandler(PowerProducer producer, float power);
 	public event PowerAddedHandler OnPowerAdded = delegate { };
 
 	[HideInInspector]
@@ -19,10 +21,11 @@ public class PowerReceiver : BlockComponent {
 		isPowered = true;
 	}
 
+	public void ReceivePower(PowerProducer producer, float amount) {
+		OnPowerAdded(producer, amount);
+	}
 
-	public void Powered(float amount) {
-		OnPowerAdded(amount);
-
+	public void Powered() {
 		if (isPowered == true) return;
 		if (noPowerIndicator != null)
 			Pool.Recycle(noPowerIndicator);

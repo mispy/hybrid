@@ -47,7 +47,7 @@ public class Ship : PoolBehaviour {
 	private bool needsMassUpdate = true;
 
 	public IEnumerable<T> GetBlockComponents<T>() {
-		return GetComponentsInChildren<T>();
+		return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == this);
 	}
 
 	public bool HasBlockComponent<T>() {
@@ -218,9 +218,6 @@ public class Ship : PoolBehaviour {
 		// - mispy
 		if (!gameObject.activeInHierarchy)
 			return;
-
-		if (oldBlock.gameObject != null)
-			Pool.Recycle(oldBlock.gameObject);
 
 		UpdateBlock(oldBlock);
 

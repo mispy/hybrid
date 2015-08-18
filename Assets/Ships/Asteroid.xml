@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>0.6192499</x>
-    <y>-0.2318273</y>
+    <x>0</x>
+    <y>0</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.5701104</z>
-    <w>-0.821568131</w>
+    <z>0.57011</z>
+    <w>-0.82156837</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>290.4842</z>
+      <z>290.484222</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -786,8 +786,8 @@
       <x>-1</x>
       <y>-1</y>
       <layer>0</layer>
-      <typeName>InertiaStabilizer</typeName>
-      <orientation>2</orientation>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-11</x>
@@ -826,6 +826,13 @@
     </BlockData>
     <BlockData>
       <x>-3</x>
+      <y>-11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-1</x>
       <y>-11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
@@ -1802,7 +1809,7 @@
       <y>-1</y>
       <layer>0</layer>
       <typeName>Floor</typeName>
-      <orientation>-1</orientation>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -1878,8 +1885,8 @@
       <x>1</x>
       <y>-1</y>
       <layer>0</layer>
-      <typeName>InertiaStabilizer</typeName>
-      <orientation>-2</orientation>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>2</x>
@@ -2620,14 +2627,14 @@
       <x>0</x>
       <y>1</y>
       <layer>0</layer>
-      <typeName>Console</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>2</y>
       <layer>0</layer>
-      <typeName>Wall</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4344,8 +4351,8 @@
       <x>-1</x>
       <y>-1</y>
       <layer>0</layer>
-      <typeName>InertiaStabilizer</typeName>
-      <orientation>2</orientation>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-11</x>
@@ -4384,6 +4391,13 @@
     </BlockData>
     <BlockData>
       <x>-3</x>
+      <y>-11</y>
+      <layer>1</layer>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-1</x>
       <y>-11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
@@ -5360,7 +5374,7 @@
       <y>-1</y>
       <layer>0</layer>
       <typeName>Floor</typeName>
-      <orientation>-1</orientation>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -5436,8 +5450,8 @@
       <x>1</x>
       <y>-1</y>
       <layer>0</layer>
-      <typeName>InertiaStabilizer</typeName>
-      <orientation>-2</orientation>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>2</x>
@@ -6178,14 +6192,14 @@
       <x>0</x>
       <y>1</y>
       <layer>0</layer>
-      <typeName>Console</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>2</y>
       <layer>0</layer>
-      <typeName>Wall</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
