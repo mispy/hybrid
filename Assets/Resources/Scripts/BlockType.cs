@@ -2,7 +2,7 @@
 using UnityEngine.Serialization;
 using System.Collections;
 
-public class BlockComponent : MonoBehaviour {
+public class BlockComponent : PoolBehaviour {
 	public Block block;
 }
 

@@ -7,11 +7,6 @@
         _MainTex ("Texture (RGB)", 2D) = "white" {}
     }
     SubShader {
-        ZWrite Off
-        Tags { "Queue" = "Transparent" }
-        Blend One One
-        Cull Off
-
         Pass { 
             CGPROGRAM
             #pragma vertex vert

@@ -14,6 +14,12 @@ public class PowerProducer : BlockComponent {
 	[HideInInspector]
 	public List<PowerReceiver> forbiddenReceivers = new List<PowerReceiver>();
 
+	public override void OnCreate() {
+		var obj = Pool.For("PowerCircle").TakeObject();
+		obj.transform.SetParent(transform);
+		obj.SetActive(true);
+	}
+
 	public bool CanGivePower(PowerReceiver receiver) {
 		var srcReserve = GetComponent<PowerReserve>();
 		var destReserve = receiver.GetComponent<PowerReserve>();
