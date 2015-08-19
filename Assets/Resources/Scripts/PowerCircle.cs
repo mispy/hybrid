@@ -7,6 +7,7 @@ public class PowerCircle : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		producer = GetComponentInParent<PowerProducer>();
+		var renderer = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame

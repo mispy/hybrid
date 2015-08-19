@@ -6,14 +6,9 @@
 	 
 	 SubShader {
 	     Tags { "Queue"="Transparent" }
-
+	     
+	     
 		Pass {
-		    Stencil {
-		        Ref 2
-		        Comp NotEqual
-		        Pass Replace
-		    }
-
 		     Blend SrcAlpha OneMinusSrcAlpha     
 	 
 			 CGPROGRAM
@@ -22,8 +17,6 @@
 			 #include "UnityCG.cginc"
 			 
 			 uniform sampler2D _MainTex;
-			 uniform half4 _SourceColor;
-			 uniform half4 _MainTex_TexelSize;
 			 
 			 struct v2f {
 			     half4 pos : POSITION;
@@ -38,14 +31,13 @@
 			     return o;
 			 }
 
-			 half4 frag (v2f i) : COLOR {
-			     half4 color = tex2D(_MainTex, i.uv);
-			     if (color.a == 0.0)
-			     	discard;
-			     return color;
-			 }
+half4 frag (v2f i) : COLOR {
+	half4 color = tex2D(_MainTex, i.uv);
+	return color;
+}
 			 ENDCG
 		}
+
 	}
  
 	Fallback off
