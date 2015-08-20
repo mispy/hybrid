@@ -106,7 +106,7 @@ public class Game : MonoBehaviour {
 		var sectorSize = 200;
 
 		for (var i = 0; i < 50; i++) {
-			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
+			debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
 		}
 	}
 

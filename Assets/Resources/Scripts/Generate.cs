@@ -23,6 +23,8 @@ public class Generate : MonoBehaviour {
 		}
 		shipObj.transform.position = pos;
 		shipObj.SetActive(true);
+		ship.rigidBody.drag = 10000.0f;
+		ship.rigidBody.angularDrag = 10000.0f;
 		return ship;
 	}
 
