@@ -24,7 +24,8 @@ public class BlockMap : PoolBehaviour {
 	public TileLayer baseTiles;
 	public TileLayer topTiles;
 
-	public Dictionary<Type, List<Block>> blockTypeCache;
+	public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
+	public Dictionary<IntVector3, bool> edgeCache = new Dictionary<IntVector3, bool>();
 
 	public delegate void BlockAddedHandler(Block newBlock);
 	public delegate void BlockRemovedHandler(Block oldBlock);
@@ -53,7 +54,6 @@ public class BlockMap : PoolBehaviour {
 		centerBlockX = centerChunkX * chunkWidth;
 		centerBlockY = centerChunkY * chunkHeight;
 		
-		blockTypeCache = new Dictionary<Type, List<Block>>();
 		foreach (var type in Block.types.Values) {
 			foreach (var comp in type.GetComponents<BlockType>()) {
 				blockTypeCache[comp.GetType()] = new List<Block>();
@@ -99,8 +99,27 @@ public class BlockMap : PoolBehaviour {
 			new IntVector3(bp.x+1, bp.y+1)
 		};
 	}
-	
+
 	public bool IsEdge(IntVector3 bp) {
+		Profiler.BeginSample("IsEdge");
+		
+		var ret = false;
+		var block = this[bp];
+		if (block != null) {
+			foreach (var neighbor in Neighbors(bp)) {
+				var other = this[neighbor];
+				if (other == null || other.CollisionLayer != block.CollisionLayer) {
+					ret = true;
+				}
+			}
+		}
+		
+		Profiler.EndSample();
+		return ret;
+	}
+
+	
+	public bool IsCollisionEdge(IntVector3 bp) {
 		Profiler.BeginSample("IsEdge");
 
 		var ret = false;
@@ -185,7 +204,7 @@ public class BlockMap : PoolBehaviour {
 		return chunk;
 	}
 
-	public void SetChunkedValue(int x, int y, int layer, Block block) {
+	private void SetChunkedValue(int x, int y, int layer, Block block) {
 		BlockChunk[,] chunks = baseChunks;
 		if (layer == Block.topLayer)
 			chunks = topChunks;
@@ -200,14 +219,19 @@ public class BlockMap : PoolBehaviour {
 		var chunk = chunks[trueChunkX, trueChunkY];
 
 		if (chunk == null) {
-			if (block == null) return;
 			chunk = NewChunk(chunks, trueChunkX, trueChunkY);
 		}
 
 		chunk[localX, localY] = block;
+
+		var bp = new IntVector3(x, y, Block.baseLayer);
+		edgeCache[bp] = IsEdge(bp);
+		foreach (var pos in Neighbors(bp)) {
+			edgeCache[pos] = IsEdge(pos);
+		}
 	}
 
-	public void SetTileValue(int x, int y, int layer, Tile tile) {
+	private void SetTileValue(int x, int y, int layer, Tile tile) {
 		var tileLayer = baseTiles;
 		if (layer == Block.topLayer)
 			tileLayer = topTiles;
@@ -279,6 +303,9 @@ public class BlockMap : PoolBehaviour {
 		set {
 			Profiler.BeginSample("BlockChunk[bp]=");
 
+			if (value != null && value.ship != null)
+				throw new ArgumentException("This block is already attached to a ship!");
+
 			var width = 1;
 			var height = 1;
 			if (value != null) {
@@ -301,8 +328,8 @@ public class BlockMap : PoolBehaviour {
 	}
 
 	public Block this[int x, int y] {
-		get { return this[new IntVector3(x, y)]; }
-		set { this[new IntVector3(x, y)] = value; }
+		get { return this[new IntVector3(x, y, Block.baseLayer)]; }
+		set { this[new IntVector3(x, y, Block.baseLayer)] = value; }
 	}
 	public Block this[int x, int y, int layer] {
 		get { return this[new IntVector3(x, y, layer)]; }

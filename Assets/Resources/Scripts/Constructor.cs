@@ -103,7 +103,7 @@ public class Constructor : MonoBehaviour
 				}
 			}
 
-			targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
+			targetBlue.ship.blocks[targetBlue.pos] = new Block(targetBlock);
 		}
 	}
 

@@ -6,6 +6,40 @@ using System.Linq;
 using Random = UnityEngine.Random;
 
 public class Generate : MonoBehaviour {
+	// Generate a random contiguous fragment of a ship
+	public static Ship Fragment(Vector2 pos, Ship srcShip, int size) {
+		var frag = Pool.For("Ship").Take<Ship>();
+		frag.name = String.Format("Fragment ({0})", srcShip.name);
+
+		var allBlocks = srcShip.blocks.AllBlocks.ToList();
+		var startBlock = allBlocks[Random.Range(0, allBlocks.Count-1)];
+		if (startBlock.pos.z != Block.baseLayer)
+			startBlock = srcShip.blocks[startBlock.pos.x, startBlock.pos.y, Block.baseLayer];
+
+		frag.blocks[startBlock.pos] = new Block(startBlock);
+		var edges = new List<IntVector3>();
+		edges.Add(startBlock.pos);
+
+		while (frag.size < size) {
+			var edge = Util.GetRandom(edges);
+			edges.Remove(edge);
+
+			foreach (var neighborPos in frag.blocks.Neighbors(edge)) {
+				if (frag.blocks[neighborPos] == null) {
+					var srcBlock = srcShip.blocks[neighborPos];
+					if (srcBlock != null) {
+						frag.blocks[neighborPos] = new Block(srcBlock);
+						edges.Add(neighborPos);
+					}
+				}
+			}
+		}
+
+		frag.transform.position = pos;
+		frag.gameObject.SetActive(true);
+		return frag;
+	}
+
 	public static Ship Asteroid(Vector2 pos, int radius) {
 		var shipObj = Pool.For("Ship").TakeObject();
 		var ship = shipObj.GetComponent<Ship>();

@@ -81,9 +81,6 @@ public class Save {
 		ship.transform.rotation = data.rotation;
 		ship.rigidBody.velocity = data.velocity;
 		ship.rigidBody.angularVelocity = data.angularVelocity;
-
-		
-		shipObj.SetActive(true);
 		return ship;
 	}
 

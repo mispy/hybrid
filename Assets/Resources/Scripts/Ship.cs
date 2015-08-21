@@ -5,9 +5,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+
+
 public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
+	public static Dictionary<string, Ship> templates = new Dictionary<string, Ship>();
 
 	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
 		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
@@ -22,6 +28,24 @@ public class Ship : PoolBehaviour {
 		}
 		
 		return null;
+	}
+
+	public static Ship Template(string name) {
+		if (templates.ContainsKey(name))
+			return templates[name];
+
+		var path = Application.dataPath + String.Format("/Ships/{0}.xml", name);
+		var serializer = new XmlSerializer(typeof(ShipData));
+		
+		ShipData data;
+		using (var stream = new FileStream(path, FileMode.Open))
+		{
+			data = serializer.Deserialize(stream) as ShipData;
+		}
+		
+		var ship = Save.LoadShip(data);
+		templates[name] = ship;
+		return ship;
 	}
 
 	public BlockMap blocks;
@@ -45,6 +69,8 @@ public class Ship : PoolBehaviour {
 	public GameObject blocksObj;
 
 	private bool needsMassUpdate = true;
+
+	public int size = 0;
 
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == this);
@@ -85,7 +111,7 @@ public class Ship : PoolBehaviour {
 	void OnEnable() {		
 		if (hasCollision) {
 			foreach (var block in blocks.AllBlocks) {
-				if (blocks.IsEdge(block.pos)) {
+				if (blocks.IsCollisionEdge(block.pos)) {
 					AddCollider(block);
 				}
 			}
@@ -194,7 +220,7 @@ public class Ship : PoolBehaviour {
 
 		var block = blocks[pos];
 		var hasCollider = colliders.ContainsKey(pos);
-		var isEdge = blocks.IsEdge(pos);
+		var isEdge = blocks.IsCollisionEdge(pos);
 
 		if (hasCollider && (!isEdge || colliders[pos].layer != block.CollisionLayer)) {
 			colliders[pos].SetActive(false);
@@ -212,6 +238,9 @@ public class Ship : PoolBehaviour {
 	public void OnBlockRemoved(Block oldBlock) {
 		Profiler.BeginSample("OnBlockRemoved");
 
+		if (oldBlock.pos.z == Block.baseLayer)
+			this.size += 1;
+
 		// Inactive ships do not automatically update on block change, to allow
 		// for performant pre-runtime mass construction. kinda like turning the power
 		// off so you can stick your hand in there
@@ -226,6 +255,9 @@ public class Ship : PoolBehaviour {
 
 	public void OnBlockAdded(Block newBlock) {
 		newBlock.ship = this;
+
+		if (newBlock.pos.z == Block.baseLayer)
+			this.size += 1;
 
 		if (!gameObject.activeInHierarchy)
 			return;
