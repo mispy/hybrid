@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
@@ -36,9 +37,8 @@ public class Blueprint : PoolBehaviour {
 		chunk.renderer.material.color = Color.cyan;
 	}
 
-	public Block BlockAtWorldPos(Vector2 worldPos) {
-		var block = blocks.Topmost(ship.WorldToBlockPos(worldPos));
-		return block;
+	public IEnumerable<Block> BlocksAtWorldPos(Vector2 worldPos) {
+		return blocks[ship.WorldToBlockPos(worldPos)];
 	}
 
 	public override void OnRecycle() {

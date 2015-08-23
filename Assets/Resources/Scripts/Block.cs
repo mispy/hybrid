@@ -63,8 +63,9 @@ public class Block {
 			if (hit.gameObject.GetComponent<BoxCollider>() != null) {
 				var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
 				if (ship != null) {
-					var block = ship.BlockAtWorldPos(hit.transform.position);
-					if (block != null)
+					var bp = ship.WorldToBlockPos(hit.transform.position);
+
+					foreach (var block in ship.blocks[bp])
 						nearbyBlocks.Add(block);
 				}
 			}
@@ -73,40 +74,28 @@ public class Block {
 		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
 	}
 	
-	public static Block AtWorldPos(Vector2 worldPos, bool allowBlueprint = false) {
+	public static IEnumerable<Block> AtWorldPos(Vector2 worldPos, bool allowBlueprint = false) {
 		foreach (var ship in Ship.allActive) {
-			var block = ship.BlockAtWorldPos(worldPos);
-			
-			if (block != null)
-				return block;
-			
-			block = ship.blueprint.BlockAtWorldPos(worldPos);
-			
-			if (block != null)
-				return block;
+			foreach (var block in ship.BlocksAtWorldPos(worldPos))
+				yield return block;
+
+			foreach (var block in ship.blueprint.BlocksAtWorldPos(worldPos))
+				yield return block;
 		}
-		
-		return null;
 	}
 	
-	public static Block BlueprintAtWorldPos(Vector2 worldPos) {
+	public static IEnumerable<Block> BlueprintAtWorldPos(Vector2 worldPos) {
 		foreach (var ship in Ship.allActive) {
-			var block = ship.blueprint.BlockAtWorldPos(worldPos);
-			
-			if (block != null)
-				return block;
+			foreach (var block in ship.blueprint.BlocksAtWorldPos(worldPos))
+				yield return block;
 		}
-		
-		return null;
 	}
 	
 	public static IEnumerable<Block> FromHits(RaycastHit[] hits) {
 		foreach (var hit in hits) {
 			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
 			if (ship != null) {
-				var block = ship.BlockAtWorldPos(hit.collider.transform.position);
-				//Debug.LogFormat("{0} {1}", ship.WorldToBlockPos(hit.collider.transform.position), block);
-				if (block != null)
+				foreach (var block in ship.BlocksAtWorldPos(hit.collider.transform.position))
 					yield return block;
 			}
 		}
@@ -210,12 +199,7 @@ public class Block {
 	}
 
 	public static Block Make<T>() {
-		return new Block(typeof(T));
-	}
-
-	public Block(Type T) {
-		this.type = Block.types[T];
-		this.scrapContent = type.scrapRequired;
+		return new Block(Block.types[typeof(T)]);
 	}
 
 	public Block(BlockType type) {
@@ -230,19 +214,17 @@ public class Block {
 		this.orientation = block.orientation;
 	}
 
-	public Block(BlueprintBlock blue) {
+	public Block(BlueprintBlock blue) : this(blue.type) {
 		this.type = blue.type;
 		this.orientation = blue.orientation;
-		this.scrapContent = 0;
 	}
 }
 
 public class BlueprintBlock : Block {
 	public static BlueprintBlock Make<T>() {
-		return new BlueprintBlock(typeof(T));
+		return new BlueprintBlock(Block.types[typeof(T)]);
 	}
 
 	public BlueprintBlock(Block block) : base(block) { }
-	public BlueprintBlock(Type t) : base(t) { }
 	public BlueprintBlock(BlockType type) : base(type) { }
 }

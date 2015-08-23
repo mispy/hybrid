@@ -69,11 +69,13 @@ public class Save {
 		ship.name = data.name;
 
 		foreach (var blockData in data.blocks) {
-			ship.blocks[blockData.x, blockData.y] = Save.Load(blockData);
+			var block = Save.Load(blockData);
+			ship.blocks[blockData.x, blockData.y, block.layer] = block;
 		}
 
 		foreach (var blockData in data.blueprintBlocks) {
-			ship.blueprint.blocks[blockData.x, blockData.y] = new BlueprintBlock(Save.Load(blockData));
+			var block = new BlueprintBlock(Save.Load(blockData));
+			ship.blueprint.blocks[blockData.x, blockData.y, block.layer] = block;
 		}
 
 		ship.transform.position = data.position;

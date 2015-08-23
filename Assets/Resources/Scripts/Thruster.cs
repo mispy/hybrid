@@ -7,7 +7,6 @@ public class Thruster : BlockType {
 	public ParticleSystem ps;
 	[HideInInspector]
 	public Ship ship;
-	public Block block;
 
 	public PowerReceiver power;
 
@@ -18,7 +17,6 @@ public class Thruster : BlockType {
 		ship = GetComponentInParent<Ship>();
 		ps = GetComponentInChildren<ParticleSystem>();
 		power = GetComponent<PowerReceiver>();
-		block = ship.BlockAtWorldPos(transform.position);
 	}
 	
 	public void Fire() {		

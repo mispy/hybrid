@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class TorpedoLauncher : BlockType {
 	[HideInInspector]
 	public Ship ship;
-	public Block block;
 	[HideInInspector]
 	public Collider collider;
 	private float timeBetweenShots = 0.1f;
@@ -14,7 +13,6 @@ public class TorpedoLauncher : BlockType {
 
 	void OnEnable() {
 		ship = GetComponentInParent<Ship>();
-		block = ship.BlockAtWorldPos(transform.position);
 		collider = ship.colliders[block.pos].GetComponent<Collider>();
 	}
 

@@ -62,7 +62,7 @@ MonoBehaviour:
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 1
-  canRotate: 1
+  canRotate: 0
   canFitInsideWall: 0
 --- !u!212 &21267236
 SpriteRenderer:
@@ -160,7 +160,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: canRotate
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: blockLayer

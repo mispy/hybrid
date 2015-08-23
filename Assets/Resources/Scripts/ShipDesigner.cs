@@ -14,7 +14,7 @@ public class ShipDesigner : MonoBehaviour {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursorObj.name = "Cursor";
 			cursor = cursorObj.GetComponent<Blueprint>();
-			cursor.blocks[0, 0] = BlueprintBlock.Make<Wall>();
+			cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make<Wall>();
 			cursor.blocks.EnableRendering();
 			cursorObj.SetActive(true);
 		} else {
@@ -49,7 +49,7 @@ public class ShipDesigner : MonoBehaviour {
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
 		var neighborBlocks = new List<Block>();
 		foreach (var bp in designShip.blueprint.blocks.Neighbors(blockPos)) {
-			var block = designShip.blueprint.blocks[bp];
+			var block = designShip.blueprint.blocks[bp, BlockLayer.Base];
 			if (block != null) 
 				neighborBlocks.Add(block);
 		}	
@@ -77,7 +77,7 @@ public class ShipDesigner : MonoBehaviour {
 		if (ori != cursorBlock.orientation) {
 			var block = new BlueprintBlock(cursorBlock);
 			block.orientation = ori;
-			cursor.blocks[0, 0] = block;
+			cursor.blocks[0, 0, block.layer] = block;
 		}
 	}
 
@@ -104,9 +104,10 @@ public class ShipDesigner : MonoBehaviour {
 		
 		for (var i = 0; i < cursorBlock.Width; i++) {
 			for (var j = 0; j < cursorBlock.Height; j++) {
-				var block = designShip.blocks[targetBlockPos.x+i, targetBlockPos.y+j];
-				if (!CanFitInto(cursorBlock, block))
-					return false;
+				foreach (var block in designShip.blocks[targetBlockPos.x+i, targetBlockPos.y+j]) {
+					if (!CanFitInto(cursorBlock, block))
+						return false;
+				}
 			}
 		}
 		
@@ -115,11 +116,14 @@ public class ShipDesigner : MonoBehaviour {
 
 	void Update() {
 		var selectedType = MainUI.blockSelector.selectedType;
-		if (cursor.blocks[0,0].type != selectedType)
-			cursor.blocks[0,0] = new BlueprintBlock(selectedType);
+		var bp = new IntVector2(0, 0);
+		if (cursor.blocks.Topmost(bp).type != selectedType) {
+			cursor.blocks.RemoveSurface(bp);
+			cursor.blocks[bp, selectedType.blockLayer] = new BlueprintBlock(selectedType);
+		}
 
 		cursor.transform.position = Game.mousePos;
-		var cursorBlock = (BlueprintBlock)cursor.blocks[0,0];
+		var cursorBlock = (BlueprintBlock)cursor.blocks.Topmost(bp);
 		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
 		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
 
@@ -144,8 +148,8 @@ public class ShipDesigner : MonoBehaviour {
 			return;
 		
 		if (Input.GetMouseButton(0) && isValid) {			
-			designShip.blueprint.blocks[targetBlockPos] = new BlueprintBlock(cursorBlock);
-			designShip.blocks[targetBlockPos] = new Block(cursorBlock);
+			designShip.blueprint.blocks[targetBlockPos, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
+			designShip.blocks[targetBlockPos, cursorBlock.layer] = new Block(cursorBlock);
 		} else if (Input.GetMouseButton(1)) {
 			designShip.blueprint.blocks.RemoveSurface(targetBlockPos);
 			designShip.blocks.RemoveSurface(targetBlockPos);

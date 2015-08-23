@@ -280,11 +280,11 @@ public class BlockMap : PoolBehaviour {
 	}
 
 	public void RemoveSurface(IntVector2 bp) {
-		var top = this[bp.x, bp.y, BlockLayer.Top];
+		var top = this[bp, BlockLayer.Top];
 		if (top != null)
 			RemoveBlock(top);
 		else {
-			var block = this[bp.x, bp.y, BlockLayer.Base];
+			var block = this[bp, BlockLayer.Base];
 			if (block != null) RemoveBlock(block);
 		}
 	}
@@ -344,22 +344,15 @@ public class BlockMap : PoolBehaviour {
 		set { this[new IntVector2(x, y), layer] = value; }
 	}
 
-	public Block this[IntVector2 bp] {		
+	public IEnumerable<Block> this[IntVector2 bp] {		
 		get {
-			return this[bp, BlockLayer.Base];
-		}
-
-		set {
-			if (value == null)
-				throw new ArgumentException("Can't infer block layer for null block; must specify");
-
-			this[bp, value.layer] = value;
+			yield return this[bp, BlockLayer.Base];
+			yield return this[bp, BlockLayer.Top];
 		}
 	}
 
-	public Block this[int x, int y] {
+	public IEnumerable<Block> this[int x, int y] {
 		get { return this[new IntVector2(x, y)]; }
-		set { this[new IntVector2(x, y)] = value; }
 	}
 
 	public bool IsPassable(IntVector2 bp) {

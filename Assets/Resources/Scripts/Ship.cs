@@ -22,7 +22,7 @@ public class Ship : PoolBehaviour {
 	public static Ship AtWorldPos(Vector2 worldPos) {
 		foreach (var ship in Ship.allActive) {
 			var blockPos = ship.WorldToBlockPos(worldPos);
-			if (ship.blocks[blockPos] != null || ship.blueprint.blocks[blockPos] != null) {
+			if (ship.blocks[blockPos, BlockLayer.Base] != null || ship.blueprint.blocks[blockPos, BlockLayer.Base] != null) {
 				return ship;
 			}
 		}
@@ -112,7 +112,7 @@ public class Ship : PoolBehaviour {
 		if (hasCollision) {
 			foreach (var block in blocks.AllBlocks) {
 				if (blocks.IsCollisionEdge(block.pos)) {
-					AddCollider(block);
+					AddCollider(block.pos, block.CollisionLayer);
 				}
 			}
 		}
@@ -137,33 +137,33 @@ public class Ship : PoolBehaviour {
 
 	public void SetBlock<T>(int x, int y) {
 		var block = Block.Make<T>();
-		blocks[x, y] = block;
+		blocks[x, y, block.layer] = block;
 		var block2 = BlueprintBlock.Make<T>();
-		blueprint.blocks[x, y] = block2;
+		blueprint.blocks[x, y, block2.layer] = block2;
 	}
 
 	public void SetBlock(IntVector2 pos, BlockType type) {
 		var block = new Block(type);
-		blocks[pos] = block;
+		blocks[pos, block.layer] = block;
 		var block2 = new BlueprintBlock(type);
-		blueprint.blocks[pos] = block2;
+		blueprint.blocks[pos, block2.layer] = block2;
 	}
 
 	public void SetBlock(int x, int y, BlockType type) {
 		var block = new Block(type);
-		blocks[x, y] = block;
+		blocks[x, y, block.layer] = block;
 		var block2 = new BlueprintBlock(type);
-		blueprint.blocks[x, y] = block2;
+		blueprint.blocks[x, y, block2.layer] = block2;
 	}
 
 	public void SetBlock<T>(int x, int y, Orientation orientation) {
 		var block = Block.Make<T>();
 		block.orientation = orientation;
-		blocks[x, y] = block;
+		blocks[x, y, block.layer] = block;
 
 		var block2 = BlueprintBlock.Make<T>();
 		block2.orientation = orientation;
-		blueprint.blocks[x, y] = block2;
+		blueprint.blocks[x, y, block2.layer] = block2;
 	}
 
 	public void ReceiveImpact(Rigidbody fromRigid, Block block) {
@@ -176,7 +176,7 @@ public class Ship : PoolBehaviour {
 	}
 
 	public GameObject BreakBlock(Block block) {
-		blocks[block.pos] = null;
+		blocks[block.pos, block.layer] = null;
 		
 		/*var newShipObj = Pool.For("Ship").TakeObject();
 		newShipObj.transform.position = BlockToWorldPos(block.pos);
@@ -199,17 +199,17 @@ public class Ship : PoolBehaviour {
 		return obj;
 	}
 
-	public void AddCollider(Block block) {
+	public void AddCollider(IntVector2 bp, int collisionLayer) {
 		Profiler.BeginSample("AddCollider");
 
 		GameObject colliderObj;
-		if (block.CollisionLayer == Block.wallLayer)
+		if (collisionLayer == Block.wallLayer)
 			colliderObj = Pool.For("WallCollider").TakeObject();
 		else
 			colliderObj = Pool.For("FloorCollider").TakeObject();
 		colliderObj.transform.SetParent(collidersObj.transform);
-		colliderObj.transform.localPosition = BlockToLocalPos(block.pos);
-		colliders[block.pos] = colliderObj;
+		colliderObj.transform.localPosition = BlockToLocalPos(bp);
+		colliders[bp] = colliderObj;
 		colliderObj.SetActive(true);
 
 		Profiler.EndSample();
@@ -219,7 +219,6 @@ public class Ship : PoolBehaviour {
 		Profiler.BeginSample("UpdateCollider");
 		var collisionLayer = blocks.CollisionLayer(pos);
 
-		var block = blocks[pos];
 		var hasCollider = colliders.ContainsKey(pos);
 		var isEdge = blocks.IsCollisionEdge(pos);
 
@@ -230,7 +229,7 @@ public class Ship : PoolBehaviour {
 		}
 
 		if (!hasCollider && isEdge) {
-			AddCollider(block);
+			AddCollider(pos, collisionLayer);
 		}
 
 		Profiler.EndSample();
@@ -415,15 +414,8 @@ public class Ship : PoolBehaviour {
 		return transform.TransformPoint(BlockToLocalPos(block));
 	}
 
-	public Block BlockAtLocalPos(Vector3 localPos) {
-		return blocks[LocalToBlockPos(localPos)];
-	}
-
-	public Block BlockAtWorldPos(Vector2 worldPos) {
-		Profiler.BeginSample("BlockAtWorldPos");
-		var block = blocks[WorldToBlockPos(worldPos)];
-		Profiler.EndSample();
-		return block;
+	public IEnumerable<Block> BlocksAtWorldPos(Vector2 worldPos) {
+		return blocks[WorldToBlockPos(worldPos)];
 	}
 
 	public void FireThrusters(Orientation orientation) {
@@ -463,10 +455,8 @@ public class Ship : PoolBehaviour {
 		for (var i = 0; i < numCollisionEvents; i++) {
 			//Debug.Log(collisionEvents[i].intersection);
 			var pos = collisionEvents[i].intersection;
-			var block = BlockAtWorldPos(pos);
-			if (block != null) {
+			foreach (var block in BlocksAtWorldPos(pos))
 				BreakBlock(block);
-			}
 		}
 	}
 
@@ -491,9 +481,9 @@ public class Ship : PoolBehaviour {
 
 		var otherShip = obj.GetComponent<Ship>();
 		if (otherShip != null) {
-			var block = otherShip.BlockAtWorldPos(collision.collider.transform.position);
-			if (block != null)
+			foreach (var block in otherShip.BlocksAtWorldPos(collision.collider.transform.position)) {
 				otherShip.ReceiveImpact(rigidBody, block);
+			}
 		}
 	}
 

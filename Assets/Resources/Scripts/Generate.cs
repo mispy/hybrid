@@ -16,7 +16,7 @@ public class Generate : MonoBehaviour {
 		if (startBlock.layer != BlockLayer.Base)
 			startBlock = srcShip.blocks[startBlock.pos, BlockLayer.Base];
 
-		frag.blocks[startBlock.pos] = new Block(startBlock);
+		frag.blocks[startBlock.pos, BlockLayer.Base] = new Block(startBlock);
 		var edges = new List<IntVector2>();
 		edges.Add(startBlock.pos);
 
@@ -28,7 +28,7 @@ public class Generate : MonoBehaviour {
 				if (frag.blocks[neighborPos, BlockLayer.Base] == null) {
 					var srcBlock = srcShip.blocks[neighborPos, BlockLayer.Base];
 					if (srcBlock != null) {
-						frag.blocks[neighborPos] = new Block(srcBlock);
+						frag.blocks[neighborPos, BlockLayer.Base] = new Block(srcBlock);
 						edges.Add(neighborPos);
 					}
 				}
@@ -193,19 +193,19 @@ public class Generate : MonoBehaviour {
 
 	public static void AssignThrusters(Ship ship) {
 		foreach (var block in ship.blocks.AllBlocks.ToArray()) {
-			if (ship.blocks[block.x-1, block.y] == null) {
+			if (ship.blocks[block.x-1, block.y, BlockLayer.Base] == null) {
 				ship.SetBlock<Thruster>(block.x-1, block.y, Orientation.left);
 			}
 
-			if (ship.blocks[block.x, block.y-1] == null) {
+			if (ship.blocks[block.x, block.y-1, BlockLayer.Base] == null) {
 				ship.SetBlock<Thruster>(block.x, block.y-1, Orientation.down);
 			}
 
-			if (ship.blocks[block.x+1, block.y] == null) {
+			if (ship.blocks[block.x+1, block.y, BlockLayer.Base] == null) {
 				ship.SetBlock<Thruster>(block.x+1, block.y, Orientation.right);
 			}
 
-			if (ship.blocks[block.x, block.y+1] == null) {
+			if (ship.blocks[block.x, block.y+1, BlockLayer.Base] == null) {
 				ship.SetBlock<Thruster>(block.x, block.y+1, Orientation.up);
 			}
 		}
@@ -270,8 +270,8 @@ public class Generate : MonoBehaviour {
 		for (var y = height/2; y > -height/2; y--) {
 			Block block = null;
 			for (var x = 0; x < width; x++) {
-				if (ship.blocks[x,y] != null && Block.Is<Floor>(ship.blocks[x,y])) {
-					block = ship.blocks[x,y];
+				if (ship.blocks[x, y, BlockLayer.Base] != null && Block.Is<Floor>(ship.blocks[x, y, BlockLayer.Base])) {
+					block = ship.blocks[x, y, BlockLayer.Base];
 					break;
 				}
 			}

@@ -10,7 +10,6 @@ public class BeamCannon : BlockType {
 	void Start() {
 		ship = transform.parent.gameObject.GetComponent<Ship>();
 		ps = GetComponent<ParticleSystem>();
-		block = ship.BlockAtWorldPos(transform.position);
 	}
 	
 	public void Fire() {		
