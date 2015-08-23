@@ -46,7 +46,9 @@ MonoBehaviour:
   scrapRequired: 30
   descriptionHeader: 
   descriptionBody: 
-  blockLayer: 0
+  blockLayer: 1
+  canRotate: 0
+  canFitInsideWall: 0
 --- !u!114 &11487552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -148,6 +150,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: supplyRate
       value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: blockLayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

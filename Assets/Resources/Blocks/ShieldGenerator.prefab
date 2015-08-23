@@ -120,10 +120,11 @@ MonoBehaviour:
   isComplexBlock: 1
   mass: 0
   scrapRequired: 30
-  powerConsumeRate: 0
   descriptionHeader: 
   descriptionBody: 
-  blockLayer: 0
+  blockLayer: 1
+  canRotate: 0
+  canFitInsideWall: 0
 --- !u!135 &13565164
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -229,6 +230,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: blockLayer
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

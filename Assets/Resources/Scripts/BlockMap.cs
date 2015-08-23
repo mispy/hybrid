@@ -36,6 +36,16 @@ public class BlockMap : PoolBehaviour {
 	public delegate void ChunkCreatedHandler(BlockChunk newChunk);
 	public event ChunkCreatedHandler OnChunkCreated;
 
+	public IEnumerable<MeshRenderer> Renderers {
+		get {
+			foreach (var chunk in baseTiles.AllChunks)
+				yield return chunk.renderer;
+
+			foreach (var chunk in topTiles.AllChunks)
+				yield return chunk.renderer;
+		}
+	}
+
 	public BlockMap() {
 		minX = 0;
 		minY = 0;
@@ -76,6 +86,7 @@ public class BlockMap : PoolBehaviour {
 		obj.SetActive(true);
 		topTiles = obj.GetComponent<TileLayer>();
 	} 
+
 
 	public IntVector3[] Neighbors(IntVector3 bp) {
 		return new IntVector3[] {

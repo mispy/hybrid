@@ -43,6 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consumeRate: 1
   isPowered: 0
+  isDynamic: 0
   availableProducers: []
 --- !u!114 &11452616
 MonoBehaviour:
@@ -60,7 +61,9 @@ MonoBehaviour:
   scrapRequired: 30
   descriptionHeader: 
   descriptionBody: 
-  blockLayer: 0
+  blockLayer: 1
+  canRotate: 0
+  canFitInsideWall: 0
 --- !u!212 &21249230
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -153,6 +156,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: consumeRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: blockLayer
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

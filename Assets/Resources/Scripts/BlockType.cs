@@ -26,4 +26,5 @@ public class BlockType : BlockComponent {
 	public int blockLayer = Block.baseLayer;
 
 	public bool canRotate = false;
+	public bool canFitInsideWall = false;
 }

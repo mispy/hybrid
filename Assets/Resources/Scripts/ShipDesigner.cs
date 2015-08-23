@@ -83,13 +83,34 @@ public class ShipDesigner : MonoBehaviour {
 		}
 	}
 
+	bool IsValidPlacement(IntVector3 targetBlockPos, BlueprintBlock cursorBlock) {
+		var currentBlock = designShip.blocks[targetBlockPos];
+		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
+
+		// Base layer blocks only go in empty space adjacent to an existing block
+		if (cursorBlock.type.blockLayer == Block.baseLayer && currentBlock == null) {
+			if (adjoiningBlock != null)
+				return true;
+		}
+
+		// Top layer blocks go on top of floor, or sometimes inside walls
+		if (cursorBlock.type.blockLayer == Block.topLayer && currentBlock != null) {
+			if (Block.Is<Floor>(currentBlock)) 
+				return true;
+			if (Block.Is<Wall>(currentBlock) && cursorBlock.type.canFitInsideWall)
+				return true;
+		}
+
+		return false;
+	}
+
 	void Update() {
 		var selectedType = MainUI.blockSelector.selectedType;
 		if (cursor.blocks[0,0].type != selectedType)
-			cursor.blocks[0,0] = new Block(selectedType);
+			cursor.blocks[0,0] = new BlueprintBlock(selectedType);
 
 		cursor.transform.position = Game.mousePos;
-		var cursorBlock = cursor.blocks[0,0];
+		var cursorBlock = (BlueprintBlock)cursor.blocks[0,0];
 		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
 		UpdateRotation(cursorBlock, targetBlockPos);
 
@@ -97,6 +118,16 @@ public class ShipDesigner : MonoBehaviour {
 		cursor.transform.position = new Vector3(worldPos.x, worldPos.y, designShip.transform.position.z-1);
 		cursor.transform.rotation = designShip.transform.rotation;
 
+		if (IsValidPlacement(targetBlockPos, cursorBlock)) {
+			foreach (var renderer in cursor.blocks.Renderers)
+				renderer.material.color = Color.green;
+		} else {
+			foreach (var renderer in cursor.blocks.Renderers)
+				renderer.material.color = Color.red;
+
+			return;
+		}
+		
 		if (EventSystem.current.IsPointerOverGameObject())
 			return;
 		
