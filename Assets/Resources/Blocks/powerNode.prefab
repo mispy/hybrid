@@ -10,7 +10,6 @@ GameObject:
   - 224: {fileID: 22400282}
   - 223: {fileID: 22340906}
   - 114: {fileID: 11481106}
-  - 114: {fileID: 11411054}
   m_Layer: 8
   m_Name: CanvasPowerBar
   m_TagString: Untagged
@@ -69,22 +68,6 @@ Transform:
   - {fileID: 22400282}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11411054
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 127076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
-  m_BlockingObjects: 0
-  m_BlockingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
 --- !u!114 &11421610
 MonoBehaviour:
   m_ObjectHideFlags: 1
