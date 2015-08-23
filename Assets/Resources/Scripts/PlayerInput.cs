@@ -26,9 +26,7 @@ public class PlayerInput : MonoBehaviour {
 		if (Input.GetKey(KeyCode.D))
 			bp.x += 1;
 		
-		var destBlock = crew.maglockShip.blocks[bp];
-		
-		if (destBlock == null || destBlock.CollisionLayer == Block.floorLayer) {
+		if (crew.maglockShip.blocks.CollisionLayer(bp) != Block.wallLayer) {
 			if (bp != currentBP && bp != crew.maglockMoveBlockPos) {
 				crew.MaglockMove(bp);
 			}

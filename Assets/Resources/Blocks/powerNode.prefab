@@ -30,7 +30,7 @@ GameObject:
   - 114: {fileID: 11477376}
   - 114: {fileID: 11485800}
   - 114: {fileID: 11421610}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: PowerNode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,6 +282,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canFitInsideWall
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -28,7 +28,7 @@ GameObject:
   - 212: {fileID: 21249656}
   - 114: {fileID: 11406974}
   - 114: {fileID: 11408290}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: TractorBeam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,6 +78,7 @@ MonoBehaviour:
   descriptionBody: 
   blockLayer: 0
   canRotate: 1
+  canFitInsideWall: 0
   beam: {fileID: 0}
   ship: {fileID: 0}
   captured: []
@@ -1263,6 +1264,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canRotate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

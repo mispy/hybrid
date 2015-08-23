@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 488952}
   - 212: {fileID: 21246848}
   - 114: {fileID: 11429582}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,12 +43,13 @@ MonoBehaviour:
   isComplexBlock: 0
   mass: .00100000005
   scrapRequired: 30
-  powerConsumeRate: 0
   descriptionHeader: '<size=16>Interior Wall</size>
 
     <color=grey>Structure</color>'
   descriptionBody: A lightly armored metal wall, used for enclosing rooms.
   blockLayer: 0
+  canRotate: 0
+  canFitInsideWall: 0
 --- !u!212 &21246848
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -84,7 +85,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: m_Layer
-      value: 8
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: complexBlock

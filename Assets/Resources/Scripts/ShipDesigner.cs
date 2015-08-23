@@ -46,7 +46,7 @@ public class ShipDesigner : MonoBehaviour {
 		designShip.blocks.DisableRendering();
 	}
 
-	Block FindAdjoiningBlock(Vector2 worldPos, IntVector3 blockPos) {
+	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
 		var neighborBlocks = new List<Block>();
 		foreach (var bp in designShip.blueprint.blocks.Neighbors(blockPos)) {
 			var block = designShip.blueprint.blocks[bp];
@@ -60,7 +60,7 @@ public class ShipDesigner : MonoBehaviour {
 		return neighborBlocks.OrderBy((block) => Vector2.Distance(worldPos, designShip.BlockToWorldPos(block.pos))).First();
 	}
 
-	void UpdateRotation(Block cursorBlock, IntVector3 targetBlockPos, Block adjoiningBlock) {
+	void UpdateRotation(Block cursorBlock, IntVector2 targetBlockPos, Block adjoiningBlock) {
 		if (!cursorBlock.type.canRotate || adjoiningBlock == null) return;
 		
 		Orientation ori;
@@ -83,11 +83,11 @@ public class ShipDesigner : MonoBehaviour {
 
 	bool CanFitInto(Block cursorBlock, Block existingBlock) {
 		// Base layer blocks only go in empty space adjacent to an existing block
-		if (cursorBlock.type.blockLayer == Block.baseLayer && existingBlock == null)
+		if (cursorBlock.layer == BlockLayer.Base && existingBlock == null)
 			return true;
 		
 		// Top layer blocks go on top of floor, or sometimes inside walls
-		if (cursorBlock.type.blockLayer == Block.topLayer && existingBlock != null) {
+		if (cursorBlock.layer == BlockLayer.Top && existingBlock != null) {
 			if (Block.Is<Floor>(existingBlock)) 
 				return true;
 			if (Block.Is<Wall>(existingBlock) && cursorBlock.type.canFitInsideWall)
@@ -97,7 +97,7 @@ public class ShipDesigner : MonoBehaviour {
 		return false;
 	}
 
-	bool IsValidPlacement(IntVector3 targetBlockPos, BlueprintBlock cursorBlock, Block adjoiningBlock) {
+	bool IsValidPlacement(IntVector2 targetBlockPos, BlueprintBlock cursorBlock, Block adjoiningBlock) {
 		var currentBlock = designShip.blocks[targetBlockPos];
 
 		if (adjoiningBlock == null) return false;
@@ -121,7 +121,6 @@ public class ShipDesigner : MonoBehaviour {
 		cursor.transform.position = Game.mousePos;
 		var cursorBlock = (BlueprintBlock)cursor.blocks[0,0];
 		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
-		targetBlockPos.z = cursorBlock.type.blockLayer;
 		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
 
 		UpdateRotation(cursorBlock, targetBlockPos, adjoiningBlock);
@@ -148,8 +147,8 @@ public class ShipDesigner : MonoBehaviour {
 			designShip.blueprint.blocks[targetBlockPos] = new BlueprintBlock(cursorBlock);
 			designShip.blocks[targetBlockPos] = new Block(cursorBlock);
 		} else if (Input.GetMouseButton(1)) {
-			designShip.blueprint.blocks.RemoveTop(targetBlockPos);
-			designShip.blocks.RemoveTop(targetBlockPos);
+			designShip.blueprint.blocks.RemoveSurface(targetBlockPos);
+			designShip.blocks.RemoveSurface(targetBlockPos);
 		}
 	}
 }

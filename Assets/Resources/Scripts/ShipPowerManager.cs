@@ -42,7 +42,7 @@ public class ShipPowerManager : MonoBehaviour {
 				if (producer.gameObject == receiver.gameObject)
 					continue;
 
-				if (IntVector3.Distance(producer.block.pos, receiver.block.pos) <= producer.supplyRadius) {
+				if (IntVector2.Distance(producer.block.pos, receiver.block.pos) <= producer.supplyRadius) {
 					receiver.availableProducers.Add(producer);
 				}
 			}

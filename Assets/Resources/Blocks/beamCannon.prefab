@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 445996}
   - 212: {fileID: 21261630}
   - 114: {fileID: 11463004}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: BeamCannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   descriptionBody: 
   blockLayer: 0
   canRotate: 1
+  canFitInsideWall: 0
   ps: {fileID: 0}
   ship: {fileID: 0}
 --- !u!212 &21261630
@@ -106,6 +107,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canRotate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

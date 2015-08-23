@@ -4,16 +4,20 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public enum BlockLayer {
+	Base = 0,
+	Top = 1
+}
+
+
 public class Block {
 	public static Dictionary<Type, BlockType> types = new Dictionary<Type, BlockType>();
 	public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
 	public static List<BlockType> allTypes = new List<BlockType>();
 	
-	public static int wallLayer;
+	public static int spaceLayer;
 	public static int floorLayer;
-
-	public static int baseLayer;
-	public static int topLayer;
+	public static int wallLayer;
 
 	public static GameObject wallColliderPrefab;
 	public static GameObject floorColliderPrefab;
@@ -45,11 +49,9 @@ public class Block {
 			type.tileable = Tile.tileables[type.GetType().Name];
 		}
 
-		Block.wallLayer = LayerMask.NameToLayer("Wall");
+		Block.spaceLayer = LayerMask.NameToLayer("Space");
 		Block.floorLayer = LayerMask.NameToLayer("Floor");				
-
-		Block.baseLayer = 0;
-		Block.topLayer = 1;
+		Block.wallLayer = LayerMask.NameToLayer("Wall");
 	}
 	
 	public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
@@ -133,7 +135,7 @@ public class Block {
 	}
 		
 	public bool IsActive {
-		get { return ship != null && ship.blocks[pos] == this; }
+		get { return ship != null && ship.blocks[pos, layer] == this; }
 	}
 
 	public int CollisionLayer {
@@ -187,13 +189,12 @@ public class Block {
 
 	public float scrapContent;
 
-	public int collisionLayer;
-
 	// these attributes relate to where the block is, rather
 	// than what it does
 	public Ship ship;
 	public int index;
-	public IntVector3 pos = new IntVector3();
+	public IntVector2 pos = new IntVector2();
+	public BlockLayer layer;
 	public Orientation orientation = Orientation.up;
 
 	// relative to current chunk
@@ -220,13 +221,13 @@ public class Block {
 	public Block(BlockType type) {
 		this.type = type;
 		this.scrapContent = type.scrapRequired;
+		this.layer = type.blockLayer;
 	}
 
 	// copy constructor
-	public Block(Block block) {
+	public Block(Block block) : this(block.type) {
 		this.type = block.type;
 		this.orientation = block.orientation;
-		this.scrapContent = block.scrapContent;
 	}
 
 	public Block(BlueprintBlock blue) {

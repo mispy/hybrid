@@ -65,7 +65,7 @@ public class TileLayer : MonoBehaviour {
 		}
 	}
 	
-	public Tile this[IntVector3 bp] {
+	public Tile this[IntVector2 bp] {
 		get {
 			var trueX = centerTileX + bp.x;
 			var trueY = centerTileY + bp.y;
@@ -114,7 +114,7 @@ public class TileLayer : MonoBehaviour {
 	}
 	
 	public Tile this[int x, int y] {
-		get { return this[new IntVector3(x, y)]; }
-		set { this[new IntVector3(x, y)] = value; }
+		get { return this[new IntVector2(x, y)]; }
+		set { this[new IntVector2(x, y)] = value; }
 	}
 }

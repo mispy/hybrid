@@ -29,7 +29,7 @@ GameObject:
   - 4: {fileID: 438110}
   - 212: {fileID: 21275616}
   - 114: {fileID: 11439228}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: ShieldGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,6 +234,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: blockLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -23,7 +23,7 @@ public class BlockType : BlockComponent {
 
 	public Tileable tileable;
 
-	public int blockLayer = Block.baseLayer;
+	public BlockLayer blockLayer;
 
 	public bool canRotate = false;
 	public bool canFitInsideWall = false;

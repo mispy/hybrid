@@ -25,7 +25,6 @@ public class BlockMap : PoolBehaviour {
 	public TileLayer topTiles;
 
 	public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
-	public Dictionary<IntVector3, bool> edgeCache = new Dictionary<IntVector3, bool>();
 
 	public delegate void BlockAddedHandler(Block newBlock);
 	public delegate void BlockRemovedHandler(Block oldBlock);
@@ -88,64 +87,68 @@ public class BlockMap : PoolBehaviour {
 	} 
 
 
-	public IntVector3[] Neighbors(IntVector3 bp) {
-		return new IntVector3[] {
-			new IntVector3(bp.x-1, bp.y),
-			new IntVector3(bp.x+1, bp.y),
-	 		new IntVector3(bp.x, bp.y-1),
-			new IntVector3(bp.x, bp.y+1)
+	public IntVector2[] Neighbors(IntVector2 bp) {
+		return new IntVector2[] {
+			new IntVector2(bp.x-1, bp.y),
+			new IntVector2(bp.x+1, bp.y),
+	 		new IntVector2(bp.x, bp.y-1),
+			new IntVector2(bp.x, bp.y+1)
 		};
 	}
 
-	public IntVector3[] NeighborsWithDiagonal(IntVector3 bp) {
-		return new IntVector3[] {
-			new IntVector3(bp.x-1, bp.y),
-			new IntVector3(bp.x+1, bp.y),
-			new IntVector3(bp.x, bp.y-1),
-			new IntVector3(bp.x, bp.y+1),
+	public IntVector2[] NeighborsWithDiagonal(IntVector2 bp) {
+		return new IntVector2[] {
+			new IntVector2(bp.x-1, bp.y),
+			new IntVector2(bp.x+1, bp.y),
+			new IntVector2(bp.x, bp.y-1),
+			new IntVector2(bp.x, bp.y+1),
 
-			new IntVector3(bp.x-1, bp.y-1),
-			new IntVector3(bp.x-1, bp.y+1),
-			new IntVector3(bp.x+1, bp.y-1),
-			new IntVector3(bp.x+1, bp.y+1)
+			new IntVector2(bp.x-1, bp.y-1),
+			new IntVector2(bp.x-1, bp.y+1),
+			new IntVector2(bp.x+1, bp.y-1),
+			new IntVector2(bp.x+1, bp.y+1)
 		};
 	}
 
-	public bool IsEdge(IntVector3 bp) {
-		Profiler.BeginSample("IsEdge");
-		
-		var ret = false;
-		var block = this[bp];
-		if (block != null) {
-			foreach (var neighbor in Neighbors(bp)) {
-				var other = this[neighbor];
-				if (other == null || other.CollisionLayer != block.CollisionLayer) {
-					ret = true;
-				}
-			}
+	public bool IsCollisionEdge(IntVector2 bp) {
+		var collisionLayer = CollisionLayer(bp);
+
+		// we don't put colliders in empty space
+		if (collisionLayer == Block.spaceLayer)
+			return false;
+
+		foreach (var neighbor in Neighbors(bp)) {
+			if (CollisionLayer(neighbor) != collisionLayer)
+				return true;
 		}
-		
-		Profiler.EndSample();
-		return ret;
+
+		return false;
 	}
 
-	
-	public bool IsCollisionEdge(IntVector3 bp) {
-		Profiler.BeginSample("IsEdge");
+	public int CollisionLayer(IntVector2 bp) {
+		var topBlock = this[bp, BlockLayer.Top];
+		var baseBlock = this[bp, BlockLayer.Base];
 
-		var ret = false;
-		var block = this[bp];
-		if (block != null) {
-			foreach (var neighbor in Neighbors(bp)) {
-				var other = this[neighbor];
-				if (other == null || other.CollisionLayer != block.CollisionLayer) {
-					ret = true;
-				}
-			}
-		}
+		//if (baseBlock != null)
+		//	Debug.LogFormat("{0} {1}", baseBlock.type.name, baseBlock.collisionLayer);
 
-		Profiler.EndSample();
-		return ret;
+		if (topBlock == null && baseBlock == null)
+			return Block.spaceLayer;
+		if (topBlock == null)
+			return baseBlock.CollisionLayer;
+		if (baseBlock == null)
+			return topBlock.CollisionLayer;
+		
+		return Math.Max(baseBlock.CollisionLayer, topBlock.CollisionLayer);
+	}
+
+	public Block Topmost(IntVector2 bp) {
+		var topBlock = this[bp, BlockLayer.Top];
+		var baseBlock = this[bp, BlockLayer.Base];
+
+		if (topBlock != null) 
+			return topBlock;
+		return baseBlock;
 	}
 
 	public IEnumerable<Block> Find<T>() {
@@ -215,9 +218,11 @@ public class BlockMap : PoolBehaviour {
 		return chunk;
 	}
 
-	private void SetChunkedValue(int x, int y, int layer, Block block) {
-		BlockChunk[,] chunks = baseChunks;
-		if (layer == Block.topLayer)
+	private void SetChunkedValue(int x, int y, BlockLayer layer, Block block) {
+		BlockChunk[,] chunks;
+		if (layer == BlockLayer.Base)
+			chunks = baseChunks;
+		else
 			chunks = topChunks;
 
 		var trueX = centerBlockX + x;
@@ -234,17 +239,11 @@ public class BlockMap : PoolBehaviour {
 		}
 
 		chunk[localX, localY] = block;
-
-		var bp = new IntVector3(x, y, Block.baseLayer);
-		edgeCache[bp] = IsEdge(bp);
-		foreach (var pos in Neighbors(bp)) {
-			edgeCache[pos] = IsEdge(pos);
-		}
 	}
 
-	private void SetTileValue(int x, int y, int layer, Tile tile) {
+	private void SetTileValue(int x, int y, BlockLayer layer, Tile tile) {
 		var tileLayer = baseTiles;
-		if (layer == Block.topLayer)
+		if (layer == BlockLayer.Top)
 			tileLayer = topTiles;
 
 		tileLayer[x, y] = tile;
@@ -253,8 +252,8 @@ public class BlockMap : PoolBehaviour {
 	public void RemoveBlock(Block block) {
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
-				SetChunkedValue(block.pos.x + i, block.pos.y + j, block.pos.z, null);
-				SetTileValue(block.pos.x + i, block.pos.y + j, block.pos.z, null);
+				SetChunkedValue(block.pos.x + i, block.pos.y + j, block.layer, null);
+				SetTileValue(block.pos.x + i, block.pos.y + j, block.layer, null);
 			}
 		}
 
@@ -266,13 +265,13 @@ public class BlockMap : PoolBehaviour {
 		if (OnBlockRemoved != null) OnBlockRemoved(block);		
 	}
 
-	public void AssignBlock(Block block, IntVector3 bp) {
+	public void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
 		block.pos = bp;
 
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
-				SetChunkedValue(bp.x + i, bp.y + j, bp.z, block);
-				SetTileValue(bp.x + i, bp.y + j, bp.z, block.type.tileable.GetRotatedTile(i, j, block.orientation));
+				SetChunkedValue(bp.x + i, bp.y + j, layer, block);
+				SetTileValue(bp.x + i, bp.y + j, layer, block.type.tileable.GetRotatedTile(i, j, block.orientation));
 			}
 		}
 	
@@ -280,21 +279,23 @@ public class BlockMap : PoolBehaviour {
 		if (OnBlockAdded != null) OnBlockAdded(block);
 	}
 
-	public void RemoveTop(IntVector3 bp) {
-		var top = this[bp.x, bp.y, Block.topLayer];
+	public void RemoveSurface(IntVector2 bp) {
+		var top = this[bp.x, bp.y, BlockLayer.Top];
 		if (top != null)
 			RemoveBlock(top);
 		else {
-			var block = this[bp.x, bp.y, Block.baseLayer];
+			var block = this[bp.x, bp.y, BlockLayer.Base];
 			if (block != null) RemoveBlock(block);
 		}
 	}
 
-	public Block this[IntVector3 bp] {
+	public Block this[IntVector2 bp, BlockLayer layer] {
 		get {
-			BlockChunk[,] chunks = topChunks;
-			if (bp.z == Block.baseLayer)
+			BlockChunk[,] chunks;
+			if (layer == BlockLayer.Base)
 				chunks = baseChunks;
+			else
+				chunks = topChunks;
 
 			var trueX = centerBlockX + bp.x;
 			var trueY = centerBlockY + bp.y;
@@ -326,46 +327,60 @@ public class BlockMap : PoolBehaviour {
 
 			for (var i = 0; i < width; i++) {
 				for (var j = 0; j < height; j++) {
-					var current = this[new IntVector3(bp.x + i, bp.y + j, bp.z)];
+					var current = this[new IntVector2(bp.x + i, bp.y + j), layer];
 					if (current != null) RemoveBlock(current);
 				}
 			}
 
 			if (value != null)
-				AssignBlock(value, bp);
+				AssignBlock(value, bp, layer);
 
 			Profiler.EndSample();	
 		}
 	}
 
+	public Block this[int x, int y, BlockLayer layer] {
+		get { return this[new IntVector2(x, y), layer]; }
+		set { this[new IntVector2(x, y), layer] = value; }
+	}
+
+	public Block this[IntVector2 bp] {		
+		get {
+			return this[bp, BlockLayer.Base];
+		}
+
+		set {
+			if (value == null)
+				throw new ArgumentException("Can't infer block layer for null block; must specify");
+
+			this[bp, value.layer] = value;
+		}
+	}
+
 	public Block this[int x, int y] {
-		get { return this[new IntVector3(x, y, Block.baseLayer)]; }
-		set { this[new IntVector3(x, y, Block.baseLayer)] = value; }
-	}
-	public Block this[int x, int y, int layer] {
-		get { return this[new IntVector3(x, y, layer)]; }
-		set { this[new IntVector3(x, y, layer)] = value; }
+		get { return this[new IntVector2(x, y)]; }
+		set { this[new IntVector2(x, y)] = value; }
 	}
 
-	public bool IsPassable(IntVector3 bp) {
-		return (this[bp] == null || this[bp].CollisionLayer == Block.floorLayer);
+	public bool IsPassable(IntVector2 bp) {
+		return CollisionLayer(bp) == Block.floorLayer;
 	}
 
-	public List<IntVector3> PathBetween(IntVector3 start, IntVector3 end) {
+	public List<IntVector2> PathBetween(IntVector2 start, IntVector2 end) {
 		//Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
 		// nodes that have already been analyzed and have a path from the start to them
-		var closedSet = new List<IntVector3>();
+		var closedSet = new List<IntVector2>();
 		// nodes that have been identified as a neighbor of an analyzed node, but have 
 		// yet to be fully analyzed
-		var openSet = new List<IntVector3> { start };
+		var openSet = new List<IntVector2> { start };
 		// a dictionary identifying the optimal origin Cell to each node. this is used 
 		// to back-track from the end to find the optimal path
-		var cameFrom = new Dictionary<IntVector3, IntVector3>();
+		var cameFrom = new Dictionary<IntVector2, IntVector2>();
 		// a dictionary indicating how far each analyzed node is from the start
-		var currentDistance = new Dictionary<IntVector3, int>();
+		var currentDistance = new Dictionary<IntVector2, int>();
 		// a dictionary indicating how far it is expected to reach the end, if the path 
 		// travels through the specified node. 
-		var predictedDistance = new Dictionary<IntVector3, float>();
+		var predictedDistance = new Dictionary<IntVector2, float>();
 		
 		// initialize the start node as having a distance of 0, and an estmated distance 
 		// of y-distance + x-distance, which is the optimal path in a square grid that 
@@ -445,9 +460,9 @@ public class BlockMap : PoolBehaviour {
 	/// <param name="cameFrom">A list of nodes and the origin to that node.</param>
 	/// <param name="current">The destination node being sought out.</param>
 	/// <returns>The shortest path from the start to the destination node.</returns>
-	public List<IntVector3> ReconstructPath(Dictionary<IntVector3, IntVector3> cameFrom, IntVector3 current) {
+	public List<IntVector2> ReconstructPath(Dictionary<IntVector2, IntVector2> cameFrom, IntVector2 current) {
 		if (!cameFrom.Keys.Contains(current)) {
-			return new List<IntVector3> { current };
+			return new List<IntVector2> { current };
 		}
 		
 		var path = ReconstructPath(cameFrom, cameFrom[current]);

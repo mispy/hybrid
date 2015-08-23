@@ -13,11 +13,11 @@ public class Generate : MonoBehaviour {
 
 		var allBlocks = srcShip.blocks.AllBlocks.ToList();
 		var startBlock = allBlocks[Random.Range(0, allBlocks.Count-1)];
-		if (startBlock.pos.z != Block.baseLayer)
-			startBlock = srcShip.blocks[startBlock.pos.x, startBlock.pos.y, Block.baseLayer];
+		if (startBlock.layer != BlockLayer.Base)
+			startBlock = srcShip.blocks[startBlock.pos, BlockLayer.Base];
 
 		frag.blocks[startBlock.pos] = new Block(startBlock);
-		var edges = new List<IntVector3>();
+		var edges = new List<IntVector2>();
 		edges.Add(startBlock.pos);
 
 		while (frag.size < size) {
@@ -25,8 +25,8 @@ public class Generate : MonoBehaviour {
 			edges.Remove(edge);
 
 			foreach (var neighborPos in frag.blocks.Neighbors(edge)) {
-				if (frag.blocks[neighborPos] == null) {
-					var srcBlock = srcShip.blocks[neighborPos];
+				if (frag.blocks[neighborPos, BlockLayer.Base] == null) {
+					var srcBlock = srcShip.blocks[neighborPos, BlockLayer.Base];
 					if (srcBlock != null) {
 						frag.blocks[neighborPos] = new Block(srcBlock);
 						edges.Add(neighborPos);
@@ -116,7 +116,7 @@ public class Generate : MonoBehaviour {
 		shipObj.SetActive(true);
 
 /*		var crewObj = Pool.For("Crew").TakeObject();
-		crewObj.transform.position = ship.BlockToWorldPos(new IntVector3(0, 0));
+		crewObj.transform.position = ship.BlockToWorldPos(new IntVector2(0, 0));
 		crewObj.SetActive(true);
 		crewObj.GetComponentInChildren<CrewMind>().myShip = ship;*/
 

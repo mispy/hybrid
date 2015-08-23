@@ -28,7 +28,7 @@ GameObject:
   - 212: {fileID: 21242534}
   - 114: {fileID: 11493866}
   - 114: {fileID: 11495430}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,6 +78,7 @@ MonoBehaviour:
   descriptionBody: 
   blockLayer: 0
   canRotate: 1
+  canFitInsideWall: 0
   ps: {fileID: 0}
   ship: {fileID: 0}
   power: {fileID: 0}
@@ -1234,6 +1235,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canRotate
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

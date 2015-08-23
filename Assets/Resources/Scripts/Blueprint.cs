@@ -28,10 +28,6 @@ public class Blueprint : PoolBehaviour {
 		blocks.topTiles.OnChunkCreated += OnChunkCreated;
 	}
 
-	public void SetBlock(IntVector3 blockPos, BlueprintBlock block) {
-		blocks[blockPos] = block;
-	}
-
 	public void OnBlockAdded(Block newBlock) {
 		newBlock.ship = ship;
 	}
@@ -41,7 +37,7 @@ public class Blueprint : PoolBehaviour {
 	}
 
 	public Block BlockAtWorldPos(Vector2 worldPos) {
-		var block = blocks[ship.WorldToBlockPos(worldPos)];
+		var block = blocks.Topmost(ship.WorldToBlockPos(worldPos));
 		return block;
 	}
 

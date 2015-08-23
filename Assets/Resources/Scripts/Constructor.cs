@@ -85,10 +85,10 @@ public class Constructor : MonoBehaviour
 			builder.scrapAvailable += change;
 
 			if (targetBlock.scrapContent <= 0) {
-				targetBlock.ship.blocks[targetBlock.pos] = null;
+				targetBlock.ship.blocks[targetBlock.pos, targetBlock.layer] = null;
 			} else {
 				// force a block update
-				targetBlue.ship.blocks[targetBlue.pos] = targetBlock;
+				targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] = targetBlock;
 			}
 		} else {
 			if (targetBlock == null) { // gotta make a new block
@@ -103,7 +103,7 @@ public class Constructor : MonoBehaviour
 				}
 			}
 
-			targetBlue.ship.blocks[targetBlue.pos] = new Block(targetBlock);
+			targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] = new Block(targetBlock);
 		}
 	}
 
@@ -126,8 +126,8 @@ public class Constructor : MonoBehaviour
 		if (ship == null) return;
 
 		var blockPos = ship.WorldToBlockPos(hitPos);
-		targetBlue = (BlueprintBlock)ship.blueprint.blocks[blockPos];
-		targetBlock = ship.blocks[blockPos];
+		targetBlue = (BlueprintBlock)ship.blueprint.blocks.Topmost(blockPos);
+		targetBlock = ship.blocks.Topmost(blockPos);
 
 		UpdateBuild();
 		//text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);

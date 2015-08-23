@@ -11,7 +11,7 @@ GameObject:
   - 212: {fileID: 21201958}
   - 114: {fileID: 11422968}
   - 114: {fileID: 11487552}
-  m_Layer: 8
+  m_Layer: 16
   m_Name: PowerGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,6 +154,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: blockLayer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 16
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

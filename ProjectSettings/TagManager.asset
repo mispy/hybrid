@@ -15,7 +15,7 @@ TagManager:
   - UI
   - 
   - 
-  - Wall
+  - Space
   - Floor
   - Crew
   - Background
@@ -23,7 +23,7 @@ TagManager:
   - Item
   - Projectile
   - InteriorProjectile
-  - 
+  - Wall
   - 
   - 
   - 

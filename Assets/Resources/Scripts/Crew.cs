@@ -20,8 +20,8 @@ public class Crew : MonoBehaviour {
 	// Crew can be maglocked to a ship even if they don't have a current block
 	// bc they attach to the sides as well
 	public Ship maglockShip = null;
-	public IntVector3 currentBlockPos;
-	public IntVector3 maglockMoveBlockPos;
+	public IntVector2 currentBlockPos;
+	public IntVector2 maglockMoveBlockPos;
 	public Block currentBlock = null;
 
 	public Block controlConsole = null;
@@ -53,7 +53,7 @@ public class Crew : MonoBehaviour {
 		Crew.all.Remove(this);
 	}
 
-	public void MaglockMove(IntVector3 bp) {
+	public void MaglockMove(IntVector2 bp) {
 		maglockMoveBlockPos = bp;
 	}
 
@@ -88,11 +88,11 @@ public class Crew : MonoBehaviour {
 	bool CanMaglock(Ship ship) {
 		var blockPos = ship.WorldToBlockPos(transform.position);
 
-		if (ship.blocks[blockPos] != null)
+		if (ship.blocks[blockPos, BlockLayer.Base] != null)
 			return true;
 
 		foreach (var bp in ship.blocks.NeighborsWithDiagonal(blockPos)) {
-			if (ship.blocks[bp] != null)
+			if (ship.blocks[bp, BlockLayer.Base] != null)
 				return true;
 		}
 
@@ -137,7 +137,7 @@ public class Crew : MonoBehaviour {
 
 		if (maglockShip != null) {
 			currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
-			currentBlock = maglockShip.blocks[currentBlockPos];
+			currentBlock = maglockShip.blocks[currentBlockPos, BlockLayer.Base];
 		}
 
 		if (maglockShip != null)
