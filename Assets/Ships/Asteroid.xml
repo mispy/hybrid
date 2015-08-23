@@ -2,28 +2,28 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>848.8654</x>
-    <y>226.071045</y>
+    <x>-0.239724576</x>
+    <y>-0.221625164</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.0121723432</z>
-    <w>0.9999259</w>
+    <z>0.0285359286</z>
+    <w>0.999592841</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>1.39488232</z>
+      <z>3.27042055</z>
     </eulerAngles>
   </rotation>
   <velocity>
-    <x>-1.33832955</x>
-    <y>-1.23275125</y>
+    <x>0</x>
+    <y>0</y>
   </velocity>
   <angularVelocity>
     <x>0</x>
     <y>0</y>
-    <z>0.182086334</z>
+    <z>0</z>
   </angularVelocity>
   <blocks>
     <BlockData>
@@ -653,14 +653,14 @@
       <x>-2</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-2</x>
-      <y>-9</y>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -727,17 +727,17 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
+      <x>-1</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>-9</y>
+      <x>-1</x>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -833,6 +833,20 @@
     </BlockData>
     <BlockData>
       <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
       <y>-3</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
@@ -843,6 +857,20 @@
       <y>-11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1843,14 +1871,14 @@
       <x>1</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
-      <y>-9</y>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1924,17 +1952,17 @@
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
-      <x>1</x>
+      <x>2</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>1</x>
-      <y>-9</y>
+      <x>2</x>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2590,6 +2618,20 @@
     </BlockData>
     <BlockData>
       <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
       <y>-5</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
@@ -2600,6 +2642,20 @@
       <y>-11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4246,14 +4302,14 @@
       <x>-2</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-2</x>
-      <y>-9</y>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4320,17 +4376,17 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
+      <x>-1</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>-9</y>
+      <x>-1</x>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4426,6 +4482,20 @@
     </BlockData>
     <BlockData>
       <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
       <y>-3</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
@@ -4436,6 +4506,20 @@
       <y>-11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5436,14 +5520,14 @@
       <x>1</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
-      <y>-9</y>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5517,17 +5601,17 @@
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
-      <x>1</x>
+      <x>2</x>
       <y>-9</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>1</x>
-      <y>-9</y>
+      <x>2</x>
+      <y>-8</y>
       <layer>0</layer>
-      <typeName>PowerGenerator</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -6183,6 +6267,20 @@
     </BlockData>
     <BlockData>
       <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
       <y>-5</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
@@ -6193,6 +6291,20 @@
       <y>-11</y>
       <layer>1</layer>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-9</y>
+      <layer>1</layer>
+      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>

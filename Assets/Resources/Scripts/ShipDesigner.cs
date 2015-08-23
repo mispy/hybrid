@@ -60,9 +60,7 @@ public class ShipDesigner : MonoBehaviour {
 		return neighborBlocks.OrderBy((block) => Vector2.Distance(worldPos, designShip.BlockToWorldPos(block.pos))).First();
 	}
 
-	void UpdateRotation(Block cursorBlock, IntVector3 targetBlockPos) {
-		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
-
+	void UpdateRotation(Block cursorBlock, IntVector3 targetBlockPos, Block adjoiningBlock) {
 		if (!cursorBlock.type.canRotate || adjoiningBlock == null) return;
 		
 		Orientation ori;
@@ -83,25 +81,36 @@ public class ShipDesigner : MonoBehaviour {
 		}
 	}
 
-	bool IsValidPlacement(IntVector3 targetBlockPos, BlueprintBlock cursorBlock) {
-		var currentBlock = designShip.blocks[targetBlockPos];
-		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
-
+	bool CanFitInto(Block cursorBlock, Block existingBlock) {
 		// Base layer blocks only go in empty space adjacent to an existing block
-		if (cursorBlock.type.blockLayer == Block.baseLayer && currentBlock == null) {
-			if (adjoiningBlock != null)
-				return true;
-		}
-
+		if (cursorBlock.type.blockLayer == Block.baseLayer && existingBlock == null)
+			return true;
+		
 		// Top layer blocks go on top of floor, or sometimes inside walls
-		if (cursorBlock.type.blockLayer == Block.topLayer && currentBlock != null) {
-			if (Block.Is<Floor>(currentBlock)) 
+		if (cursorBlock.type.blockLayer == Block.topLayer && existingBlock != null) {
+			if (Block.Is<Floor>(existingBlock)) 
 				return true;
-			if (Block.Is<Wall>(currentBlock) && cursorBlock.type.canFitInsideWall)
+			if (Block.Is<Wall>(existingBlock) && cursorBlock.type.canFitInsideWall)
 				return true;
 		}
 
 		return false;
+	}
+
+	bool IsValidPlacement(IntVector3 targetBlockPos, BlueprintBlock cursorBlock, Block adjoiningBlock) {
+		var currentBlock = designShip.blocks[targetBlockPos];
+
+		if (adjoiningBlock == null) return false;
+		
+		for (var i = 0; i < cursorBlock.Width; i++) {
+			for (var j = 0; j < cursorBlock.Height; j++) {
+				var block = designShip.blocks[targetBlockPos.x+i, targetBlockPos.y+j];
+				if (!CanFitInto(cursorBlock, block))
+					return false;
+			}
+		}
+		
+		return true;
 	}
 
 	void Update() {
@@ -112,26 +121,30 @@ public class ShipDesigner : MonoBehaviour {
 		cursor.transform.position = Game.mousePos;
 		var cursorBlock = (BlueprintBlock)cursor.blocks[0,0];
 		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
-		UpdateRotation(cursorBlock, targetBlockPos);
+		targetBlockPos.z = cursorBlock.type.blockLayer;
+		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
+
+		UpdateRotation(cursorBlock, targetBlockPos, adjoiningBlock);
 
 		var worldPos = designShip.BlockToWorldPos(targetBlockPos);
 		cursor.transform.position = new Vector3(worldPos.x, worldPos.y, designShip.transform.position.z-1);
 		cursor.transform.rotation = designShip.transform.rotation;
 
-		if (IsValidPlacement(targetBlockPos, cursorBlock)) {
+
+		var isValid = IsValidPlacement(targetBlockPos, cursorBlock, adjoiningBlock);
+
+		if (isValid) {
 			foreach (var renderer in cursor.blocks.Renderers)
 				renderer.material.color = Color.green;
 		} else {
 			foreach (var renderer in cursor.blocks.Renderers)
 				renderer.material.color = Color.red;
-
-			return;
 		}
 		
 		if (EventSystem.current.IsPointerOverGameObject())
 			return;
 		
-		if (Input.GetMouseButton(0)) {			
+		if (Input.GetMouseButton(0) && isValid) {			
 			designShip.blueprint.blocks[targetBlockPos] = new BlueprintBlock(cursorBlock);
 			designShip.blocks[targetBlockPos] = new Block(cursorBlock);
 		} else if (Input.GetMouseButton(1)) {
