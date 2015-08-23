@@ -125,7 +125,7 @@ public class ShipDesigner : MonoBehaviour {
 		var cursorBlock = (BlueprintBlock)cursor.blocks.Topmost(bp);
 		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
 		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
-
+			
 		UpdateRotation(cursorBlock, targetBlockPos, adjoiningBlock);
 
 		var worldPos = designShip.BlockToWorldPos(targetBlockPos);
