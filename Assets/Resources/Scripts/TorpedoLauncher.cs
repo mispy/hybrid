@@ -52,8 +52,4 @@ public class TorpedoLauncher : BlockType {
 			Physics.IgnoreCollision(mcol, ship.shields.GetComponent<Collider>(), true);
 		}
 	}
-	
-	void Update() {
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-	}
 }
