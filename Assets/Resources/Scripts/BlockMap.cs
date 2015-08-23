@@ -346,8 +346,10 @@ public class BlockMap : PoolBehaviour {
 
 	public IEnumerable<Block> this[IntVector2 bp] {		
 		get {
-			yield return this[bp, BlockLayer.Base];
-			yield return this[bp, BlockLayer.Top];
+			var baseBlock = this[bp, BlockLayer.Base];
+			var topBlock = this[bp, BlockLayer.Top];
+			if (baseBlock != null) yield return baseBlock;
+			if (topBlock != null) yield return topBlock;
 		}
 	}
 

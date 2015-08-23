@@ -98,13 +98,12 @@ public class ShipDesigner : MonoBehaviour {
 	}
 
 	bool IsValidPlacement(IntVector2 targetBlockPos, BlueprintBlock cursorBlock, Block adjoiningBlock) {
-		var currentBlock = designShip.blocks[targetBlockPos];
-
 		if (adjoiningBlock == null) return false;
 		
 		for (var i = 0; i < cursorBlock.Width; i++) {
 			for (var j = 0; j < cursorBlock.Height; j++) {
-				foreach (var block in designShip.blocks[targetBlockPos.x+i, targetBlockPos.y+j]) {
+				foreach (var block in designShip.blueprint.blocks[targetBlockPos.x+i, targetBlockPos.y+j]) {
+					//Debug.LogFormat("{0} {1} {2}", cursorBlock.type.name, block.type.name, CanFitInto(cursorBlock, block));
 					if (!CanFitInto(cursorBlock, block))
 						return false;
 				}
@@ -132,8 +131,7 @@ public class ShipDesigner : MonoBehaviour {
 		var worldPos = designShip.BlockToWorldPos(targetBlockPos);
 		cursor.transform.position = new Vector3(worldPos.x, worldPos.y, designShip.transform.position.z-1);
 		cursor.transform.rotation = designShip.transform.rotation;
-
-
+		
 		var isValid = IsValidPlacement(targetBlockPos, cursorBlock, adjoiningBlock);
 
 		if (isValid) {
