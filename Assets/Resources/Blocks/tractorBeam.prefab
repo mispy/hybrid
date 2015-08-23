@@ -77,6 +77,7 @@ MonoBehaviour:
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
+  canRotate: 1
   beam: {fileID: 0}
   ship: {fileID: 0}
   captured: []
@@ -95,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consumeRate: 1
   isPowered: 0
+  isDynamic: 0
   availableProducers: []
 --- !u!198 &19840154
 ParticleSystem:
@@ -1256,6 +1258,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: consumeRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canRotate
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

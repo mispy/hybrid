@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-
 public class ShipDesigner : MonoBehaviour {
 	public Ship designShip;
 	public Blueprint cursor;
@@ -61,82 +60,52 @@ public class ShipDesigner : MonoBehaviour {
 		return neighborBlocks.OrderBy((block) => Vector2.Distance(worldPos, designShip.BlockToWorldPos(block.pos))).First();
 	}
 
-	public void PlaceBlock(Vector2 worldPos, Block adjoiningBlock = null) {
-		if (designShip == null || (adjoiningBlock == null && designShip.blueprint.blocks[designShip.WorldToBlockPos(worldPos)] == null)) {
-			// new ship!
-			var shipObj = Pool.For("Ship").TakeObject();
-			SetDesignShip(shipObj.GetComponent<Ship>());
-			shipObj.SetActive(true);
-		}
+	void UpdateRotation(Block cursorBlock, IntVector3 targetBlockPos) {
+		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
 
-		var blockPos = designShip.WorldToBlockPos(worldPos);
-		var block = new BlueprintBlock(cursor.blocks[0,0].type);
-		blockPos.z = block.type.blockLayer;
-
-		block.orientation = cursor.blocks[0,0].orientation;
-		designShip.blueprint.SetBlock(blockPos, block);
-		designShip.SetBlock(blockPos, block.type);
-	}
-
-
-	void UpdateWithShip() {
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
-		var blockPos = designShip.WorldToBlockPos(pz);
-		var adjoiningBlock = FindAdjoiningBlock(pz, blockPos);
+		if (!cursorBlock.type.canRotate || adjoiningBlock == null) return;
 		
-		cursor.transform.position = pz;
-		if (adjoiningBlock != null) {
-			cursor.transform.position = designShip.BlockToWorldPos(blockPos);
-			cursor.transform.rotation = designShip.transform.rotation;
-			
-			Orientation ori;
-			if (blockPos.x < adjoiningBlock.pos.x) {
-				ori = Orientation.left;
-			} else if (blockPos.x > adjoiningBlock.pos.x) {
-				ori = Orientation.right;
-			} else if (blockPos.y > adjoiningBlock.pos.y) {
-				ori = Orientation.up;
-			} else {
-				ori = Orientation.down;
-			}
-			
-			if (ori != cursor.blocks[0, 0].orientation) {
-				var block = cursor.blocks[0, 0];
-				block.orientation = ori;
-				cursor.blocks[0, 0] = block;
-			}
+		Orientation ori;
+		if (targetBlockPos.x < adjoiningBlock.pos.x) {
+			ori = Orientation.left;
+		} else if (targetBlockPos.x > adjoiningBlock.pos.x) {
+			ori = Orientation.right;
+		} else if (targetBlockPos.y > adjoiningBlock.pos.y) {
+			ori = Orientation.up;
+		} else {
+			ori = Orientation.down;
 		}
-
-		if (EventSystem.current.IsPointerOverGameObject())
-			return;
-
-		if (Input.GetMouseButton(0)) {			
-			PlaceBlock(pz, adjoiningBlock);
-		} else if (Input.GetMouseButton(1)) {
-			designShip.blueprint.blocks.RemoveTop(blockPos);
-			designShip.blocks.RemoveTop(blockPos);
+		
+		if (ori != cursorBlock.orientation) {
+			var block = new BlueprintBlock(cursorBlock);
+			block.orientation = ori;
+			cursor.blocks[0, 0] = block;
 		}
 	}
 
-	void UpdateNoShip() {
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-		cursor.transform.position = pz;
-
-		if (Input.GetMouseButtonDown(0)) {
-			PlaceBlock(pz);
-		}
-	}
-
-	void Update() {		
+	void Update() {
 		var selectedType = MainUI.blockSelector.selectedType;
 		if (cursor.blocks[0,0].type != selectedType)
 			cursor.blocks[0,0] = new Block(selectedType);
 
-		if (designShip != null) {
-			UpdateWithShip();
-		} else {
-			UpdateNoShip();
+		cursor.transform.position = Game.mousePos;
+		var cursorBlock = cursor.blocks[0,0];
+		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
+		UpdateRotation(cursorBlock, targetBlockPos);
+
+		var worldPos = designShip.BlockToWorldPos(targetBlockPos);
+		cursor.transform.position = new Vector3(worldPos.x, worldPos.y, designShip.transform.position.z-1);
+		cursor.transform.rotation = designShip.transform.rotation;
+
+		if (EventSystem.current.IsPointerOverGameObject())
+			return;
+		
+		if (Input.GetMouseButton(0)) {			
+			designShip.blueprint.blocks[targetBlockPos] = new BlueprintBlock(cursorBlock);
+			designShip.blocks[targetBlockPos] = new Block(cursorBlock);
+		} else if (Input.GetMouseButton(1)) {
+			designShip.blueprint.blocks.RemoveTop(targetBlockPos);
+			designShip.blocks.RemoveTop(targetBlockPos);
 		}
 	}
 }

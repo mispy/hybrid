@@ -24,4 +24,6 @@ public class BlockType : BlockComponent {
 	public Tileable tileable;
 
 	public int blockLayer = Block.baseLayer;
+
+	public bool canRotate = false;
 }

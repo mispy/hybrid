@@ -47,6 +47,7 @@ MonoBehaviour:
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
+  canRotate: 1
   ship: {fileID: 0}
   collider: {fileID: 0}
 --- !u!114 &11455138
@@ -62,6 +63,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consumeRate: 1
   isPowered: 0
+  isDynamic: 0
   availableProducers: []
 --- !u!212 &21220014
 SpriteRenderer:
@@ -175,6 +177,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: consumeRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canRotate
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

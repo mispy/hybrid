@@ -43,6 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   consumeRate: 1
   isPowered: 0
+  isDynamic: 0
   availableProducers: []
 --- !u!114 &11433092
 MonoBehaviour:
@@ -61,6 +62,7 @@ MonoBehaviour:
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
+  canRotate: 1
 --- !u!212 &21267236
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -153,6 +155,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: consumeRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canRotate
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

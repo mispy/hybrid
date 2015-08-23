@@ -8,7 +8,15 @@ using System.Reflection;
 using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour {
+
 	public static Game main;
+
+	// cached main camera
+	// Camera.main seems to perform some kind of expensive lookup
+	public static Camera mainCamera;
+
+	// cached mouse position in world coordinates
+	public static Vector3 mousePos;
 
 	public Canvas canvas;
 	public Text debugText;
@@ -106,7 +114,7 @@ public class Game : MonoBehaviour {
 		var sectorSize = 200;
 
 		for (var i = 0; i < 100; i++) {
-			debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
+			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
 		}
 	}
 
@@ -114,10 +122,16 @@ public class Game : MonoBehaviour {
 		Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 	}
 
+	void Start() {
+		Game.mainCamera = Camera.main;
+	}
+
 	public Text debugMenu;
 
 	// Update is called once per frame
 	void Update() {
+		mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+
 		if (Game.inputBlocked) return;
 
 		if (Input.GetKeyDown(KeyCode.M)) {
