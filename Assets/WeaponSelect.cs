@@ -8,9 +8,11 @@ public class WeaponSelect : MonoBehaviour {
 	float startX;
 	float startY;
 	RectTransform panel;
-	List<Button> blockButtons = new List<Button>();
 	Ship ship;
-	
+
+	List<BlockType> fireableTypes = new List<BlockType>();
+	List<Button> blockButtons = new List<Button>();
+
 	void Awake() {
 		panel = GetComponent<RectTransform>();
 		startX = -panel.sizeDelta.x/2;
@@ -22,6 +24,8 @@ public class WeaponSelect : MonoBehaviour {
 
 		foreach (var type in Block.allTypes) {
 			if (type.canBeFired && ship.blocks.Has(type)) {
+				fireableTypes.Add(type);
+
 				var button = Pool.For("BlockButton").Take<Button>();
 				button.gameObject.SetActive(true);
 				button.transform.SetParent(transform);
@@ -47,10 +51,11 @@ public class WeaponSelect : MonoBehaviour {
 		foreach (var button in blockButtons)
 			Pool.Recycle(button.gameObject);
 		blockButtons.Clear();
+		fireableTypes.Clear();
 	}
 	
 	void SelectBlock(int i) {
-		selectedType = Block.allTypes[i-1];
+		selectedType = fireableTypes[i-1];
 		foreach (var button in blockButtons) button.image.color = Color.white;
 		blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
 	}

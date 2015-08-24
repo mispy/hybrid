@@ -83,22 +83,26 @@ public class PlayerInput : MonoBehaviour {
 		}
 		
 		if (Input.GetMouseButton(0)) {
-			foreach (var launcher in ship.GetBlockComponents<TorpedoLauncher>()) {
-				launcher.Fire();
+			var selected = weaponSelect.selectedType;
+
+			Debug.Log(selected);
+		
+			if (selected == null) {
+			} else if (selected is TorpedoLauncher) {
+				foreach (var launcher in ship.GetBlockComponents<TorpedoLauncher>()) {
+					launcher.Fire();
+				}
+			} else if (selected is TractorBeam) {
+				ship.StartTractorBeam(pz);
 			}
+		} else {
+			ship.StopTractorBeam();
 		}
 		
 		if (Input.GetKey(KeyCode.X)) {
 			rigid.velocity = Vector3.zero;
 			rigid.angularVelocity = Vector3.zero;
 		}
-		
-		if (Input.GetMouseButton(1)) {
-			ship.StartTractorBeam(pz);
-		} else {
-			ship.StopTractorBeam();
-		}
-		
 		
 		/*if (currentShip) {
 			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
