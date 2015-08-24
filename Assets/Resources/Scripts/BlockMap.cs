@@ -161,6 +161,10 @@ public class BlockMap : PoolBehaviour {
 		return blockTypeCache[typeof(T)].Count > 0;
 	}
 
+	public bool Has(BlockType type) {
+		return blockTypeCache[type.GetType()].Count > 0;
+	}
+
 	public IEnumerable<BlockChunk> AllChunks {
 		get {
 			for (var i = 0; i < widthInChunks; i++) {

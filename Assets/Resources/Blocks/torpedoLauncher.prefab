@@ -49,6 +49,7 @@ MonoBehaviour:
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
+  canBeFired: 1
   ship: {fileID: 0}
   collider: {fileID: 0}
 --- !u!114 &11455138
@@ -182,6 +183,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: canRotate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canBeFired
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -79,6 +79,7 @@ MonoBehaviour:
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
+  canBeFired: 0
   ps: {fileID: 0}
   ship: {fileID: 0}
   power: {fileID: 0}
@@ -1239,6 +1240,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Layer
       value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canBeFired
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

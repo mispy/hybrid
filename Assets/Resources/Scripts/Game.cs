@@ -76,6 +76,7 @@ public class Game : MonoBehaviour {
 	}
 
 	public ShipDesigner shipDesigner;
+	public WeaponSelect weaponSelect;
 	public Text messageText;
 
 	// Use this for initialization

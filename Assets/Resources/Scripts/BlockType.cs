@@ -27,4 +27,5 @@ public class BlockType : BlockComponent {
 
 	public bool canRotate = false;
 	public bool canFitInsideWall = false;
+	public bool canBeFired = false;
 }

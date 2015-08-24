@@ -7,9 +7,13 @@ using System.Linq;
 public class PlayerInput : MonoBehaviour {
 	public Crew crew;
 
+	public WeaponSelect weaponSelect;
+
 	void Awake() {
 		crew = GetComponentInParent<Crew>();
 		Crew.player = crew;
+
+		weaponSelect = Game.main.weaponSelect;
 	}
 
 	void HandleLockedMovement() {
@@ -139,7 +143,9 @@ public class PlayerInput : MonoBehaviour {
 		if (crew.controlConsole != null) {
 			if (Input.GetKeyDown(KeyCode.E)) {
 				crew.controlConsole = null;
+				weaponSelect.gameObject.SetActive(false);
 			} else {
+				weaponSelect.gameObject.SetActive(true);
 				HandleShipInput();
 			}
 		} else {
