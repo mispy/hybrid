@@ -99,7 +99,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.J)) {
-			Game.main.jumpMap.gameObject.SetActive(true);
+			JumpMap.Activate();
 		}
 		
 		/*if (currentShip) {

@@ -351,14 +351,6 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
-	
-	public void FireLasers() {
-		foreach (var beam in GetBlockComponents<BeamCannon>()) {
-			beam.Fire();
-		}
-	}
-
-
 	private ParticleCollisionEvent[] collisionEvents = new ParticleCollisionEvent[16];
 	public void OnParticleCollision(GameObject psObj) {
 		var ps = psObj.GetComponent<ParticleSystem>();

@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class JumpMap : MonoBehaviour {
 		
@@ -16,26 +18,35 @@ public class JumpMap : MonoBehaviour {
 	Canvas canvas;
 	GameObject selector;
 	JumpShip playerShip;
+	Button foldButton;
+
+	public static void Activate() {
+		Game.main.currentSector.gameObject.SetActive(false);
+		Game.main.jumpMap.gameObject.SetActive(true);
+	}
 
 	void OnEnable() {
-		Game.main.currentSector.gameObject.SetActive(false);
 		Crew.player.maglockShip.blocks.transform.parent = playerShip.transform;
+		playerShip.Rescale();
 	}
 
 	void OnDisable() {
-		Game.main.currentSector.gameObject.SetActive(true);
 		playerShip.blocks.transform.parent = Crew.player.maglockShip.transform;
+		Game.main.currentSector.gameObject.SetActive(true);
 	}
 
 	// Use this for initialization
-	void Start() {		
+	void Awake() {		
 		canvas = GetComponentInChildren<Canvas>();
 		selector = Pool.For("Selector").TakeObject();
+		selector.transform.parent = transform;
 		selector.SetActive(true);
 
 		playerShip = Pool.For("JumpShip").Take<JumpShip>();
+		playerShip.transform.parent = transform;
 		playerShip.gameObject.SetActive(true);
 
+		Camera.main.orthographicSize = 4;
 		var bounds = Util.GetCameraBounds();
 
 		for (var i = 0; i < 20; i++) {
@@ -54,6 +65,14 @@ public class JumpMap : MonoBehaviour {
 		var positions = new List<Vector3>();
 
 		DrawFactions();
+
+		foreach (var button in GetComponentsInChildren<Button>()) {
+			if (button.name == "FoldButton") {
+				foldButton = button;
+				foldButton.onClick.AddListener(() => playerShip.FoldJump(selectedBeacon));
+			}
+		}
+
 	}
 
 	void DrawConnections(JumpBeacon beacon, Color color) {
@@ -101,13 +120,17 @@ public class JumpMap : MonoBehaviour {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
 		var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First ();
+		
+		if (Input.GetKeyDown(KeyCode.J)) {
+			gameObject.SetActive(false);
+		}
+
+		if (EventSystem.current.IsPointerOverGameObject())
+			return;
 
 		if (Input.GetMouseButtonDown(0)) {
 			SelectBeacon(nearMouseBeacon);
 		}
 
-		if (Input.GetKeyDown(KeyCode.J)) {
-			gameObject.SetActive(false);
-		}
 	}
 }

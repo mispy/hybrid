@@ -86,6 +86,15 @@ public class BlockMap : PoolBehaviour {
 		topTiles = obj.GetComponent<TileLayer>();
 	} 
 
+	public Bounds Bounds {
+		get {
+			var bounds = new Bounds(Vector3.zero, Vector3.zero);
+			foreach (var chunk in baseTiles.AllChunks) {
+				bounds.Encapsulate(chunk.renderer.bounds);
+			}
+			return bounds;
+		}
+	}
 
 	public IntVector2[] Neighbors(IntVector2 bp) {
 		return new IntVector2[] {
