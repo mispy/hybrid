@@ -28,7 +28,6 @@ public class BlockMap : PoolBehaviour {
 
 	public delegate void BlockAddedHandler(Block newBlock);
 	public delegate void BlockRemovedHandler(Block oldBlock);
-	public delegate void BlockAddedOrRemovedHandler(Block block);
 	public event BlockAddedHandler OnBlockAdded;
 	public event BlockRemovedHandler OnBlockRemoved;
 

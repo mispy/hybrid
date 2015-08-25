@@ -95,6 +95,7 @@ public class Game : MonoBehaviour {
 		Tile.Setup();
 		Block.Setup();
 		Pool.CreatePools();		
+		Ship.LoadTemplates();
 
 		//Save.LoadGame();
 

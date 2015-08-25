@@ -31,21 +31,23 @@ public class Ship : PoolBehaviour {
 	}
 
 	public static Ship Template(string name) {
-		if (templates.ContainsKey(name))
-			return templates[name];
+		return templates[name];
+	}
 
-		var path = Application.dataPath + String.Format("/Ships/{0}.xml", name);
-		var serializer = new XmlSerializer(typeof(ShipData));
-		
-		ShipData data;
-		using (var stream = new FileStream(path, FileMode.Open))
-		{
-			data = serializer.Deserialize(stream) as ShipData;
+	public static void LoadTemplates() {
+		foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
+
+			var serializer = new XmlSerializer(typeof(ShipData));
+			
+			ShipData data;
+			using (var stream = new FileStream(path, FileMode.Open))
+			{
+				data = serializer.Deserialize(stream) as ShipData;
+			}
+			
+			var ship = Save.LoadShip(data);
+			templates[ship.name] = ship;
 		}
-		
-		var ship = Save.LoadShip(data);
-		templates[name] = ship;
-		return ship;
 	}
 
 	public BlockMap blocks;
@@ -67,6 +69,8 @@ public class Ship : PoolBehaviour {
 	private bool needsMassUpdate = true;
 
 	public int size = 0;
+
+	public GameObject blockComponentHolder;
 
 	public IEnumerable<T> GetBlockComponents<T>() {
 		return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == this);
@@ -91,6 +95,13 @@ public class Ship : PoolBehaviour {
 		obj.SetActive(true);
 		blueprint = obj.GetComponent<Blueprint>();
 		blueprint.ship = this;
+
+		obj = Pool.For("Holder").TakeObject();
+		obj.transform.parent = transform;
+		obj.transform.position = transform.position;
+		obj.name = "BlockComponents";
+		obj.SetActive(true);
+		blockComponentHolder = obj;
 	}
 	
 	void Start() {								
@@ -215,7 +226,7 @@ public class Ship : PoolBehaviour {
 		Vector2 worldOrient = transform.TransformVector(Util.orientToCardinal[block.orientation]);
 
 		var obj = Pool.For(block.type.gameObject).TakeObject();		
-		obj.transform.parent = blocks.transform;
+		obj.transform.parent = blockComponentHolder.transform;
 		obj.transform.position = BlockToWorldPos(block);
 		obj.transform.up = worldOrient;
 		block.gameObject = obj;
@@ -348,26 +359,6 @@ public class Ship : PoolBehaviour {
 		foreach (var thruster in GetBlockComponents<Thruster>()) {
 			if (thruster.block.orientation == orientation)
 				thruster.FireAttitude();
-		}
-	}
-
-	private ParticleCollisionEvent[] collisionEvents = new ParticleCollisionEvent[16];
-	public void OnParticleCollision(GameObject psObj) {
-		var ps = psObj.GetComponent<ParticleSystem>();
-		var safeLength = ps.GetSafeCollisionEventSize();
-
-		if (collisionEvents.Length < safeLength) {
-			collisionEvents = new ParticleCollisionEvent[safeLength];
-		}
-
-		// get collision events for the gameObject that the script is attached to
-		var numCollisionEvents = ps.GetCollisionEvents(gameObject, collisionEvents);
-
-		for (var i = 0; i < numCollisionEvents; i++) {
-			//Debug.Log(collisionEvents[i].intersection);
-			var pos = collisionEvents[i].intersection;
-			foreach (var block in BlocksAtWorldPos(pos))
-				BreakBlock(block);
 		}
 	}
 

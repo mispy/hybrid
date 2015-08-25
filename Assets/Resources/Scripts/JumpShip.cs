@@ -3,6 +3,7 @@ using System.Collections;
 
 public class JumpShip : PoolBehaviour {
 	public BlockMap blocks;
+	public JumpBeacon currentBeacon;
 
 	public void FoldJump(JumpBeacon beacon) {
 		StartCoroutine(MoveFunction(beacon));
@@ -22,11 +23,12 @@ public class JumpShip : PoolBehaviour {
 				yield break;
 			}
 
-			Debug.Log("???");
-			
 			// Otherwise, continue next frame
 			yield return null;
 		}
+	}
+
+	public void EnterSector() {
 	}
 
 	public void Rescale() {

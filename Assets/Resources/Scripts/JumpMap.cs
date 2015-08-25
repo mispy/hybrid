@@ -5,8 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class JumpMap : MonoBehaviour {
-		
+public class JumpMap : MonoBehaviour {		
 	float jumpRange = 5f;
 	Color hoverColor = new Color (0.95f, 0.64f, 0.38f, 0.05f);
 	Color currentColor = new Color (0f, 1f, 1f, 1f);
@@ -18,7 +17,14 @@ public class JumpMap : MonoBehaviour {
 	Canvas canvas;
 	GameObject selector;
 	JumpShip playerShip;
+
+	Button enterButton;
 	Button foldButton;
+	Button waitButton;
+	Button stopWaitButton;
+	Camera camera;
+
+	bool isWaiting = false;
 
 	public static void Activate() {
 		Game.main.currentSector.gameObject.SetActive(false);
@@ -36,17 +42,22 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Awake() {		
+	void Awake() {				
+		for (var i = 0; i < 10; i++) {
+			//var ship = Ship.RandomTemplate();
+		}
+		playerShip = Pool.For("JumpShip").Take<JumpShip>();
+		playerShip.transform.parent = transform;
+		playerShip.gameObject.SetActive(true);
+
+		camera = GetComponentInChildren<Camera>();
+		camera.orthographicSize = 4;
+
 		canvas = GetComponentInChildren<Canvas>();
 		selector = Pool.For("Selector").TakeObject();
 		selector.transform.parent = transform;
 		selector.SetActive(true);
 
-		playerShip = Pool.For("JumpShip").Take<JumpShip>();
-		playerShip.transform.parent = transform;
-		playerShip.gameObject.SetActive(true);
-
-		Camera.main.orthographicSize = 4;
 		var bounds = Util.GetCameraBounds();
 
 		for (var i = 0; i < 20; i++) {
@@ -66,38 +77,40 @@ public class JumpMap : MonoBehaviour {
 
 		DrawFactions();
 
-		foreach (var button in GetComponentsInChildren<Button>()) {
+		foreach (var button in GetComponentsInChildren<Button>(includeInactive: true)) {
 			if (button.name == "FoldButton") {
 				foldButton = button;
 				foldButton.onClick.AddListener(() => playerShip.FoldJump(selectedBeacon));
+			}
+
+			if (button.name == "EnterButton") {
+				enterButton = button;
+				enterButton.onClick.AddListener(() => playerShip.EnterSector());
+			}
+
+			if (button.name == "WaitButton") {
+				waitButton = button;
+				waitButton.onClick.AddListener(() => Wait());
+			}
+
+			if (button.name == "StopWaitButton") {
+				stopWaitButton = button;
+				stopWaitButton.onClick.AddListener(() => StopWait());
 			}
 		}
 
 	}
 
-	void DrawConnections(JumpBeacon beacon, Color color) {
-		var lineRenderer = beacon.gameObject.GetComponent<LineRenderer>();
+	void Wait() {
+		isWaiting = true;
+		waitButton.gameObject.SetActive(false);
+		stopWaitButton.gameObject.SetActive(true);
+	}
 
-		var points = new List<Vector3>();
-		foreach (var b2 in beacons) {
-			if (Vector3.Distance(beacon.transform.position, b2.transform.position) < jumpRange) {
-				points.Add(beacon.transform.position);
-				points.Add(b2.transform.position);
-				points.Add(beacon.transform.position);
-			}
-		}
-
-		var width = 0.05f;
-		lineRenderer.SetWidth(width, width);
-		lineRenderer.SetVertexCount(points.Count);
-
-		for (var i = 0; i < points.Count; i++) {
-			lineRenderer.SetPosition(i, points[i]);
-		}
-
-		lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-		lineRenderer.material.color = color;
-		lineRenderer.SetColors(color, color);
+	void StopWait() {
+		isWaiting = false;
+		waitButton.gameObject.SetActive(true);
+		stopWaitButton.gameObject.SetActive(false);
 	}
 
 	void SelectBeacon(JumpBeacon beacon) {
@@ -115,6 +128,10 @@ public class JumpMap : MonoBehaviour {
 		circle.SetActive(true);
 	}
 
+	// Only happens when in motion or waiting
+	void JumpUpdate() {
+	}
+
 	// Update is called once per frame
 	void Update() {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -125,12 +142,20 @@ public class JumpMap : MonoBehaviour {
 			gameObject.SetActive(false);
 		}
 
-		if (EventSystem.current.IsPointerOverGameObject())
-			return;
-
-		if (Input.GetMouseButtonDown(0)) {
-			SelectBeacon(nearMouseBeacon);
+		if (!EventSystem.current.IsPointerOverGameObject()) {
+			if (Input.GetMouseButtonDown(0)) {
+				SelectBeacon(nearMouseBeacon);
+			}
+		}
+		
+		if (selectedBeacon == playerShip.currentBeacon) {
+			foldButton.gameObject.SetActive(false);
+			enterButton.gameObject.SetActive(true);
+		} else {
+			foldButton.gameObject.SetActive(true);
+			enterButton.gameObject.SetActive(false);
 		}
 
+		if (isWaiting) JumpUpdate();
 	}
 }
