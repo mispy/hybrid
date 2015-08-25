@@ -19,7 +19,7 @@ public class WeaponSelect : MonoBehaviour {
 		startY = panel.sizeDelta.y/2;
 	}
 	
-	public void OnEnable() {
+	void OnEnable() {
 		ship = Crew.player.maglockShip;
 
 		foreach (var type in Block.allTypes) {

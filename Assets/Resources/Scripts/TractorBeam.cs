@@ -48,7 +48,7 @@ public class TractorBeam : BlockType {
 		}
 	}
 
-	void OnEnable() {
+	void Awake() {
 		ship = GetComponentInParent<Ship>();
 		beam = GetComponentInChildren<ParticleSystem>();
 		beam.enableEmission = false;

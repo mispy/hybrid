@@ -66,7 +66,6 @@ public class Ship : PoolBehaviour {
 	public float scrapAvailable = 1000;
 
 	public GameObject collidersObj;
-	public GameObject blocksObj;
 
 	private bool needsMassUpdate = true;
 
@@ -82,9 +81,12 @@ public class Ship : PoolBehaviour {
 
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
-		blocks = GetComponent<BlockMap>();
+		blocks = Pool.For("BlockMap").Take<BlockMap>();
+		blocks.transform.parent = transform;
+		blocks.transform.position = transform.position;
 		blocks.OnBlockRemoved += OnBlockRemoved;
 		blocks.OnBlockAdded += OnBlockAdded;
+		blocks.gameObject.SetActive(true);
 
 		var obj = Pool.For("Blueprint").TakeObject();
 		obj.transform.parent = transform;
@@ -99,23 +101,16 @@ public class Ship : PoolBehaviour {
 		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		collidersObj = obj;
-		
-		obj = Pool.For("Holder").TakeObject();
-		obj.name = "Blocks";
-		obj.transform.parent = transform;
-		obj.transform.position = transform.position;
-		obj.SetActive(true);
-		blocksObj = obj;
 	}
 	
-	void OnEnable() {		
-		if (hasCollision) {
+	void Start() {		
+		/*if (hasCollision) {
 			foreach (var block in blocks.AllBlocks) {
 				if (blocks.IsCollisionEdge(block.pos)) {
 					AddCollider(block.pos, block.CollisionLayer);
 				}
 			}
-		}
+		}*/
 						
 		UpdateMass();	
 		UpdateShields();	
@@ -241,13 +236,6 @@ public class Ship : PoolBehaviour {
 		if (oldBlock.layer == BlockLayer.Base)
 			this.size -= 1;
 
-		// Inactive ships do not automatically update on block change, to allow
-		// for performant pre-runtime mass construction. kinda like turning the power
-		// off so you can stick your hand in there
-		// - mispy
-		if (!gameObject.activeInHierarchy)
-			return;
-
 		UpdateBlock(oldBlock);
 
 		Profiler.EndSample();
@@ -259,9 +247,6 @@ public class Ship : PoolBehaviour {
 		if (newBlock.layer == BlockLayer.Base)
 			this.size += 1;
 
-		if (!gameObject.activeInHierarchy)
-			return;
-		
 		UpdateBlock(newBlock);
 
 		if (newBlock.type.isComplexBlock) {
@@ -286,7 +271,7 @@ public class Ship : PoolBehaviour {
 		Vector2 worldOrient = transform.TransformVector(Util.orientToCardinal[block.orientation]);
 
 		var obj = Pool.For(block.type.gameObject).TakeObject();		
-		obj.transform.parent = blocksObj.transform;
+		obj.transform.parent = blocks.transform;
 		obj.transform.position = BlockToWorldPos(block);
 		obj.transform.up = worldOrient;
 		block.gameObject = obj;

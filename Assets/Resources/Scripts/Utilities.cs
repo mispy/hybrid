@@ -66,6 +66,9 @@ public class Util {
 	}
 
 	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos) {		
+		foreach (var block in ship.BlocksAtWorldPos(targetPos))
+			return true;
+
 		var targetDist = (targetPos - turretPos);
 		var targetDir = targetDist.normalized;
 		
@@ -79,7 +82,10 @@ public class Util {
 		return false;
 	}
 
-	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos, float radius) {		
+	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos, float radius) {	
+		foreach (var block in ship.BlocksAtWorldPos(targetPos))
+			return true;
+
 		var targetDist = (targetPos - turretPos);
 		var targetDir = targetDist.normalized;
 		

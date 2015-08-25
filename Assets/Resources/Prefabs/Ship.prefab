@@ -10,10 +10,8 @@ GameObject:
   - 4: {fileID: 491556}
   - 54: {fileID: 5450076}
   - 114: {fileID: 11458402}
-  - 114: {fileID: 11426060}
   - 114: {fileID: 11470960}
   - 114: {fileID: 11463666}
-  - 114: {fileID: 11405260}
   m_Layer: 0
   m_Name: Ship
   m_TagString: Untagged
@@ -28,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -48,52 +46,6 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 56
   m_CollisionDetection: 1
---- !u!114 &11405260
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36b1674cd0a1bbf4db4ddda14a2230d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxX: 0
-  minX: 0
-  maxY: 0
-  minY: 0
-  centerTileX: 256
-  centerTileY: 256
-  centerChunkX: 8
-  centerChunkY: 8
-  chunkWidth: 32
-  chunkHeight: 32
-  widthInChunks: 16
-  heightInChunks: 16
---- !u!114 &11426060
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxX: 0
-  minX: 0
-  maxY: 0
-  minY: 0
-  centerBlockX: 256
-  centerBlockY: 256
-  centerChunkX: 8
-  centerChunkY: 8
-  chunkWidth: 32
-  chunkHeight: 32
-  widthInChunks: 16
-  heightInChunks: 16
 --- !u!114 &11458402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,7 +67,7 @@ MonoBehaviour:
   maglockedCrew: []
   scrapAvailable: 1000
   collidersObj: {fileID: 0}
-  tileLayer: {fileID: 0}
+  size: 0
 --- !u!114 &11463666
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651f7901f940cb44595ba375f2c1e795, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  counter: 0
 --- !u!114 &11470960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -152,7 +105,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

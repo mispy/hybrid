@@ -12,10 +12,24 @@ public class JumpMap : MonoBehaviour {
 	LineRenderer lineRenderer;
 	List<JumpBeacon> beacons = new List<JumpBeacon>();
 	JumpBeacon hoverBeacon;
-	JumpBeacon shipBeacon;
+	JumpBeacon selectedBeacon;
+	Canvas canvas;
+	GameObject selector;
+
+	void OnEnable() {
+		Game.main.currentSector.gameObject.SetActive(false);
+	}
+
+	void OnDisable() {
+		Game.main.currentSector.gameObject.SetActive(true);
+	}
 
 	// Use this for initialization
-	void Start () {
+	void Start() {		
+		canvas = GetComponentInChildren<Canvas>();
+		selector = Pool.For("Selector").TakeObject();
+		selector.SetActive(true);
+
 		var bounds = Util.GetCameraBounds();
 
 		for (var i = 0; i < 20; i++) {
@@ -33,7 +47,6 @@ public class JumpMap : MonoBehaviour {
 
 		var positions = new List<Vector3>();
 
-		SetShipBeacon(beacons[0]);
 		DrawFactions();
 	}
 
@@ -62,13 +75,10 @@ public class JumpMap : MonoBehaviour {
 		lineRenderer.SetColors(color, color);
 	}
 
-	void SetShipBeacon(JumpBeacon beacon) {
-		if (shipBeacon != null) {
-			shipBeacon.GetComponent<LineRenderer> ().enabled = false;
-		}
-
-		shipBeacon = beacon;
-		DrawConnections(shipBeacon, currentColor);
+	void SelectBeacon(JumpBeacon beacon) {
+		selectedBeacon = beacon;
+		selector.transform.parent = beacon.transform.parent;
+		selector.transform.position = beacon.transform.position;
 	}
 
 	void DrawFactions() {
@@ -86,22 +96,12 @@ public class JumpMap : MonoBehaviour {
 
 		var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First ();
 
-		if (hoverBeacon != nearMouseBeacon) {
-			if (hoverBeacon != null && hoverBeacon != shipBeacon) {
-				hoverBeacon.GetComponent<LineRenderer> ().enabled = false;
-			}
-					
-			hoverBeacon = nearMouseBeacon;
-			if (hoverBeacon != shipBeacon) {
-				hoverBeacon.GetComponent<LineRenderer> ().enabled = true;
-				DrawConnections(hoverBeacon, hoverColor);
-			}
+		if (Input.GetMouseButtonDown(0)) {
+			SelectBeacon(nearMouseBeacon);
 		}
 
-		if (Input.GetMouseButtonDown(0)) {
-			if (hoverBeacon != shipBeacon && Vector3.Distance (hoverBeacon.transform.position, shipBeacon.transform.position) < jumpRange) {
-				SetShipBeacon(hoverBeacon);
-			}
+		if (Input.GetKeyDown(KeyCode.J)) {
+			gameObject.SetActive(false);
 		}
 	}
 }

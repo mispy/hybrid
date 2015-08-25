@@ -8,7 +8,6 @@ using System.Reflection;
 using Random = UnityEngine.Random;
 
 public class Game : MonoBehaviour {
-
 	public static Game main;
 
 	// cached main camera
@@ -20,7 +19,8 @@ public class Game : MonoBehaviour {
 
 	public Canvas canvas;
 	public Text debugText;
-	public GameObject currentSector;
+	public Sector currentSector;
+	public JumpMap jumpMap;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
@@ -112,7 +112,7 @@ public class Game : MonoBehaviour {
 		
 		debug.LoadShip();
 
-		var sectorSize = 200;
+		var sectorSize = Game.main.currentSector.radius;
 
 		for (var i = 0; i < 100; i++) {
 			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
@@ -137,7 +137,7 @@ public class Game : MonoBehaviour {
 		if (Game.inputBlocked) return;
 
 		if (Input.GetKeyDown(KeyCode.M)) {
-			currentSector.SetActive(false);
+			currentSector.gameObject.SetActive(false);
 		}
 
 		if (Input.GetKeyDown(KeyCode.BackQuote)) {
@@ -168,7 +168,7 @@ public class Game : MonoBehaviour {
 		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize > 4) {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
 			//Debug.Log(Camera.main.orthographicSize);
-		} else if (Input.GetAxis("Mouse ScrollWheel") < 0 && Camera.main.orthographicSize < 64) {
+		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {// && Camera.main.orthographicSize < 64) {
 			Camera.main.orthographicSize = (int)Camera.main.orthographicSize << 1;
 			//Debug.Log(Camera.main.orthographicSize);
 		}

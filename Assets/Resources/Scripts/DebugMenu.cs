@@ -38,15 +38,10 @@ public class DebugMenu : MonoBehaviour {
 	}
 
 	public void MakeAsteroid(Vector2 pos) {		
-		var sectorWidth = 50;
-		var sectorHeight = 50;
-		var srcShip = Ship.Template("Asteroid");
-
 		for (var i = 0; i < 10; i++) {
-			var radius = Random.Range(50, 100);
-			//var pos = new Vector2(Random.Range(-sectorWidth, sectorWidth), Random.Range(-sectorHeight, sectorHeight));
-			if (Physics.OverlapSphere(pos, radius*Tile.worldSize/4).Length == 0) {
-				Generate.Fragment(pos, srcShip, radius);
+			var radius = Random.Range(5, 10);
+			if (Physics.OverlapSphere(pos, radius*Tile.worldSize).Length == 0) {
+				Generate.Asteroid(pos, radius);
 				break;
 			}
 		}

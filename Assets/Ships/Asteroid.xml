@@ -2,18 +2,18 @@
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <name>Asteroid</name>
   <position>
-    <x>0.000550117344</x>
-    <y>-0.000292830169</y>
+    <x>-2.105163</x>
+    <y>36.84383</y>
   </position>
   <rotation>
     <x>0</x>
     <y>0</y>
-    <z>0.0285368487</z>
-    <w>0.9995927</w>
+    <z>0.0285372436</z>
+    <w>0.9995928</w>
     <eulerAngles>
       <x>0</x>
       <y>0</y>
-      <z>3.270526</z>
+      <z>3.27057147</z>
     </eulerAngles>
   </rotation>
   <velocity>
@@ -28,6 +28,12 @@
   <blocks>
     <BlockData>
       <x>-12</x>
+      <y>-4</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
       <y>-3</y>
       <typeName>TractorBeam</typeName>
       <orientation>2</orientation>
@@ -36,6 +42,18 @@
       <x>-12</x>
       <y>-2</y>
       <typeName>Thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-1</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>-6</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
@@ -67,6 +85,12 @@
       <y>-1</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>-7</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-10</x>
@@ -777,6 +801,12 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
+      <x>-12</x>
+      <y>4</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
       <x>-11</x>
       <y>0</y>
       <typeName>Wall</typeName>
@@ -810,6 +840,12 @@
       <x>-11</x>
       <y>5</y>
       <typeName>Thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>6</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
@@ -1395,6 +1431,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-2</x>
+      <y>12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-1</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -1504,6 +1546,12 @@
     </BlockData>
     <BlockData>
       <x>0</x>
+      <y>-12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
       <y>-11</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
@@ -1702,6 +1750,12 @@
     </BlockData>
     <BlockData>
       <x>3</x>
+      <y>-12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
       <y>-11</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
@@ -2134,6 +2188,12 @@
     </BlockData>
     <BlockData>
       <x>10</x>
+      <y>-7</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
       <y>-6</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
@@ -2167,6 +2227,12 @@
       <y>-1</y>
       <typeName>Floor</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-6</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>11</x>
@@ -2208,6 +2274,12 @@
       <x>12</x>
       <y>-2</y>
       <typeName>Thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-1</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
@@ -2361,6 +2433,12 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
+      <x>0</x>
+      <y>12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>1</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -2430,6 +2508,12 @@
       <x>1</x>
       <y>11</y>
       <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>12</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2853,6 +2937,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>7</x>
+      <y>10</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>8</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -3045,6 +3135,18 @@
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
+      <x>11</x>
+      <y>6</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>0</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
       <x>12</x>
       <y>1</y>
       <typeName>Thruster</typeName>
@@ -3060,6 +3162,12 @@
       <x>12</x>
       <y>3</y>
       <typeName>TractorBeam</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>4</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
@@ -3108,6 +3216,12 @@
   <blueprintBlocks>
     <BlockData>
       <x>-12</x>
+      <y>-4</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
       <y>-3</y>
       <typeName>TractorBeam</typeName>
       <orientation>2</orientation>
@@ -3116,6 +3230,18 @@
       <x>-12</x>
       <y>-2</y>
       <typeName>Thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-12</x>
+      <y>-1</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>-6</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
@@ -3147,6 +3273,12 @@
       <y>-1</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>-7</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>-10</x>
@@ -3857,6 +3989,12 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
+      <x>-12</x>
+      <y>4</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
       <x>-11</x>
       <y>0</y>
       <typeName>Wall</typeName>
@@ -3890,6 +4028,12 @@
       <x>-11</x>
       <y>5</y>
       <typeName>Thruster</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-11</x>
+      <y>6</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
@@ -4475,6 +4619,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-2</x>
+      <y>12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-1</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -4584,6 +4734,12 @@
     </BlockData>
     <BlockData>
       <x>0</x>
+      <y>-12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
       <y>-11</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
@@ -4782,6 +4938,12 @@
     </BlockData>
     <BlockData>
       <x>3</x>
+      <y>-12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
       <y>-11</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
@@ -5214,6 +5376,12 @@
     </BlockData>
     <BlockData>
       <x>10</x>
+      <y>-7</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>10</x>
       <y>-6</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
@@ -5247,6 +5415,12 @@
       <y>-1</y>
       <typeName>Floor</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>11</x>
+      <y>-6</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-2</orientation>
     </BlockData>
     <BlockData>
       <x>11</x>
@@ -5288,6 +5462,12 @@
       <x>12</x>
       <y>-2</y>
       <typeName>Thruster</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>-1</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
@@ -5441,6 +5621,12 @@
       <orientation>2</orientation>
     </BlockData>
     <BlockData>
+      <x>0</x>
+      <y>12</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>1</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -5510,6 +5696,12 @@
       <x>1</x>
       <y>11</y>
       <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>12</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5933,6 +6125,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>7</x>
+      <y>10</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>8</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -6125,6 +6323,18 @@
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>
+      <x>11</x>
+      <y>6</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>0</y>
+      <typeName>TorpedoLauncher</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
       <x>12</x>
       <y>1</y>
       <typeName>Thruster</typeName>
@@ -6140,6 +6350,12 @@
       <x>12</x>
       <y>3</y>
       <typeName>TractorBeam</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>12</x>
+      <y>4</y>
+      <typeName>TorpedoLauncher</typeName>
       <orientation>-2</orientation>
     </BlockData>
     <BlockData>

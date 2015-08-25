@@ -16,7 +16,7 @@ public class Blueprint : PoolBehaviour {
 		blocks.OnBlockAdded += OnBlockAdded;
 	}
 
-	public void OnEnable() {
+	public void Start() {
 		foreach (var chunk in blocks.baseTiles.AllChunks) {
 			OnChunkCreated(chunk);
 		}
