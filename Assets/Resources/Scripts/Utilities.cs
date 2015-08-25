@@ -85,8 +85,7 @@ public class Util {
 		
 		var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
 		foreach (var hit in targetHits) {
-			if (ship.WorldToBlockPos(hit.collider.transform.position) != ship.WorldToBlockPos(turretPos)) {
-				Debug.Log(ship.WorldToBlockPos(hit.collider.transform.position));
+			if (hit.rigidbody == ship.rigidBody && ship.WorldToBlockPos(hit.collider.transform.position) != ship.WorldToBlockPos(turretPos)) {
 				return true;
 			}
 		}

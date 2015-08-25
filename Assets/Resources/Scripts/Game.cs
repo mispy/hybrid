@@ -132,6 +132,7 @@ public class Game : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+		mousePos.z = 0f;
 
 		if (Game.inputBlocked) return;
 

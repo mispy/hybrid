@@ -262,11 +262,11 @@ public class Ship : PoolBehaviour {
 		if (!gameObject.activeInHierarchy)
 			return;
 		
+		UpdateBlock(newBlock);
+
 		if (newBlock.type.isComplexBlock) {
 			AddBlockComponent(newBlock);
 		}	
-
-		UpdateBlock(newBlock);
 	}
 
 	public void UpdateBlock(Block block) {

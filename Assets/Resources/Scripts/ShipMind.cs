@@ -35,7 +35,7 @@ public class ShipMind : MonoBehaviour {
 			var otherShip = hit.gameObject.GetComponentInParent<Ship>();
 
 			if (otherShip != null && IsEnemy(otherShip)) {
-				launcher.Fire();
+				//launcher.Fire();
 			}
 		}
 	}

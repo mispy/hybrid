@@ -84,14 +84,8 @@ public class PlayerInput : MonoBehaviour {
 		
 		if (Input.GetMouseButton(0)) {
 			var selected = weaponSelect.selectedType;
-
-			Debug.Log(selected);
 		
 			if (selected == null) {
-			} else if (selected is TorpedoLauncher) {
-				foreach (var launcher in ship.GetBlockComponents<TorpedoLauncher>()) {
-					launcher.Fire();
-				}
 			} else if (selected is TractorBeam) {
 				ship.StartTractorBeam(pz);
 			}
