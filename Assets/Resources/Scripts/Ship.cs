@@ -56,7 +56,6 @@ public class Ship : PoolBehaviour {
 	public bool hasCollision = true;
 	public bool hasGravity = false;
 	
-	public Dictionary<IntVector2, GameObject> colliders = new Dictionary<IntVector2, GameObject>();
 	public Shields shields = null;
 	
 	public Vector3 localCenter;
@@ -64,8 +63,6 @@ public class Ship : PoolBehaviour {
 	public List<Crew> maglockedCrew = new List<Crew>();
 
 	public float scrapAvailable = 1000;
-
-	public GameObject collidersObj;
 
 	private bool needsMassUpdate = true;
 
@@ -94,24 +91,9 @@ public class Ship : PoolBehaviour {
 		obj.SetActive(true);
 		blueprint = obj.GetComponent<Blueprint>();
 		blueprint.ship = this;
-
-		obj = Pool.For("Holder").TakeObject();
-		obj.name = "Colliders";
-		obj.transform.parent = transform;
-		obj.transform.position = transform.position;
-		obj.SetActive(true);
-		collidersObj = obj;
 	}
 	
-	void Start() {		
-		/*if (hasCollision) {
-			foreach (var block in blocks.AllBlocks) {
-				if (blocks.IsCollisionEdge(block.pos)) {
-					AddCollider(block.pos, block.CollisionLayer);
-				}
-			}
-		}*/
-						
+	void Start() {								
 		UpdateMass();	
 		UpdateShields();	
 		UpdateGravity();
@@ -194,42 +176,6 @@ public class Ship : PoolBehaviour {
 		return obj;
 	}
 
-	public void AddCollider(IntVector2 bp, int collisionLayer) {
-		Profiler.BeginSample("AddCollider");
-
-		GameObject colliderObj;
-		if (collisionLayer == Block.wallLayer)
-			colliderObj = Pool.For("WallCollider").TakeObject();
-		else
-			colliderObj = Pool.For("FloorCollider").TakeObject();
-		colliderObj.transform.SetParent(collidersObj.transform);
-		colliderObj.transform.localPosition = BlockToLocalPos(bp);
-		colliders[bp] = colliderObj;
-		colliderObj.SetActive(true);
-
-		Profiler.EndSample();
-	}
-
-	public void UpdateCollider(IntVector2 pos) {
-		Profiler.BeginSample("UpdateCollider");
-		var collisionLayer = blocks.CollisionLayer(pos);
-
-		var hasCollider = colliders.ContainsKey(pos);
-		var isEdge = blocks.IsCollisionEdge(pos);
-
-		if (hasCollider && (!isEdge || colliders[pos].layer != collisionLayer)) {
-			colliders[pos].SetActive(false);
-			colliders.Remove(pos);
-			hasCollider = false;
-		}
-
-		if (!hasCollider && isEdge) {
-			AddCollider(pos, collisionLayer);
-		}
-
-		Profiler.EndSample();
-	}
-
 	public void OnBlockRemoved(Block oldBlock) {
 		Profiler.BeginSample("OnBlockRemoved");
 
@@ -257,9 +203,7 @@ public class Ship : PoolBehaviour {
 	public void UpdateBlock(Block block) {
 		if (block.mass != 0)
 			needsMassUpdate = true;
-
-		UpdateCollision(block.pos);
-
+		
 		if (Block.Is<ShieldGenerator>(block))
 			UpdateShields();
 
@@ -281,16 +225,6 @@ public class Ship : PoolBehaviour {
 
 		obj.SetActive(true);
 
-	}
-
-	public void UpdateCollision(IntVector2 pos) {
-		if (!hasCollision) return;
-		
-		foreach (var other in blocks.Neighbors(pos)) {
-			UpdateCollider(other);
-		}
-		
-		UpdateCollider(pos);
 	}
 
 	public void UpdateMass() {		

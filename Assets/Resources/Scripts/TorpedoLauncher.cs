@@ -27,7 +27,7 @@ public class TorpedoLauncher : BlockType {
 
 	void Start() {
 		ship = GetComponentInParent<Ship>();
-		collider = ship.colliders[block.pos].GetComponent<Collider>();
+		collider = ship.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>();
 		dottedLine = GetComponent<LineRenderer>();
 		dottedLine.SetWidth(0.3f, 0.3f);
 		dottedLine.SetVertexCount(2);

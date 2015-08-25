@@ -15,13 +15,16 @@ public class JumpMap : MonoBehaviour {
 	JumpBeacon selectedBeacon;
 	Canvas canvas;
 	GameObject selector;
+	JumpShip playerShip;
 
 	void OnEnable() {
 		Game.main.currentSector.gameObject.SetActive(false);
+		Crew.player.maglockShip.blocks.transform.parent = playerShip.transform;
 	}
 
 	void OnDisable() {
 		Game.main.currentSector.gameObject.SetActive(true);
+		playerShip.blocks.transform.parent = Crew.player.maglockShip.transform;
 	}
 
 	// Use this for initialization
@@ -29,6 +32,9 @@ public class JumpMap : MonoBehaviour {
 		canvas = GetComponentInChildren<Canvas>();
 		selector = Pool.For("Selector").TakeObject();
 		selector.SetActive(true);
+
+		playerShip = Pool.For("JumpShip").Take<JumpShip>();
+		playerShip.gameObject.SetActive(true);
 
 		var bounds = Util.GetCameraBounds();
 
