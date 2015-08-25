@@ -74,7 +74,7 @@ public class ShipCollision : PoolBehaviour {
 
 	
 	void UpdateCollision(IntVector2 pos) {
-		foreach (var other in blocks.Neighbors(pos)) {
+		foreach (var other in IntVector2.Neighbors(pos)) {
 			UpdateCollider(other);
 		}
 		

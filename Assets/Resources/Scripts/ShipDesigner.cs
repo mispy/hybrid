@@ -48,7 +48,7 @@ public class ShipDesigner : MonoBehaviour {
 
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
 		var neighborBlocks = new List<Block>();
-		foreach (var bp in designShip.blueprint.blocks.Neighbors(blockPos)) {
+		foreach (var bp in IntVector2.Neighbors(blockPos)) {
 			var block = designShip.blueprint.blocks[bp, BlockLayer.Base];
 			if (block != null) 
 				neighborBlocks.Add(block);

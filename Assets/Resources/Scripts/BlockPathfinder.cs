@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public static class BlockPathfinder {
+public static class BlockPather {
 	public static List<IntVector2> PathBetween(BlockMap blocks, IntVector2 start, IntVector2 end) {
 		//Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
 		// nodes that have already been analyzed and have a path from the start to them

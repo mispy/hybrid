@@ -164,7 +164,7 @@ public class CrewMind : MonoBehaviour {
 
 		var nearestBlock = ship.blocks[currentPos, BlockLayer.Base];
 		if (nearestBlock == null) {
-			foreach (var bp in ship.blocks.Neighbors(currentPos)) {
+			foreach (var bp in IntVector2.Neighbors(currentPos)) {
 				if (ship.blocks[bp, BlockLayer.Base] != null)
 					nearestBlock = ship.blocks[bp, BlockLayer.Base];
 			}
@@ -174,7 +174,7 @@ public class CrewMind : MonoBehaviour {
 			// we're not next to the ship yet, just move towards it
 			blockPath = new List<IntVector2>() { block.pos };
 		} else {
-			var path = ship.blocks.PathBetween(currentPos, block.pos);
+			var path = BlockPather.PathBetween(ship.blocks, currentPos, block.pos);
 			if (path != null) blockPath = path;
 		}
 

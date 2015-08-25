@@ -24,7 +24,7 @@ public class Generate : MonoBehaviour {
 			var edge = Util.GetRandom(edges);
 			edges.Remove(edge);
 
-			foreach (var neighborPos in frag.blocks.Neighbors(edge)) {
+			foreach (var neighborPos in IntVector2.Neighbors(edge)) {
 				if (frag.blocks[neighborPos, BlockLayer.Base] == null) {
 					var srcBlock = srcShip.blocks[neighborPos, BlockLayer.Base];
 					if (srcBlock != null) {

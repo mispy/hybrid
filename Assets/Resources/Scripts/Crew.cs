@@ -91,7 +91,7 @@ public class Crew : MonoBehaviour {
 		if (ship.blocks[blockPos, BlockLayer.Base] != null)
 			return true;
 
-		foreach (var bp in ship.blocks.NeighborsWithDiagonal(blockPos)) {
+		foreach (var bp in IntVector2.NeighborsWithDiagonal(blockPos)) {
 			if (ship.blocks[bp, BlockLayer.Base] != null)
 				return true;
 		}
