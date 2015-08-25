@@ -1,15 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class JumpBeacon : MonoBehaviour {
+	[HideInInspector]
+	public SpriteRenderer renderer;
+	public List<JumpShip> ships = new List<JumpShip>();
 
-	// Use this for initialization
-	void Start () {
-	
+	void Awake() {
+		renderer = GetComponent<SpriteRenderer>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	public void PlaceShip(JumpShip jumpShip) {
+		var size = renderer.bounds.size;
+		jumpShip.transform.position = new Vector2(transform.position.x + size.x, transform.position.y + size.y);
+		ships.Add(jumpShip);
+		jumpShip.currentBeacon = this;
+		jumpShip.destBeacon = null;
 	}
 }

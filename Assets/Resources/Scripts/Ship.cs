@@ -34,9 +34,12 @@ public class Ship : PoolBehaviour {
 		return templates[name];
 	}
 
+	public static Ship RandomTemplate() {
+		return templates[Util.GetRandom(templates.Keys.ToList())];
+	}
+
 	public static void LoadTemplates() {
 		foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
-
 			var serializer = new XmlSerializer(typeof(ShipData));
 			
 			ShipData data;
@@ -48,6 +51,14 @@ public class Ship : PoolBehaviour {
 			var ship = Save.LoadShip(data);
 			templates[ship.name] = ship;
 		}
+	}
+
+	public static Ship Create(Ship template) {
+		var ship = Pool.For("Ship").Take<Ship>();
+		foreach (var block in template.blocks.AllBlocks) {
+			ship.blocks[block.pos, block.layer] = new Block(block);
+		}
+		return ship;
 	}
 
 	public BlockMap blocks;
@@ -104,15 +115,6 @@ public class Ship : PoolBehaviour {
 	}
 	
 	void Start() {								
-		UpdateMass();	
-		UpdateShields();	
-		UpdateGravity();
-
-		foreach (var block in blocks.AllBlocks) {
-			if (block.type.isComplexBlock)
-				AddBlockComponent(block);
-		}
-
 		Ship.allActive.Add(this);
 
 		InvokeRepeating("UpdateMass", 0.0f, 0.05f);

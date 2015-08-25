@@ -174,6 +174,23 @@ public class BlockMap : PoolBehaviour {
 		}
 
 		chunk[localX, localY] = block;
+
+		if (x >= maxX || x <= minX || y >= maxY || y <= minY)
+			RecalcBounds();
+	}
+
+	void RecalcBounds() {
+		minX = 0;
+		minY = 0;
+		maxX = 0;
+		maxY = 0;
+
+		foreach (var block in AllBlocks) {
+			minX = Math.Min(minX, block.pos.x);
+			minY = Math.Min(minY, block.pos.y);
+			maxX = Math.Max(maxX, block.pos.x);
+			maxY = Math.Max(maxY, block.pos.y);
+		}
 	}
 
 	public void RemoveBlock(Block block) {

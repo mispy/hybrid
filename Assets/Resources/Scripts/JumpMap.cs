@@ -12,7 +12,7 @@ public class JumpMap : MonoBehaviour {
 
 	LineRenderer lineRenderer;
 	List<JumpBeacon> beacons = new List<JumpBeacon>();
-	JumpBeacon hoverBeacon;
+	List<JumpShip> ships = new List<JumpShip>();
 	JumpBeacon selectedBeacon;
 	Canvas canvas;
 	GameObject selector;
@@ -25,39 +25,28 @@ public class JumpMap : MonoBehaviour {
 	Camera camera;
 
 	bool isWaiting = false;
+	bool isJumping = false;
 
 	public static void Activate() {
-		Game.main.currentSector.gameObject.SetActive(false);
+		Game.main.activeSector.gameObject.SetActive(false);
 		Game.main.jumpMap.gameObject.SetActive(true);
 	}
 
 	void OnEnable() {
+		playerShip.ship = Crew.player.maglockShip;
 		playerShip.tiles.SetBlocks(Crew.player.maglockShip.blocks);
 		playerShip.Rescale();
 	}
 
 	void OnDisable() {
-		Game.main.currentSector.gameObject.SetActive(true);
+		Game.main.activeSector.gameObject.SetActive(true);
 	}
 
 	// Use this for initialization
 	void Awake() {				
-		for (var i = 0; i < 10; i++) {
-			//var ship = Ship.RandomTemplate();
-		}
-		playerShip = Pool.For("JumpShip").Take<JumpShip>();
-		playerShip.transform.parent = transform;
-		playerShip.gameObject.SetActive(true);
-
 		camera = GetComponentInChildren<Camera>();
 		camera.orthographicSize = 4;
-
-		canvas = GetComponentInChildren<Canvas>();
-		selector = Pool.For("Selector").TakeObject();
-		selector.transform.parent = transform;
-		selector.SetActive(true);
-
-		var bounds = Util.GetCameraBounds();
+		var bounds = Util.GetCameraBounds(camera);
 
 		for (var i = 0; i < 20; i++) {
 			var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();
@@ -68,9 +57,31 @@ public class JumpMap : MonoBehaviour {
 			var rend = beacon.GetComponent<Renderer>();
 			//rend.material.color = Util.RandomColor();	
 			beacon.gameObject.SetActive(true);	
-
+			
 			beacons.Add(beacon);
 		}
+
+		for (var i = 0; i < 10; i++) {
+			var ship = Ship.Create(Ship.RandomTemplate());
+			var jumpShip = JumpShip.For(ship);
+			jumpShip.transform.parent = transform;
+			jumpShip.gameObject.SetActive(true);
+			ships.Add(jumpShip);
+
+			var beacon = Util.GetRandom(beacons);
+			beacon.PlaceShip(jumpShip);
+		}
+
+		playerShip = Pool.For("JumpShip").Take<JumpShip>();
+		playerShip.transform.parent = transform;
+		playerShip.gameObject.SetActive(true);
+		ships.Add(playerShip);
+
+		canvas = GetComponentInChildren<Canvas>();
+		selector = Pool.For("Selector").TakeObject();
+		selector.transform.parent = transform;
+		selector.SetActive(true);
+
 
 		var positions = new List<Vector3>();
 
@@ -79,12 +90,12 @@ public class JumpMap : MonoBehaviour {
 		foreach (var button in GetComponentsInChildren<Button>(includeInactive: true)) {
 			if (button.name == "FoldButton") {
 				foldButton = button;
-				foldButton.onClick.AddListener(() => playerShip.FoldJump(selectedBeacon));
+				foldButton.onClick.AddListener(() => FoldJump(selectedBeacon));
 			}
 
 			if (button.name == "EnterButton") {
 				enterButton = button;
-				enterButton.onClick.AddListener(() => playerShip.EnterSector());
+				enterButton.onClick.AddListener(() => EnterSector());
 			}
 
 			if (button.name == "WaitButton") {
@@ -100,6 +111,9 @@ public class JumpMap : MonoBehaviour {
 
 	}
 
+	void EnterSector() {
+	}
+
 	void Wait() {
 		isWaiting = true;
 		waitButton.gameObject.SetActive(false);
@@ -110,6 +124,11 @@ public class JumpMap : MonoBehaviour {
 		isWaiting = false;
 		waitButton.gameObject.SetActive(true);
 		stopWaitButton.gameObject.SetActive(false);
+	}
+
+	void FoldJump(JumpBeacon beacon) {
+		Game.main.activeSector.Unload();
+		playerShip.FoldJump(beacon);
 	}
 
 	void SelectBeacon(JumpBeacon beacon) {
@@ -129,13 +148,20 @@ public class JumpMap : MonoBehaviour {
 
 	// Only happens when in motion or waiting
 	void JumpUpdate() {
+		foreach (var ship in ships) {
+			if (ship != playerShip && ship.destBeacon == null && Random.Range(0, 100) == 99) {
+				var beacon = Util.GetRandom(beacons);
+				ship.FoldJump(beacon);
+			}
+			ship.JumpUpdate();
+		}
 	}
 
 	// Update is called once per frame
 	void Update() {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
-		var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First ();
+		var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First();
 		
 		if (Input.GetKeyDown(KeyCode.J)) {
 			gameObject.SetActive(false);
@@ -155,6 +181,6 @@ public class JumpMap : MonoBehaviour {
 			enterButton.gameObject.SetActive(false);
 		}
 
-		if (isWaiting) JumpUpdate();
+		if (isWaiting || playerShip.destBeacon != null) JumpUpdate();
 	}
 }

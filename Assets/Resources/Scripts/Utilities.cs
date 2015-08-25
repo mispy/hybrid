@@ -171,8 +171,7 @@ public class Util {
 		return -1;
 	}
 
-	public static Bounds GetCameraBounds() {
-		var camera = Camera.main;
+	public static Bounds GetCameraBounds(Camera camera) {
 		float screenAspect = (float)Screen.width / (float)Screen.height;
 		float cameraHeight = camera.orthographicSize * 2;
 		Bounds bounds = new Bounds(

@@ -47,9 +47,4 @@ public class PowerNode : BlockType {
 			receiver.consumeRate = 0.0f;
 		}
 	}
-
-	public void OnDestroy() {
-		producer.OnPowerTaken -= OnPowerTaken;
-		receiver.OnPowerAdded -= OnPowerAdded;
-	}
 }

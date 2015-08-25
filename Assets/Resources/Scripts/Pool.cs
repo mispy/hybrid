@@ -72,10 +72,10 @@ public class Pool {
 		for (int i = 0; i < pooledObjects.Count; i++) {
 			if (pooledObjects[i] == null) {
 				pooledObjects[i] = CreateNew();
-				pooledObjects[i].transform.SetParent(Game.main.currentSector.transform);
+				pooledObjects[i].transform.SetParent(Game.main.activeSector.transform);
 				return pooledObjects[i];
 			} else if (!pooledObjects[i].activeSelf) {
-				pooledObjects[i].transform.SetParent(Game.main.currentSector.transform);
+				pooledObjects[i].transform.SetParent(Game.main.activeSector.transform);
 				return pooledObjects[i];
 			}
 		}

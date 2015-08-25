@@ -19,7 +19,7 @@ public class Game : MonoBehaviour {
 
 	public Canvas canvas;
 	public Text debugText;
-	public Sector currentSector;
+	public ActiveSector activeSector;
 	public JumpMap jumpMap;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
@@ -113,7 +113,7 @@ public class Game : MonoBehaviour {
 		
 		debug.LoadShip();
 
-		var sectorSize = Game.main.currentSector.radius;
+		var sectorSize = Game.main.activeSector.radius;
 
 		for (var i = 0; i < 100; i++) {
 			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
@@ -136,10 +136,6 @@ public class Game : MonoBehaviour {
 		mousePos.z = 0f;
 
 		if (Game.inputBlocked) return;
-
-		if (Input.GetKeyDown(KeyCode.M)) {
-			currentSector.gameObject.SetActive(false);
-		}
 
 		if (Input.GetKeyDown(KeyCode.BackQuote)) {
 			if (debugMenu.gameObject.activeInHierarchy)
