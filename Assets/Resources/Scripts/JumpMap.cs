@@ -61,7 +61,7 @@ public class JumpMap : MonoBehaviour {
 			beacons.Add(beacon);
 		}
 
-		for (var i = 0; i < 10; i++) {
+		for (var i = 0; i < 20; i++) {
 			var ship = Ship.Create(Ship.RandomTemplate());
 			var jumpShip = JumpShip.For(ship);
 			jumpShip.transform.parent = transform;
@@ -112,6 +112,9 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void EnterSector() {
+		Game.main.activeSector.LoadSector(playerShip.currentBeacon);
+		Game.main.activeSector.gameObject.SetActive(true);
+		gameObject.SetActive(false);
 	}
 
 	void Wait() {
@@ -127,7 +130,7 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void FoldJump(JumpBeacon beacon) {
-		Game.main.activeSector.Unload();
+		Game.main.activeSector.UnloadSector();
 		playerShip.FoldJump(beacon);
 	}
 

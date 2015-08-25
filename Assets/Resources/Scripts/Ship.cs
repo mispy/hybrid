@@ -114,13 +114,13 @@ public class Ship : PoolBehaviour {
 		blockComponentHolder = obj;
 	}
 	
-	void Start() {								
+	void OnEnable() {
 		Ship.allActive.Add(this);
-
+		
 		InvokeRepeating("UpdateMass", 0.0f, 0.05f);
 	}
-		
-	public override void OnRecycle() {
+
+	void OnDisable() {
 		Ship.allActive.Remove(this);
 	}
 

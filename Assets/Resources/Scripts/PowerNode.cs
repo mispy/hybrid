@@ -10,7 +10,7 @@ public class PowerNode : BlockType {
 	private float defaultSupplyRate;
 	private float defaultConsumeRate;
 
-	public void Start() {
+	public void Awake() {
 		producer = GetComponent<PowerProducer>();
 		reserve = GetComponent<PowerReserve>();
 		receiver = GetComponent<PowerReceiver>();
