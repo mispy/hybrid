@@ -32,12 +32,11 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void OnEnable() {
-		Crew.player.maglockShip.blocks.transform.parent = playerShip.transform;
+		playerShip.tiles.SetBlocks(Crew.player.maglockShip.blocks);
 		playerShip.Rescale();
 	}
 
 	void OnDisable() {
-		playerShip.blocks.transform.parent = Crew.player.maglockShip.transform;
 		Game.main.currentSector.gameObject.SetActive(true);
 	}
 

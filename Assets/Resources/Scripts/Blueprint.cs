@@ -9,24 +9,27 @@ public class Blueprint : PoolBehaviour {
 	[HideInInspector]
 	public BlockMap blocks;
 	[HideInInspector]
+	public TileRenderer tiles;
+	[HideInInspector]
 	public Ship ship;
 
 	public override void OnCreate() {
 		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockAdded += OnBlockAdded;
+		tiles = GetComponent<TileRenderer>();
 	}
 
 	public void Start() {
-		foreach (var chunk in blocks.baseTiles.AllChunks) {
+		foreach (var chunk in tiles.baseTiles.AllChunks) {
 			OnChunkCreated(chunk);
 		}
 
-		foreach (var chunk in blocks.topTiles.AllChunks) {
+		foreach (var chunk in tiles.topTiles.AllChunks) {
 			OnChunkCreated(chunk);
 		}
 
-		blocks.baseTiles.OnChunkCreated += OnChunkCreated;
-		blocks.topTiles.OnChunkCreated += OnChunkCreated;
+		tiles.baseTiles.OnChunkCreated += OnChunkCreated;
+		tiles.topTiles.OnChunkCreated += OnChunkCreated;
 	}
 
 	public void OnBlockAdded(Block newBlock) {

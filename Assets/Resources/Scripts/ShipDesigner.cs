@@ -15,7 +15,6 @@ public class ShipDesigner : MonoBehaviour {
 			cursorObj.name = "Cursor";
 			cursor = cursorObj.GetComponent<Blueprint>();
 			cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make<Wall>();
-			cursor.blocks.EnableRendering();
 			cursorObj.SetActive(true);
 		} else {
 			cursor.gameObject.SetActive(true);
@@ -31,7 +30,7 @@ public class ShipDesigner : MonoBehaviour {
 	public void OnDisable() {
 		cursor.gameObject.SetActive(false);
 		if (designShip != null) {
-			designShip.blocks.EnableRendering();
+			designShip.tiles.EnableRendering();
 		}
 		//Game.main.debugText.text = "";
 		//Game.main.debugText.color = Color.white;
@@ -39,11 +38,11 @@ public class ShipDesigner : MonoBehaviour {
 
 	void SetDesignShip(Ship ship) {
 		if (designShip != null) {
-			designShip.blocks.EnableRendering();
+			designShip.tiles.EnableRendering();
 		}
 
 		designShip = ship;
-		designShip.blocks.DisableRendering();
+		designShip.tiles.DisableRendering();
 	}
 
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
@@ -135,10 +134,10 @@ public class ShipDesigner : MonoBehaviour {
 		var isValid = IsValidPlacement(targetBlockPos, cursorBlock, adjoiningBlock);
 
 		if (isValid) {
-			foreach (var renderer in cursor.blocks.Renderers)
+			foreach (var renderer in cursor.tiles.MeshRenderers)
 				renderer.material.color = Color.green;
 		} else {
-			foreach (var renderer in cursor.blocks.Renderers)
+			foreach (var renderer in cursor.tiles.MeshRenderers)
 				renderer.material.color = Color.red;
 		}
 		

@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 451184}
   - 114: {fileID: 11483598}
+  - 114: {fileID: 11457220}
   m_Layer: 0
   m_Name: JumpShip
   m_TagString: Untagged
@@ -28,6 +29,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11457220
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 132166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 405017db648a94542a79b7b7b52c90d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseTiles: {fileID: 0}
+  topTiles: {fileID: 0}
 --- !u!114 &11483598
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -40,6 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blocks: {fileID: 0}
+  currentBeacon: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

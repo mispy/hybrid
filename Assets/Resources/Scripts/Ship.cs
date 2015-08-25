@@ -51,6 +51,7 @@ public class Ship : PoolBehaviour {
 	}
 
 	public BlockMap blocks;
+	public TileRenderer tiles;
 	public Blueprint blueprint;
 	
 	public Rigidbody rigidBody;
@@ -82,12 +83,10 @@ public class Ship : PoolBehaviour {
 
     public override void OnCreate() {
 		rigidBody = GetComponent<Rigidbody>();
-		blocks = Pool.For("BlockMap").Take<BlockMap>();
-		blocks.transform.parent = transform;
-		blocks.transform.position = transform.position;
+		tiles = GetComponent<TileRenderer>();
+		blocks = GetComponent<BlockMap>();
 		blocks.OnBlockRemoved += OnBlockRemoved;
 		blocks.OnBlockAdded += OnBlockAdded;
-		blocks.gameObject.SetActive(true);
 
 		var obj = Pool.For("Blueprint").TakeObject();
 		obj.transform.parent = transform;

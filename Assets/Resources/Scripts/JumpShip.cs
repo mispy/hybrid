@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class JumpShip : PoolBehaviour {
-	public BlockMap blocks;
+	public TileRenderer tiles;
 	public JumpBeacon currentBeacon;
 
 	public void FoldJump(JumpBeacon beacon) {
@@ -32,7 +32,7 @@ public class JumpShip : PoolBehaviour {
 	}
 
 	public void Rescale() {
-		blocks = GetComponentInChildren<BlockMap>();
-		transform.localScale = new Vector3(1.0f/blocks.Bounds.size.x, 1.0f/blocks.Bounds.size.y, 1.0f);
+		tiles = GetComponent<TileRenderer>();
+		transform.localScale = new Vector3(1.0f/tiles.Bounds.size.x, 1.0f/tiles.Bounds.size.y, 1.0f);
 	}
 }

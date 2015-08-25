@@ -21,8 +21,6 @@ public class BlockMap : PoolBehaviour {
 	public int heightInChunks;
 	public BlockChunk[,] baseChunks;
 	public BlockChunk[,] topChunks;
-	public TileLayer baseTiles;
-	public TileLayer topTiles;
 
 	public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
 
@@ -33,16 +31,6 @@ public class BlockMap : PoolBehaviour {
 
 	public delegate void ChunkCreatedHandler(BlockChunk newChunk);
 	public event ChunkCreatedHandler OnChunkCreated;
-
-	public IEnumerable<MeshRenderer> Renderers {
-		get {
-			foreach (var chunk in baseTiles.AllChunks)
-				yield return chunk.renderer;
-
-			foreach (var chunk in topTiles.AllChunks)
-				yield return chunk.renderer;
-		}
-	}
 
 	public BlockMap() {
 		minX = 0;
@@ -66,32 +54,6 @@ public class BlockMap : PoolBehaviour {
 			foreach (var comp in type.GetComponents<BlockType>()) {
 				blockTypeCache[comp.GetType()] = new List<Block>();
 			}
-		}
-	}
-
-	public override void OnCreate() {
-		var obj = Pool.For("TileLayer").TakeObject();
-		obj.name = "TileLayer (Base)";
-		obj.transform.parent = transform;
-		obj.transform.position = transform.position;
-		obj.SetActive(true);
-		baseTiles = obj.GetComponent<TileLayer>();
-		
-		obj = Pool.For("TileLayer").TakeObject();
-		obj.name = "TileLayer (Top)";
-		obj.transform.parent = transform;
-		obj.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
-		obj.SetActive(true);
-		topTiles = obj.GetComponent<TileLayer>();
-	} 
-
-	public Bounds Bounds {
-		get {
-			var bounds = new Bounds(Vector3.zero, Vector3.zero);
-			foreach (var chunk in baseTiles.AllChunks) {
-				bounds.Encapsulate(chunk.renderer.bounds);
-			}
-			return bounds;
 		}
 	}
 
@@ -178,22 +140,6 @@ public class BlockMap : PoolBehaviour {
 			return AllBlocks.Count();
 		}
 	}
-	
-	public void EnableRendering() {
-		baseTiles.EnableRendering();
-		topTiles.EnableRendering();
-		foreach (var renderer in GetComponentsInChildren<SpriteRenderer>()) {
-			renderer.enabled = true;
-		}
-	}
-	
-	public void DisableRendering() {
-		baseTiles.DisableRendering();
-		topTiles.DisableRendering();
-		foreach (var renderer in GetComponentsInChildren<SpriteRenderer>()) {
-			renderer.enabled = false;
-		}
-	}
 
 	public BlockChunk NewChunk(BlockChunk[,] chunks, int trueChunkX, int trueChunkY) {
 		//Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
@@ -230,19 +176,10 @@ public class BlockMap : PoolBehaviour {
 		chunk[localX, localY] = block;
 	}
 
-	private void SetTileValue(int x, int y, BlockLayer layer, Tile tile) {
-		var tileLayer = baseTiles;
-		if (layer == BlockLayer.Top)
-			tileLayer = topTiles;
-
-		tileLayer[x, y] = tile;
-	}
-
 	public void RemoveBlock(Block block) {
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
 				SetChunkedValue(block.pos.x + i, block.pos.y + j, block.layer, null);
-				SetTileValue(block.pos.x + i, block.pos.y + j, block.layer, null);
 			}
 		}
 
@@ -260,7 +197,6 @@ public class BlockMap : PoolBehaviour {
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
 				SetChunkedValue(bp.x + i, bp.y + j, layer, block);
-				SetTileValue(bp.x + i, bp.y + j, layer, block.type.tileable.GetRotatedTile(i, j, block.orientation));
 			}
 		}
 	
