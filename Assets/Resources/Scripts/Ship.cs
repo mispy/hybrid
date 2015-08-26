@@ -117,7 +117,7 @@ public class Ship : PoolBehaviour {
 	void OnEnable() {
 		Ship.allActive.Add(this);
 		
-		InvokeRepeating("UpdateMass", 0.0f, 0.05f);
+		InvokeRepeating("UpdateMass", 0.0f, 0.5f);
 	}
 
 	void OnDisable() {

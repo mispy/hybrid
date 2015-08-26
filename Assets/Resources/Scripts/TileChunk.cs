@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class TileChunk : PoolBehaviour {
-	public int width = 32;
-	public int height = 32;
+	public static int width = 16;
+	public static int height = 16;
 	
 	[HideInInspector]
 	public MeshRenderer renderer;

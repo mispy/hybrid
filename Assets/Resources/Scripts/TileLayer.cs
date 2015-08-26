@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public class TileLayer : MonoBehaviour {
+public class TileLayer : PoolBehaviour {
 	public int maxX;
 	public int minX;
 	public int maxY;
@@ -24,17 +24,17 @@ public class TileLayer : MonoBehaviour {
 	public delegate void ChunkCreatedHandler(TileChunk newChunk);
 	public event ChunkCreatedHandler OnChunkCreated;
 	
-	public TileLayer() {
+	public override void OnCreate() {
 		minX = 0;
 		minY = 0;
 		maxX = 0;
 		maxY = 0;
 		
-		chunkWidth = 32;
-		chunkHeight = 32;
+		chunkWidth = TileChunk.width;
+		chunkHeight = TileChunk.height;
 		widthInChunks = 16;
 		heightInChunks = 16;
-		chunks = new TileChunk[chunkWidth, chunkHeight];
+		chunks = new TileChunk[widthInChunks, heightInChunks];
 		
 		centerChunkX = widthInChunks/2;
 		centerChunkY = heightInChunks/2;
