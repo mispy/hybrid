@@ -38,13 +38,19 @@ public class DebugMenu : MonoBehaviour {
 	}
 
 	public void MakeAsteroid(Vector2 pos) {		
+		
+		var sectorSize = Game.main.activeSector.radius;
 		for (var i = 0; i < 10; i++) {
-			var radius = Random.Range(5, 10);
-			if (Physics.OverlapSphere(pos, radius*Tile.worldSize).Length == 0) {
-				Generate.Asteroid(pos, radius);
-				break;
+			pos = new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize));
+			for (var j = 0; j < 10; i++) {
+				var radius = Random.Range(5, 10);
+				if (Physics.OverlapSphere(pos, radius*Tile.worldSize).Length == 0) {
+					Generate.Asteroid(pos, radius);
+					break;
+				}
 			}
 		}
+	
 	}
 
 	public void SpawnCrew(Vector2 pos) {

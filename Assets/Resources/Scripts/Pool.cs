@@ -44,6 +44,7 @@ public class Pool {
 
 	public GameObject prefab;
 	public List<GameObject> pooledObjects;
+	public int lastIndex = 0;
 
 	public Pool(GameObject prefab, int startingAmount) {
 		this.prefab = prefab;
@@ -67,22 +68,14 @@ public class Pool {
 	}
 	
 	public GameObject TakeObject() {
-		GameObject obj = null;
-
-		for (int i = 0; i < pooledObjects.Count; i++) {
-			if (pooledObjects[i] == null) {
-				pooledObjects[i] = CreateNew();
-				pooledObjects[i].transform.SetParent(Game.main.activeSector.transform);
-				return pooledObjects[i];
-			} else if (!pooledObjects[i].activeSelf) {
-				pooledObjects[i].transform.SetParent(Game.main.activeSector.transform);
-				return pooledObjects[i];
-			}
+		if (lastIndex < pooledObjects.Count) {
+			var obj = pooledObjects[lastIndex];
+			lastIndex += 1;
+			return obj;
 		}
 
 		// need more! double the available objects
-		var currentTotal = pooledObjects.Count;
-		for (var i = 0; i < currentTotal; i++) {
+		for (var i = 0; i < lastIndex; i++) {
 			pooledObjects.Add(CreateNew());
 		}
 
