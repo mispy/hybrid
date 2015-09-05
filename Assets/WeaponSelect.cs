@@ -8,7 +8,6 @@ public class WeaponSelect : MonoBehaviour {
 	float startX;
 	float startY;
 	RectTransform panel;
-	Ship ship;
 
 	List<BlockType> fireableTypes = new List<BlockType>();
 	List<Button> blockButtons = new List<Button>();
@@ -20,10 +19,8 @@ public class WeaponSelect : MonoBehaviour {
 	}
 	
 	void OnEnable() {
-		ship = Crew.player.maglockShip;
-
 		foreach (var type in Block.allTypes) {
-			if (type.canBeFired && ship.blocks.Has(type)) {
+			if (type.canBeFired && Ship.player.blocks.Has(type)) {
 				fireableTypes.Add(type);
 
 				var button = Pool.For("BlockButton").Take<Button>();

@@ -36,10 +36,14 @@ public class ParallaxQuad : MonoBehaviour {
 	Vector2 startCameraPosition;
 	float   startScaleAspect;
 	float   startCameraOrthoGraphicSize;
-	
+	Renderer renderer;
+
+	void Awake() {
+		renderer = GetComponent<Renderer>();
+	}
+
 	void Start() {
 		cam = Camera.main;
-		
 		//keep reference to initial settings
 		startMainTextureScale = this.GetComponent<Renderer>().material.mainTextureScale;
 		startMainTextureOffset = this.GetComponent<Renderer>().material.mainTextureOffset;
@@ -96,7 +100,7 @@ public class ParallaxQuad : MonoBehaviour {
 		parallaxScale = (1f-p) + (cam.orthographicSize * p) * 1f;
 		textureScale.x = parallaxScale * baseTextureScale.x * cam.aspect; 
 		textureScale.y = parallaxScale * baseTextureScale.y;
-		GetComponent<Renderer>().material.mainTextureScale = textureScale;
+		renderer.material.mainTextureScale = textureScale;
 		
 		//position on camera
 		pos.x = cam.transform.position.x;
@@ -106,6 +110,6 @@ public class ParallaxQuad : MonoBehaviour {
 		//texture offset
 		textureOffset.x = baseTextureOffset.x + ((pos.x * offsetConversion.x) - textureScale.x * 0.5f);
 		textureOffset.y = baseTextureOffset.y + ((pos.y * offsetConversion.y) - textureScale.y * 0.5f);			   
-		GetComponent<Renderer>().material.mainTextureOffset = textureOffset;
+		renderer.material.mainTextureOffset = textureOffset;
 	}
 }

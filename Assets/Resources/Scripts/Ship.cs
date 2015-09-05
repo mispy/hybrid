@@ -14,6 +14,7 @@ public class Ship : PoolBehaviour {
 	public static GameObject prefab;
 	public static List<Ship> allActive = new List<Ship>();
 	public static Dictionary<string, Ship> templates = new Dictionary<string, Ship>();
+	public static Ship player;
 
 	public static IEnumerable<Ship> ClosestTo(Vector2 worldPos) {
 		return Ship.allActive.OrderBy((ship) => Vector2.Distance(ship.transform.position, worldPos));
