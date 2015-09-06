@@ -426,6 +426,14 @@ public class Ship : PoolBehaviour {
 		}
 	}
 
+	void FixedUpdate() {
+		if (transform.position.magnitude > Game.main.activeSector.radius) {
+			var towardsCenter = (Vector3.zero - transform.position).normalized;
+			var factor = transform.position.magnitude - Game.main.activeSector.radius;
+			rigidBody.AddForce(towardsCenter * factor * 10 * Time.fixedDeltaTime);
+		}
+	}
+
 	void UpdateMesh() {
 		Profiler.BeginSample("UpdateMesh");
 

@@ -77,7 +77,7 @@ Category {
 				fixed4 col = 2.0f * i.color * _TintColor * tex2D(_MainTex, i.texcoord);
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				
-				if (length(i.worldPos) <= 300.0) {
+				if (length(i.worldPos) <= 200.0) {
 					col = fixed4(0, 0, 0, 0);
 				} else {
 					col = fixed4(0.3, 0, 0, 0.3);
