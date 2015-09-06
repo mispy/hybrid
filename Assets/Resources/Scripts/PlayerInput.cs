@@ -60,7 +60,7 @@ public class PlayerInput : MonoBehaviour {
 	}
 	
 	void HandleShipInput() {				
-		var ship = crew.controlConsole.ship;
+		var ship = Ship.player;
 
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 		
@@ -107,51 +107,9 @@ public class PlayerInput : MonoBehaviour {
 		}*/
 	}
 
-	void HandleCrewInput() {		
-		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
-		if (Input.GetKeyDown(KeyCode.F1)) {
-			if (Game.main.shipDesigner.gameObject.activeInHierarchy) {
-				Game.main.shipDesigner.gameObject.SetActive(false);
-			} else {
-				Game.main.shipDesigner.gameObject.SetActive(true);
-			}
-		}
-
-		if (!Game.main.shipDesigner.gameObject.activeInHierarchy) {
-			if (Input.GetMouseButton(0)) {
-				crew.constructor.Build(pz);
-			} else {
-				crew.constructor.StopBuilding();
-			}
-		}
-		
-		if (Input.GetKeyDown(KeyCode.E) && crew.currentBlock != null) {
-			crew.UseBlock(crew.currentBlock);
-			return;
-		}	
-
-		if (crew.maglockShip != null) {
-			HandleLockedMovement();
-		} else {
-			HandleFreeMovement();
-		}		
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		if (Game.inputBlocked) return;
-
-		if (crew.controlConsole != null) {
-			if (Input.GetKeyDown(KeyCode.E)) {
-				crew.controlConsole = null;
-				weaponSelect.gameObject.SetActive(false);
-			} else {
-				weaponSelect.gameObject.SetActive(true);
-				HandleShipInput();
-			}
-		} else {
-			HandleCrewInput();
-		}
+		HandleShipInput();
 	}
 }

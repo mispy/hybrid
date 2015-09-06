@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: planet_small
-  m_Shader: {fileID: 203, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: bounds
+  m_Shader: {fileID: 4800000, guid: 94d52e6a90ec7a34c83cf64fcfa39124, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
@@ -19,19 +19,19 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 3daf8abdea7ff447a942bd9db408cef1, type: 3}
-          m_Scale: {x: 7, y: 7}
-          m_Offset: {x: -2, y: -4.5}
+          m_Texture: {fileID: 2800000, guid: 52684cd79ba038c48b396b45748587aa, type: 3}
+          m_Scale: {x: .349999994, y: .349999994}
+          m_Offset: {x: .400000006, y: .219999999}
     m_Floats:
       data:
         first:
           name: _InvFade
-        second: 3
+        second: 1
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .133812726, g: .33088237, b: .32272774, a: 1}
+        second: {r: .241864055, g: .170523375, b: .279411793, a: 1}
       data:
         first:
           name: _TintColor

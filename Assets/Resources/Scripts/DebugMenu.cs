@@ -34,6 +34,7 @@ public class DebugMenu : MonoBehaviour {
 		var ship = Save.LoadShip(data);
 		ship.transform.position = new Vector3(0, 0, 0);
 		ship.gameObject.SetActive(true);
+		Ship.player = ship;
 		return ship;
 	}
 
