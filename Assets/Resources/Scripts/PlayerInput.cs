@@ -98,9 +98,18 @@ public class PlayerInput : MonoBehaviour {
 			rigid.angularVelocity = Vector3.zero;
 		}
 
+		if (Input.GetKeyDown(KeyCode.F1)) {
+			if (Game.main.shipDesigner.gameObject.activeInHierarchy) {
+				Game.main.shipDesigner.gameObject.SetActive(false);
+			} else {
+				Game.main.shipDesigner.gameObject.SetActive(true);
+			}
+		}
+
 		if (Input.GetKeyDown(KeyCode.J)) {
 			JumpMap.Activate();
 		}
+
 		
 		/*if (currentShip) {
 			Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);

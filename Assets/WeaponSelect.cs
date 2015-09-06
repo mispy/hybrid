@@ -16,6 +16,11 @@ public class WeaponSelect : MonoBehaviour {
 		panel = GetComponent<RectTransform>();
 		startX = -panel.sizeDelta.x/2;
 		startY = panel.sizeDelta.y/2;
+
+		// clean up placeholder UI
+		foreach (Transform child in transform) {
+			Destroy(child.gameObject);
+		}
 	}
 	
 	void OnEnable() {
