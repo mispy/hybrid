@@ -713,6 +713,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 200
+  leaveSectorMenu: {fileID: 800452728}
 --- !u!114 &632897231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3187,6 +3188,7 @@ GameObject:
   - 222: {fileID: 2123484020}
   - 114: {fileID: 2123484019}
   - 114: {fileID: 2123484018}
+  - 114: {fileID: 2123484021}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -3280,3 +3282,14 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2123484016}
+--- !u!114 &2123484021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2123484016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0186076f6a7feac44a2b26aff8527e6f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

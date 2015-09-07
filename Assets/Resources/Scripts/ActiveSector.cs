@@ -4,6 +4,8 @@ using System.Collections;
 public class ActiveSector : MonoBehaviour {
 	public float radius = 200f;
 
+	public GameObject leaveSectorMenu;
+
 	public void UnloadSector() {
 		foreach (var ship in Ship.allActive)
 			ship.gameObject.SetActive(false);
@@ -19,6 +21,18 @@ public class ActiveSector : MonoBehaviour {
 			jumpShip.ship.transform.parent = transform;
 			jumpShip.ship.transform.position = RandomEdge();
 			jumpShip.ship.gameObject.SetActive(true);
+		}
+	}
+
+	public bool IsOutsideBounds(Vector3 pos) {
+		return pos.magnitude > radius;
+	}
+
+	void Update() {
+		if (IsOutsideBounds(Ship.player.transform.position)) {
+			leaveSectorMenu.SetActive(true);
+		} else {
+			leaveSectorMenu.SetActive(false);
 		}
 	}
 }
