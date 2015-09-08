@@ -62,7 +62,7 @@ public class JumpMap : MonoBehaviour {
 		}
 
 		for (var i = 0; i < 20; i++) {
-			var ship = ShipManager.Create(ShipManager.RandomTemplate());
+			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
 			var jumpShip = JumpShip.For(ship);
 			jumpShip.transform.parent = transform;
 			jumpShip.gameObject.SetActive(true);
@@ -112,7 +112,7 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void EnterSector() {
-		Game.activeSector.LoadSector(playerShip.currentBeacon);
+		Game.activeSector.LoadSector(playerShip.ship.sector);
 		Game.activeSector.gameObject.SetActive(true);
 		gameObject.SetActive(false);
 	}

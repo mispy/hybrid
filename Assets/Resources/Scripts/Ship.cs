@@ -11,28 +11,42 @@ using System.Xml.Serialization;
 
 public static class ShipManager {
 	public static Dictionary<string, ShipData> templates = new Dictionary<string, ShipData>();
+	public static List<Ship> all = new List<Ship>();
+	public static Dictionary<string, Ship> byId = new Dictionary<string, Ship>();
 
-
-	public static ShipData Template(string name) {
-		return templates[name];
-	}
-	
 	public static ShipData RandomTemplate() {
 		return templates[Util.GetRandom(templates.Keys.ToList())];
 	}
 	
 	public static void LoadTemplates() {
-		foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.*.xml")) {
+		foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
 			var data = Save.Load<ShipData>(path);
-			templates[data.id] = data;
+			var id = Util.GetIdFromPath(path);
+			templates[id] = data;
+		}
+	}
+
+	public static void LoadAll() {
+		foreach (var path in Save.GetFiles("Ship")) {
+			var data = Save.Load<ShipData>(path);
+			var ship = ShipManager.Unpack(data);
+			var id = Util.GetIdFromPath(path);
+			ShipManager.all.Add(ship);
+			ShipManager.byId[id] = ship;
 		}
 	}
 	
-	public static Ship Create(ShipData template) {
-		return ShipManager.Deserialize(template);
+	public static void SaveAll() {
+		foreach (var sector in SectorManager.all) {
+			Save.Dump(sector, Save.GetPath("Sector", sector.Id));
+		}
 	}
 
-	public static Ship Deserialize(ShipData data) {
+	public static void Add(Ship ship) {
+		ShipManager.all.Add(ship);
+	}
+
+	public static Ship Unpack(ShipData data) {
 		var ship = new Ship();
 		ship.name = data.name;
 		
@@ -48,7 +62,7 @@ public static class ShipManager {
 		return ship;
 	}
 
-	public static ShipData Serialize(Ship ship) {
+	public static ShipData Pack(Ship ship) {
 		var data = new ShipData();
 		data.name = ship.name;
 
@@ -68,21 +82,23 @@ public static class ShipManager {
 		return data;
 	}
 }
+
 [Serializable]
 public class ShipData {
-	public string id;
 	public string name;
-	public Vector2 position;
+	/*public Vector2 position;
 	public Quaternion rotation;
 	public Vector2 velocity;
-	public Vector3 angularVelocity;
+	public Vector3 angularVelocity;*/
 	public BlockData[] blocks;
 	public BlockData[] blueprintBlocks;
+	public string sectorId;
 }
 
 
 public class Ship {
 	public string name;
+	public Sector sector;
 	public BlockMap blocks;
 	public BlockMap blueprintBlocks;
 	public float scrapAvailable = 0f;

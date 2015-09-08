@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
@@ -200,5 +201,9 @@ public class Util {
 		}  
 
 		return list;
+	}
+
+	public static string GetIdFromPath(string path) {
+		return Path.GetFileNameWithoutExtension(path);
 	}
 }

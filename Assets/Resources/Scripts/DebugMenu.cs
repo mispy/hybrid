@@ -9,7 +9,7 @@ public class DebugMenu : MonoBehaviour {
 	public void SaveShip() {
 		var ship = Game.playerShip;
 		if (ship == null) return;
-		var data = ShipManager.Serialize(ship);
+		var data = ShipManager.Pack(ship);
 		var path = Application.dataPath + "/Ships/" + ship.name + ".xml";
 		Save.Dump(data, path);
 		Game.main.BriefMessage("Saved " + path);
@@ -17,7 +17,7 @@ public class DebugMenu : MonoBehaviour {
 
 	public Ship LoadShip() {
 		var path = Application.dataPath + "/Ships/Asteroid.xml";//Directory.GetFiles(Application.dataPath + "/Ships/")[0];
-		var ship = ShipManager.Deserialize(Save.Load<ShipData>(path));
+		var ship = ShipManager.Unpack(Save.Load<ShipData>(path));
 		return ship;
 	}
 

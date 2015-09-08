@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters.Binary; 
 using System.IO;
 using System.Xml;
@@ -8,6 +9,18 @@ using System.Xml.Serialization;
 using System.Linq;
 
 public class Save {
+	public static string currentPath = "/Save";
+
+	public static IEnumerable<string> GetFiles(string dir) {
+		foreach (var path in Directory.GetFiles(Path.Combine(Save.currentPath, dir), "*.*.xml")) {
+			yield return path;
+		}
+	}
+
+	public static string GetPath(string type, string id) {
+		return Path.Combine(Save.currentPath, Path.Combine(type, id));
+	}
+
 	public static void SaveGame() {
 		var path = Application.dataPath + "/Saves/main.xml";
 	}

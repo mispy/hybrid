@@ -80,6 +80,25 @@ public class Game : MonoBehaviour {
 	public WeaponSelect weaponSelect;
 	public Text messageText;
 
+	void MakeUniverse() {
+		var cosmicWidth = 100;
+		var cosmicHeight = 100;
+
+		for (var i = 0; i < 100; i++) {
+			var sector = new Sector();
+			sector.cosmicX = Random.Range(-cosmicWidth/2, cosmicWidth/2);
+			sector.cosmicY = Random.Range(-cosmicHeight/2, cosmicHeight/2);
+			SectorManager.Add(sector);	
+		}
+		
+		for (var i = 0; i < 20; i++) {
+			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
+			var sector = Util.GetRandom(SectorManager.all);
+			ship.sector = sector;
+			ShipManager.Add(ship);
+		}
+	}
+
 	// Use this for initialization
 	void Awake () {		
 		Game.activeSector = GetComponentInChildren<ActiveSector>();
@@ -99,6 +118,10 @@ public class Game : MonoBehaviour {
 		Pool.CreatePools();		
 		ShipManager.LoadTemplates();
 
+		MakeUniverse();
+
+		Game.playerShip = Util.GetRandom(ShipManager.all);
+		Game.activeSector.LoadSector(Game.playerShip.sector);
 		//Save.LoadGame();
 
 
@@ -108,17 +131,7 @@ public class Game : MonoBehaviour {
 		//for (var i = 0; i < 5; i++) {
 		//	Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
 		//}
-
 		//InvokeRepeating("GenerateShip", 0.0f, 1.0f);
-
-		var debug = debugMenu.GetComponent<DebugMenu>();
-		
-		Game.playerShip = debug.LoadShip();
-		var form = Game.playerShip.LoadBlockform();
-		form.transform.parent = Game.activeSector.transform;
-		form.gameObject.SetActive(true);
-
-		var sectorSize = Game.activeSector.radius;
 
 		for (var i = 0; i < 100; i++) {
 			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
