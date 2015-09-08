@@ -64,8 +64,6 @@ public class CrewMind : MonoBehaviour {
 	}
 	
 	void Start() {
-		if (Crew.player == this.crew)
-			return;
 		InvokeRepeating("UpdateTasks", 0.0f, 0.05f);
 	}
 
@@ -105,12 +103,7 @@ public class CrewMind : MonoBehaviour {
 
 
 	void Update() {
-		if (Crew.player == this.crew) {
-			this.gameObject.SetActive(false);
-			return;
-		}
-
-		if (crew.maglockShip != null) {
+		if (crew.maglockForm != null) {
 			UpdateLockedMovement();
 		} else {
 			UpdateFreeMovement();
@@ -124,7 +117,7 @@ public class CrewMind : MonoBehaviour {
 	}
 
 	bool IsEnemy(Crew other) {
-		return other == Crew.player;
+		return other != this;
 	}
 
 	void UpdateLockedMovement() {		
@@ -146,7 +139,7 @@ public class CrewMind : MonoBehaviour {
 
 		var speed = 10f;	
 		
-		Vector3 worldPos = myShip.BlockToWorldPos(blockPath[0]);
+		Vector3 worldPos = myShip.form.BlockToWorldPos(blockPath[0]);
 		var dist = worldPos - transform.position;
 		
 		if (dist.magnitude < 1f) {
@@ -160,7 +153,7 @@ public class CrewMind : MonoBehaviour {
 
 	public void PathToBlock(Block block) {
 		var ship = block.ship;
-		var currentPos = ship.WorldToBlockPos(transform.position);
+		var currentPos = ship.form.WorldToBlockPos(transform.position);
 
 		var nearestBlock = ship.blocks[currentPos, BlockLayer.Base];
 		if (nearestBlock == null) {
@@ -181,7 +174,7 @@ public class CrewMind : MonoBehaviour {
 		var lineSeq = new List<Vector2>();
 		lineSeq.Add(transform.position);
 		foreach (var pos in blockPath) {
-			lineSeq.Add(ship.BlockToWorldPos(pos));
+			lineSeq.Add(ship.form.BlockToWorldPos(pos));
 		}
 		
 		for (var i = 1; i < lineSeq.Count; i++) {

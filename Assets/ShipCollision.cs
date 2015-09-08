@@ -3,15 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShipCollision : PoolBehaviour {
-	Ship ship;
+	Blockform form;
 	BlockMap blocks;
 	GameObject collidersObj;
 	public Dictionary<IntVector2, Collider> colliders { get; private set; }
 
 	void Awake() {
-		blocks = GetComponentInChildren<BlockMap>();
 		colliders = new Dictionary<IntVector2, Collider>();
-		ship = GetComponent<Ship>();
+		form = GetComponent<Blockform>();
+		blocks = form.blocks;
 
 		var obj = Pool.For("Holder").TakeObject();
 		obj.name = "Colliders";
@@ -44,7 +44,7 @@ public class ShipCollision : PoolBehaviour {
 		else
 			collider = Pool.For("FloorCollider").Take<Collider>();
 		collider.transform.SetParent(collidersObj.transform);
-		collider.transform.localPosition = ship.BlockToLocalPos(bp);
+		collider.transform.localPosition = form.BlockToLocalPos(bp);
 		collider.transform.rotation = transform.rotation;
 		colliders[bp] = collider;
 		collider.gameObject.SetActive(true);

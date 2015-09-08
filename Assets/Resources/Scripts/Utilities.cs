@@ -87,8 +87,8 @@ public class Util {
 		return Physics.SphereCastAll(ps.transform.position, radius, ps.transform.up, length);
 	}
 
-	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos) {		
-		foreach (var block in ship.BlocksAtWorldPos(targetPos))
+	public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos) {		
+		foreach (var block in form.BlocksAtWorldPos(targetPos))
 			return true;
 
 		var targetDist = (targetPos - turretPos);
@@ -96,7 +96,7 @@ public class Util {
 		
 		var targetHits = Physics.RaycastAll(turretPos, targetDir, targetDist.magnitude);
 		foreach (var hit in targetHits) {
-			if (hit.rigidbody == ship.rigidBody) {
+			if (hit.rigidbody == form.rigidBody) {
 				return true;
 			}
 		}
@@ -104,8 +104,8 @@ public class Util {
 		return false;
 	}
 
-	public static bool TurretBlocked(Ship ship, Vector3 turretPos, Vector3 targetPos, float radius) {	
-		foreach (var block in ship.BlocksAtWorldPos(targetPos))
+	public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos, float radius) {	
+		foreach (var block in form.BlocksAtWorldPos(targetPos))
 			return true;
 
 		var targetDist = (targetPos - turretPos);
@@ -113,7 +113,7 @@ public class Util {
 		
 		var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
 		foreach (var hit in targetHits) {
-			if (hit.rigidbody == ship.rigidBody && ship.WorldToBlockPos(hit.collider.transform.position) != ship.WorldToBlockPos(turretPos)) {
+			if (hit.rigidbody == form.rigidBody && form.WorldToBlockPos(hit.collider.transform.position) != form.WorldToBlockPos(turretPos)) {
 				return true;
 			}
 		}

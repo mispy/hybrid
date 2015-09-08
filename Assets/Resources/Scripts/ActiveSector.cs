@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ActiveSector : MonoBehaviour {
 	public float radius = 200f;
 
+	public List<Blockform> blockforms;
+
 	public GameObject leaveSectorMenu;
 
 	public void UnloadSector() {
-		foreach (var ship in Ship.allActive)
-			ship.gameObject.SetActive(false);
+		foreach (var blockform in blockforms)
+			blockform.gameObject.SetActive(false);
 	}
 
 	public Vector2 RandomEdge() {
@@ -17,10 +20,10 @@ public class ActiveSector : MonoBehaviour {
 
 	public void LoadSector(JumpBeacon beacon) {
 		foreach (var jumpShip in beacon.ships) {
-			Debug.Log(jumpShip.ship);
-			jumpShip.ship.transform.parent = transform;
-			jumpShip.ship.transform.position = RandomEdge();
-			jumpShip.ship.gameObject.SetActive(true);
+			var form = jumpShip.ship.LoadBlockform();
+			form.transform.parent = transform;
+			form.transform.position = RandomEdge();
+			form.gameObject.SetActive(true);
 		}
 	}
 
@@ -29,7 +32,7 @@ public class ActiveSector : MonoBehaviour {
 	}
 
 	void Update() {
-		if (IsOutsideBounds(Ship.player.transform.position)) {
+		if (IsOutsideBounds(Game.playerShip.form.transform.position)) {
 			leaveSectorMenu.SetActive(true);
 		} else {
 			leaveSectorMenu.SetActive(false);

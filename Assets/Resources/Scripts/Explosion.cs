@@ -32,11 +32,11 @@ public class Explosion : PoolBehaviour
 		var toBreak = new List<Block>();
 
 		foreach (var rb in rigidbodies) {
-			var ship = rb.GetComponent<Ship>();		
-			if (ship == null) continue;
+			var form = rb.GetComponent<Blockform>();		
+			if (form == null) continue;
 
-			foreach (var block in ship.blocks.AllBlocks) {
-				var dist = ((Vector3)ship.BlockToWorldPos(block.pos) - transform.position).magnitude;
+			foreach (var block in form.blocks.AllBlocks) {
+				var dist = ((Vector3)form.BlockToWorldPos(block.pos) - transform.position).magnitude;
 				if (dist < radius) {
 					toBreak.Add(block);
 				}

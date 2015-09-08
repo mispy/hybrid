@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 445166}
   - 114: {fileID: 11456676}
-  - 114: {fileID: 11449554}
   - 114: {fileID: 11400438}
   m_Layer: 0
   m_Name: Blueprint
@@ -43,29 +42,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseTiles: {fileID: 0}
   topTiles: {fileID: 0}
---- !u!114 &11449554
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 105848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxX: 0
-  minX: 0
-  maxY: 0
-  minY: 0
-  centerBlockX: 256
-  centerBlockY: 256
-  centerChunkX: 8
-  centerChunkY: 8
-  chunkWidth: 32
-  chunkHeight: 32
-  widthInChunks: 16
-  heightInChunks: 16
 --- !u!114 &11456676
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -78,9 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blueprintMaterial: {fileID: 2100000, guid: 7a03f873e7d949a459a3114f3e8ae737, type: 2}
-  blocks: {fileID: 0}
   tiles: {fileID: 0}
-  ship: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

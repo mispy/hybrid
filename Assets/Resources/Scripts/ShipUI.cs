@@ -12,7 +12,7 @@ public class ShipUI : MonoBehaviour {
 	}
 
 	void Update() {
-		var ship = Crew.player.maglockShip;
+		var ship = Game.playerShip;
 
 		if (ship == null) {
 			shipName.text = "";

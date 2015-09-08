@@ -4,63 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class PlayerInput : MonoBehaviour {
-	public Crew crew;
-
-	public WeaponSelect weaponSelect;
-
-	void Awake() {
-		crew = GetComponentInParent<Crew>();
-		Crew.player = crew;
-
-		weaponSelect = Game.main.weaponSelect;
-	}
-
-	void HandleLockedMovement() {
-		var currentBP = crew.maglockShip.WorldToBlockPos(crew.transform.position);
-		var bp = currentBP;
-
-		//Debug.LogFormat("{0} {1}", bp, targetBlockPos);
-		if (Input.GetKey(KeyCode.W))
-			bp.y += 1;
-		if (Input.GetKey(KeyCode.S))
-			bp.y -= 1;
-		if (Input.GetKey(KeyCode.A))
-			bp.x -= 1;
-		if (Input.GetKey(KeyCode.D))
-			bp.x += 1;
-		
-		if (crew.maglockShip.blocks.CollisionLayer(bp) != Block.wallLayer) {
-			if (bp != currentBP && bp != crew.maglockMoveBlockPos) {
-				crew.MaglockMove(bp);
-			}
-		}
-	}
-	
-	void HandleFreeMovement() {
-		var speed = 60f * Time.deltaTime;
-		Vector2 vel = crew.rigidBody.velocity;
-		if (Input.GetKey(KeyCode.W)) {
-			vel += (Vector2)transform.up * speed;
-		}
-		
-		if (Input.GetKey(KeyCode.A)) {
-			vel += -(Vector2)transform.right * speed;
-		}
-		
-		if (Input.GetKey(KeyCode.D)) {
-			vel += (Vector2)transform.right * speed;
-		}
-		
-		if (Input.GetKey(KeyCode.S)) {
-			vel += -(Vector2)transform.up * speed; 
-		}
-		
-		crew.rigidBody.velocity = vel;
-	}
-	
+public class ShipInputManager : MonoBehaviour {
 	void HandleShipInput() {				
-		var ship = Ship.player;
+		var ship = Game.playerShip.form;
 
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 		
@@ -83,7 +29,7 @@ public class PlayerInput : MonoBehaviour {
 		}
 		
 		if (Input.GetMouseButton(0)) {
-			var selected = weaponSelect.selectedType;
+			var selected = Game.main.weaponSelect.selectedType;
 		
 			if (selected == null) {
 			} else if (selected is TractorBeam) {

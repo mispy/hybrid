@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class ShipPowerManager : MonoBehaviour {
-	Ship ship;
+	Blockform ship;
 
 	// Use this for initialization
 	void Start () {
-		ship = GetComponent<Ship>();
+		ship = GetComponent<Blockform>();
 		ship.blocks.OnBlockRemoved += OnBlockChange;
 		ship.blocks.OnBlockAdded += OnBlockChange;
 		OnBlockChange(null);

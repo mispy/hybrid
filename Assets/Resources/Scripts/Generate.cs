@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 public class Generate : MonoBehaviour {
 	// Generate a random contiguous fragment of a ship
 	public static Ship Fragment(Vector2 pos, Ship srcShip, int size) {
-		var frag = Pool.For("Ship").Take<Ship>();
+		var frag = new Ship();
 		frag.name = String.Format("Fragment ({0})", srcShip.name);
 
 		var allBlocks = srcShip.blocks.AllBlocks.ToList();
@@ -20,7 +20,7 @@ public class Generate : MonoBehaviour {
 		var edges = new List<IntVector2>();
 		edges.Add(startBlock.pos);
 
-		while (frag.size < size) {
+		while (frag.blocks.size < size) {
 			var edge = Util.GetRandom(edges);
 			edges.Remove(edge);
 
@@ -34,9 +34,6 @@ public class Generate : MonoBehaviour {
 				}
 			}
 		}
-
-		frag.transform.position = pos;
-		frag.gameObject.SetActive(true);
 		return frag;
 	}
 

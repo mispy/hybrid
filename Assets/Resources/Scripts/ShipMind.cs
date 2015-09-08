@@ -3,20 +3,20 @@ using System.Collections;
 
 
 
-public class ShipMind : MonoBehaviour {
-	public Ship myShip;
+public class ShipTacticalMind : PoolBehaviour {
+	public Blockform form;
 
 	// Use this for initialization
 	void Start () {
-		myShip = GetComponent<Ship>();
+		form = GetComponent<Blockform>();
 	}
 
 	bool IsEnemy(Ship otherShip) {
-		return (otherShip != myShip);
+		return (otherShip != form.ship);
 	}
 
 	void UpdateTractors() {
-		foreach (var tractor in myShip.GetBlockComponents<TractorBeam>()) {
+		foreach (var tractor in form.GetBlockComponents<TractorBeam>()) {
 			tractor.Stop();
 
 			foreach (var target in tractor.GetViableTargets()) {
@@ -28,7 +28,7 @@ public class ShipMind : MonoBehaviour {
 	}
 
 	void UpdateWeapons() {
-		foreach (var launcher in myShip.GetBlockComponents<TorpedoLauncher>()) {
+		foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
 			var hit = launcher.GetProbableHit();
 			if (hit == null) continue;
 
@@ -41,28 +41,27 @@ public class ShipMind : MonoBehaviour {
 	}
 
 	void UpdateMovement() {		
-		Ship targetShip = null;
+		Blockform target = null;
 		
-		foreach (var otherShip in Ship.ClosestTo(transform.position)) {
-			if (IsEnemy(otherShip)) {
-				targetShip = otherShip;
+		foreach (var other in Blockform.ClosestTo(transform.position)) {
+			if (IsEnemy(other.ship)) {
+				target = other;
 				break;
 			}
 		}			
 		
-		if (targetShip != null) {
-			myShip.RotateTowards(targetShip.transform.position);
-			var dist = (targetShip.transform.position - transform.position).magnitude;
+		if (target != null) {
+			form.RotateTowards(target.transform.position);
+			var dist = (target.transform.position - transform.position).magnitude;
 			if (dist > 10f) {
-				myShip.MoveTowards(targetShip.transform.position);
+				form.MoveTowards(target.transform.position);
 			}
 		}
 	}
 
 	// Update is called once per frame
 	void Update () {
-		var pilot = myShip.FindPilot();
-		if (pilot == null || pilot == Crew.player) return;
+		if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
 
 		UpdateTractors();
 	    UpdateWeapons();

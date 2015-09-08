@@ -11,7 +11,7 @@ public class ShipName : MonoBehaviour {
 	}
 
 	void OnEndEdit(string text) {
-		Crew.player.maglockShip.name = text;
+		Game.playerShip.name = text;
 		Game.UnblockInput();
 	}
 
@@ -19,12 +19,7 @@ public class ShipName : MonoBehaviour {
 		if (field.isFocused)
 			Game.BlockInput("ShipName");
 
-		if (Crew.player.maglockShip == null) {
-			field.text = "";
-			field.enabled = false;
-		} else if (!field.isFocused) {
-			field.text = Crew.player.maglockShip.name;
-			field.enabled = true;
-		}
+		field.text = Game.playerShip.name;
+		field.enabled = true;
 	}
 }

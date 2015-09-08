@@ -36,7 +36,7 @@ public class PowerReceiver : BlockComponent {
 		if (isPowered == false) return;
 		noPowerIndicator = Pool.For("NoPower").TakeObject();
 		noPowerIndicator.transform.SetParent(block.gameObject.transform);
-		noPowerIndicator.transform.rotation = block.ship.transform.rotation;
+		noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
 		noPowerIndicator.transform.position = block.gameObject.transform.position;
 		noPowerIndicator.SetActive(true);
 		isPowered = false;

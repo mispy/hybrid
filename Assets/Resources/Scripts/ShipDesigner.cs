@@ -22,15 +22,13 @@ public class ShipDesigner : MonoBehaviour {
 
 		//Game.main.debugText.text = "Designing Ship";
 		//Game.main.debugText.color = Color.green;		
-		if (Crew.player.maglockShip != null) {
-			SetDesignShip(Crew.player.maglockShip);
-		}
+		SetDesignShip(Game.playerShip);
 	}
 	
 	public void OnDisable() {
 		cursor.gameObject.SetActive(false);
 		if (designShip != null) {
-			designShip.tiles.EnableRendering();
+			designShip.form.tiles.EnableRendering();
 		}
 		//Game.main.debugText.text = "";
 		//Game.main.debugText.color = Color.white;
@@ -38,17 +36,17 @@ public class ShipDesigner : MonoBehaviour {
 
 	void SetDesignShip(Ship ship) {
 		if (designShip != null) {
-			designShip.tiles.EnableRendering();
+			designShip.form.tiles.EnableRendering();
 		}
 
 		designShip = ship;
-		designShip.tiles.DisableRendering();
+		designShip.form.tiles.DisableRendering();
 	}
 
 	Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
 		var neighborBlocks = new List<Block>();
 		foreach (var bp in IntVector2.Neighbors(blockPos)) {
-			var block = designShip.blueprint.blocks[bp, BlockLayer.Base];
+			var block = designShip.form.blueprint.blocks[bp, BlockLayer.Base];
 			if (block != null) 
 				neighborBlocks.Add(block);
 		}	
@@ -56,7 +54,7 @@ public class ShipDesigner : MonoBehaviour {
 		if (neighborBlocks.Count == 0)
 			return null;
 
-		return neighborBlocks.OrderBy((block) => Vector2.Distance(worldPos, designShip.BlockToWorldPos(block.pos))).First();
+		return neighborBlocks.OrderBy((block) => Vector2.Distance(worldPos, designShip.form.BlockToWorldPos(block.pos))).First();
 	}
 
 	void UpdateRotation(Block cursorBlock, IntVector2 targetBlockPos, Block adjoiningBlock) {
@@ -101,7 +99,7 @@ public class ShipDesigner : MonoBehaviour {
 		
 		for (var i = 0; i < cursorBlock.Width; i++) {
 			for (var j = 0; j < cursorBlock.Height; j++) {
-				foreach (var block in designShip.blueprint.blocks[targetBlockPos.x+i, targetBlockPos.y+j]) {
+				foreach (var block in designShip.form.blueprint.blocks[targetBlockPos.x+i, targetBlockPos.y+j]) {
 					//Debug.LogFormat("{0} {1} {2}", cursorBlock.type.name, block.type.name, CanFitInto(cursorBlock, block));
 					if (!CanFitInto(cursorBlock, block))
 						return false;
@@ -122,14 +120,14 @@ public class ShipDesigner : MonoBehaviour {
 
 		cursor.transform.position = Game.mousePos;
 		var cursorBlock = (BlueprintBlock)cursor.blocks.Topmost(bp);
-		var targetBlockPos = designShip.WorldToBlockPos(Game.mousePos);
+		var targetBlockPos = designShip.form.WorldToBlockPos(Game.mousePos);
 		var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, targetBlockPos);		
 			
 		UpdateRotation(cursorBlock, targetBlockPos, adjoiningBlock);
 
-		var worldPos = designShip.BlockToWorldPos(targetBlockPos);
-		cursor.transform.position = new Vector3(worldPos.x, worldPos.y, designShip.transform.position.z-1);
-		cursor.transform.rotation = designShip.transform.rotation;
+		var worldPos = designShip.form.BlockToWorldPos(targetBlockPos);
+		cursor.transform.position = new Vector3(worldPos.x, worldPos.y, designShip.form.transform.position.z-1);
+		cursor.transform.rotation = designShip.form.transform.rotation;
 		
 		var isValid = IsValidPlacement(targetBlockPos, cursorBlock, adjoiningBlock);
 
@@ -145,10 +143,10 @@ public class ShipDesigner : MonoBehaviour {
 			return;
 		
 		if (Input.GetMouseButton(0) && isValid) {			
-			designShip.blueprint.blocks[targetBlockPos, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
+			designShip.blueprintBlocks[targetBlockPos, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
 			designShip.blocks[targetBlockPos, cursorBlock.layer] = new Block(cursorBlock);
 		} else if (Input.GetMouseButton(1)) {
-			designShip.blueprint.blocks.RemoveSurface(targetBlockPos);
+			designShip.blueprintBlocks.RemoveSurface(targetBlockPos);
 			designShip.blocks.RemoveSurface(targetBlockPos);
 		}
 	}

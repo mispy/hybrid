@@ -28,18 +28,18 @@ public class JumpMap : MonoBehaviour {
 	bool isJumping = false;
 
 	public static void Activate() {
-		Game.main.activeSector.gameObject.SetActive(false);
+		Game.activeSector.gameObject.SetActive(false);
 		Game.main.jumpMap.gameObject.SetActive(true);
 	}
 
 	void OnEnable() {
-		playerShip.ship = Crew.player.maglockShip;
-		playerShip.tiles.SetBlocks(Crew.player.maglockShip.blocks);
+		playerShip.ship = Game.playerShip;
+		playerShip.tiles.SetBlocks(Game.playerShip.blocks);
 		playerShip.Rescale();
 	}
 
 	void OnDisable() {
-		Game.main.activeSector.gameObject.SetActive(true);
+		Game.activeSector.gameObject.SetActive(true);
 	}
 
 	// Use this for initialization
@@ -62,7 +62,7 @@ public class JumpMap : MonoBehaviour {
 		}
 
 		for (var i = 0; i < 20; i++) {
-			var ship = Ship.Create(Ship.RandomTemplate());
+			var ship = ShipManager.Create(ShipManager.RandomTemplate());
 			var jumpShip = JumpShip.For(ship);
 			jumpShip.transform.parent = transform;
 			jumpShip.gameObject.SetActive(true);
@@ -112,8 +112,8 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void EnterSector() {
-		Game.main.activeSector.LoadSector(playerShip.currentBeacon);
-		Game.main.activeSector.gameObject.SetActive(true);
+		Game.activeSector.LoadSector(playerShip.currentBeacon);
+		Game.activeSector.gameObject.SetActive(true);
 		gameObject.SetActive(false);
 	}
 
@@ -130,7 +130,7 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void FoldJump(JumpBeacon beacon) {
-		Game.main.activeSector.UnloadSector();
+		Game.activeSector.UnloadSector();
 		playerShip.FoldJump(beacon);
 	}
 

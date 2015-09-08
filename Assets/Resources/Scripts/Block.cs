@@ -9,6 +9,30 @@ public enum BlockLayer {
 	Top = 1
 }
 
+[Serializable]
+public struct BlockData {
+	public int x;
+	public int y;
+	public string typeName;
+	public int orientation;
+}
+
+public static class BlockManager {
+	public static BlockData Serialize(Block block) {
+		var data = new BlockData();
+		data.x = block.pos.x;
+		data.y = block.pos.y;
+		data.typeName = block.type.name;
+		data.orientation = (int)block.orientation;
+		return data;
+	}
+
+	public static Block Deserialize(BlockData data) {
+		var block = new Block(Block.typeByName[data.typeName]);
+		block.orientation = (Orientation)data.orientation;
+		return block;
+	}
+}
 
 public class Block {
 	public static Dictionary<Type, BlockType> types = new Dictionary<Type, BlockType>();
@@ -61,41 +85,41 @@ public class Block {
 		
 		foreach (var hit in hits) {
 			if (hit.gameObject.GetComponent<BoxCollider>() != null) {
-				var ship = hit.attachedRigidbody.gameObject.GetComponent<Ship>();
-				if (ship != null) {
-					var bp = ship.WorldToBlockPos(hit.transform.position);
+				var form = hit.attachedRigidbody.gameObject.GetComponent<Blockform>();
+				if (form != null) {
+					var bp = form.WorldToBlockPos(hit.transform.position);
 
-					foreach (var block in ship.blocks[bp])
+					foreach (var block in form.blocks[bp])
 						nearbyBlocks.Add(block);
 				}
 			}
 		}
 		
-		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
+		return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.form.BlockToWorldPos(block.pos)));
 	}
 	
 	public static IEnumerable<Block> AtWorldPos(Vector2 worldPos, bool allowBlueprint = false) {
-		foreach (var ship in Ship.allActive) {
-			foreach (var block in ship.BlocksAtWorldPos(worldPos))
+		foreach (var form in Game.activeSector.blockforms) {
+			foreach (var block in form.BlocksAtWorldPos(worldPos))
 				yield return block;
 
-			foreach (var block in ship.blueprint.BlocksAtWorldPos(worldPos))
+			foreach (var block in form.blueprint.BlocksAtWorldPos(worldPos))
 				yield return block;
 		}
 	}
 	
 	public static IEnumerable<Block> BlueprintAtWorldPos(Vector2 worldPos) {
-		foreach (var ship in Ship.allActive) {
-			foreach (var block in ship.blueprint.BlocksAtWorldPos(worldPos))
+		foreach (var form in Game.activeSector.blockforms) {
+			foreach (var block in form.blueprint.BlocksAtWorldPos(worldPos))
 				yield return block;
 		}
 	}
 	
 	public static IEnumerable<Block> FromHits(RaycastHit[] hits) {
 		foreach (var hit in hits) {
-			var ship = hit.rigidbody.gameObject.GetComponent<Ship>();
-			if (ship != null) {
-				foreach (var block in ship.BlocksAtWorldPos(hit.collider.transform.position))
+			var form = hit.rigidbody.gameObject.GetComponent<Blockform>();
+			if (form != null) {
+				foreach (var block in form.BlocksAtWorldPos(hit.collider.transform.position))
 					yield return block;
 			}
 		}
@@ -171,7 +195,7 @@ public class Block {
 		this.scrapContent -= amount;
 
 		if (this.scrapContent <= 0) {
-			ship.BreakBlock(this);
+			ship.form.BreakBlock(this);
 		}
 	}
 

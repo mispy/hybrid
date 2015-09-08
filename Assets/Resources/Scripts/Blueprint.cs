@@ -13,8 +13,9 @@ public class Blueprint : PoolBehaviour {
 	[HideInInspector]
 	public Ship ship;
 
-	public override void OnCreate() {
-		blocks = GetComponent<BlockMap>();
+	public void Initialize(Ship ship) {
+		this.ship = ship;
+		blocks = ship.blueprintBlocks;
 		blocks.OnBlockAdded += OnBlockAdded;
 		tiles = GetComponent<TileRenderer>();
 	}
@@ -41,7 +42,7 @@ public class Blueprint : PoolBehaviour {
 	}
 
 	public IEnumerable<Block> BlocksAtWorldPos(Vector2 worldPos) {
-		return blocks[ship.WorldToBlockPos(worldPos)];
+		return blocks[ship.form.WorldToBlockPos(worldPos)];
 	}
 
 	public override void OnRecycle() {

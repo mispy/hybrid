@@ -6,7 +6,7 @@ public class Thruster : BlockType {
 	[HideInInspector]
 	public ParticleSystem ps;
 	[HideInInspector]
-	public Ship ship;
+	public Blockform form;
 
 	public PowerReceiver power;
 
@@ -14,7 +14,7 @@ public class Thruster : BlockType {
 	public bool isFiringAttitude = false;
 
 	void Start() {
-		ship = GetComponentInParent<Ship>();
+		form = GetComponentInParent<Blockform>();
 		ps = GetComponentInChildren<ParticleSystem>();
 		power = GetComponent<PowerReceiver>();
 	}
@@ -52,15 +52,15 @@ public class Thruster : BlockType {
 
 	void FixedUpdate() {
 		if (isFiring) {
-			ship.rigidBody.AddForce(-transform.up * Math.Min(ship.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f);
+			form.rigidBody.AddForce(-transform.up * Math.Min(form.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f);
 		} else if (isFiringAttitude) {			
-			var dist = transform.localPosition - ship.localCenter;
-			var force = Math.Min(ship.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f;
+			var dist = transform.localPosition - form.localCenter;
+			var force = Math.Min(form.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f;
 			
 			if (dist.x > 0) {
-				ship.rigidBody.AddRelativeTorque(Vector3.forward * force);
+				form.rigidBody.AddRelativeTorque(Vector3.forward * force);
 			} else {
-				ship.rigidBody.AddRelativeTorque(Vector3.back * force);
+				form.rigidBody.AddRelativeTorque(Vector3.back * force);
 			}
 		}
 	}

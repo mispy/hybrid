@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public class BlockMap : PoolBehaviour {
+public class BlockMap {
 	public int maxX;
 	public int minX;
 	public int maxY;
@@ -21,6 +21,9 @@ public class BlockMap : PoolBehaviour {
 	public int heightInChunks;
 	public BlockChunk[,] baseChunks;
 	public BlockChunk[,] topChunks;
+
+	// Total number of filled base blocks
+	public int size;
 
 	public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
 
@@ -44,6 +47,8 @@ public class BlockMap : PoolBehaviour {
 		heightInChunks = 16;
 		baseChunks = new BlockChunk[chunkWidth, chunkHeight];
 		topChunks = new BlockChunk[chunkWidth, chunkHeight];
+
+		size = 0;
 
 		centerChunkX = widthInChunks/2;
 		centerChunkY = heightInChunks/2;
@@ -196,6 +201,7 @@ public class BlockMap : PoolBehaviour {
 	public void RemoveBlock(Block block) {
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
+				if (block.layer == BlockLayer.Base) size -= 1;
 				SetChunkedValue(block.pos.x + i, block.pos.y + j, block.layer, null);
 			}
 		}
@@ -213,6 +219,7 @@ public class BlockMap : PoolBehaviour {
 
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
+				if (layer == BlockLayer.Base) size += 1;
 				SetChunkedValue(bp.x + i, bp.y + j, layer, block);
 			}
 		}

@@ -16,10 +16,11 @@ public class Game : MonoBehaviour {
 
 	// cached mouse position in world coordinates
 	public static Vector3 mousePos;
+	public static Ship playerShip;
+	public static ActiveSector activeSector;
 
 	public Canvas canvas;
 	public Text debugText;
-	public ActiveSector activeSector;
 	public JumpMap jumpMap;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
@@ -81,6 +82,7 @@ public class Game : MonoBehaviour {
 
 	// Use this for initialization
 	void Awake () {		
+		Game.activeSector = GetComponentInChildren<ActiveSector>();
 		Game.main = this;
 
 		var resources = Resources.LoadAll("Prefabs");
@@ -95,7 +97,7 @@ public class Game : MonoBehaviour {
 		Tile.Setup();
 		Block.Setup();
 		Pool.CreatePools();		
-		Ship.LoadTemplates();
+		ShipManager.LoadTemplates();
 
 		//Save.LoadGame();
 
@@ -111,9 +113,12 @@ public class Game : MonoBehaviour {
 
 		var debug = debugMenu.GetComponent<DebugMenu>();
 		
-		debug.LoadShip();
+		Game.playerShip = debug.LoadShip();
+		var form = Game.playerShip.LoadBlockform();
+		form.transform.parent = Game.activeSector.transform;
+		form.gameObject.SetActive(true);
 
-		var sectorSize = Game.main.activeSector.radius;
+		var sectorSize = Game.activeSector.radius;
 
 		for (var i = 0; i < 100; i++) {
 			//debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
@@ -145,11 +150,11 @@ public class Game : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.F5)) {
-			Save.SaveGame();
+			//Save.SaveGame();
 		}
 
 		if (Input.GetKeyDown(KeyCode.F9)) {
-			Save.LoadGame();
+			//Save.LoadGame();
 		}
 
 		// Scroll zoom

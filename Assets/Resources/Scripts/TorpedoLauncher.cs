@@ -6,7 +6,7 @@ using System.Linq;
 
 public class TorpedoLauncher : BlockType {
 	[HideInInspector]
-	public Ship ship { get; private set; }
+	public Blockform form { get; private set; }
 	[HideInInspector]
 	public Collider collider { get; private set; }
 	[HideInInspector]
@@ -26,15 +26,15 @@ public class TorpedoLauncher : BlockType {
 	}
 
 	void Start() {
-		ship = GetComponentInParent<Ship>();
-		collider = ship.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>();
+		form = GetComponentInParent<Blockform>();
+		collider = form.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>();
 		dottedLine = GetComponent<LineRenderer>();
 		dottedLine.SetWidth(0.3f, 0.3f);
 		dottedLine.SetVertexCount(2);
 
 		RecalcCenterPoint();
-		ship.blocks.OnBlockAdded += OnBlockAdded;
-		ship.blocks.OnBlockRemoved += OnBlockRemoved;
+		form.blocks.OnBlockAdded += OnBlockAdded;
+		form.blocks.OnBlockRemoved += OnBlockRemoved;
 
 		origTextureScale = dottedLine.material.mainTextureScale;
 	}
@@ -49,9 +49,9 @@ public class TorpedoLauncher : BlockType {
 
 	void RecalcCenterPoint() {
 		centerPoint = new Vector2(0.0f, 0.0f);
-		var launchers = ship.blocks.Find<TorpedoLauncher>().ToList();
+		var launchers = form.blocks.Find<TorpedoLauncher>().ToList();
 		foreach (var block in launchers) {
-			centerPoint += ship.BlockToLocalPos(block.pos);
+			centerPoint += form.BlockToLocalPos(block.pos);
 		}
 		centerPoint /= launchers.Count;
 	}
@@ -76,27 +76,27 @@ public class TorpedoLauncher : BlockType {
 		var mcol = torpedo.GetComponent<BoxCollider>();
 		var rigid = torpedo.GetComponent<Rigidbody>();
 		torpedo.SetActive(true);
-		rigid.velocity = ship.rigidBody.velocity;
+		rigid.velocity = form.rigidBody.velocity;
 		rigid.AddForce(transform.up*0.5f);
 		Physics.IgnoreCollision(collider, mcol);
-		if (ship.shields) {
-			Physics.IgnoreCollision(ship.shields.GetComponent<Collider>(), mcol, true);
-			Physics.IgnoreCollision(mcol, ship.shields.GetComponent<Collider>(), true);
+		if (form.shields) {
+			Physics.IgnoreCollision(form.shields.GetComponent<Collider>(), mcol, true);
+			Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
 		}
 	}
 
 	public void Update() {
-		if (ship != Crew.player.maglockShip || !(Game.main.weaponSelect.selectedType is TorpedoLauncher)) {
+		if (form.ship != Game.playerShip || !(Game.main.weaponSelect.selectedType is TorpedoLauncher)) {
 			dottedLine.enabled = false;
 			return;
 		}
 
-		var targetPos = transform.position + (Game.mousePos - ship.transform.TransformPoint(centerPoint));
+		var targetPos = transform.position + (Game.mousePos - form.transform.TransformPoint(centerPoint));
 		var targetDir = (targetPos-transform.position).normalized;
 		var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
 		transform.rotation = targetRotation;
 
-		var isBlocked = Util.TurretBlocked(ship, transform.position, targetPos, 0.3f);
+		var isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.3f);
 		if (!isBlocked) {
 			dottedLine.enabled = true;
 			var p1 = transform.InverseTransformPoint(TipPosition);

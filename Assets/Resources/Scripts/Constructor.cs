@@ -53,7 +53,7 @@ public class Constructor : MonoBehaviour
 	}
 
 	public void Build(Block targetBlock) {
-		Build(targetBlock.ship.BlockToWorldPos(targetBlock.pos));
+		Build(targetBlock.ship.form.BlockToWorldPos(targetBlock.pos));
 	}
 
 	public void StopBuilding() {
@@ -69,7 +69,7 @@ public class Constructor : MonoBehaviour
 			return;
 		}
 
-		var builder = Crew.player.maglockShip;
+		var builder = Game.playerShip;
 		
 		// check if there's a current block we need to get rid of
 		bool isRemoving = false;
@@ -122,12 +122,12 @@ public class Constructor : MonoBehaviour
 
 		AlignParticles(hitPos);
 
-		var ship = Ship.AtWorldPos(hitPos);
-		if (ship == null) return;
+		var form = Blockform.AtWorldPos(hitPos);
+		if (form == null) return;
 
-		var blockPos = ship.WorldToBlockPos(hitPos);
-		targetBlue = (BlueprintBlock)ship.blueprint.blocks.Topmost(blockPos);
-		targetBlock = ship.blocks.Topmost(blockPos);
+		var blockPos = form.WorldToBlockPos(hitPos);
+		targetBlue = (BlueprintBlock)form.blueprint.blocks.Topmost(blockPos);
+		targetBlock = form.blocks.Topmost(blockPos);
 
 		UpdateBuild();
 		//text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);

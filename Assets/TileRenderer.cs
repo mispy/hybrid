@@ -49,8 +49,8 @@ public class TileRenderer : PoolBehaviour {
 	} 
 	
 	void Awake() {
-		blocks = GetComponent<BlockMap>();
-		if (blocks != null) SetBlocks(blocks);
+		var form = GetComponent<Blockform>();
+		if (form != null) SetBlocks(form.blocks);
 	}
 	
 	void OnBlockAdded(Block block) {
@@ -78,6 +78,7 @@ public class TileRenderer : PoolBehaviour {
 	}
 
 	public void SetBlocks(BlockMap blocks) {
+		this.blocks = blocks;
 		blocks.OnBlockAdded += OnBlockAdded;
 		blocks.OnBlockRemoved += OnBlockRemoved;
 

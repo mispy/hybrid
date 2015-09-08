@@ -25,7 +25,7 @@ public class WeaponSelect : MonoBehaviour {
 	
 	void OnEnable() {
 		foreach (var type in Block.allTypes) {
-			if (type.canBeFired && Ship.player.blocks.Has(type)) {
+			if (type.canBeFired && Game.playerShip.blocks.Has(type)) {
 				fireableTypes.Add(type);
 
 				var button = Pool.For("BlockButton").Take<Button>();

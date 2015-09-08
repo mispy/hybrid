@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class Crew : MonoBehaviour {
-	public static Crew player;
 	public static List<Crew> all = new List<Crew>();
 
 	public Rigidbody rigidBody;
@@ -19,7 +18,7 @@ public class Crew : MonoBehaviour {
 
 	// Crew can be maglocked to a ship even if they don't have a current block
 	// bc they attach to the sides as well
-	public Ship maglockShip = null;
+	public Blockform maglockForm = null;
 	public IntVector2 currentBlockPos;
 	public IntVector2 maglockMoveBlockPos;
 	public Block currentBlock = null;
@@ -61,50 +60,50 @@ public class Crew : MonoBehaviour {
 		controlConsole = block;
 	}
 
-	void SetMaglock(Ship ship) {
-		maglockShip = ship;
-		maglockShip.maglockedCrew.Add(this);
-		transform.rotation = maglockShip.transform.rotation;
-		transform.parent = maglockShip.transform;
+	void SetMaglock(Blockform form) {
+		maglockForm = form;
+		maglockForm.maglockedCrew.Add(this);
+		transform.rotation = maglockForm.transform.rotation;
+		transform.parent = maglockForm.transform;
 		rigidBody.isKinematic = true;
-		MaglockMove(ship.WorldToBlockPos(transform.position));
+		MaglockMove(form.WorldToBlockPos(transform.position));
 
 		//if (this == Crew.player)
-		//	maglockShip.blueprint.blocks.EnableRendering();
+		//	maglockForm.blueprint.blocks.EnableRendering();
 	}
 
 	void StopMaglock() {
 		gameObject.transform.parent = Game.main.transform;
 		rigidBody.isKinematic = false;
-		maglockShip.maglockedCrew.Remove(this);
+		maglockForm.maglockedCrew.Remove(this);
 
 		//if (this == Crew.player)
-		//	maglockShip.blueprint.blocks.DisableRendering();
+		//	maglockForm.blueprint.blocks.DisableRendering();
 
-		maglockShip = null;
+		maglockForm = null;
 		currentBlock = null;
 	}
 	
-	bool CanMaglock(Ship ship) {
-		var blockPos = ship.WorldToBlockPos(transform.position);
+	bool CanMaglock(Blockform form) {
+		var blockPos = form.WorldToBlockPos(transform.position);
 
-		if (ship.blocks[blockPos, BlockLayer.Base] != null)
+		if (form.blocks[blockPos, BlockLayer.Base] != null)
 			return true;
 
 		foreach (var bp in IntVector2.NeighborsWithDiagonal(blockPos)) {
-			if (ship.blocks[bp, BlockLayer.Base] != null)
+			if (form.blocks[bp, BlockLayer.Base] != null)
 				return true;
 		}
 
 		return false;
 	}
 
-	Ship FindMaglockShip() {
-		if (maglockShip != null && CanMaglock(maglockShip)) {
-			return maglockShip;
+	Blockform FindMaglockForm() {
+		if (maglockForm != null && CanMaglock(maglockForm)) {
+			return maglockForm;
 		} else {
-			foreach (var ship in Ship.allActive) {
-				if (CanMaglock(ship)) return ship;
+			foreach (var form in Game.activeSector.blockforms) {
+				if (CanMaglock(form)) return form;
 			}
 
 			return null;
@@ -113,7 +112,7 @@ public class Crew : MonoBehaviour {
 	
 	void UpdateMaglockMove() {
 		var speed = 15f;
-		var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
+		var targetPos = (Vector3)maglockForm.BlockToLocalPos(maglockMoveBlockPos);
 		
 		var pos = transform.localPosition;
 		var dist = targetPos - pos;
@@ -127,20 +126,20 @@ public class Crew : MonoBehaviour {
 	}
 
 	void UpdateMaglock() {
-		var ship = FindMaglockShip();
+		var form = FindMaglockForm();
 
-		if (maglockShip != null && ship != maglockShip)
+		if (maglockForm != null && form != maglockForm)
 			StopMaglock();
 
-		if (maglockShip == null && ship != maglockShip)
-			SetMaglock(ship);
+		if (maglockForm == null && form != maglockForm)
+			SetMaglock(form);
 
-		if (maglockShip != null) {
-			currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
-			currentBlock = maglockShip.blocks[currentBlockPos, BlockLayer.Base];
+		if (maglockForm != null) {
+			currentBlockPos = maglockForm.WorldToBlockPos(transform.position);
+			currentBlock = maglockForm.blocks[currentBlockPos, BlockLayer.Base];
 		}
 
-		if (maglockShip != null)
+		if (maglockForm != null)
 			UpdateMaglockMove();
 	}
 

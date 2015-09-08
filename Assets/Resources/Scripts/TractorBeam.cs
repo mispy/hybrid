@@ -8,7 +8,7 @@ public class TractorBeam : BlockType {
 	[HideInInspector]
 	public ParticleSystem beam;
 	[HideInInspector]
-	public Ship ship;
+	public Blockform form;
 
 	[HideInInspector]
 	public List<Collider> captured = new List<Collider>();
@@ -20,7 +20,7 @@ public class TractorBeam : BlockType {
 		
 	public IEnumerable<GameObject> GetViableTargets() {
 		foreach (var collider in Physics.OverlapSphere(transform.position, this.range)) {
-			if (!Util.TurretBlocked(ship, transform.position, collider.transform.position)) {
+			if (!Util.TurretBlocked(form, transform.position, collider.transform.position)) {
 				yield return collider.gameObject;
 			}
 		}
@@ -39,8 +39,8 @@ public class TractorBeam : BlockType {
 
 		beam.Clear();
 		beam.enableEmission = false;
-		if (ship.shields != null) {
-			var shieldCol = ship.shields.GetComponent<SphereCollider>();
+		if (form.shields != null) {
+			var shieldCol = form.shields.GetComponent<SphereCollider>();
 			foreach (var col in captured) {
 				if (col == null || !col.enabled) continue;
 				Physics.IgnoreCollision(col, shieldCol, false);
@@ -49,7 +49,7 @@ public class TractorBeam : BlockType {
 	}
 
 	void Awake() {
-		ship = GetComponentInParent<Ship>();
+		form = GetComponentInParent<Blockform>();
 		beam = GetComponentInChildren<ParticleSystem>();
 		beam.enableEmission = false;
 	}
@@ -69,8 +69,8 @@ public class TractorBeam : BlockType {
 		if (!isActive) return;
 
 		Collider shieldCol = null;
-		if (ship.shields != null)
-			shieldCol = ship.shields.GetComponent<SphereCollider>();
+		if (form.shields != null)
+			shieldCol = form.shields.GetComponent<SphereCollider>();
 		
 		foreach (var col in captured) {
 			if (col != null && col.attachedRigidbody != null) {
@@ -79,7 +79,7 @@ public class TractorBeam : BlockType {
 		}
 		captured.Clear();
 		
-		if (Util.TurretBlocked(ship, transform.position, targetPos)) {
+		if (Util.TurretBlocked(form, transform.position, targetPos)) {
 			return;
 		}
 		
@@ -98,7 +98,7 @@ public class TractorBeam : BlockType {
 		foreach (var hit in hits) {
 			var rigid = hit.collider.attachedRigidbody;
 			if (rigid != null) {
-				if (rigid != ship.rigidBody) {
+				if (rigid != form.rigidBody) {
 					rigid.AddForce(-targetDir * Math.Min(rigid.mass*2, Block.typeByName["Wall"].mass) * 100);
 					if (shieldCol != null)
 						Physics.IgnoreCollision(hit.collider, shieldCol);
