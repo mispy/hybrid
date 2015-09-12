@@ -12,11 +12,10 @@ public class JumpMap : MonoBehaviour {
 
 	LineRenderer lineRenderer;
 	List<JumpBeacon> beacons = new List<JumpBeacon>();
-	List<JumpShip> ships = new List<JumpShip>();
+	List<JumpShip> jumpShips = new List<JumpShip>();
 	JumpBeacon selectedBeacon;
 	Canvas canvas;
 	GameObject selector;
-	JumpShip playerShip;
 
 	Button enterButton;
 	Button foldButton;
@@ -28,60 +27,47 @@ public class JumpMap : MonoBehaviour {
 	bool isJumping = false;
 
 	public static void Activate() {
-		Game.activeSector.gameObject.SetActive(false);
-		Game.main.jumpMap.gameObject.SetActive(true);
+		Game.UnloadSector();
+		Game.mainCamera = Game.jumpMap.GetComponentsInChildren<Camera>(includeInactive: true).First();
+		Game.jumpMap.gameObject.SetActive(true);
 	}
 
-	void OnEnable() {
-		playerShip.ship = Game.playerShip;
-		playerShip.tiles.SetBlocks(Game.playerShip.blocks);
-		playerShip.Rescale();
+	public Vector3 GalaxyToWorldPos(Vector2 galaxyPos) {
+		return new Vector3(galaxyPos.x/4, galaxyPos.y/4, 0);
 	}
 
-	void OnDisable() {
-		Game.activeSector.gameObject.SetActive(true);
-	}
-
-	// Use this for initialization
-	void Awake() {				
-		camera = GetComponentInChildren<Camera>();
-		camera.orthographicSize = 4;
-		var bounds = Util.GetCameraBounds(camera);
-
-		for (var i = 0; i < 20; i++) {
-			var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();
-			beacon.transform.parent = transform;
-			var x = Random.Range(bounds.min.x, bounds.max.x);
-			var y = Random.Range(bounds.min.y, bounds.max.y);
-			beacon.transform.position = new Vector2(x, y);
-			var rend = beacon.GetComponent<Renderer>();
-			//rend.material.color = Util.RandomColor();	
-			beacon.gameObject.SetActive(true);	
-			
-			beacons.Add(beacon);
-		}
-
-		for (var i = 0; i < 20; i++) {
-			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
-			var jumpShip = JumpShip.For(ship);
-			jumpShip.transform.parent = transform;
-			jumpShip.gameObject.SetActive(true);
-			ships.Add(jumpShip);
-
-			var beacon = Util.GetRandom(beacons);
-			beacon.PlaceShip(jumpShip);
-		}
-
-		playerShip = Pool.For("JumpShip").Take<JumpShip>();
-		playerShip.transform.parent = transform;
-		playerShip.gameObject.SetActive(true);
-		ships.Add(playerShip);
-
+	void Awake() {
 		canvas = GetComponentInChildren<Canvas>();
 		selector = Pool.For("Selector").TakeObject();
 		selector.transform.parent = transform;
 		selector.SetActive(true);
 
+		Game.mainCamera.orthographicSize = 4;
+		var bounds = Util.GetCameraBounds(Game.mainCamera);
+
+		foreach (var sector in SectorManager.all) {
+			var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();
+			beacon.sector = sector;
+			sector.jumpBeacon = beacon;
+			beacon.transform.parent = transform;
+			beacon.transform.position = GalaxyToWorldPos(sector.galaxyPos);
+			beacon.gameObject.SetActive(true);
+			beacons.Add(beacon);
+		}
+
+		foreach (var ship in ShipManager.all) {
+			var jumpShip = Pool.For("JumpShip").Take<JumpShip>();
+			jumpShip.transform.parent = transform;
+			jumpShip.Initialize(ship);
+			jumpShip.gameObject.SetActive(true);
+			jumpShips.Add(jumpShip);
+
+			if (ship == Game.playerShip) {
+				jumpShip.name = "JumpShip (Player)";
+				Game.MoveCamera(jumpShip.transform.position);
+				Game.mainCamera.transform.parent = jumpShip.transform;
+			}
+		}
 
 		var positions = new List<Vector3>();
 
@@ -112,8 +98,7 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void EnterSector() {
-		Game.activeSector.LoadSector(playerShip.ship.sector);
-		Game.activeSector.gameObject.SetActive(true);
+		Game.LoadSector(Game.playerShip.sector);
 		gameObject.SetActive(false);
 	}
 
@@ -130,8 +115,7 @@ public class JumpMap : MonoBehaviour {
 	}
 
 	void FoldJump(JumpBeacon beacon) {
-		Game.activeSector.UnloadSector();
-		playerShip.FoldJump(beacon);
+		Game.playerShip.FoldJump(beacon.sector);
 	}
 
 	void SelectBeacon(JumpBeacon beacon) {
@@ -151,13 +135,18 @@ public class JumpMap : MonoBehaviour {
 
 	// Only happens when in motion or waiting
 	void JumpUpdate() {
-		foreach (var ship in ships) {
-			if (ship != playerShip && ship.destBeacon == null && Random.Range(0, 100) == 99) {
-				var beacon = Util.GetRandom(beacons);
-				ship.FoldJump(beacon);
-			}
-			ship.JumpUpdate();
+		foreach (var ship in ShipManager.all) {
+			ship.JumpUpdate(Time.deltaTime);
 		}
+
+
+		/*foreach (var jumper in jumpShips) {
+			if (jumper.ship != Game.playerShip && jumper.ship.destSector == null && Random.Range(0, 100) == 99) {
+				var beacon = Util.GetRandom(beacons);
+				jumper.ship.FoldJump(beacon.sector);
+			}
+			jumper.ship.JumpUpdate();
+		}*/
 	}
 
 	// Update is called once per frame
@@ -176,7 +165,7 @@ public class JumpMap : MonoBehaviour {
 			}
 		}
 		
-		if (selectedBeacon == playerShip.currentBeacon) {
+		if (selectedBeacon != null && selectedBeacon.sector == Game.playerShip.sector) {
 			foldButton.gameObject.SetActive(false);
 			enterButton.gameObject.SetActive(true);
 		} else {
@@ -184,6 +173,6 @@ public class JumpMap : MonoBehaviour {
 			enterButton.gameObject.SetActive(false);
 		}
 
-		if (isWaiting || playerShip.destBeacon != null) JumpUpdate();
+		if (isWaiting || Game.playerShip.destSector != null) JumpUpdate();
 	}
 }

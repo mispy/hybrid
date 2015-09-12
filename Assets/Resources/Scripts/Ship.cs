@@ -102,8 +102,13 @@ public class Ship {
 	public BlockMap blocks;
 	public BlockMap blueprintBlocks;
 	public float scrapAvailable = 0f;
+	public float jumpSpeed = 1f;
 
-	public Blockform form;
+	public Sector destSector;
+	public Vector2 galaxyPos;
+
+	public Blockform form = null;
+	public JumpShip jumpShip = null;
 
 	public Ship() {
 		blocks = new BlockMap();
@@ -120,6 +125,29 @@ public class Ship {
 
 	public void OnBlockAdded(Block newBlock) {
 		newBlock.ship = this;
+	}
+
+	public void FoldJump(Sector destSector) {
+		this.destSector = destSector;
+
+		if (sector != null)
+			sector.ships.Remove(this);
+		sector = null;
+	}
+
+	public void JumpUpdate(float deltaTime) {
+		if (destSector == null) return;
+
+		var targetDir = (destSector.galaxyPos - galaxyPos).normalized;
+		var dist = targetDir * jumpSpeed * deltaTime;
+
+		if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
+			destSector.PlaceShip(this);
+		} else {
+			galaxyPos += dist;
+		}
+
+		if (jumpShip != null) jumpShip.SyncShip();
 	}
 
 	public void SetBlock<T>(int x, int y) {

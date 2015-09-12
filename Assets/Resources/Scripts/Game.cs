@@ -11,17 +11,17 @@ public class Game : MonoBehaviour {
 	public static Game main;
 
 	// cached main camera
-	// Camera.main seems to perform some kind of expensive lookup
+	// Game.mainCamera seems to perform some kind of expensive lookup
 	public static Camera mainCamera;
 
 	// cached mouse position in world coordinates
 	public static Vector3 mousePos;
 	public static Ship playerShip;
 	public static ActiveSector activeSector;
+	public static JumpMap jumpMap;
 
 	public Canvas canvas;
 	public Text debugText;
-	public JumpMap jumpMap;
 
 	public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
 
@@ -54,6 +54,10 @@ public class Game : MonoBehaviour {
 		}
 	}
 
+	public static void MoveCamera(Vector2 targetPos) {
+		var pos = new Vector3(targetPos.x, targetPos.y, Game.mainCamera.transform.position.z);
+		Game.mainCamera.transform.position = pos;
+	}
 
 	public void BriefMessage(string message) {
 		messageText.text = message;
@@ -86,8 +90,9 @@ public class Game : MonoBehaviour {
 
 		for (var i = 0; i < 100; i++) {
 			var sector = new Sector();
-			sector.cosmicX = Random.Range(-cosmicWidth/2, cosmicWidth/2);
-			sector.cosmicY = Random.Range(-cosmicHeight/2, cosmicHeight/2);
+			var x = Random.Range(-cosmicWidth/2, cosmicWidth/2);
+			var y = Random.Range(-cosmicHeight/2, cosmicHeight/2);
+			sector.galaxyPos = new Vector2(x, y);
 			SectorManager.Add(sector);	
 		}
 		
@@ -98,10 +103,37 @@ public class Game : MonoBehaviour {
 			ShipManager.Add(ship);
 		}
 	}
+	
+	public static void LoadSector(Sector sector) {
+		foreach (var ship in ShipManager.all) {
+			if (ship.sector == sector) {
+				var form = ship.LoadBlockform();
+				form.transform.parent = activeSector.transform;
+				form.transform.position = activeSector.RandomEdge();
+				form.gameObject.SetActive(true);
+			}
+		}
+		
+		var camera = activeSector.GetComponentInChildren<Camera>();
+		var pos = Game.playerShip.form.transform.position;
+		camera.transform.position = new Vector3(pos.x, pos.y, camera.transform.position.z);
+		camera.transform.parent = Game.playerShip.form.transform;
+
+		activeSector.gameObject.SetActive(true);
+	}
+	
+	public static void UnloadSector() {
+		foreach (var obj in activeSector.GetComponentsInChildren<PoolBehaviour>())
+			Pool.Recycle(obj.gameObject);
+		
+		activeSector.gameObject.SetActive(false);
+	}
+
 
 	// Use this for initialization
 	void Awake () {		
 		Game.activeSector = GetComponentInChildren<ActiveSector>();
+		Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
 		Game.main = this;
 
 		var resources = Resources.LoadAll("Prefabs");
@@ -121,7 +153,7 @@ public class Game : MonoBehaviour {
 		MakeUniverse();
 
 		Game.playerShip = Util.GetRandom(ShipManager.all);
-		Game.activeSector.LoadSector(Game.playerShip.sector);
+		Game.LoadSector(Game.playerShip.sector);
 		//Save.LoadGame();
 
 
@@ -150,7 +182,7 @@ public class Game : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
+		mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
 		mousePos.z = 0f;
 
 		if (Game.inputBlocked) return;
@@ -171,21 +203,21 @@ public class Game : MonoBehaviour {
 		}
 
 		// Scroll zoom
-		if (Input.GetKeyDown(KeyCode.Equals) && Camera.main.orthographicSize > 4) {
-			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
-			//Debug.Log(Camera.main.orthographicSize);
-		} else if (Input.GetKeyDown(KeyCode.Minus) && Camera.main.orthographicSize < 64) {
-			Camera.main.orthographicSize = (int)Camera.main.orthographicSize << 1;
-			//Debug.Log(Camera.main.orthographicSize);
+		if (Input.GetKeyDown(KeyCode.Equals) && Game.mainCamera.orthographicSize > 4) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize >> 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
+		} else if (Input.GetKeyDown(KeyCode.Minus) && Game.mainCamera.orthographicSize < 64) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
 		}
 
 		// Scroll zoom
-		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize > 4) {
-			Camera.main.orthographicSize = (int)Camera.main.orthographicSize >> 1;
-			//Debug.Log(Camera.main.orthographicSize);
-		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {// && Camera.main.orthographicSize < 64) {
-			Camera.main.orthographicSize = (int)Camera.main.orthographicSize << 1;
-			//Debug.Log(Camera.main.orthographicSize);
+		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Game.mainCamera.orthographicSize > 4) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize >> 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
+		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {// && Game.mainCamera.orthographicSize < 64) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
 		}
 	}
 }

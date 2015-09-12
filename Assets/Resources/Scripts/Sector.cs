@@ -29,9 +29,20 @@ public static class SectorManager {
 [Serializable]
 public class Sector {
 	public string Id {
-		get { return String.Format("{0}, {1}", cosmicX, cosmicY); }
+		get { return String.Format("{0}, {1}", galaxyPos.x, galaxyPos.y); }
 	}
 
-	public int cosmicX;
-	public int cosmicY;
+	public Vector2 galaxyPos;
+	public List<Ship> ships = new List<Ship>();
+
+	public JumpBeacon jumpBeacon;
+
+	public void PlaceShip(Ship ship) {
+		ship.destSector = null;
+		if (ship.sector != null)
+			ship.sector.ships.Remove(ship);
+		ship.sector = this;
+		ship.galaxyPos = galaxyPos;
+		ships.Add(ship);
+	}
 }
