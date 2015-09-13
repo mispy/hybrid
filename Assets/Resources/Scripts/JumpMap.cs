@@ -21,7 +21,6 @@ public class JumpMap : MonoBehaviour {
 	Button foldButton;
 	Button waitButton;
 	Button stopWaitButton;
-	Camera camera;
 
 	bool isWaiting = false;
 	bool isJumping = false;
@@ -64,10 +63,10 @@ public class JumpMap : MonoBehaviour {
 
 			if (ship == Game.playerShip) {
 				jumpShip.name = "JumpShip (Player)";
-				Game.MoveCamera(jumpShip.transform.position);
-				Game.mainCamera.transform.parent = jumpShip.transform;
 			}
 		}
+
+		SelectBeacon(Game.playerShip.sector.jumpBeacon);
 
 		var positions = new List<Vector3>();
 
@@ -174,5 +173,7 @@ public class JumpMap : MonoBehaviour {
 		}
 
 		if (isWaiting || Game.playerShip.destSector != null) JumpUpdate();
+
+		Game.MoveCamera(GalaxyToWorldPos(Game.playerShip.galaxyPos));
 	}
 }

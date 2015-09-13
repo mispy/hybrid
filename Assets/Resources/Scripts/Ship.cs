@@ -102,7 +102,7 @@ public class Ship {
 	public BlockMap blocks;
 	public BlockMap blueprintBlocks;
 	public float scrapAvailable = 0f;
-	public float jumpSpeed = 1f;
+	public float jumpSpeed = 10f;
 
 	public Sector destSector;
 	public Vector2 galaxyPos;

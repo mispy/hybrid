@@ -86,7 +86,7 @@ public class Game : MonoBehaviour {
 
 	void MakeUniverse() {
 		var cosmicWidth = 100;
-		var cosmicHeight = 100;
+		var cosmicHeight = 100;	
 
 		for (var i = 0; i < 100; i++) {
 			var sector = new Sector();
@@ -99,7 +99,7 @@ public class Game : MonoBehaviour {
 		for (var i = 0; i < 20; i++) {
 			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
 			var sector = Util.GetRandom(SectorManager.all);
-			ship.sector = sector;
+			sector.PlaceShip(ship);
 			ShipManager.Add(ship);
 		}
 	}
@@ -114,12 +114,8 @@ public class Game : MonoBehaviour {
 			}
 		}
 		
-		var camera = activeSector.GetComponentInChildren<Camera>();
-		var pos = Game.playerShip.form.transform.position;
-		camera.transform.position = new Vector3(pos.x, pos.y, camera.transform.position.z);
-		camera.transform.parent = Game.playerShip.form.transform;
-
 		activeSector.gameObject.SetActive(true);
+		Game.mainCamera = activeSector.GetComponentInChildren<Camera>();
 	}
 	
 	public static void UnloadSector() {
@@ -219,5 +215,8 @@ public class Game : MonoBehaviour {
 			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
 			//Debug.Log(Game.mainCamera.orthographicSize);
 		}
+
+		Game.MoveCamera(Game.playerShip.form.transform.position);
+		Game.mainCamera.transform.rotation = Game.playerShip.form.transform.rotation;
 	}
 }

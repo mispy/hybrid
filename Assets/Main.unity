@@ -422,7 +422,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canvas: {fileID: 1917075418}
   debugText: {fileID: 1700680373}
-  jumpMap: {fileID: 461886783}
   shipDesigner: {fileID: 902054483}
   weaponSelect: {fileID: 990022746}
   messageText: {fileID: 1295230503}
@@ -612,7 +611,6 @@ GameObject:
   - 92: {fileID: 610742778}
   - 124: {fileID: 610742777}
   - 81: {fileID: 610742776}
-  - 114: {fileID: 610742780}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -656,17 +654,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 632897229}
   m_RootOrder: 3
---- !u!114 &610742780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 610742775}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 540df6042b329fa4ba5392180864440f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &632897228
 GameObject:
   m_ObjectHideFlags: 0
@@ -678,6 +665,7 @@ GameObject:
   - 114: {fileID: 632897231}
   - 114: {fileID: 632897230}
   - 114: {fileID: 632897232}
+  - 114: {fileID: 632897233}
   m_Layer: 0
   m_Name: Sector
   m_TagString: Untagged
@@ -713,8 +701,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sector:
-    cosmicX: 0
-    cosmicY: 0
+    galaxyPos: {x: 0, y: 0}
+    jumpBeacon: {fileID: 0}
   radius: 200
   blockforms: []
   leaveSectorMenu: {fileID: 800452728}
@@ -739,6 +727,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5cd20dde4edcf142a68443d9709beaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &632897233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 632897228}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 540df6042b329fa4ba5392180864440f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &672343913
