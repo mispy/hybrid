@@ -19,6 +19,7 @@ public class Game : MonoBehaviour {
 	public static Ship playerShip;
 	public static ActiveSector activeSector;
 	public static JumpMap jumpMap;
+	public static ShipInputManager shipControl;
 
 	public Canvas canvas;
 	public Text debugText;
@@ -130,6 +131,7 @@ public class Game : MonoBehaviour {
 	void Awake () {		
 		Game.activeSector = GetComponentInChildren<ActiveSector>();
 		Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
+		Game.shipControl = GetComponentInChildren<ShipInputManager>();
 		Game.main = this;
 
 		var resources = Resources.LoadAll("Prefabs");

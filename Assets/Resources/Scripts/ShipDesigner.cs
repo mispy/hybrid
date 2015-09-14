@@ -14,11 +14,13 @@ public class ShipDesigner : MonoBehaviour {
 			var cursorObj = Pool.For("Blueprint").TakeObject();
 			cursorObj.name = "Cursor";
 			cursor = cursorObj.GetComponent<Blueprint>();
+			cursor.blocks = new BlockMap();
 			cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make<Wall>();
 			cursorObj.SetActive(true);
 		} else {
 			cursor.gameObject.SetActive(true);
 		}
+		Game.shipControl.gameObject.SetActive(false);
 
 		//Game.main.debugText.text = "Designing Ship";
 		//Game.main.debugText.color = Color.green;		
@@ -30,6 +32,7 @@ public class ShipDesigner : MonoBehaviour {
 		if (designShip != null) {
 			designShip.form.tiles.EnableRendering();
 		}
+		Game.shipControl.gameObject.SetActive(true);
 		//Game.main.debugText.text = "";
 		//Game.main.debugText.color = Color.white;
 	}
@@ -141,7 +144,11 @@ public class ShipDesigner : MonoBehaviour {
 		
 		if (EventSystem.current.IsPointerOverGameObject())
 			return;
-		
+
+		if (Input.GetKeyDown(KeyCode.F1)) {
+			gameObject.SetActive(false);
+		}
+
 		if (Input.GetMouseButton(0) && isValid) {			
 			designShip.blueprintBlocks[targetBlockPos, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
 			designShip.blocks[targetBlockPos, cursorBlock.layer] = new Block(cursorBlock);

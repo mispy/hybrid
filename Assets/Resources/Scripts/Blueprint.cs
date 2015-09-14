@@ -6,8 +6,18 @@ public class Blueprint : PoolBehaviour {
 	public static GameObject prefab;
 	public Material blueprintMaterial;
 
+	private BlockMap _blocks;
 	[HideInInspector]
-	public BlockMap blocks;
+	public BlockMap blocks {
+		get {
+			return _blocks;
+		}
+		set {
+			_blocks = value;
+			_blocks.OnBlockAdded += OnBlockAdded;
+			tiles.SetBlocks(_blocks);
+		}
+	}
 	[HideInInspector]
 	public TileRenderer tiles;
 	[HideInInspector]
@@ -16,7 +26,9 @@ public class Blueprint : PoolBehaviour {
 	public void Initialize(Ship ship) {
 		this.ship = ship;
 		blocks = ship.blueprintBlocks;
-		blocks.OnBlockAdded += OnBlockAdded;
+	}
+
+	public override void OnCreate() {
 		tiles = GetComponent<TileRenderer>();
 	}
 
