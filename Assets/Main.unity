@@ -1787,7 +1787,7 @@ RectTransform:
   - {fileID: 1775425732}
   - {fileID: 800452729}
   m_Father: {fileID: 1917075419}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -2463,7 +2463,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1917075419}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -311.700012, y: -14.6000004}
@@ -2494,9 +2494,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '1. Save Ship
+  m_Text: '1. Save Template
 
-    2. Load Ship
+    2. Load Template
 
     3. Spawn Enemy Ship
 
@@ -3004,8 +3004,8 @@ RectTransform:
   - {fileID: 902054481}
   - {fileID: 1269216967}
   - {fileID: 101205642}
-  - {fileID: 1700680372}
   - {fileID: 1191323498}
+  - {fileID: 1700680372}
   m_Father: {fileID: 632897229}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}

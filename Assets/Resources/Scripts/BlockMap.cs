@@ -132,9 +132,13 @@ public class BlockMap {
 
 	public IEnumerable<Block> AllBlocks {
 		get {
+			var seenBlocks = new Dictionary<Block, Boolean>();
 			foreach (var chunk in AllChunks) {
 				foreach (var block in chunk.AllBlocks) {
-					yield return block;
+					if (!seenBlocks.ContainsKey(block)) {
+						yield return block;
+						seenBlocks[block] = true;
+					}
 				}
 			}
 		}
@@ -198,7 +202,7 @@ public class BlockMap {
 		}
 	}
 
-	public void RemoveBlock(Block block) {
+	void RemoveBlock(Block block) {
 		for (var i = 0; i < block.Width; i++) {
 			for (var j = 0; j < block.Height; j++) {
 				if (block.layer == BlockLayer.Base) size -= 1;
@@ -214,7 +218,7 @@ public class BlockMap {
 		if (OnBlockRemoved != null) OnBlockRemoved(block);		
 	}
 
-	public void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
+	void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
 		block.pos = bp;
 
 		for (var i = 0; i < block.Width; i++) {
