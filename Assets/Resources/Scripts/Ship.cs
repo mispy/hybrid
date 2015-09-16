@@ -101,16 +101,18 @@ public class Ship {
 	public Sector sector;
 	public BlockMap blocks;
 	public BlockMap blueprintBlocks;
+	public static List<Crew> crew { get; private set; }
 	public float scrapAvailable = 0f;
-	public float jumpSpeed = 10f;
+	
 
+	public float jumpSpeed = 10f;
 	public Sector destSector;
 	public Vector2 galaxyPos;
-
 	public Blockform form = null;
 	public JumpShip jumpShip = null;
 
 	public Ship() {
+		crew = new List<Crew>();
 		blocks = new BlockMap();
 		blueprintBlocks = new BlockMap();
 		blocks.OnBlockAdded += OnBlockAdded;

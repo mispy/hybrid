@@ -4,16 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Crew : MonoBehaviour {
-	public static List<Crew> all = new List<Crew>();
+public class Crew {
+	public Ship ship;
+	public int maxHealth = 100;
+	public int health = 100;
+}
 
+public class CrewBody : MonoBehaviour {
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
 
 	public Constructor constructor;
-
-	public int maxHealth = 100;
-	public int health = 100;
 
 
 	// Crew can be maglocked to a ship even if they don't have a current block
@@ -44,12 +45,6 @@ public class Crew : MonoBehaviour {
 		obj.transform.position = transform.position;
 		obj.SetActive(true);
 		constructor = GetComponentInChildren<Constructor>();
-
-		Crew.all.Add(this);
-	}
-
-	void OnRecycle() {
-		Crew.all.Remove(this);
 	}
 
 	public void MaglockMove(IntVector2 bp) {

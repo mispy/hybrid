@@ -712,12 +712,6 @@
     </BlockData>
     <BlockData>
       <x>-2</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>-2</x>
       <y>-3</y>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
@@ -726,18 +720,6 @@
       <x>-1</x>
       <y>-11</y>
       <typeName>PowerNode</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>-2</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>-2</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1179,6 +1161,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-5</x>
+      <y>11</y>
+      <typeName>Thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-4</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -1241,6 +1229,12 @@
     <BlockData>
       <x>-4</x>
       <y>10</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>11</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
@@ -1309,6 +1303,12 @@
       <y>10</y>
       <typeName>Floor</typeName>
       <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-3</x>
@@ -1384,6 +1384,12 @@
     </BlockData>
     <BlockData>
       <x>-2</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
       <y>12</y>
       <typeName>TorpedoLauncher</typeName>
       <orientation>1</orientation>
@@ -1453,6 +1459,12 @@
       <y>10</y>
       <typeName>Floor</typeName>
       <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-1</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-11</x>
@@ -1485,6 +1497,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-1</x>
+      <y>11</y>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>0</x>
       <y>-12</y>
       <typeName>TorpedoLauncher</typeName>
@@ -2221,12 +2239,6 @@
       <y>-1</y>
       <typeName>TorpedoLauncher</typeName>
       <orientation>-2</orientation>
-    </BlockData>
-    <BlockData>
-      <x>1</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -2250,18 +2262,6 @@
       <x>2</x>
       <y>-11</y>
       <typeName>PowerNode</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>1</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>1</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2365,6 +2365,12 @@
       <y>10</y>
       <typeName>Floor</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
@@ -3858,12 +3864,6 @@
     </BlockData>
     <BlockData>
       <x>-2</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>-2</x>
       <y>-3</y>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
@@ -3872,18 +3872,6 @@
       <x>-1</x>
       <y>-11</y>
       <typeName>PowerNode</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>-2</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>-2</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -4325,6 +4313,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-5</x>
+      <y>11</y>
+      <typeName>Thruster</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-4</x>
       <y>0</y>
       <typeName>Floor</typeName>
@@ -4387,6 +4381,12 @@
     <BlockData>
       <x>-4</x>
       <y>10</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>11</y>
       <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
@@ -4455,6 +4455,12 @@
       <y>10</y>
       <typeName>Floor</typeName>
       <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-3</x>
@@ -4530,6 +4536,12 @@
     </BlockData>
     <BlockData>
       <x>-2</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
       <y>12</y>
       <typeName>TorpedoLauncher</typeName>
       <orientation>1</orientation>
@@ -4599,6 +4611,12 @@
       <y>10</y>
       <typeName>Floor</typeName>
       <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-1</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-11</x>
@@ -4631,6 +4649,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-1</x>
+      <y>11</y>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>0</x>
       <y>-12</y>
       <typeName>TorpedoLauncher</typeName>
@@ -5367,12 +5391,6 @@
       <y>-1</y>
       <typeName>TorpedoLauncher</typeName>
       <orientation>-2</orientation>
-    </BlockData>
-    <BlockData>
-      <x>1</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -5396,18 +5414,6 @@
       <x>2</x>
       <y>-11</y>
       <typeName>PowerNode</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>1</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
-      <orientation>1</orientation>
-    </BlockData>
-    <BlockData>
-      <x>1</x>
-      <y>-9</y>
-      <typeName>PowerGenerator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -5511,6 +5517,12 @@
       <y>10</y>
       <typeName>Floor</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>11</y>
+      <typeName>Wall</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
