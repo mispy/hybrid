@@ -14,10 +14,10 @@ public class PulseBullet : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider collider) {
-		var crew = collider.gameObject.GetComponent<Crew>();
+		var crewBody = collider.gameObject.GetComponent<CrewBody>();
 
-		if (crew != null) {
-			crew.TakeDamage(10);
+		if (crewBody != null) {
+			crewBody.TakeDamage(10);
 		}
 
 		Pool.Recycle(this.gameObject);

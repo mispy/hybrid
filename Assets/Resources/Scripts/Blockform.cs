@@ -33,7 +33,7 @@ public class Blockform : PoolBehaviour {
 	
 	public Vector3 localCenter;
 	
-	public List<Crew> maglockedCrew = new List<Crew>();
+	public List<CrewBody> maglockedCrew = new List<CrewBody>();
 	private bool needsMassUpdate = true;
 	
 	public GameObject blockComponentHolder;

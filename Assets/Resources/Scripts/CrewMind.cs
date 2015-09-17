@@ -23,7 +23,7 @@ public class BuildTask : MindTask {
 	}
 
 	public override void Update() {		
-		mind.crew.constructor.Build(targetBlock);
+		mind.body.constructor.Build(targetBlock);
 
 		if (targetBlock.IsFilled)
 			Stop();
@@ -40,8 +40,8 @@ public class AttachTask : MindTask {
 	}
 
 	public override void Update() {
-		if (mind.crew.currentBlock == targetBlock) {
-			mind.crew.controlConsole = targetBlock;
+		if (mind.body.currentBlock == targetBlock) {
+			mind.body.controlConsole = targetBlock;
 			Stop();
 		} else {
 			mind.PathToBlock(targetBlock);
@@ -53,14 +53,14 @@ public class CrewMind : MonoBehaviour {
 	private List<IntVector2> blockPath = new List<IntVector2>();
 	private CharacterController controller;
 
-	public Crew crew;
+	public CrewBody body;
 	public MindTask task = null;
 	public Queue<MindTask> taskQueue = new Queue<MindTask>();
 
 	public Ship myShip;
 	
 	void Awake() {
-		crew = GetComponentInParent<Crew>();
+		body = GetComponentInParent<CrewBody>();
 	}
 	
 	void Start() {
@@ -103,21 +103,21 @@ public class CrewMind : MonoBehaviour {
 
 
 	void Update() {
-		if (crew.maglockForm != null) {
+		if (body.maglockShip != null) {
 			UpdateLockedMovement();
 		} else {
 			UpdateFreeMovement();
 		}
 
-		foreach (var other in Crew.all) {
-			if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {
-				crew.weapon.Fire(other.transform.position);
+		/*foreach (var other in Crew.all) {
+			if (IsEnemy(other) && Util.LineOfSight(body.gameObject, other.transform.position)) {
+				body.weapon.Fire(other.transform.position);
 			}
-		}
+		}*/
 	}
 
 	bool IsEnemy(Crew other) {
-		return other != this;
+		return other != this.body.crew;
 	}
 
 	void UpdateLockedMovement() {		
@@ -125,12 +125,12 @@ public class CrewMind : MonoBehaviour {
 
 		var bp = blockPath[0];
 
-		if (bp == crew.currentBlockPos) {
+		if (bp == body.currentBlockPos) {
 			blockPath.RemoveAt(0);
-		} else if (bp != crew.maglockMoveBlockPos) {
-			crew.maglockMoveBlockPos = bp;
-			crew.StopCoroutine("MoveToBlock");
-			crew.StartCoroutine("MoveToBlock");
+		} else if (bp != body.maglockMoveBlockPos) {
+			body.maglockMoveBlockPos = bp;
+			body.StopCoroutine("MoveToBlock");
+			body.StartCoroutine("MoveToBlock");
 		}
 	}
 
@@ -143,11 +143,11 @@ public class CrewMind : MonoBehaviour {
 		var dist = worldPos - transform.position;
 		
 		if (dist.magnitude < 1f) {
-			crew.transform.position = worldPos;
+			body.transform.position = worldPos;
 			blockPath.RemoveAt(0);
-			crew.rigidBody.velocity = Vector3.zero;
+			body.rigidBody.velocity = Vector3.zero;
 		} else {
-			crew.rigidBody.velocity = dist.normalized * speed;
+			body.rigidBody.velocity = dist.normalized * speed;
 		}
 	}
 
