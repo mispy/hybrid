@@ -15,10 +15,13 @@ public class DebugMenu : MonoBehaviour {
 		Game.main.BriefMessage("Saved " + path);
 	}
 
-	public Ship LoadShip() {
-		var path = Application.dataPath + "/Ships/Asteroid.xml";//Directory.GetFiles(Application.dataPath + "/Ships/")[0];
-		var ship = ShipManager.Unpack(Save.Load<ShipData>(path));
-		return ship;
+	public void NewShip() {
+		var ship = Game.playerShip;
+		foreach (var block in ship.blocks.AllBlocks) {		
+			ship.blocks[block.pos, block.layer] = null;
+			ship.blueprintBlocks[block.pos, block.layer] = null;
+		}
+		ship.SetBlock<Floor>(0, 0);
 	}
 
 	public void MakeAsteroid(Vector2 pos) {				
@@ -47,7 +50,7 @@ public class DebugMenu : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha2)) {
-			LoadShip();
+			NewShip();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha3)) {

@@ -101,7 +101,7 @@ public class Ship {
 	public Sector sector;
 	public BlockMap blocks;
 	public BlockMap blueprintBlocks;
-	public static List<Crew> crew { get; private set; }
+	public List<Crew> crew = new List<Crew>();
 	public float scrapAvailable = 0f;
 	
 
