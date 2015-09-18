@@ -88,6 +88,9 @@ public class Game : MonoBehaviour {
 	void MakeUniverse() {
 		var cosmicWidth = 100;
 		var cosmicHeight = 100;	
+		
+		FactionManager.Add(new Faction("Dragons"));
+		FactionManager.Add(new Faction("Mushrooms"));
 
 		for (var i = 0; i < 100; i++) {
 			var sector = new Sector();

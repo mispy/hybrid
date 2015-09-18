@@ -2496,13 +2496,15 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: '1. Save Template
 
-    2. Load Template
+    2. Save as New
 
-    3. Spawn Enemy Ship
+    3. Start New Ship
 
-    4. Spawn Asteroid
+    4. Spawn Enemy Ship
 
-    5. Spawn Crew'
+    5. Spawn Asteroid
+
+    6. Spawn Crew'
 --- !u!222 &1700680374
 CanvasRenderer:
   m_ObjectHideFlags: 0

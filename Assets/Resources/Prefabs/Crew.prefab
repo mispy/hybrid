@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 422348}
   - 212: {fileID: 21268476}
-  - 114: {fileID: 11414088}
   - 54: {fileID: 5461298}
   - 65: {fileID: 6559640}
   - 114: {fileID: 11495430}
@@ -124,24 +123,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .199244276, y: .197256118, z: .200000003}
   m_Center: {x: .000497037196, y: .0034791471, z: 0}
---- !u!114 &11414088
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de11fe0394785da4aa3689863388c275, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rigidBody: {fileID: 0}
-  collider: {fileID: 0}
-  constructor: {fileID: 0}
-  maxHealth: 100
-  health: 100
-  maglockShip: {fileID: 0}
-  weapon: {fileID: 0}
 --- !u!114 &11450768
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,8 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80bfe9202e60473499670f9548f3f617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crew: {fileID: 0}
-  myShip: {fileID: 0}
+  body: {fileID: 0}
 --- !u!114 &11452668
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -32,8 +32,13 @@ public class Crew {
 	public Ship ship;
 	public int maxHealth = 100;
 	public int health = 100;
+	public string name;
+	public Faction faction;
 
 	public string Id {
-		get { return "foof"; }
+		get { return name; }
+	}
+
+	public Crew() {
 	}
 }
