@@ -102,6 +102,11 @@ public class Game : MonoBehaviour {
 		
 		for (var i = 0; i < 20; i++) {
 			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
+			for (var j = 0; j < 5; j++) {
+				var crew = new Crew("Foofles");
+				crew.Ship = ship;
+				CrewManager.Add(crew);
+			}
 			var sector = Util.GetRandom(SectorManager.all);
 			sector.PlaceShip(ship);
 			ShipManager.Add(ship);

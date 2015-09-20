@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CrewBody : MonoBehaviour {
+public class CrewBody : PoolBehaviour {
 	public Crew crew;
 	public Rigidbody rigidBody;
 	public BoxCollider collider;
@@ -49,7 +49,7 @@ public class CrewBody : MonoBehaviour {
 		controlConsole = block;
 	}
 	
-	void SetMaglock(Blockform ship) {
+	public void SetMaglock(Blockform ship) {
 		maglockShip = ship;
 		maglockShip.maglockedCrew.Add(this);
 		transform.rotation = maglockShip.transform.rotation;

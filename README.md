@@ -7,3 +7,4 @@ A little spaceship-building exploration game. Sort of like Tiny Dwarf Fortress I
 - Movement of ships between "sectors", which are bounded gameplay areas represented on a bigger galaxy map. NPC ships exist on the galaxy map and will pursue their own little agendas.
 - Very basic crew AI and pathfinding.
 
+

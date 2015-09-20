@@ -6,7 +6,7 @@ public class HealthBar : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		crew = GetComponentInParent<Crew>();
+		crew = GetComponentInParent<CrewBody>().crew;
 	}
 	
 	// Update is called once per frame

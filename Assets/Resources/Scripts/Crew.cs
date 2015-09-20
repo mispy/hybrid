@@ -29,7 +29,19 @@ public static class CrewManager {
 
 [Serializable]
 public class Crew {
-	public Ship ship;
+
+	private Ship ship;
+	public Ship Ship {
+		get { return ship; }
+		set {
+			if (ship != null) {
+				ship.crew.Remove(this);
+			}
+			ship = value;
+			ship.crew.Add(this);
+		}
+	}
+
 	public int maxHealth = 100;
 	public int health = 100;
 	public string name;
@@ -39,6 +51,7 @@ public class Crew {
 		get { return name; }
 	}
 
-	public Crew() {
+	public Crew(string name) {
+		this.name = name;
 	}
 }

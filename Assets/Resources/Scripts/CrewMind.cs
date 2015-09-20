@@ -57,10 +57,11 @@ public class CrewMind : MonoBehaviour {
 	public MindTask task = null;
 	public Queue<MindTask> taskQueue = new Queue<MindTask>();
 
-	public Ship myShip;
+	public Crew crew;
 	
 	void Awake() {
 		body = GetComponentInParent<CrewBody>();
+		crew = GetComponentInParent<CrewBody>().crew;
 	}
 	
 	void Start() {
@@ -94,7 +95,7 @@ public class CrewMind : MonoBehaviour {
 			}
 		}*/		
 
-		foreach (var block in myShip.blocks.Find<Console>()) {
+		foreach (var block in crew.Ship.blocks.Find<Console>()) {
 			return new AttachTask(this, block);
 		}
 
@@ -139,7 +140,7 @@ public class CrewMind : MonoBehaviour {
 
 		var speed = 10f;	
 		
-		Vector3 worldPos = myShip.form.BlockToWorldPos(blockPath[0]);
+		Vector3 worldPos = crew.Ship.form.BlockToWorldPos(blockPath[0]);
 		var dist = worldPos - transform.position;
 		
 		if (dist.magnitude < 1f) {

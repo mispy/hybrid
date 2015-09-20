@@ -45,10 +45,9 @@ public class DebugMenu : MonoBehaviour {
 	}
 
 	public void SpawnCrew(Vector2 pos) {
-		var crewObj = Pool.For("Crew").TakeObject();
+		var crewObj = Pool.For("CrewBody").TakeObject();
 		crewObj.transform.position = pos;
 		crewObj.SetActive(true);
-		crewObj.GetComponentInChildren<CrewMind>().myShip = Blockform.ClosestTo(pos).First().ship;
 	}
 
 	// Update is called once per frame

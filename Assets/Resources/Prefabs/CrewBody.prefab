@@ -11,9 +11,10 @@ GameObject:
   - 212: {fileID: 21268476}
   - 54: {fileID: 5461298}
   - 65: {fileID: 6559640}
+  - 114: {fileID: 11495484}
   - 114: {fileID: 11495430}
   m_Layer: 10
-  m_Name: Crew
+  m_Name: CrewBody
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,6 +158,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66973bbdb6bb3546b842c034b649b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11495484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d9d272a288d57546968072119aef53e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crew:
+    maxHealth: 0
+    health: 0
+    name: 
+  rigidBody: {fileID: 0}
+  collider: {fileID: 0}
+  constructor: {fileID: 0}
+  maglockShip: {fileID: 0}
+  weapon: {fileID: 0}
 --- !u!114 &11496124
 MonoBehaviour:
   m_ObjectHideFlags: 1
