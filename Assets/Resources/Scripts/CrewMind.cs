@@ -130,8 +130,6 @@ public class CrewMind : MonoBehaviour {
 			blockPath.RemoveAt(0);
 		} else if (bp != body.maglockMoveBlockPos) {
 			body.maglockMoveBlockPos = bp;
-			body.StopCoroutine("MoveToBlock");
-			body.StartCoroutine("MoveToBlock");
 		}
 	}
 
