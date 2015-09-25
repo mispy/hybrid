@@ -112,31 +112,31 @@ public class Tile {
 			var box = boxes[i];
 			
 			var upUVs = new Vector2[] {
-				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
+				new Vector2(box.xMin + fracX, box.yMax - fracY),
+				new Vector2(box.xMax - fracX, box.yMax - fracY),
+				new Vector2(box.xMax - fracX, box.yMin + fracY),
 				new Vector2(box.xMin + fracX, box.yMin + fracY)
 			};
 			
 			var rightUVs = new Vector2[] {
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMax - fracX, box.yMin + fracY),
+				new Vector2(box.xMax - fracX, box.yMax - fracY),
+				new Vector2(box.xMin + fracX, box.yMax - fracY),
 				new Vector2(box.xMin + fracX, box.yMin + fracY)
 			};
 			
 			var downUVs = new Vector2[] {
 				new Vector2(box.xMin + fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY),
-				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY)
+				new Vector2(box.xMax - fracX, box.yMin + fracY),
+				new Vector2(box.xMax - fracX, box.yMax - fracY),
+				new Vector2(box.xMin + fracX, box.yMax - fracY)
 			};
 			
 			var leftUVs = new Vector2[] {
-				new Vector2(box.xMin + fracX, box.yMin + fracHeight - fracY),
+				new Vector2(box.xMin + fracX, box.yMax - fracY),
 				new Vector2(box.xMin + fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracY),
-				new Vector2(box.xMin + fracWidth - fracX, box.yMin + fracHeight - fracY)
+				new Vector2(box.xMax - fracX, box.yMin + fracY),
+				new Vector2(box.xMax - fracX, box.yMax - fracY)
 			};
 			
 			baseTile.up = new Tile(baseTile, Rot4.Up, upUVs);
