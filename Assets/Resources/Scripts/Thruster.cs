@@ -20,8 +20,8 @@ public class Thruster : BlockType {
 	}
 	
 	public void Fire() {		
-		if (!power.isPowered)
-			return;
+		//if (!power.isPowered)
+		//	return;
 
 		isFiringAttitude = false;
 		isFiring = true;
@@ -30,8 +30,8 @@ public class Thruster : BlockType {
 	}
 
 	public void FireAttitude() {
-		if (!power.isPowered)
-			return;
+		//if (!power.isPowered)
+		//	return;
 
 		isFiring = false;
 		isFiringAttitude = true;

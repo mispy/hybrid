@@ -92,6 +92,7 @@ public class Game : MonoBehaviour {
 		FactionManager.Add(new Faction("Dragons"));
 		FactionManager.Add(new Faction("Mushrooms"));
 		FactionManager.Add(new Faction("Bees"));
+		FactionManager.Add(new Faction("Tictacs"));
 
 		for (var i = 0; i < 100; i++) {
 			var sector = new Sector();
@@ -101,7 +102,7 @@ public class Game : MonoBehaviour {
 			SectorManager.Add(sector);	
 		}
 		
-		for (var i = 0; i < 20; i++) {
+		for (var i = 0; i < 40; i++) {
 			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
 			ship.faction = Util.GetRandom(FactionManager.all);
 			ship.name = ship.faction.name + " " + ship.name;

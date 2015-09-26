@@ -85,17 +85,11 @@ public class TorpedoLauncher : BlockType {
 		}
 	}
 
-	public void Update() {
-		if (form.ship != Game.playerShip || !(Game.main.weaponSelect.selectedType is TorpedoLauncher)) {
-			dottedLine.enabled = false;
-			return;
-		}
-
-		var targetPos = transform.position + (Game.mousePos - form.transform.TransformPoint(centerPoint));
+	public void AimTowards(Vector3 targetPos) {
 		var targetDir = (targetPos-transform.position).normalized;
 		var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
 		transform.rotation = targetRotation;
-
+		
 		var isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.3f);
 		if (!isBlocked) {
 			dottedLine.enabled = true;
@@ -105,12 +99,22 @@ public class TorpedoLauncher : BlockType {
 			dottedLine.SetPosition(1, p2);
 			//Debug.LogFormat("{0} {1}", origTextureScale.x, (p2-p1).magnitude);
 			dottedLine.material.mainTextureScale = new Vector2(origTextureScale.x*(p2-p1).magnitude*0.1f, origTextureScale.y);
-
+			
 			if (Input.GetMouseButton(0)) {
 				Fire();
 			}
 		} else {
 			dottedLine.enabled = false;
 		}
+	}
+
+	public void Update() {
+		if (form.ship != Game.playerShip || !(Game.main.weaponSelect.selectedType is TorpedoLauncher)) {
+			dottedLine.enabled = false;
+			return;
+		}
+
+		var targetPos = transform.position + (Game.mousePos - form.transform.TransformPoint(centerPoint));
+		AimTowards(targetPos);
 	}
 }
