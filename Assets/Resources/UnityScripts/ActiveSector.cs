@@ -4,18 +4,13 @@ using System.Collections.Generic;
 
 public class ActiveSector : MonoBehaviour {
 	public Sector sector;
-	public float radius = 200f;
 
 	public List<Blockform> blockforms;
 
 	public GameObject leaveSectorMenu;
 
-	public Vector2 RandomEdge() {
-		return new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))*radius*1.5;
-	}
-
 	public bool IsOutsideBounds(Vector3 pos) {
-		return pos.magnitude > radius;
+		return pos.magnitude > sector.radius;
 	}
 
 	void Update() {
@@ -40,7 +35,6 @@ public class ActiveSector : MonoBehaviour {
 	}
 
 	public void RealizeShip(Ship ship) {
-		RealizeShip(ship, RandomEdge());
+		RealizeShip(ship, ship.sectorPos);
 	}
-
 }

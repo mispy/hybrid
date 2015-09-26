@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public static class SectorManager {
 	public static List<Sector> all = new List<Sector>();
@@ -33,17 +34,24 @@ public class Sector {
 	}
 
 	public Vector2 galaxyPos;
+	public float radius = 200f;
+
 	public List<Ship> ships = new List<Ship>();
-
 	public JumpBeacon jumpBeacon;
+	
+	public Vector2 RandomEdge() {
+		return new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))*radius*1.5f;
+	}
 
-	public void PlaceShip(Ship ship) {
+	public void PlaceShip(Ship ship, Vector2 entryVector) {
 		ship.destSector = null;
 		if (ship.sector != null)
 			ship.sector.ships.Remove(ship);
 		ship.sector = this;
 		ship.galaxyPos = galaxyPos;
 		ships.Add(ship);
+
+		ship.sectorPos = radius * 1.2f * (entryVector.normalized * -1f);
 
 		if (this == Game.activeSector.sector) {
 			Game.activeSector.RealizeShip(ship);

@@ -354,9 +354,9 @@ public class Blockform : PoolBehaviour {
 	}
 	
 	void FixedUpdate() {
-		if (transform.position.magnitude > Game.activeSector.radius) {
+		if (transform.position.magnitude > Game.activeSector.sector.radius) {
 			var towardsCenter = (Vector3.zero - transform.position).normalized;
-			var factor = transform.position.magnitude - Game.activeSector.radius;
+			var factor = transform.position.magnitude - Game.activeSector.sector.radius;
 			rigidBody.AddForce(towardsCenter * factor * 10 * Time.fixedDeltaTime);
 		}
 	}

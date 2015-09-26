@@ -60,7 +60,7 @@ public static class ShipManager {
 			crew.Ship = ship;
 			CrewManager.Add(crew);
 		}
-		sector.PlaceShip(ship);
+		sector.PlaceShip(ship, Vector2.zero);
 		ShipManager.Add(ship);
 		return ship;
 	}
@@ -123,6 +123,7 @@ public class Ship {
 	public float scrapAvailable = 0f;
 	public float jumpSpeed = 10f;
 	public Vector2 galaxyPos;
+	public Vector2 sectorPos;
 	public Sector sector;
 	public Sector destSector;
 	public Faction faction = null;
@@ -170,7 +171,7 @@ public class Ship {
 			var dist = targetDir * jumpSpeed * deltaTime;
 
 			if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
-				destSector.PlaceShip(this);
+				destSector.PlaceShip(this, destSector.galaxyPos - galaxyPos);
 			} else {
 				galaxyPos += dist;
 			}
