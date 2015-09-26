@@ -111,10 +111,6 @@ public class Game : MonoBehaviour {
 		foreach (var ship in ShipManager.all) {
 			if (ship.sector == sector) {
 				activeSector.RealizeShip(ship);
-				var form = ship.LoadBlockform();
-				form.transform.parent = activeSector.transform;
-				form.transform.position = activeSector.RandomEdge();
-				form.gameObject.SetActive(true);
 			}
 		}
 		

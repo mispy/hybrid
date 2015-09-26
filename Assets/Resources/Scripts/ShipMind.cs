@@ -4,7 +4,7 @@ using System.Collections;
 public class ShipMind : PoolBehaviour {
 	public Ship ship;
 	public Blockform form;
-	public Ship nearestEnemy;
+	public Blockform nearestEnemy;
 
 	// Use this for initialization
 	void Start () {
@@ -32,7 +32,7 @@ public class ShipMind : PoolBehaviour {
 		if (nearestEnemy == null) return;
 
 		foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
-			launcher.AimTowards(nearestEnemy.form.transform.position);
+			launcher.AimTowards(nearestEnemy.transform.position);
 
 			var hit = launcher.GetProbableHit();
 			if (hit == null) continue;
@@ -46,7 +46,7 @@ public class ShipMind : PoolBehaviour {
 	}
 
 	void UpdateMovement() {		
-		Blockform target = nearestEnemy.form;
+		Blockform target = nearestEnemy;
 
 		if (target != null) {
 			form.RotateTowards(target.transform.position);
@@ -63,7 +63,7 @@ public class ShipMind : PoolBehaviour {
 		
 		foreach (var other in Blockform.ClosestTo(transform.position)) {
 			if (IsEnemy(other.ship)) {
-				nearestEnemy = other.ship;
+				nearestEnemy = other;
 				break;
 			}
 		}			

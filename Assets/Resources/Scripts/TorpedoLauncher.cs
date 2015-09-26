@@ -89,6 +89,16 @@ public class TorpedoLauncher : BlockType {
 		var targetDir = (targetPos-transform.position).normalized;
 		var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
 		transform.rotation = targetRotation;
+	}
+
+	public void Update() {
+		if (form.ship != Game.playerShip || !(Game.main.weaponSelect.selectedType is TorpedoLauncher)) {
+			dottedLine.enabled = false;
+			return;
+		}
+
+		var targetPos = transform.position + (Game.mousePos - form.transform.TransformPoint(centerPoint));
+		AimTowards(targetPos);
 		
 		var isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.3f);
 		if (!isBlocked) {
@@ -106,15 +116,5 @@ public class TorpedoLauncher : BlockType {
 		} else {
 			dottedLine.enabled = false;
 		}
-	}
-
-	public void Update() {
-		if (form.ship != Game.playerShip || !(Game.main.weaponSelect.selectedType is TorpedoLauncher)) {
-			dottedLine.enabled = false;
-			return;
-		}
-
-		var targetPos = transform.position + (Game.mousePos - form.transform.TransformPoint(centerPoint));
-		AimTowards(targetPos);
 	}
 }

@@ -22,6 +22,7 @@ public static class ShipManager {
 		foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
 			var data = Save.Load<ShipData>(path);
 			var id = Util.GetIdFromPath(path);
+			data.name = id;
 			templates[id] = data;
 		}
 	}
@@ -29,6 +30,7 @@ public static class ShipManager {
 	public static void LoadAll() {
 		foreach (var path in Save.GetFiles("Ship")) {
 			var data = Save.Load<ShipData>(path);
+			data.name = Util.GetIdFromPath(path);
 			var ship = ShipManager.Unpack(data);
 			var id = Util.GetIdFromPath(path);
 			ShipManager.all.Add(ship);
