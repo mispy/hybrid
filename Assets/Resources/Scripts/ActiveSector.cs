@@ -25,4 +25,15 @@ public class ActiveSector : MonoBehaviour {
 			leaveSectorMenu.SetActive(false);
 		}
 	}
+
+	public void RealizeShip(Ship ship, Vector2 pos) {
+		var form = ship.LoadBlockform();
+		form.transform.parent = transform;
+		form.transform.position = pos;
+		form.gameObject.SetActive(true);
+	}
+
+	public void RealizeShip(Ship ship) {
+		RealizeShip(ship, RandomEdge());
+	}
 }

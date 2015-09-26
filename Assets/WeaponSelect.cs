@@ -64,7 +64,7 @@ public class WeaponSelect : MonoBehaviour {
 	
 	void Update() {
 		int i = Util.GetNumericKeyDown();
-		if (i > 0 && i <= Block.allTypes.Count) {
+		if (i > 0 && i <= blockButtons.Count) {
 			SelectBlock(i);
 		}
 	}

@@ -67,8 +67,10 @@ public class DebugMenu : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha4)) {
-			if (Blockform.AtWorldPos(pz) == null)
-				Generate.TestShip(pz);
+			if (Blockform.AtWorldPos(pz) == null) {
+				var ship = ShipManager.Create(sector: Game.playerShip.sector);
+				Game.activeSector.RealizeShip(ship, pz);
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha5)) {

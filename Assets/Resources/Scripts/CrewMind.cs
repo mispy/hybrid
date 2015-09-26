@@ -40,7 +40,9 @@ public class AttachTask : MindTask {
 	}
 
 	public override void Update() {
-		if (mind.body.currentBlock == targetBlock) {
+		if (targetBlock.ship == null) {
+			Stop();
+		} else if (mind.body.currentBlock == targetBlock) {
 			mind.body.controlConsole = targetBlock;
 			Stop();
 		} else {

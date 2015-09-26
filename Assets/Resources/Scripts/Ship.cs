@@ -46,6 +46,23 @@ public static class ShipManager {
 		ShipManager.all.Add(ship);
 	}
 
+	public static Ship Create(Faction faction = null, Sector sector = null) {
+		if (faction == null) faction = Util.GetRandom(FactionManager.all);
+		if (sector == null) sector = Util.GetRandom(SectorManager.all);
+
+		var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
+		ship.faction = faction;
+		ship.name = ship.faction.name + " " + ship.name;
+		for (var j = 0; j < 5; j++) {
+			var crew = new Crew("Foofles");
+			crew.Ship = ship;
+			CrewManager.Add(crew);
+		}
+		sector.PlaceShip(ship);
+		ShipManager.Add(ship);
+		return ship;
+	}
+
 	public static Ship Unpack(ShipData data) {
 		var ship = new Ship();
 		ship.name = data.name;

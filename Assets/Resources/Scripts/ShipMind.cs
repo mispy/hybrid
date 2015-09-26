@@ -37,9 +37,9 @@ public class ShipMind : PoolBehaviour {
 			var hit = launcher.GetProbableHit();
 			if (hit == null) continue;
 
-			var otherShip = hit.gameObject.GetComponentInParent<Blockform>().ship;
+			var otherShip = hit.gameObject.GetComponentInParent<Blockform>();
 
-			if (otherShip != null && IsEnemy(otherShip)) {
+			if (otherShip != null && IsEnemy(otherShip.ship)) {
 				launcher.Fire();
 			}
 		}

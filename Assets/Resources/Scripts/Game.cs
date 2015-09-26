@@ -103,23 +103,14 @@ public class Game : MonoBehaviour {
 		}
 		
 		for (var i = 0; i < 40; i++) {
-			var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
-			ship.faction = Util.GetRandom(FactionManager.all);
-			ship.name = ship.faction.name + " " + ship.name;
-			for (var j = 0; j < 5; j++) {
-				var crew = new Crew("Foofles");
-				crew.Ship = ship;
-				CrewManager.Add(crew);
-			}
-			var sector = Util.GetRandom(SectorManager.all);
-			sector.PlaceShip(ship);
-			ShipManager.Add(ship);
+			var ship = ShipManager.Create();
 		}
 	}
 	
 	public static void LoadSector(Sector sector) {
 		foreach (var ship in ShipManager.all) {
 			if (ship.sector == sector) {
+				activeSector.RealizeShip(ship);
 				var form = ship.LoadBlockform();
 				form.transform.parent = activeSector.transform;
 				form.transform.position = activeSector.RandomEdge();

@@ -58,7 +58,12 @@ public class ShipCollision : PoolBehaviour {
 		
 		var hasCollider = colliders.ContainsKey(pos);
 		var isEdge = blocks.IsCollisionEdge(pos);
-		
+
+		if (hasCollider && colliders[pos] == null) {
+			colliders.Remove(pos);
+			hasCollider = false;
+		}
+
 		if (hasCollider && (!isEdge || colliders[pos].gameObject.layer != collisionLayer)) {
 			colliders[pos].gameObject.SetActive(false);
 			colliders.Remove(pos);
@@ -68,7 +73,7 @@ public class ShipCollision : PoolBehaviour {
 		if (!hasCollider && isEdge) {
 			AddCollider(pos, collisionLayer);
 		}
-		
+	
 		Profiler.EndSample();
 	}
 
