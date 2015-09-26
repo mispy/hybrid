@@ -2,74 +2,74 @@
 using System.Collections;
 
 public class ShipMind : PoolBehaviour {
-	public Ship ship;
-	public Blockform form;
-	public Blockform nearestEnemy;
+    public Ship ship;
+    public Blockform form;
+    public Blockform nearestEnemy;
 
-	// Use this for initialization
-	void Start () {
-		form = GetComponent<Blockform>();
-		ship = GetComponent<Blockform>().ship;
-	}
+    // Use this for initialization
+    void Start () {
+        form = GetComponent<Blockform>();
+        ship = GetComponent<Blockform>().ship;
+    }
 
-	bool IsEnemy(Ship otherShip) {
-		return ship.faction.IsEnemy(otherShip.faction);
-	}
+    bool IsEnemy(Ship otherShip) {
+        return ship.faction.IsEnemy(otherShip.faction);
+    }
 
-	void UpdateTractors() {
-		foreach (var tractor in form.GetBlockComponents<TractorBeam>()) {
-			tractor.Stop();
+    void UpdateTractors() {
+        foreach (var tractor in form.GetBlockComponents<TractorBeam>()) {
+            tractor.Stop();
 
-			foreach (var target in tractor.GetViableTargets()) {
-				if (target.CompareTag("Item")) {
-					tractor.Fire(target.transform.position);
-				}
-			}
-		}
-	}
+            foreach (var target in tractor.GetViableTargets()) {
+                if (target.CompareTag("Item")) {
+                    tractor.Fire(target.transform.position);
+                }
+            }
+        }
+    }
 
-	void UpdateWeapons() {
-		if (nearestEnemy == null) return;
+    void UpdateWeapons() {
+        if (nearestEnemy == null) return;
 
-		foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
-			launcher.AimTowards(nearestEnemy.transform.position);
+        foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
+            launcher.AimTowards(nearestEnemy.transform.position);
 
-			var hit = launcher.GetProbableHit();
-			if (hit == null) continue;
+            var hit = launcher.GetProbableHit();
+            if (hit == null) continue;
 
-			var otherShip = hit.gameObject.GetComponentInParent<Blockform>();
+            var otherShip = hit.gameObject.GetComponentInParent<Blockform>();
 
-			if (otherShip != null && IsEnemy(otherShip.ship)) {
-				launcher.Fire();
-			}
-		}
-	}
+            if (otherShip != null && IsEnemy(otherShip.ship)) {
+                launcher.Fire();
+            }
+        }
+    }
 
-	void UpdateMovement() {		
-		Blockform target = nearestEnemy;
+    void UpdateMovement() {        
+        Blockform target = nearestEnemy;
 
-		if (target != null) {
-			form.RotateTowards(target.transform.position);
-			var dist = (target.transform.position - transform.position).magnitude;
-			if (dist > 10f) {
-				form.MoveTowards(target.transform.position);
-			}
-		}
-	}
+        if (target != null) {
+            form.RotateTowards(target.transform.position);
+            var dist = (target.transform.position - transform.position).magnitude;
+            if (dist > 10f) {
+                form.MoveTowards(target.transform.position);
+            }
+        }
+    }
 
-	// Update is called once per frame
-	void Update () {
-		if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
-		
-		foreach (var other in Blockform.ClosestTo(transform.position)) {
-			if (IsEnemy(other.ship)) {
-				nearestEnemy = other;
-				break;
-			}
-		}			
+    // Update is called once per frame
+    void Update () {
+        if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
+        
+        foreach (var other in Blockform.ClosestTo(transform.position)) {
+            if (IsEnemy(other.ship)) {
+                nearestEnemy = other;
+                break;
+            }
+        }            
 
-		UpdateTractors();
-	    UpdateWeapons();
-		UpdateMovement();
-	}
+        UpdateTractors();
+        UpdateWeapons();
+        UpdateMovement();
+   } 
 }

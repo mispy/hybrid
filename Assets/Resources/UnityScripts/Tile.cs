@@ -76,6 +76,7 @@ public class Tile {
                 tileable.tiles[0, 0] = baseTile;
                 Tile.baseTiles.Add(baseTile);
             } else {
+                // tileable images bigger than pixelSize will be broken up into multiple tiles
                 for (var x = 0; x < tileWidth; x++) {
                     for (var y = 0; y < tileHeight; y++) {
                         Color[] pixels = texture.GetPixels(x*Tile.pixelSize, y*Tile.pixelSize, Tile.pixelSize, Tile.pixelSize);
@@ -107,7 +108,7 @@ public class Tile {
         var fracX = 1f/atlas.width;
         var fracY = 1f/atlas.height;
         
-        for (var i = 0; i < baseTiles.Count; i++) {			
+        for (var i = 0; i < baseTiles.Count; i++) {            
             var baseTile = baseTiles[i];
             var box = boxes[i];
             
@@ -149,7 +150,7 @@ public class Tile {
     }
     
     public readonly BaseTile baseTile;
-    public readonly Rot4 rot;	
+    public readonly Rot4 rot;    
     public readonly Vector2[] uvs;
     
     public Tile(BaseTile baseTile, Rot4 rot, Vector2[] uvs) {
