@@ -104,7 +104,7 @@ public class Game : MonoBehaviour {
 			SectorManager.Add(sector);	
 		}
 		
-		for (var i = 0; i < 40; i++) {
+		for (var i = 0; i < 1; i++) {
 			var ship = ShipManager.Create();
 		}
 	}

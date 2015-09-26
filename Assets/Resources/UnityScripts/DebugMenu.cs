@@ -10,20 +10,10 @@ public class DebugMenu : MonoBehaviour {
 		var ship = Game.playerShip;
 		if (ship == null) return;
 		var data = ShipManager.Pack(ship);
-		var path = Application.dataPath + "/Ships/" + ship.name + ".xml";
+		var path = Application.dataPath + "/Ships/New/" + ship.name + ".xml";
 		Save.Dump(data, path);
 		Game.main.BriefMessage("Saved " + path);
 	}
-
-	public void SaveShipAsNew() {
-		var ship = Game.playerShip;
-		if (ship == null) return;
-		var data = ShipManager.Pack(ship);
-		var path = Application.dataPath + "/Ships/" + "New-" + ship.name + ".xml";
-		Save.Dump(data, path);
-		Game.main.BriefMessage("Saved " + path);
-	}
-
 
 	public void NewShip() {
 		var ship = Game.playerShip;
@@ -56,10 +46,6 @@ public class DebugMenu : MonoBehaviour {
 
 		if (Input.GetKeyDown(KeyCode.Alpha1)) {
 			SaveShip();
-		}
-
-		if (Input.GetKeyDown(KeyCode.Alpha2)) {
-			SaveShipAsNew();
 		}
 
 		if (Input.GetKeyDown(KeyCode.Alpha3)) {
