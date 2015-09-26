@@ -2,24 +2,24 @@
 using System.Collections;
 
 public class OffsetScroller : MonoBehaviour {
-	
-	public float scrollSpeed;
-	private Vector2 savedOffset;
-	private Quaternion startRotation;
-	private MeshRenderer renderer;
+    
+    public float scrollSpeed;
+    private Vector2 savedOffset;
+    private Quaternion startRotation;
+    private MeshRenderer renderer;
 
-	void Start () {
-		renderer = GetComponent<MeshRenderer>();
-		savedOffset = renderer.sharedMaterial.GetTextureOffset ("_MainTex");
-		startRotation = transform.rotation;
-	}
-	
-	void Update () {
-		Vector2 offset = Game.playerShip.form.transform.position / 100f;
-		renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
-	}
-	
-	void OnDisable () {
-		renderer.sharedMaterial.SetTextureOffset ("_MainTex", savedOffset);
-	}
+    void Start () {
+        renderer = GetComponent<MeshRenderer>();
+        savedOffset = renderer.sharedMaterial.GetTextureOffset ("_MainTex");
+        startRotation = transform.rotation;
+    }
+    
+    void Update () {
+        Vector2 offset = Game.playerShip.form.transform.position / 100f;
+        renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
+    }
+    
+    void OnDisable () {
+        renderer.sharedMaterial.SetTextureOffset ("_MainTex", savedOffset);
+    }
 }

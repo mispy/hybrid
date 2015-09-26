@@ -47,38 +47,38 @@ half Epsilon = 1e-10;
 half3 RGBtoHCV(in half3 RGB)
 {
     half4 P = (RGB.g < RGB.b) ? half4(RGB.bg, -1.0, 2.0/3.0) : half4(RGB.gb, 0.0, -1.0/3.0);
-	half4 Q = (RGB.r < P.x) ? half4(P.xyw, RGB.r) : half4(RGB.r, P.yzx);
-	half C = Q.x - min(Q.w, Q.y);
-	half H = abs((Q.w - Q.y) / (6 * C + Epsilon) + Q.z);
-	return half3(H, C, Q.x);
+    half4 Q = (RGB.r < P.x) ? half4(P.xyw, RGB.r) : half4(RGB.r, P.yzx);
+    half C = Q.x - min(Q.w, Q.y);
+    half H = abs((Q.w - Q.y) / (6 * C + Epsilon) + Q.z);
+    return half3(H, C, Q.x);
 }
 
 half3 RGBtoHSV(in half3 RGB)
 {
-	half3 HCV = RGBtoHCV(RGB);
-	half S = HCV.y / (HCV.z + Epsilon);
-	return half3(HCV.x, S, HCV.z);
+    half3 HCV = RGBtoHCV(RGB);
+    half S = HCV.y / (HCV.z + Epsilon);
+    return half3(HCV.x, S, HCV.z);
 }
 
 half3 RGBtoHSL(in half3 RGB)
 {
-	half3 HCV = RGBtoHCV(RGB);
-	half L = HCV.z - HCV.y * 0.5;
-	half S = HCV.y / (1 - abs(L * 2 - 1) + Epsilon);
-	return half3(HCV.x, S, L);
+    half3 HCV = RGBtoHCV(RGB);
+    half L = HCV.z - HCV.y * 0.5;
+    half S = HCV.y / (1 - abs(L * 2 - 1) + Epsilon);
+    return half3(HCV.x, S, L);
 }
 
 half3 HSLtoRGB(in half3 HSL)
 {
-	half3 RGB = HUEtoRGB(HSL.x);
-	half C = (1 - abs(2 * HSL.z - 1)) * HSL.y;
-	return (RGB - 0.5) * C + HSL.z;
+    half3 RGB = HUEtoRGB(HSL.x);
+    half C = (1 - abs(2 * HSL.z - 1)) * HSL.y;
+    return (RGB - 0.5) * C + HSL.z;
 }
 
 half3 HSVtoRGB(in half3 HSV)
 {
-	half3 RGB = HUEtoRGB(HSV.x);
-	return ((RGB - 1) * HSV.y + 1) * HSV.z;
+    half3 RGB = HUEtoRGB(HSV.x);
+    return ((RGB - 1) * HSV.y + 1) * HSV.z;
 }
 
  half4 frag (v2f i) : COLOR
@@ -93,13 +93,13 @@ half3 HSVtoRGB(in half3 HSV)
      
      half3 outHSL = origHSL;
      if (origHSL.y < 0.2) {
-     	outHSL.x = baseHSL.x;
-     	outHSL.y = lerp(outHSL.y, baseHSL.y, 0.5);
-     	outHSL.z = lerp(outHSL.z, baseHSL.z, 0.5);
+         outHSL.x = baseHSL.x;
+         outHSL.y = lerp(outHSL.y, baseHSL.y, 0.5);
+         outHSL.z = lerp(outHSL.z, baseHSL.z, 0.5);
      } else {
-     	outHSL.x = highlightHSL.x;
-    	outHSL.y = lerp(outHSL.y, highlightHSL.y, 0.5);
-    	outHSL.z = lerp(outHSL.z, highlightHSL.z, 0.5);
+         outHSL.x = highlightHSL.x;
+        outHSL.y = lerp(outHSL.y, highlightHSL.y, 0.5);
+        outHSL.z = lerp(outHSL.z, highlightHSL.z, 0.5);
      }
            
      half3 outColor = HSLtoRGB(outHSL);
