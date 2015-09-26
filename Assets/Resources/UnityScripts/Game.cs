@@ -15,8 +15,10 @@ public class Game : MonoBehaviour {
 	public static Camera mainCamera;
 
 	// cached mouse position in world coordinates
-	public static Vector3 mousePos;
+	public static Galaxy galaxy;
 	public static Ship playerShip;
+
+	public static Vector3 mousePos;
 	public static ActiveSector activeSector;
 	public static JumpMap jumpMap;
 	public static ShipInputManager shipControl;
@@ -108,6 +110,8 @@ public class Game : MonoBehaviour {
 	}
 	
 	public static void LoadSector(Sector sector) {
+		activeSector.sector = sector;
+
 		foreach (var ship in ShipManager.all) {
 			if (ship.sector == sector) {
 				activeSector.RealizeShip(ship);
@@ -125,9 +129,9 @@ public class Game : MonoBehaviour {
 		activeSector.gameObject.SetActive(false);
 	}
 
-
 	// Use this for initialization
 	void Awake () {		
+		Game.galaxy = new Galaxy();
 		Game.activeSector = GetComponentInChildren<ActiveSector>();
 		Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
 		Game.shipControl = GetComponentInChildren<ShipInputManager>();
@@ -216,8 +220,5 @@ public class Game : MonoBehaviour {
 			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
 			//Debug.Log(Game.mainCamera.orthographicSize);
 		}
-
-		Game.MoveCamera(Game.playerShip.form.transform.position);
-		Game.mainCamera.transform.rotation = Game.playerShip.form.transform.rotation;
 	}
 }

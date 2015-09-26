@@ -117,13 +117,13 @@ public class ShipData {
 
 public class Ship {
 	public string name;
-	public Sector sector;
 	public BlockMap blocks;
 	public BlockMap blueprintBlocks;
 	public List<Crew> crew = new List<Crew>();
 	public float scrapAvailable = 0f;
 	public float jumpSpeed = 10f;
 	public Vector2 galaxyPos;
+	public Sector sector;
 	public Sector destSector;
 	public Faction faction = null;
 	public Crew captain = null;
@@ -157,16 +157,23 @@ public class Ship {
 		sector = null;
 	}
 
-	public void JumpUpdate(float deltaTime) {
-		if (destSector == null) return;
+	public void Simulate(float deltaTime) {
+		// don't simulate realized ships
+		if (form != null) return;
 
-		var targetDir = (destSector.galaxyPos - galaxyPos).normalized;
-		var dist = targetDir * jumpSpeed * deltaTime;
-
-		if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
-			destSector.PlaceShip(this);
+		if (destSector == null) {
+			if (this != Game.playerShip) {
+				FoldJump(Util.GetRandom(SectorManager.all));
+			}
 		} else {
-			galaxyPos += dist;
+			var targetDir = (destSector.galaxyPos - galaxyPos).normalized;
+			var dist = targetDir * jumpSpeed * deltaTime;
+
+			if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
+				destSector.PlaceShip(this);
+			} else {
+				galaxyPos += dist;
+			}
 		}
 
 		if (jumpShip != null) jumpShip.SyncShip();

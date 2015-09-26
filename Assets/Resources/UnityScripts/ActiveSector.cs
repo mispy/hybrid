@@ -11,7 +11,7 @@ public class ActiveSector : MonoBehaviour {
 	public GameObject leaveSectorMenu;
 
 	public Vector2 RandomEdge() {
-		return new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))*radius;
+		return new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))*radius*1.5;
 	}
 
 	public bool IsOutsideBounds(Vector3 pos) {
@@ -24,6 +24,12 @@ public class ActiveSector : MonoBehaviour {
 		} else {
 			leaveSectorMenu.SetActive(false);
 		}
+
+		Game.galaxy.Simulate(Time.deltaTime);
+
+		
+		Game.MoveCamera(Game.playerShip.form.transform.position);
+		Game.mainCamera.transform.rotation = Game.playerShip.form.transform.rotation;
 	}
 
 	public void RealizeShip(Ship ship, Vector2 pos) {
@@ -36,4 +42,5 @@ public class ActiveSector : MonoBehaviour {
 	public void RealizeShip(Ship ship) {
 		RealizeShip(ship, RandomEdge());
 	}
+
 }

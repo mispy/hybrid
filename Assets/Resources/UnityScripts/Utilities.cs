@@ -186,7 +186,7 @@ public class Util {
 	}
 
 	public static T GetRandom<T>(List<T> list) {
-		return list[Random.Range(0, list.Count-1)];
+		return list[Random.Range(0, list.Count)];
 	}
 
 	public static List<T> Shuffle<T>(List<T> srcList) {

@@ -132,22 +132,6 @@ public class JumpMap : MonoBehaviour {
 		circle.SetActive(true);
 	}
 
-	// Only happens when in motion or waiting
-	void JumpUpdate() {
-		foreach (var ship in ShipManager.all) {
-			ship.JumpUpdate(Time.deltaTime);
-		}
-
-
-		/*foreach (var jumper in jumpShips) {
-			if (jumper.ship != Game.playerShip && jumper.ship.destSector == null && Random.Range(0, 100) == 99) {
-				var beacon = Util.GetRandom(beacons);
-				jumper.ship.FoldJump(beacon.sector);
-			}
-			jumper.ship.JumpUpdate();
-		}*/
-	}
-
 	// Update is called once per frame
 	void Update() {
 		Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -172,7 +156,8 @@ public class JumpMap : MonoBehaviour {
 			enterButton.gameObject.SetActive(false);
 		}
 
-		if (isWaiting || Game.playerShip.destSector != null) JumpUpdate();
+		if (isWaiting || Game.playerShip.destSector != null)
+			Game.galaxy.Simulate(Time.deltaTime);
 
 		Game.MoveCamera(GalaxyToWorldPos(Game.playerShip.galaxyPos));
 	}

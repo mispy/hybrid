@@ -44,5 +44,9 @@ public class Sector {
 		ship.sector = this;
 		ship.galaxyPos = galaxyPos;
 		ships.Add(ship);
+
+		if (this == Game.activeSector.sector) {
+			Game.activeSector.RealizeShip(ship);
+		}
 	}
 }
