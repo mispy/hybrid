@@ -60,7 +60,7 @@ public static class ShipManager {
 			crew.Ship = ship;
 			CrewManager.Add(crew);
 		}
-		sector.PlaceShip(ship, Vector2.zero);
+		sector.PlaceShip(ship, sector.RandomEdge());
 		ShipManager.Add(ship);
 		return ship;
 	}
