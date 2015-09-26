@@ -40,4 +40,8 @@ public class Faction {
 	public Faction(string name) {
 		this.name = name;
 	}
+
+	public bool IsEnemy(Faction other) {
+		return other != this;
+	}
 }

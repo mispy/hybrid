@@ -103,11 +103,12 @@ public class Ship {
 	public BlockMap blueprintBlocks;
 	public List<Crew> crew = new List<Crew>();
 	public float scrapAvailable = 0f;
-	
-
 	public float jumpSpeed = 10f;
-	public Sector destSector;
 	public Vector2 galaxyPos;
+	public Sector destSector;
+	public Faction faction = null;
+	public Crew captain = null;
+
 	public Blockform form = null;
 	public JumpShip jumpShip = null;
 

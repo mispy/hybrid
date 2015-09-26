@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-
-
-public class ShipTacticalMind : PoolBehaviour {
+public class ShipMind : PoolBehaviour {
+	public Ship ship;
 	public Blockform form;
 
 	// Use this for initialization
 	void Start () {
 		form = GetComponent<Blockform>();
+		ship = GetComponent<Blockform>().ship;
 	}
 
 	bool IsEnemy(Ship otherShip) {
-		return (otherShip != form.ship);
+		return ship.faction.IsEnemy(otherShip.faction);
 	}
 
 	void UpdateTractors() {
@@ -32,10 +32,10 @@ public class ShipTacticalMind : PoolBehaviour {
 			var hit = launcher.GetProbableHit();
 			if (hit == null) continue;
 
-			var otherShip = hit.gameObject.GetComponentInParent<Ship>();
+			var otherShip = hit.gameObject.GetComponentInParent<Blockform>().ship;
 
 			if (otherShip != null && IsEnemy(otherShip)) {
-				//launcher.Fire();
+				launcher.Fire();
 			}
 		}
 	}
