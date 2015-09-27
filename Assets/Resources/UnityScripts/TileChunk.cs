@@ -106,6 +106,10 @@ public class TileChunk : PoolBehaviour {
     
     public void QueueMeshUpdate() {
         needMeshUpdate = true;
+
+        // if the game is paused then the UpdateMesh coroutine won't fire
+        if (Game.isPaused)
+            UpdateMesh();
     }
     
     public void UpdateMesh() {
