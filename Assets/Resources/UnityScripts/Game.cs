@@ -23,6 +23,10 @@ public class Game : MonoBehaviour {
     public static JumpMap jumpMap;
     public static ShipInputManager shipControl;
 
+    public static bool isPaused {
+        get { return Time.timeScale == 0.0f; }
+    }
+
     public Canvas canvas;
     public Text debugText;
 
@@ -60,6 +64,14 @@ public class Game : MonoBehaviour {
     public static void MoveCamera(Vector2 targetPos) {
         var pos = new Vector3(targetPos.x, targetPos.y, Game.mainCamera.transform.position.z);
         Game.mainCamera.transform.position = pos;
+    }
+
+    public static void Pause() {
+        Time.timeScale = 0.0f;
+    }
+
+    public static void Unpause() {
+        Time.timeScale = 1.0f;
     }
 
     public void BriefMessage(string message) {

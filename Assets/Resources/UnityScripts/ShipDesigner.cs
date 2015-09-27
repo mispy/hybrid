@@ -25,6 +25,7 @@ public class ShipDesigner : MonoBehaviour {
         //Game.main.debugText.text = "Designing Ship";
         //Game.main.debugText.color = Color.green;        
         SetDesignShip(Game.playerShip);
+        Game.Pause();
     }
     
     public void OnDisable() {
@@ -35,6 +36,7 @@ public class ShipDesigner : MonoBehaviour {
         Game.shipControl.gameObject.SetActive(true);
         //Game.main.debugText.text = "";
         //Game.main.debugText.color = Color.white;
+        Game.Unpause();
     }
 
     void SetDesignShip(Ship ship) {
