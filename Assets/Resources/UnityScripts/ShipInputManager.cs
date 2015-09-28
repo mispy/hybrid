@@ -17,6 +17,7 @@ public class ShipInputManager : MonoBehaviour {
         }
 
         selector.transform.position = crew.body.transform.position;
+        selector.transform.rotation = crew.body.transform.rotation;
         selector.transform.SetParent(crew.body.transform);
         selector.transform.localScale = new Vector3(1, 1, 1);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
