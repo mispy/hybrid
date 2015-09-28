@@ -29,7 +29,6 @@ public static class CrewManager {
 
 [Serializable]
 public class Crew {
-
     private Ship ship;
     public Ship Ship {
         get { return ship; }
@@ -46,6 +45,19 @@ public class Crew {
     public int health = 100;
     public string name;
     public Faction faction;
+
+    public CrewBody body;
+    public CrewMind mind;
+
+    private Job _job = null;
+    public Job job {
+        get { return _job; }
+        set {
+            _job = value;
+            if (value != null)
+                value.crew = this;
+        }
+    }
 
     public string Id {
         get { return name; }

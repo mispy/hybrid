@@ -3,107 +3,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class MindTask {
-    public bool isFinished = false;
-    public virtual void Start() { }
-    public virtual void Update() { }
-    public virtual void Stop() { isFinished = true; }
-}
-
-public class BuildTask : MindTask {
-    public readonly CrewMind mind;
-    public readonly Block targetBlock;
-
-    public BuildTask(CrewMind mind, Block targetBlock) {
-        this.mind = mind;
-        this.targetBlock = targetBlock;
-    }
-
-    public override void Start() {
-    }
-
-    public override void Update() {        
-        mind.body.constructor.Build(targetBlock);
-
-        if (targetBlock.IsFilled)
-            Stop();
-    }
-}
-
-public class AttachTask : MindTask {
-    public readonly CrewMind mind;
-    public readonly Block targetBlock;
-
-    public AttachTask(CrewMind mind, Block targetBlock) {
-        this.mind = mind;
-        this.targetBlock = targetBlock;
-    }
-
-    public override void Update() {
-        if (targetBlock.ship == null) {
-            Stop();
-        } else if (mind.body.currentBlock == targetBlock) {
-            mind.body.controlConsole = targetBlock;
-            Stop();
-        } else {
-            mind.PathToBlock(targetBlock);
-        }
-    }
-}
-
 public class CrewMind : MonoBehaviour {
-    private List<IntVector2> blockPath = new List<IntVector2>();
+    public List<IntVector2> blockPath { get; private set; }
     private CharacterController controller;
 
     public CrewBody body;
-    public MindTask task = null;
-    public Queue<MindTask> taskQueue = new Queue<MindTask>();
 
     public Crew crew;
     
     void Awake() {
+        blockPath = new List<IntVector2>();
         body = GetComponentInParent<CrewBody>();
         crew = GetComponentInParent<CrewBody>().crew;
+        crew.mind = this;
     }
-    
-    void Start() {
-        InvokeRepeating("UpdateTasks", 0.0f, 0.05f);
-    }
-
-    void UpdateTasks() {
-        if (task != null) {
-            task.Update();
-            
-            if (task.isFinished)
-                task = null;
-        }
-        
-        if (task == null && taskQueue.Count > 0) {
-            task = taskQueue.Dequeue();
-            task.Start();
-        }
-
-        if (task == null) {
-            task = FindNextTask();
-            if (task != null)
-                task.Start();
-        }
-    }
-
-    MindTask FindNextTask() {        
-        /*foreach (var block in myShip.blueprint.blocks.All) {
-            if (myShip.blocks[block.pos] == null) {
-                return new BuildTask(this, block);
-            }
-        }*/        
-
-        foreach (var block in crew.Ship.blocks.Find<Console>()) {
-            return new AttachTask(this, block);
-        }
-
-        return null;
-    }
-
 
     void Update() {
         if (body.maglockShip != null) {
@@ -123,7 +36,7 @@ public class CrewMind : MonoBehaviour {
         return other != this.body.crew;
     }
 
-    void UpdateLockedMovement() {        
+    void UpdateLockedMovement() {
         if (blockPath.Count == 0) return;
 
         var bp = blockPath[0];
@@ -152,9 +65,9 @@ public class CrewMind : MonoBehaviour {
         }
     }
 
-    public void PathToBlock(Block block) {
-        var ship = block.ship;
-        var currentPos = ship.form.WorldToBlockPos(transform.position);
+    public void PathToBlockPos(IntVector2 destPos) {
+        var ship = body.maglockShip.ship;
+        var currentPos = crew.body.currentBlockPos;
 
         var nearestBlock = ship.blocks[currentPos, BlockLayer.Base];
         if (nearestBlock == null) {
@@ -166,9 +79,9 @@ public class CrewMind : MonoBehaviour {
 
         if (nearestBlock == null) {
             // we're not next to the ship yet, just move towards it
-            blockPath = new List<IntVector2>() { block.pos };
+            blockPath = new List<IntVector2>() { destPos };
         } else {
-            var path = BlockPather.PathBetween(ship.blocks, currentPos, block.pos);
+            var path = BlockPather.PathBetween(ship.blocks, currentPos, destPos);
             if (path != null) blockPath = path;
         }
 

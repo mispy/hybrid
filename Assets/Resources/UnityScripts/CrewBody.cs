@@ -39,6 +39,8 @@ public class CrewBody : PoolBehaviour {
         obj.transform.position = transform.position;
         obj.SetActive(true);
         constructor = GetComponentInChildren<Constructor>();
+
+        crew.body = this;
     }
     
     public void MaglockMove(IntVector2 bp) {
