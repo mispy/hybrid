@@ -43,6 +43,8 @@ public class Blueprint : PoolBehaviour {
 
         tiles.baseTiles.OnChunkCreated += OnChunkCreated;
         tiles.topTiles.OnChunkCreated += OnChunkCreated;
+		tiles.DisableRendering();
+
     }
 
     public void OnBlockAdded(Block newBlock) {

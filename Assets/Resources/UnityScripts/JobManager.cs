@@ -31,6 +31,17 @@ public class BuildJob : Job {
         this.targetBlue = (BlueprintBlock)block;
     }
 
+	// if none of the neighbors are passable then nobody can build this so we
+	// shouldn't bother checking for assignments
+	public bool IsPossible() {
+		foreach (var neighbor in IntVector2.NeighborsWithDiagonal(targetBlue.pos)) {
+			if (targetBlue.ship.blocks.IsPassable(neighbor))
+				return true;
+		}
+
+		return false;
+	}
+
     public bool AcceptCrew(Crew crew) {
         var neighbors = IntVector2.NeighborsWithDiagonal(targetBlue.pos).OrderBy((n) => IntVector2.Distance(crew.body.currentBlockPos, n));
         foreach (var neighbor in neighbors) {
@@ -87,13 +98,26 @@ public class BuildJobManager {
 
     public BuildJobManager(Ship ship) {
         this.ship = ship;
-        ship.blueprintBlocks.OnBlockAdded += OnBlueprintUpdate;
-        //ship.blueprintBlocks.OnBlockRemoved += OnBlueprintUpdate;
+        ship.blueprintBlocks.OnBlockAdded += OnBlueprintAdded;
+		ship.blueprintBlocks.OnBlockRemoved += OnBlueprintRemoved;
+		foreach (var block in ship.blueprintBlocks.AllBlocks) {
+			OnBlueprintAdded(block);
+		}
     }
 
-    void OnBlueprintUpdate(Block block) {
+    void OnBlueprintAdded(Block block) {
         jobs.Add(new BuildJob(block));
     }
+
+	void OnBlueprintRemoved(Block block) {
+		foreach (var job in jobs.ToList()) {
+			if (job.targetBlue == block) {
+				if (job.crew != null)
+					job.crew.job = null;
+				jobs.Remove(job);
+			}
+		}
+	}
 
     public void AssignJobs() {
 		foreach (var job in jobs.ToList()) {
@@ -101,12 +125,15 @@ public class BuildJobManager {
 				jobs.Remove(job);
 		}
 
-		foreach (var crew in ship.crew) {
-			if (crew.job != null) continue;
+		var unassignedCrew = ship.crew.Where((crew) => crew.job == null);
 
-			var nearestJobs = unassignedJobs.OrderBy((j) => IntVector2.Distance(crew.body.currentBlockPos, j.targetBlue.pos));
+		foreach (var job in unassignedJobs) {
+			if (!job.IsPossible())
+				continue;
 
-			foreach (var job in nearestJobs) {
+			var nearestCrew = unassignedCrew.OrderBy((c) => IntVector2.Distance(c.body.currentBlockPos, job.targetBlue.pos));
+
+			foreach (var crew in nearestCrew) {
 				if (job.AcceptCrew(crew))
 					break;
 			}
@@ -121,7 +148,7 @@ public class JobManager : MonoBehaviour {
     void Start() {
         ship = GetComponentInParent<Blockform>().ship;
         buildJobs = new BuildJobManager(ship);
-        InvokeRepeating("UpdateJobs", 0f, 0.1f);
+        InvokeRepeating("UpdateJobs", 0f, 0.01f);
     }
 
     void UpdateJobs() {

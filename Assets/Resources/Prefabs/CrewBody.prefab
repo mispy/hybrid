@@ -9,7 +9,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 422348}
   - 212: {fileID: 21268476}
-  - 54: {fileID: 5461298}
   - 65: {fileID: 6559640}
   - 114: {fileID: 11495484}
   - 114: {fileID: 11495430}
@@ -97,21 +96,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 422348}
   m_RootOrder: 1
---- !u!54 &5461298
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148404}
-  serializedVersion: 2
-  m_Mass: 9.99999975e-05
-  m_Drag: 1
-  m_AngularDrag: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 120
-  m_CollisionDetection: 2
 --- !u!65 &6559640
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -136,6 +120,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
+  crew:
+    maxHealth: 0
+    health: 0
+    name: 
+    body: {fileID: 0}
+    mind: {fileID: 0}
 --- !u!114 &11452668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -173,6 +163,8 @@ MonoBehaviour:
     maxHealth: 0
     health: 0
     name: 
+    body: {fileID: 0}
+    mind: {fileID: 0}
   rigidBody: {fileID: 0}
   collider: {fileID: 0}
   constructor: {fileID: 0}
@@ -191,6 +183,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: .00689649582, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0

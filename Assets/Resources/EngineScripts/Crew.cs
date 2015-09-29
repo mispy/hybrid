@@ -53,6 +53,8 @@ public class Crew {
     public Job job {
         get { return _job; }
         set {
+			if (_job != null)
+				_job.crew = null;
             _job = value;
             if (value != null)
                 value.crew = this;

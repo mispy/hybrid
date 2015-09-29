@@ -6,6 +6,8 @@ using System.Linq;
 using Random = UnityEngine.Random;
 
 public class BlockMap {
+	public Ship ship;
+
     public int maxX;
     public int minX;
     public int maxY;
@@ -35,7 +37,9 @@ public class BlockMap {
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;
 
-    public BlockMap() {
+    public BlockMap(Ship ship) {
+		this.ship = ship;
+
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -220,6 +224,7 @@ public class BlockMap {
 
     void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
         block.pos = bp;
+		block.ship = ship;
 
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
@@ -311,6 +316,18 @@ public class BlockMap {
     }
 
     public bool IsPassable(IntVector2 bp) {
-        return CollisionLayer(bp) == Block.floorLayer;
+		var collisionLayer = CollisionLayer(bp);
+		if (collisionLayer == Block.floorLayer)
+			return true;
+
+		if (collisionLayer == Block.spaceLayer) {
+			foreach (var neighbor in IntVector2.NeighborsWithDiagonal(bp)) {
+				var secondLayer = CollisionLayer(neighbor);
+				if (secondLayer != Block.spaceLayer)
+					return true;
+			}
+		}
+
+		return false;
     }
 }

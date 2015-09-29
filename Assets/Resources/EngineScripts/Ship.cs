@@ -52,9 +52,9 @@ public static class ShipManager {
         if (faction == null) faction = Util.GetRandom(FactionManager.all);
         if (sector == null) sector = Util.GetRandom(SectorManager.all);
 
-        var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
+        var ship = ShipManager.Unpack(ShipManager.templates["New Frigate"]);
         ship.faction = faction;
-        ship.name = ship.faction.name + " " + ship.name;
+        //ship.name = ship.faction.name + " " + ship.name;
         var names = new string[] { "Fiora", "Anzie", "Abby", "Fiora", "Eldritch" };
         foreach (var name in names) {
             var crew = new Crew(name);
@@ -135,8 +135,8 @@ public class Ship {
 
     public Ship() {
         crew = new List<Crew>();
-        blocks = new BlockMap();
-        blueprintBlocks = new BlockMap();
+        blocks = new BlockMap(this);
+        blueprintBlocks = new BlockMap(this);
         blocks.OnBlockAdded += OnBlockAdded;
     }
 

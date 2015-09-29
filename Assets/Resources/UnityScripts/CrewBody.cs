@@ -102,6 +102,9 @@ public class CrewBody : PoolBehaviour {
     }
     
     void UpdateMaglockMove() {
+		if (!maglockShip.blocks.IsPassable(maglockMoveBlockPos))
+			return;
+
         var speed = 15f;
         var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
         

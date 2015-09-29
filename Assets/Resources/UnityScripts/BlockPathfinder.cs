@@ -46,7 +46,7 @@ public static class BlockPather {
             
             // process each valid node around the current node
             foreach (var neighbor in IntVector2.Neighbors(current)) {
-                if (neighbor.x > blocks.maxX+2 || neighbor.x < blocks.minX-2 || neighbor.y > blocks.maxY+2 || neighbor.y < blocks.minY-2 || !blocks.IsPassable(neighbor)) {
+                if (neighbor.x > blocks.maxX+2 || neighbor.x < blocks.minX-2 || neighbor.y > blocks.maxY+2 || neighbor.y < blocks.minY-2 || (neighbor != start && !blocks.IsPassable(neighbor))) {
                     continue;
                 }
                 

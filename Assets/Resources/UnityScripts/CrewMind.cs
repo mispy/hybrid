@@ -52,6 +52,8 @@ public class CrewMind : MonoBehaviour {
 
         if (bp == body.currentBlockPos) {
             blockPath.RemoveAt(0);
+		} else if (!crew.body.maglockShip.blocks.IsPassable(bp)) {
+			blockPath.Clear();
         } else if (bp != body.maglockMoveBlockPos) {
             body.maglockMoveBlockPos = bp;
         }
@@ -75,11 +77,22 @@ public class CrewMind : MonoBehaviour {
     }
 
     public bool CanReach(IntVector2 destPos) {
-        var ship = crew.body.maglockShip.ship;
+		var ship = Game.playerShip;
 		if (!ship.blocks.IsPassable(destPos))
+			return false;
+		if (!ship.blocks.IsPassable(crew.body.currentBlockPos))
 			return false;
         return BlockPather.PathBetween(ship.blocks, destPos, crew.body.currentBlockPos) != null;
     }
+
+	public void PleaseMove() {
+		foreach (var neighbor in IntVector2.Neighbors(crew.body.currentBlockPos)) {
+			if (crew.body.maglockShip.blocks.IsPassable(neighbor)) {
+				crew.job = null;
+				crew.body.maglockMoveBlockPos = neighbor;
+			}
+		}
+	}
 
     public void SetMoveDestination(IntVector2 destPos) {
         if (currentDest == destPos)

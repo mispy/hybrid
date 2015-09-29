@@ -63,6 +63,13 @@ public class Constructor : MonoBehaviour
     void UpdateBuild() {
         var builder = Game.playerShip;
 
+		foreach (var otherCrew in builder.crew) {
+			if (otherCrew.body.currentBlockPos == targetBlue.pos) {
+				otherCrew.mind.PleaseMove();
+				return;
+			}
+		}
+
         targetBlock = new Block(targetBlue);
             
         if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {

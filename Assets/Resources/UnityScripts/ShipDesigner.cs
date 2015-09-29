@@ -14,7 +14,7 @@ public class ShipDesigner : MonoBehaviour {
             var cursorObj = Pool.For("Blueprint").TakeObject();
             cursorObj.name = "Cursor";
             cursor = cursorObj.GetComponent<Blueprint>();
-            cursor.blocks = new BlockMap();
+            cursor.blocks = new BlockMap(null);
             cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make<Wall>();
             cursorObj.SetActive(true);
         } else {
