@@ -96,6 +96,12 @@ public class BuildJobManager {
         get { return jobs.Where((job) => job.crew == null); }
     }
 
+	public struct JobPair {
+		public Crew crew;
+		public BuildJob job;
+		public double dist;
+	}
+
     public BuildJobManager(Ship ship) {
         this.ship = ship;
         ship.blueprintBlocks.OnBlockAdded += OnBlueprintAdded;
@@ -125,17 +131,36 @@ public class BuildJobManager {
 				jobs.Remove(job);
 		}
 
+
+
 		var unassignedCrew = ship.crew.Where((crew) => crew.job == null);
+
+		var pairs = new List<JobPair>();
 
 		foreach (var job in unassignedJobs) {
 			if (!job.IsPossible())
 				continue;
 
-			var nearestCrew = unassignedCrew.OrderBy((c) => IntVector2.Distance(c.body.currentBlockPos, job.targetBlue.pos));
+			foreach (var crew in unassignedCrew) {
+				var pair = new JobPair();
+				pair.crew = crew;
+				pair.job = job;
+				pair.dist = IntVector2.Distance(crew.body.currentBlockPos, job.targetBlue.pos);
+				pairs.Add(pair);
+			}
 
-			foreach (var crew in nearestCrew) {
+
+	//		var nearestCrew = unassignedCrew.OrderBy((c) => IntVector2.Distance(c.body.currentBlockPos, job.targetBlue.pos));
+
+/*			foreach (var crew in nearestCrew) {
 				if (job.AcceptCrew(crew))
 					break;
+			}*/
+		}
+
+		foreach (var pair in pairs.OrderBy((p) => p.dist)) {
+			if (pair.crew.job == null) {
+				pair.crew.job = pair.job;
 			}
 		}
     }
