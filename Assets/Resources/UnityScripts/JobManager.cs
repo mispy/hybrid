@@ -74,7 +74,7 @@ public class BuildJob : Job {
             return;
         }
 
-        if (IntVector2.Distance(crew.body.currentBlockPos, targetBlue.pos) < 2) {
+        if (IntVector2.NeighborsWithDiagonal(targetBlue.pos).Contains(crew.body.currentBlockPos)) {
             crew.body.constructor.Build(targetBlue);
             return;
         } else if (crew.mind.currentDest == null) {

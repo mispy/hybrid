@@ -467,8 +467,20 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-5</x>
+      <y>-2</y>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>-3</x>
       <y>-3</y>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>-7</y>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
@@ -1205,6 +1217,12 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>2</x>
+      <y>-7</y>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
       <x>3</x>
       <y>-3</y>
       <typeName>PowerNode</typeName>
@@ -1213,6 +1231,12 @@
     <BlockData>
       <x>5</x>
       <y>-5</y>
+      <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>5</x>
+      <y>-2</y>
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>

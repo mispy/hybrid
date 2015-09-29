@@ -22,31 +22,33 @@ public class WeaponSelect : MonoBehaviour {
             Destroy(child.gameObject);
         }
     }
+
+	void OnBlockAdded(Block block) {
+		if (block.type.canBeFired && !fireableTypes.Contains(block.type)) {
+			fireableTypes.Add(block.type);
+			
+			var button = Pool.For("BlockButton").Take<Button>();
+			button.gameObject.SetActive(true);
+			button.transform.SetParent(transform);
+			button.transform.localScale = new Vector3(1, 1, 1);
+			blockButtons.Add(button);
+			
+			button.image.sprite = block.type.GetComponent<SpriteRenderer>().sprite;
+
+			var i = blockButtons.Count-1;			
+
+			var text = button.GetComponentInChildren<Text>();
+			text.text = (i+1).ToString();
+			
+			var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
+			button.transform.localPosition = new Vector3(x, 0, 0);
+		}
+	}
     
     void OnEnable() {
-        foreach (var type in Block.allTypes) {
-            if (type.canBeFired && Game.playerShip.blocks.Has(type)) {
-                fireableTypes.Add(type);
-
-                var button = Pool.For("BlockButton").Take<Button>();
-                button.gameObject.SetActive(true);
-                button.transform.SetParent(transform);
-                button.transform.localScale = new Vector3(1, 1, 1);
-                blockButtons.Add(button);
-                
-                button.image.sprite = type.GetComponent<SpriteRenderer>().sprite;
-            }
-        }
-
-        for (var i = 0; i < blockButtons.Count; i++) {
-            var button = blockButtons[i];
-            
-            var text = button.GetComponentInChildren<Text>();
-            text.text = (i+1).ToString();
-            
-            var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
-            button.transform.localPosition = new Vector3(x, 0, 0);
-        }
+		foreach (var block in Game.playerShip.blocks.AllBlocks)
+			OnBlockAdded(block);
+		Game.playerShip.blocks.OnBlockAdded += OnBlockAdded;
     }
 
     public void OnDisable() {

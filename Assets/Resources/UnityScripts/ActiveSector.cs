@@ -30,7 +30,7 @@ public class ActiveSector : MonoBehaviour {
     public void RealizeShip(Ship ship, Vector2 pos) {
         var form = ship.LoadBlockform();
         form.transform.parent = transform;
-        form.transform.position = pos;
+		form.transform.position = new Vector3(0, 0, 0);//pos;
         form.gameObject.SetActive(true);
     }
 

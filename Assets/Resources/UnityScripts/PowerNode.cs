@@ -37,11 +37,12 @@ public class PowerNode : BlockType {
 
     public void OnPowerAdded(PowerProducer otherProducer, float amount) {
         //Debug.LogFormat("Added: {0} to {1}", amount, reserve.currentPower);
-        reserve.currentPower = Mathf.Min(reserve.maxPower, reserve.currentPower + amount);
-        if (reserve.currentPower >= reserve.maxPower/5) {
+        //reserve.currentPower = Mathf.Min(reserve.maxPower, reserve.currentPower + amount);
+		reserve.currentPower = reserve.maxPower;
+        //if (reserve.currentPower >= reserve.maxPower/5) {
             producer.supplyRate = reserve.currentPower;
             circle.gameObject.SetActive(true);
-        }
+        //}
 
         if (reserve.currentPower == reserve.maxPower) {
             receiver.consumeRate = 0.0f;
