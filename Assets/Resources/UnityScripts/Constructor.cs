@@ -36,8 +36,8 @@ public class Constructor : MonoBehaviour
         noise = new Perlin();
     }
 
-    public void Build(Vector3 targetPos) {
-        this.targetPos = targetPos;
+    public void Build(BlueprintBlock targetBlue) {
+        this.targetBlue = targetBlue;
 
         CancelInvoke("StopBuilding");
         Invoke("StopBuilding", 0.1f);
@@ -52,10 +52,6 @@ public class Constructor : MonoBehaviour
         isBuilding = true;
     }
 
-    public void Build(Block targetBlock) {
-        Build(targetBlock.ship.form.BlockToWorldPos(targetBlock.pos));
-    }
-
     public void StopBuilding() {
         if (!isBuilding) return;
 
@@ -65,70 +61,26 @@ public class Constructor : MonoBehaviour
     }
 
     void UpdateBuild() {
-        if (targetBlue == null && targetBlock == null) {
-            return;
-        }
-
         var builder = Game.playerShip;
-        
-        // check if there's a current block we need to get rid of
-        bool isRemoving = false;
-        if (targetBlock != null) {
-            if (targetBlue == null || targetBlue.type != targetBlock.type || targetBlue.orientation != targetBlock.orientation)
-                isRemoving = true;
-        }
-        
-        if (isRemoving) {
-            var change = removeSpeed*Time.deltaTime;
 
-            targetBlock.scrapContent -= change;
-            builder.scrapAvailable += change;
-
-            if (targetBlock.scrapContent <= 0) {
-                targetBlock.ship.blocks[targetBlock.pos, targetBlock.layer] = null;
-            } else {
-                // force a block update
-                targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] = targetBlock;
-            }
-        } else {
-            if (targetBlock == null) { // gotta make a new block
-                targetBlock = new Block(targetBlue);
-            }
+        targetBlock = new Block(targetBlue);
             
-            if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
-                var change = addSpeed*Time.deltaTime;
-                if (builder.scrapAvailable >= change) {
-                    builder.scrapAvailable -= change;
-                    targetBlock.scrapContent += change;
-                }
+        if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
+            var change = addSpeed*Time.deltaTime;
+            if (builder.scrapAvailable >= change) {
+                builder.scrapAvailable -= change;
+                targetBlock.scrapContent += change;
             }
-
-            targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] = new Block(targetBlock);
         }
+
+        targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] = new Block(targetBlock);
     }
 
 
     void Update() {
         if (!isBuilding) return;
-        var hitPos = targetPos;
-        var dist = targetPos - transform.position;
-        foreach (var hit in Physics.RaycastAll(transform.position, dist.normalized, dist.magnitude, LayerMask.GetMask(new string[] { "Wall" }))) {
-            if (hit.collider != null) {
-                hitPos = hit.collider.gameObject.transform.position;
-                break;
-            }
-            Debug.Log(hit.collider);
-        }
 
-        AlignParticles(hitPos);
-
-        var form = Blockform.AtWorldPos(hitPos);
-        if (form == null) return;
-
-        var blockPos = form.WorldToBlockPos(hitPos);
-        targetBlue = (BlueprintBlock)form.blueprint.blocks.Topmost(blockPos);
-        targetBlock = form.blocks.Topmost(blockPos);
-
+        AlignParticles(targetBlue.ship.form.BlockToWorldPos(targetBlue.pos));
         UpdateBuild();
         //text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
     }    

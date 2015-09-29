@@ -74,8 +74,12 @@ public class Block {
         }
 
         Block.spaceLayer = LayerMask.NameToLayer("Space");
-        Block.floorLayer = LayerMask.NameToLayer("Floor");                
+        Block.floorLayer = LayerMask.NameToLayer("Floor");
         Block.wallLayer = LayerMask.NameToLayer("Wall");
+    }
+
+    public override string ToString() {
+        return String.Format("Block<{0}, {1}, {2}>", type.name, pos.x, pos.y);
     }
     
     public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
@@ -206,7 +210,7 @@ public class Block {
     // than what it does
     public Ship ship;
     public int index;
-    public IntVector2 pos = new IntVector2();
+    public IntVector2 pos;
     public BlockLayer layer;
     public Orientation orientation = Orientation.up;
 
@@ -234,12 +238,10 @@ public class Block {
 
     // copy constructor
     public Block(Block block) : this(block.type) {
-        this.type = block.type;
         this.orientation = block.orientation;
     }
 
     public Block(BlueprintBlock blue) : this(blue.type) {
-        this.type = blue.type;
         this.orientation = blue.orientation;
     }
 }

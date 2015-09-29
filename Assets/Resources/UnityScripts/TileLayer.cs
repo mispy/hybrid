@@ -6,10 +6,6 @@ using System.Linq;
 using Random = UnityEngine.Random;
 
 public class TileLayer : PoolBehaviour {
-    public int maxX;
-    public int minX;
-    public int maxY;
-    public int minY;
     public int centerTileX;
     public int centerTileY;
     public int centerChunkX;
@@ -25,11 +21,6 @@ public class TileLayer : PoolBehaviour {
     public event ChunkCreatedHandler OnChunkCreated;
     
     public override void OnCreate() {
-        minX = 0;
-        minY = 0;
-        maxX = 0;
-        maxY = 0;
-        
         chunkWidth = TileChunk.width;
         chunkHeight = TileChunk.height;
         widthInChunks = 16;

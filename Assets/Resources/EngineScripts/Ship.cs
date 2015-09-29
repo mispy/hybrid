@@ -55,8 +55,9 @@ public static class ShipManager {
         var ship = ShipManager.Unpack(ShipManager.RandomTemplate());
         ship.faction = faction;
         ship.name = ship.faction.name + " " + ship.name;
-        for (var j = 0; j < 5; j++) {
-            var crew = new Crew("Foofles");
+        var names = new string[] { "Fiora", "Anzie", "Abby", "Fiora", "Eldritch" };
+        foreach (var name in names) {
+            var crew = new Crew(name);
             crew.Ship = ship;
             CrewManager.Add(crew);
         }

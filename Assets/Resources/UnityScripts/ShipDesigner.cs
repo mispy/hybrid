@@ -156,7 +156,7 @@ public class ShipDesigner : MonoBehaviour {
             //designShip.blocks[targetBlockPos, cursorBlock.layer] = new Block(cursorBlock);
         } else if (Input.GetMouseButton(1)) {
             designShip.blueprintBlocks.RemoveSurface(targetBlockPos);
-            //designShip.blocks.RemoveSurface(targetBlockPos);
+            designShip.blocks.RemoveSurface(targetBlockPos);
         }
     }
 }

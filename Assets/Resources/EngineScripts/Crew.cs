@@ -59,6 +59,10 @@ public class Crew {
         }
     }
 
+    public override string ToString() {
+        return String.Format("Crew<{0}>", this.name);
+    }
+
     public string Id {
         get { return name; }
     }

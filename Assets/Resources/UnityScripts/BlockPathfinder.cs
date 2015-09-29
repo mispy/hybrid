@@ -8,10 +8,10 @@ public static class BlockPather {
     public static List<IntVector2> PathBetween(BlockMap blocks, IntVector2 start, IntVector2 end) {
         //Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
         // nodes that have already been analyzed and have a path from the start to them
-        var closedSet = new List<IntVector2>();
+        var closedSet = new HashSet<IntVector2>();
         // nodes that have been identified as a neighbor of an analyzed node, but have 
         // yet to be fully analyzed
-        var openSet = new List<IntVector2> { start };
+        var openSet = new HashSet<IntVector2> { start };
         // a dictionary identifying the optimal origin Cell to each node. this is used 
         // to back-track from the end to find the optimal path
         var cameFrom = new Dictionary<IntVector2, IntVector2>();
@@ -32,12 +32,8 @@ public static class BlockPather {
         
         // if there are any unanalyzed nodes, process them
         while (openSet.Count > 0) {
-            // get the node with the lowest estimated cost to finish
-            
-            var current = (
-                from p in openSet orderby predictedDistance[p] ascending select p
-                ).First();
-            
+			var current = openSet.OrderBy((n) => predictedDistance[n]).First();
+            	
             // if it is the finish, return the path
             if (current.x == end.x && current.y == end.y) {
                 // generate the found path
@@ -55,24 +51,17 @@ public static class BlockPather {
                 }
                 
                 var tempCurrentDistance = currentDistance[current] + 1;
-                
+
                 // if we already know a faster way to this neighbor, use that route and 
                 // ignore this one
-                if (closedSet.Contains(neighbor)
-                    && tempCurrentDistance >= currentDistance[neighbor]) {
+                if (closedSet.Contains(neighbor) && tempCurrentDistance >= currentDistance[neighbor]) {
                     continue;
                 }
                 
                 // if we don't know a route to this neighbor, or if this is faster, 
                 // store this route
-                if (!closedSet.Contains(neighbor)
-                    || tempCurrentDistance < currentDistance[neighbor]) {
-                    if (cameFrom.Keys.Contains(neighbor)) {
-                        cameFrom[neighbor] = current;
-                    }
-                    else {
-                        cameFrom.Add(neighbor, current);
-                    }
+                if (!closedSet.Contains(neighbor) || tempCurrentDistance < currentDistance[neighbor]) {
+					cameFrom[neighbor] = current;
                     
                     currentDistance[neighbor] = tempCurrentDistance;
                     predictedDistance[neighbor] =

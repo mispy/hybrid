@@ -2,9 +2,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class CrewMind : MonoBehaviour {
     public List<IntVector2> blockPath { get; private set; }
+    public IntVector2? currentDest {
+        get {
+            if (blockPath.Count == 0)
+                return null;
+
+            return blockPath.Last();
+        }
+    }
     private CharacterController controller;
 
     public CrewBody body;
@@ -65,7 +74,17 @@ public class CrewMind : MonoBehaviour {
         }
     }
 
-    public void PathToBlockPos(IntVector2 destPos) {
+    public bool CanReach(IntVector2 destPos) {
+        var ship = crew.body.maglockShip.ship;
+		if (!ship.blocks.IsPassable(destPos))
+			return false;
+        return BlockPather.PathBetween(ship.blocks, destPos, crew.body.currentBlockPos) != null;
+    }
+
+    public void SetMoveDestination(IntVector2 destPos) {
+        if (currentDest == destPos)
+            return;
+
         var ship = body.maglockShip.ship;
         var currentPos = crew.body.currentBlockPos;
 
