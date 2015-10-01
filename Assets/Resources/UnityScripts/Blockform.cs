@@ -36,6 +36,8 @@ public class Blockform : PoolBehaviour {
     public List<CrewBody> maglockedCrew = new List<CrewBody>();
     private bool needsMassUpdate = true;
     
+	private HashSet<IntVector2> breaksToCheck = new HashSet<IntVector2>();
+
     public GameObject blockComponentHolder;
     
     public IEnumerable<T> GetBlockComponents<T>() {
@@ -127,6 +129,52 @@ public class Blockform : PoolBehaviour {
         
         return obj;
     }
+
+	public void BreakDetected(HashSet<Block> frag1, HashSet<Block> frag2) {
+		var bigger = frag1.Count > frag2.Count ? frag1 : frag2;
+		var smaller = frag1.Count > frag2.Count ? frag2 : frag1;
+
+		foreach (var block in smaller) {
+			foreach (var layerBlock in blocks[block.pos]) {
+				BreakBlock(layerBlock);
+			}
+		}
+	}
+
+	public void CheckBreaks() {
+		while (breaksToCheck.Count > 0) {
+			var breakPos = breaksToCheck.First();
+			var fills = new List<HashSet<Block>>();
+			foreach (var neighbor in IntVector2.Neighbors(breakPos)) {
+				var block = blocks[neighbor, BlockLayer.Base];
+				if (block == null) continue;
+
+				fills.Add(blocks.Floodfill(block));
+			}
+
+			while (fills.Count > 0) {
+				var fill = fills.First();
+				fills.Remove(fill);
+				foreach (var other in fills) {
+					if (!other.SetEquals(fill)) {
+						BreakDetected(other, fill);
+					}
+
+				}
+			}
+
+			breaksToCheck.Remove(breakPos);
+		}
+	}
+
+	public void CheckBreakage(IntVector2 breakPos) {
+		foreach (var neighbor in IntVector2.Neighbors(breakPos)) {
+			var block = blocks[neighbor, BlockLayer.Base];
+			if (block == null) continue;
+
+			blocks.Floodfill(block);
+		}
+	}
     
     public void OnBlockRemoved(Block oldBlock) {
         Profiler.BeginSample("OnBlockRemoved");
@@ -136,6 +184,10 @@ public class Blockform : PoolBehaviour {
         
         UpdateBlock(oldBlock);
         
+		breaksToCheck.Add(oldBlock.pos);
+		CancelInvoke("CheckBreaks");
+		Invoke("CheckBreaks", 0.1f);
+
         Profiler.EndSample();
     }
     

@@ -247,6 +247,33 @@ public class BlockMap {
         }
     }
 
+	// find all blocks directly connected to a given block
+	public HashSet<Block> Floodfill(Block startBlock) {
+		var seenBlocks = new HashSet<Block>();
+		var heads = new List<Block>();
+		var length = 0;
+		seenBlocks.Add(startBlock);
+		heads.Add(startBlock);
+
+		while (heads.Count > 0) {
+			var head = heads[0];
+			heads.RemoveAt(0);
+
+			foreach (var neighbor in IntVector2.Neighbors(head.pos)) {
+				var nextBlock = this[neighbor, startBlock.layer];
+
+				if (nextBlock != null && !seenBlocks.Contains(nextBlock)) {
+					seenBlocks.Add(nextBlock);
+					heads.Add(nextBlock);
+				}
+			}
+
+			length += 1;
+		}
+
+		return seenBlocks;
+	}
+
     public Block this[IntVector2 bp, BlockLayer layer] {
         get {
             BlockChunk[,] chunks;
