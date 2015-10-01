@@ -12,6 +12,7 @@ GameObject:
   - 65: {fileID: 6559640}
   - 114: {fileID: 11495484}
   - 114: {fileID: 11495430}
+  - 54: {fileID: 5496572}
   m_Layer: 10
   m_Name: CrewBody
   m_TagString: Untagged
@@ -46,6 +47,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 427516}
   - 114: {fileID: 11450768}
+  - 120: {fileID: 12080526}
   m_Layer: 10
   m_Name: CrewMind
   m_TagString: Untagged
@@ -96,6 +98,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 422348}
   m_RootOrder: 1
+--- !u!54 &5496572
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148404}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &6559640
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -126,6 +143,7 @@ MonoBehaviour:
     name: 
     body: {fileID: 0}
     mind: {fileID: 0}
+  pathLine: {fileID: 0}
 --- !u!114 &11452668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -218,6 +236,43 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+--- !u!120 &12080526
+LineRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160250}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 4b26e387519b01749b0422f78b449f71, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_ImportantGI: 0
+  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  m_Parameters:
+    startWidth: .100000001
+    endWidth: .100000001
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4279041792
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4279041792
+  m_UseWorldSpace: 1
 --- !u!212 &21268476
 SpriteRenderer:
   m_ObjectHideFlags: 1

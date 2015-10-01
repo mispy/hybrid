@@ -81,7 +81,7 @@ MonoBehaviour:
   canFitInsideWall: 0
   canBeFired: 0
   ps: {fileID: 0}
-  ship: {fileID: 0}
+  form: {fileID: 0}
   power: {fileID: 0}
   isFiring: 0
   isFiringAttitude: 0
@@ -1244,6 +1244,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canBeFired
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSize.scalar
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -20,20 +20,55 @@ public class CrewMind : MonoBehaviour {
 
     public Crew crew;
     
+	public LineRenderer pathLine;
+
     void Awake() {
         blockPath = new List<IntVector2>();
         body = GetComponentInParent<CrewBody>();
         crew = GetComponentInParent<CrewBody>().crew;
         crew.mind = this;
-    }
+		pathLine = GetComponent<LineRenderer>();
+	}
 
-    void Update() {
+	void DrawPath() {
+		if (blockPath.Count == 0) {
+			pathLine.enabled = false;
+			return;
+		}
+
+		pathLine.enabled = true;
+
+		var lineSeq = new List<Vector2>();
+		lineSeq.Add(transform.position);
+		foreach (var pos in blockPath) {
+			lineSeq.Add(crew.body.maglockShip.BlockToWorldPos(pos));
+		}
+
+		pathLine.SetVertexCount(lineSeq.Count*2);
+		for (var i = 0; i < lineSeq.Count; i++) {
+			pathLine.SetPosition(i, lineSeq[i]);
+		}
+		
+		// HACK (Mispy): See http://forum.unity3d.com/threads/line-renderer-problem.21406/
+		for (var i = 0; i < lineSeq.Count; i++) {
+			pathLine.SetPosition(lineSeq.Count+i, lineSeq[lineSeq.Count-1-i]);
+		}
+		/*var s = "";
+		foreach (var pos in lineSeq) {
+			s += pos.ToString() + " ";
+		}
+		Debug.Log(s);*/
+		
+	}
+	
+	void Update() {
+		DrawPath();
+
         if (body.maglockShip != null) {
             UpdateLockedMovement();
         } else {
             UpdateFreeMovement();
         }
-
         /*foreach (var other in Crew.all) {
             if (IsEnemy(other) && Util.LineOfSight(body.gameObject, other.transform.position)) {
                 body.weapon.Fire(other.transform.position);
@@ -52,6 +87,11 @@ public class CrewMind : MonoBehaviour {
 
         if (bp == body.currentBlockPos) {
             blockPath.RemoveAt(0);
+			/*var s = "";
+			foreach (var pos in blockPath) {
+				s += pos.ToString() + " ";
+			}
+			Debug.Log(s);*/
 		} else if (!crew.body.maglockShip.blocks.IsPassable(bp)) {
 			blockPath.Clear();
         } else if (bp != body.maglockMoveBlockPos) {
@@ -115,16 +155,6 @@ public class CrewMind : MonoBehaviour {
         } else {
             var path = BlockPather.PathBetween(ship.blocks, currentPos, destPos);
             if (path != null) blockPath = path;
-        }
-
-        var lineSeq = new List<Vector2>();
-        lineSeq.Add(transform.position);
-        foreach (var pos in blockPath) {
-            lineSeq.Add(ship.form.BlockToWorldPos(pos));
-        }
-        
-        for (var i = 1; i < lineSeq.Count; i++) {
-            Debug.DrawLine(lineSeq[i-1], lineSeq[i], Color.green);
         }
     }
 }

@@ -18,6 +18,7 @@ public class ShipCollision : PoolBehaviour {
         obj.transform.parent = transform;
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
+		obj.transform.localScale *= Tile.worldSize;
         obj.SetActive(true);
         collidersObj = obj;
 

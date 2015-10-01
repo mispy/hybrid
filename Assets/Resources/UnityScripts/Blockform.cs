@@ -62,6 +62,7 @@ public class Blockform : PoolBehaviour {
         obj.SetActive(true);
         blueprint = obj.GetComponent<Blueprint>();
         blueprint.Initialize(ship);
+		blueprint.tiles.DisableRendering();
         
         obj = Pool.For("Holder").TakeObject();
         obj.transform.parent = transform;
@@ -168,6 +169,7 @@ public class Blockform : PoolBehaviour {
         obj.transform.parent = blockComponentHolder.transform;
         obj.transform.position = BlockToWorldPos(block);
         obj.transform.up = worldOrient;
+		obj.transform.localScale *= Tile.worldSize;
         block.gameObject = obj;
         foreach (var comp in block.gameObject.GetComponents<BlockComponent>()) {
             comp.block = block;

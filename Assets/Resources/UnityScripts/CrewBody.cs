@@ -56,8 +56,8 @@ public class CrewBody : PoolBehaviour {
         maglockShip.maglockedCrew.Add(this);
         transform.rotation = maglockShip.transform.rotation;
         transform.parent = maglockShip.transform;
-        rigidBody.isKinematic = true;
-        MaglockMove(ship.WorldToBlockPos(transform.position));
+        Destroy(rigidBody);
+		MaglockMove(ship.WorldToBlockPos(transform.position));
         
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.EnableRendering();
@@ -65,9 +65,9 @@ public class CrewBody : PoolBehaviour {
     
     void StopMaglock() {
         gameObject.transform.parent = Game.main.transform;
-        rigidBody.isKinematic = false;
+       // rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
-        
+		rigidBody = gameObject.AddComponent<Rigidbody>();
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
         

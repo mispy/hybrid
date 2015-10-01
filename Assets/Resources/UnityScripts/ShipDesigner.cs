@@ -16,10 +16,11 @@ public class ShipDesigner : MonoBehaviour {
             cursor = cursorObj.GetComponent<Blueprint>();
             cursor.blocks = new BlockMap(null);
             cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make<Wall>();
-            cursorObj.SetActive(true);
+			cursorObj.SetActive(true);
         } else {
             cursor.gameObject.SetActive(true);
         }
+		cursor.tiles.EnableRendering();
         Game.shipControl.gameObject.SetActive(false);
 
         //Game.main.debugText.text = "Designing Ship";
@@ -31,7 +32,8 @@ public class ShipDesigner : MonoBehaviour {
     public void OnDisable() {
         cursor.gameObject.SetActive(false);
         if (designShip != null) {
-            designShip.form.tiles.EnableRendering();
+			designShip.form.blueprint.tiles.DisableRendering();
+			designShip.form.tiles.EnableRendering();
         }
         Game.shipControl.gameObject.SetActive(true);
         //Game.main.debugText.text = "";
@@ -41,12 +43,14 @@ public class ShipDesigner : MonoBehaviour {
 
     void SetDesignShip(Ship ship) {
         if (designShip != null) {
-            designShip.form.tiles.EnableRendering();
+			designShip.form.blueprint.tiles.DisableRendering();
+			designShip.form.tiles.EnableRendering();
         }
 
         designShip = ship;
-        designShip.form.tiles.DisableRendering();
-    }
+		designShip.form.tiles.DisableRendering();
+		designShip.form.blueprint.tiles.EnableRendering();
+	}
 
     Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
         var neighborBlocks = new List<Block>();
