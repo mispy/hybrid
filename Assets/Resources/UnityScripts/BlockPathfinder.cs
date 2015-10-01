@@ -5,6 +5,59 @@ using System.Collections.Generic;
 using System.Linq;
 
 public static class BlockPather {
+	// find all blocks directly connected to a given block
+	public static HashSet<Block> Floodfill(BlockMap blocks, Block startBlock) {
+		var seenBlocks = new HashSet<Block>();
+		var heads = new List<Block>();
+		var length = 0;
+		seenBlocks.Add(startBlock);
+		heads.Add(startBlock);
+		
+		while (heads.Count > 0) {
+			var head = heads[0];
+			heads.RemoveAt(0);
+			
+			foreach (var neighbor in IntVector2.Neighbors(head.pos)) {
+				var nextBlock = blocks[neighbor, startBlock.layer];
+				
+				if (nextBlock != null && !seenBlocks.Contains(nextBlock)) {
+					seenBlocks.Add(nextBlock);
+					heads.Add(nextBlock);
+				}
+			}
+			
+			length += 1;
+		}
+		
+		return seenBlocks;
+	}
+
+	public static bool PathExists(BlockMap blocks, IntVector2 start, IntVector2 end) {
+		if (!blocks.IsPassable(end))
+			return false;
+
+		var heads = new List<IntVector2>() { start };
+		var seen = new HashSet<IntVector2>();
+
+		while (heads.Count > 0) {
+			var head = heads[0];
+			heads.RemoveAt(0);
+
+			foreach (var neighbor in IntVector2.Neighbors(head)) {
+				if (seen.Contains(neighbor) || !blocks.IsPassable(neighbor))
+					continue;
+
+				if (neighbor == end)
+					return true;
+
+				seen.Add(neighbor);
+				heads.Add(neighbor);
+			}
+		}
+
+		return false;
+	}
+
     public static List<IntVector2> PathBetween(BlockMap blocks, IntVector2 start, IntVector2 end) {
         //Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
         // nodes that have already been analyzed and have a path from the start to them
@@ -46,7 +99,7 @@ public static class BlockPather {
             
             // process each valid node around the current node
             foreach (var neighbor in IntVector2.Neighbors(current)) {
-                if (neighbor.x > blocks.maxX+2 || neighbor.x < blocks.minX-2 || neighbor.y > blocks.maxY+2 || neighbor.y < blocks.minY-2 || (neighbor != start && !blocks.IsPassable(neighbor))) {
+                if (neighbor != start && !blocks.IsPassable(neighbor)) {
                     continue;
                 }
                 

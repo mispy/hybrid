@@ -56,8 +56,11 @@ public class Crew {
 			if (_job != null)
 				_job.crew = null;
             _job = value;
-            if (value != null)
+            if (value != null) {
+				if (value.crew != null)
+					value.crew.job = null;
                 value.crew = this;
+			}
         }
     }
 

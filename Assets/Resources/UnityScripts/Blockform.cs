@@ -141,38 +141,24 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
-	public void CheckBreaks() {
-		while (breaksToCheck.Count > 0) {
-			var breakPos = breaksToCheck.First();
-			var fills = new List<HashSet<Block>>();
-			foreach (var neighbor in IntVector2.Neighbors(breakPos)) {
-				var block = blocks[neighbor, BlockLayer.Base];
-				if (block == null) continue;
-
-				fills.Add(blocks.Floodfill(block));
-			}
-
-			while (fills.Count > 0) {
-				var fill = fills.First();
-				fills.Remove(fill);
-				foreach (var other in fills) {
-					if (!other.SetEquals(fill)) {
-						BreakDetected(other, fill);
-					}
-
-				}
-			}
-
-			breaksToCheck.Remove(breakPos);
-		}
-	}
-
-	public void CheckBreakage(IntVector2 breakPos) {
+	public void CheckBreaks(IntVector2 breakPos) {
+		var fills = new List<HashSet<Block>>();
 		foreach (var neighbor in IntVector2.Neighbors(breakPos)) {
 			var block = blocks[neighbor, BlockLayer.Base];
 			if (block == null) continue;
 
-			blocks.Floodfill(block);
+			fills.Add(BlockPather.Floodfill(blocks, block));
+		}
+
+		while (fills.Count > 0) {
+			var fill = fills.First();
+			fills.Remove(fill);
+			foreach (var other in fills) {
+				if (!other.SetEquals(fill)) {
+					BreakDetected(other, fill);
+				}
+
+			}
 		}
 	}
     
@@ -184,9 +170,7 @@ public class Blockform : PoolBehaviour {
         
         UpdateBlock(oldBlock);
         
-		breaksToCheck.Add(oldBlock.pos);
-		CancelInvoke("CheckBreaks");
-		Invoke("CheckBreaks", 0.1f);
+		CheckBreaks(oldBlock.pos);
 
         Profiler.EndSample();
     }

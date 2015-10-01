@@ -118,11 +118,7 @@ public class CrewMind : MonoBehaviour {
 
     public bool CanReach(IntVector2 destPos) {
 		var ship = Game.playerShip;
-		if (!ship.blocks.IsPassable(destPos))
-			return false;
-		if (!ship.blocks.IsPassable(crew.body.currentBlockPos))
-			return false;
-        return BlockPather.PathBetween(ship.blocks, destPos, crew.body.currentBlockPos) != null;
+		return BlockPather.PathExists(ship.blocks, crew.body.currentBlockPos, destPos);
     }
 
 	public void PleaseMove() {

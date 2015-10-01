@@ -5,7 +5,7 @@ using System.Text;
 using UnityEngine;
 
 public abstract class Job {
-    public Crew crew;
+	public Crew crew;
     public bool isFinished;
     public abstract void Update();
 }
@@ -68,7 +68,7 @@ public class BuildJob : Job {
 			return;
 		}
 
-        if (targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] != null && targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer].type == targetBlue.type) {
+        if (BlueprintBlock.Matches(targetBlue, targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer])) {
 			Debug.LogFormat("Successfully built: {0}", targetBlue);
             isFinished = true;
             return;
@@ -112,7 +112,9 @@ public class BuildJobManager {
     }
 
     void OnBlueprintAdded(Block block) {
-        jobs.Add(new BuildJob(block));
+		var blue = (BlueprintBlock)block;
+		if (!BlueprintBlock.Matches(blue, ship.blocks[blue.pos, blue.layer]))
+	        jobs.Add(new BuildJob(block));
     }
 
 	void OnBlueprintRemoved(Block block) {
@@ -148,14 +150,6 @@ public class BuildJobManager {
 				pair.dist = IntVector2.Distance(crew.body.currentBlockPos, job.targetBlue.pos);
 				pairs.Add(pair);
 			}
-
-
-	//		var nearestCrew = unassignedCrew.OrderBy((c) => IntVector2.Distance(c.body.currentBlockPos, job.targetBlue.pos));
-
-/*			foreach (var crew in nearestCrew) {
-				if (job.AcceptCrew(crew))
-					break;
-			}*/
 		}
 
 		foreach (var pair in pairs.OrderBy((p) => p.dist)) {
@@ -183,8 +177,9 @@ public class JobManager : MonoBehaviour {
                 if (crew.job.isFinished) {
 					Debug.LogFormat("Job finished: {0}", crew.job);
                     crew.job = null;
-				} else
+				} else {
                     crew.job.Update();
+				}
             }
         }
     }

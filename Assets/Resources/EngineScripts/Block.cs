@@ -247,6 +247,18 @@ public class Block {
 }
 
 public class BlueprintBlock : Block {
+	// Check if a blueprint block already matches the constructed block
+	public static bool Matches(BlueprintBlock blue, Block block) {
+		if (blue == null && block == null) return true;
+		if (blue == null && block != null) return false;
+		if (blue != null && block == null) return false;
+
+		if (blue.type != block.type || blue.orientation != block.orientation)
+			return false;
+
+		return true;
+	}
+
     public static BlueprintBlock Make<T>() {
         return new BlueprintBlock(Block.types[typeof(T)]);
     }
