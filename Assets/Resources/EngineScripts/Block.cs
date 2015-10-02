@@ -165,6 +165,12 @@ public class Block {
         }
     }
 
+	public bool IsDestroyed {
+		get {
+			return ship == null;
+		}
+	}
+
     public GameObject gameObject;
 
     public float PercentFilled {
@@ -196,6 +202,8 @@ public class Block {
     }
 
     public void TakeDamage(int amount) {
+		if (IsDestroyed) return;
+
         this.scrapContent -= amount;
 
         if (this.scrapContent <= 0) {
