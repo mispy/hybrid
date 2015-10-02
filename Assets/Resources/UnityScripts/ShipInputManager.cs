@@ -34,6 +34,10 @@ public class ShipInputManager : MonoBehaviour {
     }
 
     void HandleRightClick() {
+		if (selectedCrew == null) {
+			Debug.Log(ship.form.pather.IsPassable(Game.mousePos));
+		}
+
         if (selectedCrew != null) {
             selectedCrew.job = new MoveJob(ship.form.WorldToBlockPos(Game.mousePos));
         }

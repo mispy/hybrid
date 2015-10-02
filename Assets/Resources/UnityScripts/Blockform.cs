@@ -39,7 +39,8 @@ public class Blockform : PoolBehaviour {
 	private HashSet<IntVector2> breaksToCheck = new HashSet<IntVector2>();
 
     public GameObject blockComponentHolder;
-    
+	public SpacePather pather;
+
     public IEnumerable<T> GetBlockComponents<T>() {
         return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == ship);
     }
@@ -86,6 +87,8 @@ public class Blockform : PoolBehaviour {
             body.name = crew.name;
             body.gameObject.SetActive(true);
         }
+
+		pather = new SpacePather(this);
     }
 
     void OnEnable() {
@@ -390,6 +393,10 @@ public class Blockform : PoolBehaviour {
             tractorBeam.Stop();
         }
     }
+
+	void Update() {
+		pather.Update();
+	}
     
     void FixedUpdate() {
         if (transform.position.magnitude > Game.activeSector.sector.radius) {

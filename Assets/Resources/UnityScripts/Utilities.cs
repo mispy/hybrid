@@ -81,6 +81,20 @@ public struct IntVector2 {
     }
 }
 
+public class DebugUtil {
+	public static void DrawRect(Transform transform, Rect rect) {
+		var p1 = transform.TransformPoint(new Vector2(rect.xMin, rect.yMin));
+		var p2 = transform.TransformPoint(new Vector2(rect.xMax, rect.yMin));
+		var p3 = transform.TransformPoint(new Vector2(rect.xMax, rect.yMax));
+		var p4 = transform.TransformPoint(new Vector2(rect.xMin, rect.yMax));
+		
+		Debug.DrawLine(p1, p2);
+		Debug.DrawLine(p2, p3);
+		Debug.DrawLine(p3, p4);
+		Debug.DrawLine(p4, p1);
+	}
+}
+
 public class Util {
     public static RaycastHit[] ParticleCast(ParticleSystem ps) {
         var radius = 0.05f;

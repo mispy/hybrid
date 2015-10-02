@@ -58,6 +58,23 @@ public static class BlockPather {
 		return false;
 	}
 
+	/*struct BlockWithNeighborCount {
+		Block block;
+		int count;
+
+		public BlockWithNeighborCount(Block block, int count) {
+			this.block = block;
+			this.count = count;
+		}
+	}
+
+	public static List<Rect> DivideIntoBoxes(BlockMap blocks) {
+		foreach (var block in blocks.AllBlocks) {
+			var ncount = IntVector2.NeighborsWithDiagonal(block.pos).Where((n) => block.
+			var annoBlock = new BlockWithNeighborCount(block);
+		}
+	}*/
+
     public static List<IntVector2> PathBetween(BlockMap blocks, IntVector2 start, IntVector2 end) {
         //Debug.LogFormat("{0} {1} {2} {3}", minX, minY, maxX, maxY);
         // nodes that have already been analyzed and have a path from the start to them
