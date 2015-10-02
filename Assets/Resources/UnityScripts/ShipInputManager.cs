@@ -35,7 +35,7 @@ public class ShipInputManager : MonoBehaviour {
 
     void HandleRightClick() {
 		if (selectedCrew == null) {
-			Debug.Log(ship.form.pather.IsPassable(Game.mousePos));
+			Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
 		}
 
         if (selectedCrew != null) {

@@ -87,15 +87,28 @@ public class DebugUtil {
 		var p2 = transform.TransformPoint(new Vector2(rect.xMax, rect.yMin));
 		var p3 = transform.TransformPoint(new Vector2(rect.xMax, rect.yMax));
 		var p4 = transform.TransformPoint(new Vector2(rect.xMin, rect.yMax));
-		
+
 		Debug.DrawLine(p1, p2);
 		Debug.DrawLine(p2, p3);
 		Debug.DrawLine(p3, p4);
 		Debug.DrawLine(p4, p1);
 	}
+
+	public static void DrawPath(List<Vector2> points) {
+		for (var i = 1; i < points.Count; i++) {
+			Debug.DrawLine(points[i-1], points[i]);
+		}
+	}
 }
 
 public class Util {
+	public static IEnumerable<Vector2> RectCorners(Rect rect) {
+		yield return new Vector2(rect.xMin, rect.yMin);
+		yield return new Vector2(rect.xMax, rect.yMin);
+		yield return new Vector2(rect.xMax, rect.yMax);
+		yield return new Vector2(rect.xMin, rect.yMax);
+	}
+
     public static RaycastHit[] ParticleCast(ParticleSystem ps) {
         var radius = 0.05f;
         var length = ps.startSpeed * ps.startLifetime;
