@@ -56,7 +56,7 @@ public class TorpedoLauncher : BlockType {
         centerPoint /= launchers.Count;
     }
 
-    public Collider GetProbableHit(float maxDistance = 50f) {
+    public Collider GetProbableHit(float maxDistance = 150f) {
         RaycastHit hit;
         Physics.Raycast(transform.position, transform.up, out hit, maxDistance);    
         return hit.collider;

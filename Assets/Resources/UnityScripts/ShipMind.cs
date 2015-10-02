@@ -8,7 +8,7 @@ public class EngageTactic : PoolBehaviour {
 	Blockform target;
 	List<Vector2> path = new List<Vector2>();
 	Blockform form;
-	float maxFiringRange = 50f;
+	float maxFiringRange = 150f;
 
 	void Awake() {
 		this.mind = GetComponent<ShipMind>();
@@ -20,7 +20,7 @@ public class EngageTactic : PoolBehaviour {
 
 		var destination = target.transform.position;
 		var dir = destination - form.transform.position;
-		var offset = form.height + maxFiringRange;
+		var offset = target.height;// + maxFiringRange;
 
 		//form.pather.transform.rotation = Quaternion.LookRotation(Vector3.forward, -dir);
 		foreach (var cardinal in form.pather.Cardinals().Reverse()) {
@@ -32,7 +32,7 @@ public class EngageTactic : PoolBehaviour {
 			}
 		}
 
-		path = form.pather.PathBetween(form.transform.position + form.transform.TransformVector(new Vector2(0, form.blocks.maxY)), destination);
+		path = form.pather.PathBetween(form.transform.position + form.transform.TransformDirection(Vector2.up)*form.blocks.maxY, destination);
 	}
 
 	void Start() {
@@ -42,10 +42,8 @@ public class EngageTactic : PoolBehaviour {
 	void Update() {		
 		target = mind.nearestEnemy;
 
-		if (target != null && Vector2.Distance(target.transform.position, form.transform.position) <= maxFiringRange - 10) {
+		if (target != null && Vector2.Distance(target.transform.position, form.transform.position) <= maxFiringRange - 10 && Util.LineOfSight(form, target)) {
 			var diff = form.RotateTowards(target.transform.position, form.GetSideWithMostWeapons());
-			if (diff < 5)
-				form.FireThrusters(Orientation.down);
 			return;
 		}
 
@@ -97,7 +95,7 @@ public class ShipMind : PoolBehaviour {
         foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
             launcher.AimTowards(nearestEnemy.transform.position);
 
-            var hit = launcher.GetProbableHit();
+            var hit = launcher.GetProbableHit(150f);
             if (hit == null) continue;
 
             var otherShip = hit.gameObject.GetComponentInParent<Blockform>();

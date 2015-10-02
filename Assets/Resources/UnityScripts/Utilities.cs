@@ -161,6 +161,18 @@ public class Util {
         return false;
     }
 
+	public static bool LineOfSight(Blockform form, Blockform target) {
+		var targetVec = (target.transform.position - form.transform.position);
+		var hits = Physics.RaycastAll(form.transform.position, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+		foreach (var hit in hits) {
+			if (hit.rigidbody != form.rigidBody && hit.rigidbody != target.rigidBody) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
     public static bool LineOfSight(GameObject obj, Vector3 targetPos) {
         var targetDist = (targetPos - obj.transform.position);
         var targetDir = targetDist.normalized;
