@@ -49,7 +49,7 @@ public static class ShipManager {
     }
 
     public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {
-		if (template == null) template = "Frigate";
+		if (template == null) template = "Torpedo Frigate";
         if (faction == null) faction = Util.GetRandom(FactionManager.all);
         if (sector == null) sector = Util.GetRandom(SectorManager.all);
 		if (sectorPos == null) sectorPos = sector.RandomEdge();

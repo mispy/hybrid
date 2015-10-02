@@ -24,15 +24,15 @@ public class EngageTactic : PoolBehaviour {
 
 		//form.pather.transform.rotation = Quaternion.LookRotation(Vector3.forward, -dir);
 		foreach (var cardinal in form.pather.Cardinals().Reverse()) {
-			var candidate = (Vector2)destination + cardinal*offset + (Vector2)target.rigidBody.velocity;
+			var candidate = (Vector2)destination + cardinal*offset;// + (Vector2)target.rigidBody.velocity;
 
 			if (form.pather.IsPassable(candidate)) {
 				destination = candidate;
 				break;
 			}
 		}
-
-		path = form.pather.PathBetween(form.transform.position + form.transform.TransformDirection(Vector2.up)*form.blocks.maxY, destination);
+		//+ form.transform.TransformDirection(Vector2.up)*form.blocks.maxY
+		path = form.pather.PathBetween(form.transform.position, destination);
 	}
 
 	void Start() {

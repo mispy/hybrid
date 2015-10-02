@@ -344,8 +344,7 @@ public class Blockform : PoolBehaviour {
 			col = hit.collider;
 		}
 
-		if (col == null)
-			MoveTowards(path[0]);
+		MoveTowards(path[0]);
 		//else
 			//FireThrusters(Orientation.up);
 	}

@@ -115,10 +115,14 @@ public class Util {
         return Physics.SphereCastAll(ps.transform.position, radius, ps.transform.up, length);
     }
 
-	public static IEnumerable<RaycastHit> ShipCast(Blockform form, Vector3 dest) {
+	public static IEnumerable<RaycastHit> ShipCast(Blockform form, Vector3 endPos) {
 		var head = form.transform.position + form.transform.TransformVector(new Vector2(0, form.blocks.maxX*Tile.worldSize));
-		var targetVec = (dest - head);
-		var hits = Physics.SphereCastAll(head, form.width, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+		return ShipCast(form, head, endPos);
+	}
+
+	public static IEnumerable<RaycastHit> ShipCast(Blockform form, Vector3 startPos, Vector3 endPos) {
+		var targetVec = (endPos - startPos);
+		var hits = Physics.SphereCastAll(startPos, form.width, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
 		foreach (var hit in hits) {
 			if (hit.rigidbody != form.rigidBody) {
 				yield return hit;

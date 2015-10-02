@@ -99,14 +99,29 @@ public class SpacePather : PoolBehaviour {
 	/// <param name="cameFrom">A list of nodes and the origin to that node.</param>
 	/// <param name="current">The destination node being sought out.</param>
 	/// <returns>The shortest path from the start to the destination node.</returns>
-	public static List<Vector2> ReconstructPath(Dictionary<Vector2, Vector2> cameFrom, Vector2 current) {
-		if (!cameFrom.Keys.Contains(current)) {
-			return new List<Vector2> { current };
+	public List<Vector2> ReconstructPath(Dictionary<Vector2, Vector2> cameFrom, Vector2 current) {
+		var invPath = new List<Vector2>();
+		while (true) {
+			invPath.Add(current);
+			if (!cameFrom.Keys.Contains(current))
+				break;
+			current = cameFrom[current];
 		}
-		
-		var path = ReconstructPath(cameFrom, cameFrom[current]);
-		path.Add(current);
-		return path;
+
+		invPath.Reverse();
+		return SmoothPath(invPath);
+	}
+
+	public List<Vector2> SmoothPath(List<Vector2> path) {
+		var smoothed = new List<Vector2>();
+		smoothed.Add(path[0]);
+		for (var i = 1; i < path.Count-1; i++) {
+			if (Util.ShipCast(pathForm, smoothed.Last(), path[i+1]).Count() > 0) {
+				smoothed.Add(path[i]);
+			}
+		}
+		smoothed.Add(path.Last());
+		return smoothed;
 	}
 
 
@@ -119,6 +134,6 @@ public class SpacePather : PoolBehaviour {
 		var width = (pathForm.blocks.maxX - pathForm.blocks.minX) * Tile.worldSize;
 		var height = (pathForm.blocks.maxY - pathForm.blocks.minY) * Tile.worldSize;
 		colRect = new Rect(-width/2, -height/2, width, height);
-		pathGridSize = Math.Max(colRect.width, colRect.height);
+		pathGridSize = Math.Max(colRect.width, colRect.height)*1.5f;
 	}
 }
