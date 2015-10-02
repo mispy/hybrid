@@ -6,7 +6,7 @@ public class DebugControl : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		selectedShip = Game.activeSector.blockforms[1];
 	}
 	
 	// Update is called once per frame

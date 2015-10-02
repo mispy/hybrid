@@ -48,10 +48,11 @@ public static class ShipManager {
         ShipManager.all.Add(ship);
     }
 
-    public static Ship Create(string template = null, Faction faction = null, Sector sector = null) {
+    public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {
 		if (template == null) template = "New Frigate";
         if (faction == null) faction = Util.GetRandom(FactionManager.all);
         if (sector == null) sector = Util.GetRandom(SectorManager.all);
+		if (sectorPos == null) sectorPos = sector.RandomEdge();
 
         var ship = ShipManager.Unpack(ShipManager.templates[template]);
         ship.faction = faction;
@@ -62,7 +63,7 @@ public static class ShipManager {
             crew.Ship = ship;
             CrewManager.Add(crew);
         }
-        sector.PlaceShip(ship, sector.RandomEdge());
+        sector.PlaceShip(ship, (Vector2)sectorPos);
         ShipManager.Add(ship);
         return ship;
     }

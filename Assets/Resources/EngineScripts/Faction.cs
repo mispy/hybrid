@@ -42,6 +42,6 @@ public class Faction {
     }
 
     public bool IsEnemy(Faction other) {
-        return other != this;
+        return other != this && other != FactionManager.all[0] && this != FactionManager.all[0];
     }
 }

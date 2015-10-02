@@ -1,15 +1,68 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+
+public class ShipTactic {
+	public ShipMind mind;
+	public virtual void Update() { }
+}
+
+public class EngageTactic : ShipTactic {
+	List<Vector2> path = new List<Vector2>();
+	Blockform form;
+	float maxFiringRange = 20f;
+
+	public EngageTactic(ShipMind mind) {
+		this.mind = mind;
+		this.form = mind.form;
+	}
+
+	void RecalcEngagePath() {
+		Blockform target = mind.nearestEnemy;
+		if (target == null) return; 
+
+		// Find the nearest part of the enemy ship to us
+		var destination = target.transform.position;
+		var targetVec = destination - form.transform.position;
+		var targetDir = targetVec.normalized;
+		var targetHits = Physics.SphereCastAll(form.transform.position, form.width, targetDir, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+		foreach (var hit in targetHits) {
+			if (hit.rigidbody != form.rigidBody) {
+				destination = hit.point;
+			}
+		}
+
+		// We want to leave some distance between us and the enemy
+		destination = destination - (targetDir * (form.height + maxFiringRange));
+
+		path = form.pather.PathBetween(form.transform.position, destination);
+	}
+	
+	public override void Update() {   
+		if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]) != null)
+			path.RemoveAt(0);
+
+		if (path != null && path.Count == 0)
+			path = null;
+
+		if (path != null)
+			form.FollowPath(path);
+		else
+			RecalcEngagePath();
+	}
+}
 
 public class ShipMind : PoolBehaviour {
     public Ship ship;
     public Blockform form;
     public Blockform nearestEnemy;
+	public ShipTactic tactic;
 
     // Use this for initialization
     void Start () {
         form = GetComponent<Blockform>();
         ship = GetComponent<Blockform>().ship;
+		tactic = new EngageTactic(this);
     }
 
     bool IsEnemy(Ship otherShip) {
@@ -45,18 +98,6 @@ public class ShipMind : PoolBehaviour {
         }
     }
 
-    void UpdateMovement() {        
-        Blockform target = nearestEnemy;
-
-        if (target != null) {
-            form.RotateTowards(target.transform.position);
-            var dist = (target.transform.position - transform.position).magnitude;
-            if (dist > 10f) {
-                form.MoveTowards(target.transform.position);
-            }
-        }
-    }
-
     // Update is called once per frame
     void Update () {
         if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
@@ -70,6 +111,7 @@ public class ShipMind : PoolBehaviour {
 
         UpdateTractors();
         UpdateWeapons();
-        UpdateMovement();
+
+		tactic.Update();
    } 
 }

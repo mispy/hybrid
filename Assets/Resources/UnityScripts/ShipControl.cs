@@ -126,6 +126,10 @@ public class ShipControl : MonoBehaviour {
         }*/
     }
 
+	void Start() {
+		ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
+	}
+
     // Update is called once per frame
     void Update () {
         ship = Game.playerShip;

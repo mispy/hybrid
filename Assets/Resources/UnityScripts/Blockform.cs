@@ -41,6 +41,18 @@ public class Blockform : PoolBehaviour {
     public GameObject blockComponentHolder;
 	public SpacePather pather;
 
+	public float width {
+		get {
+			return (blocks.maxX - blocks.minX) * Tile.worldSize;
+		}
+	}
+
+	public float height {
+		get {
+			return (blocks.maxY - blocks.minY) * Tile.worldSize;
+		}
+	}
+
     public IEnumerable<T> GetBlockComponents<T>() {
         return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == ship);
     }
@@ -74,6 +86,13 @@ public class Blockform : PoolBehaviour {
         obj.SetActive(true);
         blockComponentHolder = obj;
 
+		obj = Pool.For("Holder").TakeObject();
+		obj.transform.SetParent(transform);
+		obj.transform.position = transform.position;
+		obj.name = "SpacePather";
+		pather = obj.AddComponent<SpacePather>();
+		obj.SetActive(true);
+
         foreach (var block in ship.blocks.AllBlocks) {
             OnBlockAdded(block);
         }
@@ -87,8 +106,6 @@ public class Blockform : PoolBehaviour {
             body.name = crew.name;
             body.gameObject.SetActive(true);
         }
-
-		pather = new SpacePather(this);
     }
 
     void OnEnable() {
@@ -258,8 +275,8 @@ public class Blockform : PoolBehaviour {
     public void UpdateGravity() {
         if (blocks.Has<InertiaStabilizer>() && hasGravity == false) {
             hasGravity = true;
-            rigidBody.drag = 5;
-            rigidBody.angularDrag = 5;
+            rigidBody.drag = 2;
+            rigidBody.angularDrag = 2;
         } else if (!blocks.Has<InertiaStabilizer>() && hasGravity == true) {
             hasGravity = false;
             rigidBody.drag = 0;
@@ -293,6 +310,11 @@ public class Blockform : PoolBehaviour {
         var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
         FireThrusters((Orientation)(-(int)orient));*/
     }
+	
+	public void FollowPath(List<Vector2> path) {
+		RotateTowards(path[0]);
+		MoveTowards(path[0]);
+	}
     
     public IntVector2 WorldToBlockPos(Vector2 worldPos) {
         return LocalToBlockPos(transform.InverseTransformPoint(worldPos));
@@ -394,10 +416,6 @@ public class Blockform : PoolBehaviour {
         }
     }
 
-	void Update() {
-		pather.Update();
-	}
-    
     void FixedUpdate() {
         if (transform.position.magnitude > Game.activeSector.sector.radius) {
             var towardsCenter = (Vector3.zero - transform.position).normalized;

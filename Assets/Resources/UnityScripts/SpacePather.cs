@@ -4,10 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class SpacePather {
+public class SpacePather : PoolBehaviour {
 	public Blockform pathForm;
 	public Rect colRect;
-	public Transform transform;
+	public float pathGridSize;
 
 	public List<Vector2> lastPath;
 
@@ -24,8 +24,9 @@ public class SpacePather {
 		return true;
 	}
 
-	public Vector2[] Neighbors(Vector2 pos) {
-		var dist = Math.Max(colRect.width, colRect.height);
+	public Vector2[] Neighbors(Vector2 dir, Vector2 pos) {
+		var dist = pathGridSize;
+		transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
 		var left = (Vector2)transform.TransformVector(Vector2.left*dist);
 		var right = (Vector2)transform.TransformVector(Vector2.right*dist);
 		var down = (Vector2)transform.TransformVector(Vector2.down*dist);
@@ -41,6 +42,10 @@ public class SpacePather {
 	public List<Vector2> PathBetween(Vector2 start, Vector2 end) {
 		if (!IsPassable(end)) return null;
 
+		Debug.DrawLine(start, end);
+
+		var dir = (end-start).normalized;
+
 		var closedSet = new HashSet<Vector2>();
 		var openSet = new HashSet<Vector2> { start };
 		var cameFrom = new Dictionary<Vector2, Vector2>();
@@ -54,10 +59,14 @@ public class SpacePather {
 
 		// if there are any unanalyzed nodes, process them
 		while (openSet.Count > 0) {
+			if (openSet.Count > 100) {
+				Debug.LogWarning("Pathfinding node count exceeded, aborting");
+				return null;
+			}
 			var current = openSet.OrderBy((n) => predictedDistance[n]).First();
 			
 			// if it is the finish, return the path
-			if (Vector2.Distance(current, end) < colRect.width) {
+			if (Vector2.Distance(current, end) <= pathGridSize) {
 				// generate the found path
 				cameFrom[end] = current;
 				lastPath = ReconstructPath(cameFrom, end);
@@ -69,12 +78,14 @@ public class SpacePather {
 			closedSet.Add(current);
 			
 			// process each valid node around the current node
-			foreach (var neighbor in Neighbors(current)) {
+			foreach (var neighbor in Neighbors(dir, current)) {
 				if (Vector2.Distance(start, neighbor) > Game.activeSector.sector.radius*2 || (neighbor != start && !IsPassable(neighbor))) {
 					continue;
 				}
-				
-				var tempCurrentDistance = currentDistance[current] + 1;
+
+				Debug.DrawLine(current, neighbor);
+
+				var tempCurrentDistance = currentDistance[current] + pathGridSize;
 				
 				// if we already know a faster way to this neighbor, use that route and 
 				// ignore this one
@@ -82,20 +93,13 @@ public class SpacePather {
 					continue;
 				}
 				
-				// if we don't know a route to this neighbor, or if this is faster, 
-				// store this route
-				if (!closedSet.Contains(neighbor) || tempCurrentDistance < currentDistance[neighbor]) {
-					cameFrom[neighbor] = current;
-					
-					currentDistance[neighbor] = tempCurrentDistance;
-					predictedDistance[neighbor] =
-						currentDistance[neighbor] + Vector2.Distance(neighbor, end);
-					
-					// if this is a new node, add it to processing
-					if (!openSet.Contains(neighbor)) {
-						openSet.Add(neighbor);
-					}
-				}
+				cameFrom[neighbor] = current;
+				
+				currentDistance[neighbor] = tempCurrentDistance;
+				predictedDistance[neighbor] =
+					currentDistance[neighbor] + Vector2.Distance(neighbor, end);
+
+				openSet.Add(neighbor);
 			}
 		}
 		
@@ -122,16 +126,16 @@ public class SpacePather {
 	}
 
 
-	public void Update() {
+	void Update() {
 		DebugUtil.DrawRect(pathForm.transform, colRect);
 		if (lastPath != null) DebugUtil.DrawPath(lastPath);
 	}
 
-	public SpacePather(Blockform form) {
-		this.pathForm = form;
-		var width = (form.blocks.maxX - form.blocks.minX) * Tile.worldSize;
-		var height = (form.blocks.maxY - form.blocks.minY) * Tile.worldSize;
+	void Awake() {
+		pathForm = GetComponentInParent<Blockform>();
+		var width = (pathForm.blocks.maxX - pathForm.blocks.minX) * Tile.worldSize;
+		var height = (pathForm.blocks.maxY - pathForm.blocks.minY) * Tile.worldSize;
 		colRect = new Rect(-width/2, -height/2, width, height);
-		transform = form.transform;
+		pathGridSize = Math.Max(colRect.width, colRect.height);
 	}
 }

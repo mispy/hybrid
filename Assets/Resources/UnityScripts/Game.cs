@@ -117,10 +117,9 @@ public class Game : MonoBehaviour {
         }
 
 		var sector = SectorManager.all[0];
-		var ship = ShipManager.Create(template: "Station", sector: sector);
-		ship.sectorPos = new Vector2(0, 0);
-		ShipManager.Create(template: "New Frigate", sector: sector, faction: FactionManager.all[0]);
-		ShipManager.Create(template: "New Frigate", sector: sector, faction: FactionManager.all[1]);
+		//ShipManager.Create(template: "Station", sector: sector, sectorPos: new Vector2(0, 0), faction: FactionManager.all[0]);
+		ShipManager.Create(template: "New Frigate", sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
+		Game.playerShip = ShipManager.Create(template: "New Frigate", sector: sector, faction: FactionManager.all[2], sectorPos: new Vector2(-100, 0));
     }
     
     public static void LoadSector(Sector sector) {
