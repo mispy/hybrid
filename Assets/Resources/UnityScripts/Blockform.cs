@@ -345,6 +345,8 @@ public class Blockform : PoolBehaviour {
 
 			foreach (var col in cols) {
 				if (seen.Contains(col.rigidbody)) continue;
+				if (col.rigidbody.gameObject.GetComponentInParent<Blockform>() == null) continue;
+
 				seen.Add(col.rigidbody);
 
 				var local = transform.InverseTransformPoint(col.point);
