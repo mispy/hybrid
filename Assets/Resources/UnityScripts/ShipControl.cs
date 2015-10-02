@@ -4,7 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ShipInputManager : MonoBehaviour {
+public class ShipControl : MonoBehaviour {
+	public static GameObject leaveSectorMenu;
+
     Ship ship;
     GameObject selector;
     Crew selectedCrew = null;
@@ -98,6 +100,26 @@ public class ShipInputManager : MonoBehaviour {
             JumpMap.Activate();
         }
 
+		
+		// Scroll zoom
+		if (Input.GetKeyDown(KeyCode.Equals) && Game.mainCamera.orthographicSize > 4) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize >> 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
+		} else if (Input.GetKeyDown(KeyCode.Minus) && Game.mainCamera.orthographicSize < 64) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
+		}
+		
+		// Scroll zoom
+		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Game.mainCamera.orthographicSize > 4) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize >> 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
+		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {// && Game.mainCamera.orthographicSize < 64) {
+			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
+			//Debug.Log(Game.mainCamera.orthographicSize);
+		}
+
+
         
         /*if (currentShip) {
             Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
@@ -107,7 +129,18 @@ public class ShipInputManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         ship = Game.playerShip;
-        if (Game.inputBlocked) return;
+		
+		
+		Game.MoveCamera(Game.playerShip.form.transform.position);
+		Game.mainCamera.transform.rotation = Game.playerShip.form.transform.rotation;
+
+		if (Game.activeSector.IsOutsideBounds(Game.playerShip.form.transform.position)) {
+			leaveSectorMenu.SetActive(true);
+		} else {
+			leaveSectorMenu.SetActive(false);
+		}
+		
+		if (Game.inputBlocked) return;
         HandleShipInput();
     }
 }

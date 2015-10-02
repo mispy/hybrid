@@ -48,11 +48,12 @@ public static class ShipManager {
         ShipManager.all.Add(ship);
     }
 
-    public static Ship Create(Faction faction = null, Sector sector = null) {
+    public static Ship Create(string template = null, Faction faction = null, Sector sector = null) {
+		if (template == null) template = "New Frigate";
         if (faction == null) faction = Util.GetRandom(FactionManager.all);
         if (sector == null) sector = Util.GetRandom(SectorManager.all);
 
-        var ship = ShipManager.Unpack(ShipManager.templates["New Frigate"]);
+        var ship = ShipManager.Unpack(ShipManager.templates[template]);
         ship.faction = faction;
         //ship.name = ship.faction.name + " " + ship.name;
         var names = new string[] { "Fiora", "Anzie", "Abby", "Fiora", "Eldritch" };

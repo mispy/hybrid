@@ -21,7 +21,7 @@ public class Game : MonoBehaviour {
     public static Vector3 mousePos;
     public static ActiveSector activeSector;
     public static JumpMap jumpMap;
-    public static ShipInputManager shipControl;
+    public static ShipControl shipControl;
 
     public static bool isPaused {
         get { return Time.timeScale == 0.0f; }
@@ -109,16 +109,18 @@ public class Game : MonoBehaviour {
         FactionManager.Add(new Faction("Tictacs"));
 
         for (var i = 0; i < 100; i++) {
-            var sector = new Sector();
+            var nsec = new Sector();
             var x = Random.Range(-cosmicWidth/2, cosmicWidth/2);
             var y = Random.Range(-cosmicHeight/2, cosmicHeight/2);
-            sector.galaxyPos = new Vector2(x, y);
-            SectorManager.Add(sector);    
+            nsec.galaxyPos = new Vector2(x, y);
+            SectorManager.Add(nsec);    
         }
-        
-        for (var i = 0; i < 1; i++) {
-            var ship = ShipManager.Create();
-        }
+
+		var sector = SectorManager.all[0];
+		var ship = ShipManager.Create(template: "Station", sector: sector);
+		ship.sectorPos = new Vector2(0, 0);
+		ShipManager.Create(template: "New Frigate", sector: sector, faction: FactionManager.all[0]);
+		ShipManager.Create(template: "New Frigate", sector: sector, faction: FactionManager.all[1]);
     }
     
     public static void LoadSector(Sector sector) {
@@ -146,7 +148,7 @@ public class Game : MonoBehaviour {
         Game.galaxy = new Galaxy();
         Game.activeSector = GetComponentInChildren<ActiveSector>();
         Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
-        Game.shipControl = GetComponentInChildren<ShipInputManager>();
+        Game.shipControl = GetComponentInChildren<ShipControl>();
         Game.main = this;
 
         var resources = Resources.LoadAll("Prefabs");
@@ -165,8 +167,7 @@ public class Game : MonoBehaviour {
 
         MakeUniverse();
 
-        Game.playerShip = Util.GetRandom(ShipManager.all);
-        Game.LoadSector(Game.playerShip.sector);
+        Game.LoadSector(SectorManager.all[0]);
         //Save.LoadGame();
 
 

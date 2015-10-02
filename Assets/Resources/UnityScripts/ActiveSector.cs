@@ -7,24 +7,12 @@ public class ActiveSector : MonoBehaviour {
 
     public List<Blockform> blockforms;
 
-    public GameObject leaveSectorMenu;
-
     public bool IsOutsideBounds(Vector3 pos) {
         return pos.magnitude > sector.radius;
     }
 
     void Update() {
-        if (IsOutsideBounds(Game.playerShip.form.transform.position)) {
-            leaveSectorMenu.SetActive(true);
-        } else {
-            leaveSectorMenu.SetActive(false);
-        }
-
         Game.galaxy.Simulate(Time.deltaTime);
-
-        
-        Game.MoveCamera(Game.playerShip.form.transform.position);
-        Game.mainCamera.transform.rotation = Game.playerShip.form.transform.rotation;
     }
 
     public void RealizeShip(Ship ship, Vector2 pos) {

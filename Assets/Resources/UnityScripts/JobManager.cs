@@ -111,7 +111,7 @@ public class BuildJobManager {
 
     void OnBlueprintAdded(Block block) {
 		var blue = (BlueprintBlock)block;
-		if (!BlueprintBlock.Matches(blue, ship.blocks[blue.pos, blue.layer]))
+		if (block != null && block.ship.blocks[block.pos, block.layer] == null)
 	        jobs.Add(new BuildJob(block));
     }
 
