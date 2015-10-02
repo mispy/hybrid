@@ -7,12 +7,14 @@ using System.Linq;
 public class SpacePather {
 	public Blockform pathForm;
 	public Rect colRect;
+	public Transform transform;
 
 	public List<Vector2> lastPath;
 
 	public bool IsPassable(Vector2 pos) {
 		var corners = Util.RectCorners(colRect).ToList();
 		foreach (var form in Game.activeSector.blockforms) {
+			if (form == pathForm) continue;
 			foreach (var corner in corners) {
 				if (form.pather.colRect.Contains(form.transform.InverseTransformPoint(pos+corner)))
 					return false;
@@ -23,13 +25,16 @@ public class SpacePather {
 	}
 
 	public Vector2[] Neighbors(Vector2 pos) {
-		var width = colRect.width;
-		var height = colRect.height;
+		var dist = Math.Max(colRect.width, colRect.height);
+		var left = (Vector2)transform.TransformVector(Vector2.left*dist);
+		var right = (Vector2)transform.TransformVector(Vector2.right*dist);
+		var down = (Vector2)transform.TransformVector(Vector2.down*dist);
+		var up = (Vector2)transform.TransformVector(Vector2.up*dist);
 		return new Vector2[] {
-			new Vector2(pos.x-width, pos.y),
-			new Vector2(pos.x+width, pos.y),
-			new Vector2(pos.x, pos.y-height),
-			new Vector2(pos.x, pos.y+height)
+			pos + left,
+			pos + right,
+			pos + down,
+			pos + up
 		};
 	}
 
@@ -65,7 +70,7 @@ public class SpacePather {
 			
 			// process each valid node around the current node
 			foreach (var neighbor in Neighbors(current)) {
-				if (Vector2.Distance(start, neighbor) > Game.activeSector.sector.radius || (neighbor != start && !IsPassable(neighbor))) {
+				if (Vector2.Distance(start, neighbor) > Game.activeSector.sector.radius*2 || (neighbor != start && !IsPassable(neighbor))) {
 					continue;
 				}
 				
@@ -127,5 +132,6 @@ public class SpacePather {
 		var width = (form.blocks.maxX - form.blocks.minX) * Tile.worldSize;
 		var height = (form.blocks.maxY - form.blocks.minY) * Tile.worldSize;
 		colRect = new Rect(-width/2, -height/2, width, height);
+		transform = form.transform;
 	}
 }
