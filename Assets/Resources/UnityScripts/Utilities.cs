@@ -96,7 +96,7 @@ public class DebugUtil {
 
 	public static void DrawPath(List<Vector2> points) {
 		for (var i = 1; i < points.Count; i++) {
-			Debug.DrawLine(points[i-1], points[i]);
+			Debug.DrawLine(points[i-1], points[i], Color.green);
 		}
 	}
 }

@@ -24,83 +24,63 @@ public class SpacePather : PoolBehaviour {
 		return true;
 	}
 
-	public Vector2[] Neighbors(Vector2 dir, Vector2 pos) {
+	public Vector2[] Neighbors(Vector2 pos) {
 		var dist = pathGridSize;
-		transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
 		var left = (Vector2)transform.TransformVector(Vector2.left*dist);
 		var right = (Vector2)transform.TransformVector(Vector2.right*dist);
 		var down = (Vector2)transform.TransformVector(Vector2.down*dist);
 		var up = (Vector2)transform.TransformVector(Vector2.up*dist);
 		return new Vector2[] {
+			pos + up,
 			pos + left,
 			pos + right,
-			pos + down,
-			pos + up
+			pos + down
 		};
 	}
 
 	public List<Vector2> PathBetween(Vector2 start, Vector2 end) {
 		if (!IsPassable(end)) return null;
 
-		Debug.DrawLine(start, end);
-
 		var dir = (end-start).normalized;
+		transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
 
-		var closedSet = new HashSet<Vector2>();
-		var openSet = new HashSet<Vector2> { start };
+		var seen = new HashSet<Vector2>();
+		var heads = new HashSet<Vector2> { start };
 		var cameFrom = new Dictionary<Vector2, Vector2>();
-		var currentDistance = new Dictionary<Vector2, float>();
-		var predictedDistance = new Dictionary<Vector2, float>();
-		
-		// initialize the start node as having a distance of 0, and an estmated distance 
-		// of a straight line
-		currentDistance.Add(start, 0);
-		predictedDistance.Add(start, Vector2.Distance(start, end));
+				
+		while (heads.Count > 0) {
+			var head = heads.First();
+			heads.Remove(head);
+			seen.Add(head);
 
-		// if there are any unanalyzed nodes, process them
-		while (openSet.Count > 0) {
-			if (openSet.Count > 100) {
+			// process each valid node around the current node
+			foreach (var neighbor in Neighbors(head).OrderBy((n) => Vector2.Distance(n, end))) {
+				if (seen.Contains(neighbor))
+					continue;
+
+				if (neighbor != start && !IsPassable(neighbor)) {
+					seen.Add(neighbor);
+					continue;
+				}
+
+				if (Vector2.Distance(neighbor, end) <= pathGridSize) {
+					cameFrom[neighbor] = head;
+					cameFrom[end] = neighbor;
+					lastPath = ReconstructPath(cameFrom, end);
+					return lastPath;
+				}
+
+
+				Debug.DrawLine(head, neighbor, Color.Lerp(Color.white, Color.cyan, heads.Count/100f));
+
+				cameFrom[neighbor] = head;
+				heads.Add(neighbor);
+			}
+
+			if (heads.Count > 1000) {
 				Debug.LogWarning("Pathfinding node count exceeded, aborting");
 				return null;
-			}
-			var current = openSet.OrderBy((n) => predictedDistance[n]).First();
-			
-			// if it is the finish, return the path
-			if (Vector2.Distance(current, end) <= pathGridSize) {
-				// generate the found path
-				cameFrom[end] = current;
-				lastPath = ReconstructPath(cameFrom, end);
-				return lastPath;
-			}
-			
-			// move current node from open to closed
-			openSet.Remove(current);
-			closedSet.Add(current);
-			
-			// process each valid node around the current node
-			foreach (var neighbor in Neighbors(dir, current)) {
-				if (Vector2.Distance(start, neighbor) > Game.activeSector.sector.radius*2 || (neighbor != start && !IsPassable(neighbor))) {
-					continue;
-				}
-
-				Debug.DrawLine(current, neighbor);
-
-				var tempCurrentDistance = currentDistance[current] + pathGridSize;
-				
-				// if we already know a faster way to this neighbor, use that route and 
-				// ignore this one
-				if (closedSet.Contains(neighbor) && tempCurrentDistance >= currentDistance[neighbor]) {
-					continue;
-				}
-				
-				cameFrom[neighbor] = current;
-				
-				currentDistance[neighbor] = tempCurrentDistance;
-				predictedDistance[neighbor] =
-					currentDistance[neighbor] + Vector2.Distance(neighbor, end);
-
-				openSet.Add(neighbor);
-			}
+			}			
 		}
 		
 		// unable to figure out a path, abort.
@@ -128,7 +108,6 @@ public class SpacePather : PoolBehaviour {
 
 	void Update() {
 		DebugUtil.DrawRect(pathForm.transform, colRect);
-		if (lastPath != null) DebugUtil.DrawPath(lastPath);
 	}
 
 	void Awake() {

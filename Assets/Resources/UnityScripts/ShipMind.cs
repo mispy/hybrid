@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ShipTactic {
 	public ShipMind mind;
@@ -27,7 +28,7 @@ public class EngageTactic : ShipTactic {
 		var targetDir = targetVec.normalized;
 		var targetHits = Physics.SphereCastAll(form.transform.position, form.width, targetDir, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
 		foreach (var hit in targetHits) {
-			if (hit.rigidbody != form.rigidBody) {
+			if (hit.rigidbody == target.rigidBody) {
 				destination = hit.point;
 			}
 		}
@@ -38,17 +39,19 @@ public class EngageTactic : ShipTactic {
 		path = form.pather.PathBetween(form.transform.position, destination);
 	}
 	
-	public override void Update() {   
-		if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]) != null)
+	public override void Update() {  
+		if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]).Count() != 0)
 			path.RemoveAt(0);
 
 		if (path != null && path.Count == 0)
 			path = null;
 
-		if (path != null)
+		if (path != null) {
+			DebugUtil.DrawPath(path);
 			form.FollowPath(path);
-		else
-			RecalcEngagePath();
+		}
+
+		RecalcEngagePath();
 	}
 }
 
