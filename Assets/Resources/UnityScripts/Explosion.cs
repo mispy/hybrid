@@ -44,7 +44,7 @@ public class Explosion : PoolBehaviour
         }
 
         foreach (var block in toBreak) {
-            block.TakeDamage(10);
+            //block.TakeDamage(10);
             //rigidbodies.Add(ns.GetComponent<Rigidbody>());
         }
 

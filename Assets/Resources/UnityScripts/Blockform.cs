@@ -125,6 +125,17 @@ public class Blockform : PoolBehaviour {
         // break it off into a separate fragment
         //BreakBlock(block);
     }
+
+	public Orientation GetSideWithMostWeapons() {
+		var sideCount = new Dictionary<Orientation, int>();
+		sideCount[Orientation.up] = 0;
+		foreach (var launcher in GetBlockComponents<TorpedoLauncher>()) {
+			if (!sideCount.ContainsKey(launcher.block.orientation))
+				sideCount[launcher.block.orientation] = 0;
+			sideCount[launcher.block.orientation] += 1;
+		}
+		return sideCount.OrderBy((kv) => -kv.Value).First().Key;
+	}
     
     public GameObject BreakBlock(Block block) {
         blocks[block.pos, block.layer] = null;
@@ -284,28 +295,42 @@ public class Blockform : PoolBehaviour {
         }
     }
     
-    public void RotateTowards(Vector2 worldPos) {
+    public float RotateTowards(Vector2 worldPos, Orientation ori = Orientation.up) {
         var dir = (worldPos - (Vector2)transform.position).normalized;
-        float angle = Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg - 90;
+        float angle = Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg;
         var currentAngle = transform.localEulerAngles.z;
+
+		if (ori == Orientation.up) {
+			angle -= 90;
+		} else if (ori == Orientation.right) {
+		} else if (ori == Orientation.left) {
+			angle += 90;
+		} else if (ori == Orientation.down) {
+			angle += 180;
+		}
         
         if (Math.Abs(360+angle - currentAngle) < Math.Abs(angle - currentAngle)) {
             angle = 360+angle;
         }
         
-        if (angle > currentAngle + 10) {
+        if (angle > currentAngle + 15) {
             FireAttitudeThrusters(Orientation.right);
-        } else if (angle < currentAngle - 10) {
+        } else if (angle < currentAngle - 15) {
             FireAttitudeThrusters(Orientation.left);
         }
         
+		return angle-currentAngle;
     }
     
     public void MoveTowards(Vector3 worldPos) {
-        var dist = (worldPos - transform.position).magnitude;
-        if ((worldPos - (transform.position + transform.up)).magnitude < dist) {
-            FireThrusters(Orientation.down);
-        }
+		var angle = Vector3.Angle(transform.TransformDirection(Vector2.up), (worldPos-transform.position).normalized);
+		if (angle < 60) {
+			FireThrusters(Orientation.down);
+		}
+
+		if (angle > 180 - 60) {
+			FireThrusters(Orientation.up);
+		}
         /*var localDir = transform.InverseTransformDirection((worldPos - (Vector2)transform.position).normalized);
         var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
         FireThrusters((Orientation)(-(int)orient));*/
@@ -313,7 +338,16 @@ public class Blockform : PoolBehaviour {
 	
 	public void FollowPath(List<Vector2> path) {
 		RotateTowards(path[0]);
-		MoveTowards(path[0]);
+
+		Collider col = null;
+		foreach (var hit in Util.ShipCast(this, path[0])) {
+			col = hit.collider;
+		}
+
+		if (col == null)
+			MoveTowards(path[0]);
+		//else
+			//FireThrusters(Orientation.up);
 	}
     
     public IntVector2 WorldToBlockPos(Vector2 worldPos) {

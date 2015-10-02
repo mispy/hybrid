@@ -3,55 +3,62 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ShipTactic {
-	public ShipMind mind;
-	public virtual void Update() { }
-}
-
-public class EngageTactic : ShipTactic {
+public class EngageTactic : PoolBehaviour {
+	ShipMind mind;
+	Blockform target;
 	List<Vector2> path = new List<Vector2>();
 	Blockform form;
-	float maxFiringRange = 20f;
+	float maxFiringRange = 50f;
 
-	public EngageTactic(ShipMind mind) {
-		this.mind = mind;
+	void Awake() {
+		this.mind = GetComponent<ShipMind>();
 		this.form = mind.form;
 	}
 
 	void RecalcEngagePath() {
-		Blockform target = mind.nearestEnemy;
 		if (target == null) return; 
 
-		// Find the nearest part of the enemy ship to us
 		var destination = target.transform.position;
-		var targetVec = destination - form.transform.position;
-		var targetDir = targetVec.normalized;
-		var targetHits = Physics.SphereCastAll(form.transform.position, form.width, targetDir, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
-		foreach (var hit in targetHits) {
-			if (hit.rigidbody == target.rigidBody) {
-				destination = hit.point;
+		var dir = destination - form.transform.position;
+		var offset = form.height + maxFiringRange;
+
+		//form.pather.transform.rotation = Quaternion.LookRotation(Vector3.forward, -dir);
+		foreach (var cardinal in form.pather.Cardinals().Reverse()) {
+			var candidate = (Vector2)destination + cardinal*offset + (Vector2)target.rigidBody.velocity;
+
+			if (form.pather.IsPassable(candidate)) {
+				destination = candidate;
+				break;
 			}
 		}
 
-		// We want to leave some distance between us and the enemy
-		destination = destination - (targetDir * (form.height + maxFiringRange));
+		path = form.pather.PathBetween(form.transform.position + form.transform.TransformVector(new Vector2(0, form.blocks.maxY)), destination);
+	}
 
-		path = form.pather.PathBetween(form.transform.position, destination);
+	void Start() {
+		InvokeRepeating("RecalcEngagePath", 0f, 0.5f);
 	}
 	
-	public override void Update() {  
+	void Update() {		
+		target = mind.nearestEnemy;
+
+		if (target != null && Vector2.Distance(target.transform.position, form.transform.position) <= maxFiringRange - 10) {
+			var diff = form.RotateTowards(target.transform.position, form.GetSideWithMostWeapons());
+			if (diff < 5)
+				form.FireThrusters(Orientation.down);
+			return;
+		}
+
 		if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]).Count() != 0)
 			path.RemoveAt(0);
-
+		
 		if (path != null && path.Count == 0)
 			path = null;
-
+		
 		if (path != null) {
 			DebugUtil.DrawPath(path);
 			form.FollowPath(path);
 		}
-
-		RecalcEngagePath();
 	}
 }
 
@@ -59,13 +66,13 @@ public class ShipMind : PoolBehaviour {
     public Ship ship;
     public Blockform form;
     public Blockform nearestEnemy;
-	public ShipTactic tactic;
+	public PoolBehaviour tactic;
 
     // Use this for initialization
     void Start () {
         form = GetComponent<Blockform>();
         ship = GetComponent<Blockform>().ship;
-		tactic = new EngageTactic(this);
+		tactic = gameObject.AddComponent<EngageTactic>();
     }
 
     bool IsEnemy(Ship otherShip) {
@@ -114,7 +121,5 @@ public class ShipMind : PoolBehaviour {
 
         UpdateTractors();
         UpdateWeapons();
-
-		tactic.Update();
    } 
 }

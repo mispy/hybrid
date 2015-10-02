@@ -24,44 +24,46 @@ public class SpacePather : PoolBehaviour {
 		return true;
 	}
 
+	public Vector2[] Cardinals() {
+		var up = (Vector2)transform.TransformVector(Vector2.down);
+		var left = (Vector2)transform.TransformVector(Vector2.left);
+		var right = (Vector2)transform.TransformVector(Vector2.right);
+		var down = (Vector2)transform.TransformVector(Vector2.up);
+		return new Vector2[] { up, left, right, down };
+	}
+
 	public Vector2[] Neighbors(Vector2 pos) {
-		var dist = pathGridSize;
-		var left = (Vector2)transform.TransformVector(Vector2.left*dist);
-		var right = (Vector2)transform.TransformVector(Vector2.right*dist);
-		var down = (Vector2)transform.TransformVector(Vector2.down*dist);
-		var up = (Vector2)transform.TransformVector(Vector2.up*dist);
-		return new Vector2[] {
-			pos + up,
-			pos + left,
-			pos + right,
-			pos + down
-		};
+		return Cardinals().Select((c) => pos + c*pathGridSize).ToArray();
 	}
 
 	public List<Vector2> PathBetween(Vector2 start, Vector2 end) {
 		if (!IsPassable(end)) return null;
 
 		var dir = (end-start).normalized;
-		transform.rotation = Quaternion.LookRotation(Vector3.forward, dir);
+
+		var heads = new Stack<Vector2>();
+		heads.Push(start);
 
 		var seen = new HashSet<Vector2>();
-		var heads = new HashSet<Vector2> { start };
 		var cameFrom = new Dictionary<Vector2, Vector2>();
-				
+		var currentDistance = new Dictionary<Vector2, float>();
+
+		currentDistance.Add(start, 0f);
+
 		while (heads.Count > 0) {
-			var head = heads.First();
-			heads.Remove(head);
+			var head = heads.Pop();
 			seen.Add(head);
 
 			// process each valid node around the current node
-			foreach (var neighbor in Neighbors(head).OrderBy((n) => Vector2.Distance(n, end))) {
-				if (seen.Contains(neighbor))
-					continue;
-
+			foreach (var neighbor in Neighbors(head).OrderBy((n) => -Vector2.Distance(n, end))) {
 				if (neighbor != start && !IsPassable(neighbor)) {
-					seen.Add(neighbor);
 					continue;
 				}
+				
+				var tempCurrentDistance = currentDistance[head] + pathGridSize;
+
+				if (seen.Contains(neighbor) && tempCurrentDistance >= currentDistance[head])
+					continue;
 
 				if (Vector2.Distance(neighbor, end) <= pathGridSize) {
 					cameFrom[neighbor] = head;
@@ -73,8 +75,10 @@ public class SpacePather : PoolBehaviour {
 
 				Debug.DrawLine(head, neighbor, Color.Lerp(Color.white, Color.cyan, heads.Count/100f));
 
-				cameFrom[neighbor] = head;
-				heads.Add(neighbor);
+				currentDistance[neighbor] = tempCurrentDistance;
+				if (head != start)
+					cameFrom[neighbor] = head;
+				heads.Push(neighbor);
 			}
 
 			if (heads.Count > 1000) {

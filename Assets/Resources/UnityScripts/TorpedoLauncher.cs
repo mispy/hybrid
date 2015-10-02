@@ -85,10 +85,12 @@ public class TorpedoLauncher : BlockType {
         }
     }
 
-    public void AimTowards(Vector3 targetPos) {
+    public Vector3 AimTowards(Vector3 targetPos) {
+		targetPos = transform.position + (targetPos - form.transform.TransformPoint(centerPoint));
         var targetDir = (targetPos-transform.position).normalized;
         var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
         transform.rotation = targetRotation;
+		return targetPos;
     }
 
     public void Update() {
@@ -97,8 +99,7 @@ public class TorpedoLauncher : BlockType {
             return;
         }
 
-        var targetPos = transform.position + (Game.mousePos - form.transform.TransformPoint(centerPoint));
-        AimTowards(targetPos);
+        var targetPos = AimTowards(Game.mousePos);
         
         var isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.3f);
         if (!isBlocked) {

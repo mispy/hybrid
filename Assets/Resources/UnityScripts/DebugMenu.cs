@@ -54,7 +54,7 @@ public class DebugMenu : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Alpha4)) {
             if (Blockform.AtWorldPos(pz) == null) {
-                var ship = ShipManager.Create(sector: Game.playerShip.sector);
+                var ship = ShipManager.Create(sector: Game.playerShip.sector, faction: FactionManager.all[2]);
             }
         }
 

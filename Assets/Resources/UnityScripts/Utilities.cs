@@ -115,6 +115,18 @@ public class Util {
         return Physics.SphereCastAll(ps.transform.position, radius, ps.transform.up, length);
     }
 
+	public static IEnumerable<RaycastHit> ShipCast(Blockform form, Vector3 dest) {
+		var head = form.transform.position + form.transform.TransformVector(new Vector2(0, form.blocks.maxX*Tile.worldSize));
+		var targetVec = (dest - head);
+		var hits = Physics.SphereCastAll(head, form.width, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+		foreach (var hit in hits) {
+			if (hit.rigidbody != form.rigidBody) {
+				yield return hit;
+			}
+		}
+	}
+
+
     public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos) {        
         foreach (var block in form.BlocksAtWorldPos(targetPos))
             return true;
