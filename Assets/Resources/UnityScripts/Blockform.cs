@@ -335,16 +335,35 @@ public class Blockform : PoolBehaviour {
         var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
         FireThrusters((Orientation)(-(int)orient));*/
     }
+
+	public void AvoidCollision() {
+		var seen = new HashSet<Rigidbody>();
+
+		foreach (var ori in (Orientation[])Enum.GetValues(typeof(Orientation))) {
+			var cardinal = transform.TransformDirection(Util.orientToCardinal[ori]);
+			var cols = Util.ShipCast(this, transform.position + cardinal*width, transform.position + cardinal*width + cardinal*Tile.worldSize);
+
+			foreach (var col in cols) {
+				if (seen.Contains(col.rigidbody)) continue;
+				seen.Add(col.rigidbody);
+
+				var local = transform.InverseTransformPoint(col.point);
+				if (local.x > 0)
+					FireThrusters(Orientation.right);
+				if (local.x < 0)
+					FireThrusters(Orientation.left);
+				if (local.y > 0)
+					FireThrusters(Orientation.up);
+				if (local.y < 0)
+					FireThrusters(Orientation.down);
+			}
+		}
+	}
 	
 	public void FollowPath(List<Vector2> path) {
-		RotateTowards(path[0]);
-
-		Collider col = null;
-		foreach (var hit in Util.ShipCast(this, path[0])) {
-			col = hit.collider;
-		}
-
-		MoveTowards(path[0]);
+		var target = path[0];
+        RotateTowards(target);
+		MoveTowards(target);
 		//else
 			//FireThrusters(Orientation.up);
 	}
@@ -448,6 +467,10 @@ public class Blockform : PoolBehaviour {
             tractorBeam.Stop();
         }
     }
+
+	void Update() {
+		AvoidCollision();
+	}
 
     void FixedUpdate() {
         if (transform.position.magnitude > Game.activeSector.sector.radius) {

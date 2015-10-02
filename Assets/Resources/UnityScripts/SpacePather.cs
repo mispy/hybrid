@@ -36,18 +36,17 @@ public class SpacePather : PoolBehaviour {
 		return Cardinals().Select((c) => pos + c*pathGridSize).ToArray();
 	}
 
-	public List<Vector2> PathBetween(Vector2 start, Vector2 end) {
+	public List<Vector2> PathBetween(Vector2 start, Vector2 end, List<Vector2> currentPath = null) {
 		if (!IsPassable(end)) return null;
 
 		var dir = (end-start).normalized;
-
-		var heads = new Stack<Vector2>();
-		heads.Push(start);
 
 		var seen = new HashSet<Vector2>();
 		var cameFrom = new Dictionary<Vector2, Vector2>();
 		var currentDistance = new Dictionary<Vector2, float>();
 
+		var heads = new Stack<Vector2>();
+		heads.Push(start);
 		currentDistance.Add(start, 0f);
 
 		while (heads.Count > 0) {
@@ -55,8 +54,8 @@ public class SpacePather : PoolBehaviour {
 			seen.Add(head);
 
 			// process each valid node around the current node
-			foreach (var neighbor in Neighbors(head).OrderBy((n) => -Vector2.Distance(n, end))) {
-				if (neighbor != start && !IsPassable(neighbor)) {
+			foreach (var neighbor in Neighbors(head).OrderBy((n) => -Vector2.Distance(n, end) - Vector2.Distance(n, start)/seen.Count)) {
+				if (!IsPassable(neighbor)) {//if (Util.ShipCast(pathForm, head, neighbor).Any()) {
 					continue;
 				}
 				
@@ -109,21 +108,19 @@ public class SpacePather : PoolBehaviour {
 		}
 
 		invPath.Reverse();
-		return SmoothPath(invPath);
-	}
+		var path = new List<Vector2>();
 
-	public List<Vector2> SmoothPath(List<Vector2> path) {
-		var smoothed = new List<Vector2>();
-		smoothed.Add(path[0]);
-		for (var i = 1; i < path.Count-1; i++) {
-			if (Util.ShipCast(pathForm, smoothed.Last(), path[i+1]).Count() > 0) {
-				smoothed.Add(path[i]);
-			}
+		for (var i = 0; i < invPath.Count-1; i++) {
+			if (!Util.ShipCast(pathForm, invPath[i]).Any())
+				continue;
+
+			path.Add(invPath[i]);
 		}
-		smoothed.Add(path.Last());
-		return smoothed;
-	}
 
+		path.Add(invPath.Last());
+
+		return path;
+	}
 
 	void Update() {
 		DebugUtil.DrawRect(pathForm.transform, colRect);

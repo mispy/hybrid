@@ -8,7 +8,7 @@ public class EngageTactic : PoolBehaviour {
 	Blockform target;
 	List<Vector2> path = new List<Vector2>();
 	Blockform form;
-	float maxFiringRange = 150f;
+	float maxFiringRange = 100f;
 
 	void Awake() {
 		this.mind = GetComponent<ShipMind>();
@@ -31,8 +31,8 @@ public class EngageTactic : PoolBehaviour {
 				break;
 			}
 		}
-		//+ form.transform.TransformDirection(Vector2.up)*form.blocks.maxY
-		path = form.pather.PathBetween(form.transform.position, destination);
+
+		path = form.pather.PathBetween(form.transform.position + form.transform.TransformDirection(Vector2.up)*form.blocks.maxY, destination, currentPath: path);
 	}
 
 	void Start() {
@@ -95,7 +95,7 @@ public class ShipMind : PoolBehaviour {
         foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
             launcher.AimTowards(nearestEnemy.transform.position);
 
-            var hit = launcher.GetProbableHit(150f);
+            var hit = launcher.GetProbableHit(100f);
             if (hit == null) continue;
 
             var otherShip = hit.gameObject.GetComponentInParent<Blockform>();
