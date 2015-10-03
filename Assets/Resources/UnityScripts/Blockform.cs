@@ -341,7 +341,7 @@ public class Blockform : PoolBehaviour {
 
 		foreach (var ori in (Orientation[])Enum.GetValues(typeof(Orientation))) {
 			var cardinal = transform.TransformDirection(Util.orientToCardinal[ori]);
-			var cols = Util.ShipCast(this, transform.position + cardinal*width, transform.position + cardinal*width + cardinal*Tile.worldSize);
+			var cols = Util.ShipCast(this, transform.position + cardinal*height, transform.position + cardinal*height + cardinal*Tile.worldSize);
 
 			foreach (var col in cols) {
 				if (seen.Contains(col.rigidbody)) continue;
