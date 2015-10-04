@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d8529ac8f04144bbec72863481cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isComplexBlock: 0
+  isComplexBlock: 1
   mass: 0
   scrapRequired: 30
   descriptionHeader: 
@@ -50,7 +50,6 @@ MonoBehaviour:
   canFitInsideWall: 0
   canBeFired: 1
   ps: {fileID: 0}
-  ship: {fileID: 0}
 --- !u!212 &21261630
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -95,7 +94,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: isComplexBlock
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.x

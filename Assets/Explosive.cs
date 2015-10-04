@@ -2,11 +2,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class Torpedo : MonoBehaviour
+public class Explosive : MonoBehaviour
 {
     public float explosionForce;
     public float explosionRadius;
-    public float detonationImpactVelocity = 10;
 
     private IEnumerator OnCollisionEnter(Collision col)
     {

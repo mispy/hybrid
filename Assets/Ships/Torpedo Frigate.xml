@@ -345,6 +345,36 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
+      <x>-6</x>
+      <y>1</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>2</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>3</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>4</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>5</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
       <x>-5</x>
       <y>0</y>
       <typeName>Wall</typeName>
@@ -2031,6 +2061,36 @@
       <y>0</y>
       <typeName>Thruster</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>1</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>2</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>3</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>4</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>5</y>
+      <typeName>PlasmaTurret</typeName>
+      <orientation>2</orientation>
     </BlockData>
     <BlockData>
       <x>-5</x>

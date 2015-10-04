@@ -107,6 +107,12 @@ public class BlockMap {
         return baseBlock;
     }
 
+	public IEnumerable<Block> Find(BlockType blockType) {
+		foreach (var block in blockTypeCache[blockType.GetType()]) {
+			yield return block;
+		}
+	}
+
     public IEnumerable<Block> Find<T>() {
         foreach (var block in blockTypeCache[typeof(T)]) {
             yield return block;

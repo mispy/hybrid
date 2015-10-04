@@ -92,8 +92,8 @@ public class ShipMind : PoolBehaviour {
     void UpdateWeapons() {
         if (nearestEnemy == null) return;
 
-        foreach (var launcher in form.GetBlockComponents<TorpedoLauncher>()) {
-            launcher.AimTowards(nearestEnemy.transform.position);
+        foreach (var launcher in form.GetBlockComponents<ProjectileLauncher>()) {
+            launcher.turret.AimTowards(nearestEnemy.transform.position);
 
             var hit = launcher.GetProbableHit(100f);
             if (hit == null) continue;

@@ -81,7 +81,7 @@ MonoBehaviour:
   canFitInsideWall: 0
   canBeFired: 1
   beam: {fileID: 0}
-  ship: {fileID: 0}
+  form: {fileID: 0}
   captured: []
   isActive: 0
   targetPos: {x: 0, y: 0}

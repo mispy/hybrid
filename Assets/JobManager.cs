@@ -44,7 +44,6 @@ public class BuildJob : Job {
         var neighbors = IntVector2.NeighborsWithDiagonal(targetBlue.pos).OrderBy((n) => IntVector2.Distance(crew.body.currentBlockPos, n));
         foreach (var neighbor in neighbors) {
             if (crew.mind.CanReach(neighbor)) {
-				Debug.Log(targetBlue.ship.blocks[neighbor, targetBlue.layer]);
 				crew.mind.SetMoveDestination(neighbor);
                 crew.job = this;
 				Debug.LogFormat("Build job assigned to {0}", crew);

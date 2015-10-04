@@ -6,6 +6,7 @@ using System.Linq;
 
 public class ShipControl : MonoBehaviour {
 	public static GameObject leaveSectorMenu;
+	public static WeaponSelect weaponSelect;
 
     Ship ship;
     GameObject selector;
@@ -26,7 +27,16 @@ public class ShipControl : MonoBehaviour {
         selectedCrew = crew;
      }
 
+	void FireWeapon(BlockType type) {
+		foreach (var block in ship.blocks.Find(type)) {
+			block.gameObject.GetComponent<ProjectileLauncher>().Fire();
+		}
+	}
+
     void HandleLeftClick() {
+		if (weaponSelect.selectedType != null)
+			FireWeapon(weaponSelect.selectedType);
+
         var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
         foreach (var crew in ship.crew) {
             if (crew.body.currentBlockPos == blockPos) {
@@ -64,7 +74,7 @@ public class ShipControl : MonoBehaviour {
             ship.form.FireAttitudeThrusters(Orientation.left);
         }
 
-        if (Input.GetMouseButtonDown(0)) {
+        if (Input.GetMouseButton(0)) {
             HandleLeftClick();
         }
 
@@ -128,6 +138,7 @@ public class ShipControl : MonoBehaviour {
 
 	void Start() {
 		ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
+		ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
 	}
 
     // Update is called once per frame

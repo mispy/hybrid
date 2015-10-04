@@ -54,7 +54,8 @@ public class Block {
         "TractorBeam",
         "InertiaStabilizer",
         "PowerNode",
-        "TorpedoLauncher"
+        "TorpedoLauncher",
+		"PlasmaTurret"
     };
     
     public static void Setup() {
