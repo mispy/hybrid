@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7912ec17915a448fe1852f8dc2407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenShots: .100000001
-  lastFireTime: 0
-  launchForce: .5
+  timeBetweenShots: .5
+  launchForce: .300000012
   projectile: {fileID: 127086, guid: 729117fbfa2d0c641aea774e33349c4d, type: 2}
+  lastFireTime: 0
 --- !u!114 &11412334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -68,8 +68,6 @@ MonoBehaviour:
   canRotate: 1
   canFitInsideWall: 0
   canBeFired: 1
-  timeBetweenShots: .100000001
-  lastFireTime: 0
 --- !u!114 &11455138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -277,7 +275,7 @@ Prefab:
       objectReference: {fileID: 2100000, guid: 16e0bbaee94c67946af63b2fd31adbac, type: 2}
     - target: {fileID: 0}
       propertyPath: timeBetweenShots
-      value: .100000001
+      value: .5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Enabled
@@ -287,6 +285,10 @@ Prefab:
       propertyPath: projectile
       value: 
       objectReference: {fileID: 127086, guid: 729117fbfa2d0c641aea774e33349c4d, type: 2}
+    - target: {fileID: 0}
+      propertyPath: launchForce
+      value: .300000012
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147808}

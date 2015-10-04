@@ -12,6 +12,7 @@ GameObject:
   - 65: {fileID: 6521508}
   - 54: {fileID: 5450078}
   - 114: {fileID: 11485944}
+  - 114: {fileID: 11472060}
   m_Layer: 14
   m_Name: Torpedo
   m_TagString: Untagged
@@ -58,6 +59,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .0386595763, y: .167918801, z: .200000003}
   m_Center: {x: .000883996487, y: .00792002864, z: 0}
+--- !u!114 &11472060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88b21da17ee431c478217e424d632405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  duration: 10
 --- !u!114 &11485944
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -72,6 +85,7 @@ MonoBehaviour:
   explosionForce: .00100000005
   explosionRadius: 2
   explosionPrefab: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
+  explosion: {fileID: 0}
 --- !u!212 &21257190
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -133,6 +147,10 @@ Prefab:
       propertyPath: explosionPrefab
       value: 
       objectReference: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
+    - target: {fileID: 0}
+      propertyPath: duration
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127086}

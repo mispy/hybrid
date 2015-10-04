@@ -32,6 +32,26 @@ public static class BlockPather {
 		return seenBlocks;
 	}
 
+	public static IEnumerable<IntVector2> Floodwalk(BlockMap blocks, IntVector2 start) {
+		var heads = new List<IntVector2>() { start };
+		var seen = new HashSet<IntVector2>();
+		
+		while (heads.Count > 0) {
+			var head = heads[0];
+			heads.RemoveAt(0);
+			
+			foreach (var neighbor in IntVector2.Neighbors(head)) {
+				if (seen.Contains(neighbor) || !blocks.IsPassable(neighbor))
+					continue;
+
+				yield return neighbor;
+
+				seen.Add(neighbor);
+				heads.Add(neighbor);
+			}
+		}
+	}
+
 	public static bool PathExists(BlockMap blocks, IntVector2 start, IntVector2 end) {
 		if (!blocks.IsPassable(end))
 			return false;
