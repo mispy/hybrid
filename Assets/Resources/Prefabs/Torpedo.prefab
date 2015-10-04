@@ -71,6 +71,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionForce: .00100000005
   explosionRadius: 2
+  explosionPrefab: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
 --- !u!212 &21257190
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -128,6 +129,10 @@ Prefab:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127086}

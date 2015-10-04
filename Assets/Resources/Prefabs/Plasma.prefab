@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &420626
 Transform:
   m_ObjectHideFlags: 1
@@ -71,6 +71,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionForce: .00100000005
   explosionRadius: 2
+  explosionDuration: 1
+  explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
+  explosion: {fileID: 0}
 --- !u!212 &21287582
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -120,6 +123,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: explosionPrefab
+      value: 
+      objectReference: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
+    - target: {fileID: 0}
+      propertyPath: explosionDuration
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
