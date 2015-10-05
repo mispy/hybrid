@@ -53,6 +53,12 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
+	public bool hasActiveShields {
+		get {
+			return shields != null && shields.isActive;
+		}
+	}
+
 	public Bounds bounds;
 
     public IEnumerable<T> GetBlockComponents<T>() {

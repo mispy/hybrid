@@ -32,7 +32,7 @@ public class EngageTactic : PoolBehaviour {
 			}
 		}
 
-		path = form.pather.PathBetween(form.transform.position + form.transform.TransformDirection(Vector2.up)*form.blocks.maxY, destination, currentPath: path);
+		path = form.pather.PathFromNose(destination);
 	}
 
 	void Start() {
@@ -47,8 +47,8 @@ public class EngageTactic : PoolBehaviour {
 			return;
 		}
 
-		if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]).Count() != 0)
-			path.RemoveAt(0);
+		//if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]).Count() != 0)
+		//	path.RemoveAt(0);
 		
 		if (path != null && path.Count == 0)
 			path = null;
@@ -57,6 +57,30 @@ public class EngageTactic : PoolBehaviour {
 			DebugUtil.DrawPath(path);
 			form.FollowPath(path);
 		}
+	}
+}
+
+public class FleeingTactic : PoolBehaviour {
+	Blockform form;
+	List<Vector2> path;
+
+	void Awake() {
+		var mind = GetComponent<ShipMind>();
+		form = mind.form;
+	}
+
+	void Start() {
+		InvokeRepeating("UpdatePath", 0f, 0.5f);
+	}
+
+	void UpdatePath() {
+		var nearestEdge = transform.position.normalized * Game.activeSector.sector.radius;
+		path = form.pather.PathFromNose(nearestEdge);
+	}
+
+	void Update() {
+		if (path != null)
+			form.FollowPath(path);
 	}
 }
 
@@ -106,6 +130,20 @@ public class ShipMind : PoolBehaviour {
         }
     }
 
+	void SetTactic<T>() where T : PoolBehaviour {
+		if (tactic is T) return;
+		if (tactic != null) Destroy(tactic);
+		tactic = gameObject.AddComponent<T>();
+	}
+
+	void UpdateTactic() {
+		if (!form.hasActiveShields) {
+			SetTactic<FleeingTactic>();
+		} else {
+			SetTactic<EngageTactic>();
+		}
+	}
+
     // Update is called once per frame
     void Update () {
         if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
@@ -119,5 +157,6 @@ public class ShipMind : PoolBehaviour {
 
         UpdateTractors();
         UpdateWeapons();
+		UpdateTactic();
    } 
 }

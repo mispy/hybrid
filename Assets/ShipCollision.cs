@@ -66,7 +66,7 @@ public class ShipCollision : PoolBehaviour {
         }
 
         if (hasCollider && (!isEdge || colliders[pos].gameObject.layer != collisionLayer)) {
-            colliders[pos].gameObject.SetActive(false);
+            Pool.Recycle(colliders[pos].gameObject);
             colliders.Remove(pos);
             hasCollider = false;
         }
