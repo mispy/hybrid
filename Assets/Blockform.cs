@@ -101,6 +101,12 @@ public class Blockform : PoolBehaviour {
 		pather = obj.AddComponent<SpacePather>();
 		obj.SetActive(true);
 
+		var fog = Pool.For("InteriorFog").TakeObject();
+		fog.transform.SetParent(transform);
+		fog.transform.position = transform.position + Vector3.back;
+		fog.name = "InteriorFog";
+		fog.SetActive(true);
+
         foreach (var block in ship.blocks.AllBlocks) {
             OnBlockAdded(block);
         }

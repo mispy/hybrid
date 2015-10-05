@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: ShipColor
-  m_Shader: {fileID: 4800000, guid: 7c3604f6f2509564b9d6ca3fcf1143f6, type: 3}
+  m_Name: TileChunk
+  m_Shader: {fileID: 4800000, guid: e9092c71dbaa1804ca4809064c0c4f13, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -93,6 +93,10 @@ Material:
         second: .5
       data:
         first:
+          name: PixelSnap
+        second: 0
+      data:
+        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -129,8 +133,8 @@ Material:
         second: 0
       data:
         first:
-          name: _Threshold
-        second: .100000001
+          name: _InvFade
+        second: 1
     m_Colors:
       data:
         first:
@@ -140,6 +144,10 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _TintColor
+        second: {r: .5, g: .5, b: .5, a: .5}
       data:
         first:
           name: _SourceColor
