@@ -50,7 +50,7 @@ public class ProjectileLauncher : BlockComponent {
 		// We want to stop the projectile colliding with the launcher block itself
 		// and also the shields of the ship
 		Physics.IgnoreCollision(collider, mcol);
-		if (form.shields) {
+		if (form.shields && form.shields.isActive) {
 			Physics.IgnoreCollision(form.shields.GetComponent<Collider>(), mcol, true);
 			Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
 		}

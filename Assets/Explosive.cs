@@ -51,6 +51,11 @@ public class Explosive : MonoBehaviour
 		var rigidbodies = new List<Rigidbody>();
 		foreach (var col in cols)
 		{
+			var shields = col.gameObject.GetComponent<Shields>();
+			if (shields != null) {
+				shields.TakeDamage(1f);
+			}
+
 			if (col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
 			{
 				rigidbodies.Add(col.attachedRigidbody);
@@ -62,7 +67,7 @@ public class Explosive : MonoBehaviour
 		foreach (var rb in rigidbodies) {
 			var form = rb.GetComponent<Blockform>();        
 			if (form == null) continue;
-			
+
 			foreach (var block in form.blocks.AllBlocks) {
 				var dist = ((Vector3)form.BlockToWorldPos(block.pos) - transform.position).magnitude;
 				if (dist < radius) {

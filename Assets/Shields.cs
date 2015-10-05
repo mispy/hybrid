@@ -6,9 +6,18 @@ public class Shields : PoolBehaviour {
 	public Ellipse ellipse;
 	public ShieldCollider shieldCollider;
 
-	public float maxHealth = 10f;
-	public float health = 10f;
-	public float regenRate = 1f;
+	public float maxHealth = 10000f;
+	public float health = 10000f;
+	public float regenRate = 10f;
+	public bool isActive = true;
+	
+	public void TakeDamage(float amount) {
+		health = Mathf.Max(0, health - amount);
+		
+		if (health < 5f) {
+			isActive = false;
+		}
+	}
 
 	void Awake() {
 		form = GetComponentInParent<Blockform>();
@@ -17,6 +26,15 @@ public class Shields : PoolBehaviour {
 	}
 
 	void Update() {
+		health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);
+
+		if (health >= maxHealth/4) {
+			isActive = true;
+		}
+
+		if (!isActive)
+			return;
+
 		transform.localPosition = form.bounds.center;
 		
 		var lineWidth = 1;

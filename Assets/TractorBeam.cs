@@ -39,8 +39,8 @@ public class TractorBeam : BlockType {
 
         beam.Clear();
         beam.enableEmission = false;
-        if (form.shields != null) {
-            var shieldCol = form.shields.GetComponent<SphereCollider>();
+        if (form.shields != null && form.shields.isActive) {
+            var shieldCol = form.shields.shieldCollider.meshCollider;
             foreach (var col in captured) {
                 if (col == null || !col.enabled) continue;
                 Physics.IgnoreCollision(col, shieldCol, false);

@@ -3,7 +3,6 @@ using System.Collections;
 
 
 [RequireComponent(typeof(Shields))]
-[RequireComponent(typeof(MeshCollider))]
 [RequireComponent(typeof(MeshFilter))]
 public class ShieldCollider : PoolBehaviour {
 	public Mesh mesh;
@@ -13,10 +12,25 @@ public class ShieldCollider : PoolBehaviour {
 	void Awake() {
 		shields = GetComponent<Shields>();
 		mesh = GetComponent<MeshFilter>().mesh;
-		meshCollider = GetComponent<MeshCollider>();
+	}
+
+	void Update() {
+		if (shields.isActive && meshCollider == null) {
+			meshCollider = gameObject.AddComponent<MeshCollider>();
+			meshCollider.convex = true;
+			if (shields.ellipse != null)
+				UpdateMesh(shields.ellipse);
+		}
+
+		if (!shields.isActive && meshCollider != null) {
+			Destroy(meshCollider);
+		}
 	}
 	
 	public void UpdateMesh(Ellipse ellipse) {		
+		if (meshCollider == null)
+			return;
+
 		var triangles = new int[ellipse.positions.Length*3*2];
 		var vertices = new Vector3[ellipse.positions.Length*2];
 		for (var i = 0; i < ellipse.positions.Length; i += 2) {

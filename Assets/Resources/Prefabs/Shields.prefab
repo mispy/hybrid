@@ -9,8 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 402718}
   - 114: {fileID: 11403740}
+  - 114: {fileID: 11477400}
+  - 114: {fileID: 11473570}
   - 120: {fileID: 12014802}
-  - 64: {fileID: 6417604}
   - 33: {fileID: 3368772}
   m_Layer: 12
   m_Name: Shields
@@ -38,18 +39,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197374}
   m_Mesh: {fileID: 0}
---- !u!64 &6417604
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197374}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_Mesh: {fileID: 0}
 --- !u!114 &11403740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -61,11 +50,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8441bbf0f38f54b458e1df3e5bc21cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 0}
   form: {fileID: 0}
+  shieldCollider: {fileID: 0}
+  maxHealth: 1000
+  health: 1000
+  regenRate: 1
+  isActive: 1
+--- !u!114 &11473570
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a1db0261ab1834990b0b3f92a09f20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   mesh: {fileID: 0}
   meshCollider: {fileID: 0}
-  meshRenderer: {fileID: 0}
+  shields: {fileID: 0}
+--- !u!114 &11477400
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197374}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a90311549b903934ba823d62c63a1e94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shields: {fileID: 0}
+  lineRenderer: {fileID: 0}
+  maxLineWidth: 1
 --- !u!120 &12014802
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -125,6 +143,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_UseLightProbes
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: health
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: regenRate
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
