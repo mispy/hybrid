@@ -58,6 +58,7 @@ public class ShipControl : MonoBehaviour {
 
     void HandleShipInput() {                
         var rigid = ship.form.rigidBody;    
+
         
         if (Input.GetKey(KeyCode.W)) {
             ship.form.FireThrusters(Orientation.down);        
@@ -110,6 +111,13 @@ public class ShipControl : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.J)) {
             JumpMap.Activate();
         }
+
+		if (Input.GetKeyDown(KeyCode.Space)) {
+			if (Game.isPaused)
+				Game.Unpause();
+			else
+				Game.Pause();
+		}
 
 		
 		// Scroll zoom
