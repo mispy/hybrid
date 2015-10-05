@@ -11,7 +11,7 @@ public class Ellipse : MonoBehaviour {
 	public float theta = 45;
 	public int resolution = 1000;
 	
-	private Vector2[] positions;
+	public Vector2[] positions;
 
 	public LineRenderer lineRenderer;
 	
@@ -19,7 +19,7 @@ public class Ellipse : MonoBehaviour {
 		lineRenderer = GetComponent<LineRenderer>();
 	}
 
-	void Update() {
+	public void Redraw() {
 		positions = CreateEllipse(width,height,centerX,centerY,theta,resolution);
 		lineRenderer.SetVertexCount (resolution+1);
 		for (int i = 0; i <= resolution; i++) {
