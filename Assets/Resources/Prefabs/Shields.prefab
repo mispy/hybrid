@@ -10,10 +10,8 @@ GameObject:
   - 4: {fileID: 402718}
   - 114: {fileID: 11403740}
   - 120: {fileID: 12014802}
-  - 114: {fileID: 11401944}
   - 64: {fileID: 6417604}
   - 33: {fileID: 3368772}
-  - 23: {fileID: 2301374}
   m_Layer: 12
   m_Name: Shields
   m_TagString: Untagged
@@ -33,30 +31,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!23 &2301374
-MeshRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197374}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_Materials:
-  - {fileID: 2100000, guid: 7b7cff1c35d904a3ba48f3af4b5392d6, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
 --- !u!33 &3368772
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -76,25 +50,6 @@ MeshCollider:
   serializedVersion: 2
   m_Convex: 1
   m_Mesh: {fileID: 0}
---- !u!114 &11401944
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 197374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8baa64ce173f154ea28b2d7bd0a18e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  width: 5
-  height: 3
-  centerX: 0
-  centerY: 0
-  theta: 45
-  resolution: 1000
-  positions: []
-  lineRenderer: {fileID: 0}
 --- !u!114 &11403740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -107,7 +62,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lineRenderer: {fileID: 0}
-  ellipse: {fileID: 0}
   form: {fileID: 0}
   mesh: {fileID: 0}
   meshCollider: {fileID: 0}
@@ -122,10 +76,10 @@ LineRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 3bda71d163623204e928f4c4c0b2cad1, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 1
+  m_UseLightProbes: 0
   m_ReflectionProbeUsage: 1
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
@@ -167,7 +121,11 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 7b7cff1c35d904a3ba48f3af4b5392d6, type: 2}
+      objectReference: {fileID: 2100000, guid: 3bda71d163623204e928f4c4c0b2cad1, type: 2}
+    - target: {fileID: 0}
+      propertyPath: m_UseLightProbes
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 197374}
