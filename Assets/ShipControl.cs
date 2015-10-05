@@ -47,7 +47,8 @@ public class ShipControl : MonoBehaviour {
 
     void HandleRightClick() {
 		if (selectedCrew == null) {
-			Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
+			//Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
+			Debug.Log(ship.form.BlocksAtWorldPos(Game.mousePos).First());
 		}
 
         if (selectedCrew != null) {

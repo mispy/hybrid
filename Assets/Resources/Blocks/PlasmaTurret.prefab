@@ -73,8 +73,8 @@ MonoBehaviour:
   isComplexBlock: 1
   mass: 9.99999975e-05
   scrapRequired: 30
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Plasma turret!
+  descriptionBody: It shoots plasma.
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
@@ -193,6 +193,14 @@ Prefab:
       propertyPath: projectile
       value: 
       objectReference: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: Plasma turret!
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: It shoots plasma.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 188922}

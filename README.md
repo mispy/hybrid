@@ -1,4 +1,4 @@
-A little spaceship-building exploration game. Sort of like Tiny Dwarf Fortress In Space. Stuff that is currently implemented:
+A little spaceship-building exploration game. Sort of like Tiny Dwarf Fortress In Space; or more accurately, a hybrid between RimWorld and FTL. Stuff that is currently implemented:
 
 - A layered mesh-based rendering system that allows for arbitrarily sized mobile structures composed of tiles. Big destructible asteroids!
 - A ship editor based around blueprints-- the idea being that if bits of your ship get exploded the blueprint remains and you don't have to redesign the entire thing.

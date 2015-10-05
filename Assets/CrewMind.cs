@@ -76,7 +76,7 @@ public class CrewMind : MonoBehaviour {
         }*/
 
 		if (body.currentBlock == null && crew.job == null) {
-			var floor = Util.GetRandom(body.maglockShip.blocks.Find<Floor>().ToList());
+			var floor = Util.GetRandom(crew.Ship.blocks.Find<Floor>().ToList());
 			crew.job = new MoveJob(floor.pos);
 		}
     }

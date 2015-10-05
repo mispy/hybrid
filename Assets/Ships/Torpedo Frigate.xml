@@ -1072,6 +1072,12 @@
     </BlockData>
     <BlockData>
       <x>0</x>
+      <y>-5</y>
+      <typeName>ShieldGenerator</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
       <y>-1</y>
       <typeName>InertiaStabilizer</typeName>
       <orientation>1</orientation>
@@ -2787,6 +2793,12 @@
       <y>-2</y>
       <typeName>Thruster</typeName>
       <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>-5</y>
+      <typeName>ShieldGenerator</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>

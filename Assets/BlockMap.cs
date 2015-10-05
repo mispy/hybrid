@@ -8,24 +8,30 @@ using Random = UnityEngine.Random;
 public class BlockMap {
 	public Ship ship;
 
+	// Calculated dimensions
     public int maxX;
     public int minX;
     public int maxY;
     public int minY;
-    public int centerBlockX;
-    public int centerBlockY;
-    public int centerChunkX;
-    public int centerChunkY;
+	public int width;
+	public int height;
+	public Rect boundingRect;
+	// Total number of filled base blocks
+	public int size;
 
-    public int chunkWidth;
-    public int chunkHeight;
-    public int widthInChunks;
-    public int heightInChunks;
-    public BlockChunk[,] baseChunks;
-    public BlockChunk[,] topChunks;
+	// Values used for translating between 0,0 center to traditional
+	// array coordinates
+	int centerBlockX;
+    int centerBlockY;
+    int centerChunkX;
+    int centerChunkY;
+    int chunkWidth;
+    int chunkHeight;
+    int widthInChunks;
+    int heightInChunks;
+    BlockChunk[,] baseChunks;
+    BlockChunk[,] topChunks;
 
-    // Total number of filled base blocks
-    public int size;
 
     public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
 
@@ -199,10 +205,10 @@ public class BlockMap {
     }
 
     void RecalcBounds() {
-        minX = 0;
-        minY = 0;
-        maxX = 0;
-        maxY = 0;
+        minX = 10000;
+        minY = 10000;
+		maxX = -10000;
+        maxY = -10000;
 
         foreach (var block in AllBlocks) {
             minX = Math.Min(minX, block.pos.x);
@@ -210,6 +216,14 @@ public class BlockMap {
             maxX = Math.Max(maxX, block.pos.x);
             maxY = Math.Max(maxY, block.pos.y);
         }
+
+		width = maxX - minX;
+		height = maxY - minY;
+		boundingRect = new Rect();
+		boundingRect.xMin = minX;
+		boundingRect.xMax = maxX;
+		boundingRect.yMin = minY;
+		boundingRect.yMax = maxY;
     }
 
     void RemoveBlock(Block block) {

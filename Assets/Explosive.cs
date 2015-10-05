@@ -72,8 +72,7 @@ public class Explosive : MonoBehaviour
 		}
 		
 		foreach (var block in toBreak) {
-			//block.TakeDamage(10);
-			//rigidbodies.Add(ns.GetComponent<Rigidbody>());
+			block.TakeDamage(10);
 		}
 		
 		foreach (var rb in rigidbodies) {

@@ -31,7 +31,7 @@ public class Blockform : PoolBehaviour {
     
     public Shields shields = null;
     
-    public Vector3 localCenter;
+    public Vector3 centerOfMass;
     
     public List<CrewBody> maglockedCrew = new List<CrewBody>();
     private bool needsMassUpdate = true;
@@ -52,6 +52,8 @@ public class Blockform : PoolBehaviour {
 			return (blocks.maxY - blocks.minY) * Tile.worldSize;
 		}
 	}
+
+	public Bounds bounds;
 
     public IEnumerable<T> GetBlockComponents<T>() {
         return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == ship);
@@ -217,14 +219,17 @@ public class Blockform : PoolBehaviour {
             AddBlockComponent(newBlock);
         }    
     }
+
+	public void UpdateBounds() {
+		bounds = new Bounds(blocks.boundingRect.center * Tile.worldSize, blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize));
+	}
     
     public void UpdateBlock(Block block) {
         if (block.mass != 0)
             needsMassUpdate = true;
         
-        if (Block.Is<ShieldGenerator>(block))
-            UpdateShields();
-        
+		UpdateBounds();
+
         if (Block.Is<InertiaStabilizer>(block))
             UpdateGravity();
     }
@@ -264,23 +269,10 @@ public class Blockform : PoolBehaviour {
             avgPos.x /= blocks.Count;
             avgPos.y /= blocks.Count;
         }
-        localCenter = BlockToLocalPos(avgPos);
-        rigidBody.centerOfMass = localCenter;
+        centerOfMass = BlockToLocalPos(avgPos);
+        rigidBody.centerOfMass = centerOfMass;
         
         needsMassUpdate = false;
-    }
-    
-    public void UpdateShields() {
-        if (blocks.Has<ShieldGenerator>() && shields == null) {
-            var shieldObj = Pool.For("Shields").TakeObject();
-            shields = shieldObj.GetComponent<Shields>();
-            shieldObj.transform.parent = transform;
-            shieldObj.transform.localPosition = localCenter;
-            shieldObj.SetActive(true);
-        } else if (!blocks.Has<ShieldGenerator>() && shields != null) {
-            shields.gameObject.SetActive(false);
-            shields = null;
-        }
     }
     
     public void UpdateGravity() {
@@ -422,10 +414,10 @@ public class Blockform : PoolBehaviour {
         
         if (collision.contacts.Length == 0) return;
         
-        if (shields != null && collision.contacts[0].thisCollider.gameObject == shields.gameObject) {
+        /*if (shields != null && collision.contacts[0].thisCollider.gameObject == shields.gameObject) {
             shields.OnCollisionEnter(collision);
             return;
-        }
+        }*/
         
         if (obj.tag == "Item") {
             //scrapAvailable += 10;
@@ -445,17 +437,17 @@ public class Blockform : PoolBehaviour {
     }
     
     void OnCollisionStay(Collision collision) {
-        if (shields != null) {
+        /*if (shields != null) {
             shields.OnCollisionStay(collision);
             return;
-        }
+        }*/
     }
     
     void OnCollisionExit(Collision collision) {
-        if (shields != null) {
+        /*if (shields != null) {
             shields.OnCollisionExit(collision);
             return;
-        }
+        }*/
     }
     
     public void StartTractorBeam(Vector2 pz) {
@@ -472,6 +464,10 @@ public class Blockform : PoolBehaviour {
 
 	void Update() {
 		AvoidCollision();
+
+		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.left), transform.TransformPoint(bounds.center + Vector3.right), Color.green);
+		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.up), transform.TransformPoint(bounds.center + Vector3.down), Color.green);
+		DebugUtil.DrawBounds(transform, bounds);
 	}
 
     void FixedUpdate() {

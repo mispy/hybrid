@@ -123,7 +123,6 @@ public class SpacePather : PoolBehaviour {
 	}
 
 	void Update() {
-		DebugUtil.DrawRect(pathForm.transform, colRect);
 	}
 
 	void Awake() {

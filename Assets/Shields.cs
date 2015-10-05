@@ -2,59 +2,23 @@
 using System.Collections;
 
 public class Shields : MonoBehaviour {
-    public static GameObject prefab;
+	public LineRenderer lineRenderer;
+	public Ellipse ellipse;
+	public Blockform form;
 
-    public MeshRenderer renderer;
-    public float effectTime;
-    public Vector3 contactPoint;
-    private float elapsedTime = 0.0f;
-    private float duration = 0.0f;
-    private bool staying = false;
+	void Awake() {
+		lineRenderer = GetComponent<LineRenderer>();
+		ellipse = GetComponent<Ellipse>();
+		form = GetComponentInParent<Blockform>();
+	}
 
-    void Awake() {
-    }
+	void Update() {
+		transform.localPosition = form.bounds.center;
 
-    void Update(){
-        renderer.material.SetFloat("_Offset", Mathf.Repeat(Time.time, 1));
-        //renderer.sharedMaterial.SetFloat("_RadialFactor", Mathf.Repeat(Time.time, 1));
-
-        var easeIn = Interpolate.Ease(Interpolate.EaseType.EaseInCubic);
-        var easeOut = Interpolate.Ease(Interpolate.EaseType.EaseOutCubic);
-
-        if (elapsedTime < duration) {
-            if (elapsedTime < duration/2.0f) {
-                renderer.material.SetFloat("_RadialFactor", easeIn(0.0f, 1.0f, elapsedTime, duration/2.0f));
-            } else {
-                renderer.material.SetVector("_Position", -contactPoint);
-                renderer.material.SetFloat("_RadialFactor", 1.0f - easeOut(0.0f, 1.0f, elapsedTime - duration/2.0f, duration/2.0f));
-            }
-            if (!staying)
-                elapsedTime += Time.deltaTime;
-        } else {
-            renderer.material.SetFloat("_RadialFactor", 0.0f);
-        }
-    }
-    
-    public void OnCollisionEnter(Collision collision) {
-        contactPoint = transform.InverseTransformPoint(collision.contacts[0].point);
-        renderer.material.SetVector("_Position", contactPoint);
-
-        if (elapsedTime > duration) {
-            elapsedTime = 0.0f;
-        } else if (elapsedTime > 0.4f) {
-            elapsedTime = 0.39f;
-        }
-        duration = 0.8f;
-    }
-
-    public void OnCollisionStay(Collision collision) {
-        if (elapsedTime >= 0.19f) {
-            elapsedTime = 0.2f;
-            staying = true;
-        }
-    }
-
-    public void OnCollisionExit(Collision collision) {
-        staying = false;
-    }
+		ellipse.centerX = 0;
+		ellipse.centerY = 0;
+		ellipse.width = form.bounds.size.x-3;
+		ellipse.height = form.bounds.size.y-3;
+		ellipse.theta = 0;
+	}
 }

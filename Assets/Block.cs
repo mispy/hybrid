@@ -47,6 +47,7 @@ public class Block {
     public static GameObject floorColliderPrefab;
     
     public static string[] blockOrder = new string[] {
+		"ShieldGenerator",
         "Floor",
         "Wall",
         "Console",

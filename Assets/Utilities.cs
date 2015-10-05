@@ -94,6 +94,18 @@ public class DebugUtil {
 		Debug.DrawLine(p4, p1);
 	}
 
+	public static void DrawBounds(Transform transform, Bounds bounds) {
+		var p1 = transform.TransformPoint(new Vector2(bounds.min.x, bounds.min.y));
+		var p2 = transform.TransformPoint(new Vector2(bounds.max.x, bounds.min.y));
+		var p3 = transform.TransformPoint(new Vector2(bounds.max.x, bounds.max.y));
+		var p4 = transform.TransformPoint(new Vector2(bounds.min.x, bounds.max.y));
+		
+		Debug.DrawLine(p1, p2);
+		Debug.DrawLine(p2, p3);
+		Debug.DrawLine(p3, p4);
+		Debug.DrawLine(p4, p1);
+	}
+
 	public static void DrawPath(List<Vector2> points) {
 		for (var i = 1; i < points.Count; i++) {
 			Debug.DrawLine(points[i-1], points[i], Color.green);
