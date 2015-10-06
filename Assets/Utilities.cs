@@ -20,6 +20,7 @@ public enum Orientation {
 public struct IntVector2 {
     public int x;
     public int y;
+	public int hashCode;
 
     public static double Distance(IntVector2 v1, IntVector2 v2) {
         return Math.Sqrt(Math.Pow(v1.x - v2.x, 2) + Math.Pow(v1.y - v2.y, 2));
@@ -53,11 +54,11 @@ public struct IntVector2 {
     }
 
     public static bool operator ==(IntVector2 v1, IntVector2 v2) {
-        return v1.x == v2.x && v1.y == v2.y;
+		return v1.x == v2.x && v1.y == v2.y;
     }
 
     public static bool operator !=(IntVector2 v1, IntVector2 v2) {
-        return v1.x != v2.x || v1.y != v2.y;
+		return v1.x != v2.x || v1.y != v2.y;
     }
 
     public override string ToString()
@@ -67,17 +68,17 @@ public struct IntVector2 {
 
     public override int GetHashCode()
     {
-        return x.GetHashCode() ^ y.GetHashCode();
+		return hashCode;
     }
+
+	public override bool Equals(object obj) {
+		return this == (IntVector2)obj;
+	}
     
     public IntVector2(int x, int y) {
         this.x = x;
         this.y = y;
-    }
-
-    public IntVector2(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
+		this.hashCode = (x << 32) + y;
     }
 }
 
@@ -156,7 +157,7 @@ public class Util {
         var targetDist = (targetPos - turretPos);
         var targetDir = targetDist.normalized;
         
-        var targetHits = Physics.RaycastAll(turretPos, targetDir, targetDist.magnitude);
+		var targetHits = Physics.RaycastAll(turretPos, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
         foreach (var hit in targetHits) {
             if (hit.rigidbody == form.rigidBody) {
                 return true;

@@ -6,70 +6,73 @@ using System.Linq;
 
 public static class BlockPather {
 	// find all blocks directly connected to a given block
-	public static HashSet<Block> Floodfill(BlockMap blocks, Block startBlock) {
-		var seenBlocks = new HashSet<Block>();
-		var heads = new List<Block>();
-		var length = 0;
-		seenBlocks.Add(startBlock);
-		heads.Add(startBlock);
+	public static IEnumerable<Block> Floodfill(BlockMap blocks, Block start) {
+		var seen = new bool[blocks.width, blocks.height];
+		var heads = new Stack<Block>();
+		seen[start.x-blocks.minX, start.y-blocks.minY] = true;
+		heads.Push(start);
 		
 		while (heads.Count > 0) {
-			var head = heads[0];
-			heads.RemoveAt(0);
-			
+			var head = heads.Pop();
+
 			foreach (var neighbor in IntVector2.Neighbors(head.pos)) {
-				var nextBlock = blocks[neighbor, startBlock.layer];
-				
-				if (nextBlock != null && !seenBlocks.Contains(nextBlock)) {
-					seenBlocks.Add(nextBlock);
-					heads.Add(nextBlock);
+				var seenX = neighbor.x-blocks.minX;
+				var seenY = neighbor.y-blocks.minY;
+
+				if (seen[seenX, seenY]) continue;
+				seen[seenX, seenY] = true;
+
+				var nextBlock = blocks[neighbor, start.layer];
+				if (nextBlock != null) {
+					yield return nextBlock;
+					heads.Push(nextBlock);
 				}
 			}
-			
-			length += 1;
 		}
-		
-		return seenBlocks;
 	}
 
 	public static IEnumerable<IntVector2> Floodwalk(BlockMap blocks, IntVector2 start) {
-		var heads = new List<IntVector2>() { start };
-		var seen = new HashSet<IntVector2>();
-		
+		var heads = new Stack<IntVector2>();
+		var seen = new bool[blocks.width, blocks.height];
+		seen[start.x-blocks.minX, start.y-blocks.minY] = true;
+		heads.Push(start);
+
 		while (heads.Count > 0) {
-			var head = heads[0];
-			heads.RemoveAt(0);
-			
+			var head = heads.Pop();
+
 			foreach (var neighbor in IntVector2.Neighbors(head)) {
-				if (seen.Contains(neighbor) || !blocks.IsPassable(neighbor))
+				var seenX = neighbor.x-blocks.minX;
+				var seenY = neighbor.y-blocks.minY;
+				if (seen[seenX, seenY] || !blocks.IsPassable(neighbor))
 					continue;
 
 				yield return neighbor;
 
-				seen.Add(neighbor);
-				heads.Add(neighbor);
+				seen[seenX, seenY] = true;
+				heads.Push(neighbor);
 			}
 		}
 	}
 
 	public static IEnumerable<IntVector2> Floodsight(BlockMap blocks, IntVector2 start) {
-		var heads = new List<IntVector2>() { start };
-		var seen = new HashSet<IntVector2>();
-		
+		var heads = new Stack<IntVector2>();
+		var seen = new bool[blocks.width+2, blocks.height+2];
+		seen[start.x-blocks.minX, start.y-blocks.minY] = true;
+		heads.Push(start);
+
 		while (heads.Count > 0) {
-			var head = heads[0];
-			heads.RemoveAt(0);
+			var head = heads.Pop();
 			
 			foreach (var neighbor in IntVector2.NeighborsWithDiagonal(head)) {
-				if (seen.Contains(neighbor) || blocks.IsOutsideBounds(neighbor))
+				if (blocks.IsOutsideBounds(neighbor) || seen[neighbor.x-blocks.minX+1, neighbor.y-blocks.minY+1])
 					continue;
 				
 				yield return neighbor;
-				
-				seen.Add(neighbor);
+
+				seen[neighbor.x-blocks.minX+1, neighbor.y-blocks.minY+1] = true;
 
 				if (!blocks[neighbor].Any((b) => b.type.canBlockSight))
-					heads.Add(neighbor);
+					heads.Push(neighbor);
 			}
 		}
 	}

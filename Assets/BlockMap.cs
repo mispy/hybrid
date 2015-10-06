@@ -157,12 +157,6 @@ public class BlockMap {
         }
     }
 
-    public int Count {
-        get {
-            return AllBlocks.Count();
-        }
-    }
-
     public BlockChunk NewChunk(BlockChunk[,] chunks, int trueChunkX, int trueChunkY) {
         //Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
         

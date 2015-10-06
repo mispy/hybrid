@@ -139,7 +139,8 @@ public class Blockform : PoolBehaviour {
 
     void OnEnable() {
         Game.activeSector.blockforms.Add(this);
-        InvokeRepeating("UpdateMass", 0.0f, 0.5f);
+        InvokeRepeating("UpdateMass", 0f, 0.5f);
+		InvokeRepeating("UpdateBreaks", 0f, 0.1f);
     }
     
     void OnDisable() {
@@ -185,7 +186,7 @@ public class Blockform : PoolBehaviour {
         rigid.velocity = rigidBody.velocity;
         rigid.angularVelocity = rigidBody.angularVelocity;
         
-        if (blocks.Count == 0) Pool.Recycle(gameObject);
+        if (blocks.size == 0) Pool.Recycle(gameObject);
         
         return obj;
     }
@@ -201,25 +202,31 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
-	public void CheckBreaks(IntVector2 breakPos) {
-		var fills = new List<HashSet<Block>>();
-		foreach (var neighbor in IntVector2.Neighbors(breakPos)) {
-			var block = blocks[neighbor, BlockLayer.Base];
-			if (block == null) continue;
-
-			fills.Add(BlockPather.Floodfill(blocks, block));
+	public void MassBreak(IEnumerable<Block> fill) {
+		foreach (var block in fill) {
+			BreakBlock(block);
+			breaksToCheck.Remove(block.pos);
 		}
+	}
 
-		while (fills.Count > 0) {
-			var fill = fills.First();
-			fills.Remove(fill);
-			foreach (var other in fills) {
-				if (!other.SetEquals(fill)) {
-					BreakDetected(other, fill);
-				}
+	public void UpdateBreaks() {
+		Profiler.BeginSample("UpdateBreaks");
 
+		if (breaksToCheck.Count == 0) return;
+
+		var breakPos = breaksToCheck.First();
+		breaksToCheck.Remove(breakPos);
+
+		var fill = BlockPather.Floodfill(blocks, blocks[breakPos, BlockLayer.Base]).ToArray();
+		if (fill.Length != blocks.size) {
+			if (fill.Length < blocks.size/2f) {
+				MassBreak(fill);
+			} else {
+				MassBreak(blocks.AllBlocks.Where((b) => !fill.Contains(b)));
 			}
 		}
+
+		Profiler.EndSample();
 	}
     
     public void OnBlockRemoved(Block oldBlock) {
@@ -229,8 +236,12 @@ public class Blockform : PoolBehaviour {
         //    this.size -= 1;
         
         UpdateBlock(oldBlock);
-        
-		CheckBreaks(oldBlock.pos);
+
+		breaksToCheck.Remove(oldBlock.pos);
+		foreach (var neighbor in IntVector2.Neighbors(oldBlock.pos)) {
+			if (blocks[neighbor].Any()) breaksToCheck.Add(neighbor);
+		}
+
 
         Profiler.EndSample();
     }
@@ -294,10 +305,8 @@ public class Blockform : PoolBehaviour {
         
         rigidBody.mass = totalMass;
         
-        if (blocks.Count > 0) {
-            avgPos.x /= blocks.Count;
-            avgPos.y /= blocks.Count;
-        }
+        avgPos.x /= blocks.size;
+        avgPos.y /= blocks.size;
         centerOfMass = BlockToLocalPos(avgPos);
         rigidBody.centerOfMass = centerOfMass;
         

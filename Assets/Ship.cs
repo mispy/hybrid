@@ -88,8 +88,8 @@ public static class ShipManager {
         var data = new ShipData();
         data.name = ship.name;
 
-        data.blocks = new BlockData[ship.blocks.Count];
-        data.blueprintBlocks = new BlockData[ship.blueprintBlocks.Count];
+        data.blocks = new BlockData[ship.blocks.size];
+        data.blueprintBlocks = new BlockData[ship.blueprintBlocks.size];
         
         var allBlocks = ship.blocks.AllBlocks.ToArray();
         for (var i = 0; i < allBlocks.Length; i++) {

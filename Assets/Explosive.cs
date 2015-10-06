@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Explosive : MonoBehaviour
 {
@@ -46,41 +47,36 @@ public class Explosive : MonoBehaviour
 			system.Play();
 		}
 		
-		
-		var cols = Physics.OverlapSphere(transform.position, radius);
-		var rigidbodies = new List<Rigidbody>();
+
+
+		var cols = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+
+		List<Block> blocksToBreak = new List<Block>();
+		HashSet<Rigidbody> rigidBodies = new HashSet<Rigidbody>();
 		foreach (var col in cols)
 		{
-			var shields = col.gameObject.GetComponent<Shields>();
-			if (shields != null) {
-				shields.TakeDamage(1f);
-			}
+			rigidBodies.Add(col.attachedRigidbody);
 
-			if (col.attachedRigidbody != null && !rigidbodies.Contains(col.attachedRigidbody))
-			{
-				rigidbodies.Add(col.attachedRigidbody);
-			}
-		}
-		
-		var toBreak = new List<Block>();
-		
-		foreach (var rb in rigidbodies) {
-			var form = rb.GetComponent<Blockform>();        
+			var form = col.attachedRigidbody.GetComponent<Blockform>();
 			if (form == null) continue;
 
-			foreach (var block in form.blocks.AllBlocks) {
-				var dist = ((Vector3)form.BlockToWorldPos(block.pos) - transform.position).magnitude;
-				if (dist < radius) {
-					toBreak.Add(block);
-				}
+			var blocks = form.BlocksAtWorldPos(col.transform.position);
+
+			if (blocks.Any())
+				blocksToBreak.AddRange(blocks);
+			else {
+				// no blocks, it's probably the shields
+				var shields = col.gameObject.GetComponent<Shields>();
+				if (shields != null)
+					shields.TakeDamage(1f);
 			}
 		}
-		
-		foreach (var block in toBreak) {
+
+		foreach (var block in blocksToBreak) {
 			block.TakeDamage(10);
 		}
 		
-		foreach (var rb in rigidbodies) {
+		foreach (var rb in rigidBodies) {
 			rb.AddExplosionForce(Math.Min(force, rb.mass*20), transform.position, radius, 1, ForceMode.Impulse);
 		}
 	}
