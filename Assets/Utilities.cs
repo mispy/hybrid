@@ -280,4 +280,26 @@ public class Util {
     public static string GetIdFromPath(string path) {
         return Path.GetFileNameWithoutExtension(path);
     }
+
+	public static float GetPathLength(List<Vector2> path) {
+		float length = 0f;
+		for (var i = 1; i < path.Count; i++)
+			length += Vector2.Distance(path[i-1], path[i]);
+		return length;
+	}
+
+	public static Vector2 PathLerp(List<Vector2> path, float amount) {
+		var length = Util.GetPathLength(path);
+		float distTraveled = 0f;
+		for (var i = 1; i < path.Count; i++) {
+			float dist = Vector2.Distance(path[i-1], path[i]);
+			if (distTraveled+dist > length*amount) {
+				return Vector2.Lerp(path[i-1], path[i], (amount*length - distTraveled)/dist);
+			}
+
+			distTraveled += dist;
+		}
+
+		return path.Last();
+	}
 }

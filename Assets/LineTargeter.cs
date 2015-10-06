@@ -45,6 +45,7 @@ public class LineTargeter : MonoBehaviour {
 
 		if (!Input.GetMouseButton(0)) {
 			isTargeting = false;
+			SendMessage("OnLineTarget");
 			return;
 		}
 
