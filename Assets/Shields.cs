@@ -9,32 +9,32 @@ public class Shields : PoolBehaviour {
 	public float maxHealth = 10000f;
 	public float health = 10000f;
 	public float regenRate = 10f;
-	public bool isActive = true;
+	public bool isActive = false;
 	
 	public void TakeDamage(float amount) {
 		health = Mathf.Max(0, health - amount);
-		
-		if (health < 5f) {
-			isActive = false;
-		}
+		UpdateStatus();
 	}
 
 	void Awake() {
 		form = GetComponentInParent<Blockform>();
 		form.shields = this;
 		shieldCollider = GetComponent<ShieldCollider>();
+		form.blocks.OnBlockAdded += OnBlockUpdate;
+		form.blocks.OnBlockRemoved += OnBlockUpdate;
 	}
 
-	void Update() {
-		health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);
+	void Start() {
+		isActive = false;
+		UpdateEllipse();
+		UpdateStatus();
+	}
 
-		if (health >= maxHealth/4) {
-			isActive = true;
-		}
+	public void OnBlockUpdate(Block block) {		
+		UpdateEllipse();
+	}
 
-		if (!isActive)
-			return;
-
+	void UpdateEllipse() {
 		transform.localPosition = form.bounds.center;
 		
 		var lineWidth = 1;
@@ -43,7 +43,29 @@ public class Shields : PoolBehaviour {
 		
 		if (ellipse == null || width != ellipse.width || height != ellipse.height) {
 			ellipse = new Ellipse(0, 0, width, height, 0);
-			shieldCollider.UpdateMesh(ellipse);
+			SendMessage("OnShieldsResize");
 		}
+	}
+	
+	void UpdateStatus() {
+		if (health >= maxHealth/4 && !isActive) {
+			isActive = true;
+			SendMessage("OnShieldsEnable");
+		}
+
+		if (health < maxHealth/4 && isActive) {
+			isActive = false;
+			SendMessage("OnShieldsDisable");
+		}
+
+		SendMessage("OnShieldsChange");
+	}
+
+	void Update() {
+		health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);
+		UpdateStatus();
+
+		if (!isActive)
+			return;
 	}
 }

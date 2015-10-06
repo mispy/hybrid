@@ -14,19 +14,20 @@ public class ShieldCollider : PoolBehaviour {
 		mesh = GetComponent<MeshFilter>().mesh;
 	}
 
-	void Update() {
-		if (shields.isActive && meshCollider == null) {
-			meshCollider = gameObject.AddComponent<MeshCollider>();
-			meshCollider.convex = true;
-			if (shields.ellipse != null)
-				UpdateMesh(shields.ellipse);
-		}
+	public void OnShieldsEnable() {
+		meshCollider = gameObject.AddComponent<MeshCollider>();
+		meshCollider.convex = true;
+		UpdateMesh(shields.ellipse);
+	}
 
-		if (!shields.isActive && meshCollider != null) {
-			Destroy(meshCollider);
-		}
+	public void OnShieldsDisable() {
+		Destroy(meshCollider);
 	}
 	
+	public void OnShieldsResize() {
+		UpdateMesh(shields.ellipse);
+	}
+
 	public void UpdateMesh(Ellipse ellipse) {		
 		if (meshCollider == null)
 			return;

@@ -13,15 +13,16 @@ public class ShieldRenderer : PoolBehaviour {
 		shields = GetComponent<Shields>();
 		lineRenderer = GetComponent<LineRenderer>();
 	}
-	
-	void Update() {	
-		if (shields.isActive)
-			lineRenderer.enabled = true;
-		else {
-			lineRenderer.enabled = false;
-			return;
-		}
 
+	public void OnShieldsEnable() {
+		lineRenderer.enabled = true;
+	}
+
+	public void OnShieldsDisable() {
+		lineRenderer.enabled = false;
+	}
+
+	public void OnShieldsChange() {	
 		var lineWidth = (shields.health / shields.maxHealth) * maxLineWidth;
 		var ellipse = shields.ellipse.Shrink(lineWidth/2f);
 		
