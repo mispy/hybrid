@@ -1055,7 +1055,7 @@
     <BlockData>
       <x>6</x>
       <y>-4</y>
-      <typeName>Floor</typeName>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2665,7 +2665,7 @@
     <BlockData>
       <x>6</x>
       <y>-4</y>
-      <typeName>Floor</typeName>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class InteriorFog : MonoBehaviour {
 	Blockform form;
@@ -17,17 +18,31 @@ public class InteriorFog : MonoBehaviour {
 		transform.localScale = form.bounds.size;
 
 		var texture = new Texture2D(form.blocks.width, form.blocks.height);
-		var colors = new Color32[form.blocks.width*form.blocks.height];
+		var colors = new Color32[(form.blocks.width)*(form.blocks.height)];
 
 		for (var i = 0; i < colors.Length; i++)
-			colors[i] = Color.clear;
+			colors[i] = Color.black;
 
-		foreach (var block in form.blocks.AllBlocks) {
-			if (!form.blocks.IsExternallyVisible(block.pos)) {
-				var x = block.pos.x - form.blocks.minX;
-				var y = block.pos.y - form.blocks.minY;
-				colors[y*form.blocks.width + x] = Color.black;
+		var blocks = form.blocks;
+
+		// Find an open space directly on the exterior
+		IntVector2 startPos = new IntVector2(0, 0);
+		for (var i = blocks.minX-1; i <= blocks.maxX+1; i++) {
+			for (var j = blocks.minY-1; j <= blocks.maxY+1; j++) {
+				var bp = new IntVector2(i, j);
+				if (blocks.CollisionLayer(bp) == Block.spaceLayer && blocks.IsPassable(bp)) {
+					startPos = bp;
+					break;
+				}
 			}
+		}
+
+		foreach (var pos in BlockPather.Floodsight(blocks, startPos)) {
+			var x = pos.x - blocks.minX;
+			var y = pos.y - blocks.minY;
+
+			if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height)
+				colors[y*form.blocks.width + x] = Color.clear;
 		}
 
 		texture.SetPixels32(colors);

@@ -74,15 +74,6 @@ public class BlockMap {
         }
     }
 
-	public bool IsExternallyVisible(IntVector2 bp) {
-		foreach (var neighbor in IntVector2.NeighborsWithDiagonal(bp)) {
-			if (CollisionLayer(neighbor) == Block.spaceLayer)
-				return true;
-		}
-
-		return false;
-	}
-
     public bool IsCollisionEdge(IntVector2 bp) {
         var collisionLayer = CollisionLayer(bp);
 
@@ -99,18 +90,13 @@ public class BlockMap {
     }
 
     public int CollisionLayer(IntVector2 bp) {
-        var topBlock = this[bp, BlockLayer.Top];
-        var baseBlock = this[bp, BlockLayer.Base];
+		var baseBlock = this[bp, BlockLayer.Base];
+		if (baseBlock == null)
+			return Block.spaceLayer;
 
-        //if (baseBlock != null)
-        //    Debug.LogFormat("{0} {1}", baseBlock.type.name, baseBlock.collisionLayer);
-
-        if (topBlock == null && baseBlock == null)
-            return Block.spaceLayer;
+		var topBlock = this[bp, BlockLayer.Top];
         if (topBlock == null)
             return baseBlock.CollisionLayer;
-        if (baseBlock == null)
-            return topBlock.CollisionLayer;
         
         return Math.Max(baseBlock.CollisionLayer, topBlock.CollisionLayer);
     }
@@ -346,15 +332,20 @@ public class BlockMap {
         get { return this[new IntVector2(x, y)]; }
     }
 
+	public bool IsOutsideBounds(IntVector2 bp) {
+		// There's a one-tile walkable area of open space around the ship
+		return (bp.x > maxX+1 || bp.x < minX-1 || bp.y > maxY+1 || bp.y < minY-1);
+	}
+
     public bool IsPassable(IntVector2 bp) {
 		var collisionLayer = CollisionLayer(bp);
 		if (collisionLayer == Block.floorLayer)
 			return true;
 
 		if (collisionLayer == Block.spaceLayer) {
-			if (bp.x > maxX+1 || bp.x < minX-1 || bp.y > maxY+1 || bp.y < minY-1)
+			if (IsOutsideBounds(bp))
 				return false;
-			
+
 			foreach (var neighbor in IntVector2.NeighborsWithDiagonal(bp)) {
 				var secondLayer = CollisionLayer(neighbor);
 				if (secondLayer != Block.spaceLayer)

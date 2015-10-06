@@ -52,6 +52,29 @@ public static class BlockPather {
 		}
 	}
 
+	public static IEnumerable<IntVector2> Floodsight(BlockMap blocks, IntVector2 start) {
+		var heads = new List<IntVector2>() { start };
+		var seen = new HashSet<IntVector2>();
+		
+		while (heads.Count > 0) {
+			var head = heads[0];
+			heads.RemoveAt(0);
+			
+			foreach (var neighbor in IntVector2.NeighborsWithDiagonal(head)) {
+				if (seen.Contains(neighbor) || blocks.IsOutsideBounds(neighbor))
+					continue;
+				
+				yield return neighbor;
+				
+				seen.Add(neighbor);
+
+				if (!blocks[neighbor].Any((b) => b.type.canBlockSight))
+					heads.Add(neighbor);
+			}
+		}
+	}
+
+
 	public static bool PathExists(BlockMap blocks, IntVector2 start, IntVector2 end) {
 		if (!blocks.IsPassable(end))
 			return false;

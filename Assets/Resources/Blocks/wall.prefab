@@ -51,6 +51,7 @@ MonoBehaviour:
   canRotate: 0
   canFitInsideWall: 0
   canBeFired: 0
+  canBlockSight: 1
 --- !u!212 &21246848
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -155,6 +156,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canBlockSight
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
