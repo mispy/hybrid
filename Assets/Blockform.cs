@@ -32,6 +32,8 @@ public class Blockform : PoolBehaviour {
     public Shields shields = null;
     
     public Vector3 centerOfMass;
+	public InteriorFog fog;
+
     
     public List<CrewBody> maglockedCrew = new List<CrewBody>();
     private bool needsMassUpdate = true;
@@ -101,11 +103,11 @@ public class Blockform : PoolBehaviour {
 		pather = obj.AddComponent<SpacePather>();
 		obj.SetActive(true);
 
-		var fog = Pool.For("InteriorFog").TakeObject();
+		fog = Pool.For("InteriorFog").Take<InteriorFog>();
 		fog.transform.SetParent(transform);
 		fog.transform.position = transform.position + Vector3.back;
 		fog.name = "InteriorFog";
-		fog.SetActive(true);
+		fog.gameObject.SetActive(true);
 
         foreach (var block in ship.blocks.AllBlocks) {
             OnBlockAdded(block);
