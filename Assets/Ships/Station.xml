@@ -7238,6 +7238,12 @@
       <typeName>PowerNode</typeName>
       <orientation>1</orientation>
     </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-13</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
   </blocks>
   <blueprintBlocks>
     <BlockData>
@@ -14474,6 +14480,12 @@
       <x>11</x>
       <y>1</y>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>-13</y>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
   </blueprintBlocks>

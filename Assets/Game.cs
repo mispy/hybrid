@@ -27,6 +27,8 @@ public class Game : MonoBehaviour {
         get { return Time.timeScale == 0.0f; }
     }
 
+	public static bool debugVisibility = false;
+
     public Canvas canvas;
     public Text debugText;
 

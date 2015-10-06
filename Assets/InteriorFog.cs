@@ -6,7 +6,7 @@ public class InteriorFog : MonoBehaviour {
 	Blockform form;
 	MeshRenderer meshRenderer;
 	Texture2D visibilityMap;
-	bool needsVisibilityUpdate;
+	public bool needsVisibilityUpdate;
 
 	// Use this for initialization
 	void Start () {
@@ -31,7 +31,7 @@ public class InteriorFog : MonoBehaviour {
 		}
 	}
 
-	void UpdateVisibility() {
+	public void UpdateVisibility() {
 		transform.localEulerAngles = new Vector3(90, 0, 0);
 		transform.localPosition = form.bounds.center;
 		transform.localScale = new Vector3(form.bounds.size.x, 0, form.bounds.size.y) / 10f;
@@ -43,7 +43,7 @@ public class InteriorFog : MonoBehaviour {
 		var colors = new Color32[(blocks.width)*(blocks.height)];
 		
 		for (var i = 0; i < colors.Length; i++) {
-			if (form.ship == Game.playerShip) {
+			if (form.ship == Game.playerShip || Game.debugVisibility) {
 				colors[i] = Color.clear;
 			} else {
 				colors[i] = Color.black;

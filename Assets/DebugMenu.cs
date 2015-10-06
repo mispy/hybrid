@@ -40,6 +40,13 @@ public class DebugMenu : MonoBehaviour {
         crewObj.SetActive(true);
     }
 
+	public void ToggleVisibility() {
+		Game.debugVisibility = !Game.debugVisibility;
+		foreach (var form in Game.activeSector.blockforms) {
+			form.fog.UpdateVisibility();
+		}
+	}
+
     // Update is called once per frame
     void Update () {
         Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -65,5 +72,9 @@ public class DebugMenu : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha6)) {
             SpawnCrew(pz);
         }
+
+		if (Input.GetKeyDown(KeyCode.V)) {
+			ToggleVisibility();
+		}
     }
 }
