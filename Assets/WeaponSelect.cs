@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class WeaponSelect : MonoBehaviour {
-    public BlockType selectedType { get; private set; }
+	public BlockType selectedType { get; private set; }
     float startX;
     float startY;
     RectTransform panel;
@@ -58,10 +58,14 @@ public class WeaponSelect : MonoBehaviour {
         fireableTypes.Clear();
     }
     
-    void SelectBlock(int i) {
-        selectedType = fireableTypes[i-1];
+    public void SelectBlock(int i) {
         foreach (var button in blockButtons) button.image.color = Color.white;
-        blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+		if (i == -1)
+			selectedType = null;
+		else {
+			selectedType = fireableTypes[i-1];
+			blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+		}
     }
     
     void Update() {

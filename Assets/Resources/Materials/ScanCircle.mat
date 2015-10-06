@@ -6,13 +6,12 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: PowerCircle
-  m_Shader: {fileID: 4800000, guid: d68741f0d5e1748459a500c5f41c4ced, type: 3}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON
+  m_Name: ScanCircle
+  m_Shader: {fileID: 4800000, guid: 1e533178b15841c4eac7bdfbdcf60a45, type: 3}
+  m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
-  stringTagMap:
-    RenderType: Transparent
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -20,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: aa26a5bfc086dc246a28d9bc8f562b64, type: 3}
+          m_Texture: {fileID: 2800000, guid: 7b9d71b0ba8cdb6409972284f844060b, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -94,7 +93,7 @@ Material:
       data:
         first:
           name: _DstBlend
-        second: 10
+        second: 0
       data:
         first:
           name: _Cutoff
@@ -110,7 +109,7 @@ Material:
       data:
         first:
           name: _ZWrite
-        second: 0
+        second: 1
       data:
         first:
           name: _Glossiness
@@ -134,15 +133,15 @@ Material:
       data:
         first:
           name: _Mode
-        second: 3
+        second: 0
       data:
         first:
           name: _Metallic
         second: 0
       data:
         first:
-          name: _Alpha
-        second: .5
+          name: _ScanRadius
+        second: .100000001
     m_Colors:
       data:
         first:
@@ -151,7 +150,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .90196085, g: .898039281, b: .898039281, a: 1}
       data:
         first:
           name: _SpecColor

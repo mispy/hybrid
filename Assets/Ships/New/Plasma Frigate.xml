@@ -1730,6 +1730,12 @@
       <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>3</y>
+      <typeName>Sensors</typeName>
+      <orientation>1</orientation>
+    </BlockData>
   </blocks>
   <blueprintBlocks>
     <BlockData>
@@ -3458,6 +3464,12 @@
       <x>-6</x>
       <y>3</y>
       <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>3</y>
+      <typeName>Sensors</typeName>
       <orientation>1</orientation>
     </BlockData>
   </blueprintBlocks>

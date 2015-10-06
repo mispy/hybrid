@@ -1,20 +1,15 @@
-﻿Shader "Custom/InteriorFog" {
+﻿Shader "Custom/BasicShader" {
 	Properties {
 		_MainTex ("Base (RGB)", 2D) = "white" {}
-		[PerRendererData] _Visibility ("Visibility Texture", 2D) = "white" {}
 	}
 
 	SubShader {
 		Tags { 
-			"Queue"="Transparent+1" 
+			"Queue"="Transparent" 
 		}
 
 		ZWrite off
 		ZTest off
-		Stencil {
-			Ref 2
-			Comp NotEqual
-		}
 		
 		Pass {
 			Blend SrcAlpha OneMinusSrcAlpha     
@@ -44,10 +39,6 @@
 
 			half4 frag (v2f i) : COLOR {
 				half4 color = tex2D(_MainTex, i.uv);
-				half4 vis = tex2D(_Visibility, i.texcoord);
-				
-				if (vis.a < 0.5)				
-					discard;
 				return color;
 			}
 			ENDCG

@@ -55,4 +55,8 @@ public class ProjectileLauncher : BlockComponent {
 			Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
 		}
 	}
+
+	public void OnLeftClick() {
+		Fire();
+	}
 }

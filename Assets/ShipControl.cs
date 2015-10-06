@@ -27,15 +27,15 @@ public class ShipControl : MonoBehaviour {
         selectedCrew = crew;
      }
 
-	void FireWeapon(BlockType type) {
+	void UseBlock(BlockType type) {
 		foreach (var block in ship.blocks.Find(type)) {
-			block.gameObject.GetComponent<ProjectileLauncher>().Fire();
+			block.gameObject.SendMessage("OnLeftClick");
 		}
 	}
 
     void HandleLeftClick() {
 		if (weaponSelect.selectedType != null)
-			FireWeapon(weaponSelect.selectedType);
+			UseBlock(weaponSelect.selectedType);
 
         var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
         foreach (var crew in ship.crew) {
@@ -46,6 +46,9 @@ public class ShipControl : MonoBehaviour {
     }
 
     void HandleRightClick() {
+		if (weaponSelect.selectedType != null)
+			weaponSelect.SelectBlock(-1);
+
 		if (selectedCrew == null) {
 			//Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
 			Debug.Log(ship.form.BlocksAtWorldPos(Game.mousePos).First());

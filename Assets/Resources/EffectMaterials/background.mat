@@ -174,9 +174,9 @@ Material:
         second: {r: .5, g: .5, b: .5, a: .5}
       data:
         first:
-          name: _EmissionColorUI
+          name: _SourceColor
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _SourceColor
+          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}

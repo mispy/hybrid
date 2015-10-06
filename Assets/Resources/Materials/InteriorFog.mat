@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: InteriorFog
-  m_Shader: {fileID: 4800000, guid: d2a01c46126da8047b7cdd093d69755a, type: 3}
+  m_Shader: {fileID: 4800000, guid: 730f09a5f7c2a844cba472e932204fc3, type: 3}
   m_ShaderKeywords: PIXELSNAP_ON
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000
@@ -108,7 +108,7 @@ Material:
       data:
         first:
           name: PixelSnap
-        second: 1
+        second: 0
       data:
         first:
           name: _Parallax
