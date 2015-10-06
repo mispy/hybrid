@@ -18,6 +18,7 @@ public class InteriorFog : MonoBehaviour {
 		transform.localScale = form.bounds.size;
 
 		var texture = new Texture2D(form.blocks.width, form.blocks.height);
+		texture.filterMode = FilterMode.Point;
 		var colors = new Color32[(form.blocks.width)*(form.blocks.height)];
 
 		for (var i = 0; i < colors.Length; i++)
