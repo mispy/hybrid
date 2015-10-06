@@ -14,15 +14,21 @@ public class InteriorFog : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		transform.localEulerAngles = new Vector3(90, 0, 0);
 		transform.localPosition = form.bounds.center;
-		transform.localScale = form.bounds.size;
+		transform.localScale = new Vector3(form.bounds.size.x, 0, form.bounds.size.y) / 10f;
 
 		var texture = new Texture2D(form.blocks.width, form.blocks.height);
 		texture.filterMode = FilterMode.Point;
 		var colors = new Color32[(form.blocks.width)*(form.blocks.height)];
 
-		for (var i = 0; i < colors.Length; i++)
-			colors[i] = Color.black;
+		for (var i = 0; i < colors.Length; i++) {
+			if (form.ship == Game.playerShip) {
+				colors[i] = Color.clear;
+			} else {
+				colors[i] = Color.black;
+			}
+		}
 
 		var blocks = form.blocks;
 
@@ -51,5 +57,6 @@ public class InteriorFog : MonoBehaviour {
 
 		meshRenderer.material.SetTexture("_Visibility", texture);
 		meshRenderer.sortingLayerName = "Fog";
+		meshRenderer.material.mainTextureScale = new Vector2(form.bounds.size.x, form.bounds.size.y);
 	}
 }

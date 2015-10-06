@@ -35,11 +35,12 @@ public class TileChunk : PoolBehaviour {
     public IEnumerable<Vector3> GetVertices(Tile tile, int x, int y) {
         var lx = x * Tile.worldSize;
         var ly = y * Tile.worldSize;
+		var o = Tile.worldSize / 2f;
         
-        yield return new Vector3(lx - Tile.worldSize / 2, ly + Tile.worldSize / 2, 0);
-        yield return new Vector3(lx + Tile.worldSize / 2, ly + Tile.worldSize / 2, 0);
-        yield return new Vector3(lx + Tile.worldSize / 2, ly - Tile.worldSize / 2, 0);
-        yield return new Vector3(lx - Tile.worldSize / 2, ly - Tile.worldSize / 2, 0);
+        yield return new Vector3(lx - o, ly + o, 0);
+        yield return new Vector3(lx + o, ly + o, 0);
+        yield return new Vector3(lx + o, ly - o, 0);
+        yield return new Vector3(lx - o, ly - o, 0);
     }
     
     public void AttachToMesh(Tile tile, int x, int y, int i) {    

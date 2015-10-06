@@ -8,6 +8,7 @@ public class PowerCircle : MonoBehaviour {
     void Start() {
         producer = GetComponentInParent<PowerProducer>();
         var renderer = GetComponent<SpriteRenderer>();
+		renderer.enabled = false;
     }
     
     // Update is called once per frame

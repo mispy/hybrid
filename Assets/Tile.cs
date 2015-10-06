@@ -80,7 +80,7 @@ public class Tile {
                 for (var x = 0; x < tileWidth; x++) {
                     for (var y = 0; y < tileHeight; y++) {
                         Color[] pixels = texture.GetPixels(x*Tile.pixelSize, y*Tile.pixelSize, Tile.pixelSize, Tile.pixelSize);
-                        var tileTex = new Texture2D(Tile.pixelSize, Tile.pixelSize, texture.format, false);
+                        var tileTex = new Texture2D(Tile.pixelSize, Tile.pixelSize, texture.format, false, false);
                         tileTex.SetPixels(pixels);
                         tileTex.Apply();
                         var baseTile = new BaseTile(tileTex);
@@ -96,48 +96,75 @@ public class Tile {
         
         // let's compress all the textures into a single tilesheet
         Texture2D[] textures = baseTiles.Select(type => type.texture).ToArray();
-        var atlas = new Texture2D(pixelSize*100, pixelSize*100);
-        var boxes = atlas.PackTextures(textures, 1, pixelSize*textures.Length*1);
+        var atlas = new Texture2D(pixelSize*100, pixelSize*100, TextureFormat.RGBA32, false);
+		atlas.filterMode = FilterMode.Point;
+		atlas.wrapMode = TextureWrapMode.Clamp;
+        var boxes = atlas.PackTextures(textures, 5, pixelSize*textures.Length);
         
         Tile.fracWidth = (float)pixelSize / atlas.width;
         Tile.fracHeight = (float)pixelSize / atlas.height;
         
-        /* There's some fiddliness here to do with texture bleeding and padding. We need a pixel
-         * of padding around each tile to prevent white lines (possibly as a result of bilinear filtering?)
-         * but we then need to remove that padding in the UVs to prevent black lines. - mispy */
-        var fracX = 1f/atlas.width;
-        var fracY = 1f/atlas.height;
+		// Texture extrusion hack
+		// This seems to be the only way to stop occasional weird lines occurring between
+		// tiles as a result of interpolation between neighboring pixels on the atlas
+		var colors = atlas.GetPixels32();
+		foreach (var box in boxes) {
+			var xMin = Mathf.FloorToInt(box.xMin * atlas.width);
+			var xMax = Mathf.FloorToInt(box.xMax * atlas.width);
+			var yMin = Mathf.FloorToInt(box.yMin * atlas.height);
+			var yMax = Mathf.FloorToInt(box.yMax * atlas.height);
+
+			for (var i = xMin; i <= xMax; i++) {
+				for (var j = yMin; j <= yMax; j++) {
+					var color = colors[j*atlas.width + i];
+
+					if (i == xMin && i > 1) {
+						colors[j*atlas.width + i - 1] = color;
+					}
+					if (i == xMax) {
+						colors[j*atlas.width + i + 1] = color;
+					}
+					if (j == yMin && j > 1) {
+						colors[(j-1)*atlas.width + i] = color;
+					}
+					if (j == yMax) {
+						colors[(j+1)*atlas.width + i] = color;
+					}
+				}
+			}
+		}
+		atlas.SetPixels32(colors);
+		atlas.Apply();
         
         for (var i = 0; i < baseTiles.Count; i++) {            
             var baseTile = baseTiles[i];
             var box = boxes[i];
-            
             var upUVs = new Vector2[] {
-                new Vector2(box.xMin + fracX, box.yMax - fracY),
-                new Vector2(box.xMax - fracX, box.yMax - fracY),
-                new Vector2(box.xMax - fracX, box.yMin + fracY),
-                new Vector2(box.xMin + fracX, box.yMin + fracY)
+                new Vector2(box.xMin, box.yMax),
+                new Vector2(box.xMax, box.yMax),
+                new Vector2(box.xMax, box.yMin),
+                new Vector2(box.xMin, box.yMin)
             };
             
             var rightUVs = new Vector2[] {
-                new Vector2(box.xMax - fracX, box.yMin + fracY),
-                new Vector2(box.xMax - fracX, box.yMax - fracY),
-                new Vector2(box.xMin + fracX, box.yMax - fracY),
-                new Vector2(box.xMin + fracX, box.yMin + fracY)
+                new Vector2(box.xMax, box.yMin),
+                new Vector2(box.xMax, box.yMax),
+                new Vector2(box.xMin, box.yMax),
+                new Vector2(box.xMin, box.yMin)
             };
             
             var downUVs = new Vector2[] {
-                new Vector2(box.xMin + fracX, box.yMin + fracY),
-                new Vector2(box.xMax - fracX, box.yMin + fracY),
-                new Vector2(box.xMax - fracX, box.yMax - fracY),
-                new Vector2(box.xMin + fracX, box.yMax - fracY)
+                new Vector2(box.xMin, box.yMin),
+                new Vector2(box.xMax, box.yMin),
+                new Vector2(box.xMax, box.yMax),
+                new Vector2(box.xMin, box.yMax)
             };
             
             var leftUVs = new Vector2[] {
-                new Vector2(box.xMin + fracX, box.yMax - fracY),
-                new Vector2(box.xMin + fracX, box.yMin + fracY),
-                new Vector2(box.xMax - fracX, box.yMin + fracY),
-                new Vector2(box.xMax - fracX, box.yMax - fracY)
+                new Vector2(box.xMin, box.yMax),
+                new Vector2(box.xMin, box.yMin),
+                new Vector2(box.xMax, box.yMin),
+                new Vector2(box.xMax, box.yMax)
             };
             
             baseTile.up = new Tile(baseTile, Rot4.Up, upUVs);

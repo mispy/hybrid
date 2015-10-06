@@ -1,4 +1,4 @@
-﻿Shader "Custom/ShipInterior"
+﻿Shader "Custom/TileChunk"
 {
 	Properties
 	{
