@@ -49,7 +49,7 @@ public class Explosive : MonoBehaviour
 		
 
 
-		var cols = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+		var cols = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask(new string[] { "Wall", "Floor", "Shields" }));
 
 		List<Block> blocksToBreak = new List<Block>();
 		HashSet<Rigidbody> rigidBodies = new HashSet<Rigidbody>();
@@ -60,16 +60,12 @@ public class Explosive : MonoBehaviour
 			var form = col.attachedRigidbody.GetComponent<Blockform>();
 			if (form == null) continue;
 
-			var blocks = form.BlocksAtWorldPos(col.transform.position);
+			var shields = col.gameObject.GetComponent<Shields>();
+			if (shields != null)
+				shields.TakeDamage(1f);
+			else
+				blocksToBreak.AddRange(form.BlocksAtWorldPos(col.transform.position));
 
-			if (blocks.Any())
-				blocksToBreak.AddRange(blocks);
-			else {
-				// no blocks, it's probably the shields
-				var shields = col.gameObject.GetComponent<Shields>();
-				if (shields != null)
-					shields.TakeDamage(1f);
-			}
 		}
 
 		foreach (var block in blocksToBreak) {

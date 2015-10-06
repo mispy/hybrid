@@ -22,9 +22,9 @@ public class ShipCollision : PoolBehaviour {
         obj.SetActive(true);
         collidersObj = obj;
 
-        foreach (var block in blocks.AllBlocks) {
-            if (blocks.IsCollisionEdge(block.pos)) {
-                AddCollider(block.pos, block.CollisionLayer);
+        foreach (var pos in blocks.FilledPositions) {
+            if (blocks.IsCollisionEdge(pos)) {
+                AddCollider(pos, blocks.CollisionLayer(pos));
             }
         }
 

@@ -135,7 +135,7 @@ public class Util {
 
 	public static IEnumerable<RaycastHit> ShipCast(Blockform form, Vector3 startPos, Vector3 endPos) {
 		var targetVec = (endPos - startPos);
-		var hits = Physics.SphereCastAll(startPos, form.width, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+		var hits = Physics.SphereCastAll(startPos, form.width, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Bounds" }));
 		foreach (var hit in hits) {
 			if (hit.rigidbody != form.rigidBody) {
 				yield return hit;
@@ -171,12 +171,12 @@ public class Util {
         foreach (var block in form.BlocksAtWorldPos(targetPos))
             return true;
 
-        var targetDist = (targetPos - turretPos);
-        var targetDir = targetDist.normalized;
+		var turretBlockPos = form.WorldToBlockPos(turretPos);
+        var targetDir = (targetPos - turretPos).normalized;
         
-        var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, targetDist.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+        var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, form.radius, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
         foreach (var hit in targetHits) {
-            if (hit.rigidbody == form.rigidBody && form.WorldToBlockPos(hit.collider.transform.position) != form.WorldToBlockPos(turretPos)) {
+            if (hit.rigidbody == form.rigidBody && form.LocalToBlockPos(hit.collider.transform.localPosition) != turretBlockPos) {
                 return true;
             }
         }

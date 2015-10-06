@@ -54,7 +54,7 @@ public class Blueprint : PoolBehaviour {
     }
 
     public IEnumerable<Block> BlocksAtWorldPos(Vector2 worldPos) {
-        return blocks[ship.form.WorldToBlockPos(worldPos)];
+        return blocks.BlocksAtPos(ship.form.WorldToBlockPos(worldPos));
     }
 
     public override void OnRecycle() {

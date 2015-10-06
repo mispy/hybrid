@@ -46,7 +46,7 @@ public class WeaponSelect : MonoBehaviour {
 	}
     
     void OnEnable() {
-		foreach (var block in Game.playerShip.blocks.AllBlocks)
+		foreach (var block in Game.playerShip.blocks.allBlocks)
 			OnBlockAdded(block);
 		Game.playerShip.blocks.OnBlockAdded += OnBlockAdded;
     }

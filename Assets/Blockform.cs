@@ -122,7 +122,7 @@ public class Blockform : PoolBehaviour {
 		boundsCollider.transform.position = transform.position;
 		boundsCollider.gameObject.SetActive(true);
 
-        foreach (var block in ship.blocks.AllBlocks) {
+        foreach (var block in ship.blocks.allBlocks) {
             OnBlockAdded(block);
         }
 
@@ -167,9 +167,23 @@ public class Blockform : PoolBehaviour {
 		return sideCount.OrderBy((kv) => -kv.Value).First().Key;
 	}
     
-    public GameObject BreakBlock(Block block) {
+    public GameObject BreakBlock(Block block, bool checkBreaks = true) {
         blocks[block.pos, block.layer] = null;
-        
+
+		if (block.layer == BlockLayer.Base) {
+			var top = blocks[block.pos, BlockLayer.Top];
+			if (top != null)
+				BreakBlock(top);
+
+			if (checkBreaks) {
+				foreach (var neighbor in IntVector2.Neighbors(block.pos)) {
+					if (blocks[neighbor, BlockLayer.Base] != null)
+						breaksToCheck.Add(neighbor);
+				}
+			}			
+		}
+
+
         /*var newShipObj = Pool.For("Ship").TakeObject();
         newShipObj.transform.position = BlockToWorldPos(block.pos);
         var newShip = newShipObj.GetComponent<Ship>();
@@ -186,7 +200,7 @@ public class Blockform : PoolBehaviour {
         rigid.velocity = rigidBody.velocity;
         rigid.angularVelocity = rigidBody.angularVelocity;
         
-        if (blocks.size == 0) Pool.Recycle(gameObject);
+        if (blocks.baseSize == 0) Pool.Recycle(gameObject);
         
         return obj;
     }
@@ -196,33 +210,32 @@ public class Blockform : PoolBehaviour {
 		var smaller = frag1.Count > frag2.Count ? frag2 : frag1;
 
 		foreach (var block in smaller) {
-			foreach (var layerBlock in blocks[block.pos]) {
+			foreach (var layerBlock in blocks.BlocksAtPos(block.pos)) {
 				BreakBlock(layerBlock);
 			}
-		}
-	}
-
-	public void MassBreak(IEnumerable<Block> fill) {
-		foreach (var block in fill) {
-			BreakBlock(block);
-			breaksToCheck.Remove(block.pos);
 		}
 	}
 
 	public void UpdateBreaks() {
 		Profiler.BeginSample("UpdateBreaks");
 
-		if (breaksToCheck.Count == 0) return;
+		while (breaksToCheck.Count > 0) {
+			var breakPos = breaksToCheck.First();
+			breaksToCheck.Remove(breakPos);
 
-		var breakPos = breaksToCheck.First();
-		breaksToCheck.Remove(breakPos);
+			BlockBitmap fill = BlockPather.Floodfill(blocks, breakPos);
 
-		var fill = BlockPather.Floodfill(blocks, blocks[breakPos, BlockLayer.Base]).ToArray();
-		if (fill.Length != blocks.size) {
-			if (fill.Length < blocks.size/2f) {
-				MassBreak(fill);
+			if (fill.size == blocks.baseSize) {
+				// There are no breaks here
+				breaksToCheck.Clear();
 			} else {
-				MassBreak(blocks.AllBlocks.Where((b) => !fill.Contains(b)));
+				if (fill.size < blocks.baseSize/2f) {
+					foreach (var pos in fill)
+						BreakBlock(blocks[pos, BlockLayer.Base], checkBreaks: false);
+				} else {
+					foreach (var pos in fill)
+						breaksToCheck.Remove(pos);
+				}
 			}
 		}
 
@@ -235,12 +248,10 @@ public class Blockform : PoolBehaviour {
         //if (oldBlock.layer == BlockLayer.Base)
         //    this.size -= 1;
         
-        UpdateBlock(oldBlock);
+		if (oldBlock.layer == BlockLayer.Base)
+			breaksToCheck.Remove(oldBlock.pos);
 
-		breaksToCheck.Remove(oldBlock.pos);
-		foreach (var neighbor in IntVector2.Neighbors(oldBlock.pos)) {
-			if (blocks[neighbor].Any()) breaksToCheck.Add(neighbor);
-		}
+        UpdateBlock(oldBlock);
 
 
         Profiler.EndSample();
@@ -297,16 +308,16 @@ public class Blockform : PoolBehaviour {
         var totalMass = 0.0f;
         var avgPos = new IntVector2(0, 0);
         
-        foreach (var block in blocks.AllBlocks) {
+        foreach (var block in blocks.allBlocks) {
+			avgPos.x += block.pos.x;
+			avgPos.y += block.pos.y;
             totalMass += block.mass;
-            avgPos.x += block.pos.x;
-            avgPos.y += block.pos.y;
         }
         
         rigidBody.mass = totalMass;
         
-        avgPos.x /= blocks.size;
-        avgPos.y /= blocks.size;
+        avgPos.x /= blocks.allBlocks.Count;
+        avgPos.y /= blocks.allBlocks.Count;
         centerOfMass = BlockToLocalPos(avgPos);
         rigidBody.centerOfMass = centerOfMass;
         
@@ -420,7 +431,7 @@ public class Blockform : PoolBehaviour {
     }
     
     public IEnumerable<Block> BlocksAtWorldPos(Vector2 worldPos) {
-        return blocks[WorldToBlockPos(worldPos)];
+		return blocks.BlocksAtPos(WorldToBlockPos(worldPos));
     }
     
     public void FireThrusters(Orientation orientation) {

@@ -103,7 +103,7 @@ public class BuildJobManager {
         this.ship = ship;
         ship.blueprintBlocks.OnBlockAdded += OnBlueprintAdded;
 		ship.blueprintBlocks.OnBlockRemoved += OnBlueprintRemoved;
-		foreach (var block in ship.blueprintBlocks.AllBlocks) {
+		foreach (var block in ship.blueprintBlocks.allBlocks) {
 			OnBlueprintAdded(block);
 		}
     }

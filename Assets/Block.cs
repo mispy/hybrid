@@ -95,7 +95,7 @@ public class Block {
                 if (form != null) {
                     var bp = form.WorldToBlockPos(hit.transform.position);
 
-                    foreach (var block in form.blocks[bp])
+                    foreach (var block in form.blocks.BlocksAtPos(bp))
                         nearbyBlocks.Add(block);
                 }
             }

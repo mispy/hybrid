@@ -10,6 +10,7 @@ public class SpacePather : PoolBehaviour {
 	public float pathGridSize;
 
 	public List<Vector2> lastPath;
+	public Vector2[] cardinals;
 
 	public bool IsPassable(Vector2 pos) {
 		var corners = Util.RectCorners(colRect).ToList();
@@ -24,20 +25,20 @@ public class SpacePather : PoolBehaviour {
 		return true;
 	}
 
-	public Vector2[] Cardinals() {
-		var up = (Vector2)transform.TransformVector(Vector2.down);
-		var left = (Vector2)transform.TransformVector(Vector2.left);
-		var right = (Vector2)transform.TransformVector(Vector2.right);
-		var down = (Vector2)transform.TransformVector(Vector2.up);
-		return new Vector2[] { up, left, right, down };
+	public IEnumerable<Vector2> Cardinals() {
+		yield return (Vector2)transform.TransformVector(Vector2.down);
+		yield return (Vector2)transform.TransformVector(Vector2.left);
+		yield return (Vector2)transform.TransformVector(Vector2.right);
+		yield return (Vector2)transform.TransformVector(Vector2.up);
 	}
 
-	public Vector2[] Neighbors(Vector2 pos) {
-		return Cardinals().Select((c) => pos + c*pathGridSize).ToArray();
+	public IEnumerable<Vector2> Neighbors(Vector2 pos) {
+		return cardinals.Select((c) => pos + c*pathGridSize);
 	}
 
 	public List<Vector2> PathBetween(Vector2 start, Vector2 end, List<Vector2> currentPath = null) {
 		if (!IsPassable(end)) return null;
+		cardinals = Cardinals().ToArray();
 
 		var dir = (end-start).normalized;
 
@@ -70,7 +71,6 @@ public class SpacePather : PoolBehaviour {
 					lastPath = ReconstructPath(cameFrom, end);
 					return lastPath;
 				}
-
 
 				Debug.DrawLine(head, neighbor, Color.Lerp(Color.white, Color.cyan, heads.Count/100f));
 
@@ -106,7 +106,7 @@ public class SpacePather : PoolBehaviour {
 		var invPath = new List<Vector2>();
 		while (true) {
 			invPath.Add(current);
-			if (!cameFrom.Keys.Contains(current))
+			if (!cameFrom.ContainsKey(current))
 				break;
 			current = cameFrom[current];
 		}

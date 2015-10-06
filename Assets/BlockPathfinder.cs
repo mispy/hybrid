@@ -6,29 +6,29 @@ using System.Linq;
 
 public static class BlockPather {
 	// find all blocks directly connected to a given block
-	public static IEnumerable<Block> Floodfill(BlockMap blocks, Block start) {
-		var seen = new bool[blocks.width, blocks.height];
-		var heads = new Stack<Block>();
-		seen[start.x-blocks.minX, start.y-blocks.minY] = true;
+	public static BlockBitmap Floodfill(BlockMap blocks, IntVector2 start) {
+		var seen = new BlockBitmap(blocks);
+		var filled = new BlockBitmap(blocks);
+		var heads = new Stack<IntVector2>();
+		seen[start] = true;
+		filled[start] = true;
 		heads.Push(start);
-		
+
 		while (heads.Count > 0) {
 			var head = heads.Pop();
 
-			foreach (var neighbor in IntVector2.Neighbors(head.pos)) {
-				var seenX = neighbor.x-blocks.minX;
-				var seenY = neighbor.y-blocks.minY;
+			foreach (var neighbor in IntVector2.Neighbors(head)) {
+				if (seen[neighbor] == true || blocks.IsOutsideBounds(neighbor, allowBuffer: false)) continue;
+				seen[neighbor] = true;
 
-				if (seen[seenX, seenY]) continue;
-				seen[seenX, seenY] = true;
-
-				var nextBlock = blocks[neighbor, start.layer];
-				if (nextBlock != null) {
-					yield return nextBlock;
-					heads.Push(nextBlock);
+				if (blocks[neighbor, BlockLayer.Base] != null) {
+					filled[neighbor] = true;
+					heads.Push(neighbor);
 				}
 			}
 		}
+
+		return filled;
 	}
 
 	public static IEnumerable<IntVector2> Floodwalk(BlockMap blocks, IntVector2 start) {
@@ -71,7 +71,8 @@ public static class BlockPather {
 
 				seen[neighbor.x-blocks.minX+1, neighbor.y-blocks.minY+1] = true;
 
-				if (!blocks[neighbor].Any((b) => b.type.canBlockSight))
+				var block = blocks[neighbor, BlockLayer.Base];
+				if (block == null || !block.type.canBlockSight)
 					heads.Push(neighbor);
 			}
 		}

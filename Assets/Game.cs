@@ -183,10 +183,6 @@ public class Game : MonoBehaviour {
         }
     }
 
-    void GenerateShip() {
-        Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
-    }
-
     void Start() {
         Game.mainCamera = Camera.main;
     }

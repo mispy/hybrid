@@ -82,7 +82,7 @@ public class TileRenderer : PoolBehaviour {
         blocks.OnBlockAdded += OnBlockAdded;
         blocks.OnBlockRemoved += OnBlockRemoved;
 
-        foreach (var block in blocks.AllBlocks)
+        foreach (var block in blocks.allBlocks)
             OnBlockAdded(block);
     }
 

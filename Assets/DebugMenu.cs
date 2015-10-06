@@ -17,9 +17,9 @@ public class DebugMenu : MonoBehaviour {
 
     public void NewShip() {
         var ship = Game.playerShip;
-        foreach (var block in ship.blocks.AllBlocks) {        
-            ship.blocks[block.pos, block.layer] = null;
-            ship.blueprintBlocks[block.pos, block.layer] = null;
+		foreach (var pos in ship.blocks.FilledPositions) {
+			ship.blocks[pos, BlockLayer.Base] = null;
+			ship.blueprintBlocks[pos, BlockLayer.Base] = null;
         }
         ship.SetBlock<Floor>(0, 0);
     }

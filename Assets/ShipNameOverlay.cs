@@ -23,7 +23,7 @@ public class ShipNameOverlay : MonoBehaviour {
             text.color = friendlyColor;
         }
 
-        text.fontSize = Mathf.CeilToInt(Mathf.Log(ship.blocks.size)*0.5f);
+        text.fontSize = Mathf.CeilToInt(Mathf.Log(ship.blocks.baseSize)*0.5f);
 
 		if (Game.playerShip == null)
 			canvas.transform.rotation = Game.mainCamera.transform.rotation;

@@ -108,7 +108,7 @@ public class ShipDesigner : MonoBehaviour {
         
         for (var i = 0; i < cursorBlock.Width; i++) {
             for (var j = 0; j < cursorBlock.Height; j++) {
-                foreach (var block in designShip.form.blueprint.blocks[targetBlockPos.x+i, targetBlockPos.y+j]) {
+                foreach (var block in designShip.form.blueprint.blocks.BlocksAtPos(new IntVector2(targetBlockPos.x+i, targetBlockPos.y+j))) {
                     //Debug.LogFormat("{0} {1} {2}", cursorBlock.type.name, block.type.name, CanFitInto(cursorBlock, block));
                     if (!CanFitInto(cursorBlock, block))
                         return false;

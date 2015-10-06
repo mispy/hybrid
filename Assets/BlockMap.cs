@@ -8,16 +8,16 @@ using Random = UnityEngine.Random;
 public class BlockMap {
 	public Ship ship;
 
-	// Calculated dimensions
+	// Cached info
     public int maxX;
     public int minX;
     public int maxY;
     public int minY;
 	public int width;
 	public int height;
+	public int baseSize;
 	public Rect boundingRect;
-	// Total number of filled base blocks
-	public int size;
+	public HashSet<Block> allBlocks = new HashSet<Block>();
 
 	// Values used for translating between 0,0 center to traditional
 	// array coordinates
@@ -31,6 +31,7 @@ public class BlockMap {
     int heightInChunks;
     BlockChunk[,] baseChunks;
     BlockChunk[,] topChunks;
+
 
 
     public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
@@ -52,7 +53,7 @@ public class BlockMap {
         maxY = 0;
 		width = 0;
 		height = 0;
-		size = 0;
+		baseSize = 0;
 
         chunkWidth = 32;
         chunkHeight = 32;
@@ -130,32 +131,29 @@ public class BlockMap {
         return blockTypeCache[type.GetType()].Count > 0;
     }
 
-    public IEnumerable<BlockChunk> AllChunks {
-        get {
-            for (var i = 0; i < widthInChunks; i++) {
-                for (var j = 0; j < heightInChunks; j++) {
-                    var chunk = baseChunks[i, j];
-                    if (chunk != null) yield return chunk;
-                    chunk = topChunks[i, j];
-                    if (chunk != null) yield return chunk;
-                }
-            }
-        }
-    }
+	public IEnumerable<IntVector2> FilledPositions {
+		get {
+			for (var i = minX; i <= maxX; i++) {
+				for (var j = minY; j <= maxY; j++) {
+					if (this[i, j, BlockLayer.Base] != null)
+						yield return new IntVector2(i, j);
+				}
+			}
+		}
+	}
 
-    public IEnumerable<Block> AllBlocks {
+    /*public IEnumerable<Block> BaseBlocks {
         get {
-            var seenBlocks = new Dictionary<Block, Boolean>();
-            foreach (var chunk in AllChunks) {
-                foreach (var block in chunk.AllBlocks) {
-                    if (!seenBlocks.ContainsKey(block)) {
-                        yield return block;
-                        seenBlocks[block] = true;
-                    }
-                }
-            }
-        }
-    }
+			for (var i = 0; i < widthInChunks; i++) {
+				for (var j = 0; j < heightInChunks; j++) {
+					var chunk = baseChunks[i, j];
+					foreach (var block in chunk.AllBlocks) {
+						yield return block;
+					}
+				}
+			}
+		}
+    }*/
 
     public BlockChunk NewChunk(BlockChunk[,] chunks, int trueChunkX, int trueChunkY) {
         //Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
@@ -201,7 +199,7 @@ public class BlockMap {
 		maxX = -10000;
         maxY = -10000;
 
-        foreach (var block in AllBlocks) {
+        foreach (var block in allBlocks) {
             minX = Math.Min(minX, block.pos.x);
             minY = Math.Min(minY, block.pos.y);
             maxX = Math.Max(maxX, block.pos.x);
@@ -220,7 +218,7 @@ public class BlockMap {
     void RemoveBlock(Block block) {
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
-                if (block.layer == BlockLayer.Base) size -= 1;
+                if (block.layer == BlockLayer.Base) baseSize -= 1;
                 SetChunkedValue(block.pos.x + i, block.pos.y + j, block.layer, null);
             }
         }
@@ -230,6 +228,7 @@ public class BlockMap {
 
         block.ship = null;
         blockTypeCache[block.type.GetType()].Remove(block);
+		allBlocks.Remove(block);
         if (OnBlockRemoved != null) OnBlockRemoved(block);        
     }
 
@@ -239,12 +238,13 @@ public class BlockMap {
 
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
-                if (layer == BlockLayer.Base) size += 1;
+                if (layer == BlockLayer.Base) baseSize += 1;
                 SetChunkedValue(bp.x + i, bp.y + j, layer, block);
             }
         }
     
         blockTypeCache[block.type.GetType()].Add(block);
+		allBlocks.Add(block);
         if (OnBlockAdded != null) OnBlockAdded(block);
     }
 
@@ -296,8 +296,14 @@ public class BlockMap {
 
             for (var i = 0; i < width; i++) {
                 for (var j = 0; j < height; j++) {
-                    var current = this[new IntVector2(bp.x + i, bp.y + j), layer];
+                    var current = this[bp.x + i, bp.y + j, layer];
                     if (current != null) RemoveBlock(current);
+
+					// Remove any blocks above this
+					if (value == null && layer == BlockLayer.Base) {
+						current = this[bp.x + i, bp.y + j, BlockLayer.Top];
+						if (current != null) RemoveBlock(current);
+					}
                 }
             }
 
@@ -313,22 +319,20 @@ public class BlockMap {
         set { this[new IntVector2(x, y), layer] = value; }
     }
 
-    public IEnumerable<Block> this[IntVector2 bp] {        
-        get {
-            var baseBlock = this[bp, BlockLayer.Base];
-            var topBlock = this[bp, BlockLayer.Top];
-            if (baseBlock != null) yield return baseBlock;
-            if (topBlock != null) yield return topBlock;
-        }
+    public IEnumerable<Block> BlocksAtPos(IntVector2 bp) {        
+        var baseBlock = this[bp, BlockLayer.Base];
+        var topBlock = this[bp, BlockLayer.Top];
+        if (baseBlock != null) yield return baseBlock;
+        if (topBlock != null) yield return topBlock;
     }
 
-    public IEnumerable<Block> this[int x, int y] {
-        get { return this[new IntVector2(x, y)]; }
-    }
-
-	public bool IsOutsideBounds(IntVector2 bp) {
-		// There's a one-tile walkable area of open space around the ship
-		return (bp.x > maxX+1 || bp.x < minX-1 || bp.y > maxY+1 || bp.y < minY-1);
+	public bool IsOutsideBounds(IntVector2 bp, bool allowBuffer = true) {
+		if (allowBuffer) {
+			// There's a one-tile walkable area of open space around the ship
+			return (bp.x > maxX+1 || bp.x < minX-1 || bp.y > maxY+1 || bp.y < minY-1);
+		} else {
+			return (bp.x > maxX || bp.x < minX || bp.y > maxY || bp.y < minY);
+		}
 	}
 
     public bool IsPassable(IntVector2 bp) {

@@ -88,19 +88,21 @@ public static class ShipManager {
         var data = new ShipData();
         data.name = ship.name;
 
-        data.blocks = new BlockData[ship.blocks.size];
-        data.blueprintBlocks = new BlockData[ship.blueprintBlocks.size];
+        data.blocks = new BlockData[ship.blocks.allBlocks.Count];
+        data.blueprintBlocks = new BlockData[ship.blueprintBlocks.allBlocks.Count];
         
-        var allBlocks = ship.blocks.AllBlocks.ToArray();
-        for (var i = 0; i < allBlocks.Length; i++) {
-            data.blocks[i] = BlockManager.Serialize(allBlocks[i]);
-        }
-        
-        var blueBlocks = ship.blueprintBlocks.AllBlocks.ToArray();
-        for (var i = 0; i < blueBlocks.Length; i++) {
-            data.blueprintBlocks[i] = BlockManager.Serialize(blueBlocks[i]);
-        }
-        
+		var i = 0;
+		foreach (var block in ship.blocks.allBlocks) {
+			data.blocks[i] = BlockManager.Serialize(block);
+			i += 1;
+		}
+
+		i = 0;
+		foreach (var block in ship.blueprintBlocks.allBlocks) {
+			data.blueprintBlocks[i] = BlockManager.Serialize(block);
+			i += 1;
+		}
+
         return data;
     }
 }
