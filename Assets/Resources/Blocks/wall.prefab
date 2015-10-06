@@ -50,6 +50,7 @@ MonoBehaviour:
   blockLayer: 0
   canRotate: 0
   canFitInsideWall: 0
+  canBeFired: 0
 --- !u!212 &21246848
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -72,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -484430309
+  m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 56bbb0c4aed2c824f9199f0d448e8473, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -153,7 +154,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
-      value: -484430309
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

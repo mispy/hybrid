@@ -3,6 +3,7 @@
 	Properties
 	{
 		[PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
+		[PerRendererData] _Visibility ("Visibility Texture", 2D) = "white" {}
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 	}
@@ -43,6 +44,8 @@
 				float4 vertex   : SV_POSITION;
 				fixed4 color    : COLOR;
 				half2 texcoord  : TEXCOORD0;
+				float4 localPos : TEXCOORD2;
+				float2 worldPos : TEXCOORD3;
 			};
 			
 			fixed4 _Color;
@@ -56,12 +59,15 @@
 				#ifdef PIXELSNAP_ON
 				OUT.vertex = UnityPixelSnap (OUT.vertex);
 				#endif
+				OUT.localPos = IN.vertex;
+                OUT.worldPos = mul(_Object2World, IN.vertex).xy;                
 
 				return OUT;
 			}
 
 			sampler2D _MainTex;
 			sampler2D _AlphaTex;
+			sampler2D _Visibility;
 			float _AlphaSplitEnabled;
 
 			fixed4 SampleSpriteTexture (float2 uv)
@@ -76,7 +82,13 @@
 			fixed4 frag(v2f IN) : SV_Target
 			{
 				fixed4 c = SampleSpriteTexture (IN.texcoord) * IN.color;
-				c.rgb *= c.a;
+				float2 blockPos = IN.texcoord;
+				fixed4 vis = tex2D(_Visibility, blockPos);
+				
+				if (vis.a > 0.5)
+					c.rgb *= c.a;
+				else
+					c = fixed4(0, 0, 0, 0);
 				return c;
 			}
 		ENDCG

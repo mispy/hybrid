@@ -105,7 +105,7 @@ public class Blockform : PoolBehaviour {
 
 		fog = Pool.For("InteriorFog").Take<InteriorFog>();
 		fog.transform.SetParent(transform);
-		fog.transform.position = transform.position + Vector3.back;
+		fog.transform.position = transform.position;
 		fog.name = "InteriorFog";
 		fog.gameObject.SetActive(true);
 

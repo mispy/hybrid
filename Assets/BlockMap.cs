@@ -50,6 +50,9 @@ public class BlockMap {
         minY = 0;
         maxX = 0;
         maxY = 0;
+		width = 0;
+		height = 0;
+		size = 0;
 
         chunkWidth = 32;
         chunkHeight = 32;
@@ -58,7 +61,6 @@ public class BlockMap {
         baseChunks = new BlockChunk[chunkWidth, chunkHeight];
         topChunks = new BlockChunk[chunkWidth, chunkHeight];
 
-        size = 0;
 
         centerChunkX = widthInChunks/2;
         centerChunkY = heightInChunks/2;
@@ -71,6 +73,15 @@ public class BlockMap {
             }
         }
     }
+
+	public bool IsExternallyVisible(IntVector2 bp) {
+		foreach (var neighbor in IntVector2.NeighborsWithDiagonal(bp)) {
+			if (CollisionLayer(neighbor) == Block.spaceLayer)
+				return true;
+		}
+
+		return false;
+	}
 
     public bool IsCollisionEdge(IntVector2 bp) {
         var collisionLayer = CollisionLayer(bp);
@@ -217,8 +228,8 @@ public class BlockMap {
             maxY = Math.Max(maxY, block.pos.y);
         }
 
-		width = maxX - minX;
-		height = maxY - minY;
+		width = 1 + maxX - minX;
+		height = 1 + maxY - minY;
 		boundingRect = new Rect();
 		boundingRect.xMin = minX;
 		boundingRect.xMax = maxX;

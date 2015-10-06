@@ -295,7 +295,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1169726945
+  m_SortingLayerID: 1549073435
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 208b30d891a96a0499e5b196c59ea9c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -320,7 +320,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
-  m_SortingLayerID: 1169726945
+  m_SortingLayerID: 1549073435
   m_SortingOrder: 0
 --- !u!224 &22444710
 RectTransform:
@@ -382,7 +382,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
-      value: 1169726945
+      value: 1549073435
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
