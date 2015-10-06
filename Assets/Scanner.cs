@@ -20,8 +20,4 @@ public class Scanner : BlockComponent {
 		scanCircle.transform.position = Game.mousePos;
 		scanCircle.transform.localScale = new Vector3(scanRadius*2, scanRadius*2, scanRadius*2);
 	}
-	
-	public void OnLeftClick() {
-		Scan(Game.mousePos);
-	}
 }

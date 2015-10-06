@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11455918}
   - 114: {fileID: 11443418}
   - 114: {fileID: 11460368}
+  - 114: {fileID: 11460924}
   m_Layer: 16
   m_Name: Sensors
   m_TagString: Untagged
@@ -86,13 +87,29 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 106810}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a2017a578aefb041a134679f94d037d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetCirclePrefab: {fileID: 169040, guid: af303abf8789b9545b78a9fe0e90d69b, type: 2}
   radius: 5
+--- !u!114 &11460924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 106810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fc129509b5acd744a440dc9795b8b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetForm: {fileID: 0}
+  lineRenderer: {fileID: 0}
+  isTargeting: 0
+  positions: []
+  lineLength: 0
 --- !u!212 &21260028
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -158,6 +175,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: scanRadius
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseWorldSpace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseLightProbes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
