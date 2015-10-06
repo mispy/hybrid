@@ -32,7 +32,7 @@ public class InteriorFog : MonoBehaviour {
 	}
 
 	public void UpdateVisibility() {
-		transform.localEulerAngles = new Vector3(90, 0, 0);
+		transform.localEulerAngles = new Vector3(90, 180, 0);
 		transform.localPosition = form.bounds.center;
 		transform.localScale = new Vector3(form.bounds.size.x, 0, form.bounds.size.y) / 10f;
 
@@ -43,10 +43,10 @@ public class InteriorFog : MonoBehaviour {
 		var colors = new Color32[(blocks.width)*(blocks.height)];
 		
 		for (var i = 0; i < colors.Length; i++) {
-			if (form.ship == Game.playerShip || Game.debugVisibility) {
-				colors[i] = Color.clear;
+			if (Game.debugVisibility) {
+				colors[i] = form.ship == Game.playerShip ? Color.black : Color.clear;
 			} else {
-				colors[i] = Color.black;
+				colors[i] = form.ship == Game.playerShip ? Color.clear : Color.black;
 			}
 		}
 

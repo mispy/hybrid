@@ -340,33 +340,33 @@
     </BlockData>
     <BlockData>
       <x>-6</x>
-      <y>0</y>
-      <typeName>Thruster</typeName>
+      <y>1</y>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
-      <y>1</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <y>3</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
       <y>2</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-6</x>
-      <y>3</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <x>-8</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-6</x>
-      <y>4</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <x>-7</x>
+      <y>1</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
@@ -389,7 +389,7 @@
     <BlockData>
       <x>-5</x>
       <y>2</y>
-      <typeName>Wall</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1608,6 +1608,126 @@
       <x>5</x>
       <y>5</y>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>1</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>1</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>2</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>1</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>3</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
   </blocks>
@@ -1950,33 +2070,33 @@
     </BlockData>
     <BlockData>
       <x>-6</x>
-      <y>0</y>
-      <typeName>Thruster</typeName>
+      <y>1</y>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
-      <y>1</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
       <y>2</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-6</x>
-      <y>3</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <x>-8</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>-6</x>
-      <y>4</y>
-      <typeName>PlasmaTurret</typeName>
-      <orientation>2</orientation>
+      <x>-7</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>-6</x>
@@ -1999,7 +2119,7 @@
     <BlockData>
       <x>-5</x>
       <y>2</y>
-      <typeName>Wall</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3218,6 +3338,126 @@
       <x>5</x>
       <y>5</y>
       <typeName>PowerNode</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>1</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>1</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>1</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>0</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>1</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>2</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>3</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-10</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-9</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-8</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-7</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-6</x>
+      <y>3</y>
+      <typeName>Wall</typeName>
       <orientation>1</orientation>
     </BlockData>
   </blueprintBlocks>
