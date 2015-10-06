@@ -56,20 +56,21 @@ public static class BlockPather {
 
 	public static IEnumerable<IntVector2> Floodsight(BlockMap blocks, IntVector2 start) {
 		var heads = new Stack<IntVector2>();
-		var seen = new bool[blocks.width+2, blocks.height+2];
-		seen[start.x-blocks.minX, start.y-blocks.minY] = true;
+		var seen = new BlockBitmap(blocks);
+		seen[start] = true;
 		heads.Push(start);
+		yield return start;
 
 		while (heads.Count > 0) {
 			var head = heads.Pop();
-			
+
 			foreach (var neighbor in IntVector2.NeighborsWithDiagonal(head)) {
-				if (blocks.IsOutsideBounds(neighbor) || seen[neighbor.x-blocks.minX+1, neighbor.y-blocks.minY+1])
+				if (blocks.IsOutsideBounds(neighbor) || seen[neighbor])
 					continue;
 				
 				yield return neighbor;
 
-				seen[neighbor.x-blocks.minX+1, neighbor.y-blocks.minY+1] = true;
+				seen[neighbor] = true;
 
 				var block = blocks[neighbor, BlockLayer.Base];
 				if (block == null || !block.type.canBlockSight)
