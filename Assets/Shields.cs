@@ -14,6 +14,7 @@ public class Shields : PoolBehaviour {
 	public void TakeDamage(float amount) {
 		health = Mathf.Max(0, health - amount);
 		UpdateStatus();
+		SendMessage("OnShieldsChange");
 	}
 
 	void Awake() {
@@ -57,13 +58,14 @@ public class Shields : PoolBehaviour {
 			isActive = false;
 			SendMessage("OnShieldsDisable");
 		}
-
-		SendMessage("OnShieldsChange");
 	}
 
 	void Update() {
-		health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);
-		UpdateStatus();
+		if (health < maxHealth) {
+			health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);		
+			UpdateStatus();
+			SendMessage("OnShieldsChange");
+		}
 
 		if (!isActive)
 			return;

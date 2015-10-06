@@ -26,6 +26,7 @@ public class Blockform : PoolBehaviour {
     public BlockMap blocks;
     public TileRenderer tiles;
     public Rigidbody rigidBody;
+	public BoxCollider boundsCollider;
     
     public bool hasGravity = false;
     
@@ -52,6 +53,12 @@ public class Blockform : PoolBehaviour {
 	public float height {
 		get {
 			return (blocks.maxY - blocks.minY) * Tile.worldSize;
+		}
+	}
+
+	public float radius {
+		get {
+			return Mathf.Max(width, height);
 		}
 	}
 
@@ -108,6 +115,12 @@ public class Blockform : PoolBehaviour {
 		fog.transform.position = transform.position;
 		fog.name = "InteriorFog";
 		fog.gameObject.SetActive(true);
+
+		boundsCollider = Pool.For("BoundsCollider").Take<BoxCollider>();
+		boundsCollider.isTrigger = true;
+		boundsCollider.transform.SetParent(transform);
+		boundsCollider.transform.position = transform.position;
+		boundsCollider.gameObject.SetActive(true);
 
         foreach (var block in ship.blocks.AllBlocks) {
             OnBlockAdded(block);
@@ -236,6 +249,8 @@ public class Blockform : PoolBehaviour {
 
 	public void UpdateBounds() {
 		bounds = new Bounds(blocks.boundingRect.center * Tile.worldSize, blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize));
+		boundsCollider.transform.position = bounds.center;
+		boundsCollider.size = bounds.size;
 	}
     
     public void UpdateBlock(Block block) {
@@ -343,28 +358,18 @@ public class Blockform : PoolBehaviour {
     }
 
 	public void AvoidCollision() {
-		var seen = new HashSet<Rigidbody>();
+		foreach (var form in Util.ShipsInRadius(transform.position, radius*2)) {
+			if (form == this) continue;
 
-		foreach (var ori in (Orientation[])Enum.GetValues(typeof(Orientation))) {
-			var cardinal = transform.TransformDirection(Util.orientToCardinal[ori]);
-			var cols = Util.ShipCast(this, transform.position + cardinal*height, transform.position + cardinal*height + cardinal*Tile.worldSize);
-
-			foreach (var col in cols) {
-				if (seen.Contains(col.rigidbody)) continue;
-				if (col.rigidbody.gameObject.GetComponentInParent<Blockform>() == null) continue;
-
-				seen.Add(col.rigidbody);
-
-				var local = transform.InverseTransformPoint(col.point);
-				if (local.x > 0)
-					FireThrusters(Orientation.right);
-				if (local.x < 0)
-					FireThrusters(Orientation.left);
-				if (local.y > 0)
-					FireThrusters(Orientation.up);
-				if (local.y < 0)
-					FireThrusters(Orientation.down);
-			}
+			var local = transform.InverseTransformPoint(form.transform.position);
+			if (local.x > 0)
+				FireThrusters(Orientation.right);
+			if (local.x < 0)
+				FireThrusters(Orientation.left);
+			if (local.y > 0)
+				FireThrusters(Orientation.up);
+			if (local.y < 0)
+				FireThrusters(Orientation.down);
 		}
 	}
 	
@@ -481,7 +486,6 @@ public class Blockform : PoolBehaviour {
 
 		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.left), transform.TransformPoint(bounds.center + Vector3.right), Color.green);
 		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.up), transform.TransformPoint(bounds.center + Vector3.down), Color.green);
-		DebugUtil.DrawBounds(transform, bounds);
 	}
 
     void FixedUpdate() {

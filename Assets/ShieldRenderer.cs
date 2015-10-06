@@ -14,6 +14,10 @@ public class ShieldRenderer : PoolBehaviour {
 		lineRenderer = GetComponent<LineRenderer>();
 	}
 
+	void Start() {
+		OnShieldsChange();
+	}
+
 	public void OnShieldsEnable() {
 		lineRenderer.enabled = true;
 	}

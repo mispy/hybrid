@@ -142,6 +142,12 @@ public class Util {
 		}
 	}
 
+	public static IEnumerable<Blockform> ShipsInRadius(Vector2 pos, float radius) {
+		foreach (var hit in Physics.OverlapSphere(pos, radius, LayerMask.GetMask(new string[] { "Bounds" }))) {
+			var form = hit.attachedRigidbody.gameObject.GetComponent<Blockform>();
+			if (form != null) yield return form;
+		}
+	}
 
     public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos) {        
         foreach (var block in form.BlocksAtWorldPos(targetPos))
