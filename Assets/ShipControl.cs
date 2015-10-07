@@ -140,8 +140,7 @@ public class ShipControl : MonoBehaviour {
         ship = Game.playerShip;
 		
 		
-		Game.MoveCamera(Game.playerShip.form.transform.position);
-		Game.mainCamera.transform.rotation = Game.playerShip.form.transform.rotation;
+		//Game.MoveCamera(Game.playerShip.form.transform.position);
 
 		if (Game.activeSector.IsOutsideBounds(Game.playerShip.form.transform.position)) {
 			leaveSectorMenu.SetActive(true);

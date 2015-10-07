@@ -18,7 +18,7 @@ public class Game : MonoBehaviour {
     public static Galaxy galaxy;
     public static Ship playerShip;
 
-    public static Vector3 mousePos;
+    public static Vector2 mousePos;
     public static ActiveSector activeSector;
     public static JumpMap jumpMap;
     public static ShipControl shipControl;
@@ -194,7 +194,6 @@ public class Game : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
-        mousePos.z = 0f;
 
         if (Game.inputBlocked) return;
 

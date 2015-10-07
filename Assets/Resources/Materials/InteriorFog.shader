@@ -46,8 +46,18 @@
 				half4 color = tex2D(_MainTex, i.uv);
 				half4 vis = tex2D(_Visibility, i.texcoord);
 				
-				if (vis.a < 0.5)				
+				if (vis.a < 0.1)				
 					discard;
+				else {
+					if (vis.r > 0.4) {
+						color *= 1;
+						color.a = 0.5;
+					} else {					
+						color.r *= 0.5;
+						color.g *= 0.5;
+						color.b *= 0.5;
+					}
+				}
 				return color;
 			}
 			ENDCG

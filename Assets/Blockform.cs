@@ -434,6 +434,21 @@ public class Blockform : PoolBehaviour {
 		return blocks.BlocksAtPos(WorldToBlockPos(worldPos));
     }
     
+	public IEnumerable<Block> BlocksInLocalRadius(Vector2 localPos, float radius) {
+		IntVector2 blockPos = LocalToBlockPos(localPos);
+		int blockRadius = Mathf.RoundToInt(radius/Tile.worldSize);
+
+		for (var i = -blockRadius; i <= blockRadius; i++) {
+			for (var j = -blockRadius; j <= blockRadius; j++) {
+				var pos = new IntVector2(blockPos.x + i, blockPos.y + j);
+				if (IntVector2.Distance(pos, blockPos) <= blockRadius) {
+					foreach (var block in blocks.BlocksAtPos(pos))
+						yield return block;
+				}
+			}
+		}
+	}
+
     public void FireThrusters(Orientation orientation) {
         foreach (var thruster in GetBlockComponents<Thruster>()) {
             if (thruster.block.orientation == orientation)

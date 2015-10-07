@@ -27,6 +27,7 @@ public class Scanner : BlockComponent {
 	}
 
 	public void Scan(Blockform targetForm, List<Vector2> points) {		
+		this.targetForm = targetForm;
 		scanPath = points;
 		scanPathIndex = 0;
 		scanPathLength = Util.GetPathLength(scanPath);
@@ -35,13 +36,18 @@ public class Scanner : BlockComponent {
 		scanCircle.SetActive(true);
 		scanCircle.transform.SetParent(targetForm.transform);
 		scanCircle.transform.position = points[0];
-		scanCircle.transform.localScale = new Vector3(scanRadius*2, scanRadius*2, scanRadius*2);
+		scanCircle.transform.localScale = new Vector3(scanRadius*2.5f, scanRadius*2.5f, scanRadius*2.5f);
 	}
 
 	public void Update() {
 		if (scanPath == null) return;
 		scanElapsed += Time.deltaTime;
 		scanCircle.transform.localPosition = Util.PathLerp(scanPath, scanElapsed/scanDuration);
+
+		foreach (var block in targetForm.BlocksInLocalRadius(scanCircle.transform.localPosition, scanRadius)) {
+			targetForm.fog.revealedPositions.Add(block.pos);
+			targetForm.fog.needsVisibilityUpdate = true;
+		}
 
 		if (scanElapsed > scanDuration) {
 			scanPath = null;

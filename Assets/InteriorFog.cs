@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 public class InteriorFog : MonoBehaviour {
@@ -7,6 +8,7 @@ public class InteriorFog : MonoBehaviour {
 	MeshRenderer meshRenderer;
 	Texture2D visibilityMap;
 	public bool needsVisibilityUpdate;
+	public HashSet<IntVector2> revealedPositions = new HashSet<IntVector2>();
 
 	// Use this for initialization
 	void Start () {
@@ -69,7 +71,15 @@ public class InteriorFog : MonoBehaviour {
 			if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height)
 				colors[y*blocks.width + x] = Color.clear;
 		}
-		
+
+		foreach (var pos in revealedPositions) {
+			var x = pos.x - blocks.minX;
+			var y = pos.y - blocks.minY;
+			
+			if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height && colors[y*blocks.width + x] != Color.clear)
+				colors[y*blocks.width + x] = Color.gray;
+		}
+
 		texture.SetPixels32(colors);
 		texture.Apply();
 		

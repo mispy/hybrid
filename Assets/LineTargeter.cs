@@ -55,7 +55,7 @@ public class LineTargeter : MonoBehaviour {
 		var localPos = targetForm.transform.InverseTransformPoint(Game.mousePos);
 
 		var threshold = 0.5f;
-		var maxLength = 10f;
+		var maxLength = 20f;
 		if (!positions.Any((pos) => Vector2.Distance(pos, localPos) < threshold)) {
 			var dist = Vector2.Distance(positions.Last(), localPos);
 
@@ -65,12 +65,12 @@ public class LineTargeter : MonoBehaviour {
 			}
 		}
 
-		lineRenderer.SetWidth(1, 1);
+		lineRenderer.SetWidth(0.5f, 0.5f);
 		lineRenderer.SetVertexCount(positions.Count);
 		for (int i = 0; i < positions.Count; i++) {
 			lineRenderer.SetPosition(i, positions[i]);
 		}
 		
-		lineRenderer.SetColors(Color.red, Color.red);
+		lineRenderer.SetColors(Color.cyan, Color.cyan);
 	}
 }
