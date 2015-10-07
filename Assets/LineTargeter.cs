@@ -39,7 +39,7 @@ public class LineTargeter : MonoBehaviour {
 		if (isTargeting) {
 			lineRenderer.enabled = true;
 		} else {
-			lineRenderer.enabled = false;
+			//lineRenderer.enabled = false;
 			return;
 		}
 
