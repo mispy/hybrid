@@ -68,6 +68,12 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
+	public bool canFoldJump {
+		get {
+			return Game.activeSector.IsOutsideBounds(transform.position);
+		}
+	}
+
 	public Bounds bounds;
 
     public IEnumerable<T> GetBlockComponents<T>() {
@@ -145,7 +151,7 @@ public class Blockform : PoolBehaviour {
     
     void OnDisable() {
         Game.activeSector.blockforms.Remove(this);
-    }
+	}
     
     public void ReceiveImpact(Rigidbody fromRigid, Block block) {
         var impactVelocity = rigidBody.velocity - fromRigid.velocity;
@@ -515,6 +521,10 @@ public class Blockform : PoolBehaviour {
             tractorBeam.Stop();
         }
     }
+
+	public void FoldJump() {
+		Pool.Recycle(this.gameObject);
+	}
 
 	void Update() {
 		AvoidCollision();

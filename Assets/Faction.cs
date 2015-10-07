@@ -25,7 +25,7 @@ public static class FactionManager {
     }
 
 	public static Faction Create(string name, Color? color = null) {
-		if (color == null) color = new Color(Random.Range(0, 1), Random.Range(0, 1), Random.Range(0, 1));
+		if (color == null) color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
 		var faction = new Faction(name, (Color)color);
 		FactionManager.Add(faction);
 		return faction;

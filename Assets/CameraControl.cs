@@ -31,15 +31,16 @@ public class CameraControl : MonoBehaviour {
 		var form = Blockform.ClosestTo(Game.mousePos).First();
 		if (form != hoveredForm) {
 			hoveredForm = form;
-			selector.transform.SetParent(hoveredForm.transform);
+		}
+
+		if (hoveredForm != Game.playerShip.form) {
+			selector.SetActive(true);
 			selector.transform.position = hoveredForm.transform.position;
 			selector.transform.rotation = hoveredForm.transform.rotation;
 			selector.transform.localScale = hoveredForm.bounds.size*1.2f;
-			selector.SetActive(true);
-		}
-
-		if (form == Game.playerShip.form)
+		} else {
 			selector.SetActive(false);
+		}
 
 
 		if (Input.GetKeyDown(KeyCode.Equals)) {
@@ -54,6 +55,8 @@ public class CameraControl : MonoBehaviour {
 			ZoomOut();
 		}
 
+		if (lockedForm == null)
+			lockedForm = Game.playerShip.form;
 		if (lockedForm == Game.playerShip.form)
 			camera.transform.rotation = lockedForm.transform.rotation;
 		Game.MoveCamera(lockedForm.transform.position);
