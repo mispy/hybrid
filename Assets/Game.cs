@@ -104,11 +104,10 @@ public class Game : MonoBehaviour {
     void MakeUniverse() {
         var cosmicWidth = 100;
         var cosmicHeight = 100;    
-        
-        FactionManager.Add(new Faction("Dragons"));
-        FactionManager.Add(new Faction("Mushrooms"));
-        FactionManager.Add(new Faction("Bees"));
-        FactionManager.Add(new Faction("Tictacs"));
+		FactionManager.Create("Dragons");
+		FactionManager.Create("Mushrooms");
+		FactionManager.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
+		FactionManager.Create("Cats");
 
         for (var i = 0; i < 100; i++) {
             var nsec = new Sector();
@@ -121,7 +120,7 @@ public class Game : MonoBehaviour {
 		var sector = SectorManager.all[0];
 		ShipManager.Create(template: "Station", sector: sector, sectorPos: new Vector2(0, 0), faction: FactionManager.all[0]);
 		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-		Game.playerShip = ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(-100, 0));
+		Game.playerShip = ShipManager.Create(sector: sector, faction: FactionManager.all[2], sectorPos: new Vector2(-100, 0));
     }
     
     public static void LoadSector(Sector sector) {

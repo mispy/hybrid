@@ -23,6 +23,13 @@ public static class FactionManager {
         FactionManager.all.Add(faction);
         FactionManager.byId[faction.Id] = faction;
     }
+
+	public static Faction Create(string name, Color? color = null) {
+		if (color == null) color = new Color(Random.Range(0, 1), Random.Range(0, 1), Random.Range(0, 1));
+		var faction = new Faction(name, (Color)color);
+		FactionManager.Add(faction);
+		return faction;
+	}
 }
 
 public class FactionRelationEvent {
@@ -33,12 +40,15 @@ public class FactionRelationEvent {
 
 public class Faction {
     public string name;
-    public string Id {
+	public Color color;
+
+	public string Id {
         get { return name; }
     }
 
-    public Faction(string name) {
+    public Faction(string name, Color color) {
         this.name = name;
+		this.color = color;
     }
 
     public bool IsEnemy(Faction other) {

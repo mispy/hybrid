@@ -38,6 +38,9 @@ public class CameraControl : MonoBehaviour {
 			selector.SetActive(true);
 		}
 
+		if (form == Game.playerShip.form)
+			selector.SetActive(false);
+
 
 		if (Input.GetKeyDown(KeyCode.Equals)) {
 			ZoomIn();
