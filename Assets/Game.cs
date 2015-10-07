@@ -197,24 +197,6 @@ public class Game : MonoBehaviour {
 
         if (Game.inputBlocked) return;
 
-		// Scroll zoom
-		if (Input.GetKeyDown(KeyCode.Equals) && Game.mainCamera.orthographicSize > 4) {
-			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize >> 1;
-			//Debug.Log(Game.mainCamera.orthographicSize);
-		} else if (Input.GetKeyDown(KeyCode.Minus) && Game.mainCamera.orthographicSize < 64) {
-			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
-			//Debug.Log(Game.mainCamera.orthographicSize);
-		}
-		
-		// Scroll zoom
-		if (Input.GetAxis("Mouse ScrollWheel") > 0 && Game.mainCamera.orthographicSize > 4) {
-			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize >> 1;
-			//Debug.Log(Game.mainCamera.orthographicSize);
-		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {// && Game.mainCamera.orthographicSize < 64) {
-			Game.mainCamera.orthographicSize = (int)Game.mainCamera.orthographicSize << 1;
-			//Debug.Log(Game.mainCamera.orthographicSize);
-		}
-
 
         if (Input.GetKeyDown(KeyCode.BackQuote)) {
             if (debugMenu.gameObject.activeInHierarchy)
