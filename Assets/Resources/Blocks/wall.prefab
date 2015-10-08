@@ -40,7 +40,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isComplexBlock: 0
   mass: .00100000005
   scrapRequired: 30
   descriptionHeader: '<size=16>Interior Wall</size>
@@ -50,8 +49,10 @@ MonoBehaviour:
   blockLayer: 0
   canRotate: 0
   canFitInsideWall: 0
-  canBeFired: 0
   canBlockSight: 1
+  isComplexBlock: 0
+  canBeFired: 0
+  renderer: {fileID: 0}
 --- !u!212 &21246848
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -37,10 +37,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 179864}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 322bf00c605051745b7f88b3b73fa26f, type: 3}
+  m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isComplexBlock: 0
   mass: .00100000005
   scrapRequired: 30
   descriptionHeader: 
@@ -48,7 +47,10 @@ MonoBehaviour:
   blockLayer: 0
   canRotate: 0
   canFitInsideWall: 0
+  canBlockSight: 0
+  isComplexBlock: 0
   canBeFired: 0
+  renderer: {fileID: 0}
 --- !u!212 &21216936
 SpriteRenderer:
   m_ObjectHideFlags: 1

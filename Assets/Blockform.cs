@@ -134,7 +134,7 @@ public class Blockform : PoolBehaviour {
 
         foreach (var crew in ship.crew) {
             var body = Pool.For("CrewBody").Take<CrewBody>();
-            var floor = Util.GetRandom(blocks.Find<Floor>().ToList());
+            var floor = Util.GetRandom(blocks.Find("Floor").ToList());
             body.transform.parent = transform;
             body.transform.localPosition = BlockToLocalPos(floor);
             body.crew = crew;
@@ -165,7 +165,7 @@ public class Blockform : PoolBehaviour {
 	public Orientation GetSideWithMostWeapons() {
 		var sideCount = new Dictionary<Orientation, int>();
 		sideCount[Orientation.up] = 0;
-		foreach (var launcher in GetBlockComponents<TorpedoLauncher>()) {
+		foreach (var launcher in GetBlockComponents<ProjectileLauncher>()) {
 			if (!sideCount.ContainsKey(launcher.block.orientation))
 				sideCount[launcher.block.orientation] = 0;
 			sideCount[launcher.block.orientation] += 1;

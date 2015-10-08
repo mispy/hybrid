@@ -72,7 +72,7 @@ public class BlockMap {
         
         foreach (var type in Block.allTypes) {
             blockTypeCache[type] = new HashSet<Block>();
-            foreach (var comp in type.GetComponents<BlockComponent>()) {
+            foreach (var comp in type.blockComponents) {
                 blockCompCache[comp.GetType()] = new HashSet<Block>();
             }
         }
@@ -121,6 +121,10 @@ public class BlockMap {
         if (topBlock != null) 
             return topBlock;
         return baseBlock;
+    }
+
+    public IEnumerable<Block> Find(string blockType) {
+        return Find(Block.typeByName[blockType]);
     }
 
 	public IEnumerable<Block> Find(BlockType blockType) {
@@ -280,7 +284,7 @@ public class BlockMap {
 
         block.ship = null;
         blockTypeCache[block.type].Remove(block);
-        foreach (var comp in block.type.GetComponents<BlockComponent>()) {
+        foreach (var comp in block.type.blockComponents) {
             blockCompCache[comp.GetType()].Remove(block);
         }
 		allBlocks.Remove(block);
@@ -299,7 +303,7 @@ public class BlockMap {
         }
     
         blockTypeCache[block.type].Add(block);
-        foreach (var comp in block.type.GetComponents<BlockComponent>()) {
+        foreach (var comp in block.type.blockComponents) {
             blockCompCache[comp.GetType()].Add(block);
         }
 		allBlocks.Add(block);
