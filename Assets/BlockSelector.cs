@@ -29,14 +29,16 @@ public class BlockSelector : MonoBehaviour {
 
     public void OnEnable() {
         if (blockButtons.Count == 0) {
-            foreach (var type in Block.allTypes) {
+			for (var i = 0; i < Block.allTypes.Count; i++) {
                 var button = GameObject.Instantiate(Game.Prefab("BlockButton")).GetComponent<Button>();
                 button.gameObject.SetActive(true);
                 button.transform.SetParent(transform);
                 button.transform.localScale = new Vector3(1, 1, 1);
+				var j = i+1;
+				button.onClick.AddListener(() => SelectBlock(j));
                 blockButtons.Add(button);
 
-                button.image.sprite = type.GetComponent<SpriteRenderer>().sprite;
+                button.image.sprite = Block.allTypes[i].GetComponent<SpriteRenderer>().sprite;
             }
         }
 
