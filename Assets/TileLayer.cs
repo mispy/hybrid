@@ -98,8 +98,9 @@ public class TileLayer : PoolBehaviour {
                 if (OnChunkCreated != null)
                     OnChunkCreated(chunk);
             }
-            
-            chunk[localX, localY] = value;
+
+            if (chunk != null)
+                chunk[localX, localY] = value;
         }
     }
     

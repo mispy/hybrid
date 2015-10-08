@@ -55,6 +55,7 @@ public class BlockMap {
 		width = 0;
 		height = 0;
 		baseSize = 0;
+        boundingRect = new Rect();
 
         chunkWidth = 32;
         chunkHeight = 32;
@@ -200,12 +201,52 @@ public class BlockMap {
 
         chunk[localX, localY] = block;
 
-        if (x >= maxX || x <= minX || y >= maxY || y <= minY)
-            RecalcBounds();
+        if (block == null) {
+            CheckForShrink(x, y);
+        } else {
+            if (x > maxX) maxX = x;
+            if (y > maxY) maxY = y;
+            if (x < minX) minX = x;
+            if (y < minY) minY = y;
+        }
+        
+        width = 1 + maxX - minX;
+        height = 1 + maxY - minY;
+        boundingRect.xMin = minX;
+        boundingRect.xMax = maxX;
+        boundingRect.yMin = minY;
+        boundingRect.yMax = maxY;
     }
 
-    void RecalcBounds() {
-        minX = 10000;
+    void CheckForShrink(int x, int y) {
+        if (x == minX) {
+            minX = minX + 1;
+            for (var j = minY; j <= maxY; j++)
+                if (this[minX, j, BlockLayer.Base] != null)
+                    minX = x;
+        }
+
+        if (x == maxX) {
+            maxX = maxX - 1;
+            for (var j = minY; j <= maxY; j++)
+                if (this[maxX, j, BlockLayer.Base] != null)
+                    maxX = x;
+        }
+
+        if (y == minY) {
+            minY = minY + 1;
+            for (var i = minX; i <= maxX; i++)
+                if (this[i, minY, BlockLayer.Base] != null)
+                    minY = y;
+        }
+        
+        if (y == maxY) {
+            maxY = maxY - 1;
+            for (var i = minX; i <= maxX; i++)
+                if (this[i, maxY, BlockLayer.Base] != null)
+                    maxY = y;
+        }
+        /*        minX = 10000;
         minY = 10000;
 		maxX = -10000;
         maxY = -10000;
@@ -223,7 +264,7 @@ public class BlockMap {
 		boundingRect.xMin = minX;
 		boundingRect.xMax = maxX;
 		boundingRect.yMin = minY;
-		boundingRect.yMax = maxY;
+		boundingRect.yMax = maxY;*/
     }
 
     void RemoveBlock(Block block) {
