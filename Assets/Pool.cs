@@ -48,7 +48,6 @@ public class Pool {
 
     public Pool(GameObject prefab, int startingAmount) {
         this.prefab = prefab;
-        prefab.SetActive(false);
         pooledObjects = new List<GameObject>();
         for(int i = 0; i < startingAmount; i++)
         {
@@ -57,6 +56,8 @@ public class Pool {
     }
 
     public GameObject CreateNew() {
+        prefab.SetActive(false);
+
         GameObject obj = Object.Instantiate(prefab) as GameObject;
         obj.name = prefab.name;
         obj.SetActive(false);
@@ -64,6 +65,8 @@ public class Pool {
         foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
             comp.OnCreate();
         }
+
+        prefab.SetActive(true);
         return obj;
     }
     
