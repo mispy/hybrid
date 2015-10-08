@@ -19,6 +19,7 @@ public class ActiveSector : MonoBehaviour {
         var form = ship.LoadBlockform();
         form.transform.parent = transform;
 		form.transform.position = pos;
+        form.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector2.zero - pos);
         form.gameObject.SetActive(true);
     }
 
