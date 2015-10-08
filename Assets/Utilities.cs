@@ -17,7 +17,27 @@ public enum Orientation {
     right = -2
 }
 
+public struct IntRect {
+    public int minX;
+    public int minY;
+    public int maxX;
+    public int maxY;
+
+    public IntRect(IntVector2 pos1, IntVector2 pos2) {
+        minX = Math.Min(pos1.x, pos2.x);
+        minY = Math.Min(pos1.y, pos2.y);
+        maxX = Math.Max(pos1.x, pos2.x);
+        maxY = Math.Max(pos1.y, pos2.y);
+    }
+
+    public bool Contains(IntVector2 pos) {
+        return (pos.x >= minX && pos.y >= minY && pos.x <= maxX && pos.y <= maxY);
+    }
+}
+
 public struct IntVector2 {
+    public static IntVector2 Zero = new IntVector2(0, 0);
+
     public int x;
     public int y;
 	public int hashCode;
@@ -49,16 +69,20 @@ public struct IntVector2 {
         };
     }
 
-    public static IntVector2 operator -(IntVector2 v1, IntVector2 v2) {
-        return new IntVector2(v1.x - v2.x, v1.y - v2.y);
-    }
-
     public static bool operator ==(IntVector2 v1, IntVector2 v2) {
 		return v1.x == v2.x && v1.y == v2.y;
     }
 
     public static bool operator !=(IntVector2 v1, IntVector2 v2) {
 		return v1.x != v2.x || v1.y != v2.y;
+    }
+
+    public static IntVector2 operator +(IntVector2 v1, IntVector2 v2) {
+        return new IntVector2(v1.x+v2.x, v1.y+v2.y);
+    }
+
+    public static IntVector2 operator -(IntVector2 v1, IntVector2 v2) {
+        return new IntVector2(v1.x-v2.x, v1.y-v2.y);
     }
 
     public override string ToString()
