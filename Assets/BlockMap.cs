@@ -68,7 +68,7 @@ public class BlockMap {
         centerBlockX = centerChunkX * chunkWidth;
         centerBlockY = centerChunkY * chunkHeight;
         
-        foreach (var type in Block.types.Values) {
+        foreach (var type in Block.allTypes) {
             foreach (var comp in type.GetComponents<BlockType>()) {
                 blockTypeCache[comp.GetType()] = new List<Block>();
             }
@@ -100,6 +100,15 @@ public class BlockMap {
             return baseBlock.CollisionLayer;
         
         return Math.Max(baseBlock.CollisionLayer, topBlock.CollisionLayer);
+    }
+
+    public bool CanSeeThrough(IntVector2 bp) {
+        foreach (var block in BlocksAtPos(bp)) {
+            if (block.type.canBlockSight)
+                return false;
+        }
+
+        return true;
     }
 
     public Block Topmost(IntVector2 bp) {

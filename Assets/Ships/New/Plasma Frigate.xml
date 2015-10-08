@@ -1059,10 +1059,10 @@
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
-      <x>6</x>
-      <y>-3</y>
-      <typeName>Wall</typeName>
-      <orientation>1</orientation>
+      <x>-5</x>
+      <y>2</y>
+      <typeName>Door</typeName>
+      <orientation>-1</orientation>
     </BlockData>
     <BlockData>
       <x>6</x>
@@ -1735,6 +1735,42 @@
       <y>3</y>
       <typeName>Sensors</typeName>
       <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
+      <y>-3</y>
+      <typeName>Floor</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
+      <y>-3</y>
+      <typeName>Door</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>-3</y>
+      <typeName>Door</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>0</y>
+      <typeName>Door</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>3</y>
+      <typeName>Door</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
+      <y>0</y>
+      <typeName>Door</typeName>
+      <orientation>-1</orientation>
     </BlockData>
   </blocks>
   <blueprintBlocks>
@@ -2797,7 +2833,7 @@
     <BlockData>
       <x>6</x>
       <y>-3</y>
-      <typeName>Wall</typeName>
+      <typeName>Floor</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3470,6 +3506,42 @@
       <x>-9</x>
       <y>3</y>
       <typeName>Sensors</typeName>
+      <orientation>1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>-3</y>
+      <typeName>Door</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-5</x>
+      <y>2</y>
+      <typeName>Door</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>0</x>
+      <y>3</y>
+      <typeName>Door</typeName>
+      <orientation>-2</orientation>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>0</y>
+      <typeName>Door</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
+      <y>0</y>
+      <typeName>Door</typeName>
+      <orientation>-1</orientation>
+    </BlockData>
+    <BlockData>
+      <x>6</x>
+      <y>-3</y>
+      <typeName>Door</typeName>
       <orientation>1</orientation>
     </BlockData>
   </blueprintBlocks>

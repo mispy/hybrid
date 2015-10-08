@@ -47,10 +47,10 @@ MonoBehaviour:
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 1
-  canRotate: 0
+  canRotate: 1
   canFitInsideWall: 0
   canBeFired: 0
-  canBlockSight: 0
+  canBlockSight: 1
 --- !u!114 &11462176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,6 +106,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: isComplexBlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canRotate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: canBlockSight
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -72,9 +72,8 @@ public static class BlockPather {
 
 				seen[neighbor] = true;
 
-				var block = blocks[neighbor, BlockLayer.Base];
-				if (block == null || !block.type.canBlockSight)
-					heads.Push(neighbor);
+                if (blocks.CanSeeThrough(neighbor))
+                    heads.Push(neighbor);
 			}
 		}
 	}
