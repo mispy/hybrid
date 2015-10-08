@@ -9,9 +9,6 @@ public class BlockComponent : PoolBehaviour {
 
 
 public class BlockType : BlockComponent {
-    [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
-    public bool isComplexBlock = false;
-
     [Tooltip("The mass value of each block is added to the mass of a ship rigidBody.")]
     public float mass;
 
@@ -29,6 +26,15 @@ public class BlockType : BlockComponent {
 
     public bool canRotate = false;
     public bool canFitInsideWall = false;
-    public bool canBeFired = false;
 	public bool canBlockSight = false;
+
+    /* Complex block specific functionality */
+    [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
+    public bool isComplexBlock = false;
+    public bool canBeFired = false;
+    public SpriteRenderer renderer;
+
+    public void Awake() {
+        renderer = GetComponent<SpriteRenderer>();
+    }
 }

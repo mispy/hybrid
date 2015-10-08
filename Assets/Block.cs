@@ -231,18 +231,21 @@ public class Block {
     public int localX;
     public int localY;
 
+    public Tileable tileable;
+
     public int Width {
-        get { return type.tileable.tileWidth; }
+        get { return tileable.tileWidth; }
     }
 
     public int Height {
-        get { return type.tileable.tileHeight; }
+        get { return tileable.tileHeight; }
     }
 
     public Block(BlockType type) {
         this.type = type;
         this.scrapContent = type.scrapRequired;
         this.layer = type.blockLayer;
+        this.tileable = type.tileable;
     }
 
     // copy constructor

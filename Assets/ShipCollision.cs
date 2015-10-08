@@ -11,16 +11,19 @@ public class ShipCollision : PoolBehaviour {
     void Awake() {
         colliders = new Dictionary<IntVector2, Collider>();
         form = GetComponent<Blockform>();
-        blocks = form.blocks;
 
         var obj = Pool.For("Holder").TakeObject();
         obj.name = "Colliders";
         obj.transform.parent = transform;
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
-		obj.transform.localScale *= Tile.worldSize;
+        obj.transform.localScale *= Tile.worldSize;
         obj.SetActive(true);
-        collidersObj = obj;
+        collidersObj = obj;        
+    }
+
+    void Start() {
+        blocks = form.blocks;
 
         foreach (var pos in blocks.FilledPositions) {
             if (blocks.IsCollisionEdge(pos)) {

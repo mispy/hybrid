@@ -47,13 +47,16 @@ public class TileRenderer : PoolBehaviour {
         obj.SetActive(true);
         topTiles = obj.GetComponent<TileLayer>();
     } 
-    
-    void Awake() {
+
+    public void Start() {
         var form = GetComponent<Blockform>();
         if (form != null) SetBlocks(form.blocks);
     }
-    
+
     void OnBlockAdded(Block block) {
+        if (block.type.isComplexBlock && !block.IsBlueprint)
+            return;
+
         var tileLayer = baseTiles;
         if (block.layer == BlockLayer.Top)
             tileLayer = topTiles;

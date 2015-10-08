@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 491556}
   - 54: {fileID: 5450076}
-  - 114: {fileID: 11455740}
   - 114: {fileID: 11458008}
+  - 114: {fileID: 11455740}
   - 114: {fileID: 11492490}
   - 114: {fileID: 11409090}
   - 114: {fileID: 11485306}
@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &116980
 GameObject:
   m_ObjectHideFlags: 1

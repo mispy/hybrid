@@ -34,6 +34,9 @@ public class ShipDesigner : MonoBehaviour {
         if (designShip != null) {
 			designShip.form.blueprint.tiles.DisableRendering();
 			designShip.form.tiles.EnableRendering();
+            foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
+                blockObj.renderer.enabled = true;
+            }
         }
         Game.shipControl.gameObject.SetActive(true);
         //Game.main.debugText.text = "";
@@ -42,14 +45,18 @@ public class ShipDesigner : MonoBehaviour {
     }
 
     void SetDesignShip(Ship ship) {
-        if (designShip != null) {
+        /*if (designShip != null) {
 			designShip.form.blueprint.tiles.DisableRendering();
 			designShip.form.tiles.EnableRendering();
-        }
+        }*/
 
         designShip = ship;
 		designShip.form.tiles.DisableRendering();
 		designShip.form.blueprint.tiles.EnableRendering();
+
+        foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
+            blockObj.renderer.enabled = false;
+        }
 	}
 
     Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
