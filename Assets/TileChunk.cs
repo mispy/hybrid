@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class TileChunk : PoolBehaviour {
-    public static int width = 16;
-    public static int height = 16;
+    public static int width = 32;
+    public static int height = 32;
     
     [HideInInspector]
     public MeshRenderer renderer;
@@ -29,7 +29,7 @@ public class TileChunk : PoolBehaviour {
     }
     
     void Start() {
-        InvokeRepeating("UpdateMesh", 0.0f, 0.05f);
+        StartCoroutine("MonitorMesh");
     }
     
     public IEnumerable<Vector3> GetVertices(Tile tile, int x, int y) {
@@ -107,10 +107,6 @@ public class TileChunk : PoolBehaviour {
     
     public void QueueMeshUpdate() {
         needMeshUpdate = true;
-
-        // if the game is paused then the UpdateMesh coroutine won't fire
-        if (Game.isPaused)
-            UpdateMesh();
     }
     
     public void UpdateMesh() {
@@ -124,5 +120,12 @@ public class TileChunk : PoolBehaviour {
         mesh.RecalculateNormals();    
         
         needMeshUpdate = false;
+    }
+
+    IEnumerator MonitorMesh() {
+        while (true) {
+            UpdateMesh();
+            yield return null;
+        }
     }
 }

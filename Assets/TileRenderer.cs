@@ -98,4 +98,13 @@ public class TileRenderer : PoolBehaviour {
         baseTiles.DisableRendering();
         topTiles.DisableRendering();
     }
+
+    // Force a mesh update
+    public void UpdateMesh() {
+        foreach (var chunk in baseTiles.AllChunks)
+            chunk.UpdateMesh();
+
+        foreach (var chunk in topTiles.AllChunks)
+            chunk.UpdateMesh();        
+    }
 }

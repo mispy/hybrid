@@ -83,15 +83,14 @@ public class TileLayer : PoolBehaviour {
             
             var chunk = chunks[trueChunkX, trueChunkY];
             if (chunk == null && value != null) {
-                //Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);
-                
-                chunk = Pool.For("TileChunk").TakeObject().GetComponent<TileChunk>();
+                //Debug.LogFormat("{0} {1}", trueChunkX - centerChunkX, trueChunkY - centerChunkY);                
+                chunk = Pool.For("TileChunk").Take<TileChunk>();
                 chunk.transform.parent = transform;
                 chunk.transform.rotation = transform.rotation;
                 chunk.transform.localPosition = new Vector2(
                     (trueChunkX - centerChunkX) * chunkWidth * Tile.worldSize, 
                     (trueChunkY - centerChunkY) * chunkHeight * Tile.worldSize
-                    );    
+                 );    
                 //Debug.Log(chunk.transform.localPosition);
                 chunk.gameObject.SetActive(true);
                 chunks[trueChunkX, trueChunkY] = chunk;
