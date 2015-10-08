@@ -41,7 +41,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isComplexBlock: 1
   mass: 0
   scrapRequired: 30
   descriptionHeader: 
@@ -49,8 +48,10 @@ MonoBehaviour:
   blockLayer: 1
   canRotate: 0
   canFitInsideWall: 0
-  canBeFired: 0
   canBlockSight: 0
+  isComplexBlock: 1
+  canBeFired: 0
+  renderer: {fileID: 0}
 --- !u!114 &11487552
 MonoBehaviour:
   m_ObjectHideFlags: 1

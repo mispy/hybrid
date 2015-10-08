@@ -70,7 +70,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isComplexBlock: 1
   mass: 9.99999975e-05
   scrapRequired: 30
   descriptionHeader: Plasma turret!
@@ -78,8 +77,10 @@ MonoBehaviour:
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
-  canBeFired: 1
   canBlockSight: 0
+  isComplexBlock: 1
+  canBeFired: 1
+  renderer: {fileID: 0}
 --- !u!114 &11477160
 MonoBehaviour:
   m_ObjectHideFlags: 1
