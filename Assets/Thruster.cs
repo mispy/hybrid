@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-public class Thruster : BlockType {
+public class Thruster : BlockComponent {
     [HideInInspector]
     public ParticleSystem ps;
     [HideInInspector]

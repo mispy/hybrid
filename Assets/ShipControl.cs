@@ -22,7 +22,7 @@ public class ShipControl : MonoBehaviour {
         selector.transform.position = crew.body.transform.position;
         selector.transform.rotation = crew.body.transform.rotation;
         selector.transform.SetParent(crew.body.transform);
-        selector.transform.localScale = new Vector3(1, 1, 1);
+        selector.transform.localScale = new Vector2(0.5f, 0.5f);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
         selectedCrew = crew;
      }

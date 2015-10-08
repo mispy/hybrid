@@ -53,7 +53,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 112372}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d7ee5d0fd1ab92459fa86a8d99ea9ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isComplexBlock: 1
@@ -64,6 +64,8 @@ MonoBehaviour:
   blockLayer: 1
   canRotate: 0
   canFitInsideWall: 0
+  canBeFired: 0
+  canBlockSight: 0
 --- !u!212 &21267236
 SpriteRenderer:
   m_ObjectHideFlags: 1

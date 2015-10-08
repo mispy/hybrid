@@ -44,7 +44,7 @@ public class Generate : MonoBehaviour {
                 if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
 
                     //var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-                    ship.SetBlock<Wall>(x, y);
+                    ship.SetBlock(x, y, Block.typeByName["Wall"]);
                     //ship.SetBlock(x, y, "wall"], ori[Random.Range(0, 3)]);
                 }
             }

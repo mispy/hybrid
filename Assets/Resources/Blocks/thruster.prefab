@@ -27,6 +27,7 @@ GameObject:
   - 4: {fileID: 433542}
   - 212: {fileID: 21242534}
   - 114: {fileID: 11493866}
+  - 114: {fileID: 11404554}
   - 114: {fileID: 11495430}
   m_Layer: 16
   m_Name: Thruster
@@ -60,7 +61,7 @@ Transform:
   - {fileID: 408074}
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11493866
+--- !u!114 &11404554
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -69,6 +70,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f509c44179e9784f966ec0a8a733764, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ps: {fileID: 0}
+  form: {fileID: 0}
+  power: {fileID: 0}
+  isFiring: 0
+  isFiringAttitude: 0
+--- !u!114 &11493866
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isComplexBlock: 1
@@ -80,11 +97,7 @@ MonoBehaviour:
   canRotate: 1
   canFitInsideWall: 0
   canBeFired: 0
-  ps: {fileID: 0}
-  form: {fileID: 0}
-  power: {fileID: 0}
-  isFiring: 0
-  isFiringAttitude: 0
+  canBlockSight: 0
 --- !u!114 &11495430
 MonoBehaviour:
   m_ObjectHideFlags: 1

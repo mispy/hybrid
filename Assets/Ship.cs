@@ -184,13 +184,6 @@ public class Ship {
 
         if (jumpShip != null) jumpShip.SyncShip();
     }
-
-    public void SetBlock<T>(int x, int y) {
-        var block = Block.Make<T>();
-        blocks[x, y, block.layer] = block;
-        var block2 = BlueprintBlock.Make<T>();
-        blueprintBlocks[x, y, block2.layer] = block2;
-    }
     
     public void SetBlock(IntVector2 pos, BlockType type) {
         var block = new Block(type);
@@ -203,16 +196,6 @@ public class Ship {
         var block = new Block(type);
         blocks[x, y, block.layer] = block;
         var block2 = new BlueprintBlock(type);
-        blueprintBlocks[x, y, block2.layer] = block2;
-    }
-    
-    public void SetBlock<T>(int x, int y, Orientation orientation) {
-        var block = Block.Make<T>();
-        block.orientation = orientation;
-        blocks[x, y, block.layer] = block;
-        
-        var block2 = BlueprintBlock.Make<T>();
-        block2.orientation = orientation;
         blueprintBlocks[x, y, block2.layer] = block2;
     }
 

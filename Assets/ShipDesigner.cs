@@ -15,7 +15,7 @@ public class ShipDesigner : MonoBehaviour {
             cursorObj.name = "Cursor";
             cursor = cursorObj.GetComponent<Blueprint>();
             cursor.blocks = new BlockMap(null);
-            cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make<Wall>();
+            cursor.blocks[0, 0, BlockLayer.Base] = BlueprintBlock.Make("Wall");
 			cursorObj.SetActive(true);
         } else {
             cursor.gameObject.SetActive(true);
@@ -94,9 +94,9 @@ public class ShipDesigner : MonoBehaviour {
         
         // Top layer blocks go on top of floor, or sometimes inside walls
         if (cursorBlock.layer == BlockLayer.Top && existingBlock != null) {
-            if (Block.Is<Floor>(existingBlock)) 
+            if (existingBlock.Is("Floor")) 
                 return true;
-            if (Block.Is<Wall>(existingBlock) && cursorBlock.type.canFitInsideWall)
+            if (existingBlock.Is("Wall") && cursorBlock.type.canFitInsideWall)
                 return true;
         }
 

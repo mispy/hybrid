@@ -287,7 +287,7 @@ public class Blockform : PoolBehaviour {
         
 		UpdateBounds();
 
-        if (Block.Is<InertiaStabilizer>(block))
+        if (block.Is<InertiaStabilizer>())
             UpdateGravity();
     }
     

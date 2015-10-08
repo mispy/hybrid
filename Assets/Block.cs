@@ -35,7 +35,6 @@ public static class BlockManager {
 }
 
 public class Block {
-    public static Dictionary<Type, BlockType> types = new Dictionary<Type, BlockType>();
     public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
     public static List<BlockType> allTypes = new List<BlockType>();
     
@@ -62,18 +61,17 @@ public class Block {
     
     public static void Setup() {
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
-            Block.types[type.GetType()] = type;
-            Block.typeByName[type.GetType().Name] = type;
+            Block.typeByName[type.name] = type;
         }
 
         foreach (var name in blockOrder) {
             Block.allTypes.Add(Block.typeByName[name]);
         }
         
-        foreach (var type in Block.types.Values) {
+        foreach (var type in Block.typeByName.Values) {
             if (!Block.allTypes.Contains(type))
                 Block.allTypes.Add(type);
-            type.tileable = Tile.tileables[type.GetType().Name];
+            type.tileable = Tile.tileables[type.name];
         }
 
         Block.spaceLayer = LayerMask.NameToLayer("Space");
@@ -132,8 +130,12 @@ public class Block {
         }
     }
 
-    public static bool Is<T>(Block block) {
-        return block != null && block.type is T;
+    public bool Is(string blockType) {
+        return type.name == blockType;
+    }
+
+    public bool Is<T>() {
+        return type.GetComponent<T>() != null;
     }
 
     public BlockType type;
@@ -237,10 +239,6 @@ public class Block {
         get { return type.tileable.tileHeight; }
     }
 
-    public static Block Make<T>() {
-        return new Block(Block.types[typeof(T)]);
-    }
-
     public Block(BlockType type) {
         this.type = type;
         this.scrapContent = type.scrapRequired;
@@ -270,8 +268,8 @@ public class BlueprintBlock : Block {
 		return true;
 	}
 
-    public static BlueprintBlock Make<T>() {
-        return new BlueprintBlock(Block.types[typeof(T)]);
+    public static BlueprintBlock Make(string typeName) {
+        return new BlueprintBlock(Block.typeByName[typeName]);
     }
 
     public BlueprintBlock(Block block) : base(block) { }

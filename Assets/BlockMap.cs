@@ -34,7 +34,8 @@ public class BlockMap {
 
 
 
-    public Dictionary<Type, List<Block>> blockTypeCache = new Dictionary<Type, List<Block>>();
+    public Dictionary<BlockType, HashSet<Block>> blockTypeCache = new Dictionary<BlockType, HashSet<Block>>();
+    public Dictionary<Type, HashSet<Block>> blockCompCache = new Dictionary<Type, HashSet<Block>>();
 
     public delegate void BlockAddedHandler(Block newBlock);
     public delegate void BlockRemovedHandler(Block oldBlock);
@@ -69,8 +70,9 @@ public class BlockMap {
         centerBlockY = centerChunkY * chunkHeight;
         
         foreach (var type in Block.allTypes) {
-            foreach (var comp in type.GetComponents<BlockType>()) {
-                blockTypeCache[comp.GetType()] = new List<Block>();
+            blockTypeCache[type] = new HashSet<Block>();
+            foreach (var comp in type.GetComponents<BlockComponent>()) {
+                blockCompCache[comp.GetType()] = new HashSet<Block>();
             }
         }
     }
@@ -121,23 +123,23 @@ public class BlockMap {
     }
 
 	public IEnumerable<Block> Find(BlockType blockType) {
-		foreach (var block in blockTypeCache[blockType.GetType()]) {
+		foreach (var block in blockTypeCache[blockType]) {
 			yield return block;
 		}
 	}
 
     public IEnumerable<Block> Find<T>() {
-        foreach (var block in blockTypeCache[typeof(T)]) {
+        foreach (var block in blockCompCache[typeof(T)]) {
             yield return block;
         }
     }
 
     public bool Has<T>() {
-        return blockTypeCache[typeof(T)].Count > 0;
+        return blockCompCache[typeof(T)].Count > 0;
     }
 
     public bool Has(BlockType type) {
-        return blockTypeCache[type.GetType()].Count > 0;
+        return blockTypeCache[type].Count > 0;
     }
 
 	public IEnumerable<IntVector2> FilledPositions {
@@ -236,7 +238,10 @@ public class BlockMap {
             Pool.Recycle(block.gameObject);        
 
         block.ship = null;
-        blockTypeCache[block.type.GetType()].Remove(block);
+        blockTypeCache[block.type].Remove(block);
+        foreach (var comp in block.type.GetComponents<BlockComponent>()) {
+            blockCompCache[comp.GetType()].Remove(block);
+        }
 		allBlocks.Remove(block);
         if (OnBlockRemoved != null) OnBlockRemoved(block);        
     }
@@ -252,7 +257,10 @@ public class BlockMap {
             }
         }
     
-        blockTypeCache[block.type.GetType()].Add(block);
+        blockTypeCache[block.type].Add(block);
+        foreach (var comp in block.type.GetComponents<BlockComponent>()) {
+            blockCompCache[comp.GetType()].Add(block);
+        }
 		allBlocks.Add(block);
         if (OnBlockAdded != null) OnBlockAdded(block);
     }

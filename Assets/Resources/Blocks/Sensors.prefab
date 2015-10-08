@@ -41,7 +41,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 106810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b6413d602142ae49b889d33be27db8a, type: 3}
+  m_Script: {fileID: 11500000, guid: 932eafbb04c72a14eae1f75d77118a23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isComplexBlock: 1
@@ -66,6 +66,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scanRadius: 5
+  targetForm: {fileID: 0}
 --- !u!114 &11455918
 MonoBehaviour:
   m_ObjectHideFlags: 1
