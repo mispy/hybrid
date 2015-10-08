@@ -76,10 +76,10 @@ public class CrewMind : MonoBehaviour {
             }
         }*/
 
-		if (body.currentBlock == null && crew.job == null) {
+		/*if (body.currentBlock == null && crew.job == null) {
 			var floor = Util.GetRandom(crew.Ship.blocks.Find("Floor").ToList());
 			crew.job = new MoveJob(floor.pos);
-		}
+		}*/
     }
 
     bool IsEnemy(Crew other) {

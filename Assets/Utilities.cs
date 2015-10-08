@@ -36,7 +36,24 @@ public struct IntRect {
 }
 
 public struct IntVector2 {
+    public static explicit operator IntVector2(Orientation ori) {
+        if (ori == Orientation.left)
+            return IntVector2.Left;
+        else if (ori == Orientation.right)
+            return IntVector2.Right;
+        else if (ori == Orientation.down)
+            return IntVector2.Down;
+        else if (ori == Orientation.up)
+            return IntVector2.Up;
+        else
+            return IntVector2.Zero;       
+    }
+
     public static IntVector2 Zero = new IntVector2(0, 0);
+    public static IntVector2 Left = new IntVector2(-1, 0);
+    public static IntVector2 Right = new IntVector2(1, 0);
+    public static IntVector2 Down = new IntVector2(0, 1);
+    public static IntVector2 Up = new IntVector2(0, -1);
 
     public int x;
     public int y;
