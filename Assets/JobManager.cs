@@ -34,10 +34,15 @@ public class BuildJob : Job {
 	// if none of the neighbors are passable then nobody can build this so we
 	// shouldn't bother checking for assignments
 	public bool IsPossible() {
-		bool canAttach = IntVector2.Neighbors(targetBlue.pos).Any((n) => targetBlue.ship.blocks[n, BlockLayer.Base] != null);
-		bool canAccess = IntVector2.NeighborsWithDiagonal(targetBlue.pos).Any((n) => targetBlue.ship.blocks.IsPassable(n));
+        if (targetBlue.ship.blocks.IsOutsideBounds(targetBlue.pos))
+            return false;
 
-		return canAttach && canAccess;
+		bool canAttach = IntVector2.Neighbors(targetBlue.pos).Any((n) => targetBlue.ship.blocks[n, BlockLayer.Base] != null);
+        if (!canAttach) return false;
+		bool canAccess = IntVector2.NeighborsWithDiagonal(targetBlue.pos).Any((n) => targetBlue.ship.blocks.IsPassable(n));
+        if (!canAccess) return false;
+
+        return true;
 	}
 
     public bool AcceptCrew(Crew crew) {

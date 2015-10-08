@@ -159,8 +159,22 @@ public class ShipDesigner : MonoBehaviour {
 
         for (var i = rect.minX; i <= rect.maxX; i++) {
             for (var j = rect.minY; j <= rect.maxY; j++) {
-                cursor.blocks[i, j, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
+                if (cursor.blocks[i, j, cursorBlock.layer] == null)
+                    cursor.blocks[i, j, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
             }
+        }
+
+        var isValid = true;
+        foreach (var block in cursor.blocks.allBlocks) {
+            var shipBlockPos = targetBlockPos + block.pos;
+        }
+        
+        if (isValid) {
+            foreach (var renderer in cursor.tiles.MeshRenderers)
+                renderer.material.color = Color.green;
+        } else {
+            foreach (var renderer in cursor.tiles.MeshRenderers)
+                renderer.material.color = Color.red;
         }
     }
 

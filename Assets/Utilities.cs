@@ -46,27 +46,23 @@ public struct IntVector2 {
         return Math.Sqrt(Math.Pow(v1.x - v2.x, 2) + Math.Pow(v1.y - v2.y, 2));
     }
 
-    public static IntVector2[] Neighbors(IntVector2 bp) {
-        return new IntVector2[] {
-            new IntVector2(bp.x-1, bp.y),
-            new IntVector2(bp.x+1, bp.y),
-            new IntVector2(bp.x, bp.y-1),
-            new IntVector2(bp.x, bp.y+1)
-        };
+    public static IEnumerable<IntVector2> Neighbors(IntVector2 bp) {
+        yield return new IntVector2(bp.x-1, bp.y);
+        yield return new IntVector2(bp.x+1, bp.y);
+        yield return new IntVector2(bp.x, bp.y-1);
+        yield return new IntVector2(bp.x, bp.y+1);
     }
     
-    public static IntVector2[] NeighborsWithDiagonal(IntVector2 bp) {
-        return new IntVector2[] {
-            new IntVector2(bp.x-1, bp.y),
-            new IntVector2(bp.x+1, bp.y),
-            new IntVector2(bp.x, bp.y-1),
-            new IntVector2(bp.x, bp.y+1),
-            
-            new IntVector2(bp.x-1, bp.y-1),
-            new IntVector2(bp.x-1, bp.y+1),
-            new IntVector2(bp.x+1, bp.y-1),
-            new IntVector2(bp.x+1, bp.y+1)
-        };
+    public static IEnumerable<IntVector2> NeighborsWithDiagonal(IntVector2 bp) {
+        yield return new IntVector2(bp.x-1, bp.y);
+        yield return new IntVector2(bp.x+1, bp.y);
+        yield return new IntVector2(bp.x, bp.y-1);
+        yield return new IntVector2(bp.x, bp.y+1);
+        
+        yield return new IntVector2(bp.x-1, bp.y-1);
+        yield return new IntVector2(bp.x-1, bp.y+1);
+        yield return new IntVector2(bp.x+1, bp.y-1);
+        yield return new IntVector2(bp.x+1, bp.y+1);
     }
 
     public static bool operator ==(IntVector2 v1, IntVector2 v2) {
