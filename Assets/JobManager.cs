@@ -34,6 +34,11 @@ public class BuildJob : Job {
 	// if none of the neighbors are passable then nobody can build this so we
 	// shouldn't bother checking for assignments
 	public bool IsPossible() {
+        if (targetBlue.ship == null) {
+            isFinished = true;
+            return false;
+        }
+
         if (targetBlue.ship.blocks.IsOutsideBounds(targetBlue.pos))
             return false;
 
@@ -107,7 +112,6 @@ public class BuildJobManager {
     public BuildJobManager(Ship ship) {
         this.ship = ship;
         ship.blueprintBlocks.OnBlockAdded += OnBlueprintAdded;
-		ship.blueprintBlocks.OnBlockRemoved += OnBlueprintRemoved;
 		foreach (var block in ship.blueprintBlocks.allBlocks) {
 			OnBlueprintAdded(block);
 		}
@@ -119,23 +123,8 @@ public class BuildJobManager {
 	        jobs.Add(new BuildJob(block));
     }
 
-	void OnBlueprintRemoved(Block block) {
-		foreach (var job in jobs.ToList()) {
-			if (job.targetBlue == block) {
-				if (job.crew != null)
-					job.crew.job = null;
-				jobs.Remove(job);
-			}
-		}
-	}
-
     public void AssignJobs() {
-		foreach (var job in jobs.ToList()) {
-			if (job.isFinished)
-				jobs.Remove(job);
-		}
-
-
+        jobs = jobs.Where((j) => j.isFinished == false).ToList();
 
 		var unassignedCrew = ship.crew.Where((crew) => crew.job == null);
 

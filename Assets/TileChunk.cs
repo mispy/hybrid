@@ -50,13 +50,13 @@ public class TileChunk : PoolBehaviour {
         meshTriangles[i*6+3] = (i*4)+1;
         meshTriangles[i*6+4] = (i*4)+2;
         meshTriangles[i*6+5] = (i*4)+3;
-        
-        var verts = GetVertices(tile, x, y).ToList();
-        meshVertices[i*4] = verts[0];
-        meshVertices[i*4+1] = verts[1];
-        meshVertices[i*4+2] = verts[2];
-        meshVertices[i*4+3] = verts[3];
-        
+
+        var j = 0;
+        foreach (var vert in GetVertices(tile, x, y)) {
+            meshVertices[i*4+j] = vert;
+            j += 1;
+        }
+
         var uvs = tile.uvs;
         meshUV[i*4] = uvs[0];
         meshUV[i*4+1] = uvs[1];
