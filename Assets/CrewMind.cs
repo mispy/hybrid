@@ -28,6 +28,7 @@ public class CrewMind : MonoBehaviour {
         crew = GetComponentInParent<CrewBody>().crew;
         crew.mind = this;
 		pathLine = GetComponent<LineRenderer>();
+		pathLine.sortingLayerName = "UI";
 	}
 
 	void DrawPath() {
