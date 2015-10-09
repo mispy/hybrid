@@ -28,8 +28,8 @@ public class CooldownCharger : BlockComponent {
         if (amountCharged < 1f)
             amountCharged = Mathf.Min(1f, amountCharged + Time.deltaTime/chargeTime);
 
-        var startY = -Tile.worldSize/2f + 0.1f;
-        var endY = Tile.worldSize/2f + 0.1f;
+        var startY = -Tile.worldSize/2f + 0.2f;
+        var endY = Tile.worldSize/2f - 0.2f;
 
         var start = new Vector2(Tile.worldSize/2f, startY);
         var end = new Vector2(Tile.worldSize/2f, startY + (endY-startY)*amountCharged);
