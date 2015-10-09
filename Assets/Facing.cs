@@ -2,6 +2,10 @@
 using System;
 using System.Collections;
 
+public class InvalidFacingException : Exception {
+
+}
+
 public struct Facing {
     private int index;
     public static Facing up = new Facing(2);
@@ -19,20 +23,31 @@ public struct Facing {
 
     public static explicit operator Facing(IntVector2 pos) {
         if (Math.Abs(pos.x) > Math.Abs(pos.y)) {
-            if (pos.x < 0) return Facing.left;
             if (pos.x > 0) return Facing.right;
+            if (pos.x < 0) return Facing.left;
         } else if (Math.Abs(pos.x) < Math.Abs(pos.y)){
-            if (pos.y < 0) return Facing.up;
-            if (pos.y > 0) return Facing.down;
+            if (pos.y > 0) return Facing.up;
+            if (pos.y < 0) return Facing.down;
         }
 
         return Facing.up;
     }
 
     public static explicit operator Vector2(Facing facing) {
-        return (Vector2)(IntVector2)facing;
+        return (Vector2)((IntVector2)facing);
     }
 
+    public static Facing operator -(Facing facing) {
+        if (facing == Facing.up)
+            return Facing.down;
+        if (facing == Facing.down)
+            return Facing.up;
+        if (facing == Facing.right)
+            return Facing.left;
+        if (facing == Facing.left)
+            return Facing.right;
+        throw new InvalidFacingException();
+    }
 
     public static bool operator ==(Facing r1, Facing r2) {
         return r1.index == r2.index;

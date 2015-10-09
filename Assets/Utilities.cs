@@ -43,7 +43,7 @@ public struct IntVector2 {
     }
 
     public static explicit operator Vector2(IntVector2 pos) {
-        return new Vector2(pos.x, pos.y);
+        return new Vector2(pos.x, pos.y);   
     }
 
     public static IntVector2 zero = new IntVector2(0, 0);
@@ -93,6 +93,10 @@ public struct IntVector2 {
 
     public static IntVector2 operator -(IntVector2 v1, IntVector2 v2) {
         return new IntVector2(v1.x-v2.x, v1.y-v2.y);
+    }
+
+    public static IntVector2 operator -(IntVector2 v) {
+        return new IntVector2(-v.x, -v.y);
     }
 
     public IntVector2 normalized {
@@ -324,4 +328,27 @@ public class Util {
 
 		return path.Last();
 	}
+
+    
+    public static Block AdjoiningBlock(Block block, IntVector2 pos, BlockMap blocks) {
+        if (block.type.canRotate && block.layer == BlockLayer.Base) {
+            // Base-level rotating blocks must attach to the block behind them
+            return blocks[pos - (IntVector2)block.facing, BlockLayer.Base];
+        } else {
+            foreach (var neighbor in IntVector2.Neighbors(pos)) {
+                var adjoining = blocks[pos, BlockLayer.Base];
+                if (adjoining != null) return adjoining;
+            }
+        }
+
+        return null;
+    }
+
+    public static Block AdjoiningBlock(Block block, IntVector2 pos) {
+        return AdjoiningBlock(block, pos, block.ship.blocks);
+    }
+
+    public static Block AdjoiningBlock(Block block) {
+        return AdjoiningBlock(block, block.pos, block.ship.blocks);
+    }
 }

@@ -49,6 +49,7 @@ MonoBehaviour:
   canRotate: 1
   canFitInsideWall: 0
   canBlockSight: 1
+  canBlockFront: 0
   isComplexBlock: 1
   canBeFired: 0
   renderer: {fileID: 0}

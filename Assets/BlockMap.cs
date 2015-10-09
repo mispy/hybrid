@@ -36,6 +36,7 @@ public class BlockMap {
 
     public Dictionary<BlockType, HashSet<Block>> blockTypeCache = new Dictionary<BlockType, HashSet<Block>>();
     public Dictionary<Type, HashSet<Block>> blockCompCache = new Dictionary<Type, HashSet<Block>>();
+    public HashSet<Block> frontBlockers = new HashSet<Block>();
 
     public delegate void BlockAddedHandler(Block newBlock);
     public delegate void BlockRemovedHandler(Block oldBlock);
@@ -288,6 +289,9 @@ public class BlockMap {
             blockCompCache[comp.GetType()].Remove(block);
         }
 		allBlocks.Remove(block);
+        if (block.type.canBlockFront)
+            frontBlockers.Remove(block);
+
         if (OnBlockRemoved != null) OnBlockRemoved(block);        
     }
 
@@ -307,6 +311,10 @@ public class BlockMap {
             blockCompCache[comp.GetType()].Add(block);
         }
 		allBlocks.Add(block);
+
+        if (block.type.canBlockFront)
+            frontBlockers.Add(block);
+
         if (OnBlockAdded != null) OnBlockAdded(block);
     }
 

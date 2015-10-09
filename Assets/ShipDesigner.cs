@@ -10,9 +10,11 @@ public class ShipDesigner : MonoBehaviour {
     public Blueprint cursor;
     public bool isDragging = false;
     public bool isMirroring = true;
-    public IntVector2 startDragPos;
+    public IntVector2 cursorOrigin;
     public IntVector2 mousePos;
     BlueprintBlock cursorBlock;
+    bool isCursorValid = false;
+    bool isMirrorValid = false;
 
     public void OnEnable() {        
         cursor = Pool.For("Blueprint").Take<Blueprint>();
@@ -25,9 +27,15 @@ public class ShipDesigner : MonoBehaviour {
 
         //Game.main.debugText.text = "Designing Ship";
         //Game.main.debugText.color = Color.green;        
-        SetDesignShip(Game.playerShip);
+        designShip = Game.playerShip;
         cursor.transform.position = designShip.form.transform.position;
         cursor.transform.rotation = designShip.form.transform.rotation;
+        designShip.form.tiles.DisableRendering();
+        designShip.form.blueprint.tiles.EnableRendering();
+        
+        foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
+            blockObj.renderer.enabled = false;
+        }
 
         Game.Pause();
     }
@@ -48,27 +56,17 @@ public class ShipDesigner : MonoBehaviour {
         Game.Unpause();
     }
 
-    void SetDesignShip(Ship ship) {
-        /*if (designShip != null) {
-			designShip.form.blueprint.tiles.DisableRendering();
-			designShip.form.tiles.EnableRendering();
-        }*/
-
-        designShip = ship;
-		designShip.form.tiles.DisableRendering();
-		designShip.form.blueprint.tiles.EnableRendering();
-
-        foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
-            blockObj.renderer.enabled = false;
-        }
-	}
-
     Block FindAdjoiningBlock(Vector2 worldPos, IntVector2 blockPos) {
         var neighborBlocks = new List<Block>();
         foreach (var pos in IntVector2.Neighbors(blockPos)) {
             var block = designShip.form.blueprint.blocks[pos, BlockLayer.Base];
-            if (block != null) 
+            if (block != null) {
                 neighborBlocks.Add(block);
+                continue;
+            }
+
+            block = cursor.blocks[pos, BlockLayer.Base];
+            if (block != null) neighborBlocks.Add(block);
         }    
 
         if (neighborBlocks.Count == 0)
@@ -77,9 +75,9 @@ public class ShipDesigner : MonoBehaviour {
         return neighborBlocks.OrderBy((block) => Vector2.Distance(worldPos, designShip.form.BlockToWorldPos(block.pos))).First();
     }
 
-    Facing RotationFromAdjoining(IntVector2 pos, Block adjoiningBlock) {
+    Facing FacingFromAdjoining(IntVector2 pos, Block adjoiningBlock) {
         if (adjoiningBlock == null) return Facing.up;
-        return (Facing)((adjoiningBlock.pos - pos).normalized);
+        return (Facing)((pos - adjoiningBlock.pos).normalized);
     }
 
     bool CanFitInto(Block cursorBlock, Block existingBlock) {
@@ -98,39 +96,63 @@ public class ShipDesigner : MonoBehaviour {
         return false;
     }
 
-    BlueprintBlock AdjoiningBlock(IntVector2 pos, IntVector2 dir) {
-        var block = cursor.blocks[pos+dir, BlockLayer.Base];
-        if (block != null) return (BlueprintBlock)block;
-        
-        block = designShip.blueprintBlocks[pos+dir, BlockLayer.Base];
-        return (BlueprintBlock)block;
+    Block AdjoiningBlock(Block block, IntVector2 pos) {
+        var adjoining = Util.AdjoiningBlock(block, pos, designShip.blueprintBlocks);
+        if (adjoining != null) return adjoining;
+
+        return Util.AdjoiningBlock(block, pos, cursor.blocks);
     }
 
-    BlueprintBlock AdjoiningBlock(IntVector2 pos, Facing rot) {
-        return AdjoiningBlock(pos, (IntVector2)rot);
-    }
-
-    bool IsValidPlacement(IntVector2 pos, BlueprintBlock block) {
-        var adjoiningBlock = AdjoiningBlock(block.pos, block.facing);
-        if (adjoiningBlock == null) {
-            var dir = (cursorBlock.pos - pos).normalized;
-            adjoiningBlock = AdjoiningBlock(block.pos, dir);
-            if (adjoiningBlock == null)
-                return false;
-            else
-                block.facing = (Facing)dir;
-        }
+    bool IsValidPlacement(IntVector2 desiredPos, BlueprintBlock block) {
+        var adjoiningBlock = AdjoiningBlock(block, desiredPos);
+        if (adjoiningBlock == null)
+            return false;
 
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
-                foreach (var currentBlock in designShip.form.blueprint.blocks.BlocksAtPos(new IntVector2(pos.x+i, pos.y+j))) {
-                    //Debug.LogFormat("{0} {1} {2}", cursorBlock.type.name, block.type.name, CanFitInto(cursorBlock, block));
+                var pos = new IntVector2(desiredPos.x+i, desiredPos.y+j);
+
+                foreach (var currentBlock in designShip.blueprintBlocks.BlocksAtPos(pos)) {
                     if (!CanFitInto(block, currentBlock))
                         return false;
                 }
+
+                if (PositionBlocked(pos))
+                    return false;
+
+                if (block.type.canBlockFront && !HasLineOfFire(pos, block.facing))
+                    return false;
             }
         }
         
+        return true;
+    }
+
+    bool PositionBlocked(IntVector2 pos) {
+        foreach (var blocker in designShip.blueprintBlocks.frontBlockers) {
+            if (pos.x == blocker.x && blocker.facing == Facing.up && pos.y > blocker.y)
+                return true;
+            if (pos.x == blocker.x && blocker.facing == Facing.down && pos.y < blocker.y)
+                return true;
+            if (pos.y == blocker.y && blocker.facing == Facing.right && pos.x > blocker.x)
+                return true;
+            if (pos.y == blocker.y && blocker.facing == Facing.left && pos.x < blocker.x)
+                return true;
+        }
+
+        return false;
+    }
+
+    bool HasLineOfFire(IntVector2 blockPos, Facing dir) {
+        var pos = blockPos;
+
+        while (!designShip.blueprintBlocks.IsOutsideBounds(pos)) {
+            pos = pos + (IntVector2)dir;
+
+            if (designShip.blueprintBlocks[pos, BlockLayer.Base] != null)
+                return false;
+        }
+
         return true;
     }
 
@@ -142,7 +164,6 @@ public class ShipDesigner : MonoBehaviour {
         isDragging = false;
 
         foreach (var block in cursor.blocks.allBlocks) {
-            if (!IsValidPlacement((BlueprintBlock)block)) continue;
             designShip.blueprintBlocks[block.pos,  block.layer] = new BlueprintBlock(block);
         }
        
@@ -163,36 +184,52 @@ public class ShipDesigner : MonoBehaviour {
             return;
         }
 
-        var rect = new IntRect(startDragPos, mousePos);
-        var mirrorRect = new IntRect(MirrorPosition(startDragPos), MirrorPosition(mousePos));
+        var rect = new IntRect(cursorOrigin, mousePos);
+        var mirrorOrigin = MirrorPosition(cursorOrigin);
+        var mirrorRect = new IntRect(mirrorOrigin, MirrorPosition(mousePos));
 
         foreach (var block in cursor.blocks.allBlocks.ToList()) {
             if (!rect.Contains(block.pos) && !mirrorRect.Contains(block.pos))
                 cursor.blocks[block.pos, block.layer] = null;
         }
 
-        for (var i = rect.minX; i <= rect.maxX; i++) {
-            for (var j = rect.minY; j <= rect.maxY; j++) {
-                var pos = new IntVector2(i, j);
-                var newBlock = new BlueprintBlock(cursorBlock);
+        if (isCursorValid) {
+            for (var i = rect.minX; i <= rect.maxX; i++) {
+                for (var j = rect.minY; j <= rect.maxY; j++) {
+                    var pos = new IntVector2(i, j);
+                    var newBlock = new BlueprintBlock(cursorBlock);
 
-                if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
-                    cursor.blocks[pos, newBlock.layer] = newBlock;
+                    if (AdjoiningBlock(newBlock, pos) == null) {
+                        var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, pos);                    
+                        cursorBlock.facing = FacingFromAdjoining(pos, adjoiningBlock);
+                    }
+
+
+                    if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
+                        cursor.blocks[pos, newBlock.layer] = newBlock;
+                }
             }
         }
 
-        for (var i = mirrorRect.minX; i <= mirrorRect.maxX; i++) {
-            for (var j = mirrorRect.minY; j <= mirrorRect.maxY; j++) {
-                var pos = new IntVector2(i, j);
-                var newBlock = new BlueprintBlock(cursorBlock);
+        if (isMirrorValid) {
+            for (var i = mirrorRect.minX; i <= mirrorRect.maxX; i++) {
+                for (var j = mirrorRect.minY; j <= mirrorRect.maxY; j++) {
+                    var pos = new IntVector2(i, j);
+                    var newBlock = new BlueprintBlock(cursorBlock);
 
-                if (newBlock.facing == Facing.right)
-                    newBlock.facing = Facing.left;
-                else if (newBlock.facing == Facing.left)
-                    newBlock.facing = Facing.right;
+                    if (newBlock.facing == Facing.right)
+                        newBlock.facing = Facing.left;
+                    else if (newBlock.facing == Facing.left)
+                        newBlock.facing = Facing.right;
 
-                if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
-                    cursor.blocks[pos, newBlock.layer] = newBlock;
+                    if (AdjoiningBlock(newBlock, pos) == null) {
+                        var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, pos);                    
+                        cursorBlock.facing = FacingFromAdjoining(pos, adjoiningBlock);
+                    }
+
+                    if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
+                        cursor.blocks[pos, newBlock.layer] = newBlock;
+                }
             }
         }
     }
@@ -205,13 +242,19 @@ public class ShipDesigner : MonoBehaviour {
             return;
         }
 
+        foreach (var block in designShip.blueprintBlocks.frontBlockers) {
+            var worldPos = designShip.form.BlockToWorldPos(block.pos);
+            var dir = designShip.form.transform.TransformDirection((Vector2)block.facing);
+            Annotation.DrawLine(worldPos, worldPos + (Vector2)dir*10, Color.red, 0.2f);
+        }
+
         foreach (var block in cursor.blocks.allBlocks.ToList())
             cursor.blocks[block.pos, block.layer] = null;
 
         var selectedType = MainUI.blockSelector.selectedType;
         cursorBlock = new BlueprintBlock(selectedType);
         var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, mousePos);                    
-        cursorBlock.facing = RotationFromAdjoining(mousePos, adjoiningBlock);
+        cursorBlock.facing = FacingFromAdjoining(mousePos, adjoiningBlock);
 
         cursor.blocks[mousePos, selectedType.blockLayer] = cursorBlock;
         var mirrorPos = MirrorPosition(mousePos);
@@ -222,9 +265,10 @@ public class ShipDesigner : MonoBehaviour {
             mirrorBlock.facing = Facing.left;
         cursor.blocks[mirrorPos, selectedType.blockLayer] = mirrorBlock;
 
-        var isValid = IsValidPlacement(mousePos, cursorBlock);
-        
-        if (isValid) {
+        isCursorValid = IsValidPlacement(mousePos, cursorBlock);
+        isMirrorValid = IsValidPlacement(mirrorPos, cursorBlock);
+
+        if (isCursorValid) {
             foreach (var renderer in cursor.tiles.MeshRenderers)
                 renderer.material.color = Color.green;
         } else {
@@ -241,8 +285,11 @@ public class ShipDesigner : MonoBehaviour {
             return;
 
         if (Input.GetMouseButton(0)) {
-            startDragPos = mousePos;
+            cursorOrigin = mousePos;
             isDragging = true;
+            cursor.blocks[cursorOrigin, selectedType.blockLayer] = null;
+            cursor.blocks[mirrorPos, selectedType.blockLayer] = null;
+            UpdateDrag();
         }
 
         /*if (Input.GetMouseButton(0) && isValid) {            

@@ -28,6 +28,7 @@ public class BlockType : MonoBehaviour {
     public bool canRotate = false;
     public bool canFitInsideWall = false;
 	public bool canBlockSight = false;
+    public bool canBlockFront = false;
 
     /* Complex block specific functionality */
     [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
