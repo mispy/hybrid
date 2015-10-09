@@ -10,7 +10,7 @@ public class ShipDesigner : MonoBehaviour {
     public Blueprint cursor;
     public bool isDragging = false;
     public bool isMirroring = true;
-    public IntVector2 cursorOrigin;
+    public IntVector2 dragOrigin;
     public IntVector2 mousePos;
     BlueprintBlock cursorBlock;
     bool isCursorValid = false;
@@ -35,6 +35,13 @@ public class ShipDesigner : MonoBehaviour {
         
         foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
             blockObj.renderer.enabled = false;
+        }
+        
+        foreach (var block in designShip.blueprintBlocks.frontBlockers) {
+            var worldPos = designShip.form.BlockToWorldPos(block.pos);
+            var dir = designShip.form.transform.TransformDirection((Vector2)block.facing);
+            var line = Annotation.DrawLine(worldPos, worldPos + (Vector2)dir*10, Color.green, 0.05f);
+            line.transform.SetParent(cursor.transform);
         }
 
         Game.Pause();
@@ -184,13 +191,15 @@ public class ShipDesigner : MonoBehaviour {
             return;
         }
 
-        var rect = new IntRect(cursorOrigin, mousePos);
-        var mirrorOrigin = MirrorPosition(cursorOrigin);
+        var rect = new IntRect(dragOrigin, mousePos);
+        var mirrorOrigin = MirrorPosition(dragOrigin);
         var mirrorRect = new IntRect(mirrorOrigin, MirrorPosition(mousePos));
 
         foreach (var block in cursor.blocks.allBlocks.ToList()) {
             if (!rect.Contains(block.pos) && !mirrorRect.Contains(block.pos))
                 cursor.blocks[block.pos, block.layer] = null;
+            else if (!IsValidPlacement((BlueprintBlock)block))
+                cursor.blocks[block.pos, block.layer] = null;   
         }
 
         if (isCursorValid) {
@@ -198,12 +207,6 @@ public class ShipDesigner : MonoBehaviour {
                 for (var j = rect.minY; j <= rect.maxY; j++) {
                     var pos = new IntVector2(i, j);
                     var newBlock = new BlueprintBlock(cursorBlock);
-
-                    if (AdjoiningBlock(newBlock, pos) == null) {
-                        var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, pos);                    
-                        cursorBlock.facing = FacingFromAdjoining(pos, adjoiningBlock);
-                    }
-
 
                     if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
                         cursor.blocks[pos, newBlock.layer] = newBlock;
@@ -222,11 +225,6 @@ public class ShipDesigner : MonoBehaviour {
                     else if (newBlock.facing == Facing.left)
                         newBlock.facing = Facing.right;
 
-                    if (AdjoiningBlock(newBlock, pos) == null) {
-                        var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, pos);                    
-                        cursorBlock.facing = FacingFromAdjoining(pos, adjoiningBlock);
-                    }
-
                     if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
                         cursor.blocks[pos, newBlock.layer] = newBlock;
                 }
@@ -240,12 +238,6 @@ public class ShipDesigner : MonoBehaviour {
         if (isDragging) {
             UpdateDrag();
             return;
-        }
-
-        foreach (var block in designShip.blueprintBlocks.frontBlockers) {
-            var worldPos = designShip.form.BlockToWorldPos(block.pos);
-            var dir = designShip.form.transform.TransformDirection((Vector2)block.facing);
-            Annotation.DrawLine(worldPos, worldPos + (Vector2)dir*10, Color.red, 0.2f);
         }
 
         foreach (var block in cursor.blocks.allBlocks.ToList())
@@ -285,9 +277,11 @@ public class ShipDesigner : MonoBehaviour {
             return;
 
         if (Input.GetMouseButton(0)) {
-            cursorOrigin = mousePos;
+            if (!isCursorValid && !isMirrorValid) return;
+
+            dragOrigin = mousePos;
             isDragging = true;
-            cursor.blocks[cursorOrigin, selectedType.blockLayer] = null;
+            cursor.blocks[dragOrigin, selectedType.blockLayer] = null;
             cursor.blocks[mirrorPos, selectedType.blockLayer] = null;
             UpdateDrag();
         }

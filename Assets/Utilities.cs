@@ -336,7 +336,7 @@ public class Util {
             return blocks[pos - (IntVector2)block.facing, BlockLayer.Base];
         } else {
             foreach (var neighbor in IntVector2.Neighbors(pos)) {
-                var adjoining = blocks[pos, BlockLayer.Base];
+                var adjoining = blocks[neighbor, BlockLayer.Base];
                 if (adjoining != null) return adjoining;
             }
         }

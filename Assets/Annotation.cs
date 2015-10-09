@@ -12,8 +12,6 @@ public class Annotation : MonoBehaviour {
         line.SetPosition(0, start);
         line.SetPosition(1, end);
         line.SetColors(color, color);
-        var transient = line.gameObject.AddComponent<Transient>();
-        transient.duration = 0.01f;
         line.gameObject.SetActive(true);
         return line;
     }
