@@ -277,7 +277,7 @@ public class Blockform : PoolBehaviour {
 
 	public void UpdateBounds() {
 		bounds = new Bounds(blocks.boundingRect.center * Tile.worldSize, blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize));
-		boundsCollider.transform.position = bounds.center;
+		boundsCollider.transform.localPosition = bounds.center;
 		boundsCollider.size = bounds.size;
 	}
     

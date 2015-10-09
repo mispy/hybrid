@@ -233,31 +233,35 @@ public class BlockMap {
 
     void CheckForShrink(int x, int y) {
         if (x == minX) {
-            minX = minX + 1;
+            var shrink = true;
             for (var j = minY; j <= maxY; j++)
                 if (this[minX, j, BlockLayer.Base] != null)
-                    minX = x;
+                    shrink = false;
+            if (shrink) minX += 1;
         }
 
         if (x == maxX) {
-            maxX = maxX - 1;
+            var shrink = true;
             for (var j = minY; j <= maxY; j++)
                 if (this[maxX, j, BlockLayer.Base] != null)
-                    maxX = x;
+                    shrink = false;
+            if (shrink) maxX -= 1;
         }
 
         if (y == minY) {
-            minY = minY + 1;
+            var shrink = true;
             for (var i = minX; i <= maxX; i++)
                 if (this[i, minY, BlockLayer.Base] != null)
-                    minY = y;
+                    shrink = false;
+            if (shrink) minY += 1;
         }
         
         if (y == maxY) {
-            maxY = maxY - 1;
+            var shrink = true;
             for (var i = minX; i <= maxX; i++)
                 if (this[i, maxY, BlockLayer.Base] != null)
-                    maxY = y;
+                    shrink = false;
+            if (shrink) maxY -= 1;
         }
         /*        minX = 10000;
         minY = 10000;
