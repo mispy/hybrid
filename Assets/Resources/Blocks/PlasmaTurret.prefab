@@ -8,10 +8,11 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 403344}
+  - 212: {fileID: 21208276}
   - 114: {fileID: 11459202}
   - 114: {fileID: 11477160}
   - 114: {fileID: 11458222}
-  - 212: {fileID: 21208276}
+  - 114: {fileID: 11425794}
   - 114: {fileID: 11448760}
   - 120: {fileID: 12030650}
   m_Layer: 16
@@ -33,6 +34,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11425794
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fc179ae3fa8b174b87c923464ba580d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isReady: 0
+  chargeTime: 1
 --- !u!114 &11448760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7912ec17915a448fe1852f8dc2407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenShots: .100000001
   launchForce: .5
   projectile: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}
   lastFireTime: 0
@@ -206,6 +219,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: canBlockFront
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: chargeTime
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -6,7 +6,6 @@ using System.Linq;
 
 public class ProjectileLauncher : BlockComponent {
 
-	public float timeBetweenShots = 0.1f;
 	public float launchForce = 0.5f;
 	public GameObject projectile;
 
@@ -15,11 +14,13 @@ public class ProjectileLauncher : BlockComponent {
 	public Blockform form { get; private set; }
 	public Collider collider { get; private set; }
 	public RotatingTurret turret { get; private set; }
+    public CooldownCharger charger { get; private set; }
 
 	void Start() {
 		form = GetComponentInParent<Blockform>();
 		collider = form.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>();
 		turret = GetComponent<RotatingTurret>();
+        charger = GetComponent<CooldownCharger>();
 	}
 	
 	public Collider GetProbableHit(float maxDistance = 150f) {
@@ -29,13 +30,13 @@ public class ProjectileLauncher : BlockComponent {
 	}
 	
 	public void Fire() {    
-		if (Time.time - lastFireTime < timeBetweenShots)
-			return;
+        if (!charger.isReady)
+            return;
 
 		if (turret.isBlocked)
 			return;
 		
-		lastFireTime = Time.time;
+		charger.Discharge();
 
 		// Pew pew!
 		var bullet = Pool.For(projectile).TakeObject();
