@@ -9,7 +9,8 @@ public class ShipDesigner : MonoBehaviour {
     public Ship designShip;
     public Blueprint cursor;
     public bool isDragging = false;
-    public bool isMirroring = true;
+    public bool isRemoving = false;
+    public bool isMirroring = false;
     public IntVector2 dragOrigin;
     public IntVector2 mousePos;
     BlueprintBlock cursorBlock;
@@ -21,14 +22,16 @@ public class ShipDesigner : MonoBehaviour {
         cursor.name = "Cursor";
         cursor.blocks = new BlockMap(null);
         cursor.gameObject.SetActive(true);
-
 		cursor.tiles.EnableRendering();
         Game.shipControl.gameObject.SetActive(false);
+        foreach (var renderer in cursor.tiles.MeshRenderers) {
+            renderer.sortingLayerName = "UI";
+        }
 
         //Game.main.debugText.text = "Designing Ship";
         //Game.main.debugText.color = Color.green;        
         designShip = Game.playerShip;
-        cursor.transform.position = designShip.form.transform.position;
+        cursor.transform.position = designShip.form.transform.position + new Vector3(0, 0, -1);
         cursor.transform.rotation = designShip.form.transform.rotation;
         designShip.form.tiles.DisableRendering();
         designShip.form.blueprint.tiles.EnableRendering();
@@ -185,18 +188,70 @@ public class ShipDesigner : MonoBehaviour {
         return new IntVector2(cx + (cx - pos.x), pos.y);
     }
 
+    void FinishRemoving() {
+        isRemoving = false;
+
+        foreach (var block in cursor.blocks.allBlocks) {
+            designShip.blueprintBlocks[block.pos, block.layer] = null;
+            designShip.blocks[block.pos, block.layer] = null;
+        }
+    }
+
+    void UpdateRemoving() {
+        if (!Input.GetMouseButton(1)) {
+            FinishRemoving();
+            return;
+        }
+        
+        foreach (var renderer in cursor.tiles.MeshRenderers)
+            renderer.material.color = Color.red;
+        
+        var rect = new IntRect(dragOrigin, mousePos);
+        var mirrorOrigin = MirrorPosition(dragOrigin);
+        var mirrorRect = new IntRect(mirrorOrigin, MirrorPosition(mousePos));
+
+        foreach (var block in cursor.blocks.allBlocks.ToList()) {
+            if (!rect.Contains(block.pos) && (!isMirroring || !mirrorRect.Contains(block.pos)))
+                cursor.blocks[block.pos, block.layer] = null;
+        }
+        
+        for (var i = rect.minX; i <= rect.maxX; i++) {
+            for (var j = rect.minY; j <= rect.maxY; j++) {
+                var pos = new IntVector2(i, j);
+                var currentBlock = designShip.blueprintBlocks[pos, BlockLayer.Base];
+
+                if (currentBlock != null)
+                    cursor.blocks[currentBlock.pos, currentBlock.layer] = new BlueprintBlock(currentBlock);
+            }
+        }
+
+        if (isMirroring) {
+            for (var i = mirrorRect.minX; i <= mirrorRect.maxX; i++) {
+                for (var j = mirrorRect.minY; j <= mirrorRect.maxY; j++) {
+                    var pos = new IntVector2(i, j);
+                    var currentBlock = designShip.blueprintBlocks[pos, BlockLayer.Base];
+                    
+                    if (currentBlock != null)
+                        cursor.blocks[currentBlock.pos, currentBlock.layer] = new BlueprintBlock(currentBlock);
+                }
+            }
+        }
+    }
+
     void UpdateDrag() {        
         if (!Input.GetMouseButton(0)) {
             FinishDrag();
             return;
         }
 
+
         var rect = new IntRect(dragOrigin, mousePos);
         var mirrorOrigin = MirrorPosition(dragOrigin);
         var mirrorRect = new IntRect(mirrorOrigin, MirrorPosition(mousePos));
+        
 
         foreach (var block in cursor.blocks.allBlocks.ToList()) {
-            if (!rect.Contains(block.pos) && !mirrorRect.Contains(block.pos))
+            if (!rect.Contains(block.pos) && (!isMirroring || !mirrorRect.Contains(block.pos)))
                 cursor.blocks[block.pos, block.layer] = null;
             else if (!IsValidPlacement((BlueprintBlock)block))
                 cursor.blocks[block.pos, block.layer] = null;   
@@ -214,7 +269,7 @@ public class ShipDesigner : MonoBehaviour {
             }
         }
 
-        if (isMirrorValid) {
+        if (isMirroring && isMirrorValid) {
             for (var i = mirrorRect.minX; i <= mirrorRect.maxX; i++) {
                 for (var j = mirrorRect.minY; j <= mirrorRect.maxY; j++) {
                     var pos = new IntVector2(i, j);
@@ -240,6 +295,11 @@ public class ShipDesigner : MonoBehaviour {
             return;
         }
 
+        if (isRemoving) {
+            UpdateRemoving();
+            return;
+        }
+
         foreach (var block in cursor.blocks.allBlocks.ToList())
             cursor.blocks[block.pos, block.layer] = null;
 
@@ -249,16 +309,21 @@ public class ShipDesigner : MonoBehaviour {
         cursorBlock.facing = FacingFromAdjoining(mousePos, adjoiningBlock);
 
         cursor.blocks[mousePos, selectedType.blockLayer] = cursorBlock;
-        var mirrorPos = MirrorPosition(mousePos);
-        var mirrorBlock = new BlueprintBlock(selectedType);
-        if (cursorBlock.facing == Facing.left)
-            mirrorBlock.facing = Facing.right;
-        else if (cursorBlock.facing == Facing.right)
-            mirrorBlock.facing = Facing.left;
-        cursor.blocks[mirrorPos, selectedType.blockLayer] = mirrorBlock;
-
         isCursorValid = IsValidPlacement(mousePos, cursorBlock);
-        isMirrorValid = IsValidPlacement(mirrorPos, cursorBlock);
+
+        if (isMirroring) {
+            var mirrorPos = MirrorPosition(mousePos);
+            var mirrorBlock = new BlueprintBlock(selectedType);
+            if (cursorBlock.facing == Facing.left)
+                mirrorBlock.facing = Facing.right;
+            else if (cursorBlock.facing == Facing.right)
+                mirrorBlock.facing = Facing.left;
+            cursor.blocks[mirrorPos, selectedType.blockLayer] = mirrorBlock;
+
+            isMirrorValid = IsValidPlacement(mirrorPos, cursorBlock);
+        } else {
+            isMirrorValid = true;
+        }
 
         if (isCursorValid) {
             foreach (var renderer in cursor.tiles.MeshRenderers)
@@ -273,6 +338,8 @@ public class ShipDesigner : MonoBehaviour {
             gameObject.SetActive(false);
         }
 
+       // Debug.LogFormat("{0} {1} {2} {3}", cursor.blocks.minX, cursor.blocks.maxX, cursor.blocks.minY, cursor.blocks.maxY);
+
         if (EventSystem.current.IsPointerOverGameObject())
             return;
 
@@ -281,17 +348,20 @@ public class ShipDesigner : MonoBehaviour {
 
             dragOrigin = mousePos;
             isDragging = true;
-            cursor.blocks[dragOrigin, selectedType.blockLayer] = null;
-            cursor.blocks[mirrorPos, selectedType.blockLayer] = null;
+            foreach (var pos in cursor.blocks.FilledPositions)
+                cursor.blocks[pos, selectedType.blockLayer] = null;
             UpdateDrag();
         }
 
-        /*if (Input.GetMouseButton(0) && isValid) {            
-            //designShip.blueprintBlocks[targetBlockPos, cursorBlock.layer] = new BlueprintBlock(cursorBlock);
-            //designShip.blocks[targetBlockPos, cursorBlock.layer] = new Block(cursorBlock);
-        } else if (Input.GetMouseButton(1)) {
-            designShip.blueprintBlocks.RemoveSurface(targetBlockPos);
-            designShip.blocks.RemoveSurface(targetBlockPos);
-        }*/
+        if (Input.GetMouseButton(1)) {
+            dragOrigin = mousePos;
+            isRemoving = true;
+            foreach (var pos in cursor.blocks.FilledPositions)
+                cursor.blocks[pos, selectedType.blockLayer] = null;
+            UpdateRemoving();
+        }
+
+        if (Input.GetKeyDown(KeyCode.M))
+            isMirroring = !isMirroring;
     }
 }

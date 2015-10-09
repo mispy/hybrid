@@ -209,10 +209,18 @@ public class BlockMap {
         if (block == null) {
             CheckForShrink(x, y);
         } else {
-            if (x > maxX) maxX = x;
-            if (y > maxY) maxY = y;
-            if (x < minX) minX = x;
-            if (y < minY) minY = y;
+            if (baseSize == 0) {
+                // first block!
+                maxX = x;
+                maxY = y;
+                minX = x;
+                minY = y;
+            }  else {
+                if (x > maxX) maxX = x;
+                if (y > maxY) maxY = y;
+                if (x < minX) minX = x;
+                if (y < minY) minY = y;
+            }
         }
         
         width = 1 + maxX - minX;
@@ -275,8 +283,8 @@ public class BlockMap {
     void RemoveBlock(Block block) {
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
-                if (block.layer == BlockLayer.Base) baseSize -= 1;
                 SetChunkedValue(block.pos.x + i, block.pos.y + j, block.layer, null);
+                if (block.layer == BlockLayer.Base) baseSize -= 1;
             }
         }
 
@@ -301,8 +309,8 @@ public class BlockMap {
 
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
-                if (layer == BlockLayer.Base) baseSize += 1;
                 SetChunkedValue(bp.x + i, bp.y + j, layer, block);
+                if (layer == BlockLayer.Base) baseSize += 1;
             }
         }
     
