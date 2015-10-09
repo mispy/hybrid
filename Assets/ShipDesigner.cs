@@ -87,7 +87,9 @@ public class ShipDesigner : MonoBehaviour {
         return (Facing)((pos - adjoiningBlock.pos).normalized);
     }
 
-    bool CanFitInto(Block cursorBlock, Block existingBlock) {
+    bool CanFitInto(Block cursorBlock, IntVector2 pos) {
+        var existingBlock = designShip.blueprintBlocks[pos, BlockLayer.Base];
+
         // Base layer blocks only go in empty space adjacent to an existing block
         if (cursorBlock.layer == BlockLayer.Base && existingBlock == null)
             return true;
@@ -119,10 +121,8 @@ public class ShipDesigner : MonoBehaviour {
             for (var j = 0; j < block.Height; j++) {
                 var pos = new IntVector2(desiredPos.x+i, desiredPos.y+j);
 
-                foreach (var currentBlock in designShip.blueprintBlocks.BlocksAtPos(pos)) {
-                    if (!CanFitInto(block, currentBlock))
-                        return false;
-                }
+                if (!CanFitInto(block, pos))
+                    return false;
 
                 if (PositionBlocked(pos))
                     return false;
