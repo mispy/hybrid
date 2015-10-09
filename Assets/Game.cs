@@ -120,7 +120,7 @@ public class Game : MonoBehaviour {
 		var sector = SectorManager.all[0];
 		ShipManager.Create(template: "Station", sector: sector, sectorPos: new Vector2(0, 0), faction: FactionManager.all[0]);
 		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-		Game.playerShip = ShipManager.Create(sector: sector, faction: FactionManager.all[2], sectorPos: new Vector2(-100, 0));
+		Game.playerShip = ShipManager.Create(template: "Destroyer", sector: sector, faction: FactionManager.all[2], sectorPos: new Vector2(-100, 0));
     }
     
     public static void LoadSector(Sector sector) {

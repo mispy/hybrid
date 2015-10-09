@@ -26,17 +26,25 @@ public class ShieldRenderer : PoolBehaviour {
 		lineRenderer.enabled = false;
 	}
 
-	public void OnShieldsChange() {	
-		var lineWidth = (shields.health / shields.maxHealth) * maxLineWidth;
-		var ellipse = shields.ellipse.Shrink(lineWidth/2f);
-		
-		lineRenderer.SetWidth(lineWidth, lineWidth);
-		lineRenderer.SetVertexCount(ellipse.positions.Length);
-		for (int i = 0; i < ellipse.positions.Length; i++) {
-			lineRenderer.SetPosition(i, ellipse.positions[i]);
-		}
+    public void OnShieldsResize() {
+        UpdateShields();
+    }
 
-		var color = Color.Lerp(Color.red, Color.blue, shields.health/shields.maxHealth);
-		lineRenderer.SetColors(color, color);
-	}
+	public void OnShieldsChange() {	
+        UpdateShields();
+    }
+
+    void UpdateShields() {
+        var lineWidth = (shields.health / shields.maxHealth) * maxLineWidth;
+        var ellipse = shields.ellipse.Shrink(lineWidth/2f);
+        
+        lineRenderer.SetWidth(lineWidth, lineWidth);
+        lineRenderer.SetVertexCount(ellipse.positions.Length);
+        for (int i = 0; i < ellipse.positions.Length; i++) {
+            lineRenderer.SetPosition(i, ellipse.positions[i]);
+        }
+        
+        var color = Color.Lerp(Color.red, Color.blue, shields.health/shields.maxHealth);
+        lineRenderer.SetColors(color, color);
+    }
 }

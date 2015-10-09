@@ -36,6 +36,7 @@ public class Shields : PoolBehaviour {
 	}
 
 	void UpdateEllipse() {
+        transform.rotation = form.transform.rotation;
 		transform.localPosition = form.bounds.center;
 		
 		var lineWidth = 1;

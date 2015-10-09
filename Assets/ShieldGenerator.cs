@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShieldGenerator : BlockType {
+public class ShieldGenerator : BlockComponent {
 	void Awake() {
 		var form = GetComponentInParent<Blockform>();
 		if (form.shields == null) {
