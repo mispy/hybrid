@@ -10,13 +10,6 @@ public class PoolBehaviour : MonoBehaviour {
     public virtual void OnRecycle() { }
 }
 
-public enum Orientation {
-    up = 1,
-    down = -1,
-    left = 2,
-    right = -2
-}
-
 public struct IntRect {
     public int minX;
     public int minY;
@@ -36,24 +29,28 @@ public struct IntRect {
 }
 
 public struct IntVector2 {
-    public static explicit operator IntVector2(Orientation ori) {
-        if (ori == Orientation.left)
-            return IntVector2.Left;
-        else if (ori == Orientation.right)
-            return IntVector2.Right;
-        else if (ori == Orientation.down)
-            return IntVector2.Down;
-        else if (ori == Orientation.up)
-            return IntVector2.Up;
+    public static explicit operator IntVector2(Facing facing) {
+        if (facing == Facing.up)
+            return IntVector2.up;
+        else if (facing == Facing.down)
+            return IntVector2.down;
+        else if (facing == Facing.left)
+            return IntVector2.left;
+        else if (facing == Facing.right)
+            return IntVector2.right;
         else
-            return IntVector2.Zero;       
+            throw new ArgumentException("This is an invalid facing!");
     }
 
-    public static IntVector2 Zero = new IntVector2(0, 0);
-    public static IntVector2 Left = new IntVector2(-1, 0);
-    public static IntVector2 Right = new IntVector2(1, 0);
-    public static IntVector2 Down = new IntVector2(0, 1);
-    public static IntVector2 Up = new IntVector2(0, -1);
+    public static explicit operator Vector2(IntVector2 pos) {
+        return new Vector2(pos.x, pos.y);
+    }
+
+    public static IntVector2 zero = new IntVector2(0, 0);
+    public static IntVector2 up = new IntVector2(0, 1);
+    public static IntVector2 down = new IntVector2(0, -1);
+    public static IntVector2 right = new IntVector2(1, 0);
+    public static IntVector2 left = new IntVector2(-1, 0);
 
     public int x;
     public int y;
@@ -96,6 +93,12 @@ public struct IntVector2 {
 
     public static IntVector2 operator -(IntVector2 v1, IntVector2 v2) {
         return new IntVector2(v1.x-v2.x, v1.y-v2.y);
+    }
+
+    public IntVector2 normalized {
+        get {
+            return new IntVector2(Math.Sign(x), Math.Sign(y));
+        }
     }
 
     public override string ToString()
@@ -246,27 +249,9 @@ public class Util {
 
     public static Vector2[] cardinals = new Vector2[] { Vector2.up, -Vector2.up, Vector2.right, -Vector2.right };
 
-    public static Dictionary<Vector2, Orientation> cardinalToOrient = new Dictionary<Vector2, Orientation>() {
-        { Vector2.up, Orientation.up },
-        { -Vector2.up, Orientation.down },
-        { Vector2.right, Orientation.right },
-        { -Vector2.right, Orientation.left }
-    };
-
-    public static Dictionary<Orientation, Vector2> orientToCardinal = new Dictionary<Orientation, Vector2>() {
-        { Orientation.up, Vector2.up },
-        { Orientation.down, -Vector2.up },
-        { Orientation.right, Vector2.right },
-        { Orientation.left, -Vector2.right }
-    };
-
     public static Vector2 Cardinalize(Vector2 vec) {
         var normal = vec.normalized;
         return cardinals.OrderBy((c) => Vector2.Distance(c, normal)).First();
-    }
-
-    public static Orientation RandomOrientation() {
-        return cardinalToOrient.Values.ToList()[Random.Range(0, 3)];
     }
 
     public static int GetNumericKeyDown() {

@@ -18,17 +18,17 @@ public class Tileable {
     }
 
     
-    public Tile GetRotatedTile(int x, int y, Orientation orientation) {
-        if (orientation == Orientation.right) {
+    public Tile GetRotatedTile(int x, int y, Facing facing) {
+        if (facing == Facing.right) {
             var t = x;
             x = y;
             y = tileHeight - t - 1;
             return tiles[x, y].right;
-        } else if (orientation == Orientation.down) {
+        } else if (facing == Facing.down) {
             x = tileWidth - x - 1;
             y = tileHeight - y - 1;
             return tiles[x, y].down;
-        } else if (orientation == Orientation.left) {
+        } else if (facing == Facing.left) {
             var t = x;
             x = tileWidth - y - 1;
             y = t;
@@ -167,20 +167,20 @@ public class Tile {
                 new Vector2(box.xMax, box.yMax)
             };
             
-            baseTile.up = new Tile(baseTile, Rot4.Up, upUVs);
-            baseTile.right = new Tile(baseTile, Rot4.Right, rightUVs);
-            baseTile.down = new Tile(baseTile, Rot4.Down, downUVs);
-            baseTile.left = new Tile(baseTile, Rot4.Left, leftUVs);
+            baseTile.up = new Tile(baseTile, Facing.up, upUVs);
+            baseTile.right = new Tile(baseTile, Facing.right, rightUVs);
+            baseTile.down = new Tile(baseTile, Facing.down, downUVs);
+            baseTile.left = new Tile(baseTile, Facing.left, leftUVs);
         }
         
         Game.Prefab("TileChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
     }
     
     public readonly BaseTile baseTile;
-    public readonly Rot4 rot;    
+    public readonly Facing rot;    
     public readonly Vector2[] uvs;
     
-    public Tile(BaseTile baseTile, Rot4 rot, Vector2[] uvs) {
+    public Tile(BaseTile baseTile, Facing rot, Vector2[] uvs) {
         this.baseTile = baseTile;
         this.rot = rot;
         this.uvs = uvs;

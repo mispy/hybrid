@@ -162,13 +162,13 @@ public class Blockform : PoolBehaviour {
         //BreakBlock(block);
     }
 
-	public Orientation GetSideWithMostWeapons() {
-		var sideCount = new Dictionary<Orientation, int>();
-		sideCount[Orientation.up] = 0;
+	public Facing GetSideWithMostWeapons() {
+		var sideCount = new Dictionary<Facing, int>();
+		sideCount[Facing.up] = 0;
 		foreach (var launcher in GetBlockComponents<ProjectileLauncher>()) {
-			if (!sideCount.ContainsKey(launcher.block.orientation))
-				sideCount[launcher.block.orientation] = 0;
-			sideCount[launcher.block.orientation] += 1;
+			if (!sideCount.ContainsKey(launcher.block.facing))
+				sideCount[launcher.block.facing] = 0;
+			sideCount[launcher.block.facing] += 1;
 		}
 		return sideCount.OrderBy((kv) => -kv.Value).First().Key;
 	}
@@ -292,7 +292,7 @@ public class Blockform : PoolBehaviour {
     }
     
     public void AddBlockComponent(Block block) {
-        Vector2 worldOrient = transform.TransformVector(Util.orientToCardinal[block.orientation]);
+        Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
         
         var obj = Pool.For(block.type.gameObject).TakeObject();        
         obj.transform.parent = blockComponentHolder.transform;
@@ -342,17 +342,17 @@ public class Blockform : PoolBehaviour {
         }
     }
     
-    public float RotateTowards(Vector2 worldPos, Orientation ori = Orientation.up) {
+    public float RotateTowards(Vector2 worldPos, Facing rot) {
         var dir = (worldPos - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg;
         var currentAngle = transform.localEulerAngles.z;
 
-		if (ori == Orientation.up) {
+		if (rot == Facing.up) {
 			angle -= 90;
-		} else if (ori == Orientation.right) {
-		} else if (ori == Orientation.left) {
+		} else if (rot == Facing.right) {
+		} else if (rot == Facing.left) {
 			angle += 90;
-		} else if (ori == Orientation.down) {
+		} else if (rot == Facing.down) {
 			angle += 180;
 		}
         
@@ -361,22 +361,26 @@ public class Blockform : PoolBehaviour {
         }
         
         if (angle > currentAngle + 15) {
-            FireAttitudeThrusters(Orientation.right);
+            FireAttitudeThrusters(Facing.right);
         } else if (angle < currentAngle - 15) {
-            FireAttitudeThrusters(Orientation.left);
+            FireAttitudeThrusters(Facing.left);
         }
         
 		return angle-currentAngle;
+    }
+
+    public float RotateTowards(Vector2 worldPos) {
+        return RotateTowards(worldPos, Facing.up);
     }
     
     public void MoveTowards(Vector3 worldPos) {
 		var angle = Vector3.Angle(transform.TransformDirection(Vector2.up), (worldPos-transform.position).normalized);
 		if (angle < 60) {
-			FireThrusters(Orientation.down);
+			FireThrusters(Facing.down);
 		}
 
 		if (angle > 180 - 60) {
-			FireThrusters(Orientation.up);
+			FireThrusters(Facing.up);
 		}
         /*var localDir = transform.InverseTransformDirection((worldPos - (Vector2)transform.position).normalized);
         var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
@@ -389,13 +393,13 @@ public class Blockform : PoolBehaviour {
 
 			var local = transform.InverseTransformPoint(form.transform.position);
 			if (local.x > 0)
-				FireThrusters(Orientation.right);
+				FireThrusters(Facing.right);
 			if (local.x < 0)
-				FireThrusters(Orientation.left);
+				FireThrusters(Facing.left);
 			if (local.y > 0)
-				FireThrusters(Orientation.up);
+				FireThrusters(Facing.up);
 			if (local.y < 0)
-				FireThrusters(Orientation.down);
+				FireThrusters(Facing.down);
 		}
 	}
 	
@@ -455,16 +459,16 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
-    public void FireThrusters(Orientation orientation) {
+    public void FireThrusters(Facing dir) {
         foreach (var thruster in GetBlockComponents<Thruster>()) {
-            if (thruster.block.orientation == orientation)
+            if (thruster.block.facing == dir)
                 thruster.Fire();
         }
     }
     
-    public void FireAttitudeThrusters(Orientation orientation) {
+    public void FireAttitudeThrusters(Facing dir) {
         foreach (var thruster in GetBlockComponents<Thruster>()) {
-            if (thruster.block.orientation == orientation)
+            if (thruster.block.facing == dir)
                 thruster.FireAttitude();
         }
     }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -63,7 +63,7 @@ public class TileRenderer : PoolBehaviour {
 
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
-                tileLayer[block.pos.x + i, block.pos.y + j] = block.type.tileable.GetRotatedTile(i, j, block.orientation);
+                tileLayer[block.pos.x + i, block.pos.y + j] = block.type.tileable.GetRotatedTile(i, j, block.facing);
             }
         }
     }

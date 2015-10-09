@@ -14,7 +14,7 @@ public struct BlockData {
     public int x;
     public int y;
     public string typeName;
-    public int orientation;
+    public int facing;
 }
 
 public static class BlockManager {
@@ -23,13 +23,13 @@ public static class BlockManager {
         data.x = block.pos.x;
         data.y = block.pos.y;
         data.typeName = block.type.name;
-        data.orientation = (int)block.orientation;
+        data.facing = (int)block.facing;
         return data;
     }
 
     public static Block Deserialize(BlockData data) {
         var block = new Block(Block.typeByName[data.typeName]);
-        block.orientation = (Orientation)data.orientation;
+        block.facing = (Facing)data.facing;
         return block;
     }
 }
@@ -192,13 +192,13 @@ public class Block {
         get {
             var tileable = Tile.tileables[this.type.name];
             var baseTile = tileable.tiles[0,0];
-            if (orientation == Orientation.up) {
+            if (facing == Facing.up) {
                 return baseTile.up;
-            } if (orientation == Orientation.right) {
+            } if (facing == Facing.right) {
                 return baseTile.right;
-            } if (orientation == Orientation.down) {
+            } if (facing == Facing.down) {
                 return baseTile.down;
-            } if (orientation == Orientation.left) {
+            } if (facing == Facing.left) {
                 return baseTile.left;
             }
 
@@ -225,7 +225,7 @@ public class Block {
     public int index;
     public IntVector2 pos;
     public BlockLayer layer;
-    public Orientation orientation = Orientation.up;
+    public Facing facing = Facing.up;
 
     // relative to current chunk
     public int localX;
@@ -250,11 +250,11 @@ public class Block {
 
     // copy constructor
     public Block(Block block) : this(block.type) {
-        this.orientation = block.orientation;
+        this.facing = block.facing;
     }
 
     public Block(BlueprintBlock blue) : this(blue.type) {
-        this.orientation = blue.orientation;
+        this.facing = blue.facing;
     }
 }
 
@@ -265,7 +265,7 @@ public class BlueprintBlock : Block {
 		if (blue == null && block != null) return false;
 		if (blue != null && block == null) return false;
 
-		if (blue.type != block.type || blue.orientation != block.orientation)
+		if (blue.type != block.type || blue.facing != block.facing)
 			return false;
 
 		return true;

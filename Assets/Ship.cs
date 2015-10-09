@@ -71,7 +71,7 @@ public static class ShipManager {
     public static Ship Unpack(ShipData data) {
         var ship = new Ship();
         ship.name = data.name;
-        
+
         foreach (var blockData in data.blocks) {
             var block = BlockManager.Deserialize(blockData);
             ship.blocks[blockData.x, blockData.y, block.layer] = block;

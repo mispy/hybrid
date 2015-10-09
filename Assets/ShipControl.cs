@@ -64,19 +64,19 @@ public class ShipControl : MonoBehaviour {
 
         
         if (Input.GetKey(KeyCode.W)) {
-            ship.form.FireThrusters(Orientation.down);        
+            ship.form.FireThrusters(Facing.down);        
         }
         
         if (Input.GetKey(KeyCode.S)) {
-            ship.form.FireThrusters(Orientation.up);
+            ship.form.FireThrusters(Facing.up);
         }
         
         if (Input.GetKey(KeyCode.A)) {
-            ship.form.FireAttitudeThrusters(Orientation.right);
+            ship.form.FireAttitudeThrusters(Facing.right);
         }
         
         if (Input.GetKey(KeyCode.D)) {
-            ship.form.FireAttitudeThrusters(Orientation.left);
+            ship.form.FireAttitudeThrusters(Facing.left);
         }
 
         if (Input.GetMouseButton(0)) {
