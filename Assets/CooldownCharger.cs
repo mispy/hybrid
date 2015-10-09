@@ -12,8 +12,8 @@ public class CooldownCharger : BlockComponent {
     LineRenderer line;
 
     void Start() {
-
         line = Pool.For("Line").Take<LineRenderer>();
+        line.sortingLayerName = "UI";
         line.gameObject.SetActive(true);
         line.transform.SetParent(transform);
         line.transform.position = transform.position;

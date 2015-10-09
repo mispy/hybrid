@@ -42,12 +42,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: .00100000005
   scrapRequired: 30
+  maxHealth: 10
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
   canRotate: 0
   canFitInsideWall: 0
   canBlockSight: 0
+  canBlockFront: 0
   isComplexBlock: 0
   canBeFired: 0
   renderer: {fileID: 0}
@@ -143,6 +145,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

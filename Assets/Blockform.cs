@@ -27,6 +27,7 @@ public class Blockform : PoolBehaviour {
     public TileRenderer tiles;
     public Rigidbody rigidBody;
 	public BoxCollider boundsCollider;
+    public ShipDamage damage;
     
     public bool hasGravity = false;
     
@@ -38,8 +39,6 @@ public class Blockform : PoolBehaviour {
     
     public List<CrewBody> maglockedCrew = new List<CrewBody>();
     private bool needsMassUpdate = true;
-    
-	private HashSet<IntVector2> breaksToCheck = new HashSet<IntVector2>();
 
     public GameObject blockComponentHolder;
 	public SpacePather pather;
@@ -91,6 +90,7 @@ public class Blockform : PoolBehaviour {
         
         rigidBody = GetComponent<Rigidbody>();
         tiles = GetComponent<TileRenderer>();
+        damage = GetComponent<ShipDamage>();
         blocks.OnBlockRemoved += OnBlockRemoved;
         blocks.OnBlockAdded += OnBlockAdded;
         
@@ -146,7 +146,6 @@ public class Blockform : PoolBehaviour {
     void OnEnable() {
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
-		InvokeRepeating("UpdateBreaks", 0f, 0.1f);
     }
     
     void OnDisable() {
@@ -172,90 +171,13 @@ public class Blockform : PoolBehaviour {
 		}
 		return sideCount.OrderBy((kv) => -kv.Value).First().Key;
 	}
-    
-    public GameObject BreakBlock(Block block, bool checkBreaks = true) {
-        blocks[block.pos, block.layer] = null;
-
-		if (block.layer == BlockLayer.Base) {
-			var top = blocks[block.pos, BlockLayer.Top];
-			if (top != null)
-				BreakBlock(top);
-
-			if (checkBreaks) {
-				foreach (var neighbor in IntVector2.Neighbors(block.pos)) {
-					if (blocks[neighbor, BlockLayer.Base] != null)
-						breaksToCheck.Add(neighbor);
-				}
-			}			
-		}
 
 
-        /*var newShipObj = Pool.For("Ship").TakeObject();
-        newShipObj.transform.position = BlockToWorldPos(block.pos);
-        var newShip = newShipObj.GetComponent<Ship>();
-        newShip.blocks[0, 0] = block;
-        newShipObj.SetActive(true);
-        newShip.rigidBody.velocity = rigidBody.velocity;
-        newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;*/
-        //newShip.hasCollision = false;
-        
-        var obj = Pool.For("Item").TakeObject();
-        obj.transform.position = BlockToWorldPos(block.pos);
-        obj.SetActive(true);
-        var rigid = obj.GetComponent<Rigidbody>();
-        rigid.velocity = rigidBody.velocity;
-        rigid.angularVelocity = rigidBody.angularVelocity;
-        
-        if (blocks.baseSize == 0) Pool.Recycle(gameObject);
-        
-        return obj;
-    }
-
-	public void BreakDetected(HashSet<Block> frag1, HashSet<Block> frag2) {
-		var bigger = frag1.Count > frag2.Count ? frag1 : frag2;
-		var smaller = frag1.Count > frag2.Count ? frag2 : frag1;
-
-		foreach (var block in smaller) {
-			foreach (var layerBlock in blocks.BlocksAtPos(block.pos)) {
-				BreakBlock(layerBlock);
-			}
-		}
-	}
-
-	public void UpdateBreaks() {
-		Profiler.BeginSample("UpdateBreaks");
-
-		while (breaksToCheck.Count > 0) {
-			var breakPos = breaksToCheck.First();
-			breaksToCheck.Remove(breakPos);
-
-			BlockBitmap fill = BlockPather.Floodfill(blocks, breakPos);
-
-			if (fill.size == blocks.baseSize) {
-				// There are no breaks here
-				breaksToCheck.Clear();
-			} else {
-				if (fill.size < blocks.baseSize/2f) {
-					foreach (var pos in fill)
-						BreakBlock(blocks[pos, BlockLayer.Base], checkBreaks: false);
-				} else {
-					foreach (var pos in fill)
-						breaksToCheck.Remove(pos);
-				}
-			}
-		}
-
-		Profiler.EndSample();
-	}
-    
     public void OnBlockRemoved(Block oldBlock) {
         Profiler.BeginSample("OnBlockRemoved");
         
         //if (oldBlock.layer == BlockLayer.Base)
         //    this.size -= 1;
-        
-		if (oldBlock.layer == BlockLayer.Base)
-			breaksToCheck.Remove(oldBlock.pos);
 
         UpdateBlock(oldBlock);
 
@@ -271,7 +193,7 @@ public class Blockform : PoolBehaviour {
         UpdateBlock(newBlock);
         
         if (newBlock.type.isComplexBlock) {
-            AddBlockComponent(newBlock);
+            RealizeBlock(newBlock);
         }    
     }
 
@@ -291,21 +213,25 @@ public class Blockform : PoolBehaviour {
             UpdateGravity();
     }
     
-    public void AddBlockComponent(Block block) {
+    public GameObject RealizeBlock(Block block) {
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
         
         var obj = Pool.For(block.type.gameObject).TakeObject();        
-        obj.transform.parent = blockComponentHolder.transform;
+        block._gameObject = obj;
+        obj.transform.SetParent(blockComponentHolder.transform);
         obj.transform.position = BlockToWorldPos(block);
         obj.transform.up = worldOrient;
-		obj.transform.localScale *= Tile.worldSize;
-        block.gameObject = obj;
-        foreach (var comp in block.gameObject.GetComponents<BlockComponent>()) {
+        obj.transform.localScale *= Tile.worldSize;
+
+        foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;
         }
-        
+
+        if (!block.type.isComplexBlock)
+            obj.GetComponent<SpriteRenderer>().enabled = false;
+
         obj.SetActive(true);
-        
+        return obj;
     }
     
     public void UpdateMass() {        

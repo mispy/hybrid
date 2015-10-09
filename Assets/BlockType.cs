@@ -14,6 +14,7 @@ public class BlockType : MonoBehaviour {
     public float mass;
 
     public int scrapRequired = 30;
+    public float maxHealth = 1;
 
     [Header("Description")]
     [TextArea]

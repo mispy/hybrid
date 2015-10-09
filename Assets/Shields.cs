@@ -50,12 +50,12 @@ public class Shields : PoolBehaviour {
 	}
 	
 	void UpdateStatus() {
-		if (health >= maxHealth/4 && !isActive) {
+		if (health >= maxHealth/2 && !isActive) {
 			isActive = true;
 			SendMessage("OnShieldsEnable");
 		}
 
-		if (health < maxHealth/4 && isActive) {
+		if (health <= 0 && isActive) {
 			isActive = false;
 			SendMessage("OnShieldsDisable");
 		}

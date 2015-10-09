@@ -11,6 +11,7 @@ GameObject:
   - 54: {fileID: 5450076}
   - 114: {fileID: 11458008}
   - 114: {fileID: 11455740}
+  - 114: {fileID: 11467136}
   - 114: {fileID: 11492490}
   - 114: {fileID: 11409090}
   - 114: {fileID: 11485306}
@@ -245,6 +246,7 @@ MonoBehaviour:
   tiles: {fileID: 0}
   rigidBody: {fileID: 0}
   boundsCollider: {fileID: 0}
+  damage: {fileID: 0}
   hasGravity: 0
   shields: {fileID: 0}
   centerOfMass: {x: 0, y: 0, z: 0}
@@ -276,6 +278,17 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 10
+--- !u!114 &11467136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f47d5926c51464aa24f3c2be185851, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11485306
 MonoBehaviour:
   m_ObjectHideFlags: 1

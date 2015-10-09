@@ -43,6 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0
   scrapRequired: 30
+  maxHealth: 1
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 1
@@ -100,6 +101,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: -484430309
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

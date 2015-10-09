@@ -43,6 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0
   scrapRequired: 30
+  maxHealth: 1
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 1

@@ -90,6 +90,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0
   scrapRequired: 30
+  maxHealth: 50
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
@@ -1271,6 +1272,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canBlockFront
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -51,7 +51,7 @@ public class Explosive : MonoBehaviour
 
 		var cols = Physics.OverlapSphere(transform.position, radius, LayerMask.GetMask(new string[] { "Wall", "Floor", "Shields" }));
 
-		List<Block> blocksToBreak = new List<Block>();
+		HashSet<Block> blocksToBreak = new HashSet<Block>();
 		HashSet<Rigidbody> rigidBodies = new HashSet<Rigidbody>();
 		foreach (var col in cols)
 		{
@@ -64,12 +64,14 @@ public class Explosive : MonoBehaviour
 			if (shields != null)
 				shields.TakeDamage(1f);
 			else
-				blocksToBreak.AddRange(form.BlocksAtWorldPos(col.transform.position));
+				foreach (var block in form.BlocksAtWorldPos(col.transform.position))
+                    blocksToBreak.Add(block);
 
 		}
 
 		foreach (var block in blocksToBreak) {
-			block.TakeDamage(10);
+            if (block.IsDestroyed) continue;
+            block.ship.form.damage.DamageBlock(block, 10);
 		}
 		
 		foreach (var rb in rigidBodies) {

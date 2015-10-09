@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc179ae3fa8b174b87c923464ba580d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isReady: 0
   chargeTime: 1
 --- !u!114 &11448760
 MonoBehaviour:
@@ -86,6 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 9.99999975e-05
   scrapRequired: 30
+  maxHealth: 50
   descriptionHeader: Plasma turret!
   descriptionBody: It shoots plasma.
   blockLayer: 0
@@ -224,6 +224,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: chargeTime
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

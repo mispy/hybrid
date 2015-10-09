@@ -176,7 +176,17 @@ public class Block {
 		}
 	}
 
-    public GameObject gameObject;
+    public GameObject _gameObject;
+    public GameObject gameObject {
+        get {
+            if (_gameObject == null && ship != null) {
+                ship.form.RealizeBlock(this);
+            }
+
+            return _gameObject;
+        }
+    }
+
 
     public float PercentFilled {
         get { 
@@ -206,18 +216,8 @@ public class Block {
         }
     }
 
-    public void TakeDamage(int amount) {
-		if (IsDestroyed) return;
-
-        this.scrapContent -= amount;
-
-        if (this.scrapContent <= 0) {
-            ship.form.BreakBlock(this);
-        }
-    }
-
-
     public float scrapContent;
+    public float health;
 
     // these attributes relate to where the block is, rather
     // than what it does
@@ -244,6 +244,7 @@ public class Block {
     public Block(BlockType type) {
         this.type = type;
         this.scrapContent = type.scrapRequired;
+        this.health = type.maxHealth;
         this.layer = type.blockLayer;
         this.tileable = type.tileable;
     }
