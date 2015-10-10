@@ -91,6 +91,7 @@ MonoBehaviour:
   mass: 0
   scrapRequired: 30
   maxHealth: 50
+  damageBuffer: 0
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0

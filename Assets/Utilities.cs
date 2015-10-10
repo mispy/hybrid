@@ -228,6 +228,47 @@ public class Util {
         return false;
     }
 
+
+    private static void Swap<T>(ref T lhs, ref T rhs) { T temp; temp = lhs; lhs = rhs; rhs = temp; }
+
+    // Bresenham's line algorithm
+    public static IEnumerable<IntVector2> LineBetween(IntVector2 start, IntVector2 end) {
+        var x0 = start.x;
+        var y0 = start.y;
+        var x1 = end.x;
+        var y1 = end.y;
+
+        bool steep = Math.Abs(y1 - y0) > Math.Abs(x1 - x0);
+        if (steep) { Swap<int>(ref x0, ref y0); Swap<int>(ref x1, ref y1); }
+        if (x0 > x1) { Swap<int>(ref x0, ref x1); Swap<int>(ref y0, ref y1); }
+        int dX = (x1 - x0), dY = Math.Abs(y1 - y0), err = (dX / 2), ystep = (y0 < y1 ? 1 : -1), y = y0;
+        
+        for (int x = x0; x <= x1; ++x)
+        {
+            if (steep)
+                yield return new IntVector2(y, x);
+            else
+                yield return new IntVector2(x, y);
+            err = err - dY;
+            if (err < 0) { y += ystep;  err += dX; }
+        }
+    }
+
+/*        real deltax := x1 - x0
+            real deltay := y1 - y0
+                real error := 0
+                real deltaerr := abs (deltay / deltax)    // Assume deltax != 0 (line is not vertical),
+                // note that this division needs to be done in a way that preserves the fractional part
+                int y := y0
+                for x from x0 to x1
+                    plot(x,y)
+                        error := error + deltaerr
+                        while error ≥ 0.5 then
+                            plot(x, y)
+                                y := y + sign(y1 - y0)
+                                error := error - 1.0*/
+
+
 	public static bool LineOfSight(Blockform form, Blockform target) {
 		var targetVec = (target.transform.position - form.transform.position);
 		var hits = Physics.RaycastAll(form.transform.position, targetVec.normalized, targetVec.magnitude, LayerMask.GetMask(new string[] { "Wall", "Floor" }));

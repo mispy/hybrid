@@ -86,6 +86,7 @@ MonoBehaviour:
   mass: 9.99999975e-05
   scrapRequired: 30
   maxHealth: 50
+  damageBuffer: 0
   descriptionHeader: Plasma turret!
   descriptionBody: It shoots plasma.
   blockLayer: 0

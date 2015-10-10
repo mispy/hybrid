@@ -74,13 +74,13 @@ public class RotatingTurret : BlockComponent {
 		var targetPos = AimTowards(Game.mousePos);
 		
 		if (!isBlocked) {
-			dottedLine.enabled = true;
+			/*dottedLine.enabled = true;
 			var p1 = transform.InverseTransformPoint(TipPosition);
 			var p2 = transform.InverseTransformPoint(targetPos);
 			dottedLine.SetPosition(0, p1);
 			dottedLine.SetPosition(1, p2);
 			//Debug.LogFormat("{0} {1}", origTextureScale.x, (p2-p1).magnitude);
-			dottedLine.material.mainTextureScale = new Vector2(origTextureScale.x*(p2-p1).magnitude*0.1f, origTextureScale.y);
+			dottedLine.material.mainTextureScale = new Vector2(origTextureScale.x*(p2-p1).magnitude*0.1f, origTextureScale.y);*/
 		} else {
 			dottedLine.enabled = false;
 		}
