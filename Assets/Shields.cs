@@ -75,11 +75,15 @@ public class Shields : PoolBehaviour {
 	}
 
 	void Update() {
-		if (health < maxHealth) {
-			health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);		
-			UpdateStatus();
-			SendMessage("OnShieldsChange");
-		}
+        foreach (var block in form.blocks.Find<ShieldGenerator>()) {
+            if (!block.isPowered) continue;
+
+            if (health < maxHealth) {
+                health = Mathf.Min(maxHealth, health + regenRate*Time.deltaTime);       
+                UpdateStatus();
+                SendMessage("OnShieldsChange");
+            }
+        }
 
 		if (!isActive)
 			return;
