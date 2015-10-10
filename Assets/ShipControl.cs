@@ -32,7 +32,6 @@ public class ShipControl : MonoBehaviour {
         selector.transform.position = crew.body.transform.position;
         selector.transform.rotation = crew.body.transform.rotation;
         selector.transform.SetParent(crew.body.transform);
-        selector.transform.localScale = new Vector2(0.5f, 0.5f);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
         selector.SetActive(true);
         selectedCrew = crew;
@@ -86,16 +85,13 @@ public class ShipControl : MonoBehaviour {
                     SelectBlock(comrade);
             }
         }
-    }
 
+        Game.abilityMenu.OnBlockSelectionUpdate();
+    }
+    
     void HandleLeftClick() {
         DeselectBlocks();
         DeselectCrew();
-
-		if (weaponSelect.selectedType != null) {
-			UseBlock(weaponSelect.selectedType);
-            return;
-        }
 
         var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
 
@@ -107,14 +103,14 @@ public class ShipControl : MonoBehaviour {
         }
 
         var block = ship.form.blocks.Topmost(blockPos);
-        if (block != null)
+        if (block != null) {
             SelectBlock(block);
+        }
+
+        Game.abilityMenu.OnBlockSelectionUpdate();
     }
-
+    
     void HandleRightClick() {
-		if (weaponSelect.selectedType != null)
-			weaponSelect.SelectBlock(-1);
-
 		if (selectedCrew == null) {
 			//Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
 			//Debug.Log(ship.form.BlocksAtWorldPos(Game.mousePos).First());

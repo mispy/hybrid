@@ -57,7 +57,8 @@ public class ProjectileLauncher : BlockComponent {
 		}
 	}
 
-	public void OnLeftClick() {
-		Fire();
-	}
+    void Update() {
+        if (turret.fixedTargetForm != null)
+            Fire();
+    }
 }

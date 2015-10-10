@@ -55,7 +55,7 @@ public class Thruster : BlockComponent {
             form.rigidBody.AddForce((-transform.up * form.rigidBody.mass) * Time.fixedDeltaTime * 300f);
         } else if (isFiringAttitude) {            
             var dist = transform.localPosition - form.centerOfMass;
-            var force = Math.Min(form.rigidBody.mass * 10, Block.typeByName["Wall"].mass * 1000) * Time.fixedDeltaTime * 300f;
+            var force = form.blocks.baseSize * 10 * Time.fixedDeltaTime;
             
             if (dist.x > 0) {
                 form.rigidBody.AddRelativeTorque(Vector3.forward * force);

@@ -72,6 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c2ad0e8293dab4ca7b2285a8936e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fixedTargetForm: {fileID: 0}
+  fixedTargetPos: {x: 0, y: 0}
 --- !u!114 &11459202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,6 +96,7 @@ MonoBehaviour:
   canFitInsideWall: 0
   canBlockSight: 0
   canBlockFront: 1
+  abilities: []
   isComplexBlock: 1
   canBeFired: 1
   renderer: {fileID: 0}

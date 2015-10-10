@@ -4,6 +4,14 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 
+public class BlockAbility : PoolBehaviour {
+    public HashSet<Block> blocks;
+
+    public virtual bool WorksWith(Block block) {
+        return false;
+    }
+}
+
 public class BlockComponent : PoolBehaviour {
     public Block block;
 }
@@ -31,6 +39,8 @@ public class BlockType : MonoBehaviour {
     public bool canFitInsideWall = false;
 	public bool canBlockSight = false;
     public bool canBlockFront = false;
+
+    public List<BlockAbility> abilities;
 
     /* Complex block specific functionality */
     [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]

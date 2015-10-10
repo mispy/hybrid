@@ -53,6 +53,7 @@ MonoBehaviour:
   canFitInsideWall: 0
   canBlockSight: 1
   canBlockFront: 0
+  abilities: []
   isComplexBlock: 0
   canBeFired: 0
   renderer: {fileID: 0}

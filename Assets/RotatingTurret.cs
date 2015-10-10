@@ -14,9 +14,11 @@ public class RotatingTurret : BlockComponent {
 	[HideInInspector]
 	public bool isBlocked { get; private set; }
 
-	Vector2 origTextureScale;
-	
+	Vector2 origTextureScale;	
 	Vector2 centerPoint;
+
+    public Blockform fixedTargetForm;
+    public Vector2 fixedTargetPos;
 	
 	public Vector2 TipPosition {
 		get {
@@ -66,23 +68,8 @@ public class RotatingTurret : BlockComponent {
 	}
 	
 	public void Update() {
-		if (form.ship != Game.playerShip || !(Game.main.weaponSelect.selectedType == block.type)) {
-			dottedLine.enabled = false;
-			return;
-		}
-		
-		var targetPos = AimTowards(Game.mousePos);
-		
-		if (!isBlocked) {
-			/*dottedLine.enabled = true;
-			var p1 = transform.InverseTransformPoint(TipPosition);
-			var p2 = transform.InverseTransformPoint(targetPos);
-			dottedLine.SetPosition(0, p1);
-			dottedLine.SetPosition(1, p2);
-			//Debug.LogFormat("{0} {1}", origTextureScale.x, (p2-p1).magnitude);
-			dottedLine.material.mainTextureScale = new Vector2(origTextureScale.x*(p2-p1).magnitude*0.1f, origTextureScale.y);*/
-		} else {
-			dottedLine.enabled = false;
-		}
-	}
+        if (fixedTargetForm != null) {
+            AimTowards(fixedTargetForm.transform.TransformPoint(fixedTargetPos));
+        }
+  	}
 }

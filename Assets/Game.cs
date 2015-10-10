@@ -22,6 +22,7 @@ public class Game : MonoBehaviour {
     public static ActiveSector activeSector;
     public static JumpMap jumpMap;
     public static ShipControl shipControl;
+    public static AbilityMenu abilityMenu;
 
     public static bool isPaused {
         get { return Time.timeScale == 0.0f; }
@@ -52,6 +53,17 @@ public class Game : MonoBehaviour {
             }
         }
     }
+
+    public static IEnumerable<GameObject> LoadPrefabs(string path) {
+        var resources = Resources.LoadAll(path);
+        foreach (var obj in resources) {
+            var gobj = obj as GameObject;
+            if (gobj != null) {
+                yield return gobj;
+            }
+        }
+    }
+
 
     public static IEnumerable<Texture2D> LoadTextures(string path) {
         var resources = Resources.LoadAll(path);
@@ -150,6 +162,7 @@ public class Game : MonoBehaviour {
         Game.activeSector = GetComponentInChildren<ActiveSector>();
         Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
         Game.shipControl = GetComponentInChildren<ShipControl>();
+        Game.abilityMenu = GetComponentInChildren<AbilityMenu>();
         Game.main = this;
 
         var resources = Resources.LoadAll("Prefabs");
