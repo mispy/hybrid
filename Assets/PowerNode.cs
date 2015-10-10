@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PowerNode : BlockType {
+public class PowerNode : BlockComponent {
     public PowerProducer producer;
     public PowerReserve reserve;
     public PowerReceiver receiver;
@@ -14,12 +14,24 @@ public class PowerNode : BlockType {
         producer = GetComponent<PowerProducer>();
         reserve = GetComponent<PowerReserve>();
         receiver = GetComponent<PowerReceiver>();
-        circle = GetComponentInChildren<PowerCircle>();
+
+        circle = Pool.For("PowerCircle").Take<PowerCircle>();
+        circle.transform.SetParent(transform);
+        circle.transform.position = transform.position;
+        circle.transform.rotation = transform.rotation;
+        circle.renderer.enabled = false;
+        circle.gameObject.SetActive(true);
 
         producer.OnPowerTaken += OnPowerTaken;
         receiver.OnPowerAdded += OnPowerAdded;
+    }
 
-        circle.gameObject.SetActive(false);
+    public void OnBlockSelected() {
+        circle.renderer.enabled = true;
+    }
+
+    public void OnBlockDeselected() {
+        circle.renderer.enabled = false;
     }
 
     public void OnPowerTaken(PowerReceiver otherReceiver, float amount) {

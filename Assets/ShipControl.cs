@@ -12,6 +12,16 @@ public class ShipControl : MonoBehaviour {
     GameObject selector;
     Crew selectedCrew = null;
 
+    public HashSet<Block> selectedBlocks = new HashSet<Block>();
+    public Dictionary<Block, GameObject> blockSelectors = new Dictionary<Block, GameObject>();
+
+    void DeselectCrew() {
+        if (selectedCrew == null) return;
+
+        selector.SetActive(false);
+        selectedCrew = null;
+    }
+
     void SelectCrew(Crew crew) {
         if (selector == null) {
             selector = Pool.For("Selector").TakeObject();
@@ -24,8 +34,44 @@ public class ShipControl : MonoBehaviour {
         selector.transform.SetParent(crew.body.transform);
         selector.transform.localScale = new Vector2(0.5f, 0.5f);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
+        selector.SetActive(true);
         selectedCrew = crew;
      }
+
+    void DeselectBlock(Block block) {
+        if (block.type.isComplexBlock)
+            block.gameObject.SendMessage("OnBlockDeselected", SendMessageOptions.DontRequireReceiver);
+
+        Pool.Recycle(blockSelectors[block].gameObject);
+        blockSelectors.Remove(block);
+        selectedBlocks.Remove(block);
+    }
+
+    void DeselectBlocks() {
+        foreach (var block in selectedBlocks.ToList()) {
+            DeselectBlock(block);
+        }
+    }
+
+    void SelectBlock(Block block) {
+        if (selectedBlocks.Contains(block)) return;
+
+        var selector = Pool.For("Selector").TakeObject();
+
+        var worldPos = block.ship.form.BlockToWorldPos(block);
+        selector.transform.position = worldPos;
+        selector.transform.rotation = block.ship.form.transform.rotation;
+        selector.transform.SetParent(block.ship.form.transform);
+        selector.transform.localScale = new Vector2(block.Width*Tile.worldSize, block.Height*Tile.worldSize);
+        selector.GetComponent<SpriteRenderer>().color = Color.green;
+        selector.SetActive(true);
+
+        selectedBlocks.Add(block);
+        blockSelectors[block] = selector;
+
+        if (block.type.isComplexBlock)
+            block.gameObject.SendMessage("OnBlockSelected", SendMessageOptions.DontRequireReceiver);
+    }
 
 	void UseBlock(BlockType type) {
 		foreach (var block in ship.blocks.Find(type)) {
@@ -33,16 +79,36 @@ public class ShipControl : MonoBehaviour {
 		}
 	}
 
+    void HandleDoubleClick() {
+        foreach (var block in ship.form.BlocksAtWorldPos(Game.mousePos)) {
+            if (selectedBlocks.Contains(block)) {
+                foreach (var comrade in ship.form.blocks.Find(block.type))
+                    SelectBlock(comrade);
+            }
+        }
+    }
+
     void HandleLeftClick() {
-		if (weaponSelect.selectedType != null)
+        DeselectBlocks();
+        DeselectCrew();
+
+		if (weaponSelect.selectedType != null) {
 			UseBlock(weaponSelect.selectedType);
+            return;
+        }
 
         var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
+
         foreach (var crew in ship.crew) {
             if (crew.body.currentBlockPos == blockPos) {
                 SelectCrew(crew);
+                return;
             }
         }
+
+        var block = ship.form.blocks.Topmost(blockPos);
+        if (block != null)
+            SelectBlock(block);
     }
 
     void HandleRightClick() {
@@ -58,6 +124,9 @@ public class ShipControl : MonoBehaviour {
             selectedCrew.job = new MoveJob(ship.form.WorldToBlockPos(Game.mousePos));
         }
     }
+
+    float lastLeftClick = 0f;
+    Vector2 lastLeftClickPos = new Vector2(0, 0);
 
     void HandleShipInput() {                
         var rigid = ship.form.rigidBody;    
@@ -79,8 +148,13 @@ public class ShipControl : MonoBehaviour {
             ship.form.FireAttitudeThrusters(Facing.left);
         }
 
-        if (Input.GetMouseButton(0)) {
-            HandleLeftClick();
+        if (Input.GetMouseButtonDown(0)) {
+            if (Time.time - lastLeftClick < 0.5f && Vector2.Distance(Input.mousePosition, lastLeftClickPos) < 0.5f)
+                HandleDoubleClick();
+            else
+                HandleLeftClick();
+            lastLeftClick = Time.time;
+            lastLeftClickPos = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonDown(1)) {

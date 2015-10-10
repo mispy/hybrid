@@ -1,14 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PowerCircle : MonoBehaviour {
+public class PowerCircle : PoolBehaviour {
     PowerProducer producer;
+    [HideInInspector]
+    public SpriteRenderer renderer;
 
-    // Use this for initialization
-    void Start() {
+    public override void OnCreate() {
+        renderer = GetComponent<SpriteRenderer>();
+        renderer.enabled = false;
+    }
+
+    public void Awake() {
         producer = GetComponentInParent<PowerProducer>();
-        var renderer = GetComponent<SpriteRenderer>();
-		renderer.enabled = false;
     }
     
     // Update is called once per frame

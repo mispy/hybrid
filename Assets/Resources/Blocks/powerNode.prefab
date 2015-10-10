@@ -30,6 +30,7 @@ GameObject:
   - 114: {fileID: 11477376}
   - 114: {fileID: 11485800}
   - 114: {fileID: 11421610}
+  - 114: {fileID: 11459942}
   m_Layer: 9
   m_Name: PowerNode
   m_TagString: Untagged
@@ -135,6 +136,21 @@ MonoBehaviour:
   isComplexBlock: 1
   canBeFired: 0
   renderer: {fileID: 0}
+--- !u!114 &11459942
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad0126302a47374596a53f36381021e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  producer: {fileID: 0}
+  reserve: {fileID: 0}
+  receiver: {fileID: 0}
+  circle: {fileID: 0}
 --- !u!114 &11462504
 MonoBehaviour:
   m_ObjectHideFlags: 1
