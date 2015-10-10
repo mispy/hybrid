@@ -8,20 +8,17 @@ public class Thruster : BlockComponent {
     [HideInInspector]
     public Blockform form;
 
-    public PowerReceiver power;
-
     public bool isFiring = false;
     public bool isFiringAttitude = false;
 
     void Start() {
         form = GetComponentInParent<Blockform>();
         ps = GetComponentInChildren<ParticleSystem>();
-        power = GetComponent<PowerReceiver>();
     }
     
     public void Fire() {        
-        //if (!power.isPowered)
-        //    return;
+        if (!block.isPowered)
+            return;
 
         isFiringAttitude = false;
         isFiring = true;
@@ -30,8 +27,8 @@ public class Thruster : BlockComponent {
     }
 
     public void FireAttitude() {
-        //if (!power.isPowered)
-        //    return;
+        if (!block.isPowered)
+            return;
 
         isFiring = false;
         isFiringAttitude = true;
