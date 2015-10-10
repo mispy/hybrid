@@ -25,7 +25,7 @@ public class CooldownCharger : BlockComponent {
     }
 
 	void Update() {
-        if (amountCharged < 1f)
+        if (block.isPowered && amountCharged < 1f)
             amountCharged = Mathf.Min(1f, amountCharged + Time.deltaTime/chargeTime);
 
         var startY = -Tile.worldSize/2f + 0.2f;

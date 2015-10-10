@@ -76,7 +76,10 @@ public class AbilityMenu : MonoBehaviour {
             var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
             button.transform.localPosition = new Vector3(x, 0, 0);
 
-            button.onClick.AddListener(() => SelectAbility(i));
+            button.onClick.AddListener(() => {
+                DeselectAbility();
+                SelectAbility(i);
+            });
 
         }
     }
@@ -90,11 +93,18 @@ public class AbilityMenu : MonoBehaviour {
             blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
         }
     }*/
-    
+
+    void DeselectAbility() {
+        if (selectedIndex < 0 || selectedIndex > activeAbilities.Count) return;
+
+        activeAbilities[selectedIndex].gameObject.SetActive(false);
+        buttons[selectedIndex].image.color = Color.white;
+        selectedIndex = -1;
+    }
+
     void Update() {
         if (selectedIndex >= 0 && !activeAbilities[selectedIndex].isActiveAndEnabled) {
-            buttons[selectedIndex].image.color = Color.white;
-            selectedIndex = -1;
+            DeselectAbility();
         }
 
         int i = Util.GetNumericKeyDown();

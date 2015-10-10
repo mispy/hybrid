@@ -140,6 +140,8 @@ public class Block {
 
     public BlockType type;
 
+    public bool isPowered = true;
+
     public int x {
         get { return pos.x; }
     }
