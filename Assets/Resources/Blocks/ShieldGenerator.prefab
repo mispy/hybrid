@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21281132}
   - 114: {fileID: 11411260}
   - 114: {fileID: 11475746}
+  - 114: {fileID: 11437600}
   m_Layer: 16
   m_Name: ShieldGenerator
   m_TagString: Untagged
@@ -56,6 +57,20 @@ MonoBehaviour:
   isComplexBlock: 1
   canBeFired: 0
   renderer: {fileID: 0}
+--- !u!114 &11437600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consumeRate: 0
+  isReceiving: 0
+  availableProducers: []
 --- !u!114 &11475746
 MonoBehaviour:
   m_ObjectHideFlags: 1

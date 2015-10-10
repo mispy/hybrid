@@ -74,7 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ps: {fileID: 0}
   form: {fileID: 0}
-  power: {fileID: 0}
   isFiring: 0
   isFiringAttitude: 0
 --- !u!114 &11493866
@@ -115,8 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consumeRate: 1
-  isPowered: 0
-  isDynamic: 0
+  isReceiving: 0
   availableProducers: []
 --- !u!198 &19837312
 ParticleSystem:

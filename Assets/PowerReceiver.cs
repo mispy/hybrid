@@ -21,6 +21,7 @@ public class PowerReceiver : BlockComponent {
         if (noPowerIndicator != null)
             Pool.Recycle(noPowerIndicator);
         block.isPowered = true;
+        block.gameObject.SendMessage("OnPowered", SendMessageOptions.DontRequireReceiver);
     }
 
     public void Depowered() {
@@ -31,6 +32,7 @@ public class PowerReceiver : BlockComponent {
         noPowerIndicator.transform.position = block.gameObject.transform.position;
         noPowerIndicator.SetActive(true);
         block.isPowered = false;
+        block.gameObject.SendMessage("OnDepowered", SendMessageOptions.DontRequireReceiver);
     }
 
     public void Update() {

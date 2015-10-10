@@ -42,8 +42,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   consumeRate: 1
-  isPowered: 0
-  isDynamic: 0
+  isReceiving: 0
   availableProducers: []
 --- !u!114 &11433092
 MonoBehaviour:

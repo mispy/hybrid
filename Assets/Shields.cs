@@ -49,7 +49,20 @@ public class Shields : PoolBehaviour {
 		}
 	}
 	
-	void UpdateStatus() {
+	public void UpdateStatus() {
+        var powered = false;
+        foreach (var generator in form.blocks.Find<ShieldGenerator>()) {
+            if (generator.isPowered) powered = true;
+        }
+
+        if (!powered) {
+            if (isActive) {
+                isActive = false;
+                SendMessage("OnShieldsDisable");
+            }
+            return;
+        }
+
 		if (health >= maxHealth/2 && !isActive) {
 			isActive = true;
 			SendMessage("OnShieldsEnable");

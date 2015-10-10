@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 485490}
   - 212: {fileID: 21292400}
-  - 114: {fileID: 11485910}
+  - 114: {fileID: 11418598}
   m_Layer: 0
   m_Name: TogglePower
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11485910
+--- !u!114 &11418598
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -37,7 +37,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 173008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b6f88b10e2c8f2438057e57f86b15f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 52b005d765420ab48815e5873ea860d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!212 &21292400
