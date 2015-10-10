@@ -19,23 +19,4 @@ public class PowerProducer : BlockComponent {
         obj.transform.SetParent(transform);
         obj.SetActive(true);
     }
-
-    public bool CanGivePower(PowerReceiver receiver) {
-        var srcReserve = GetComponent<PowerReserve>();
-        var destReserve = receiver.GetComponent<PowerReserve>();
-
-        if (srcReserve != null && destReserve != null && destReserve.currentPower >= srcReserve.currentPower) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    public float TransferPower(PowerReceiver receiver, float amount) {
-        availablePower -= amount;
-        //Debug.LogFormat("PowerTransfer: {0} => {1} ({2}) [{3} remaining]", this.name, receiver.name, amount, availablePower);
-        OnPowerTaken(receiver, amount);
-        receiver.ReceivePower(this, amount);
-        return amount;
-    }
 }

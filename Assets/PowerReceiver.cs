@@ -6,11 +6,8 @@ public class PowerReceiver : BlockComponent {
     public float consumeRate = 0.0f;
     [HideInInspector]
     public bool isPowered;
-
-    public bool isDynamic;
-
-    public delegate void PowerAddedHandler(PowerProducer producer, float power);
-    public event PowerAddedHandler OnPowerAdded = delegate { };
+    [HideInInspector]
+    public bool isReceiving;
 
     [HideInInspector]
     public List<PowerProducer> availableProducers = new List<PowerProducer>();
@@ -19,10 +16,7 @@ public class PowerReceiver : BlockComponent {
 
     public void Start() {
         isPowered = true;
-    }
-
-    public void ReceivePower(PowerProducer producer, float amount) {
-        OnPowerAdded(producer, amount);
+        isReceiving = true;
     }
 
     public void Powered() {
@@ -40,5 +34,17 @@ public class PowerReceiver : BlockComponent {
         noPowerIndicator.transform.position = block.gameObject.transform.position;
         noPowerIndicator.SetActive(true);
         isPowered = false;
+    }
+
+    public void Update() {
+        var powered = true;
+
+        if (isReceiving == false)
+            powered = false;
+
+        if (powered && !isPowered)
+            Powered();
+        else if (!powered && isPowered)
+            Depowered();
     }
 }

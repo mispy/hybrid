@@ -52,10 +52,10 @@ public class Thruster : BlockComponent {
 
     void FixedUpdate() {
         if (isFiring) {
-            form.rigidBody.AddForce((-transform.up * form.rigidBody.mass) * Time.fixedDeltaTime * 300f);
+            form.rigidBody.AddForce(-transform.up * Time.fixedDeltaTime * 100f);
         } else if (isFiringAttitude) {            
             var dist = transform.localPosition - form.centerOfMass;
-            var force = form.blocks.baseSize * 10 * Time.fixedDeltaTime;
+            var force = Time.fixedDeltaTime*200f;
             
             if (dist.x > 0) {
                 form.rigidBody.AddRelativeTorque(Vector3.forward * force);

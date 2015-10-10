@@ -17,7 +17,8 @@ public class SetTarget : BlockAbility {
     }
 
     void OnDisable() {
-        Pool.Recycle(targetCircle);
+        if (targetCircle != null)
+            Pool.Recycle(targetCircle);
     }
 
     void Target(Blockform form, Vector2 pos) {
@@ -25,6 +26,9 @@ public class SetTarget : BlockAbility {
             turret.fixedTargetForm = form;
             turret.fixedTargetPos = form.transform.InverseTransformPoint(pos);
         }
+
+        targetCircle.transform.SetParent(form.transform);
+        targetCircle = null;
     }
 
     void Update() {

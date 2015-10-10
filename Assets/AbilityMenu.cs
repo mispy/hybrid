@@ -32,6 +32,7 @@ public class AbilityMenu : MonoBehaviour {
     }
 
     void Clear() {
+        selectedIndex = -1;
         buttons = new List<Button>();
 
         foreach (Transform child in transform) {
@@ -43,6 +44,7 @@ public class AbilityMenu : MonoBehaviour {
         activeAbilities[i].blocks = Game.shipControl.selectedBlocks;
         activeAbilities[i].gameObject.SetActive(true);
         buttons[i].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+        selectedIndex = i;
     }
 
     public void OnBlockSelectionUpdate() {
@@ -90,6 +92,11 @@ public class AbilityMenu : MonoBehaviour {
     }*/
     
     void Update() {
+        if (selectedIndex >= 0 && !activeAbilities[selectedIndex].isActiveAndEnabled) {
+            buttons[selectedIndex].image.color = Color.white;
+            selectedIndex = -1;
+        }
+
         int i = Util.GetNumericKeyDown();
         if (i > 0 && i <= buttons.Count) {
             buttons[i-1].onClick.Invoke();
