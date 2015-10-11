@@ -7,6 +7,7 @@ public class CameraControl : MonoBehaviour {
 	public Blockform lockedForm;
 	public Blockform hoveredForm;
 	public GameObject selector;
+    Vector2 cameraOffset = new Vector2(0, 0);
 
 	public void Start() {
 		lockedForm = Game.playerShip.form;
@@ -17,14 +18,25 @@ public class CameraControl : MonoBehaviour {
 		if (lockedForm != hoveredForm) {
 			lockedForm = hoveredForm;
 		}
+
+        var shipViewPos = camera.WorldToViewportPoint(lockedForm.transform.position);
+
 		var newSize = (int)camera.orthographicSize >> 1;
 		camera.orthographicSize = Mathf.Max(newSize, 4);
+
+        var newShipPos = camera.ViewportToWorldPoint(shipViewPos);
+        cameraOffset = lockedForm.transform.InverseTransformVector(newShipPos - lockedForm.transform.position);
 	}
 
 	public void ZoomOut() {
+        var shipViewPos = camera.WorldToViewportPoint(lockedForm.transform.position);
+
 		var newSize = (int)camera.orthographicSize << 1;
 		camera.orthographicSize = Mathf.Min(newSize, 1 << 16);
-	}
+
+        var newShipPos = camera.ViewportToWorldPoint(shipViewPos);
+        cameraOffset = lockedForm.transform.InverseTransformVector(newShipPos - lockedForm.transform.position);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -59,6 +71,7 @@ public class CameraControl : MonoBehaviour {
 			lockedForm = Game.playerShip.form;
 		if (lockedForm == Game.playerShip.form)
 			camera.transform.rotation = lockedForm.transform.rotation;
-		Game.MoveCamera(lockedForm.transform.position);
+
+		Game.MoveCamera(lockedForm.transform.position + lockedForm.transform.TransformVector(cameraOffset));
 	}
 }

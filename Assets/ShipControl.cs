@@ -135,6 +135,12 @@ public class ShipControl : MonoBehaviour {
         if (Input.GetKey(KeyCode.S)) {
             ship.form.FireThrusters(Facing.up);
         }
+
+        if (Input.GetKey(KeyCode.Q))
+            ship.form.FireThrusters(Facing.right);
+
+        if (Input.GetKey(KeyCode.E))
+            ship.form.FireThrusters((Facing.left));
         
         if (Input.GetKey(KeyCode.A)) {
             ship.form.FireAttitudeThrusters(Facing.right);
