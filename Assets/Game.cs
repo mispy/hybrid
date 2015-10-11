@@ -207,9 +207,10 @@ public class Game : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
-
+             
         if (Game.inputBlocked) return;
 
+        InputEvent.Update();
 
         if (Input.GetKeyDown(KeyCode.BackQuote)) {
             if (debugMenu.gameObject.activeInHierarchy)

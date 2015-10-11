@@ -124,31 +124,32 @@ public class ShipControl : MonoBehaviour {
     float lastLeftClick = 0f;
     Vector2 lastLeftClickPos = new Vector2(0, 0);
 
+    public void OnForwardThrust() {
+        ship.form.FireThrusters(Facing.down);        
+    }
+
+    public void OnReverseThrust() {
+        ship.form.FireThrusters(Facing.up);
+    }
+
+    public void OnStrafeLeft() {
+        ship.form.FireThrusters(Facing.right);
+    }
+
+    public void OnStrafeRight() {
+        ship.form.FireThrusters((Facing.left));
+    }
+
+    public void OnTurnRight() {
+        ship.form.FireAttitudeThrusters(Facing.left);
+    }
+
+    public void OnTurnLeft() {
+        ship.form.FireAttitudeThrusters(Facing.right);
+    }
+
     void HandleShipInput() {                
-        var rigid = ship.form.rigidBody;    
-
-        
-        if (Input.GetKey(KeyCode.W)) {
-            ship.form.FireThrusters(Facing.down);        
-        }
-        
-        if (Input.GetKey(KeyCode.S)) {
-            ship.form.FireThrusters(Facing.up);
-        }
-
-        if (Input.GetKey(KeyCode.Q))
-            ship.form.FireThrusters(Facing.right);
-
-        if (Input.GetKey(KeyCode.E))
-            ship.form.FireThrusters((Facing.left));
-        
-        if (Input.GetKey(KeyCode.A)) {
-            ship.form.FireAttitudeThrusters(Facing.right);
-        }
-        
-        if (Input.GetKey(KeyCode.D)) {
-            ship.form.FireAttitudeThrusters(Facing.left);
-        }
+        var rigid = ship.form.rigidBody;
 
         if (Input.GetMouseButtonDown(0)) {
             if (Time.time - lastLeftClick < 0.5f && Vector2.Distance(Input.mousePosition, lastLeftClickPos) < 0.5f)
@@ -209,6 +210,13 @@ public class ShipControl : MonoBehaviour {
 	void Start() {
 		ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
 		ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
+
+        InputEvent.OnForwardThrust.AddListener(this);
+        InputEvent.OnReverseThrust.AddListener(this);
+        InputEvent.OnStrafeLeft.AddListener(this);
+        InputEvent.OnStrafeRight.AddListener(this);
+        InputEvent.OnTurnLeft.AddListener(this);
+        InputEvent.OnTurnRight.AddListener(this);
 	}
 
     // Update is called once per frame

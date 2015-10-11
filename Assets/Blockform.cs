@@ -223,6 +223,11 @@ public class Blockform : PoolBehaviour {
         obj.transform.up = worldOrient;
         obj.transform.localScale *= Tile.worldSize;
 
+        foreach (var comp in obj.GetComponents<Component>()) {
+            if (comp is BlockType || comp is BlockAbility)
+                Destroy(comp);
+        }
+
         foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;
         }

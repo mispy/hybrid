@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <ShipData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <name>Plasma Frigate</name>
+  <name>Little Frigate</name>
   <blocks>
     <BlockData>
       <x>-6</x>
@@ -770,6 +770,24 @@
       <typeName>Floor</typeName>
       <facing>-1</facing>
     </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>5</y>
+      <typeName>Wall</typeName>
+      <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>6</y>
+      <typeName>BeamCannon</typeName>
+      <facing>2</facing>
+    </BlockData>
   </blocks>
   <blueprintBlocks>
     <BlockData>
@@ -1538,6 +1556,24 @@
       <x>2</x>
       <y>-1</y>
       <typeName>Wall</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>5</y>
+      <typeName>Wall</typeName>
+      <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>4</y>
+      <typeName>Wall</typeName>
+      <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>6</y>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
   </blueprintBlocks>

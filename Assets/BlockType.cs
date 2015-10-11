@@ -40,7 +40,7 @@ public class BlockType : MonoBehaviour {
 	public bool canBlockSight = false;
     public bool canBlockFront = false;
 
-    public List<BlockAbility> abilities;
+    public BlockAbility[] abilities;
 
     /* Complex block specific functionality */
     [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]

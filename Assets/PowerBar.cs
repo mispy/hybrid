@@ -11,6 +11,6 @@ public class PowerBar : MonoBehaviour {
     
     // Update is called once per frame
     void Update () {
-        transform.localScale = new Vector3(transform.localScale.x, powerReserve.currentPower / powerReserve.maxPower, transform.localScale.z);        
+        //transform.localScale = new Vector3(transform.localScale.x, powerReserve.currentPower / powerReserve.maxPower, transform.localScale.z);        
     }
 }

@@ -16,21 +16,14 @@ public class Scanner : BlockComponent {
 	List<Vector2> scanPath;
 	int scanPathIndex;
 	float scanPathLength;
-	LineTargeter lineTargeter;
 
 	public void Start() {
 		scanCircle = Pool.For("ScanCircle").TakeObject();
-		lineTargeter = GetComponent<LineTargeter>();	
-
 	}
 
 	public void OnLineTarget() {
 		// Delayed to prevent scan start while paused
 		Invoke("ScanFromLineTarget", 0.01f);
-	}
-
-	public void ScanFromLineTarget() {
-		Scan(lineTargeter.targetForm, lineTargeter.positions);	
 	}
 
 	public void Scan(Blockform targetForm, List<Vector2> points) {		
@@ -59,7 +52,6 @@ public class Scanner : BlockComponent {
 		if (scanElapsed > scanDuration) {
 			scanPath = null;
 			scanCircle.SetActive(false);
-			lineTargeter.lineRenderer.enabled = false;
 		}
 	}
 }

@@ -10,7 +10,7 @@ public class DebugMenu : MonoBehaviour {
         var ship = Game.playerShip;
         if (ship == null) return;
         var data = ShipManager.Pack(ship);
-        var path = Application.dataPath + "/Ships/New/" + ship.name + ".xml";
+        var path = Application.dataPath + "/Ships/" + ship.name + ".xml";
         Save.Dump(data, path);
         Game.main.BriefMessage("Saved " + path);
     }

@@ -392,4 +392,9 @@ public class Util {
     public static Block AdjoiningBlock(Block block) {
         return AdjoiningBlock(block, block.pos, block.ship.blocks);
     }
+
+    public static Vector2 TipPosition(Block block) {
+        return (Vector2)block.gameObject.transform.TransformPoint(Vector2.up*Tile.worldSize);
+    }
+
 }
