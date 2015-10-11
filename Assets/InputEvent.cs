@@ -22,6 +22,7 @@ public class InputEvent {
     public static InputEvent OnStrafeRight = new InputEvent("OnStrafeRight");
     public static InputEvent OnTurnRight = new InputEvent("OnTurnRight");
     public static InputEvent OnTurnLeft = new InputEvent("OnTurnLeft");
+    public static InputEvent OnToggleDesigner = new InputEvent("OnToggleDesigner");
 
     public static void Update() {
         if (Input.GetMouseButtonDown(0))
@@ -50,6 +51,16 @@ public class InputEvent {
         
         if (Input.GetKey(KeyCode.D))
             OnTurnRight.Trigger();
+               
+        if (Input.GetKeyDown(KeyCode.F1))
+            OnToggleDesigner.Trigger();
+        
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            if (Game.isPaused)
+                Game.Unpause();
+            else
+                Game.Pause();
+        }
     }
 
     string name;

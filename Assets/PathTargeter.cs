@@ -3,21 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public struct PathTarget {
-    public Blockform form;
-    public List<Vector2> path;
-
-    public PathTarget(Blockform form, List<Vector2> path) {
-        this.form = form;
-        this.path = path;
-    }
-}
-
 public class PathTargeter : BlockAbility {
-	Blockform targetForm;
-	LineRenderer lineRenderer;
+    PathTarget target;
 	bool isDrawing = false;
-	List<Vector2> positions;
 	float lineLength;
 
     public override bool WorksWith(Block block) {
@@ -25,9 +13,10 @@ public class PathTargeter : BlockAbility {
     }
 
     void Awake() {
-        lineRenderer = Pool.For("TargetLine").Take<LineRenderer>();
-        lineRenderer.sortingLayerName = "UI";
+    }
 
+    void OnEnable() {
+        InputEvent.OnLeftClick.AddListener(this);
     }
 
 	public void OnLeftClick() {
@@ -35,28 +24,20 @@ public class PathTargeter : BlockAbility {
 		if (clickedForm == null) return;
 
 		if (!isDrawing) {
-			isDrawing = true;
-			targetForm = clickedForm;
-			lineLength = 0f;
-			positions = new List<Vector2>() { targetForm.transform.InverseTransformPoint(Game.mousePos) };
-			lineRenderer.transform.SetParent(targetForm.transform);
-			lineRenderer.transform.position = targetForm.transform.position;
-			lineRenderer.transform.rotation = targetForm.transform.rotation;
-			lineRenderer.gameObject.SetActive(true);
+            target = Pool.For("PathTarget").Take<PathTarget>();
+            target.form = clickedForm;
+            target.transform.SetParent(clickedForm.transform);
+            target.transform.position = clickedForm.transform.position;
+            target.transform.rotation = clickedForm.transform.rotation;
+            target.Add(clickedForm.transform.InverseTransformPoint(Game.mousePos));
+            lineLength = 0f;
+            isDrawing = true;
 		}
 	}
 
-    public void UpdateInitial() {
-        if (Input.GetMouseButtonDown(0))           
-            OnLeftClick();
-    }
-
     public void UpdateDrawing() {
         if (!Input.GetMouseButton(0)) {
-            var target = new PathTarget(targetForm, positions);
-            Debug.Log("???");
             foreach (var block in blocks) {
-                Debug.Log(block);
                 block.gameObject.SendMessage("OnPathTarget", target);
             }
 
@@ -65,36 +46,26 @@ public class PathTargeter : BlockAbility {
             return;
         }
         
-        if (!targetForm.BlocksAtWorldPos(Game.mousePos).Any())
+        if (!target.form.BlocksAtWorldPos(Game.mousePos).Any())
             return;
         
-        var localPos = targetForm.transform.InverseTransformPoint(Game.mousePos);
+        var localPos = target.form.transform.InverseTransformPoint(Game.mousePos);
         
         var threshold = 0.5f;
         var maxLength = 20f;
-        if (!positions.Any((pos) => Vector2.Distance(pos, localPos) < threshold)) {
-            var dist = Vector2.Distance(positions.Last(), localPos);
+        if (!target.path.Any((pos) => Vector2.Distance(pos, localPos) < threshold)) {
+            var dist = Vector2.Distance(target.path.Last(), localPos);
             
             if (lineLength + dist <= maxLength) {
-                positions.Add(localPos);
+                target.Add(localPos);
                 lineLength += dist;
             }
         }
         
-        lineRenderer.SetWidth(0.5f, 0.5f);
-        lineRenderer.SetVertexCount(positions.Count);
-        for (int i = 0; i < positions.Count; i++) {
-            lineRenderer.SetPosition(i, positions[i]);
-        }
-        
-        lineRenderer.SetColors(Color.cyan, Color.cyan);
     }
 	
 	public void Update() {
-        if (!isDrawing) {
-            UpdateInitial();
-        } else {
+        if (isDrawing)
             UpdateDrawing();
-        }
 	}
 }

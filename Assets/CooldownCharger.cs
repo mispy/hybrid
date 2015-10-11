@@ -6,7 +6,8 @@ public class CooldownCharger : BlockComponent {
     public bool isReady {
         get { return amountCharged >= 1f; }
     }
-    public float chargeTime;
+    public float chargeTime = 3f;
+    public bool isPaused = false;
 
     float amountCharged;
     LineRenderer line;
@@ -25,7 +26,7 @@ public class CooldownCharger : BlockComponent {
     }
 
 	void Update() {
-        if (block.isPowered && amountCharged < 1f)
+        if (block.isPowered && !isPaused && amountCharged < 1f)
             amountCharged = Mathf.Min(1f, amountCharged + Time.deltaTime/chargeTime);
 
         var startY = -Tile.worldSize/2f + 0.2f;

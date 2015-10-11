@@ -110,7 +110,7 @@ public class ShipControl : MonoBehaviour {
         Game.abilityMenu.OnBlockSelectionUpdate();
     }
     
-    void HandleRightClick() {
+    void OnRightClick() {
 		if (selectedCrew == null) {
 			//Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
 			//Debug.Log(ship.form.BlocksAtWorldPos(Game.mousePos).First());
@@ -148,68 +148,30 @@ public class ShipControl : MonoBehaviour {
         ship.form.FireAttitudeThrusters(Facing.right);
     }
 
-    void HandleShipInput() {                
-        var rigid = ship.form.rigidBody;
+    public void OnLeftClick() {
+        if (Time.time - lastLeftClick < 0.5f && Vector2.Distance(Input.mousePosition, lastLeftClickPos) < 0.5f)
+            HandleDoubleClick();
+        else
+            HandleLeftClick();
+        lastLeftClick = Time.time;
+        lastLeftClickPos = Input.mousePosition;
+    }
 
-        if (Input.GetMouseButtonDown(0)) {
-            if (Time.time - lastLeftClick < 0.5f && Vector2.Distance(Input.mousePosition, lastLeftClickPos) < 0.5f)
-                HandleDoubleClick();
-            else
-                HandleLeftClick();
-            lastLeftClick = Time.time;
-            lastLeftClickPos = Input.mousePosition;
-        }
-
-        if (Input.GetMouseButtonDown(1)) {
-            HandleRightClick();
-        }
-
-        if (Input.GetMouseButton(0)) {
-            var selected = Game.main.weaponSelect.selectedType;
-        
-            if (selected == null) {
-            } else if (selected is TractorBeam) {
-                ship.form.StartTractorBeam(Game.mousePos);
-            }
+    public void OnToggleDesigner() {
+        if (Game.main.shipDesigner.gameObject.activeInHierarchy) {
+            Game.main.shipDesigner.gameObject.SetActive(false);
         } else {
-            ship.form.StopTractorBeam();
+            Game.main.shipDesigner.gameObject.SetActive(true);
         }
-        
-        if (Input.GetKey(KeyCode.X)) {
-            rigid.velocity = Vector3.zero;
-            rigid.angularVelocity = Vector3.zero;
-        }
-
-        if (Input.GetKeyDown(KeyCode.F1)) {
-            if (Game.main.shipDesigner.gameObject.activeInHierarchy) {
-                Game.main.shipDesigner.gameObject.SetActive(false);
-            } else {
-                Game.main.shipDesigner.gameObject.SetActive(true);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.J)) {
-            JumpMap.Activate();
-        }
-
-		if (Input.GetKeyDown(KeyCode.Space)) {
-			if (Game.isPaused)
-				Game.Unpause();
-			else
-				Game.Pause();
-		}
-
-
-
-        
-        /*if (currentShip) {
-            Game.main.debugText.text = String.Format("Velocity: {0} {1}", currentShip.rigidBody.velocity.x, currentShip.rigidBody.velocity.y);
-        }*/
     }
 
 	void Start() {
 		ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
 		ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
+
+        InputEvent.OnLeftClick.AddListener(this);
+        InputEvent.OnRightClick.AddListener(this);
+        InputEvent.OnToggleDesigner.AddListener(this);
 
         InputEvent.OnForwardThrust.AddListener(this);
         InputEvent.OnReverseThrust.AddListener(this);
@@ -233,6 +195,16 @@ public class ShipControl : MonoBehaviour {
 		}
 		
 		if (Game.inputBlocked) return;
-        HandleShipInput();
+
+        var rigid = ship.form.rigidBody;
+        
+        if (Input.GetKey(KeyCode.X)) {
+            rigid.velocity = Vector3.zero;
+            rigid.angularVelocity = Vector3.zero;
+        }
+        
+        if (Input.GetKeyDown(KeyCode.J)) {
+            JumpMap.Activate();
+        }
     }
 }

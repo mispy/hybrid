@@ -9,8 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 457442}
   - 120: {fileID: 12092750}
+  - 114: {fileID: 11459020}
   m_Layer: 12
-  m_Name: TargetLine
+  m_Name: PathTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,6 +29,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11459020
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 117170}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 631ee41d2b59db14f8502c4a8a9a4634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: []
 --- !u!120 &12092750
 LineRenderer:
   m_ObjectHideFlags: 1
