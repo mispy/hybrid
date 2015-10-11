@@ -129,9 +129,9 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>6</y>
-      <typeName>PlasmaTurret</typeName>
+      <x>3</x>
+      <y>4</y>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -250,8 +250,8 @@
     </BlockData>
     <BlockData>
       <x>3</x>
-      <y>1</y>
-      <typeName>Console</typeName>
+      <y>2</y>
+      <typeName>Floor</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -297,12 +297,6 @@
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>3</x>
-      <y>2</y>
-      <typeName>ShieldGenerator</typeName>
-      <facing>2</facing>
-    </BlockData>
-    <BlockData>
       <x>-2</x>
       <y>2</y>
       <typeName>Wall</typeName>
@@ -339,9 +333,9 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>1</x>
-      <y>6</y>
-      <typeName>PlasmaTurret</typeName>
+      <x>-5</x>
+      <y>4</y>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -381,15 +375,15 @@
       <facing>1</facing>
     </BlockData>
     <BlockData>
-      <x>4</x>
+      <x>-4</x>
       <y>4</y>
-      <typeName>PlasmaTurret</typeName>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>-5</x>
-      <y>4</y>
-      <typeName>PlasmaTurret</typeName>
+      <x>-2</x>
+      <y>6</y>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -497,7 +491,7 @@
     <BlockData>
       <x>1</x>
       <y>-3</y>
-      <typeName>Floor</typeName>
+      <typeName>Door</typeName>
       <facing>1</facing>
     </BlockData>
     <BlockData>
@@ -545,12 +539,6 @@
     <BlockData>
       <x>1</x>
       <y>-2</y>
-      <typeName>Floor</typeName>
-      <facing>1</facing>
-    </BlockData>
-    <BlockData>
-      <x>3</x>
-      <y>2</y>
       <typeName>Floor</typeName>
       <facing>1</facing>
     </BlockData>
@@ -665,8 +653,8 @@
     <BlockData>
       <x>1</x>
       <y>-3</y>
-      <typeName>Door</typeName>
-      <facing>-2</facing>
+      <typeName>Floor</typeName>
+      <facing>-1</facing>
     </BlockData>
     <BlockData>
       <x>-5</x>
@@ -771,20 +759,14 @@
       <facing>-1</facing>
     </BlockData>
     <BlockData>
-      <x>-4</x>
-      <y>4</y>
-      <typeName>Wall</typeName>
-      <facing>1</facing>
-    </BlockData>
-    <BlockData>
-      <x>-4</x>
-      <y>5</y>
-      <typeName>Wall</typeName>
-      <facing>1</facing>
-    </BlockData>
-    <BlockData>
-      <x>-4</x>
+      <x>1</x>
       <y>6</y>
+      <typeName>BeamCannon</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
+      <y>4</y>
       <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
@@ -917,9 +899,9 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>6</y>
-      <typeName>PlasmaTurret</typeName>
+      <x>3</x>
+      <y>4</y>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -983,12 +965,6 @@
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>3</x>
-      <y>2</y>
-      <typeName>ShieldGenerator</typeName>
-      <facing>2</facing>
-    </BlockData>
-    <BlockData>
       <x>2</x>
       <y>0</y>
       <typeName>Wall</typeName>
@@ -1039,8 +1015,8 @@
     <BlockData>
       <x>3</x>
       <y>1</y>
-      <typeName>Console</typeName>
-      <facing>2</facing>
+      <typeName>Floor</typeName>
+      <facing>1</facing>
     </BlockData>
     <BlockData>
       <x>-5</x>
@@ -1064,7 +1040,7 @@
       <x>1</x>
       <y>-3</y>
       <typeName>Door</typeName>
-      <facing>-2</facing>
+      <facing>1</facing>
     </BlockData>
     <BlockData>
       <x>-1</x>
@@ -1081,7 +1057,7 @@
     <BlockData>
       <x>1</x>
       <y>6</y>
-      <typeName>PlasmaTurret</typeName>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1127,9 +1103,9 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>-5</x>
+      <x>4</x>
       <y>4</y>
-      <typeName>PlasmaTurret</typeName>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1181,9 +1157,9 @@
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>4</x>
-      <y>4</y>
-      <typeName>PlasmaTurret</typeName>
+      <x>-2</x>
+      <y>6</y>
+      <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1268,7 +1244,7 @@
       <x>1</x>
       <y>-3</y>
       <typeName>Floor</typeName>
-      <facing>1</facing>
+      <facing>-1</facing>
     </BlockData>
     <BlockData>
       <x>2</x>
@@ -1304,7 +1280,7 @@
       <x>3</x>
       <y>2</y>
       <typeName>Floor</typeName>
-      <facing>1</facing>
+      <facing>2</facing>
     </BlockData>
     <BlockData>
       <x>-1</x>
@@ -1377,12 +1353,6 @@
       <y>0</y>
       <typeName>Wall</typeName>
       <facing>-2</facing>
-    </BlockData>
-    <BlockData>
-      <x>3</x>
-      <y>1</y>
-      <typeName>Floor</typeName>
-      <facing>1</facing>
     </BlockData>
     <BlockData>
       <x>-1</x>
@@ -1559,20 +1529,14 @@
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>-4</x>
-      <y>5</y>
-      <typeName>Wall</typeName>
-      <facing>1</facing>
+      <x>-5</x>
+      <y>4</y>
+      <typeName>BeamCannon</typeName>
+      <facing>2</facing>
     </BlockData>
     <BlockData>
       <x>-4</x>
       <y>4</y>
-      <typeName>Wall</typeName>
-      <facing>1</facing>
-    </BlockData>
-    <BlockData>
-      <x>-4</x>
-      <y>6</y>
       <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>

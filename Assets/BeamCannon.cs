@@ -4,6 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class BeamCannon : BlockComponent {
+    public float damage;
+    public float hitRadius;
+
     CooldownCharger charger;
     LineRenderer lineRenderer;
     PathTarget target;
@@ -37,7 +40,12 @@ public class BeamCannon : BlockComponent {
         lineRenderer.SetPosition(0, Util.TipPosition(block));
         lineRenderer.SetPosition(1, target.transform.TransformPoint(currentBeamPos));
         lineRenderer.SetColors(Color.yellow, Color.yellow);
-        
+
+
+        foreach (var targetBlock in target.form.BlocksInLocalRadius(currentBeamPos, hitRadius)) {
+            target.form.damage.DamageBlock(targetBlock, damage * (Time.deltaTime/beamDuration));
+        }
+
         beamElapsed += Time.deltaTime;
         if (beamElapsed > beamDuration) {
             isFiring = false;

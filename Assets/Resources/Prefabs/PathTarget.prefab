@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631ee41d2b59db14f8502c4a8a9a4634, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   path: []
 --- !u!120 &12092750
 LineRenderer:

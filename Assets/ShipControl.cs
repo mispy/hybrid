@@ -165,10 +165,12 @@ public class ShipControl : MonoBehaviour {
         }
     }
 
-	void Start() {
-		ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
-		ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
+    void Awake() {
+        ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
+        ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
+    }    
 
+	void OnEnable() {
         InputEvent.OnLeftClick.AddListener(this);
         InputEvent.OnRightClick.AddListener(this);
         InputEvent.OnToggleDesigner.AddListener(this);

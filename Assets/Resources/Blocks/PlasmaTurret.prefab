@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeTime: 1
+  isPaused: 0
 --- !u!114 &11448760
 MonoBehaviour:
   m_ObjectHideFlags: 1

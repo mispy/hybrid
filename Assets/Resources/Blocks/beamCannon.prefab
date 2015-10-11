@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d8529ac8f04144bbec72863481cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damage: 100
+  hitRadius: 1
 --- !u!114 &11456218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -56,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chargeTime: 3
+  isPaused: 0
 --- !u!114 &11463004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -239,6 +242,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: chargeTime
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: hitRadius
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

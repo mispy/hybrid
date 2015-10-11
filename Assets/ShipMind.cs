@@ -142,7 +142,7 @@ public class ShipMind : PoolBehaviour {
 
 	void UpdateTactic() {
 		if (!form.hasActiveShields) {
-			SetTactic<FleeingTactic>();
+			//SetTactic<FleeingTactic>();
 		} else {
 			SetTactic<EngageTactic>();
 		}
