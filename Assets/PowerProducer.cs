@@ -4,7 +4,11 @@ using System.Collections.Generic;
 
 public class PowerProducer : BlockComponent {
     public int supplyRadius;
-    public bool isProducing = true;
+    public bool isProducing {
+        get { return isSwitchedOn && hasAvailablePower; }
+    }
+    public bool isSwitchedOn = true;
+    public bool hasAvailablePower = true;
     PowerCircle circle;
 
     GameObject noPowerIndicator;

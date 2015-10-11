@@ -9,7 +9,7 @@ public class ToggleGenerator : BlockAbility {
     void OnEnable() {
         foreach (var block in blocks) {
             var producer = block.gameObject.GetComponent<PowerProducer>();
-            producer.isProducing = !producer.isProducing;
+            producer.isSwitchedOn = !producer.isSwitchedOn;
         }    
         
         gameObject.SetActive(false);

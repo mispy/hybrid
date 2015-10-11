@@ -11,6 +11,7 @@ GameObject:
   - 212: {fileID: 21201958}
   - 114: {fileID: 11422968}
   - 114: {fileID: 11487552}
+  - 114: {fileID: 11433894}
   m_Layer: 9
   m_Name: PowerGenerator
   m_TagString: Untagged
@@ -56,6 +57,18 @@ MonoBehaviour:
   isComplexBlock: 1
   canBeFired: 0
   renderer: {fileID: 0}
+--- !u!114 &11433894
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 104774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e7d6667634f2894bb4868b1d5d8eb84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  form: {fileID: 0}
 --- !u!114 &11487552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -69,7 +82,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   form: {fileID: 0}
   supplyRadius: 3
-  isProducing: 1
+  isSwitchedOn: 1
+  hasAvailablePower: 1
 --- !u!212 &21201958
 SpriteRenderer:
   m_ObjectHideFlags: 1
