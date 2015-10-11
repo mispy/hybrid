@@ -133,6 +133,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   form: {fileID: 0}
   supplyRadius: 3
+  isProducing: 1
 --- !u!114 &11459942
 MonoBehaviour:
   m_ObjectHideFlags: 1

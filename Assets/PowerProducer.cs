@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 public class PowerProducer : BlockComponent {
     public int supplyRadius;
+    public bool isProducing = true;
     PowerCircle circle;
 
+    GameObject noPowerIndicator;
+
+    
     public override void OnCreate() {        
         circle = Pool.For("PowerCircle").Take<PowerCircle>();
         circle.transform.SetParent(transform);
@@ -21,5 +25,17 @@ public class PowerProducer : BlockComponent {
     
     public void OnBlockDeselected() {
         circle.renderer.enabled = false;
+    }
+
+    public void Update() {
+        if (!isProducing && noPowerIndicator == null) {
+            noPowerIndicator = Pool.For("NoPower").TakeObject();
+            noPowerIndicator.transform.SetParent(transform);
+            noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
+            noPowerIndicator.transform.position = transform.position;
+            noPowerIndicator.SetActive(true);
+        } else if (isProducing && noPowerIndicator != null) {
+            Pool.Recycle(noPowerIndicator);
+        }
     }
 }

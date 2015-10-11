@@ -18,6 +18,9 @@ public class PowerCircle : PoolBehaviour {
     // Update is called once per frame
     void Update() {
         var supplyRadius = producer.supplyRadius;
+        if (!producer.isProducing)
+            supplyRadius = 0;
+
         if (supplyRadius*3 != transform.localScale.x) {
             transform.localScale = new Vector3(supplyRadius*3, supplyRadius*3, 1);
         }

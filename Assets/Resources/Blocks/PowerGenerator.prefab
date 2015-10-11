@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   form: {fileID: 0}
   supplyRadius: 3
+  isProducing: 1
 --- !u!212 &21201958
 SpriteRenderer:
   m_ObjectHideFlags: 1
