@@ -770,6 +770,42 @@
       <typeName>BeamCannon</typeName>
       <facing>2</facing>
     </BlockData>
+    <BlockData>
+      <x>-5</x>
+      <y>0</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
+      <y>0</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>-3</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>2</x>
+      <y>-3</y>
+      <typeName>PowerNode</typeName>
+      <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>4</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>4</y>
+      <typeName>PowerNode</typeName>
+      <facing>1</facing>
+    </BlockData>
   </blocks>
   <blueprintBlocks>
     <BlockData>
@@ -1539,6 +1575,42 @@
       <y>4</y>
       <typeName>BeamCannon</typeName>
       <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>-5</x>
+      <y>0</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>4</x>
+      <y>0</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>-3</x>
+      <y>-3</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>2</x>
+      <y>-3</y>
+      <typeName>PowerNode</typeName>
+      <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-2</x>
+      <y>4</y>
+      <typeName>PowerNode</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>1</x>
+      <y>4</y>
+      <typeName>PowerNode</typeName>
+      <facing>1</facing>
     </BlockData>
   </blueprintBlocks>
 </ShipData>

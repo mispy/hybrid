@@ -67,10 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a325f72a1bcef47ba3869dc698c3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  supplyRadius: 5
-  supplyRate: 1000
-  availablePower: 0
-  forbiddenReceivers: []
+  form: {fileID: 0}
+  supplyRadius: 3
 --- !u!212 &21201958
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -119,7 +117,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: supplyRadius
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: powerSupplyRadius

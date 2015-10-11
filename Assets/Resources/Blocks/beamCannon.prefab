@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d8529ac8f04144bbec72863481cdd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   damage: 100
   hitRadius: 1
 --- !u!114 &11456218
@@ -57,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc179ae3fa8b174b87c923464ba580d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   chargeTime: 3
   isPaused: 0
 --- !u!114 &11463004
@@ -96,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   consumeRate: 0
   isReceiving: 0
   availableProducers: []

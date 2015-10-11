@@ -72,6 +72,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f509c44179e9784f966ec0a8a733764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   ps: {fileID: 0}
   form: {fileID: 0}
   isFiring: 0
@@ -113,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
   availableProducers: []

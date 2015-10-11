@@ -230,6 +230,7 @@ public class Blockform : PoolBehaviour {
 
         foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;
+            comp.form = this;
         }
 
         if (!block.type.isComplexBlock)

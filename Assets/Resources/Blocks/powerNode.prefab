@@ -27,7 +27,6 @@ GameObject:
   - 4: {fileID: 438276}
   - 212: {fileID: 21261132}
   - 114: {fileID: 11447682}
-  - 114: {fileID: 11477376}
   - 114: {fileID: 11459942}
   - 114: {fileID: 11450700}
   m_Layer: 9
@@ -132,10 +131,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a325f72a1bcef47ba3869dc698c3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  supplyRadius: 0
-  supplyRate: 0
-  availablePower: 0
-  forbiddenReceivers: []
+  form: {fileID: 0}
+  supplyRadius: 3
 --- !u!114 &11459942
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -147,10 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad0126302a47374596a53f36381021e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  producer: {fileID: 0}
-  reserve: {fileID: 0}
-  receiver: {fileID: 0}
-  circle: {fileID: 0}
+  form: {fileID: 0}
 --- !u!114 &11462504
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -162,20 +156,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4264a666b4569944d9cff7cae1dc9c02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11477376
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 130360}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  consumeRate: 1
-  isReceiving: 0
-  availableProducers: []
 --- !u!114 &11481106
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -303,6 +283,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: -484430309
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: supplyRadius
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

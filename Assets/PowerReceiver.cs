@@ -35,11 +35,20 @@ public class PowerReceiver : BlockComponent {
         block.gameObject.SendMessage("OnDepowered", SendMessageOptions.DontRequireReceiver);
     }
 
-    public void Update() {
-        var powered = true;
+    public bool IsPowered() {
+        if (!isReceiving) return false;
 
-        if (isReceiving == false)
-            powered = false;
+        foreach (var producer in form.GetBlockComponents<PowerProducer>()) {
+            if (IntVector2.Distance(block.pos, producer.block.pos) <= producer.supplyRadius) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void Update() {
+        var powered = IsPowered();
 
         if (powered && !block.isPowered)
             Powered();

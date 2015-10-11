@@ -14,6 +14,7 @@ public class BlockAbility : PoolBehaviour {
 
 public class BlockComponent : PoolBehaviour {
     public Block block;
+    public Blockform form;
 }
 
 

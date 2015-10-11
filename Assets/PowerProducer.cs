@@ -4,19 +4,22 @@ using System.Collections.Generic;
 
 public class PowerProducer : BlockComponent {
     public int supplyRadius;
-    public float supplyRate;
+    PowerCircle circle;
 
-    public delegate void PowerTakenHandler(PowerReceiver receiver, float amount);
-    public event PowerTakenHandler OnPowerTaken = delegate { };
-
-    [HideInInspector]
-    public float availablePower;
-    [HideInInspector]
-    public List<PowerReceiver> forbiddenReceivers = new List<PowerReceiver>();
-
-    public override void OnCreate() {
-        var obj = Pool.For("PowerCircle").TakeObject();
-        obj.transform.SetParent(transform);
-        obj.SetActive(true);
+    public override void OnCreate() {        
+        circle = Pool.For("PowerCircle").Take<PowerCircle>();
+        circle.transform.SetParent(transform);
+        circle.transform.position = transform.position;
+        circle.transform.rotation = transform.rotation;
+        circle.renderer.enabled = false;
+        circle.gameObject.SetActive(true);
+    }
+        
+    public void OnBlockSelected() {
+        circle.renderer.enabled = true;
+    }
+    
+    public void OnBlockDeselected() {
+        circle.renderer.enabled = false;
     }
 }
