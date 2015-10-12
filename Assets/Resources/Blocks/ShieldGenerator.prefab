@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   consumeRate: 0
   isReceiving: 0
   availableProducers: []
@@ -82,6 +83,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52012d0683a8fd340ba5aaf3999d8cf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
 --- !u!212 &21281132
 SpriteRenderer:
   m_ObjectHideFlags: 1

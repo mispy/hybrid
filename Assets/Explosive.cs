@@ -10,6 +10,7 @@ public class Explosive : MonoBehaviour
     public float explosionRadius = 2f;
     Rigidbody rigidbody;
 	public GameObject explosionPrefab;
+    public Ship originShip;
 
 	[HideInInspector]
 	public GameObject explosion;
@@ -69,7 +70,7 @@ public class Explosive : MonoBehaviour
 			rigidBodies.Add(col.attachedRigidbody);
 
 			var form = col.attachedRigidbody.GetComponent<Blockform>();
-			if (form == null) continue;
+			if (form == null || form == originShip.form) continue;
 
 			var shields = col.gameObject.GetComponent<Shields>();
 			if (shields != null)

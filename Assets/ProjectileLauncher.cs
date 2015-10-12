@@ -29,6 +29,10 @@ public class ProjectileLauncher : BlockComponent {
 		return hit.collider;
 	}
 	
+    public void OnFire() {
+        Fire();
+    }
+
 	public void Fire() {    
         if (!charger.isReady)
             return;
@@ -39,12 +43,13 @@ public class ProjectileLauncher : BlockComponent {
 		charger.Discharge();
 
 		// Pew pew!
-		var bullet = Pool.For(projectile).TakeObject();
+		var bullet = Pool.For(projectile).Take<Explosive>();
 		bullet.transform.position = turret.TipPosition;
 		bullet.transform.rotation = transform.rotation;
+        bullet.originShip = block.ship;
 		var mcol = bullet.GetComponent<BoxCollider>();
 		var rigid = bullet.GetComponent<Rigidbody>();
-		bullet.SetActive(true);
+		bullet.gameObject.SetActive(true);
 		rigid.velocity = form.rigidBody.velocity;
 		rigid.AddForce(transform.up*launchForce);
 

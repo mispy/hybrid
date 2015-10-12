@@ -29,8 +29,8 @@ public class RotatingTurret : BlockComponent {
 	void Start() {
 		form = GetComponentInParent<Blockform>();
 		dottedLine = GetComponent<LineRenderer>();
-		dottedLine.SetWidth(0.1f, 0.1f);
-		dottedLine.SetVertexCount(2);
+		//dottedLine.SetWidth(0.1f, 0.1f);
+		//dottedLine.SetVertexCount(2);
 		
 		RecalcCenterPoint();
 		form.blocks.OnBlockAdded += OnBlockAdded;

@@ -6,14 +6,21 @@ public class SetTarget : BlockAbility {
     GameObject targetCircle;
     RotatingTurret[] turrets;
 
-    public override bool WorksWith(Block block) {
+    /*public override bool WorksWith(Block block) {
         return block.type.GetComponent<RotatingTurret>() != null;
-    }
+    }*/
 
     void OnEnable() {
         targetCircle = Pool.For("SetTargetCircle").TakeObject();
         targetCircle.SetActive(true);
         turrets = blocks.Select((b) => b.gameObject.GetComponent<RotatingTurret>()).ToArray();
+
+        InputEvent.OnLeftClick.AddListener(this);
+    }
+
+    public void OnLeftClick() {    
+        Target(Blockform.AtWorldPos(Game.mousePos), Game.mousePos);
+        gameObject.SetActive(false);
     }
 
     void OnDisable() {
@@ -37,13 +44,8 @@ public class SetTarget : BlockAbility {
 
         targetCircle.transform.position = Game.mousePos;
 
-        foreach (var turret in turrets) {
+        /*foreach (var turret in turrets) {
             turret.AimTowards(Game.mousePos);   
-        }
-
-        if (Input.GetMouseButtonDown(0)) {
-            Target(form, Game.mousePos);
-            gameObject.SetActive(false);
-        }
+        }*/
 	}
 }

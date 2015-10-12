@@ -84,7 +84,7 @@ MonoBehaviour:
   canBlockFront: 1
   abilities: []
   isComplexBlock: 1
-  canBeFired: 1
+  canBeFired: 0
   renderer: {fileID: 0}
 --- !u!114 &11408290
 MonoBehaviour:
@@ -1273,7 +1273,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: canBeFired
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: canBlockFront

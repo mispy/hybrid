@@ -393,6 +393,10 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
+    public IEnumerable<Block> BlocksInWorldRadius(Vector2 worldPos, float radius) {
+        return BlocksInLocalRadius(transform.InverseTransformPoint(worldPos), radius);
+    }
+
     public void FireThrusters(Facing dir) {
         foreach (var thruster in GetBlockComponents<Thruster>()) {
             if (thruster.block.facing == dir)

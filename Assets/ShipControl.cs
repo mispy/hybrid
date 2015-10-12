@@ -48,13 +48,13 @@ public class ShipControl : MonoBehaviour {
         selectedBlocks.Remove(block);
     }
 
-    void DeselectBlocks() {
+    public void DeselectBlocks() {
         foreach (var block in selectedBlocks.ToList()) {
             DeselectBlock(block);
         }
     }
 
-    void SelectBlock(Block block) {
+    public void SelectBlock(Block block) {
         if (selectedBlocks.Contains(block)) return;
 
         var selector = Pool.For("Selector").TakeObject();
@@ -72,6 +72,10 @@ public class ShipControl : MonoBehaviour {
 
         if (block.type.isComplexBlock)
             block.gameObject.SendMessage("OnBlockSelected", SendMessageOptions.DontRequireReceiver);
+
+
+        Game.abilityMenu.gameObject.SetActive(true);
+        Game.abilityMenu.OnBlockSelectionUpdate();
     }
 
     void SelectShip(Ship ship) {
@@ -86,8 +90,6 @@ public class ShipControl : MonoBehaviour {
                     SelectBlock(comrade);
             }
         }
-
-        Game.abilityMenu.OnBlockSelectionUpdate();
     }
     
     void HandleLeftClick() {

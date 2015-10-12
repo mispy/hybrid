@@ -8,9 +8,9 @@ public class PathTargeter : BlockAbility {
 	bool isDrawing = false;
 	float lineLength;
 
-    public override bool WorksWith(Block block) {
+    /*public override bool WorksWith(Block block) {
         return block.type.GetComponent<BeamCannon>() != null;
-    }
+    }*/
 
     void Awake() {
     }
@@ -19,7 +19,7 @@ public class PathTargeter : BlockAbility {
         InputEvent.OnLeftClick.AddListener(this);
     }
 
-	public void OnLeftClick() {
+    public void OnLeftClick() {
 		var clickedForm = Blockform.AtWorldPos(Game.mousePos);
 		if (clickedForm == null) return;
 

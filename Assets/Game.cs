@@ -162,7 +162,7 @@ public class Game : MonoBehaviour {
         Game.activeSector = GetComponentInChildren<ActiveSector>();
         Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
         Game.shipControl = GetComponentInChildren<ShipControl>();
-        Game.abilityMenu = GetComponentInChildren<AbilityMenu>();
+        Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
         Game.main = this;
 
         var resources = Resources.LoadAll("Prefabs");
@@ -212,7 +212,7 @@ public class Game : MonoBehaviour {
 
         InputEvent.Update();
 
-        if (Input.GetKeyDown(KeyCode.BackQuote)) {
+        if (Input.GetKeyDown(KeyCode.Backslash)) {
             if (debugMenu.gameObject.activeInHierarchy)
                 debugMenu.gameObject.SetActive(false);
             else

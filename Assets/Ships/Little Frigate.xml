@@ -251,8 +251,8 @@
     <BlockData>
       <x>3</x>
       <y>2</y>
-      <typeName>Floor</typeName>
-      <facing>2</facing>
+      <typeName>ShieldGenerator</typeName>
+      <facing>-2</facing>
     </BlockData>
     <BlockData>
       <x>-4</x>
@@ -816,6 +816,12 @@
       <x>-4</x>
       <y>6</y>
       <typeName>BeamCannon</typeName>
+      <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
+      <y>2</y>
+      <typeName>Floor</typeName>
       <facing>2</facing>
     </BlockData>
   </blocks>
@@ -1635,6 +1641,12 @@
       <y>6</y>
       <typeName>BeamCannon</typeName>
       <facing>2</facing>
+    </BlockData>
+    <BlockData>
+      <x>3</x>
+      <y>2</y>
+      <typeName>ShieldGenerator</typeName>
+      <facing>-2</facing>
     </BlockData>
   </blueprintBlocks>
 </ShipData>

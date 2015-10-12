@@ -9,7 +9,6 @@ public class BeamCannon : BlockComponent {
 
     CooldownCharger charger;
     LineRenderer lineRenderer;
-    PathTarget target;
     float beamDuration = 2f;
     float beamElapsed = 0f;
     bool isFiring = false;
@@ -21,8 +20,10 @@ public class BeamCannon : BlockComponent {
         charger = GetComponent<CooldownCharger>();
     }
 
-    public void OnPathTarget(PathTarget target) {
-        this.target = target;
+    public void OnFire() {
+        //Debug.Log(Util.TurretBlocked(form, Util.TipPosition(block), Game.mousePos));
+        if (charger.isReady) //&& !Util.TurretBlocked(form, Util.TipPosition(block), Game.mousePos)) {
+            Fire();
     }
 
     public void Fire() {        
@@ -34,36 +35,31 @@ public class BeamCannon : BlockComponent {
     }
 
     void UpdateFiring() {
-        var currentBeamPos = Util.PathLerp(target.path, beamElapsed/beamDuration);
+        var currentBeamPos = Game.mousePos;//Util.PathLerp(target.path, beamElapsed/beamDuration);
         
         lineRenderer.SetVertexCount(2);
         lineRenderer.SetPosition(0, Util.TipPosition(block));
-        lineRenderer.SetPosition(1, target.transform.TransformPoint(currentBeamPos));
+        lineRenderer.SetPosition(1, currentBeamPos);
         lineRenderer.SetColors(Color.yellow, Color.yellow);
 
-        foreach (var targetBlock in target.form.BlocksInLocalRadius(currentBeamPos, hitRadius)) {
-            target.form.damage.DamageBlock(targetBlock, damage * (Time.deltaTime/beamDuration));
+        var targetForm = Blockform.AtWorldPos(Game.mousePos);
+
+        if (targetForm != null) {
+            foreach (var targetBlock in targetForm.BlocksInWorldRadius(currentBeamPos, hitRadius)) {
+                targetForm.damage.DamageBlock(targetBlock, damage * (Time.deltaTime/beamDuration));
+            }
         }
 
         beamElapsed += Time.deltaTime;
-        if (beamElapsed > beamDuration) {
+        if (!Input.GetMouseButton(0) || beamElapsed > beamDuration) {
             isFiring = false;
             charger.isPaused = false;
             lineRenderer.enabled = false;
         }        
     }
 
-    void UpdateWaiting() {
-        if (charger.isReady && target != null && !Util.TurretBlocked(form, transform.position, target.transform.TransformPoint(target.path[0]))) {
-            Fire();
-        }
-    }
-
     void Update() {
         if (isFiring)
             UpdateFiring();
-        else
-            UpdateWaiting();
-
     }
 }

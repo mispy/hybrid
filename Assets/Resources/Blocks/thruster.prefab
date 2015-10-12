@@ -74,7 +74,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   form: {fileID: 0}
   ps: {fileID: 0}
-  form: {fileID: 0}
   isFiring: 0
   isFiringAttitude: 0
 --- !u!114 &11493866

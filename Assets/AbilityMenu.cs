@@ -31,6 +31,14 @@ public class AbilityMenu : MonoBehaviour {
         }
     }
 
+    void OnEnable() {
+        ShipControl.weaponSelect.gameObject.SetActive(false);
+    }
+
+    void OnDisable() {
+        ShipControl.weaponSelect.gameObject.SetActive(true);
+    }
+
     void Clear() {
         selectedIndex = -1;
         buttons = new List<Button>();
@@ -40,10 +48,10 @@ public class AbilityMenu : MonoBehaviour {
         }
     }
 
-    void SelectAbility(int i) {
+    public void SelectAbility(int i) {
         activeAbilities[i].blocks = Game.shipControl.selectedBlocks;
         activeAbilities[i].gameObject.SetActive(true);
-        buttons[i].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+        buttons[i+1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
         selectedIndex = i;
     }
 
@@ -60,25 +68,40 @@ public class AbilityMenu : MonoBehaviour {
             break;
         }
 
+        var button = Pool.For("BackButton").Take<Button>();
+        button.gameObject.SetActive(true);
+        button.transform.SetParent(transform);
+        buttons.Add(button);
+
+        var text = button.GetComponentInChildren<Text>();
+        text.text = "`";
+
+        button.transform.localPosition = new Vector3(startX + Tile.pixelSize/2, 0, 0);
+
+        button.onClick.AddListener(() => {
+            DeselectAbility();
+            Game.shipControl.DeselectBlocks();
+            gameObject.SetActive(false);
+        });
+
         foreach (var ability in activeAbilities) {
-            var button = Pool.For("BlockButton").Take<Button>();
+            button = Pool.For("BlockButton").Take<Button>();
             button.gameObject.SetActive(true);
             button.transform.SetParent(transform);
-            button.transform.localScale = new Vector3(1, 1, 1);
             button.image.sprite = ability.GetComponent<SpriteRenderer>().sprite;
             buttons.Add(button);
             
             var i = buttons.Count-1;           
             
-            var text = button.GetComponentInChildren<Text>();
-            text.text = (i+1).ToString();
+            text = button.GetComponentInChildren<Text>();
+            text.text = i.ToString();
             
             var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
             button.transform.localPosition = new Vector3(x, 0, 0);
 
             button.onClick.AddListener(() => {
                 DeselectAbility();
-                SelectAbility(i);
+                SelectAbility(i-1);
             });
 
         }
@@ -98,18 +121,24 @@ public class AbilityMenu : MonoBehaviour {
         if (selectedIndex < 0 || selectedIndex > activeAbilities.Count) return;
 
         activeAbilities[selectedIndex].gameObject.SetActive(false);
-        buttons[selectedIndex].image.color = Color.white;
+        buttons[selectedIndex+1].image.color = Color.white;
         selectedIndex = -1;
     }
 
     void Update() {
+        if (Game.shipControl.selectedBlocks.Count == 0)
+            gameObject.SetActive(false);
+
+        if (Input.GetKeyDown(KeyCode.BackQuote))
+            buttons[0].onClick.Invoke();
+
         if (selectedIndex >= 0 && !activeAbilities[selectedIndex].isActiveAndEnabled) {
             DeselectAbility();
         }
 
         int i = Util.GetNumericKeyDown();
         if (i > 0 && i <= buttons.Count) {
-            buttons[i-1].onClick.Invoke();
+            buttons[i].onClick.Invoke();
         }
     }
 }

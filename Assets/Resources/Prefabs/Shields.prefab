@@ -52,8 +52,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   form: {fileID: 0}
   shieldCollider: {fileID: 0}
-  maxHealth: 100
-  health: 100
+  maxHealth: 30
+  health: 30
   regenRate: 1
   isActive: 1
 --- !u!114 &11473570
@@ -146,11 +146,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 100
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: health
-      value: 100
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: regenRate

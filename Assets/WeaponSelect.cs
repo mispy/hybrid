@@ -58,7 +58,7 @@ public class WeaponSelect : MonoBehaviour {
         fireableTypes.Clear();
     }
     
-    public void SelectBlock(int i) {
+    public void SelectBlocks(int i) {
         foreach (var button in blockButtons) button.image.color = Color.white;
 		if (i == -1)
 			selectedType = null;
@@ -66,12 +66,19 @@ public class WeaponSelect : MonoBehaviour {
 			selectedType = fireableTypes[i-1];
 			blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
 		}
+
+        Game.shipControl.DeselectBlocks();
+        foreach (var block in Game.playerShip.blocks.Find(selectedType)) {
+            Game.shipControl.SelectBlock(block);
+        }
+
+        Game.abilityMenu.SelectAbility(0);
     }
     
     void Update() {
         int i = Util.GetNumericKeyDown();
         if (i > 0 && i <= blockButtons.Count) {
-            SelectBlock(i);
+            SelectBlocks(i);
         }
     }
 }

@@ -1945,7 +1945,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &990022743
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1962,7 +1962,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 399.769989, y: 52}
+  m_AnchoredPosition: {x: 399.77002, y: 58}
   m_SizeDelta: {x: 755.5, y: 53.5}
   m_Pivot: {x: .5, y: .5}
 --- !u!222 &990022745
@@ -2382,7 +2382,7 @@ Prefab:
     - target: {fileID: 11427724, guid: 080a1d8d2aba3854ea0a34afc98fc9a0, type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a5b0085290e02984da263ca3822e8278,
+      objectReference: {fileID: 21300000, guid: b649aab8f8a5c5e489fe080922d62de2,
         type: 3}
     - target: {fileID: 11427724, guid: 080a1d8d2aba3854ea0a34afc98fc9a0, type: 2}
       propertyPath: m_Type
@@ -2767,7 +2767,7 @@ GameObject:
   - 222: {fileID: 1306520150}
   - 114: {fileID: 1306520149}
   m_Layer: 5
-  m_Name: Text
+  m_Name: InfoText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2828,7 +2828,7 @@ MonoBehaviour:
 
     Class <color="magenta">Worldship</color>
 
-    Disposition <color="lightblue">Neutral</color>
+    Disposition <color=''lightblue''>Neutral</color>
 
 '
 --- !u!222 &1306520150
@@ -3327,7 +3327,7 @@ Prefab:
     - target: {fileID: 11427724, guid: 080a1d8d2aba3854ea0a34afc98fc9a0, type: 2}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 688357250ad35f24d942a95453c45401,
+      objectReference: {fileID: 21300000, guid: c803d295cae22094a84af4f34c95c39f,
         type: 3}
     - target: {fileID: 11427724, guid: 080a1d8d2aba3854ea0a34afc98fc9a0, type: 2}
       propertyPath: m_Type
@@ -3623,48 +3623,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1829038228}
---- !u!1001 &1885664444
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 461374, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: f12914e17d6377b4683e17a577e1b5c8, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &1907682572
 GameObject:
   m_ObjectHideFlags: 0
@@ -4004,6 +3962,7 @@ GameObject:
   - 224: {fileID: 1958320144}
   - 222: {fileID: 1958320146}
   - 114: {fileID: 1958320145}
+  - 114: {fileID: 1958320147}
   m_Layer: 5
   m_Name: ShipInfo
   m_TagString: Untagged
@@ -4063,6 +4022,17 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1958320143}
+--- !u!114 &1958320147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1958320143}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c82ffb07e11c84aadd8ad3a7d846fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1962551372
 Prefab:
   m_ObjectHideFlags: 0
@@ -4183,7 +4153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2034046821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4200,7 +4170,7 @@ RectTransform:
   m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 399.77002, y: 52.0000076}
+  m_AnchoredPosition: {x: 399.769989, y: 57.9999847}
   m_SizeDelta: {x: 755.5, y: 53.5}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &2034046822
