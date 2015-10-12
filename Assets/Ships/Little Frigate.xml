@@ -129,10 +129,10 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>3</x>
+      <x>-4</x>
       <y>4</y>
-      <typeName>BeamCannon</typeName>
-      <facing>2</facing>
+      <typeName>Wall</typeName>
+      <facing>-1</facing>
     </BlockData>
     <BlockData>
       <x>1</x>
@@ -335,7 +335,7 @@
     <BlockData>
       <x>-5</x>
       <y>4</y>
-      <typeName>BeamCannon</typeName>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -375,15 +375,15 @@
       <facing>1</facing>
     </BlockData>
     <BlockData>
-      <x>-4</x>
+      <x>3</x>
       <y>4</y>
-      <typeName>BeamCannon</typeName>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>6</y>
-      <typeName>BeamCannon</typeName>
+      <x>4</x>
+      <y>4</y>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -761,13 +761,13 @@
     <BlockData>
       <x>1</x>
       <y>6</y>
-      <typeName>BeamCannon</typeName>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>4</x>
-      <y>4</y>
-      <typeName>BeamCannon</typeName>
+      <x>-2</x>
+      <y>6</y>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -805,6 +805,18 @@
       <y>4</y>
       <typeName>PowerNode</typeName>
       <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>5</y>
+      <typeName>Wall</typeName>
+      <facing>-1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>6</y>
+      <typeName>BeamCannon</typeName>
+      <facing>2</facing>
     </BlockData>
   </blocks>
   <blueprintBlocks>
@@ -935,9 +947,9 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>3</x>
+      <x>-5</x>
       <y>4</y>
-      <typeName>BeamCannon</typeName>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1091,9 +1103,9 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>1</x>
+      <x>-2</x>
       <y>6</y>
-      <typeName>BeamCannon</typeName>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1139,10 +1151,10 @@
       <facing>-2</facing>
     </BlockData>
     <BlockData>
-      <x>4</x>
+      <x>-4</x>
       <y>4</y>
-      <typeName>BeamCannon</typeName>
-      <facing>2</facing>
+      <typeName>Wall</typeName>
+      <facing>-1</facing>
     </BlockData>
     <BlockData>
       <x>4</x>
@@ -1193,9 +1205,9 @@
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>-2</x>
-      <y>6</y>
-      <typeName>BeamCannon</typeName>
+      <x>4</x>
+      <y>4</y>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1565,15 +1577,15 @@
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>-5</x>
-      <y>4</y>
-      <typeName>BeamCannon</typeName>
+      <x>1</x>
+      <y>6</y>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
-      <x>-4</x>
+      <x>3</x>
       <y>4</y>
-      <typeName>BeamCannon</typeName>
+      <typeName>PlasmaTurret</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1611,6 +1623,18 @@
       <y>4</y>
       <typeName>PowerNode</typeName>
       <facing>1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>5</y>
+      <typeName>Wall</typeName>
+      <facing>-1</facing>
+    </BlockData>
+    <BlockData>
+      <x>-4</x>
+      <y>6</y>
+      <typeName>BeamCannon</typeName>
+      <facing>2</facing>
     </BlockData>
   </blueprintBlocks>
 </ShipData>

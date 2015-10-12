@@ -2,10 +2,7 @@
 using System.Collections;
 
 public class ShieldGenerator : BlockComponent {
-    Blockform form;
-
 	void Awake() {
-		form = GetComponentInParent<Blockform>();
 		if (form.shields == null) {
 			var shields = Pool.For("Shields").Take<Shields>();
 			shields.transform.SetParent(form.transform);

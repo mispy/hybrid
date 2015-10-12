@@ -5,11 +5,9 @@ public class Door : BlockComponent {
     Sprite closedSprite;
     public Sprite openSprite;
 
-    Blockform form;
     BlockType complexBlock;
 
     void Awake() {
-        form = GetComponentInParent<Blockform>();
         complexBlock = GetComponent<BlockType>();
         closedSprite = complexBlock.renderer.sprite;
 	}

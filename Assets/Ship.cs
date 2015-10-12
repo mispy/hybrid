@@ -199,5 +199,9 @@ public class Ship {
         blueprintBlocks[x, y, block2.layer] = block2;
     }
 
+    public Disposition DispositionTowards(Ship other) {
+        return Disposition.friendly;
+    }
+
 }
 

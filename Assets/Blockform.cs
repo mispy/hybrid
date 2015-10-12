@@ -320,6 +320,8 @@ public class Blockform : PoolBehaviour {
     }
 
 	public void AvoidCollision() {
+        if (ship == Game.playerShip) return;
+
 		foreach (var form in Util.ShipsInRadius(transform.position, radius*2)) {
 			if (form == this) continue;
 

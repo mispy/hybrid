@@ -5,14 +5,11 @@ using System.Collections;
 public class Thruster : BlockComponent {
     [HideInInspector]
     public ParticleSystem ps;
-    [HideInInspector]
-    public Blockform form;
 
     public bool isFiring = false;
     public bool isFiringAttitude = false;
 
     void Start() {
-        form = GetComponentInParent<Blockform>();
         ps = GetComponentInChildren<ParticleSystem>();
     }
     

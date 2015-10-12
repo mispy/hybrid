@@ -7,7 +7,6 @@ public class BeamCannon : BlockComponent {
     public float damage;
     public float hitRadius;
 
-    Blockform form;
     CooldownCharger charger;
     LineRenderer lineRenderer;
     PathTarget target;
@@ -20,10 +19,6 @@ public class BeamCannon : BlockComponent {
         lineRenderer.enabled = false;
         lineRenderer.sortingLayerName = "UI";
         charger = GetComponent<CooldownCharger>();
-    }
-
-    public void Start() {
-        form = GetComponentInParent<Blockform>();
     }
 
     public void OnPathTarget(PathTarget target) {

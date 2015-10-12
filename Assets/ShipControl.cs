@@ -7,10 +7,12 @@ using System.Linq;
 public class ShipControl : MonoBehaviour {
 	public static GameObject leaveSectorMenu;
 	public static WeaponSelect weaponSelect;
+    public static ShipInfo shipInfo;
 
     Ship ship;
     GameObject selector;
     Crew selectedCrew = null;
+    public Ship selectedShip { get; private set; }
 
     public HashSet<Block> selectedBlocks = new HashSet<Block>();
     public Dictionary<Block, GameObject> blockSelectors = new Dictionary<Block, GameObject>();
@@ -72,11 +74,10 @@ public class ShipControl : MonoBehaviour {
             block.gameObject.SendMessage("OnBlockSelected", SendMessageOptions.DontRequireReceiver);
     }
 
-	void UseBlock(BlockType type) {
-		foreach (var block in ship.blocks.Find(type)) {
-			block.gameObject.SendMessage("OnLeftClick");
-		}
-	}
+    void SelectShip(Ship ship) {
+        selectedShip = ship;
+        ShipControl.shipInfo.gameObject.SetActive(true);
+    }
 
     void HandleDoubleClick() {
         foreach (var block in ship.form.BlocksAtWorldPos(Game.mousePos)) {
@@ -92,6 +93,11 @@ public class ShipControl : MonoBehaviour {
     void HandleLeftClick() {
         DeselectBlocks();
         DeselectCrew();
+
+        var form = Blockform.AtWorldPos(Game.mousePos);
+
+        if (form != null && form.ship != Game.playerShip)
+            SelectShip(form.ship);
 
         var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
 
@@ -168,6 +174,7 @@ public class ShipControl : MonoBehaviour {
     void Awake() {
         ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
         ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
+        ShipControl.shipInfo = GetComponentInChildren<ShipInfo>();
     }    
 
 	void OnEnable() {
