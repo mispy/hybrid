@@ -25,6 +25,7 @@ public class FireAtPoint : BlockAbility {
 
     void OnDisable() {
         foreach (var turret in turrets) {
+            turret.dottedLine.enabled = false;
             turret.showLine = false;
         }
         targetCircle.SetActive(false);
