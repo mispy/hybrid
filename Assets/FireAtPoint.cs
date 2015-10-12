@@ -17,28 +17,33 @@ public class FireAtPoint : BlockAbility {
     void OnEnable() {
         //targetCircle.SetActive(true);
         turrets = blocks.Select((b) => b.gameObject.GetComponent<RotatingTurret>()).ToArray();
+        foreach (var turret in turrets) {
+            turret.showLine = true;
+        }
         InputEvent.OnLeftClick.AddListener(this);
     }
 
     void OnDisable() {
+        foreach (var turret in turrets) {
+            turret.showLine = false;
+        }
         targetCircle.SetActive(false);
     }
 
     void OnLeftClick() {
 
     }
-
-    void Update() {
+    
+    void FixedUpdate() {
+        foreach (var turret in turrets) {
+            turret.AimTowards(Game.mousePos);   
+        }
+                
         if (Input.GetMouseButton(0)) {
             foreach (var turret in turrets) {
                 turret.gameObject.SendMessage("OnFire");
             }
         }
-
-        targetCircle.transform.position = Game.mousePos;
-        
-        foreach (var turret in turrets) {
-            turret.AimTowards(Game.mousePos);   
-        }
     }
+
 }

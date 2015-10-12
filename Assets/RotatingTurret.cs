@@ -13,13 +13,14 @@ public class RotatingTurret : BlockComponent {
 	public LineRenderer dottedLine { get; private set; }
 	[HideInInspector]
 	public bool isBlocked { get; private set; }
+    [HideInInspector]
+    public bool showLine = false;
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
+    Vector2 lastTargetPos = new Vector2(0, 0);
+    Vector2 targetPos;
 
-    public Blockform fixedTargetForm;
-    public Vector2 fixedTargetPos;
-	
 	public Vector2 TipPosition {
 		get {
 			return (Vector2)transform.TransformPoint(Vector2.up*Tile.worldSize);
@@ -28,9 +29,14 @@ public class RotatingTurret : BlockComponent {
 	
 	void Start() {
 		form = GetComponentInParent<Blockform>();
-		dottedLine = GetComponent<LineRenderer>();
-		//dottedLine.SetWidth(0.1f, 0.1f);
-		//dottedLine.SetVertexCount(2);
+		dottedLine = Pool.For("AimingLine").Take<LineRenderer>();
+        dottedLine.transform.SetParent(transform);
+        dottedLine.transform.position = TipPosition;
+        dottedLine.transform.rotation = transform.rotation;
+        dottedLine.gameObject.SetActive(true);
+		dottedLine.SetWidth(0.5f, 0.5f);
+        dottedLine.sortingLayerName = "UI";
+        dottedLine.enabled = true;
 		
 		RecalcCenterPoint();
 		form.blocks.OnBlockAdded += OnBlockAdded;
@@ -56,20 +62,29 @@ public class RotatingTurret : BlockComponent {
 		centerPoint /= turrets.Count;
 	}
 
-	public Vector3 AimTowards(Vector3 targetPos) {
-		targetPos = transform.position + (targetPos - form.transform.TransformPoint(centerPoint));
-		var targetDir = (targetPos-transform.position).normalized;
-		var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
-		transform.rotation = targetRotation;
+	public void AimTowards(Vector3 pos) {
+		targetPos = transform.position + (pos - form.transform.TransformPoint(centerPoint));
+        var targetDir = (targetPos-(Vector2)transform.position).normalized;
+        var currentDir = transform.TransformDirection(Vector2.up);
 
-		isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.2f);
-
-		return targetPos;
-	}
-	
-	public void Update() {
-        if (fixedTargetForm != null) {
-            AimTowards(fixedTargetForm.transform.TransformPoint(fixedTargetPos));
+        var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
+        transform.rotation = targetRotation;
+        
+        isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.2f);
+        
+        if (!isBlocked && showLine) {
+            dottedLine.enabled = true;
+            var p1 = transform.InverseTransformPoint(TipPosition);
+            var p2 = transform.InverseTransformPoint(targetPos);
+            dottedLine.SetVertexCount(2);
+            dottedLine.SetPosition(0, p1);
+            dottedLine.SetPosition(1, p2);           
+            //Debug.LogFormat("{0} {1}", origTextureScale.x, (p2-p1).magnitude);
+            dottedLine.material.mainTextureScale = new Vector2(origTextureScale.x*(p2-p1).magnitude*0.1f, origTextureScale.y);
+        } else {
+            dottedLine.enabled = false;
         }
-  	}
+        
+        lastTargetPos = targetPos;
+	}
 }

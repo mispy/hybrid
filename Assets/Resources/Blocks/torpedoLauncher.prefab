@@ -13,7 +13,6 @@ GameObject:
   - 114: {fileID: 11403720}
   - 114: {fileID: 11489764}
   - 114: {fileID: 11455138}
-  - 120: {fileID: 12086020}
   - 114: {fileID: 11428862}
   m_Layer: 16
   m_Name: TorpedoLauncher
@@ -45,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7912ec17915a448fe1852f8dc2407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   launchForce: .300000012
   projectile: {fileID: 127086, guid: 729117fbfa2d0c641aea774e33349c4d, type: 2}
   lastFireTime: 0
@@ -61,6 +61,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mass: 0
   scrapRequired: 30
+  maxHealth: 1
+  damageBuffer: 0
   descriptionHeader: 
   descriptionBody: 
   blockLayer: 0
@@ -68,6 +70,7 @@ MonoBehaviour:
   canFitInsideWall: 0
   canBlockSight: 0
   canBlockFront: 1
+  abilities: []
   isComplexBlock: 1
   canBeFired: 1
   renderer: {fileID: 0}
@@ -82,7 +85,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc179ae3fa8b174b87c923464ba580d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   chargeTime: 1
+  isPaused: 0
 --- !u!114 &11455138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,9 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  form: {fileID: 0}
   consumeRate: 1
-  isPowered: 0
-  isDynamic: 0
+  isReceiving: 0
   availableProducers: []
 --- !u!114 &11489764
 MonoBehaviour:
@@ -109,43 +114,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c2ad0e8293dab4ca7b2285a8936e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!120 &12086020
-LineRenderer:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147808}
-  m_Enabled: 0
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 16e0bbaee94c67946af63b2fd31adbac, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_ReflectionProbeUsage: 1
-  m_ProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_PreserveUVs: 0
-  m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_Positions:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 0, z: 1}
-  m_Parameters:
-    startWidth: 1
-    endWidth: 1
-    m_StartColor:
-      serializedVersion: 2
-      rgba: 4294967295
-    m_EndColor:
-      serializedVersion: 2
-      rgba: 4294967295
-  m_UseWorldSpace: 0
+  form: {fileID: 0}
+  showLine: 0
 --- !u!212 &21220014
 SpriteRenderer:
   m_ObjectHideFlags: 1

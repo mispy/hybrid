@@ -29,11 +29,6 @@ public class SetTarget : BlockAbility {
     }
 
     void Target(Blockform form, Vector2 pos) {
-        foreach (var turret in turrets) {
-            turret.fixedTargetForm = form;
-            turret.fixedTargetPos = form.transform.InverseTransformPoint(pos);
-        }
-
         targetCircle.transform.SetParent(form.transform);
         targetCircle = null;
     }

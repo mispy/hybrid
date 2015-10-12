@@ -19,7 +19,7 @@ public class AnchoredPanning : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {		
 		var form = Game.playerShip.form;
-		Game.mainCamera.transform.rotation = form.transform.rotation;
+		//Game.mainCamera.transform.rotation = form.transform.rotation;
 
 		if (Input.GetMouseButton(2)) {
 			if (!isPanning) {

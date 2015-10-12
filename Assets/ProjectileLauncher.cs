@@ -61,9 +61,4 @@ public class ProjectileLauncher : BlockComponent {
 			Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
 		}
 	}
-
-    void Update() {
-        if (turret.fixedTargetForm != null)
-            Fire();
-    }
 }

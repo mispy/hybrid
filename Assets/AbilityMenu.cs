@@ -73,7 +73,7 @@ public class AbilityMenu : MonoBehaviour {
         button.transform.SetParent(transform);
         buttons.Add(button);
 
-        var text = button.GetComponentInChildren<Text>();
+        var text = button.GetComponentsInChildren<Text>(includeInactive: true).First();
         text.text = "`";
 
         button.transform.localPosition = new Vector3(startX + Tile.pixelSize/2, 0, 0);
