@@ -44,6 +44,9 @@ public class Crew {
     public int maxHealth = 100;
     public int health = 100;
     public string name;
+    public string nameWithTitle { 
+        get { return "Captain " + name; }
+    }
     public Faction faction;
 
     public CrewBody body;
