@@ -15,14 +15,6 @@ public class DialogueMenu : MonoBehaviour {
     public Text npcLines;
     public Transform choiceHolder;
 
-
-    public void Awake() {
-        shipName = transform.Find("ShipName").GetComponent<Text>();
-        npcName = transform.Find("NPCName").GetComponent<Text>();
-        npcLines = transform.Find("NPCLines").GetComponent<Text>();
-        choiceHolder = transform.Find("Choices");
-    }
-
     public void AddChoice(string line, Action result) {
         var button = Pool.For("DialogueChoice").Take<Button>();
         button.transform.SetParent(choiceHolder);
