@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b6f88b10e2c8f2438057e57f86b15f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key: F
 --- !u!212 &21259748
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -80,6 +81,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: key
+      value: F
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

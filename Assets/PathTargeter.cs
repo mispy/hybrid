@@ -16,7 +16,7 @@ public class PathTargeter : BlockAbility {
     }
 
     void OnEnable() {
-        InputEvent.OnLeftClick.AddListener(this);
+        InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
     }
 
     public void OnLeftClick() {

@@ -6,6 +6,13 @@ using System.Collections.Generic;
 
 public class BlockAbility : PoolBehaviour {
     public HashSet<Block> blocks;
+    public string key;
+
+    public KeyCode keyCode {
+        get {
+            return (KeyCode)System.Enum.Parse(typeof(KeyCode), key);
+        }
+    }
 
     public virtual bool WorksWith(Block block) {
         return false;

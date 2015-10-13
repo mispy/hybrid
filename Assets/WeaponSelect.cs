@@ -49,7 +49,7 @@ public class WeaponSelect : MonoBehaviour {
 		foreach (var block in Game.playerShip.blocks.allBlocks)
 			OnBlockAdded(block);
 		Game.playerShip.blocks.OnBlockAdded += OnBlockAdded;
-        InputEvent.OnNumericValue.AddListener(this);
+        InputEvent.Numeric.Bind(this, OnNumericValue);
     }
 
     public void OnDisable() {
@@ -73,12 +73,12 @@ public class WeaponSelect : MonoBehaviour {
             Game.shipControl.SelectBlock(block);
         }
 
-        Game.abilityMenu.SelectAbility(0);
+        Game.abilityMenu.SelectDefault();
     }
 
-    public void OnNumericValue(int i) {
-        if (i > 0 && i <= blockButtons.Count) {
-            SelectBlocks(i);
-        }
+    public void OnNumericValue() {//int i) {
+        //if (i > 0 && i <= blockButtons.Count) {
+        //    SelectBlocks(i);
+        //}
     }
 }

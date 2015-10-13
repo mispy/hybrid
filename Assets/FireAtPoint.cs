@@ -20,7 +20,7 @@ public class FireAtPoint : BlockAbility {
         foreach (var turret in turrets) {
             turret.showLine = true;
         }
-        InputEvent.OnLeftClick.AddListener(this);
+        InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
     }
 
     void OnDisable() {

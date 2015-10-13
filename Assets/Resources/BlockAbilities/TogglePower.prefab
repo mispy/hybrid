@@ -40,6 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec1138f81bcb8c4a8ecd5e2e7f27ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  key: P
 --- !u!212 &21292400
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -78,6 +79,10 @@ Prefab:
       value: 
       objectReference: {fileID: 21300000, guid: b649aab8f8a5c5e489fe080922d62de2,
         type: 3}
+    - target: {fileID: 0}
+      propertyPath: key
+      value: P
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 173008}

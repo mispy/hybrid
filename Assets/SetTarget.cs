@@ -15,7 +15,7 @@ public class SetTarget : BlockAbility {
         targetCircle.SetActive(true);
         turrets = blocks.Select((b) => b.gameObject.GetComponent<RotatingTurret>()).ToArray();
 
-        InputEvent.OnLeftClick.AddListener(this);
+        InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
     }
 
     public void OnLeftClick() {    

@@ -6,60 +6,80 @@ using System.Linq;
 
 public class InputListener {
     public MonoBehaviour comp;
+    public Action callback;
+    public bool repeat;
 
-    public InputListener(MonoBehaviour comp) {
+    public InputListener(MonoBehaviour comp, Action callback, bool repeat) {
         this.comp = comp;
+        this.callback = callback;
+        this.repeat = repeat;
     }
 }
 
+public static class Keybind {
+    public static KeyCode ForwardThrust = KeyCode.W;
+    public static KeyCode ReverseThrust = KeyCode.S;
+    public static KeyCode StrafeLeft = KeyCode.Q;
+    public static KeyCode StrafeRight = KeyCode.E;
+    public static KeyCode TurnRight = KeyCode.D;
+    public static KeyCode TurnLeft = KeyCode.A;
+    public static KeyCode ToggleDesigner = KeyCode.F1;
+}
+
+public enum MouseButton {
+   Left = 0,
+   Right = 1,
+   Middle = 2
+}
+
 public class InputEvent {
-    public static InputEvent OnLeftClick = new InputEvent("OnLeftClick");
-    public static InputEvent OnMiddleClick = new InputEvent("OnMiddleClick");
-    public static InputEvent OnRightClick = new InputEvent("OnRightClick");
-    public static InputEvent OnForwardThrust = new InputEvent("OnForwardThrust");
-    public static InputEvent OnReverseThrust = new InputEvent("OnReverseThrust");
-    public static InputEvent OnStrafeLeft = new InputEvent("OnStrafeLeft");
-    public static InputEvent OnStrafeRight = new InputEvent("OnStrafeRight");
-    public static InputEvent OnTurnRight = new InputEvent("OnTurnRight");
-    public static InputEvent OnTurnLeft = new InputEvent("OnTurnLeft");
-    public static InputEvent OnToggleDesigner = new InputEvent("OnToggleDesigner");
-    public static InputEvent OnNumericValue = new InputEvent("OnNumericValue");
+    public static List<InputEvent> allEvents = new List<InputEvent>();
+    public static Dictionary<KeyCode, InputEvent> keyEvents = new Dictionary<KeyCode, InputEvent>();
+    public static Dictionary<MouseButton, InputEvent> mouseEvents = new Dictionary<MouseButton, InputEvent>();
+    public static InputEvent Numeric = new InputEvent();
+
+    public static InputEvent For(KeyCode keyCode) {
+        if (!keyEvents.ContainsKey(keyCode)) {
+            var ev = new InputEvent(keyCode);
+            keyEvents[keyCode] = ev;
+            allEvents.Add(ev);
+        }
+
+        return keyEvents[keyCode];
+    }
+
+    public static InputEvent For(MouseButton mouseButton) {
+        if (!mouseEvents.ContainsKey(mouseButton)) {
+            var ev = new InputEvent(mouseButton);
+            mouseEvents[mouseButton] = ev;
+            allEvents.Add(ev);
+        }
+
+        return mouseEvents[mouseButton];
+    }
+
+    public void Bind(MonoBehaviour comp, Action callback, bool repeat = false) {
+        listeners.Add(new InputListener(comp, callback, repeat));
+    }
 
     public static void Update() {
-        if (Input.GetMouseButtonDown(0))
-            OnLeftClick.Trigger();
-        
-        if (Input.GetMouseButtonDown(1))
-            OnRightClick.Trigger();
-        
-        if (Input.GetMouseButtonDown(2))
-            OnMiddleClick.Trigger();
+        foreach (var ev in keyEvents.Values) {
+            if (Input.GetKeyDown(ev.keyCode))
+                ev.Trigger(repeat: false);
+            else if (Input.GetKey(ev.keyCode))
+                ev.Trigger(repeat: true);
+        }
 
-        if (Input.GetKey(KeyCode.W))
-            OnForwardThrust.Trigger();
-        
-        if (Input.GetKey(KeyCode.S))
-            OnReverseThrust.Trigger();
-        
-        if (Input.GetKey(KeyCode.Q))
-            OnStrafeLeft.Trigger();
-
-        if (Input.GetKey(KeyCode.E))
-            OnStrafeRight.Trigger();
-        
-        if (Input.GetKey(KeyCode.A))
-            OnTurnLeft.Trigger();
-        
-        if (Input.GetKey(KeyCode.D))
-            OnTurnRight.Trigger();
-               
-        if (Input.GetKeyDown(KeyCode.F1))
-            OnToggleDesigner.Trigger();
+        foreach (var ev in mouseEvents.Values) {
+            if (Input.GetMouseButtonDown((int)ev.mouseButton))
+                ev.Trigger(repeat: false);
+            else if (Input.GetMouseButton((int)ev.mouseButton))
+                ev.Trigger(repeat: true);
+        }
 
         var i = Util.GetNumericKeyDown();
-        if (i != -1)
-            OnNumericValue.Trigger(i);
-        
+        if (i != -1) Numeric.Trigger(i);
+
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (Game.isPaused)
                 Game.Unpause();
@@ -70,21 +90,25 @@ public class InputEvent {
 
     string name;
     List<InputListener> listeners = new List<InputListener>();
+    KeyCode keyCode;
+    MouseButton mouseButton;
 
-    public InputEvent(string name) {
-        this.name = name;
+    public InputEvent() {
     }
 
-    public void AddListener(MonoBehaviour comp) {
-        var listener = new InputListener(comp);
-        listeners.Add(listener);
+    public InputEvent(KeyCode keyCode) {
+        this.keyCode = keyCode;
     }
 
-    public void Trigger(object arg = null) {
+    public InputEvent(MouseButton mouseButton) {
+        this.mouseButton = mouseButton;
+    }
+
+    public void Trigger(object arg = null, bool repeat = false) {
         for (var i = listeners.Count-1; i >= 0; i--) {
             var listener = listeners[i];
-            if (listener.comp.gameObject.activeInHierarchy) {
-                listener.comp.SendMessage(name, arg);
+            if (listener.repeat == repeat && listener.comp.gameObject.activeInHierarchy) {
+                listener.callback.Invoke();
                 break;
             } 
         }
@@ -101,4 +125,8 @@ public class InputEvent {
 
         listeners = toKeep;
     }
+}
+
+public class InputEvent<T> : InputEvent {
+
 }

@@ -180,16 +180,15 @@ public class ShipControl : MonoBehaviour {
     }    
 
 	void OnEnable() {
-        InputEvent.OnLeftClick.AddListener(this);
-        InputEvent.OnRightClick.AddListener(this);
-        InputEvent.OnToggleDesigner.AddListener(this);
-
-        InputEvent.OnForwardThrust.AddListener(this);
-        InputEvent.OnReverseThrust.AddListener(this);
-        InputEvent.OnStrafeLeft.AddListener(this);
-        InputEvent.OnStrafeRight.AddListener(this);
-        InputEvent.OnTurnLeft.AddListener(this);
-        InputEvent.OnTurnRight.AddListener(this);
+        InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
+        InputEvent.For(MouseButton.Right).Bind(this, OnRightClick);
+        InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner, true);
+        InputEvent.For(Keybind.ForwardThrust).Bind(this, OnForwardThrust, true);
+        InputEvent.For(Keybind.ReverseThrust).Bind(this, OnReverseThrust, true);
+        InputEvent.For(Keybind.StrafeLeft).Bind(this, OnStrafeLeft, true);
+        InputEvent.For(Keybind.StrafeRight).Bind(this, OnStrafeLeft, true);
+        InputEvent.For(Keybind.TurnLeft).Bind(this, OnTurnLeft, true);
+        InputEvent.For(Keybind.TurnRight).Bind(this, OnTurnRight, true);
 	}
 
     // Update is called once per frame
