@@ -58,7 +58,7 @@ public class InputEvent {
 
         var i = Util.GetNumericKeyDown();
         if (i != -1)
-            OnNumericValue.Trigger();
+            OnNumericValue.Trigger(i);
         
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (Game.isPaused)

@@ -28,11 +28,16 @@ public class DialogueMenu : MonoBehaviour {
     }
 
     public void OnEnable() {
+        Game.Pause();
         InputEvent.OnNumericValue.AddListener(this);
+    }
+
+    public void OnDisable() {
+        Game.Unpause();
     }
     
     public void OnNumericValue(int i) {
-        choices[i].onClick.Invoke();
+        choices[i-1].onClick.Invoke();
     }
 
     public void StartDialogue(Ship ship) {

@@ -33,6 +33,8 @@ public class AbilityMenu : MonoBehaviour {
 
     void OnEnable() {
         ShipControl.weaponSelect.gameObject.SetActive(false);
+
+        InputEvent.OnNumericValue.AddListener(this);
     }
 
     void OnDisable() {
@@ -107,6 +109,12 @@ public class AbilityMenu : MonoBehaviour {
         }
     }
 
+    public void OnNumericValue(int i) {
+        if (i > 0 && i <= buttons.Count) {
+            buttons[i].onClick.Invoke();
+        }
+    }
+
     /*public void SelectBlock(int i) {
         foreach (var button in blockButtons) button.image.color = Color.white;
         if (i == -1)
@@ -134,11 +142,6 @@ public class AbilityMenu : MonoBehaviour {
 
         if (selectedIndex >= 0 && !activeAbilities[selectedIndex].isActiveAndEnabled) {
             DeselectAbility();
-        }
-
-        int i = Util.GetNumericKeyDown();
-        if (i > 0 && i <= buttons.Count) {
-            buttons[i].onClick.Invoke();
         }
     }
 }
