@@ -122,6 +122,10 @@ public class ShipData {
 
 public class Ship {
     public string name;
+    public string nameWithColor {
+        get { return name; }
+    }
+
     public BlockMap blocks;
     public BlockMap blueprintBlocks;
     public List<Crew> crew = new List<Crew>();

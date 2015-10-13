@@ -54,11 +54,14 @@ public class DialogueMenu : MonoBehaviour {
         talkingShip = ship;
         talkingCrew = Util.GetRandom(ship.crew);
 
-        shipName.text = talkingShip.name;
-        npcName.text = talkingCrew.nameWithTitle;
-        npcLines.text = "Hi!";
+        shipName.text = talkingShip.nameWithColor;
+        npcName.text = talkingCrew.fancyName;
+        npcLines.text = "Greetings, Captain.";
 
-        AddChoice("Byebye.", () => EndDialogue());
+        AddChoice("<color='yellow'>[Trade]</color> What do you have in stock? Yadda yadda etc I'm going to ramble for a while to check that the choice layout flow behaves correctly.", () => EndDialogue());
+        AddChoice("<color='red'>[Attack]</color> Hand over your goods!", () => EndDialogue());
+        AddChoice("<color='cyan'>[Leave]</color> Byebye.", () => EndDialogue());
+
     }
 
     public void EndDialogue() {

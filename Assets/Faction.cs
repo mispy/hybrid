@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using Random = UnityEngine.Random;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -40,6 +42,11 @@ public class FactionRelationEvent {
 
 public class Faction {
     public string name;
+    public string nameWithColor {
+        get {
+            return String.Format("<color='#{0}'>{1}</color>", ColorUtility.ToHtmlStringRGB(color), name);
+        }
+    }
 	public Color color;
 
 	public string Id {

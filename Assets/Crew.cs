@@ -44,9 +44,18 @@ public class Crew {
     public int maxHealth = 100;
     public int health = 100;
     public string name;
+    public Color color;
     public string nameWithTitle { 
         get { return "Captain " + name; }
     }
+
+    public string nameWithTitleAndColor {
+        get { return String.Format("<color='#{0}'>{1}</color>", ColorUtility.ToHtmlStringRGB(color), nameWithTitle); }
+    }
+    public string fancyName {
+        get { return nameWithTitleAndColor + " of " + ship.faction.nameWithColor; }
+    }
+
     public Faction faction;
 
     public CrewBody body;
@@ -77,5 +86,6 @@ public class Crew {
 
     public Crew(string name) {
         this.name = name;
+        color = Color.grey;
     }
 }
