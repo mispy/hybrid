@@ -14,10 +14,6 @@ public class DialogueChoice : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         layout = GetComponent<LayoutElement>();
     }
 
-    public void Update() {
-        layout.preferredHeight = text.GetComponent<RectTransform>().rect.height;
-    }
-
     public void OnPointerEnter(PointerEventData ev) {
         text.color = SpaceColor.dialogueChoiceHover;
     }

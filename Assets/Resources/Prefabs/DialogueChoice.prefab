@@ -10,7 +10,6 @@ GameObject:
   - 224: {fileID: 22435208}
   - 222: {fileID: 22285148}
   - 114: {fileID: 11454364}
-  - 114: {fileID: 11492714}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -29,7 +28,7 @@ GameObject:
   - 222: {fileID: 22296030}
   - 114: {fileID: 11428558}
   - 114: {fileID: 11432448}
-  - 114: {fileID: 11402700}
+  - 114: {fileID: 11497560}
   m_Layer: 5
   m_Name: DialogueChoice
   m_TagString: Untagged
@@ -37,24 +36,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &11402700
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 146952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1679637790, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: -1
-  m_PreferredHeight: 30
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
 --- !u!114 &11428558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -138,20 +119,28 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.20000005
-  m_Text: 1. You seed... suns.
---- !u!114 &11492714
+  m_Text: 1. You seed... suns. FEWAOFKPDSAPF OKDSAFKds apofkds apofkd sopakf dopsakf
+    dposak fopdska fpodsk afpodks apofkd sapofkdsapofk dspaofk dsapokf dopsak fdpsoa
+--- !u!114 &11497560
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112664}
+  m_GameObject: {fileID: 146952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1741964061, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Script: {fileID: 1297475563, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 0
-  m_VerticalFit: 2
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 0
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
 --- !u!222 &22285148
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -177,8 +166,8 @@ RectTransform:
   m_Father: {fileID: 22452790}
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 1.52587891e-05, y: 5.93799686}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22452790
