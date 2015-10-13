@@ -65,20 +65,27 @@ public class Explosive : MonoBehaviour
 
 		HashSet<Block> blocksToBreak = new HashSet<Block>();
 		HashSet<Rigidbody> rigidBodies = new HashSet<Rigidbody>();
+        HashSet<Rigidbody> shielded = new HashSet<Rigidbody>();
+
+        foreach (var col in cols) {
+            var shields = col.gameObject.GetComponent<Shields>();
+            if (shields != null) {
+                shielded.Add(col.attachedRigidbody);
+                shields.TakeDamage(1f);
+            }
+        }
+
 		foreach (var col in cols)
 		{
 			rigidBodies.Add(col.attachedRigidbody);
 
+            if (shielded.Contains(col.attachedRigidbody)) continue;
+
 			var form = col.attachedRigidbody.GetComponent<Blockform>();
 			if (form == null || form == originShip.form) continue;
 
-			var shields = col.gameObject.GetComponent<Shields>();
-			if (shields != null)
-				shields.TakeDamage(1f);
-			else
-                // !!
-                foreach (var block in form.BlocksAtWorldPos(col.transform.position))
-                    blocksToBreak.Add(block);
+            foreach (var block in form.BlocksAtWorldPos(col.transform.position))
+                blocksToBreak.Add(block);
 
 		}
 
