@@ -76,9 +76,9 @@ public class WeaponSelect : MonoBehaviour {
         Game.abilityMenu.SelectDefault();
     }
 
-    public void OnNumericValue() {//int i) {
-        //if (i > 0 && i <= blockButtons.Count) {
-        //    SelectBlocks(i);
-        //}
+    public void OnNumericValue(int i) {
+        if (i > 0 && i <= blockButtons.Count) {
+            SelectBlocks(i);
+        }
     }
 }

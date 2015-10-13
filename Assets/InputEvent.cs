@@ -9,7 +9,19 @@ public class InputListener {
     public Action callback;
     public bool repeat;
 
+    public InputListener() { }
+    
     public InputListener(MonoBehaviour comp, Action callback, bool repeat) {
+        this.comp = comp;
+        this.callback = callback;
+        this.repeat = repeat;
+    }
+}
+
+public class InputListener<T> : InputListener {
+    public Action<T> callback;
+
+    public InputListener(MonoBehaviour comp, Action<T> callback, bool repeat) {
         this.comp = comp;
         this.callback = callback;
         this.repeat = repeat;
@@ -36,7 +48,7 @@ public class InputEvent {
     public static List<InputEvent> allEvents = new List<InputEvent>();
     public static Dictionary<KeyCode, InputEvent> keyEvents = new Dictionary<KeyCode, InputEvent>();
     public static Dictionary<MouseButton, InputEvent> mouseEvents = new Dictionary<MouseButton, InputEvent>();
-    public static InputEvent Numeric = new InputEvent();
+    public static InputEvent<int> Numeric = new InputEvent<int>();
 
     public static InputEvent For(KeyCode keyCode) {
         if (!keyEvents.ContainsKey(keyCode)) {
@@ -89,7 +101,7 @@ public class InputEvent {
     }
 
     string name;
-    List<InputListener> listeners = new List<InputListener>();
+    protected List<InputListener> listeners = new List<InputListener>();
     KeyCode keyCode;
     MouseButton mouseButton;
 
@@ -104,7 +116,7 @@ public class InputEvent {
         this.mouseButton = mouseButton;
     }
 
-    public void Trigger(object arg = null, bool repeat = false) {
+    public void Trigger(bool repeat = false) {
         for (var i = listeners.Count-1; i >= 0; i--) {
             var listener = listeners[i];
             if (listener.repeat == repeat && listener.comp.gameObject.activeInHierarchy) {
@@ -112,7 +124,7 @@ public class InputEvent {
                 break;
             } 
         }
-
+        
         CleanInactive();
     }
 
@@ -127,6 +139,20 @@ public class InputEvent {
     }
 }
 
-public class InputEvent<T> : InputEvent {
+public class InputEvent<T> : InputEvent {   
+    public void Bind(MonoBehaviour comp, Action<T> callback, bool repeat = false) {
+        listeners.Add(new InputListener<T>(comp, callback, repeat));
+    }
 
+    public void Trigger(T arg, bool repeat = false) {
+        for (var i = listeners.Count-1; i >= 0; i--) {
+            var listener = (InputListener<T>)listeners[i];
+            if (listener.repeat == repeat && listener.comp.gameObject.activeInHierarchy) {
+                listener.callback.Invoke(arg);
+                break;
+            } 
+        }
+        
+        CleanInactive();
+    }
 }

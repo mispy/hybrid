@@ -48,10 +48,12 @@ public class AbilityMenu : MonoBehaviour {
 
     public void SelectAbility(BlockAbility ability) {
         if (!activeAbilities.Contains(ability)) return;
+        DeselectAbility();
 
         ability.blocks = Game.shipControl.selectedBlocks;
         ability.gameObject.SetActive(true);
         buttons[ability].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
+        selected = ability;
     }
 
     public void OnBlockSelectionUpdate() {
@@ -101,7 +103,6 @@ public class AbilityMenu : MonoBehaviour {
 
             var toSelect = ability;
             button.onClick.AddListener(() => {
-                DeselectAbility();
                 SelectAbility(toSelect);
             });
 
@@ -124,12 +125,15 @@ public class AbilityMenu : MonoBehaviour {
     void DeselectAbility() {
         if (selected == null) return;
 
-        selected.gameObject.SetActive(false);
         buttons[selected].image.color = Color.white;
+        selected.gameObject.SetActive(false);
         selected = null;
     }
 
     void Update() {
+        if (selected != null && selected.gameObject.activeInHierarchy == false)
+            DeselectAbility();
+
         if (Game.shipControl.selectedBlocks.Count == 0)
             gameObject.SetActive(false);
 
