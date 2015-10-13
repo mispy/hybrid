@@ -6,10 +6,13 @@ using System.Collections;
 public class ShipInfo : MonoBehaviour {
     Ship ship;
     Text infoText;
+    Button hailButton;
 
 	// Use this for initialization
 	void Start () {
 	    infoText = transform.Find("InfoText").GetComponent<Text>();
+        hailButton = transform.Find("HailButton").GetComponent<Button>();
+        hailButton.onClick.AddListener(() => Game.dialogueMenu.StartDialogue(ship));
 	}
 	
 	// Update is called once per frame

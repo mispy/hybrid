@@ -1,24 +1,70 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class DialogueMenu : MonoBehaviour {
     public Ship talkingShip;
     public Crew talkingCrew;
+    public List<Button> choices;
+    public Text shipName;
+    public Text npcName;
+    public Text npcLines;
+    public Transform choiceHolder;
+
 
     public void Awake() {
+        shipName = transform.Find("ShipName").GetComponent<Text>();
+        npcName = transform.Find("NPCName").GetComponent<Text>();
+        npcLines = transform.Find("NPCLines").GetComponent<Text>();
+        choiceHolder = transform.Find("Choices");
+    }
 
+    public void AddChoice(string line, Action result) {
+        var button = Pool.For("DialogueChoice").Take<Button>();
+        button.transform.SetParent(choiceHolder);
+        button.onClick.AddListener(() => result());
+        button.gameObject.SetActive(true);
+
+        var text = button.GetComponentsInChildren<Text>(includeInactive: true).First();
+        text.text = String.Format("{0}. {1}", choices.Count+1, line);
+
+        choices.Add(button);
+    }
+
+    public void OnEnable() {
+        InputEvent.OnNumericValue.AddListener(this);
+    }
+    
+    public void OnNumericValue(int i) {
+        choices[i].onClick.Invoke();
     }
 
     public void StartDialogue(Ship ship) {
+        gameObject.SetActive(true);
+
+        // Clean up any old dialogue choices
+        choices.Clear();
+        foreach (Transform child in choiceHolder)
+            Destroy(child.gameObject);
+        
         talkingShip = ship;
         talkingCrew = Util.GetRandom(ship.crew);
 
+        shipName.text = talkingShip.name;
+        npcName.text = talkingCrew.nameWithTitle;
+        npcLines.text = "Hi!";
 
-
-        gameObject.SetActive(true);
+        AddChoice("Byebye.", () => EndDialogue());
     }
 
     public void EndDialogue() {
         gameObject.SetActive(false);
+    }
+
+    public void Update() {
+
     }
 }

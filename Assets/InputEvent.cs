@@ -23,6 +23,7 @@ public class InputEvent {
     public static InputEvent OnTurnRight = new InputEvent("OnTurnRight");
     public static InputEvent OnTurnLeft = new InputEvent("OnTurnLeft");
     public static InputEvent OnToggleDesigner = new InputEvent("OnToggleDesigner");
+    public static InputEvent OnNumericValue = new InputEvent("OnNumericValue");
 
     public static void Update() {
         if (Input.GetMouseButtonDown(0))
@@ -54,6 +55,10 @@ public class InputEvent {
                
         if (Input.GetKeyDown(KeyCode.F1))
             OnToggleDesigner.Trigger();
+
+        var i = Util.GetNumericKeyDown();
+        if (i != -1)
+            OnNumericValue.Trigger();
         
         if (Input.GetKeyDown(KeyCode.Space)) {
             if (Game.isPaused)
@@ -75,11 +80,11 @@ public class InputEvent {
         listeners.Add(listener);
     }
 
-    public void Trigger() {
+    public void Trigger(object arg = null) {
         for (var i = listeners.Count-1; i >= 0; i--) {
             var listener = listeners[i];
             if (listener.comp.gameObject.activeInHierarchy) {
-                listener.comp.SendMessage(name);
+                listener.comp.SendMessage(name, arg);
                 break;
             } 
         }

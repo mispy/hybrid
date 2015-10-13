@@ -23,6 +23,7 @@ public class Game : MonoBehaviour {
     public static JumpMap jumpMap;
     public static ShipControl shipControl;
     public static AbilityMenu abilityMenu;
+    public static DialogueMenu dialogueMenu;
 
     public static bool isPaused {
         get { return Time.timeScale == 0.0f; }
@@ -164,6 +165,7 @@ public class Game : MonoBehaviour {
         Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
         Game.shipControl = GetComponentInChildren<ShipControl>();
         Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
+        Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
         Game.main = this;
 
         var resources = Resources.LoadAll("Prefabs");
