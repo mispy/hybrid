@@ -26,7 +26,8 @@ GameObject:
   m_Component:
   - 224: {fileID: 22452790}
   - 222: {fileID: 22296030}
-  - 114: {fileID: 11443562}
+  - 114: {fileID: 11428558}
+  - 114: {fileID: 11432448}
   m_Layer: 5
   m_Name: DialogueChoice
   m_TagString: Untagged
@@ -34,7 +35,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &11443562
+--- !u!114 &11428558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 233a4fefade98404082d66a6df2f8a3e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11432448
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

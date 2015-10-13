@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Linq;
 public class DialogueMenu : MonoBehaviour {
     public Ship talkingShip;
     public Crew talkingCrew;
-    public List<Button> choices;
+    public List<Button> choices = new List<Button>();
     public Text shipName;
     public Text npcName;
     public Text npcLines;
@@ -49,7 +50,7 @@ public class DialogueMenu : MonoBehaviour {
         choices.Clear();
         foreach (Transform child in choiceHolder)
             Destroy(child.gameObject);
-        
+
         talkingShip = ship;
         talkingCrew = Util.GetRandom(ship.crew);
 
