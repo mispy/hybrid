@@ -16,15 +16,7 @@ public class ShipNameOverlay : MonoBehaviour {
     }
     
     void Update () {
-        var friendlyColor = new Color(155/255f, 251/255f, 152/255f);
-        var hostileColor = new Color(255/255f, 69/255f, 0f);
-
-        if (Game.playerShip != null && Game.playerShip.faction.IsEnemy(ship.faction)) {
-            shipName.color = hostileColor;
-        } else {
-            shipName.color = friendlyColor;
-        }
-
+        shipName.color = ship.DispositionTowards(Game.playerShip).color;
 		shipFaction.color = ship.faction.color;
 
         shipName.fontSize = Mathf.CeilToInt(Mathf.Log(ship.blocks.baseSize)*0.5f);

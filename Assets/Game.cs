@@ -120,9 +120,12 @@ public class Game : MonoBehaviour {
         var cosmicHeight = 100;    
 		FactionManager.Create("Dragons");
 		FactionManager.Create("Mushrooms");
-		FactionManager.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
+		var mitzubi = FactionManager.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
 		FactionManager.Create("Cats");
-        FactionManager.Create("Pirate Gang", color: Color.red);
+        var pirateGang = FactionManager.Create("Pirate Gang", color: Color.red);
+
+        pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
+        mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
 
         for (var i = 0; i < 100; i++) {
             var nsec = new Sector();

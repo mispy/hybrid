@@ -57,11 +57,8 @@ public static class ShipManager {
         var ship = ShipManager.Unpack(ShipManager.templates[template]);
         ship.faction = faction;
         //ship.name = ship.faction.name + " " + ship.name;
-        var names = new string[] { "Fiora", "Anzie", "Abby", "Fiora", "Eldritch" };
-        foreach (var name in names) {
-            var crew = new Crew(name);
-            crew.Ship = ship;
-            CrewManager.Add(crew);
+        for (var i = 0; i < 6; i++ ) {
+            CrewManager.Create(ship: ship, faction: ship.faction);
         }
         sector.PlaceShip(ship, (Vector2)sectorPos);
         ShipManager.Add(ship);
@@ -120,7 +117,7 @@ public class ShipData {
 }
 
 
-public class Ship {
+public class Ship : IOpinionable {
     public string name;
     public string nameWithColor {
         get { return name; }
@@ -136,10 +133,15 @@ public class Ship {
     public Sector sector;
     public Sector destSector;
     public Faction faction = null;
-    public Crew captain = null;
+    public Crew captain {
+        get {
+            return crew.First();
+        }
+    }
 
     public Blockform form = null;
     public JumpShip jumpShip = null;
+    public Dictionary<Ship, Disposition> localDisposition = new Dictionary<Ship, Disposition>();
 
     public Ship() {
         crew = new List<Crew>();
@@ -204,7 +206,12 @@ public class Ship {
     }
 
     public Disposition DispositionTowards(Ship other) {
-        return Disposition.friendly;
+        if (localDisposition.ContainsKey(other))
+            return localDisposition[other];
+
+        if (captain == null) return Disposition.neutral;
+
+        return Disposition.FromOpinion(captain.opinion[other]);
     }
 
 }

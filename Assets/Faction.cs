@@ -40,25 +40,62 @@ public class FactionRelationEvent {
     int modifier;
 }
 
-public class Faction {
+public class FactionOpinion {
+    public readonly Faction faction;
+    public readonly Dictionary<IOpinionable, OpinionOf> opinions = new Dictionary<IOpinionable, OpinionOf>();
+    
+    public FactionOpinion(Faction faction) {
+        this.faction = faction;
+    }
+    
+    public OpinionOf this[Ship ship] {
+        get {
+            if (!opinions.ContainsKey(ship)) {
+                opinions[ship] = new OpinionOf(ship);
+            }
+
+            var opinion = opinions[ship];
+            opinion.bonuses.Clear();
+            opinion.bonuses.Add(new OpinionChange(this[ship.faction].amount, OpinionReason.FactionOpinion));
+            return opinion;
+        }
+    }
+
+    public OpinionOf this[Faction faction] {
+        get {
+            if (!opinions.ContainsKey(faction)) {
+                opinions[faction] = new OpinionOf(faction);
+            }
+
+            var opinion = opinions[faction];
+
+            if (faction == this.faction)
+                opinion.bonuses.Add(new OpinionChange(100, OpinionReason.SameFaction));
+
+
+            return opinions[faction];
+        }
+    }
+}
+
+public class Faction : IOpinionable {
     public string name;
+    public FactionOpinion opinion;
+    public Color color;
+
+    public Faction(string name, Color color) {
+        this.name = name;
+        this.color = color;
+        this.opinion = new FactionOpinion(this);
+    }    
+
     public string nameWithColor {
         get {
             return String.Format("<color='#{0}'>{1}</color>", ColorUtility.ToHtmlStringRGB(color), name);
         }
     }
-	public Color color;
 
 	public string Id {
         get { return name; }
-    }
-
-    public Faction(string name, Color color) {
-        this.name = name;
-		this.color = color;
-    }
-
-    public bool IsEnemy(Faction other) {
-        return other != this && other != FactionManager.all[0] && this != FactionManager.all[0];
     }
 }

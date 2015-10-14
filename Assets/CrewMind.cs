@@ -83,7 +83,7 @@ public class CrewMind : MonoBehaviour {
     }
 
     bool IsEnemy(Crew other) {
-        return other != this.body.crew;
+        return other.ship.DispositionTowards(crew.ship) == Disposition.hostile;
     }
 
     void UpdateLockedMovement() {
@@ -110,7 +110,7 @@ public class CrewMind : MonoBehaviour {
 
         var speed = 10f;    
         
-        Vector3 worldPos = crew.Ship.form.BlockToWorldPos(blockPath[0]);
+        Vector3 worldPos = crew.ship.form.BlockToWorldPos(blockPath[0]);
         var dist = worldPos - transform.position;
         
         if (dist.magnitude < 1f) {

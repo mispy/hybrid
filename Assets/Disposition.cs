@@ -13,6 +13,16 @@ public class Disposition {
         return name;
     }
 
+
+    public static Disposition FromOpinion(OpinionOf opinion) {
+        if (opinion.amount > 100)
+            return Disposition.friendly;
+        else if (opinion.amount < -100)
+            return Disposition.hostile;
+        else
+            return Disposition.neutral;
+    }
+
     public Disposition(string name, Color color) {
         this.name = name;
         this.color = color;

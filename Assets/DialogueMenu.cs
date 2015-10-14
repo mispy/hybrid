@@ -57,7 +57,10 @@ public class DialogueMenu : MonoBehaviour {
         npcLines.text = "Greetings, Captain.";
 
         AddChoice("<color='yellow'>[Trade]</color> What do you have in stock? Yadda yadda etc I'm going to ramble for a while to check that the choice layout flow behaves correctly.", () => EndDialogue());
-        AddChoice("<color='red'>[Attack]</color> Hand over your goods!", () => EndDialogue());
+        AddChoice("<color='red'>[Attack]</color> Hand over your goods!", () => {
+            new NotableEvent_ShipAttacked(ship, Game.playerShip);
+            EndDialogue();
+        });
         AddChoice("<color='cyan'>[Leave]</color> Byebye.", () => EndDialogue());
 
     }

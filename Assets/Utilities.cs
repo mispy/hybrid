@@ -330,6 +330,10 @@ public class Util {
         return list[Random.Range(0, list.Count)];
     }
 
+    public static T GetRandom<T>(T[] list) {
+        return list[Random.Range(0, list.Length)];
+    }
+
     public static List<T> Shuffle<T>(List<T> srcList) {
         var list = new List<T>(srcList);
         int n = list.Count;  

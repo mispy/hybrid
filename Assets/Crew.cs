@@ -4,6 +4,63 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+public interface IOpinionable {
+
+}
+
+public class OpinionReason {
+    public static OpinionReason AttackedMyShip = new OpinionReason("Attacked My Ship");
+    public static OpinionReason FactionOpinion = new OpinionReason("Opinion Of Faction");
+    public static OpinionReason FactionBonus = new OpinionReason("Faction Bonus");
+    public static OpinionReason SameFaction = new OpinionReason("Same Faction");
+
+    public readonly string desc;
+
+    public OpinionReason(string desc) {
+        this.desc = desc;
+    }
+}
+
+public class OpinionChange {
+    public readonly OpinionReason reason;
+    public readonly int amount;
+
+    public OpinionChange(int amount, OpinionReason reason) {
+        this.amount = amount;
+        this.reason = reason;
+    }
+}
+
+public class OpinionOf {
+    public readonly IOpinionable thing;
+    public readonly List<OpinionChange> history = new List<OpinionChange>();
+    public readonly List<OpinionChange> bonuses = new List<OpinionChange>();
+
+    public int amount {
+        get {
+            var i = 0;
+
+            foreach (var change in history) {
+                i += change.amount;
+            }
+
+            foreach (var bonus in bonuses) {
+                i += bonus.amount;
+            }
+
+            return i;
+        }
+    }
+
+    public void Change(int amount, OpinionReason reason) {
+        history.Add(new OpinionChange(amount, reason));
+    }
+
+    public OpinionOf(IOpinionable thing) {
+        this.thing = thing;
+    }
+}
+
 public static class CrewManager {
     public static List<Crew> all = new List<Crew>();
     public static Dictionary<string, Crew> byId = new Dictionary<string, Crew>();
@@ -25,26 +82,61 @@ public static class CrewManager {
         CrewManager.all.Add(crew);
         CrewManager.byId[crew.Id] = crew;
     }
+
+    public static Crew Create(string name = null, Ship ship = null, Faction faction = null) {
+        var names = new string[] { "Fiora", "Anzie", "Abby", "Fiora", "Eldritch" };
+
+        if (name == null) name = Util.GetRandom(names);
+        if (faction == null && ship != null) faction = ship.faction;
+
+        var crew = new Crew(name, faction);
+
+        if (ship != null) crew.ship = ship;
+        CrewManager.Add(crew);
+        return crew;
+    }
+}
+
+public class CrewOpinion {
+    public readonly Crew crew;
+    public readonly Dictionary<IOpinionable, OpinionOf> opinions = new Dictionary<IOpinionable, OpinionOf>();
+
+    public CrewOpinion(Crew crew) {
+        this.crew = crew;
+    }
+
+    public OpinionOf this[Ship ship] {
+        get {
+            if (!opinions.ContainsKey(ship)) {
+                opinions[ship] = new OpinionOf(ship);
+            }
+
+            opinions[ship].bonuses.Add(new OpinionChange(crew.faction.opinion[ship].amount, OpinionReason.FactionBonus));
+            return opinions[ship];
+        }
+    }
 }
 
 [Serializable]
 public class Crew {
-    private Ship ship;
-    public Ship Ship {
-        get { return ship; }
-        set {
-            if (ship != null) {
-                ship.crew.Remove(this);
-            }
-            ship = value;
-            ship.crew.Add(this);
-        }
-    }
-
+    private Ship _ship;
+    public readonly CrewOpinion opinion;
     public int maxHealth = 100;
     public int health = 100;
     public string name;
     public Color color;
+
+    public Ship ship {
+        get { return _ship; }
+        set {
+            if (_ship != null) {
+                _ship.crew.Remove(this);
+            }
+            _ship = value;
+            _ship.crew.Add(this);
+        }
+    }
+
     public string nameWithTitle { 
         get { return "Captain " + name; }
     }
@@ -53,7 +145,7 @@ public class Crew {
         get { return String.Format("<color='#{0}'>{1}</color>", ColorUtility.ToHtmlStringRGB(color), nameWithTitle); }
     }
     public string fancyName {
-        get { return nameWithTitleAndColor + " of " + ship.faction.nameWithColor; }
+        get { return nameWithTitleAndColor + " of " + _ship.faction.nameWithColor; }
     }
 
     public Faction faction;
@@ -76,6 +168,7 @@ public class Crew {
         }
     }
 
+
     public override string ToString() {
         return String.Format("Crew<{0}>", this.name);
     }
@@ -84,8 +177,10 @@ public class Crew {
         get { return name; }
     }
 
-    public Crew(string name) {
+    public Crew(string name, Faction faction) {
+        this.opinion = new CrewOpinion(this);
         this.name = name;
+        this.faction = faction;
         color = Color.grey;
     }
 }

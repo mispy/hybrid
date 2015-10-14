@@ -102,7 +102,7 @@ public class ShipMind : PoolBehaviour {
     }
 
     bool IsEnemy(Ship otherShip) {
-        return ship.faction.IsEnemy(otherShip.faction);
+        return ship.DispositionTowards(otherShip) == Disposition.hostile;
     }
 
     void UpdateTractors() {
