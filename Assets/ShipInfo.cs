@@ -12,7 +12,7 @@ public class ShipInfo : MonoBehaviour {
 	void Start () {
 	    infoText = transform.Find("InfoText").GetComponent<Text>();
         hailButton = transform.Find("HailButton").GetComponent<Button>();
-        hailButton.onClick.AddListener(() => Game.dialogueMenu.StartDialogue(ship));
+        //hailButton.onClick.AddListener(() => Game.dialogueMenu.StartDialogue(ship));
 	}
 	
 	// Update is called once per frame

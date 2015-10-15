@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 
-public class DialogueChoice : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class DialogueButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
     Button button;
     Text text;
     LayoutElement layout;

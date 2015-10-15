@@ -30,7 +30,7 @@ GameObject:
   - 114: {fileID: 11432448}
   - 114: {fileID: 11497560}
   m_Layer: 5
-  m_Name: DialogueChoice
+  m_Name: DialogueButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

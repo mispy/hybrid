@@ -15,14 +15,14 @@ public class DialogueMenu : MonoBehaviour {
     public Text npcLines;
     public Transform choiceHolder;
 
-    public void AddChoice(string line, Action result) {
-        var button = Pool.For("DialogueChoice").Take<Button>();
+    public void AddChoice(DialogueChoice choice) {
+        var button = Pool.For("DialogueButton").Take<Button>();
         button.transform.SetParent(choiceHolder);
-        button.onClick.AddListener(() => result());
+        button.onClick.AddListener(() => choice.result.Invoke());
         button.gameObject.SetActive(true);
 
         var text = button.GetComponentsInChildren<Text>(includeInactive: true).First();
-        text.text = String.Format("{0}. {1}", choices.Count+1, line);
+        text.text = String.Format("{0}. {1}", choices.Count+1, choice.text);
 
         choices.Add(button);
     }
@@ -41,7 +41,7 @@ public class DialogueMenu : MonoBehaviour {
         Game.Unpause();
     }
 
-    public void StartDialogue(Ship ship) {
+    public void StartDialogue(Ship ship, DialogueNode node) {
         gameObject.SetActive(true);
 
         // Clean up any old dialogue choices
@@ -54,14 +54,18 @@ public class DialogueMenu : MonoBehaviour {
 
         shipName.text = talkingShip.nameWithColor;
         npcName.text = talkingCrew.fancyName;
-        npcLines.text = "Greetings, Captain.";
+        npcLines.text = node.text;
 
-        AddChoice("<color='yellow'>[Trade]</color> What do you have in stock? Yadda yadda etc I'm going to ramble for a while to check that the choice layout flow behaves correctly.", () => EndDialogue());
+        foreach (var choice in node.choices) {
+            AddChoice(choice);
+        }
+
+/*        AddChoice("<color='yellow'>[Trade]</color> What do you have in stock? Yadda yadda etc I'm going to ramble for a while to check that the choice layout flow behaves correctly.", () => EndDialogue());
         AddChoice("<color='red'>[Attack]</color> Hand over your goods!", () => {
             new NotableEvent_ShipAttacked(ship, Game.playerShip);
             EndDialogue();
         });
-        AddChoice("<color='cyan'>[Leave]</color> Byebye.", () => EndDialogue());
+        AddChoice("<color='cyan'>[Leave]</color> Byebye.", () => EndDialogue());*/
 
     }
 
