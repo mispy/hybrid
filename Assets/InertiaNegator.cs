@@ -1,37 +1,32 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InertiaNegator : BlockComponent {
-    public void OnEnable() {
-        UpdateInertia();
+public class InertiaNegator : BlockComponent {    
+    public static void UpdateInertia(Blockform form) {
+        var numNegators = 0;
+        
+        foreach (var block in form.blocks.Find<InertiaNegator>()) {
+            if (block.isPowered)
+                numNegators += 2;
+        }
+        
+        form.rigidBody.drag = numNegators;
+        form.rigidBody.angularDrag = numNegators;
+    }
 
+    public void OnEnable() {
+        UpdateInertia(form);
     }
 
     public void OnDisable() {
-        UpdateInertia();
+        UpdateInertia(form);
     }
 
     public void OnPowered() {
-        UpdateInertia();
+        UpdateInertia(form);
     }
 
     public void OnDepowered() {
-        UpdateInertia();
-    }
-
-    void UpdateInertia() {
-        bool hasNegator = false;
-        foreach (var block in form.blocks.Find<InertiaNegator>()) {
-            if (block.isPowered)
-                hasNegator = true;
-        }
-
-        if (hasNegator) {
-            form.rigidBody.drag = 2;
-            form.rigidBody.angularDrag = 2;
-        } else {
-            form.rigidBody.drag = 0;
-            form.rigidBody.angularDrag = 0;
-        }
+        UpdateInertia(form);
     }
 }

@@ -182,7 +182,7 @@ public class ShipControl : MonoBehaviour {
 	void OnEnable() {
         InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
         InputEvent.For(MouseButton.Right).Bind(this, OnRightClick);
-        InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner, true);
+        InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
         InputEvent.For(Keybind.ForwardThrust).Bind(this, OnForwardThrust, true);
         InputEvent.For(Keybind.ReverseThrust).Bind(this, OnReverseThrust, true);
         InputEvent.For(Keybind.StrafeLeft).Bind(this, OnStrafeLeft, true);
