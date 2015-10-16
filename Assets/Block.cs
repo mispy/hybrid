@@ -53,7 +53,6 @@ public class Block {
         "Console",
         "Thruster",
         "TractorBeam",
-        "InertiaStabilizer",
         "PowerNode",
         "TorpedoLauncher",
 		"PlasmaTurret"

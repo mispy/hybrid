@@ -20,7 +20,9 @@ public class BlockAbility : PoolBehaviour {
 }
 
 public class BlockComponent : PoolBehaviour {
+    [HideInInspector]
     public Block block;
+    [HideInInspector]
     public Blockform form;
 }
 

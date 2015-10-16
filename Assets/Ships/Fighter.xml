@@ -89,7 +89,7 @@
     <BlockData>
       <x>-2</x>
       <y>-2</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -215,7 +215,7 @@
     <BlockData>
       <x>-2</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -317,7 +317,7 @@
     <BlockData>
       <x>1</x>
       <y>-2</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -443,7 +443,7 @@
     <BlockData>
       <x>1</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
   </blocks>
@@ -535,7 +535,7 @@
     <BlockData>
       <x>-2</x>
       <y>-2</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -661,7 +661,7 @@
     <BlockData>
       <x>-2</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -775,7 +775,7 @@
     <BlockData>
       <x>1</x>
       <y>-2</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -937,7 +937,7 @@
     <BlockData>
       <x>1</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>

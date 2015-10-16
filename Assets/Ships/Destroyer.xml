@@ -719,7 +719,7 @@
     <BlockData>
       <x>-1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1097,7 +1097,7 @@
     <BlockData>
       <x>0</x>
       <y>-1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1553,13 +1553,13 @@
     <BlockData>
       <x>0</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -1571,7 +1571,7 @@
     <BlockData>
       <x>1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -7489,7 +7489,7 @@
     <BlockData>
       <x>-1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -7867,7 +7867,7 @@
     <BlockData>
       <x>0</x>
       <y>-1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -8323,13 +8323,13 @@
     <BlockData>
       <x>0</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>
@@ -8341,7 +8341,7 @@
     <BlockData>
       <x>1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <facing>2</facing>
     </BlockData>
     <BlockData>

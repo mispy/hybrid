@@ -701,7 +701,7 @@
     <BlockData>
       <x>-1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1079,7 +1079,7 @@
     <BlockData>
       <x>0</x>
       <y>-1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1661,13 +1661,13 @@
     <BlockData>
       <x>0</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -1679,7 +1679,7 @@
     <BlockData>
       <x>1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2425,7 +2425,7 @@
     <BlockData>
       <x>-1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -2803,7 +2803,7 @@
     <BlockData>
       <x>0</x>
       <y>-1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3385,13 +3385,13 @@
     <BlockData>
       <x>0</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
       <x>0</x>
       <y>1</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>
@@ -3403,7 +3403,7 @@
     <BlockData>
       <x>1</x>
       <y>0</y>
-      <typeName>InertiaStabilizer</typeName>
+      <typeName>InertiaNegator</typeName>
       <orientation>1</orientation>
     </BlockData>
     <BlockData>

@@ -29,7 +29,7 @@ public class Blockform : PoolBehaviour {
 	public BoxCollider boundsCollider;
     public ShipDamage damage;
     
-    public bool hasGravity = false;
+    public bool inertia = false;
     
     public Shields shields = null;
     
@@ -208,9 +208,6 @@ public class Blockform : PoolBehaviour {
             needsMassUpdate = true;
         
 		UpdateBounds();
-
-        if (block.Is<InertiaStabilizer>())
-            UpdateGravity();
     }
     
     public GameObject RealizeBlock(Block block) {
@@ -261,19 +258,7 @@ public class Blockform : PoolBehaviour {
         
         needsMassUpdate = false;
     }
-    
-    public void UpdateGravity() {
-        if (blocks.Has<InertiaStabilizer>() && hasGravity == false) {
-            hasGravity = true;
-            rigidBody.drag = 2;
-            rigidBody.angularDrag = 2;
-        } else if (!blocks.Has<InertiaStabilizer>() && hasGravity == true) {
-            hasGravity = false;
-            rigidBody.drag = 0;
-            rigidBody.angularDrag = 0;
-        }
-    }
-    
+
     public float RotateTowards(Vector2 worldPos, Facing rot) {
         var dir = (worldPos - (Vector2)transform.position).normalized;
         float angle = Mathf.Atan2(dir.y,dir.x)*Mathf.Rad2Deg;

@@ -247,7 +247,7 @@ MonoBehaviour:
   rigidBody: {fileID: 0}
   boundsCollider: {fileID: 0}
   damage: {fileID: 0}
-  hasGravity: 0
+  inertia: 0
   shields: {fileID: 0}
   centerOfMass: {x: 0, y: 0, z: 0}
   fog: {fileID: 0}
