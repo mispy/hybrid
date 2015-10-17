@@ -25,7 +25,7 @@ public class ProjectileLauncher : BlockComponent {
 	
 	public Collider GetProbableHit(float maxDistance = 150f) {
 		RaycastHit hit;
-		Physics.Raycast(transform.position, transform.up, out hit, maxDistance);    
+        Physics.Raycast(transform.position, transform.up, out hit, maxDistance, LayerMask.GetMask(new string[] { "Wall", "Floor"}), QueryTriggerInteraction.Ignore);    
 		return hit.collider;
 	}
 	
