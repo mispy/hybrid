@@ -21,8 +21,8 @@ public class PowerCircle : PoolBehaviour {
         if (!producer.isProducing)
             supplyRadius = 0;
 
-        if (supplyRadius*3 != transform.localScale.x) {
-            transform.localScale = new Vector3(supplyRadius*3, supplyRadius*3, 1);
+        if (supplyRadius != transform.localScale.x) {
+            transform.localScale = new Vector3(supplyRadius, supplyRadius, 1);
         }
     }
 }
