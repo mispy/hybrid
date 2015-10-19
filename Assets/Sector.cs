@@ -27,6 +27,20 @@ public static class SectorManager {
     }
 }
 
+public class GalaxyPos {
+
+}
+
+public class ConflictZone {
+
+
+
+    public ConflictZone(Sector sector, Faction attacking, Faction defending) {
+        ShipManager.Create(sector: sector, faction: attacking);
+        ShipManager.Create(sector: sector, faction: attacking);
+    }
+}
+
 [Serializable]
 public class Sector {
     public string Id {
