@@ -31,7 +31,7 @@ public class JumpMap : MonoBehaviour {
         Game.jumpMap.gameObject.SetActive(true);
     }
 
-    public Vector3 GalaxyToWorldPos(Vector2 galaxyPos) {
+    public Vector3 GalaxyToWorldPos(GalaxyPos galaxyPos) {
         return new Vector3(galaxyPos.x/4, galaxyPos.y/4, 0);
     }
 

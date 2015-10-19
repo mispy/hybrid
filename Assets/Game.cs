@@ -127,12 +127,12 @@ public class Game : MonoBehaviour {
         pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
         mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
 
-        for (var i = 0; i < 100; i++) {
-            var nsec = new Sector();
+        for (var i = 0; i < 10; i++) {
             var x = Random.Range(-cosmicWidth/2, cosmicWidth/2);
             var y = Random.Range(-cosmicHeight/2, cosmicHeight/2);
-            nsec.galaxyPos = new Vector2(x, y);
-            SectorManager.Add(nsec);    
+            var galaxyPos = new GalaxyPos(x, y);
+
+            new ConflictZone(galaxyPos, pirateGang, mitzubi);
         }
 
 		var sector = SectorManager.all[0];
@@ -142,14 +142,14 @@ public class Game : MonoBehaviour {
     }
     
     public static void LoadSector(Sector sector) {
+        sector.type.OnRealize();
+
         activeSector.sector = sector;
 
-        foreach (var ship in ShipManager.all) {
-            if (ship.sector == sector) {
-                activeSector.RealizeShip(ship);
-            }
+        foreach (var ship in sector.ships) {
+            activeSector.RealizeShip(ship);
         }
-        
+
         activeSector.gameObject.SetActive(true);
         Game.mainCamera = activeSector.GetComponentInChildren<Camera>();
     }

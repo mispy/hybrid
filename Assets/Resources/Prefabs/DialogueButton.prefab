@@ -44,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 146952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 233a4fefade98404082d66a6df2f8a3e, type: 3}
+  m_Script: {fileID: 11500000, guid: 31c88dc57ccd102488cdb5461315fc5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &11432448
@@ -119,8 +119,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.20000005
-  m_Text: 1. You seed... suns. FEWAOFKPDSAPF OKDSAFKds apofkds apofkd sopakf dopsakf
-    dposak fopdska fpodsk afpodks apofkd sapofkdsapofk dspaofk dsapokf dopsak fdpsoa
+  m_Text: 2. <color=yellow>[Mitzubi Crew]</color> Even this gal?
 --- !u!114 &11497560
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -165,10 +164,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22452790}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200.600006, y: -8.96226501}
+  m_SizeDelta: {x: 401.200012, y: 17.92453}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22452790
 RectTransform:
@@ -183,10 +182,10 @@ RectTransform:
   - {fileID: 22435208}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 200.600006, y: -46.886795}
+  m_SizeDelta: {x: 401.200012, y: 17.92453}
   m_Pivot: {x: .5, y: .5}
 --- !u!1001 &100100000
 Prefab:

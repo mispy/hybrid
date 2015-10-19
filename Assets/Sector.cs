@@ -27,27 +27,43 @@ public static class SectorManager {
     }
 }
 
-public class GalaxyPos {
+public class SectorType {
+    public virtual void OnRealize() {
 
+    }
 }
 
-public class ConflictZone {
+public class ConflictZone : SectorType {
+    public Sector sector;
+    public Faction attacking;
+    public Faction defending;
 
+    public ConflictZone(GalaxyPos galaxyPos, Faction attacking, Faction defending) {
+        this.sector = new Sector(this, galaxyPos);
+        SectorManager.Add(sector);
+        this.attacking = attacking;
+        this.defending = defending;
+    }
 
-
-    public ConflictZone(Sector sector, Faction attacking, Faction defending) {
+    public override void OnRealize() {
         ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: attacking);
+        ShipManager.Create(sector: sector, faction: attacking);
+        ShipManager.Create(sector: sector, faction: defending);
+        ShipManager.Create(sector: sector, faction: defending);
+        ShipManager.Create(sector: sector, faction: defending);
     }
 }
 
 [Serializable]
 public class Sector {
+    public SectorType type;
+
     public string Id {
         get { return String.Format("{0}, {1}", galaxyPos.x, galaxyPos.y); }
     }
 
-    public Vector2 galaxyPos;
+    public GalaxyPos galaxyPos;
     public float radius = 200f;
 
     public List<Ship> ships = new List<Ship>();
@@ -70,5 +86,10 @@ public class Sector {
         if (this == Game.activeSector.sector) {
             Game.activeSector.RealizeShip(ship);
         }
+    }
+
+    public Sector(SectorType type, GalaxyPos galaxyPos) {
+        this.type = type;
+        this.galaxyPos = galaxyPos;
     }
 }

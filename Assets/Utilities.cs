@@ -126,6 +126,30 @@ public struct IntVector2 {
     }
 }
 
+public class GalaxyPos {
+    public Vector2 vec;
+
+    public float x {
+        get {
+            return vec.x;
+        }
+    }
+
+    public float y {
+        get {
+            return vec.y;
+        }
+    }
+
+    public static implicit operator Vector2(GalaxyPos pos) {
+        return pos.vec;   
+    }
+
+    public GalaxyPos(float x, float y) {
+        vec = new Vector2(x, y);
+    }
+}
+
 public class DebugUtil {
 	public static void DrawRect(Transform transform, Rect rect) {
 		var p1 = transform.TransformPoint(new Vector2(rect.xMin, rect.yMin));

@@ -128,7 +128,7 @@ public class Ship : IOpinionable {
     public List<Crew> crew = new List<Crew>();
     public float scrapAvailable = 0f;
     public float jumpSpeed = 10f;
-    public Vector2 galaxyPos;
+    public GalaxyPos galaxyPos;
     public Vector2 sectorPos;
     public Sector sector;
     public Sector destSector;
@@ -178,13 +178,13 @@ public class Ship : IOpinionable {
                 FoldJump(Util.GetRandom(SectorManager.all));
             }
         } else {
-            var targetDir = (destSector.galaxyPos - galaxyPos).normalized;
+            var targetDir = ((Vector2)destSector.galaxyPos - (Vector2)galaxyPos).normalized;
             var dist = targetDir * jumpSpeed * deltaTime;
 
             if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
-                destSector.PlaceShip(this, destSector.galaxyPos - galaxyPos);
+                destSector.PlaceShip(this, (Vector2)destSector.galaxyPos - (Vector2)galaxyPos);
             } else {
-                galaxyPos += dist;
+                galaxyPos.vec += dist;
             }
         }
 
