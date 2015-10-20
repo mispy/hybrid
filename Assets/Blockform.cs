@@ -190,15 +190,14 @@ public class Blockform : PoolBehaviour {
         UpdateBlock(oldBlock);       
 
         if (oldBlock.type.isComplexBlock) {
-            foreach (var comp in oldBlock.type.GetComponents<BlockComponent>()) {
-                blockCompCache[comp.GetType()].Remove(comp);
+            foreach (var comp in oldBlock.gameObject.GetComponents<BlockComponent>()) {
+                if (blockCompCache.ContainsKey(comp.GetType()))
+                    blockCompCache[comp.GetType()].Remove(comp);
             }
         }
 
         if (oldBlock._gameObject != null)
-            Pool.Recycle(oldBlock.gameObject);                
-
-
+            Pool.Recycle(oldBlock.gameObject);
 
         Profiler.EndSample();
     }

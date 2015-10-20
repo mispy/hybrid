@@ -14,6 +14,12 @@ public class Reactor : BlockComponent {
         }
     }
 
+    public override void OnRecycle() {
+        foreach (var node in form.GetBlockComponents<PowerNode>()) {
+            node.OnPowerUpdate();
+        }
+    }
+
     public void OnPowered() {
         foreach (var node in form.GetBlockComponents<PowerNode>()) {
             node.OnPowerUpdate();
