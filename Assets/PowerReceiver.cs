@@ -8,7 +8,8 @@ public class PowerReceiver : BlockComponent {
     public bool isReceiving;
 
     [HideInInspector]
-    public List<PowerProducer> availableProducers = new List<PowerProducer>();
+    public PowerProducer attachedProducer;
+
     [HideInInspector]
     private GameObject noPowerIndicator;
 
@@ -50,9 +51,12 @@ public class PowerReceiver : BlockComponent {
 
     public bool IsPowered() {
         if (!isReceiving) return false;
+        if (attachedProducer != null && attachedProducer.isActiveAndEnabled && attachedProducer.isProducing) 
+            return true;
 
         foreach (var producer in form.GetBlockComponents<PowerProducer>()) {
             if (producer.isProducing && IntVector2.Distance(block.pos, producer.block.pos) <= producer.supplyRadius) {
+                attachedProducer = producer;
                 return true;
             }
         }

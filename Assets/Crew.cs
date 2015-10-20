@@ -35,25 +35,11 @@ public class OpinionOf {
     public readonly IOpinionable thing;
     public readonly List<OpinionChange> history = new List<OpinionChange>();
     public readonly List<OpinionChange> bonuses = new List<OpinionChange>();
+    public int amount = 0;
 
-    public int amount {
-        get {
-            var i = 0;
-
-            foreach (var change in history) {
-                i += change.amount;
-            }
-
-            foreach (var bonus in bonuses) {
-                i += bonus.amount;
-            }
-
-            return i;
-        }
-    }
-
-    public void Change(int amount, OpinionReason reason) {
-        history.Add(new OpinionChange(amount, reason));
+    public void Change(int changeAmount, OpinionReason reason) {
+        history.Add(new OpinionChange(changeAmount, reason));
+        this.amount += changeAmount;
     }
 
     public OpinionOf(IOpinionable thing) {
@@ -109,9 +95,9 @@ public class CrewOpinion {
         get {
             if (!opinions.ContainsKey(ship)) {
                 opinions[ship] = new OpinionOf(ship);
+                opinions[ship].Change(crew.faction.opinion[ship].amount, OpinionReason.FactionBonus);
             }
 
-            opinions[ship].bonuses.Add(new OpinionChange(crew.faction.opinion[ship].amount, OpinionReason.FactionBonus));
             return opinions[ship];
         }
     }

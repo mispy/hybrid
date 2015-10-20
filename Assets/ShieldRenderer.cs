@@ -8,6 +8,7 @@ public class ShieldRenderer : PoolBehaviour {
 	
 	
 	public float maxLineWidth = 1f;
+    public float lastLineWidth = 0f;
 	
 	void Awake() {
 		shields = GetComponent<Shields>();
@@ -36,6 +37,10 @@ public class ShieldRenderer : PoolBehaviour {
 
     void UpdateShields() {
         var lineWidth = (shields.health / shields.maxHealth) * maxLineWidth;
+        if (Mathf.Abs(lineWidth - lastLineWidth) < maxLineWidth/6f)
+            return;
+        lastLineWidth = lineWidth;
+
         var ellipse = shields.ellipse.Shrink(lineWidth/2f);
         
         lineRenderer.SetWidth(lineWidth, lineWidth);

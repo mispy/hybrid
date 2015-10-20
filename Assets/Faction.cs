@@ -52,12 +52,10 @@ public class FactionOpinion {
         get {
             if (!opinions.ContainsKey(ship)) {
                 opinions[ship] = new OpinionOf(ship);
+                opinions[ship].Change(this[ship.faction].amount, OpinionReason.FactionOpinion);
             }
 
-            var opinion = opinions[ship];
-            opinion.bonuses.Clear();
-            opinion.bonuses.Add(new OpinionChange(this[ship.faction].amount, OpinionReason.FactionOpinion));
-            return opinion;
+            return opinions[ship];
         }
     }
 
@@ -65,13 +63,9 @@ public class FactionOpinion {
         get {
             if (!opinions.ContainsKey(faction)) {
                 opinions[faction] = new OpinionOf(faction);
+                if (faction == this.faction)
+                    opinions[faction].Change(100, OpinionReason.SameFaction);
             }
-
-            var opinion = opinions[faction];
-
-            if (faction == this.faction)
-                opinion.bonuses.Add(new OpinionChange(100, OpinionReason.SameFaction));
-
 
             return opinions[faction];
         }
