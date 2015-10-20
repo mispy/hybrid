@@ -151,13 +151,13 @@ public class ShipMind : PoolBehaviour {
     // Update is called once per frame
     void Update () {
         if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
+
+        var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other.ship));
         
-        foreach (var other in Blockform.ClosestTo(transform.position)) {
-            if (IsEnemy(other.ship)) {
-                nearestEnemy = other;
-                break;
-            }
-        }            
+        if (enemies.Count() > 0) {
+            enemies = enemies.OrderBy((other) => -other.poweredWeapons.Count);
+            nearestEnemy = enemies.First();
+        }
 
         UpdateTractors();
         UpdateWeapons();

@@ -24,7 +24,7 @@ public class WeaponSelect : MonoBehaviour {
     }
 
 	void OnBlockAdded(Block block) {
-		if (block.type.canBeFired && !fireableTypes.Contains(block.type)) {
+		if (block.type.showInMenu && !fireableTypes.Contains(block.type)) {
 			fireableTypes.Add(block.type);
 			
 			var button = Pool.For("BlockButton").Take<Button>();

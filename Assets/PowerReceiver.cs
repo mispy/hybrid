@@ -14,13 +14,23 @@ public class PowerReceiver : BlockComponent {
 
     public void Start() {
         isReceiving = true;
+        block.isPowered = false;
+    }
+        
+    public override void OnRecycle() {
+        if (block.type.isWeapon)
+            form.poweredWeapons.Remove(block);
     }
 
     public void Powered() {
         if (block.isPowered == true) return;
         if (noPowerIndicator != null)
             Pool.Recycle(noPowerIndicator);
+
         block.isPowered = true;
+        if (block.type.isWeapon)
+            form.poweredWeapons.Add(block);
+
         block.gameObject.SendMessage("OnPowered", SendMessageOptions.DontRequireReceiver);
     }
 
@@ -32,6 +42,9 @@ public class PowerReceiver : BlockComponent {
         noPowerIndicator.transform.position = transform.position;
         noPowerIndicator.SetActive(true);
         block.isPowered = false;
+        if (block.type.isWeapon)
+            form.poweredWeapons.Remove(block);
+
         block.gameObject.SendMessage("OnDepowered", SendMessageOptions.DontRequireReceiver);
     }
 

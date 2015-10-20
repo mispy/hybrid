@@ -55,7 +55,8 @@ public class BlockType : MonoBehaviour {
     /* Complex block specific functionality */
     [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
     public bool isComplexBlock = false;
-    public bool canBeFired = false;
+    public bool showInMenu = false;
+    public bool isWeapon = false;
 
     [HideInInspector]
     public SpriteRenderer renderer;

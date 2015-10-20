@@ -83,7 +83,8 @@ MonoBehaviour:
   abilities:
   - {fileID: 11418598, guid: 159d7d1ab6f900c4f85581405eb2078e, type: 2}
   isComplexBlock: 1
-  canBeFired: 0
+  showInMenu: 0
+  isWeapon: 0
   renderer: {fileID: 0}
 --- !u!212 &21249230
 SpriteRenderer:

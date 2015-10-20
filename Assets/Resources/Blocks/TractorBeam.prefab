@@ -84,7 +84,8 @@ MonoBehaviour:
   canBlockFront: 1
   abilities: []
   isComplexBlock: 1
-  canBeFired: 0
+  showInMenu: 0
+  isWeapon: 0
   renderer: {fileID: 0}
 --- !u!114 &11408290
 MonoBehaviour:
@@ -1278,6 +1279,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: canBlockFront
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: showInMenu
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

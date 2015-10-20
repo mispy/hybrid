@@ -53,7 +53,8 @@ MonoBehaviour:
   canBlockFront: 0
   abilities: []
   isComplexBlock: 0
-  canBeFired: 0
+  showInMenu: 0
+  isWeapon: 0
   renderer: {fileID: 0}
 --- !u!212 &21216936
 SpriteRenderer:

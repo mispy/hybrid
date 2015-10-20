@@ -292,9 +292,6 @@ public class BlockMap {
             }
         }
 
-        if (block.gameObject != null)
-            Pool.Recycle(block.gameObject);        
-
         block.ship = null;
         blockTypeCache[block.type].Remove(block);
         foreach (var comp in block.type.blockComponents) {

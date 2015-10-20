@@ -56,7 +56,8 @@ MonoBehaviour:
   canBlockFront: 0
   abilities: []
   isComplexBlock: 1
-  canBeFired: 0
+  showInMenu: 0
+  isWeapon: 0
   renderer: {fileID: 0}
 --- !u!114 &11443418
 MonoBehaviour:

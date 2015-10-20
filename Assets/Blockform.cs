@@ -43,6 +43,8 @@ public class Blockform : PoolBehaviour {
     public GameObject blockComponentHolder;
 	public SpacePather pather;
 
+    public HashSet<Block> poweredWeapons = new HashSet<Block>();
+
 	public float width {
 		get {
 			return (blocks.maxX - blocks.minX) * Tile.worldSize;
@@ -179,8 +181,10 @@ public class Blockform : PoolBehaviour {
         //if (oldBlock.layer == BlockLayer.Base)
         //    this.size -= 1;
 
-        UpdateBlock(oldBlock);
+        UpdateBlock(oldBlock);       
 
+        if (oldBlock.type.isComplexBlock)
+            Pool.Recycle(oldBlock.gameObject);                
 
         Profiler.EndSample();
     }
