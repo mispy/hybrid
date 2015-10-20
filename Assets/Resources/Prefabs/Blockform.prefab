@@ -245,7 +245,10 @@ MonoBehaviour:
   blueprint: {fileID: 0}
   tiles: {fileID: 0}
   rigidBody: {fileID: 0}
-  boundsCollider: {fileID: 0}
+  localBounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  box: {fileID: 0}
   damage: {fileID: 0}
   inertia: 0
   shields: {fileID: 0}
@@ -254,9 +257,6 @@ MonoBehaviour:
   maglockedCrew: []
   blockComponentHolder: {fileID: 0}
   pather: {fileID: 0}
-  bounds:
-    m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
 --- !u!114 &11458202
 MonoBehaviour:
   m_ObjectHideFlags: 1

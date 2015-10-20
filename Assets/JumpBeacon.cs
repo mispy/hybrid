@@ -11,6 +11,10 @@ public class JumpBeacon : MonoBehaviour {
         renderer = GetComponent<SpriteRenderer>();
     }
 
+    void Start() {
+        renderer.sprite = sector.sprite;
+    }
+
     public void Align(JumpShip jumpShip) {
         var size = renderer.bounds.size;
         jumpShip.transform.position = new Vector2(transform.position.x + size.x, transform.position.y + size.y + 0.3f*sector.ships.IndexOf(jumpShip.ship));

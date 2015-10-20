@@ -7,6 +7,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using Random = UnityEngine.Random;
 
+public static class SpaceLayer {
+    public static LayerMask ShipBounds = LayerMask.GetMask(new string[] { "Bounds" });
+}
+
 public class Game : MonoBehaviour {
     public static Game main;
 
@@ -35,13 +39,22 @@ public class Game : MonoBehaviour {
     public Text debugText;
 
     public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
+    public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
     public static GameObject Prefab(string name) {
         if (!prefabs.ContainsKey(name)) {
             Debug.LogFormat("No prefab found for {0}. Available prefabs are: {1}", name, String.Join(", ", prefabs.Keys.ToArray()));
         }
 
-        return prefabs[name];
+        return prefabs[name];    
+    }
+
+    public static Sprite Sprite(string name) {
+        if (!sprites.ContainsKey(name)) {
+            Debug.LogFormat("No prefab found for {0}. Available prefabs are: {1}", name, String.Join(", ", sprites.Keys.ToArray()));
+        }
+        
+        return sprites[name];
     }
 
     public static IEnumerable<T> LoadPrefabs<T>(string path) {
@@ -171,13 +184,12 @@ public class Game : MonoBehaviour {
         Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
         Game.main = this;
 
-        var resources = Resources.LoadAll("Prefabs");
-        
-        foreach (var obj in resources) {
-            var gobj = obj as GameObject;
-            if (gobj != null) {
-                prefabs[obj.name] = gobj;
-            }
+        foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
+            prefabs[prefab.name] = prefab;
+        }
+
+        foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
+            sprites[sprite.name] = sprite;
         }
 
         Tile.Setup();

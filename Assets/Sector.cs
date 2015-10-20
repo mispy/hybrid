@@ -40,6 +40,7 @@ public class ConflictZone : SectorType {
 
     public ConflictZone(GalaxyPos galaxyPos, Faction attacking, Faction defending) {
         this.sector = new Sector(this, galaxyPos);
+        sector.sprite = Game.Sprite("ConflictZone");
         SectorManager.Add(sector);
         this.attacking = attacking;
         this.defending = defending;
@@ -47,17 +48,18 @@ public class ConflictZone : SectorType {
 
     public override void OnRealize() {
         ShipManager.Create(sector: sector, faction: attacking);
-        /*ShipManager.Create(sector: sector, faction: attacking);
+        ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: defending);
         ShipManager.Create(sector: sector, faction: defending);
-        ShipManager.Create(sector: sector, faction: defending);*/
+        ShipManager.Create(sector: sector, faction: defending);
     }
 }
 
 [Serializable]
 public class Sector {
     public SectorType type;
+    public Sprite sprite;
 
     public string Id {
         get { return String.Format("{0}, {1}", galaxyPos.x, galaxyPos.y); }
@@ -90,6 +92,7 @@ public class Sector {
 
     public Sector(SectorType type, GalaxyPos galaxyPos) {
         this.type = type;
+        this.sprite = Game.Sprite("JumpBeacon");
         this.galaxyPos = galaxyPos;
     }
 }

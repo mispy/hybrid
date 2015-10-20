@@ -35,8 +35,8 @@ public class InteriorFog : MonoBehaviour {
 
 	public void UpdateVisibility() {
 		transform.localEulerAngles = new Vector3(90, 180, 0);
-		transform.localPosition = form.box.transform.localPosition;
-		transform.localScale = new Vector3(form.box.bounds.size.x, 0, form.box.bounds.size.y) / 10f;
+		transform.localPosition = form.localBounds.center;
+		transform.localScale = new Vector3(form.localBounds.size.x, 0, form.localBounds.size.y) / 10f;
 
 		var blocks = form.blocks;
 

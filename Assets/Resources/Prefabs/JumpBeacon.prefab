@@ -43,7 +43,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 0}
   sector:
-    galaxyPos: {x: 0, y: 0}
+    sprite: {fileID: 0}
     radius: 200
     jumpBeacon: {fileID: 0}
 --- !u!120 &12001384

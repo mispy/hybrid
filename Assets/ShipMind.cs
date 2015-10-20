@@ -78,7 +78,7 @@ public class FleeingTactic : PoolBehaviour {
 		path = form.pather.PathFromNose(nearestEdge);
 
 		if (form.canFoldJump) {
-			form.FoldJump();
+			//form.FoldJump();
 		}
 	}
 
@@ -126,7 +126,7 @@ public class ShipMind : PoolBehaviour {
             var hit = launcher.GetProbableHit(100f);
             if (hit == null) continue;
 
-            var otherShip = hit.gameObject.GetComponentInParent<Blockform>();
+            var otherShip = hit.attachedRigidbody.GetComponent<Blockform>();
 
             if (otherShip != null && IsEnemy(otherShip.ship)) {
                 launcher.Fire();
@@ -142,7 +142,7 @@ public class ShipMind : PoolBehaviour {
 
 	void UpdateTactic() {
 		if (!form.hasActiveShields) {
-			//SetTactic<FleeingTactic>();
+			SetTactic<FleeingTactic>();
 		} else {
 			SetTactic<EngageTactic>();
 		}

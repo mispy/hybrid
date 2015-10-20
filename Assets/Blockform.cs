@@ -26,6 +26,7 @@ public class Blockform : PoolBehaviour {
     public BlockMap blocks;
     public TileRenderer tiles;
     public Rigidbody rigidBody;
+    public Bounds localBounds = new Bounds();
 	public BoxCollider box;
     public ShipDamage damage;
     
@@ -75,12 +76,19 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
+    public Dictionary<Type, HashSet<BlockComponent>> blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
+
     public IEnumerable<T> GetBlockComponents<T>() {
-        return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == ship);
+        if (!blockCompCache.ContainsKey(typeof(T)))
+            yield break;
+
+        foreach (var comp in blockCompCache[typeof(T)]) {
+            yield return (T)Convert.ChangeType(comp, typeof(T));
+        }
     }
     
     public bool HasBlockComponent<T>() {
-        return GetBlockComponents<T>().ToList().Count > 0;
+        return GetBlockComponents<T>().Count() > 0;
     }
     
     public void Initialize(Ship ship) {
@@ -184,6 +192,13 @@ public class Blockform : PoolBehaviour {
         if (oldBlock._gameObject != null)
             Pool.Recycle(oldBlock.gameObject);                
 
+        if (oldBlock.type.isComplexBlock) {
+            foreach (var comp in oldBlock.type.GetComponents<BlockComponent>()) {
+                blockCompCache[comp.GetType()].Remove(comp);
+            }
+        }
+
+
         Profiler.EndSample();
     }
     
@@ -200,8 +215,10 @@ public class Blockform : PoolBehaviour {
     }
 
 	public void UpdateBounds() {
-		box.transform.localPosition = blocks.boundingRect.center * Tile.worldSize;
-        box.size = blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize);
+        localBounds.center = blocks.boundingRect.center * Tile.worldSize;
+        localBounds.size = blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize);
+        box.transform.localPosition = localBounds.center;
+        box.size = localBounds.size;
 	}
     
     public void UpdateBlock(Block block) {
@@ -229,6 +246,10 @@ public class Blockform : PoolBehaviour {
         foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;
             comp.form = this;
+
+            if (!blockCompCache.ContainsKey(comp.GetType()))
+                blockCompCache[comp.GetType()] = new HashSet<BlockComponent>();
+            blockCompCache[comp.GetType()].Add(comp);
         }
 
         if (!block.type.isComplexBlock)
@@ -457,9 +478,9 @@ public class Blockform : PoolBehaviour {
 	void Update() {
 		AvoidCollision();
 
-        var bounds = box.bounds;
-		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.left), transform.TransformPoint(bounds.center + Vector3.right), Color.green);
-		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.up), transform.TransformPoint(bounds.center + Vector3.down), Color.green);
+        var center = box.transform.position;
+		Debug.DrawLine(center + -transform.right, center + transform.right, Color.green);
+		Debug.DrawLine(center + transform.up, center + -transform.up, Color.green);
 	}
 
     void FixedUpdate() {

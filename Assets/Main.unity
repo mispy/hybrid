@@ -1254,6 +1254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sector:
+    sprite: {fileID: 0}
     radius: 200
     jumpBeacon: {fileID: 0}
   blockforms: []
@@ -1506,11 +1507,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 11458202, guid: b843263ecf12f3c4bb172e73a5c837cd, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_DynamicPixelsPerUnit
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 11458202, guid: b843263ecf12f3c4bb172e73a5c837cd, type: 2}
+    - target: {fileID: 0}
       propertyPath: m_ReferencePixelsPerUnit
       value: 100
       objectReference: {fileID: 0}

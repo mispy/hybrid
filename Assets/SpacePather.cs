@@ -13,15 +13,12 @@ public class SpacePather : PoolBehaviour {
 	public Vector2[] cardinals;
 
 	public bool IsPassable(Vector2 pos) {
-        var bounds = new Bounds(pos, pathForm.box.bounds.size);
+        var bounds = new Bounds(pos, pathForm.localBounds.size);
 
-		foreach (var form in Game.activeSector.blockforms) {
-			if (form == pathForm) continue;
-
-            if (form.box.bounds.Intersects(bounds)) {
+        foreach (var col in Physics.OverlapSphere(pos, pathForm.radius, SpaceLayer.ShipBounds)) {
+            if (col.attachedRigidbody != pathForm.rigidBody)
                 return false;
-            }
-		}
+        }
 
 		return true;
 	}
