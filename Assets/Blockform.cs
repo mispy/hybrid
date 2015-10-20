@@ -58,7 +58,7 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
-	public float radius {
+	public float length {
 		get {
 			return Mathf.Max(width, height);
 		}
@@ -189,14 +189,15 @@ public class Blockform : PoolBehaviour {
 
         UpdateBlock(oldBlock);       
 
-        if (oldBlock._gameObject != null)
-            Pool.Recycle(oldBlock.gameObject);                
-
         if (oldBlock.type.isComplexBlock) {
             foreach (var comp in oldBlock.type.GetComponents<BlockComponent>()) {
                 blockCompCache[comp.GetType()].Remove(comp);
             }
         }
+
+        if (oldBlock._gameObject != null)
+            Pool.Recycle(oldBlock.gameObject);                
+
 
 
         Profiler.EndSample();
@@ -329,7 +330,7 @@ public class Blockform : PoolBehaviour {
 	public void AvoidCollision() {
         if (ship == Game.playerShip) return;
 
-		foreach (var form in Util.ShipsInRadius(transform.position, radius*2)) {
+		foreach (var form in Util.ShipsInRadius(transform.position, length*2)) {
 			if (form == this) continue;
 
 			var local = transform.InverseTransformPoint(form.transform.position);
@@ -445,7 +446,15 @@ public class Blockform : PoolBehaviour {
         }
     }
     
-    void OnCollisionStay(Collision collision) {
+    void OnCollisionStay(Collision col) {
+        if (BlocksAtWorldPos(col.contacts[0].point).Any())  {            
+            var form = col.rigidbody.GetComponent<Blockform>();
+            if (form == null) return;
+            if (form.BlocksAtWorldPos(col.contacts[0].point).Any()) {                
+                var awayDir = (col.rigidbody.transform.position - transform.position).normalized;
+                col.rigidbody.MovePosition(col.rigidbody.transform.position + awayDir * length * 2);
+            }
+        }
         /*if (shields != null) {
             shields.OnCollisionStay(collision);
             return;

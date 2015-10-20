@@ -20,7 +20,7 @@ public class EngageTactic : PoolBehaviour {
 
 		var destination = target.transform.position;
 		var dir = destination - form.transform.position;
-		var offset = target.radius;// + maxFiringRange;
+		var offset = target.length;// + maxFiringRange;
 
 		//form.pather.transform.rotation = Quaternion.LookRotation(Vector3.forward, -dir);
 		foreach (var cardinal in form.pather.Cardinals().Reverse()) {

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ public class SpacePather : PoolBehaviour {
 	public bool IsPassable(Vector2 pos) {
         var bounds = new Bounds(pos, pathForm.localBounds.size);
 
-        foreach (var col in Physics.OverlapSphere(pos, pathForm.radius, SpaceLayer.ShipBounds)) {
+        foreach (var col in Physics.OverlapSphere(pos, pathForm.length, SpaceLayer.ShipBounds)) {
             if (col.attachedRigidbody != pathForm.rigidBody)
                 return false;
         }

@@ -212,7 +212,7 @@ public class Util {
 	}
 
 	public static IEnumerable<Blockform> ShipsInRadius(Vector2 pos, float radius) {
-		foreach (var hit in Physics.OverlapSphere(pos, radius, LayerMask.GetMask(new string[] { "Bounds" }))) {
+		foreach (var hit in Physics.OverlapSphere(pos, radius, SpaceLayer.ShipBounds)) {
 			var form = hit.attachedRigidbody.gameObject.GetComponent<Blockform>();
 			if (form != null) yield return form;
 		}
@@ -242,7 +242,7 @@ public class Util {
 		var turretBlockPos = form.WorldToBlockPos(turretPos);
         var targetDir = (targetPos - turretPos).normalized;
         
-        var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, form.radius, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
+        var targetHits = Physics.SphereCastAll(turretPos, radius, targetDir, form.length, LayerMask.GetMask(new string[] { "Wall", "Floor" }));
         foreach (var hit in targetHits) {
             if (hit.rigidbody == form.rigidBody && form.LocalToBlockPos(hit.collider.transform.localPosition) != turretBlockPos) {
                 return true;
