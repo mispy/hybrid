@@ -455,10 +455,6 @@ public class Blockform : PoolBehaviour {
                 col.rigidbody.MovePosition(col.rigidbody.transform.position + awayDir * length * 2);
             }
         }
-        /*if (shields != null) {
-            shields.OnCollisionStay(collision);
-            return;
-        }*/
     }
     
     void OnCollisionExit(Collision collision) {

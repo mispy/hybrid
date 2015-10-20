@@ -8,14 +8,14 @@ public class PowerNode : BlockComponent {
         producer = GetComponent<PowerProducer>();
     }
 
-    public void Update() {
+    public void OnPowerUpdate() {
         producer.hasAvailablePower = false;
 
-        foreach (var reactor in form.blocks.Find<Reactor>()) {
-            var reactorProducer = reactor.gameObject.GetComponent<PowerProducer>();
-            if (reactorProducer.isProducing)
+        foreach (var reactor in form.GetBlockComponents<Reactor>()) {
+            if (reactor.producer.isProducing) {
                 producer.hasAvailablePower = true;
                 break;
+            }
         }
     }
 }

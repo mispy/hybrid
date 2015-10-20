@@ -38,8 +38,12 @@ public class PowerProducer : BlockComponent {
             noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
             noPowerIndicator.transform.position = transform.position;
             noPowerIndicator.SetActive(true);
+
+            block.gameObject.SendMessage("OnDepowered", SendMessageOptions.DontRequireReceiver);
         } else if (isProducing && noPowerIndicator != null) {
             Pool.Recycle(noPowerIndicator);
+
+            block.gameObject.SendMessage("OnPowered", SendMessageOptions.DontRequireReceiver);
         }
     }
 }
