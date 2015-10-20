@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class ActiveSector : MonoBehaviour {
     public Sector sector;
+    public Transform contents;
 
     public List<Blockform> blockforms;
 
@@ -11,13 +12,17 @@ public class ActiveSector : MonoBehaviour {
         return pos.magnitude > sector.radius;
     }
 
-    void Update() {
+    public void Awake() {
+        contents = transform.Find("Contents");
+    }
+
+    public void Update() {
         Game.galaxy.Simulate(Time.deltaTime);
     }
 
     public void RealizeShip(Ship ship, Vector2 pos) {
         var form = ship.LoadBlockform();
-        form.transform.parent = transform;
+        form.transform.SetParent(contents);
 		form.transform.position = pos;
         form.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector2.zero - pos);
         form.gameObject.SetActive(true);

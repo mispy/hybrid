@@ -67,6 +67,7 @@ public class ShipDamage : PoolBehaviour {
         //newShip.hasCollision = false;
         
         var obj = Pool.For("Item").TakeObject();
+        obj.transform.SetParent(Game.activeSector.contents);
         obj.transform.position = form.BlockToWorldPos(block.pos);
         obj.SetActive(true);
         var rigid = obj.GetComponent<Rigidbody>();

@@ -55,7 +55,7 @@ MonoBehaviour:
   isComplexBlock: 0
   showInMenu: 0
   isWeapon: 0
-  renderer: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &21216936
 SpriteRenderer:
   m_ObjectHideFlags: 1

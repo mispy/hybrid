@@ -168,9 +168,9 @@ public class Game : MonoBehaviour {
     }
     
     public static void UnloadSector() {
-        foreach (var obj in activeSector.GetComponentsInChildren<PoolBehaviour>())
-            Pool.Recycle(obj.gameObject);
-        
+        foreach (Transform child in Game.activeSector.contents) {
+            Pool.Recycle(child.gameObject);
+        }
         activeSector.gameObject.SetActive(false);
     }
 
@@ -198,8 +198,6 @@ public class Game : MonoBehaviour {
         ShipManager.LoadTemplates();
 
         MakeUniverse();
-
-        Game.LoadSector(SectorManager.all[0]);
         //Save.LoadGame();
 
 
@@ -216,7 +214,8 @@ public class Game : MonoBehaviour {
         }
     }
 
-    void Start() {
+    void Start() {        
+        Game.LoadSector(SectorManager.all[0]);
         Game.mainCamera = Camera.main;
     }
 
