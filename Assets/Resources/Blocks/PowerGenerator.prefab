@@ -70,6 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   form: {fileID: 0}
+  producer: {fileID: 0}
 --- !u!114 &11487552
 MonoBehaviour:
   m_ObjectHideFlags: 1

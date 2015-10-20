@@ -6,10 +6,7 @@ using System.Linq;
 
 public class AbilityMenu : MonoBehaviour {
     public BlockType selectedType { get; private set; }
-    float startX;
-    float startY;
-    RectTransform panel;    
-    
+
     List<BlockAbility> allAbilities = new List<BlockAbility>();
     List<BlockAbility> activeAbilities = new List<BlockAbility>();
     Dictionary<BlockAbility, Button> buttons = new Dictionary<BlockAbility, Button>();
@@ -17,9 +14,6 @@ public class AbilityMenu : MonoBehaviour {
     BlockAbility selected;
 
     void Awake() {
-        panel = GetComponent<RectTransform>();
-        startX = -panel.sizeDelta.x/2;
-        startY = panel.sizeDelta.y/2;
         Clear();
             
         // Abilities are singleton objects that are activated and deactivated
@@ -78,8 +72,6 @@ public class AbilityMenu : MonoBehaviour {
         var text = backButton.GetComponentsInChildren<Text>(includeInactive: true).First();
         text.text = "`";
 
-        backButton.transform.localPosition = new Vector3(startX + Tile.pixelSize/2, 0, 0);
-
         backButton.onClick.AddListener(() => {
             DeselectAbility();
             Game.shipControl.DeselectBlocks();
@@ -97,9 +89,6 @@ public class AbilityMenu : MonoBehaviour {
 
             text = button.GetComponentInChildren<Text>();
             text.text = ability.key;
-            
-            var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
-            button.transform.localPosition = new Vector3(x, 0, 0);
 
             var toSelect = ability;
             button.onClick.AddListener(() => {

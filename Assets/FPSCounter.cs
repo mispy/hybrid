@@ -14,7 +14,11 @@ public class FPSCounter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
-        text.text = String.Format("{0} FPS", Mathf.FloorToInt(1.0f / deltaTime));
+        if (Game.isPaused) {
+            text.text = "PAUSED";
+        } else {
+            deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+            text.text = String.Format("{0} FPS", Mathf.FloorToInt(1.0f / deltaTime));
+        }
 	}
 }

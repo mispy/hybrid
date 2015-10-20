@@ -89,7 +89,7 @@ public class CrewBody : PoolBehaviour {
         return false;
     }
     
-    Blockform FindmaglockShip() {
+    Blockform FindMaglockShip() {
         if (maglockShip != null && CanMaglock(maglockShip)) {
             return maglockShip;
         } else {
@@ -120,7 +120,7 @@ public class CrewBody : PoolBehaviour {
     }
     
     void UpdateMaglock() {
-        var form = FindmaglockShip();
+        var form = FindMaglockShip();
         
         if (maglockShip != null && form != maglockShip)
             StopMaglock();

@@ -5,18 +5,11 @@ using System.Collections.Generic;
 
 public class WeaponSelect : MonoBehaviour {
 	public BlockType selectedType { get; private set; }
-    float startX;
-    float startY;
-    RectTransform panel;
 
     List<BlockType> fireableTypes = new List<BlockType>();
     List<Button> blockButtons = new List<Button>();
 
     void Awake() {
-        panel = GetComponent<RectTransform>();
-        startX = -panel.sizeDelta.x/2;
-        startY = panel.sizeDelta.y/2;
-
         // clean up placeholder UI
         foreach (Transform child in transform) {
             Destroy(child.gameObject);
@@ -30,7 +23,6 @@ public class WeaponSelect : MonoBehaviour {
 			var button = Pool.For("BlockButton").Take<Button>();
 			button.gameObject.SetActive(true);
 			button.transform.SetParent(transform);
-			button.transform.localScale = new Vector3(1, 1, 1);
 			blockButtons.Add(button);
 			
 			button.image.sprite = block.type.GetComponent<SpriteRenderer>().sprite;
@@ -39,9 +31,6 @@ public class WeaponSelect : MonoBehaviour {
 
 			var text = button.GetComponentInChildren<Text>();
 			text.text = (i+1).ToString();
-			
-			var x = startX + Tile.pixelSize/2 + i * (Tile.pixelSize + 5);
-			button.transform.localPosition = new Vector3(x, 0, 0);
 		}
 	}
     
