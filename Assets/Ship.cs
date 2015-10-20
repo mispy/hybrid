@@ -178,11 +178,11 @@ public class Ship : IOpinionable {
                 FoldJump(Util.GetRandom(SectorManager.all));
             }
         } else {
-            var targetDir = ((Vector2)destSector.galaxyPos - (Vector2)galaxyPos).normalized;
+            var targetDir = (destSector.galaxyPos.vec - galaxyPos.vec).normalized;
             var dist = targetDir * jumpSpeed * deltaTime;
 
             if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
-                destSector.PlaceShip(this, (Vector2)destSector.galaxyPos - (Vector2)galaxyPos);
+                destSector.PlaceShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
             } else {
                 galaxyPos.vec += dist;
             }

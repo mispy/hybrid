@@ -42,7 +42,7 @@ public class JumpMap : MonoBehaviour {
         selector.SetActive(true);
 
         Game.mainCamera.orthographicSize = 4;
-        var bounds = Util.GetCameraBounds(Game.mainCamera);
+        //var bounds = Util.GetCameraBounds(Game.mainCamera);
 
         foreach (var sector in SectorManager.all) {
             var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();

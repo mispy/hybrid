@@ -4,11 +4,11 @@ using System.Collections;
 public class PowerCircle : PoolBehaviour {
     PowerProducer producer;
     [HideInInspector]
-    public SpriteRenderer renderer;
+    public SpriteRenderer spriteRenderer;
 
     public override void OnCreate() {
-        renderer = GetComponent<SpriteRenderer>();
-        renderer.enabled = false;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.enabled = false;
     }
 
     public void Awake() {

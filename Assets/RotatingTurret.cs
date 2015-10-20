@@ -6,9 +6,7 @@ using System.Linq;
 
 public class RotatingTurret : BlockComponent {
 	[HideInInspector]
-	public Blockform form { get; private set; }
-	[HideInInspector]
-	public Collider collider { get; private set; }
+	public new Collider collider { get; private set; }
 	[HideInInspector]
 	public LineRenderer dottedLine { get; private set; }
 	[HideInInspector]
@@ -28,7 +26,6 @@ public class RotatingTurret : BlockComponent {
 	}
 	
 	void Start() {
-		form = GetComponentInParent<Blockform>();
 		dottedLine = Pool.For("AimingLine").Take<LineRenderer>();
         dottedLine.transform.SetParent(transform);
         dottedLine.transform.position = TipPosition;

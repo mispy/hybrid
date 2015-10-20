@@ -8,7 +8,7 @@ public class TileChunk : PoolBehaviour {
     public static int height = 32;
     
     [HideInInspector]
-    public MeshRenderer renderer;
+    public new MeshRenderer renderer;
     [HideInInspector]
     public Mesh mesh;
     

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Door : BlockComponent {
@@ -9,18 +9,18 @@ public class Door : BlockComponent {
 
     void Awake() {
         complexBlock = GetComponent<BlockType>();
-        closedSprite = complexBlock.renderer.sprite;
+        closedSprite = complexBlock.spriteRenderer.sprite;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	    foreach (var body in form.maglockedCrew) {
             if (body.currentBlockPos == block.pos) {
-                complexBlock.renderer.sprite = openSprite;
+                complexBlock.spriteRenderer.sprite = openSprite;
                 return;
             }
         }
 
-        complexBlock.renderer.sprite = closedSprite;
+        complexBlock.spriteRenderer.sprite = closedSprite;
 	}
 }

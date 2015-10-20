@@ -7,7 +7,7 @@ using System.Linq;
 public class CrewBody : PoolBehaviour {
     public Crew crew;
     public Rigidbody rigidBody;
-    public BoxCollider collider;
+    public new BoxCollider collider;
     public Constructor constructor;
     
     

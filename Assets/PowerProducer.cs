@@ -19,16 +19,16 @@ public class PowerProducer : BlockComponent {
         circle.transform.SetParent(transform);
         circle.transform.position = transform.position;
         circle.transform.rotation = transform.rotation;
-        circle.renderer.enabled = false;
+        circle.spriteRenderer.enabled = false;
         circle.gameObject.SetActive(true);
     }
         
     public void OnBlockSelected() {
-        circle.renderer.enabled = true;
+        circle.spriteRenderer.enabled = true;
     }
     
     public void OnBlockDeselected() {
-        circle.renderer.enabled = false;
+        circle.spriteRenderer.enabled = false;
     }
 
     public void Update() {

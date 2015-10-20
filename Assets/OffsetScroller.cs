@@ -6,7 +6,7 @@ public class OffsetScroller : MonoBehaviour {
     public float scrollSpeed;
     private Vector2 savedOffset;
     private Quaternion startRotation;
-    private MeshRenderer renderer;
+    private new MeshRenderer renderer;
 
     void Start () {
         renderer = GetComponent<MeshRenderer>();

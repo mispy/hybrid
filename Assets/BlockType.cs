@@ -59,7 +59,7 @@ public class BlockType : MonoBehaviour {
     public bool isWeapon = false;
 
     [HideInInspector]
-    public SpriteRenderer renderer;
+    public SpriteRenderer spriteRenderer;
 
     [NonSerialized]
     private BlockComponent[] _blockComponents;
@@ -73,6 +73,6 @@ public class BlockType : MonoBehaviour {
     }
 
     public void Awake() {
-        renderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }

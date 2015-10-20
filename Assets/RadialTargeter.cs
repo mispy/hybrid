@@ -6,15 +6,12 @@ using System.Linq;
 
 public class RadialTargeter : BlockComponent {
 	[HideInInspector]
-	public Blockform form { get; private set; }
-	[HideInInspector]
 	public GameObject targetCircle { get; private set; }
 
 	public GameObject targetCirclePrefab;
 	public float radius;
 
 	void Start() {
-		form = GetComponentInParent<Blockform>();
 		targetCircle = Pool.For(targetCirclePrefab).TakeObject();
 	}
 

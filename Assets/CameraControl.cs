@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class CameraControl : MonoBehaviour {
-	Camera camera { get { return Game.mainCamera; }}
+	new Camera camera { get { return Game.mainCamera; }}
 	public Blockform lockedForm;
 	public Blockform hoveredForm;
 	public GameObject selector;

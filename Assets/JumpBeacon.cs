@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class JumpBeacon : MonoBehaviour {
     [HideInInspector]
-    public SpriteRenderer renderer;
+    public new SpriteRenderer renderer;
     public Sector sector;
 
     void Awake() {

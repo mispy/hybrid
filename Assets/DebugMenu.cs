@@ -61,7 +61,7 @@ public class DebugMenu : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Alpha4)) {
             if (Blockform.AtWorldPos(pz) == null) {
-                var ship = ShipManager.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"]);
+                ShipManager.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"]);
             }
         }
 

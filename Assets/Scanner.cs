@@ -17,6 +17,7 @@ public class Scanner : BlockComponent {
 	int scanPathIndex;
 	float scanPathLength;
 
+
 	public void Start() {
 		scanCircle = Pool.For("ScanCircle").TakeObject();
 	}

@@ -36,7 +36,7 @@ public class ParallaxQuad : MonoBehaviour {
     Vector2 startCameraPosition;
     float   startScaleAspect;
     float   startCameraOrthoGraphicSize;
-    Renderer renderer;
+    new Renderer renderer;
 
     void Awake() {
         renderer = GetComponent<Renderer>();

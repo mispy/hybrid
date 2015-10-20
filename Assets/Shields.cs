@@ -39,7 +39,6 @@ public class Shields : PoolBehaviour {
         transform.rotation = form.transform.rotation;
 		transform.localPosition = form.localBounds.center;
 		
-		var lineWidth = 1;
 		var width = form.localBounds.size.x-3;
 		var height = form.localBounds.size.y-3;
 		

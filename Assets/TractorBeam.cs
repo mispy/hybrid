@@ -4,11 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(ParticleSystem))]
-public class TractorBeam : BlockType {
+public class TractorBeam : BlockComponent {
     [HideInInspector]
     public ParticleSystem beam;
-    [HideInInspector]
-    public Blockform form;
 
     [HideInInspector]
     public List<Collider> captured = new List<Collider>();
@@ -49,7 +47,6 @@ public class TractorBeam : BlockType {
     }
 
     void Awake() {
-        form = GetComponentInParent<Blockform>();
         beam = GetComponentInChildren<ParticleSystem>();
         beam.enableEmission = false;
     }

@@ -19,7 +19,7 @@ public class InputListener {
 }
 
 public class InputListener<T> : InputListener {
-    public Action<T> callback;
+    public new Action<T> callback;
 
     public InputListener(MonoBehaviour comp, Action<T> callback, bool repeat) {
         this.comp = comp;

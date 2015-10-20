@@ -142,7 +142,7 @@ public class GalaxyPos {
     }
 
     public static implicit operator Vector2(GalaxyPos pos) {
-        return pos.vec;   
+        return pos.vec;
     }
 
     public GalaxyPos(float x, float y) {

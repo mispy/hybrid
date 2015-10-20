@@ -37,7 +37,7 @@ public class ShipDesigner : MonoBehaviour {
         designShip.form.blueprint.tiles.EnableRendering();
         
         foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
-            blockObj.renderer.enabled = false;
+            blockObj.spriteRenderer.enabled = false;
         }
         
         foreach (var block in designShip.blueprintBlocks.frontBlockers) {
@@ -57,7 +57,7 @@ public class ShipDesigner : MonoBehaviour {
 			designShip.form.blueprint.tiles.DisableRendering();
 			designShip.form.tiles.EnableRendering();
             foreach (var blockObj in designShip.form.GetComponentsInChildren<BlockType>()) {
-                blockObj.renderer.enabled = true;
+                blockObj.spriteRenderer.enabled = true;
             }
         }
         Game.shipControl.gameObject.SetActive(true);

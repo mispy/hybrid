@@ -161,8 +161,8 @@ public class Blockform : PoolBehaviour {
 	}
     
     public void ReceiveImpact(Rigidbody fromRigid, Block block) {
-        var impactVelocity = rigidBody.velocity - fromRigid.velocity;
-        var impactForce = impactVelocity.magnitude * fromRigid.mass;
+        //var impactVelocity = rigidBody.velocity - fromRigid.velocity;
+        //var impactForce = impactVelocity.magnitude * fromRigid.mass;
         //if (impactForce < 5) return;
         
         // break it off into a separate fragment

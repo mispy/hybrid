@@ -57,8 +57,17 @@ public struct Facing {
         return r1.index != r2.index;
     }
 
+    public override bool Equals(System.Object obj) {
+        if (obj is Facing) return (Facing)obj == this;
+        return false;
+    }
+
     public override string ToString() {
         return String.Format("Facing<{0}>", index);
+    }
+
+    public override int GetHashCode() {
+        return index;
     }
 
     public Facing(int index) {

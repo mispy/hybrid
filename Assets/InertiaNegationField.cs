@@ -7,11 +7,11 @@ public class InertiaNegationField : MonoBehaviour {
     public float drag;
     public HashSet<Rigidbody> rigids = new HashSet<Rigidbody>();
 
-    SphereCollider collider;
+    SphereCollider sphereCollider;
 
     void Start() {
         transform.localScale = new Vector2(radius, radius);
-        collider = GetComponent<SphereCollider>();
+        sphereCollider = GetComponent<SphereCollider>();
     }
 
     public void OnTriggerEnter(Collider col) {

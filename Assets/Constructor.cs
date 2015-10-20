@@ -93,7 +93,7 @@ public class Constructor : MonoBehaviour
     }    
 
     void AlignParticles(Vector2 hitPos) {
-        if (!isBuilding || hitPos == null) return;
+        if (!isBuilding) return;
 
         float timex = Time.time * speed * 0.1365143f;
         float timey = Time.time * speed * 1.21688f;
