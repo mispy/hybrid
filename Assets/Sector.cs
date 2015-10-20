@@ -47,9 +47,11 @@ public class ConflictZone : SectorType {
 
     public override void OnRealize() {
         ShipManager.Create(sector: sector, faction: attacking);
+        /*ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: defending);
         ShipManager.Create(sector: sector, faction: defending);
+        ShipManager.Create(sector: sector, faction: defending);*/
     }
 }
 

@@ -84,6 +84,7 @@ MonoBehaviour:
   shields: {fileID: 0}
   lineRenderer: {fileID: 0}
   maxLineWidth: 1
+  lastLineWidth: 0
 --- !u!120 &12014802
 LineRenderer:
   m_ObjectHideFlags: 1

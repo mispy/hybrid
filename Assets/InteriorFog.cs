@@ -35,8 +35,8 @@ public class InteriorFog : MonoBehaviour {
 
 	public void UpdateVisibility() {
 		transform.localEulerAngles = new Vector3(90, 180, 0);
-		transform.localPosition = form.bounds.center;
-		transform.localScale = new Vector3(form.bounds.size.x, 0, form.bounds.size.y) / 10f;
+		transform.localPosition = form.box.transform.localPosition;
+		transform.localScale = new Vector3(form.box.bounds.size.x, 0, form.box.bounds.size.y) / 10f;
 
 		var blocks = form.blocks;
 
@@ -85,6 +85,6 @@ public class InteriorFog : MonoBehaviour {
 		
 		meshRenderer.material.SetTexture("_Visibility", texture);
 		meshRenderer.sortingLayerName = "Fog";
-		meshRenderer.material.mainTextureScale = new Vector2(form.bounds.size.x, form.bounds.size.y);			
+		meshRenderer.material.mainTextureScale = new Vector2(form.box.bounds.size.x, form.box.bounds.size.y);			
 	}
 }

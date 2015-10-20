@@ -13,13 +13,14 @@ public class SpacePather : PoolBehaviour {
 	public Vector2[] cardinals;
 
 	public bool IsPassable(Vector2 pos) {
-		var corners = Util.RectCorners(colRect).ToList();
+        var bounds = new Bounds(pos, pathForm.box.bounds.size);
+
 		foreach (var form in Game.activeSector.blockforms) {
 			if (form == pathForm) continue;
-			foreach (var corner in corners) {
-				if (form.pather.colRect.Contains(form.transform.InverseTransformPoint(pos+corner)))
-					return false;
-			}
+
+            if (form.box.bounds.Intersects(bounds)) {
+                return false;
+            }
 		}
 
 		return true;

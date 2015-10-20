@@ -26,7 +26,7 @@ public class Blockform : PoolBehaviour {
     public BlockMap blocks;
     public TileRenderer tiles;
     public Rigidbody rigidBody;
-	public BoxCollider boundsCollider;
+	public BoxCollider box;
     public ShipDamage damage;
     
     public bool inertia = false;
@@ -75,8 +75,6 @@ public class Blockform : PoolBehaviour {
 		}
 	}
 
-	public Bounds bounds;
-
     public IEnumerable<T> GetBlockComponents<T>() {
         return GetComponentsInChildren<T>().Where((comp) => (comp as BlockComponent).block.ship == ship);
     }
@@ -124,11 +122,11 @@ public class Blockform : PoolBehaviour {
 		fog.name = "InteriorFog";
 		fog.gameObject.SetActive(true);
 
-		boundsCollider = Pool.For("BoundsCollider").Take<BoxCollider>();
-		boundsCollider.isTrigger = true;
-		boundsCollider.transform.SetParent(transform);
-		boundsCollider.transform.position = transform.position;
-		boundsCollider.gameObject.SetActive(true);
+		box = Pool.For("BoundsCollider").Take<BoxCollider>();
+		box.isTrigger = true;
+		box.transform.SetParent(transform);
+		box.transform.position = transform.position;
+		box.gameObject.SetActive(true);
 
         foreach (var block in ship.blocks.allBlocks) {
             OnBlockAdded(block);
@@ -183,7 +181,7 @@ public class Blockform : PoolBehaviour {
 
         UpdateBlock(oldBlock);       
 
-        if (oldBlock.type.isComplexBlock)
+        if (oldBlock._gameObject != null)
             Pool.Recycle(oldBlock.gameObject);                
 
         Profiler.EndSample();
@@ -202,9 +200,8 @@ public class Blockform : PoolBehaviour {
     }
 
 	public void UpdateBounds() {
-		bounds = new Bounds(blocks.boundingRect.center * Tile.worldSize, blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize));
-		boundsCollider.transform.localPosition = bounds.center;
-		boundsCollider.size = bounds.size;
+		box.transform.localPosition = blocks.boundingRect.center * Tile.worldSize;
+        box.size = blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize);
 	}
     
     public void UpdateBlock(Block block) {
@@ -460,6 +457,7 @@ public class Blockform : PoolBehaviour {
 	void Update() {
 		AvoidCollision();
 
+        var bounds = box.bounds;
 		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.left), transform.TransformPoint(bounds.center + Vector3.right), Color.green);
 		Debug.DrawLine(transform.TransformPoint(bounds.center + Vector3.up), transform.TransformPoint(bounds.center + Vector3.down), Color.green);
 	}

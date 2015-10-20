@@ -117,7 +117,7 @@ MonoBehaviour:
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
-  availableProducers: []
+  attachedProducer: {fileID: 0}
 --- !u!198 &19837312
 ParticleSystem:
   m_ObjectHideFlags: 1

@@ -61,7 +61,7 @@ MonoBehaviour:
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
-  availableProducers: []
+  attachedProducer: {fileID: 0}
 --- !u!114 &11458222
 MonoBehaviour:
   m_ObjectHideFlags: 1

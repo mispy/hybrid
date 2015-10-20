@@ -49,7 +49,7 @@ public class CameraControl : MonoBehaviour {
 			selector.SetActive(true);
 			selector.transform.position = hoveredForm.transform.position;
 			selector.transform.rotation = hoveredForm.transform.rotation;
-			selector.transform.localScale = hoveredForm.bounds.size*1.2f;
+			selector.transform.localScale = hoveredForm.box.bounds.size*1.2f;
 		} else {
 			selector.SetActive(false);
 		}

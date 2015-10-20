@@ -27,7 +27,7 @@ public class ShipNameOverlay : MonoBehaviour {
 		else
 	        canvas.transform.rotation = Game.playerShip.form.transform.rotation;
 
-        transform.localPosition = Vector3.down * Mathf.Abs(ship.form.bounds.min.y + 10f);
+        transform.localPosition = Vector3.down * Mathf.Abs(ship.form.box.bounds.extents.y);
 
         shipName.text = ship.name;
 		shipFaction.text = ship.faction.name;
