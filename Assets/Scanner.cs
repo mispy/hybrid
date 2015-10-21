@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Scanner : BlockComponent {
 	[HideInInspector]
-	GameObject scanCircle;
+	Transform scanCircle;
 
 	public float scanRadius;
 
@@ -19,7 +19,7 @@ public class Scanner : BlockComponent {
 
 
 	public void Start() {
-		scanCircle = AttachNew("ScanCircle");
+		scanCircle = Pool.For("ScanCircle").Attach<Transform>(transform, false);
 	}
 
 	public void OnLineTarget() {
@@ -34,7 +34,7 @@ public class Scanner : BlockComponent {
 		scanPathLength = Util.GetPathLength(scanPath);
 		scanElapsed = 0f;
 
-		scanCircle.SetActive(true);
+		scanCircle.gameObject.SetActive(true);
 		scanCircle.transform.SetParent(targetForm.transform);
 		scanCircle.transform.position = points[0];
 		scanCircle.transform.localScale = new Vector3(scanRadius*2.5f, scanRadius*2.5f, scanRadius*2.5f);
@@ -52,7 +52,7 @@ public class Scanner : BlockComponent {
 
 		if (scanElapsed > scanDuration) {
 			scanPath = null;
-			scanCircle.SetActive(false);
+			scanCircle.gameObject.SetActive(false);
 		}
 	}
 }

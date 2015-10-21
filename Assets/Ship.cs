@@ -142,6 +142,7 @@ public class Ship : IOpinionable {
         }
     }
 
+    public ShipStrategy strategy;
     public Blockform form = null;
     public JumpShip jumpShip = null;
     public Dictionary<Ship, Disposition> localDisposition = new Dictionary<Ship, Disposition>();
@@ -150,15 +151,20 @@ public class Ship : IOpinionable {
         get { return !blocks.Find<Thruster>().Any(); }
     }
 
+    public bool inTransit {
+        get { return destSector != null; }
+    }
+
     public Ship() {
         crew = new List<Crew>();
+        strategy = new ShipStrategy(this);
         blocks = new BlockMap(this);
         blueprintBlocks = new BlockMap(this);
         blocks.OnBlockAdded += OnBlockAdded;
     }
 
     public Blockform LoadBlockform() {
-        var blockform = Pool.For("Blockform").TakeObject().GetComponent<Blockform>();
+        var blockform = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
         blockform.Initialize(this);
         this.form = blockform;
         return blockform;
@@ -169,6 +175,7 @@ public class Ship : IOpinionable {
     }
 
     public void FoldJump(Sector destSector) {
+        Debug.LogFormat("Jumping to: {0}", destSector);
         this.destSector = destSector;
 
         if (sector != null)
@@ -179,15 +186,12 @@ public class Ship : IOpinionable {
     public void Simulate(float deltaTime) {
         // don't simulate realized ships
         if (form != null) return;
+        strategy.Simulate();
 
-        if (destSector == null) {
-            if (this != Game.playerShip && !this.isStationary) {
-                FoldJump(Util.GetRandom(SectorManager.all));
-            }
-        } else {
+        if (destSector != null) {
             var targetDir = (destSector.galaxyPos.vec - galaxyPos.vec).normalized;
             var dist = targetDir * jumpSpeed * deltaTime;
-
+            
             if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
                 destSector.JumpEnterShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
             } else {

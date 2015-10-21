@@ -34,7 +34,7 @@ public class Generate : MonoBehaviour {
         return frag;
     }
 
-    public static Ship Asteroid(Vector2 pos, int radius) {
+    /*public static Ship Asteroid(Vector2 pos, int radius) {
         var shipObj = Pool.For("Ship").TakeObject();
         var ship = shipObj.GetComponent<Ship>();
 
@@ -52,7 +52,7 @@ public class Generate : MonoBehaviour {
         shipObj.transform.position = pos;
         shipObj.SetActive(true);
         return ship;
-    }
+    }*/
     // Use this for initialization
     void Start () {
     

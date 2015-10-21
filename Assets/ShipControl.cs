@@ -10,32 +10,30 @@ public class ShipControl : MonoBehaviour {
     public static ShipInfo shipInfo;
 
     Ship ship;
-    GameObject selector;
+    Transform selector;
     Crew selectedCrew = null;
     public Ship selectedShip { get; private set; }
 
     public HashSet<Block> selectedBlocks = new HashSet<Block>();
-    public Dictionary<Block, GameObject> blockSelectors = new Dictionary<Block, GameObject>();
+    public Dictionary<Block, Transform> blockSelectors = new Dictionary<Block, Transform>();
 
     void DeselectCrew() {
         if (selectedCrew == null) return;
 
-        selector.SetActive(false);
+        selector.gameObject.SetActive(false);
         selectedCrew = null;
     }
 
     void SelectCrew(Crew crew) {
         if (selector == null) {
-            selector = Pool.For("Selector").TakeObject();
-            selector.transform.parent = transform;
-            selector.SetActive(true);
+            selector = Pool.For("Selector").Attach<Transform>(transform);
         }
 
         selector.transform.position = crew.body.transform.position;
         selector.transform.rotation = crew.body.transform.rotation;
         selector.transform.SetParent(crew.body.transform);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
-        selector.SetActive(true);
+        selector.gameObject.SetActive(true);
         selectedCrew = crew;
      }
 
@@ -57,7 +55,7 @@ public class ShipControl : MonoBehaviour {
     public void SelectBlock(Block block) {
         if (selectedBlocks.Contains(block)) return;
 
-        var selector = Pool.For("Selector").TakeObject();
+        var selector = Pool.For("Selector").Attach<Transform>(transform);
 
         var worldPos = block.ship.form.BlockToWorldPos(block);
         selector.transform.position = worldPos;
@@ -65,7 +63,6 @@ public class ShipControl : MonoBehaviour {
         selector.transform.SetParent(block.ship.form.transform);
         selector.transform.localScale = new Vector2(block.Width*Tile.worldSize, block.Height*Tile.worldSize);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
-        selector.SetActive(true);
 
         selectedBlocks.Add(block);
         blockSelectors[block] = selector;

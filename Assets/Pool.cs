@@ -71,7 +71,7 @@ public class Pool {
         return obj;
     }
     
-    public GameObject TakeObject() {
+    GameObject TakeObject() {
         if (lastIndex < pooledObjects.Count) {
             var obj = pooledObjects[lastIndex];
             lastIndex += 1;
@@ -87,13 +87,12 @@ public class Pool {
         return TakeObject();
     }
 
-    public T Attach<T>(Transform transform, bool inactive = false) {
+    public T Attach<T>(Transform transform, bool isActive = true) {
         var obj = TakeObject();
         obj.transform.SetParent(transform);
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
-        if (!inactive)
-            obj.SetActive(true);
+        obj.SetActive(isActive);
         return obj.GetComponent<T>();
     }
 }

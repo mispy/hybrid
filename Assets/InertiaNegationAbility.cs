@@ -11,7 +11,7 @@ public class InertiaNegationAbility : BlockAbility {
     }
 
     public void OnLeftClick() {
-        var field = Pool.For("InertiaNegationField").TakeObject();
+        var field = Pool.For("InertiaNegationField").Attach<Transform>(Game.activeSector.transients);
         field.transform.position = Game.mousePos;
         field.gameObject.SetActive(true);
         //field.AddComponent<Transient>();

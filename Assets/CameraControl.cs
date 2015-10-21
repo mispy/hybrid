@@ -6,12 +6,12 @@ public class CameraControl : PoolBehaviour {
 	new Camera camera { get { return Game.mainCamera; }}
 	public Blockform lockedForm;
 	public Blockform hoveredForm;
-	public GameObject selector;
+	public Transform selector;
     Vector2 cameraOffset = new Vector2(0, 0);
 
 	public void Start() {
 		lockedForm = Game.playerShip.form;
-		selector = AttachNew("Selector");
+		selector = Pool.For("Selector").Attach<Transform>(transform);
 	}
 
 	public void ZoomIn() {	
@@ -46,12 +46,12 @@ public class CameraControl : PoolBehaviour {
 		}
 
 		if (hoveredForm != Game.playerShip.form) {
-			selector.SetActive(true);
+			selector.gameObject.SetActive(true);
 			selector.transform.position = hoveredForm.transform.position;
 			selector.transform.rotation = hoveredForm.transform.rotation;
 			selector.transform.localScale = hoveredForm.box.bounds.size*1.2f;
 		} else {
-			selector.SetActive(false);
+			selector.gameObject.SetActive(false);
 		}
 
 

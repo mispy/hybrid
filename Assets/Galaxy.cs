@@ -37,7 +37,11 @@ public class Star {
 }
 
 public class Galaxy {
+    public static float deltaTime;
+
     public void Simulate(float deltaTime) {
+        Galaxy.deltaTime = deltaTime;
+
         foreach (var ship in ShipManager.all) {
             ship.Simulate(deltaTime);
         }

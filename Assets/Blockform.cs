@@ -41,7 +41,7 @@ public class Blockform : PoolBehaviour {
     public List<CrewBody> maglockedCrew = new List<CrewBody>();
     private bool needsMassUpdate = true;
 
-    public GameObject blockComponentHolder;
+    public Transform blockComponentHolder;
 	public SpacePather pather;
 
     public HashSet<Block> poweredWeapons = new HashSet<Block>();
@@ -101,28 +101,16 @@ public class Blockform : PoolBehaviour {
         damage = GetComponent<ShipDamage>();
         blocks.OnBlockRemoved += OnBlockRemoved;
         blocks.OnBlockAdded += OnBlockAdded;
-        
-        var obj = Pool.For("Blueprint").TakeObject();
-        obj.transform.parent = transform;
-        obj.transform.position = transform.position;
-        obj.SetActive(true);
-        blueprint = obj.GetComponent<Blueprint>();
-        blueprint.Initialize(ship);
-		blueprint.tiles.DisableRendering();
-        
-        obj = Pool.For("Holder").TakeObject();
-        obj.transform.parent = transform;
-        obj.transform.position = transform.position;
-        obj.name = "BlockComponents";
-        obj.SetActive(true);
-        blockComponentHolder = obj;
 
-		obj = Pool.For("Holder").TakeObject();
-		obj.transform.SetParent(transform);
-		obj.transform.position = transform.position;
-		obj.name = "SpacePather";
-		pather = obj.AddComponent<SpacePather>();
-		obj.SetActive(true);
+        blueprint = Pool.For("Blueprint").Attach<Blueprint>(transform);
+        blueprint.Initialize(ship);
+        blueprint.tiles.DisableRendering();
+
+        blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
+        blockComponentHolder.name = "BlockComponents";
+
+        var obj = Pool.For("Holder").Attach<Transform>(transform);
+        pather = obj.gameObject.AddComponent<SpacePather>();
 
 		fog = Pool.For("InteriorFog").Attach<InteriorFog>(transform);
 		fog.name = "InteriorFog";
@@ -223,10 +211,9 @@ public class Blockform : PoolBehaviour {
     
     public GameObject RealizeBlock(Block block) {
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
-        
-        var obj = Pool.For(block.type.gameObject).TakeObject();        
-        block._gameObject = obj;
-        obj.transform.SetParent(blockComponentHolder.transform);
+
+        var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);
+        block._gameObject = obj.gameObject;
         obj.transform.position = BlockToWorldPos(block);
         obj.transform.up = worldOrient;
         obj.transform.localScale *= Tile.worldSize;
@@ -248,8 +235,8 @@ public class Blockform : PoolBehaviour {
         if (!block.type.isComplexBlock)
             obj.GetComponent<SpriteRenderer>().enabled = false;
 
-        obj.SetActive(true);
-        return obj;
+        obj.gameObject.SetActive(true);
+        return obj.gameObject;
     }
     
     public void UpdateMass() {        

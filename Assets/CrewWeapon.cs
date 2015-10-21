@@ -18,12 +18,11 @@ public class CrewWeapon : MonoBehaviour {
     public void Fire(Vector2 targetPos) {
         if (cooldown > 0) return;
 
-        var bulletObj = Pool.For("PulseBullet").TakeObject();
+        var bulletObj = Pool.For("PulseBullet").Attach<Transform>(Game.activeSector.transients);
         var rigid = bulletObj.GetComponent<Rigidbody>();
         var dir = (targetPos - (Vector2)transform.position).normalized;
         rigid.transform.position = transform.position;
         rigid.velocity = dir*20f;
-        bulletObj.SetActive(true);
 
         var col = bulletObj.GetComponent<SphereCollider>();
         var mcol = GetComponent<BoxCollider>();

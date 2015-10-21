@@ -40,7 +40,7 @@ public class ShipDamage : PoolBehaviour {
         }
     }  
     
-    public GameObject BreakBlock(Block block, bool checkBreaks = true) {
+    public void BreakBlock(Block block, bool checkBreaks = true) {
         blocks[block.pos, block.layer] = null;
         
         if (block.layer == BlockLayer.Base) {
@@ -65,18 +65,13 @@ public class ShipDamage : PoolBehaviour {
         newShip.rigidBody.velocity = rigidBody.velocity;
         newShip.rigidBody.angularVelocity = rigidBody.angularVelocity;*/
         //newShip.hasCollision = false;
-        
-        var obj = Pool.For("Item").TakeObject();
-        obj.transform.SetParent(Game.activeSector.contents);
-        obj.transform.position = form.BlockToWorldPos(block.pos);
-        obj.SetActive(true);
-        var rigid = obj.GetComponent<Rigidbody>();
-        rigid.velocity = form.rigidBody.velocity;
-        rigid.angularVelocity = form.rigidBody.angularVelocity;
+
+        var item = Pool.For("Item").Attach<Rigidbody>(Game.activeSector.transients);
+        item.position = form.BlockToWorldPos(block.pos);
+        item.velocity = form.rigidBody.velocity;
+        item.angularVelocity = form.rigidBody.angularVelocity;
         
         if (blocks.baseSize == 0) Pool.Recycle(gameObject);
-        
-        return obj;
     }
     
     public void BreakDetected(HashSet<Block> frag1, HashSet<Block> frag2) {

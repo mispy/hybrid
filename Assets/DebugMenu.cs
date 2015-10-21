@@ -28,16 +28,15 @@ public class DebugMenu : MonoBehaviour {
         for (var i = 0; i < 10; i++) {
             var radius = Random.Range(5, 10);
             if (Physics.OverlapSphere(pos, radius*Tile.worldSize).Length == 0) {
-                Generate.Asteroid(pos, radius);
+                //Generate.Asteroid(pos, radius);
                 break;
             }
         }
     }
 
     public void SpawnCrew(Vector2 pos) {
-        var crewObj = Pool.For("CrewBody").TakeObject();
-        crewObj.transform.position = pos;
-        crewObj.SetActive(true);
+        var crew = Pool.For("CrewBody").Attach<CrewBody>(Game.activeSector.contents);
+        crew.transform.position = pos;
     }
 
 	public void ToggleVisibility() {

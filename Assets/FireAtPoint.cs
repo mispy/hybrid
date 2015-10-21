@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class FireAtPoint : BlockAbility {
-    GameObject targetCircle;
+    Transform targetCircle;
     RotatingTurret[] turrets;
     
     public override bool WorksWith(Block block) {
@@ -11,7 +11,7 @@ public class FireAtPoint : BlockAbility {
     }
     
     void Awake() {
-        targetCircle = Pool.For("SetTargetCircle").TakeObject();
+        targetCircle = Pool.For("SetTargetCircle").Attach<Transform>(transform);
     }
 
     void OnEnable() {
@@ -28,7 +28,7 @@ public class FireAtPoint : BlockAbility {
             turret.dottedLine.enabled = false;
             turret.showLine = false;
         }
-        targetCircle.SetActive(false);
+        targetCircle.gameObject.SetActive(false);
     }
 
     void OnLeftClick() {

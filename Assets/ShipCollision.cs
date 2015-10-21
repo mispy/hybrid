@@ -5,21 +5,16 @@ using System.Collections.Generic;
 public class ShipCollision : PoolBehaviour {
     Blockform form;
     BlockMap blocks;
-    GameObject collidersObj;
+    Transform collidersHolder;
     public Dictionary<IntVector2, Collider> colliders { get; private set; }
 
     void Awake() {
         colliders = new Dictionary<IntVector2, Collider>();
         form = GetComponent<Blockform>();
 
-        var obj = Pool.For("Holder").TakeObject();
-        obj.name = "Colliders";
-        obj.transform.parent = transform;
-        obj.transform.position = transform.position;
-        obj.transform.rotation = transform.rotation;
-        obj.transform.localScale *= Tile.worldSize;
-        obj.SetActive(true);
-        collidersObj = obj;        
+        collidersHolder = Pool.For("Holder").Attach<Transform>(transform);
+        collidersHolder.name = "Colliders";
+        collidersHolder.transform.localScale *= Tile.worldSize;
     }
 
     void Start() {
@@ -43,7 +38,7 @@ public class ShipCollision : PoolBehaviour {
         Profiler.BeginSample("AddCollider");
         
         var pool = collisionLayer == Block.wallLayer ? "WallCollider" : "FloorCollider";
-        var collider = Pool.For(pool).Attach<Collider>(collidersObj.transform);
+        var collider = Pool.For(pool).Attach<Collider>(collidersHolder.transform);
         collider.transform.localPosition = form.BlockToLocalPos(bp);
         colliders[bp] = collider;
         collider.gameObject.SetActive(true);

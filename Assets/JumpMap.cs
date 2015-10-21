@@ -16,7 +16,7 @@ public class JumpMap : PoolBehaviour {
     JumpBeacon selectedBeacon;
     SectorInfo sectorInfo;
     Canvas canvas;
-    GameObject selector;
+    Transform selector;
 
     Button enterButton;
     Button foldButton;
@@ -41,10 +41,8 @@ public class JumpMap : PoolBehaviour {
     void Awake() {
         canvas = GetComponentInChildren<Canvas>();
         sectorInfo = GetComponentInChildren<SectorInfo>();
-        selector = Pool.For("Selector").TakeObject();
-        selector.transform.SetParent(transform);
-        selector.SetActive(true);
-        contents = AttachNew<Transform>("Holder");
+        selector = Pool.For("Selector").Attach<Transform>(transform);
+        contents = Pool.For("Holder").Attach<Transform>(transform);
         contents.name = "Contents";
         contents.gameObject.SetActive(true);
 

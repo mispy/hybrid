@@ -8,22 +8,6 @@ using Random = UnityEngine.Random;
 public class PoolBehaviour : MonoBehaviour {
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }
-
-    public GameObject AttachNew(string name) {
-        var obj = Pool.For(name).TakeObject();
-        obj.transform.SetParent(transform);
-        return obj;
-    }
-
-    public GameObject AttachNew(GameObject prefab) {
-        var obj = Pool.For(prefab).TakeObject();
-        obj.transform.SetParent(transform);
-        return obj;
-    }
-
-    public T AttachNew<T>(string name) {
-        return AttachNew(name).GetComponent<T>();
-    }
 }
 
 public struct IntRect {
@@ -384,6 +368,10 @@ public class Util {
 
     public static T GetRandom<T>(T[] list) {
         return list[Random.Range(0, list.Length)];
+    }
+
+    public static T GetRandom<T>(HashSet<T> list) {
+        return list.ToList()[Random.Range(0, list.Count)];
     }
 
     public static List<T> Shuffle<T>(List<T> srcList) {

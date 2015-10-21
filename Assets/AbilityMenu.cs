@@ -19,7 +19,7 @@ public class AbilityMenu : PoolBehaviour {
         // Abilities are singleton objects that are activated and deactivated
         // as selected
         foreach (var prefab in Game.LoadPrefabs("BlockAbilities")) {
-            var ability = AttachNew(prefab).GetComponent<BlockAbility>();
+            var ability = Pool.For(prefab).Attach<BlockAbility>(transform, false);
             ability.GetComponent<SpriteRenderer>().enabled = false;
             allAbilities.Add(ability);
         }

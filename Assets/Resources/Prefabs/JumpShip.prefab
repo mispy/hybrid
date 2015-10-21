@@ -40,7 +40,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b137f38c90911ff448d6b34596de4d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tiles: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &21268426
 SpriteRenderer:
   m_ObjectHideFlags: 1

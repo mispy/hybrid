@@ -11,7 +11,7 @@ public class PowerProducer : BlockComponent {
     public bool hasAvailablePower = true;
     PowerCircle circle;
 
-    GameObject noPowerIndicator;
+    Transform noPowerIndicator;
 
     
     public override void OnCreate() {        
@@ -29,15 +29,13 @@ public class PowerProducer : BlockComponent {
 
     public void Update() {
         if (!isProducing && noPowerIndicator == null) {
-            noPowerIndicator = Pool.For("NoPower").TakeObject();
-            noPowerIndicator.transform.SetParent(transform);
+            noPowerIndicator = Pool.For("NoPower").Attach<Transform>(transform);
             noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
-            noPowerIndicator.transform.position = transform.position;
-            noPowerIndicator.SetActive(true);
+            noPowerIndicator.gameObject.SetActive(true);
 
             block.gameObject.SendMessage("OnDepowered", SendMessageOptions.DontRequireReceiver);
         } else if (isProducing && noPowerIndicator != null) {
-            Pool.Recycle(noPowerIndicator);
+            Pool.Recycle(noPowerIndicator.gameObject);
 
             block.gameObject.SendMessage("OnPowered", SendMessageOptions.DontRequireReceiver);
         }

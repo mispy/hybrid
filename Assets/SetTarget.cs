@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class SetTarget : BlockAbility {
-    GameObject targetCircle;
+    Transform targetCircle;
     RotatingTurret[] turrets;
 
     /*public override bool WorksWith(Block block) {
@@ -11,8 +11,7 @@ public class SetTarget : BlockAbility {
     }*/
 
     void OnEnable() {
-        targetCircle = Pool.For("SetTargetCircle").TakeObject();
-        targetCircle.SetActive(true);
+        targetCircle = Pool.For("SetTargetCircle").Attach<Transform>(transform);
         turrets = blocks.Select((b) => b.gameObject.GetComponent<RotatingTurret>()).ToArray();
 
         InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
@@ -25,7 +24,7 @@ public class SetTarget : BlockAbility {
 
     void OnDisable() {
         if (targetCircle != null)
-            Pool.Recycle(targetCircle);
+            Pool.Recycle(targetCircle.gameObject);
     }
 
     void Target(Blockform form, Vector2 pos) {

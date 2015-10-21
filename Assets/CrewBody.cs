@@ -33,12 +33,8 @@ public class CrewBody : PoolBehaviour {
         collider = GetComponent<BoxCollider>();
         rigidBody = GetComponent<Rigidbody>();
         weapon = GetComponent<CrewWeapon>();
-        
-        var obj = Pool.For("Constructor").TakeObject();    
-        obj.transform.parent = transform;
-        obj.transform.position = transform.position;
-        obj.SetActive(true);
-        constructor = GetComponentInChildren<Constructor>();
+
+        constructor = Pool.For("Constructor").Attach<Constructor>(transform);
 
         crew.body = this;
     }

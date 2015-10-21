@@ -11,7 +11,7 @@ public class PowerReceiver : BlockComponent {
     public PowerProducer attachedProducer;
 
     [HideInInspector]
-    private GameObject noPowerIndicator;
+    private Transform noPowerIndicator;
 
     public void Start() {
         isReceiving = true;
@@ -26,7 +26,7 @@ public class PowerReceiver : BlockComponent {
     public void Powered() {
         if (block.isPowered == true) return;
         if (noPowerIndicator != null)
-            Pool.Recycle(noPowerIndicator);
+            Pool.Recycle(noPowerIndicator.gameObject);
 
         block.isPowered = true;
         if (block.type.isWeapon)
@@ -37,11 +37,8 @@ public class PowerReceiver : BlockComponent {
 
     public void Depowered() {
         if (block.isPowered == false) return;
-        noPowerIndicator = Pool.For("NoPower").TakeObject();
-        noPowerIndicator.transform.SetParent(transform);
+        noPowerIndicator = Pool.For("NoPower").Attach<Transform>(transform);
         noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
-        noPowerIndicator.transform.position = transform.position;
-        noPowerIndicator.SetActive(true);
         block.isPowered = false;
         if (block.type.isWeapon)
             form.poweredWeapons.Remove(block);

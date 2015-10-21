@@ -12,9 +12,6 @@ public class Explosive : MonoBehaviour
 	public GameObject explosionPrefab;
     public Ship originShip;
 
-	[HideInInspector]
-	public GameObject explosion;
-
     void Start() {
         rigidbody = GetComponent<Rigidbody>();
     }
@@ -45,10 +42,8 @@ public class Explosive : MonoBehaviour
     }*/
 
 	public void Explode() {
-        explosion = Pool.For(explosionPrefab).TakeObject();
+        var explosion = Pool.For(explosionPrefab).Attach<Transform>(Game.activeSector.transients);
         explosion.transform.position = rigidbody.position;
-        //explosion.transform.rotation = Quaternion.LookRotation(col.contacts[0].normal);
-        explosion.SetActive(true);
 
 		var multiplier = explosionRadius;
 		var systems = GetComponentsInChildren<ParticleSystem>();

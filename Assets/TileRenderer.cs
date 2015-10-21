@@ -33,19 +33,11 @@ public class TileRenderer : PoolBehaviour {
     }
     
     public override void OnCreate() {
-        var obj = Pool.For("TileLayer").TakeObject();
-        obj.name = "TileLayer (Base)";
-        obj.transform.parent = transform;
-        obj.transform.position = transform.position;
-        obj.SetActive(true);
-        baseTiles = obj.GetComponent<TileLayer>();
-        
-        obj = Pool.For("TileLayer").TakeObject();
-        obj.name = "TileLayer (Top)";
-        obj.transform.parent = transform;
-        obj.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1);
-        obj.SetActive(true);
-        topTiles = obj.GetComponent<TileLayer>();
+        baseTiles = Pool.For("TileLayer").Attach<TileLayer>(transform);
+        baseTiles.name = "TileLayer (Base)";
+
+        topTiles = Pool.For("TileLayer").Attach<TileLayer>(transform);
+        topTiles.name = "TileLayer (Top)";
     } 
 
     public void Start() {
