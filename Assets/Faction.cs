@@ -43,7 +43,7 @@ public class FactionRelationEvent {
 public class FactionOpinion {
     public readonly Faction faction;
     public readonly Dictionary<IOpinionable, OpinionOf> opinions = new Dictionary<IOpinionable, OpinionOf>();
-    
+
     public FactionOpinion(Faction faction) {
         this.faction = faction;
     }

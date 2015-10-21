@@ -138,9 +138,13 @@ public class Game : MonoBehaviour {
         pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
         mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
 
-        TradeStation.Create(faction: mitzubi);
-        for (var i = 0; i < 10; i++) {
-            ConflictZone.Create(attacking: pirateGang, defending: mitzubi);
+        for (var i= 0; i < 100; i++) {
+            Star.Create();
+        }
+
+        foreach (var star in Star.all) {
+            FactionOutpost.Create(star.BeaconPosition(), faction: mitzubi);
+            ConflictZone.Create(star.BeaconPosition(), attacking: pirateGang, defending: mitzubi);
         }
 
 		var sector = SectorManager.all[0];

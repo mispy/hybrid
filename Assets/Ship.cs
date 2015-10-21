@@ -146,6 +146,10 @@ public class Ship : IOpinionable {
     public JumpShip jumpShip = null;
     public Dictionary<Ship, Disposition> localDisposition = new Dictionary<Ship, Disposition>();
 
+    public bool isStationary {
+        get { return !blocks.Find<Thruster>().Any(); }
+    }
+
     public Ship() {
         crew = new List<Crew>();
         blocks = new BlockMap(this);
@@ -177,7 +181,7 @@ public class Ship : IOpinionable {
         if (form != null) return;
 
         if (destSector == null) {
-            if (this != Game.playerShip) {
+            if (this != Game.playerShip && !this.isStationary) {
                 FoldJump(Util.GetRandom(SectorManager.all));
             }
         } else {
@@ -187,7 +191,7 @@ public class Ship : IOpinionable {
             if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
                 destSector.JumpEnterShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
             } else {
-                galaxyPos.vec += dist;
+                galaxyPos = new GalaxyPos(null, galaxyPos.vec + dist);
             }
         }
 

@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class JumpMap : MonoBehaviour {        
+public class JumpMap : PoolBehaviour {        
     float jumpRange = 5f;
     Color hoverColor = new Color (0.95f, 0.64f, 0.38f, 0.05f);
     Color currentColor = new Color (0f, 1f, 1f, 1f);
@@ -33,7 +33,7 @@ public class JumpMap : MonoBehaviour {
     }
 
     public Vector3 GalaxyToWorldPos(GalaxyPos galaxyPos) {
-        return new Vector3(galaxyPos.x/4, galaxyPos.y/4, 0);
+        return new Vector3(galaxyPos.x, galaxyPos.y, 0);
     }
 
     void Awake() {
@@ -48,19 +48,26 @@ public class JumpMap : MonoBehaviour {
         Game.mainCamera.orthographicSize = 4;
         //var bounds = Util.GetCameraBounds(Game.mainCamera);
 
+        foreach (var star in Star.all) {
+            var beacon = AttachNew<JumpBeacon>("Star");
+            beacon.transform.position = GalaxyToWorldPos(star.galaxyPos);
+            beacon.gameObject.SetActive(true);
+            beacon.renderer.color = star.faction.color;
+            beacons.Add(beacon);
+        }
+
         foreach (var sector in SectorManager.all) {
-            var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();
+            var beacon = AttachNew<JumpBeacon>("JumpBeacon");
             beacon.sector = sector;
             sector.jumpBeacon = beacon;
-            beacon.transform.parent = transform;
             beacon.transform.position = GalaxyToWorldPos(sector.galaxyPos);
             beacon.gameObject.SetActive(true);
+            beacon.renderer.sprite = sector.type.sprite;
             beacons.Add(beacon);
         }
 
         foreach (var ship in ShipManager.all) {
-            var jumpShip = Pool.For("JumpShip").Take<JumpShip>();
-            jumpShip.transform.parent = transform;
+            var jumpShip = AttachNew<JumpShip>("JumpShip");
             jumpShip.Initialize(ship);
             jumpShip.gameObject.SetActive(true);
             jumpShips.Add(jumpShip);

@@ -20,6 +20,10 @@ public class PoolBehaviour : MonoBehaviour {
         obj.transform.SetParent(transform);
         return obj;
     }
+
+    public T AttachNew<T>(string name) {
+        return AttachNew(name).GetComponent<T>();
+    }
 }
 
 public struct IntRect {
@@ -138,8 +142,9 @@ public struct IntVector2 {
     }
 }
 
-public struct GalaxyPos {
-    public Vector2 vec;
+public class GalaxyPos {
+    public Star star { get; private set; }
+    public Vector2 vec { get; private set; }
 
     public float x {
         get {
@@ -158,7 +163,18 @@ public struct GalaxyPos {
     }
 
     public GalaxyPos(float x, float y) {
-        vec = new Vector2(x, y);
+        this.star = null;
+        this.vec = new Vector2(x, y);
+    }
+
+    public GalaxyPos(Star star, float x, float y) {
+        this.star = star;
+        this.vec = new Vector2(x, y);
+    }
+
+    public GalaxyPos(Star star, Vector2 vec) {
+        this.star = star;
+        this.vec = vec;
     }
 }
 
@@ -437,4 +453,7 @@ public class Util {
         return (Vector2)block.gameObject.transform.TransformPoint(Vector2.up*Tile.worldSize);
     }
 
+    public static Vector2 RandomDirection() {
+        return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    }
 }

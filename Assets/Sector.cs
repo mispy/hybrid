@@ -33,14 +33,14 @@ public interface ISectorType {
     string Describe();
 }
 
-public class TradeStation : ISectorType {
+public class FactionOutpost : ISectorType {
     public Sector sector;
     public Ship station { get; private set; }
     public Sprite sprite {
         get { return Game.Sprite("TradeStation"); }
     }
 
-    public static TradeStation Create(GalaxyPos? galaxyPos = null, Faction faction = null, Ship station = null) {
+    public static FactionOutpost Create(GalaxyPos galaxyPos = null, Faction faction = null, Ship station = null) {
         if (galaxyPos == null) galaxyPos = Game.galaxy.RandomPosition();
         if (faction == null && station == null) faction = Util.GetRandom(FactionManager.all);
 
@@ -48,10 +48,11 @@ public class TradeStation : ISectorType {
         if (station == null) 
             station = ShipManager.Create("Station", faction: faction);
 
-        return new TradeStation((GalaxyPos)galaxyPos, station);
+        return new FactionOutpost((GalaxyPos)galaxyPos, station);
     }
 
-    public TradeStation(GalaxyPos galaxyPos, Ship station) {
+    public FactionOutpost(GalaxyPos galaxyPos, Ship station) {
+        this.station = station;
         var sector = new Sector(this, galaxyPos);
         SectorManager.Add(sector);
         sector.PlaceShip(station, Vector2.zero);
@@ -75,17 +76,16 @@ public class ConflictZone : ISectorType {
         get { return Game.Sprite("ConflictZone"); }
     }
 
-    public static ConflictZone Create(GalaxyPos? galaxyPos = null, Faction attacking = null, Faction defending = null) {
+    public static ConflictZone Create(GalaxyPos galaxyPos = null, Faction attacking = null, Faction defending = null) {
         if (galaxyPos == null) galaxyPos = Game.galaxy.RandomPosition();
         if (attacking == null) attacking = Util.GetRandom(FactionManager.all);
         if (defending == null) defending = Util.GetRandom(FactionManager.all);
 
-        return new ConflictZone((GalaxyPos)galaxyPos, attacking, defending);
+        return new ConflictZone(galaxyPos, attacking, defending);
     }
 
     public ConflictZone(GalaxyPos galaxyPos, Faction attacking, Faction defending) {
         this.sector = new Sector(this, galaxyPos);
-        SectorManager.Add(sector);
         this.attacking = attacking;
         this.defending = defending;
     }
@@ -148,5 +148,8 @@ public class Sector {
     public Sector(ISectorType type, GalaxyPos galaxyPos) {
         this.type = type;
         this.galaxyPos = galaxyPos;
+        if (galaxyPos.star != null)
+            galaxyPos.star.sectors.Add(this);
+        SectorManager.all.Add(this);
     }
 }
