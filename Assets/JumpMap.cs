@@ -14,6 +14,7 @@ public class JumpMap : MonoBehaviour {
     List<JumpBeacon> beacons = new List<JumpBeacon>();
     List<JumpShip> jumpShips = new List<JumpShip>();
     JumpBeacon selectedBeacon;
+    SectorInfo sectorInfo;
     Canvas canvas;
     GameObject selector;
 
@@ -37,10 +38,13 @@ public class JumpMap : MonoBehaviour {
 
     void Awake() {
         canvas = GetComponentInChildren<Canvas>();
+        sectorInfo = GetComponentInChildren<SectorInfo>();
         selector = Pool.For("Selector").TakeObject();
-        selector.transform.parent = transform;
+        selector.transform.SetParent(transform);
         selector.SetActive(true);
+    }
 
+    void Start() {
         Game.mainCamera.orthographicSize = 4;
         //var bounds = Util.GetCameraBounds(Game.mainCamera);
 
@@ -121,6 +125,7 @@ public class JumpMap : MonoBehaviour {
         selectedBeacon = beacon;
         selector.transform.parent = beacon.transform.parent;
         selector.transform.position = beacon.transform.position;
+        sectorInfo.ShowInfo(selectedBeacon.sector);
     }
 
     void DrawFactions() {

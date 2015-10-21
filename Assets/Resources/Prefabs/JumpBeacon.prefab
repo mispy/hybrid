@@ -43,7 +43,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   renderer: {fileID: 0}
   sector:
-    sprite: {fileID: 0}
     radius: 200
     jumpBeacon: {fileID: 0}
 --- !u!120 &12001384

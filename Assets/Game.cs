@@ -129,8 +129,6 @@ public class Game : MonoBehaviour {
     public Text messageText;
 
     void MakeUniverse() {
-        var cosmicWidth = 100;
-        var cosmicHeight = 100;    
 		FactionManager.Create("Dragons");
 		FactionManager.Create("Mushrooms");
 		var mitzubi = FactionManager.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
@@ -140,18 +138,14 @@ public class Game : MonoBehaviour {
         pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
         mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
 
+        TradeStation.Create(faction: mitzubi);
         for (var i = 0; i < 10; i++) {
-            var x = Random.Range(-cosmicWidth/2, cosmicWidth/2);
-            var y = Random.Range(-cosmicHeight/2, cosmicHeight/2);
-            var galaxyPos = new GalaxyPos(x, y);
-
-            new ConflictZone(galaxyPos, pirateGang, mitzubi);
+            ConflictZone.Create(attacking: pirateGang, defending: mitzubi);
         }
 
 		var sector = SectorManager.all[0];
-		ShipManager.Create(template: "Station", sector: sector, sectorPos: new Vector2(0, 0), faction: FactionManager.all[0]);
 		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-		Game.playerShip = ShipManager.Create(sector: sector, faction: FactionManager.all[2], sectorPos: new Vector2(-100, 0));
+		Game.playerShip = ShipManager.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
     }
     
     public static void LoadSector(Sector sector) {

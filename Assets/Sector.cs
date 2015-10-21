@@ -9,10 +9,10 @@ public static class SectorManager {
     public static Dictionary<string, Sector> byId = new Dictionary<string, Sector>();
 
     public static void LoadAll() {
-        foreach (var path in Save.GetFiles("Sector")) {
+        /*foreach (var path in Save.GetFiles("Sector")) {
             var sector = Save.Load<Sector>(path);
             SectorManager.Add(sector);
-        }
+        }*/
     }
 
     public static void SaveAll() {
@@ -27,39 +27,89 @@ public static class SectorManager {
     }
 }
 
-public class SectorType {
-    public virtual void OnRealize() {
+public interface ISectorType {
+    void OnRealize();
+    Sprite sprite { get; }
+    string Describe();
+}
 
+public class TradeStation : ISectorType {
+    public Sector sector;
+    public Ship station { get; private set; }
+    public Sprite sprite {
+        get { return Game.Sprite("TradeStation"); }
+    }
+
+    public static TradeStation Create(GalaxyPos? galaxyPos = null, Faction faction = null, Ship station = null) {
+        if (galaxyPos == null) galaxyPos = Game.galaxy.RandomPosition();
+        if (faction == null && station == null) faction = Util.GetRandom(FactionManager.all);
+
+
+        if (station == null) 
+            station = ShipManager.Create("Station", faction: faction);
+
+        return new TradeStation((GalaxyPos)galaxyPos, station);
+    }
+
+    public TradeStation(GalaxyPos galaxyPos, Ship station) {
+        var sector = new Sector(this, galaxyPos);
+        SectorManager.Add(sector);
+        sector.PlaceShip(station, Vector2.zero);
+    }
+
+    public void OnRealize() { }
+
+    public string Describe() {
+        var s = "";
+        s += "<color='yellow'>Trade Station</color>\n";
+        s += "Intensity: Low\n";
+        return s;
     }
 }
 
-public class ConflictZone : SectorType {
+public class ConflictZone : ISectorType {
     public Sector sector;
     public Faction attacking;
     public Faction defending;
+    public Sprite sprite {
+        get { return Game.Sprite("ConflictZone"); }
+    }
+
+    public static ConflictZone Create(GalaxyPos? galaxyPos = null, Faction attacking = null, Faction defending = null) {
+        if (galaxyPos == null) galaxyPos = Game.galaxy.RandomPosition();
+        if (attacking == null) attacking = Util.GetRandom(FactionManager.all);
+        if (defending == null) defending = Util.GetRandom(FactionManager.all);
+
+        return new ConflictZone((GalaxyPos)galaxyPos, attacking, defending);
+    }
 
     public ConflictZone(GalaxyPos galaxyPos, Faction attacking, Faction defending) {
         this.sector = new Sector(this, galaxyPos);
-        sector.sprite = Game.Sprite("ConflictZone");
         SectorManager.Add(sector);
         this.attacking = attacking;
         this.defending = defending;
     }
 
-    public override void OnRealize() {
-        /*ShipManager.Create(sector: sector, faction: attacking);
+    public void OnRealize() {
+        ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: attacking);
         ShipManager.Create(sector: sector, faction: defending);
         ShipManager.Create(sector: sector, faction: defending);
-        ShipManager.Create(sector: sector, faction: defending);*/
+        ShipManager.Create(sector: sector, faction: defending);
+    }
+
+    public string Describe() {
+        var s = "";
+        s += "<color='red'>Conflict Zone</color>\n";
+        s += "Intensity: Low\n";
+        return s;
     }
 }
 
 [Serializable]
 public class Sector {
-    public SectorType type;
-    public Sprite sprite;
+    public ISectorType type;
 
     public string Id {
         get { return String.Format("{0}, {1}", galaxyPos.x, galaxyPos.y); }
@@ -75,24 +125,28 @@ public class Sector {
         return new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))*radius*1.5f;
     }
 
-    public void PlaceShip(Ship ship, Vector2 entryVector) {
+    public void JumpEnterShip(Ship ship, Vector2 entryVector) {
+        var pos = radius * 1.2f * (entryVector.normalized * -1f);
+        PlaceShip(ship, pos);
+    }
+
+    public void PlaceShip(Ship ship, Vector2 pos) {
         ship.destSector = null;
         if (ship.sector != null)
             ship.sector.ships.Remove(ship);
         ship.sector = this;
         ship.galaxyPos = galaxyPos;
         ships.Add(ship);
-
-        ship.sectorPos = radius * 1.2f * (entryVector.normalized * -1f);
-
+        
+        ship.sectorPos = pos;
+        
         if (this == Game.activeSector.sector) {
             Game.activeSector.RealizeShip(ship);
         }
     }
 
-    public Sector(SectorType type, GalaxyPos galaxyPos) {
+    public Sector(ISectorType type, GalaxyPos galaxyPos) {
         this.type = type;
-        this.sprite = Game.Sprite("JumpBeacon");
         this.galaxyPos = galaxyPos;
     }
 }

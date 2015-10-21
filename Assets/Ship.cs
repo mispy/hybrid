@@ -51,8 +51,8 @@ public static class ShipManager {
     public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {
 		if (template == null) template = "Little Frigate";
         if (faction == null) faction = Util.GetRandom(FactionManager.all);
-        if (sector == null) sector = Util.GetRandom(SectorManager.all);
-		if (sectorPos == null) sectorPos = sector.RandomEdge();
+        //if (sector == null) sector = Util.GetRandom(SectorManager.all);
+		if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
 
         var ship = ShipManager.Unpack(ShipManager.templates[template]);
         ship.faction = faction;
@@ -60,7 +60,10 @@ public static class ShipManager {
         for (var i = 0; i < 6; i++ ) {
             CrewManager.Create(ship: ship, faction: ship.faction);
         }
-        sector.PlaceShip(ship, (Vector2)sectorPos);
+        if (sector != null)
+            sector.PlaceShip(ship, (Vector2)sectorPos);
+        else
+            ship.galaxyPos = Game.galaxy.RandomPosition();
         ShipManager.Add(ship);
         return ship;
     }
@@ -182,7 +185,7 @@ public class Ship : IOpinionable {
             var dist = targetDir * jumpSpeed * deltaTime;
 
             if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
-                destSector.PlaceShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
+                destSector.JumpEnterShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
             } else {
                 galaxyPos.vec += dist;
             }

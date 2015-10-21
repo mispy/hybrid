@@ -138,7 +138,7 @@ public struct IntVector2 {
     }
 }
 
-public class GalaxyPos {
+public struct GalaxyPos {
     public Vector2 vec;
 
     public float x {

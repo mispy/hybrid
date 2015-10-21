@@ -12,7 +12,7 @@ public class JumpBeacon : MonoBehaviour {
     }
 
     void Start() {
-        renderer.sprite = sector.sprite;
+        renderer.sprite = sector.type.sprite;
     }
 
     public void Align(JumpShip jumpShip) {

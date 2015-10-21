@@ -7,4 +7,12 @@ public class Galaxy {
             ship.Simulate(deltaTime);
         }
     }
+
+    public GalaxyPos RandomPosition() {
+        var cosmicWidth = 100;
+        var cosmicHeight = 100;    
+        var x = Random.Range(-cosmicWidth/2, cosmicWidth/2);
+        var y = Random.Range(-cosmicHeight/2, cosmicHeight/2);
+        return new GalaxyPos(x, y);
+    }
 }
