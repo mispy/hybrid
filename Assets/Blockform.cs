@@ -124,30 +124,23 @@ public class Blockform : PoolBehaviour {
 		pather = obj.AddComponent<SpacePather>();
 		obj.SetActive(true);
 
-		fog = Pool.For("InteriorFog").Take<InteriorFog>();
-		fog.transform.SetParent(transform);
-		fog.transform.position = transform.position;
+		fog = Pool.For("InteriorFog").Attach<InteriorFog>(transform);
 		fog.name = "InteriorFog";
 		fog.gameObject.SetActive(true);
 
-		box = Pool.For("BoundsCollider").Take<BoxCollider>();
+		box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
 		box.isTrigger = true;
-		box.transform.SetParent(transform);
-		box.transform.position = transform.position;
-		box.gameObject.SetActive(true);
 
         foreach (var block in ship.blocks.allBlocks) {
             OnBlockAdded(block);
         }
 
         foreach (var crew in ship.crew) {
-            var body = Pool.For("CrewBody").Take<CrewBody>();
+            var body = Pool.For("CrewBody").Attach<CrewBody>(transform);
             var floor = Util.GetRandom(blocks.Find("Floor").ToList());
-            body.transform.parent = transform;
             body.transform.localPosition = BlockToLocalPos(floor);
             body.crew = crew;
             body.name = crew.name;
-            body.gameObject.SetActive(true);
         }
     }
 

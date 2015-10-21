@@ -65,9 +65,7 @@ public class AbilityMenu : PoolBehaviour {
 
         var i = 0;
 
-        backButton = Pool.For("BackButton").Take<Button>();
-        backButton.gameObject.SetActive(true);
-        backButton.transform.SetParent(transform);
+        backButton = Pool.For("BackButton").Attach<Button>(transform);
 
         var text = backButton.GetComponentsInChildren<Text>(includeInactive: true).First();
         text.text = "`";
@@ -81,9 +79,7 @@ public class AbilityMenu : PoolBehaviour {
         i += 1;
 
         foreach (var ability in activeAbilities) {
-            var button = Pool.For("BlockButton").Take<Button>();
-            button.gameObject.SetActive(true);
-            button.transform.SetParent(transform);
+            var button = Pool.For("BlockButton").Attach<Button>(transform);
             button.image.sprite = ability.GetComponent<SpriteRenderer>().sprite;
             buttons[ability] = button;
 

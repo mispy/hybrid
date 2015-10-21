@@ -24,11 +24,8 @@ public class PathTargeter : BlockAbility {
 		if (clickedForm == null) return;
 
 		if (!isDrawing) {
-            target = Pool.For("PathTarget").Take<PathTarget>();
+            target = Pool.For("PathTarget").Attach<PathTarget>(clickedForm.transform);
             target.form = clickedForm;
-            target.transform.SetParent(clickedForm.transform);
-            target.transform.position = clickedForm.transform.position;
-            target.transform.rotation = clickedForm.transform.rotation;
             target.Add(clickedForm.transform.InverseTransformPoint(Game.mousePos));
             lineLength = 0f;
             isDrawing = true;

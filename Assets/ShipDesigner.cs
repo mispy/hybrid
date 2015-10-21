@@ -18,10 +18,9 @@ public class ShipDesigner : MonoBehaviour {
     bool isMirrorValid = false;
 
     public void OnEnable() {        
-        cursor = Pool.For("Blueprint").Take<Blueprint>();
+        cursor = Pool.For("Blueprint").Attach<Blueprint>(transform);
         cursor.name = "Cursor";
         cursor.blocks = new BlockMap(null);
-        cursor.gameObject.SetActive(true);
 		cursor.tiles.EnableRendering();
         Game.shipControl.gameObject.SetActive(false);
         foreach (var renderer in cursor.tiles.MeshRenderers) {

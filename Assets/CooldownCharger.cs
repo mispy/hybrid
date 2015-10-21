@@ -13,12 +13,8 @@ public class CooldownCharger : BlockComponent {
     LineRenderer line;
 
     void Start() {
-        line = Pool.For("Line").Take<LineRenderer>();
+        line = Pool.For("Line").Attach<LineRenderer>(transform);
         line.sortingLayerName = "UI";
-        line.gameObject.SetActive(true);
-        line.transform.SetParent(transform);
-        line.transform.position = transform.position;
-        line.transform.rotation = transform.rotation;
     }
 
     public void Discharge() {

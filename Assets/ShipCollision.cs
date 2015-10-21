@@ -42,14 +42,9 @@ public class ShipCollision : PoolBehaviour {
     void AddCollider(IntVector2 bp, int collisionLayer) {
         Profiler.BeginSample("AddCollider");
         
-        Collider collider;
-        if (collisionLayer == Block.wallLayer)
-            collider = Pool.For("WallCollider").Take<Collider>();
-        else
-            collider = Pool.For("FloorCollider").Take<Collider>();
-        collider.transform.SetParent(collidersObj.transform);
+        var pool = collisionLayer == Block.wallLayer ? "WallCollider" : "FloorCollider";
+        var collider = Pool.For(pool).Attach<Collider>(collidersObj.transform);
         collider.transform.localPosition = form.BlockToLocalPos(bp);
-        collider.transform.rotation = transform.rotation;
         colliders[bp] = collider;
         collider.gameObject.SetActive(true);
         

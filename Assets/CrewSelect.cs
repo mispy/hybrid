@@ -12,12 +12,10 @@ public class CrewSelect : MonoBehaviour {
         float buttonHeight;
 
         foreach (var crew in Game.playerShip.crew) {
-            var button = Pool.For("CrewButton").Take<Button>();
-            button.transform.SetParent(transform);
+            var button = Pool.For("CrewButton").Attach<Button>(transform);
             var rect = button.GetComponent<RectTransform>();
             buttonHeight = rect.rect.height;
             rect.anchoredPosition = new Vector2(0, -1 * (buttonHeight/2 + buttonHeight * i));
-            button.gameObject.SetActive(true);
             var text = button.GetComponentInChildren<Text>();
             text.text = crew.name;
 

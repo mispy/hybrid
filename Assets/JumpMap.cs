@@ -81,21 +81,17 @@ public class JumpMap : PoolBehaviour {
         jumpShips.Clear();
 
         foreach (var star in Star.all) {
-            var beacon = Pool.For("Star").Take<JumpBeacon>();
-            beacon.transform.SetParent(contents);
+            var beacon = Pool.For("Star").Attach<JumpBeacon>(contents);
             beacon.transform.position = GalaxyToWorldPos(star.galaxyPos);
-            beacon.gameObject.SetActive(true);
             beacon.renderer.color = star.faction.color;
             beacons.Add(beacon);
         }
 
         foreach (var sector in SectorManager.all) {
-            var beacon = Pool.For("JumpBeacon").Take<JumpBeacon>();
-            beacon.transform.SetParent(contents);
+            var beacon = Pool.For("JumpBeacon").Attach<JumpBeacon>(contents);
             beacon.sector = sector;
             sector.jumpBeacon = beacon;
             beacon.transform.position = GalaxyToWorldPos(sector.galaxyPos);
-            beacon.gameObject.SetActive(true);
             beacon.renderer.sprite = sector.type.sprite;
             beacons.Add(beacon);
         }
@@ -103,10 +99,8 @@ public class JumpMap : PoolBehaviour {
         foreach (var ship in ShipManager.all) {
             if (ship.isStationary) continue;
 
-            var jumpShip = Pool.For("JumpShip").Take<JumpShip>();
-            jumpShip.transform.SetParent(contents);
+            var jumpShip = Pool.For("JumpShip").Attach<JumpShip>(contents);
             jumpShip.Initialize(ship);
-            jumpShip.gameObject.SetActive(true);
             jumpShips.Add(jumpShip);
 
             if (ship == Game.playerShip) {

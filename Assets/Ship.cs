@@ -158,7 +158,7 @@ public class Ship : IOpinionable {
     }
 
     public Blockform LoadBlockform() {
-        var blockform = Pool.For("Blockform").Take<Blockform>();
+        var blockform = Pool.For("Blockform").TakeObject().GetComponent<Blockform>();
         blockform.Initialize(this);
         this.form = blockform;
         return blockform;

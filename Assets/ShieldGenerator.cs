@@ -4,9 +4,7 @@ using System.Collections;
 public class ShieldGenerator : BlockComponent {
 	void Awake() {
 		if (form.shields == null) {
-			var shields = Pool.For("Shields").Take<Shields>();
-			shields.transform.SetParent(form.transform);
-			shields.gameObject.SetActive(true);
+			Pool.For("Shields").Attach<Shields>(form.transform);
 		}
 	}
 

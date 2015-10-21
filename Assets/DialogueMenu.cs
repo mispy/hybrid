@@ -16,10 +16,8 @@ public class DialogueMenu : MonoBehaviour {
     public Transform choiceHolder;
 
     public void AddChoice(DialogueChoice choice) {
-        var button = Pool.For("DialogueButton").Take<Button>();
-        button.transform.SetParent(choiceHolder);
+        var button = Pool.For("DialogueButton").Attach<Button>(choiceHolder);
         button.onClick.AddListener(() => choice.result.Invoke());
-        button.gameObject.SetActive(true);
 
         var text = button.GetComponentsInChildren<Text>(includeInactive: true).First();
         text.text = String.Format("{0}. {1}", choices.Count+1, choice.text);

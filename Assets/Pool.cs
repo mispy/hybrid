@@ -87,7 +87,13 @@ public class Pool {
         return TakeObject();
     }
 
-    public T Take<T>() {
-        return TakeObject().GetComponent<T>();
+    public T Attach<T>(Transform transform, bool inactive = false) {
+        var obj = TakeObject();
+        obj.transform.SetParent(transform);
+        obj.transform.position = transform.position;
+        obj.transform.rotation = transform.rotation;
+        if (!inactive)
+            obj.SetActive(true);
+        return obj.GetComponent<T>();
     }
 }

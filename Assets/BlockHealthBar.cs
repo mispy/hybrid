@@ -6,10 +6,8 @@ public class BlockHealthBar : BlockComponent {
     LineRenderer line;
     
     void Awake() {
-        line = Pool.For("Line").Take<LineRenderer>();
+        line = Pool.For("Line").Attach<LineRenderer>(transform);
         line.sortingLayerName = "UI";
-        line.gameObject.SetActive(true);
-        line.transform.SetParent(transform);
         line.transform.position = transform.position;
         line.transform.rotation = transform.rotation;
     }

@@ -20,9 +20,7 @@ public class BlockSelector : MonoBehaviour {
         }
 
         for (var i = 0; i < Block.allTypes.Count; i++) {
-            var button = Pool.For("BlockButton").Take<Button>();
-            button.transform.SetParent(transform);
-            button.gameObject.SetActive(true);
+            var button = Pool.For("BlockButton").Attach<Button>(transform);
 
             var j = i+1;
             button.onClick.AddListener(() => SelectBlock(j));

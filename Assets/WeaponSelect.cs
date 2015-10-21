@@ -20,9 +20,7 @@ public class WeaponSelect : MonoBehaviour {
 		if (block.type.showInMenu && !fireableTypes.Contains(block.type)) {
 			fireableTypes.Add(block.type);
 			
-			var button = Pool.For("BlockButton").Take<Button>();
-			button.gameObject.SetActive(true);
-			button.transform.SetParent(transform);
+			var button = Pool.For("BlockButton").Attach<Button>(transform);
 			blockButtons.Add(button);
 			
 			button.image.sprite = block.type.GetComponent<SpriteRenderer>().sprite;

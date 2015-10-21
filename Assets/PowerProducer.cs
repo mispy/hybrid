@@ -15,12 +15,8 @@ public class PowerProducer : BlockComponent {
 
     
     public override void OnCreate() {        
-        circle = Pool.For("PowerCircle").Take<PowerCircle>();
-        circle.transform.SetParent(transform);
-        circle.transform.position = transform.position;
-        circle.transform.rotation = transform.rotation;
+        circle = Pool.For("PowerCircle").Attach<PowerCircle>(transform);
         circle.spriteRenderer.enabled = false;
-        circle.gameObject.SetActive(true);
     }
         
     public void OnBlockSelected() {

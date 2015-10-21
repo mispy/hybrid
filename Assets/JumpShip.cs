@@ -4,7 +4,7 @@ using System.Collections;
 public class JumpShip : PoolBehaviour {
     public Ship ship;
     float speed = 3f;
-    public new SpriteRenderer spriteRenderer;
+    public SpriteRenderer spriteRenderer;
 
     public void Initialize(Ship ship) {
         this.ship = ship;

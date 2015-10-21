@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class ActiveSector : MonoBehaviour {
     public Sector sector;
     public Transform contents;
+    public Transform transients;
 
     public List<Blockform> blockforms;
 
@@ -13,7 +14,10 @@ public class ActiveSector : MonoBehaviour {
     }
 
     public void Awake() {
-        contents = transform.Find("Contents");
+        contents = Pool.For("Holder").Attach<Transform>(transform);
+        contents.name = "Contents";
+        transients = Pool.For("Holder").Attach<Transform>(transform);
+        transients.name = "Transients";
     }
 
     public void Update() {

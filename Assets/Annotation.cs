@@ -6,13 +6,12 @@ public class Annotation : MonoBehaviour {
     static LineRenderer lineRenderer;
 
     public static LineRenderer DrawLine(Vector2 start, Vector2 end, Color color, float width) {
-        var line = Pool.For("Line").Take<LineRenderer>();
+        var line = Pool.For("Line").Attach<LineRenderer>(Annotation.anno.transform);
         line.SetWidth(width, width);
         line.SetVertexCount(2);
         line.SetPosition(0, start);
         line.SetPosition(1, end);
         line.SetColors(color, color);
-        line.gameObject.SetActive(true);
         return line;
     }
 

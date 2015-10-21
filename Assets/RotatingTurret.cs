@@ -26,10 +26,8 @@ public class RotatingTurret : BlockComponent {
 	}
 	
 	void Start() {
-		dottedLine = Pool.For("AimingLine").Take<LineRenderer>();
-        dottedLine.transform.SetParent(transform);
+		dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(transform);
         dottedLine.transform.position = TipPosition;
-        dottedLine.transform.rotation = transform.rotation;
         dottedLine.gameObject.SetActive(true);
 		dottedLine.SetWidth(0.5f, 0.5f);
         dottedLine.sortingLayerName = "UI";

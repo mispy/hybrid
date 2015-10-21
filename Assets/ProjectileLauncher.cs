@@ -41,7 +41,7 @@ public class ProjectileLauncher : BlockComponent {
 		charger.Discharge();
 
 		// Pew pew!
-		var bullet = Pool.For(projectile).Take<Explosive>();
+		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients);
 		bullet.transform.position = turret.TipPosition;
 		bullet.transform.rotation = transform.rotation;
         bullet.originShip = block.ship;
