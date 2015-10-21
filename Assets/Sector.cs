@@ -103,6 +103,7 @@ public class ConflictZone : ISectorType {
         var s = "";
         s += "<color='red'>Conflict Zone</color>\n";
         s += "Intensity: Low\n";
+//        s += "{0} is fighting {1} for control of this star."
         return s;
     }
 }

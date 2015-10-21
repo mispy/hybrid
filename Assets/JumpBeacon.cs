@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class JumpBeacon : MonoBehaviour {
+public class JumpBeacon : PoolBehaviour {
     [HideInInspector]
     public new SpriteRenderer renderer;
     public Sector sector;

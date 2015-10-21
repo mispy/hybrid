@@ -2,20 +2,20 @@
 using System.Collections;
 
 public class JumpShip : PoolBehaviour {
-    public TileRenderer tiles;
     public Ship ship;
     float speed = 3f;
+    public new SpriteRenderer spriteRenderer;
 
     public void Initialize(Ship ship) {
         this.ship = ship;
         ship.jumpShip = this;
-        tiles.SetBlocks(ship.blocks);
-        Rescale();
+
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.color = ship.faction.color;
         SyncShip();
     }
 
     public override void OnCreate() {
-        tiles = GetComponent<TileRenderer>();
     }
 
     public void SyncShip() {
@@ -26,12 +26,5 @@ public class JumpShip : PoolBehaviour {
         } else {
             ship.sector.jumpBeacon.Align(this);
         }
-    }
-
-    public void Rescale() {
-        var desiredSize = 0.5f;
-        var sizeX = Tile.worldSize * (ship.blocks.maxX - ship.blocks.minX);
-        var sizeY = Tile.worldSize * (ship.blocks.maxY - ship.blocks.minY);
-        transform.localScale = new Vector3(desiredSize/sizeX * 0.5f, desiredSize/sizeY * 0.5f, 1.0f);
     }
 }
