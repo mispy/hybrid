@@ -75,6 +75,7 @@ public class Pool {
         if (lastIndex < pooledObjects.Count) {
             var obj = pooledObjects[lastIndex];
             lastIndex += 1;
+            obj.transform.SetParent(null);
             return obj;
         }
 

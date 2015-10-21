@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Linq;
 
-public class CameraControl : MonoBehaviour {
+public class CameraControl : PoolBehaviour {
 	new Camera camera { get { return Game.mainCamera; }}
 	public Blockform lockedForm;
 	public Blockform hoveredForm;
@@ -11,7 +11,7 @@ public class CameraControl : MonoBehaviour {
 
 	public void Start() {
 		lockedForm = Game.playerShip.form;
-		selector = Pool.For("Selector").TakeObject();
+		selector = AttachNew("Selector");
 	}
 
 	public void ZoomIn() {	

@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class AbilityMenu : MonoBehaviour {
+public class AbilityMenu : PoolBehaviour {
     public BlockType selectedType { get; private set; }
 
     List<BlockAbility> allAbilities = new List<BlockAbility>();
@@ -19,7 +19,7 @@ public class AbilityMenu : MonoBehaviour {
         // Abilities are singleton objects that are activated and deactivated
         // as selected
         foreach (var prefab in Game.LoadPrefabs("BlockAbilities")) {
-            var ability = Pool.For(prefab).Take<BlockAbility>();
+            var ability = AttachNew(prefab).GetComponent<BlockAbility>();
             ability.GetComponent<SpriteRenderer>().enabled = false;
             allAbilities.Add(ability);
         }

@@ -8,6 +8,18 @@ using Random = UnityEngine.Random;
 public class PoolBehaviour : MonoBehaviour {
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }
+
+    public GameObject AttachNew(string name) {
+        var obj = Pool.For(name).TakeObject();
+        obj.transform.SetParent(transform);
+        return obj;
+    }
+
+    public GameObject AttachNew(GameObject prefab) {
+        var obj = Pool.For(prefab).TakeObject();
+        obj.transform.SetParent(transform);
+        return obj;
+    }
 }
 
 public struct IntRect {

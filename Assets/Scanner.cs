@@ -19,7 +19,7 @@ public class Scanner : BlockComponent {
 
 
 	public void Start() {
-		scanCircle = Pool.For("ScanCircle").TakeObject();
+		scanCircle = AttachNew("ScanCircle");
 	}
 
 	public void OnLineTarget() {
