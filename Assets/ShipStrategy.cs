@@ -53,6 +53,8 @@ public class ShipStrategy {
     }
 
     public void Simulate() {
+        if (ship.isStationary) return;
+
         if (mission == null) {
             var starsToPatrol = new List<Star>();
             foreach (var star in Star.all) {

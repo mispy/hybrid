@@ -186,6 +186,7 @@ public class Ship : IOpinionable {
     public void Simulate(float deltaTime) {
         // don't simulate realized ships
         if (form != null) return;
+
         strategy.Simulate();
 
         if (destSector != null) {

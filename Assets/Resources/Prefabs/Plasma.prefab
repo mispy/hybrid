@@ -85,7 +85,6 @@ MonoBehaviour:
   explosionForce: .00100000005
   explosionRadius: 2
   explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
-  explosion: {fileID: 0}
 --- !u!212 &21287582
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -10,10 +10,12 @@ public class AbilityMenu : PoolBehaviour {
     List<BlockAbility> allAbilities = new List<BlockAbility>();
     List<BlockAbility> activeAbilities = new List<BlockAbility>();
     Dictionary<BlockAbility, Button> buttons = new Dictionary<BlockAbility, Button>();
+    Transform buttonsHolder;
     Button backButton;
     BlockAbility selected;
 
     void Awake() {
+        buttonsHolder = transform.Find("Buttons");
         Clear();
             
         // Abilities are singleton objects that are activated and deactivated
@@ -31,7 +33,7 @@ public class AbilityMenu : PoolBehaviour {
     void Clear() {
         buttons.Clear();
 
-        foreach (Transform child in transform) {
+        foreach (Transform child in buttonsHolder) {
             Destroy(child.gameObject);
         }
     }
@@ -65,7 +67,7 @@ public class AbilityMenu : PoolBehaviour {
 
         var i = 0;
 
-        backButton = Pool.For("BackButton").Attach<Button>(transform);
+        backButton = Pool.For("BackButton").Attach<Button>(buttonsHolder);
 
         var text = backButton.GetComponentsInChildren<Text>(includeInactive: true).First();
         text.text = "`";
@@ -79,7 +81,7 @@ public class AbilityMenu : PoolBehaviour {
         i += 1;
 
         foreach (var ability in activeAbilities) {
-            var button = Pool.For("BlockButton").Attach<Button>(transform);
+            var button = Pool.For("BlockButton").Attach<Button>(buttonsHolder);
             button.image.sprite = ability.GetComponent<SpriteRenderer>().sprite;
             buttons[ability] = button;
 
