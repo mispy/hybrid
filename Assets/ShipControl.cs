@@ -97,7 +97,7 @@ public class ShipControl : MonoBehaviour {
 
         if (form != null && form.ship != Game.playerShip)
             SelectShip(form.ship);
-
+            
         var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
 
         foreach (var crew in ship.crew) {
