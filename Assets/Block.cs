@@ -34,7 +34,7 @@ public static class BlockManager {
     }
 }
 
-public class Block {
+public class Block : ISaveBindable {
     public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
     public static List<BlockType> allTypes = new List<BlockType>();
     
@@ -217,6 +217,14 @@ public class Block {
         }
     }
 
+    public virtual void Savebind(ISaveBinder save) {
+        save.BindRef("type", ref type);
+        if (save is XMLSaveReader)
+            MakeType(type);
+        save.BindValue("position", ref pos);
+        save.BindValue("facing", ref facing);
+    }
+
     public float scrapContent;
     public float health;
 
@@ -242,12 +250,16 @@ public class Block {
         get { return tileable.tileHeight; }
     }
 
-    public Block(BlockType type) {
+    public void MakeType(BlockType type) {
         this.type = type;
         this.scrapContent = type.scrapRequired;
         this.health = type.maxHealth;
         this.layer = type.blockLayer;
         this.tileable = type.tileable;
+    }
+
+    public Block(BlockType type) {
+        MakeType(type);
     }
 
     // copy constructor

@@ -27,9 +27,17 @@ public class BlockComponent : PoolBehaviour {
 }
 
 
-public class BlockType : MonoBehaviour {
+public class BlockType : MonoBehaviour, ISaveAsRef {
     [Tooltip("The mass value of each block is added to the mass of a ship rigidBody.")]
     public float mass;
+
+    public static BlockType FromId(string id) {
+        return Block.typeByName[id];
+    }
+
+    public string id { 
+        get { return name; }
+    }
 
     public int scrapRequired = 30;
     public float maxHealth = 1;
@@ -57,6 +65,9 @@ public class BlockType : MonoBehaviour {
     public bool isComplexBlock = false;
     public bool showInMenu = false;
     public bool isWeapon = false;
+
+    [Tooltip("Whether a block requires an attached console with an active crew member to function.")]
+    public bool needsCrew = false;
 
     [HideInInspector]
     public SpriteRenderer spriteRenderer;

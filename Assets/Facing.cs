@@ -6,7 +6,7 @@ public class InvalidFacingException : Exception {
 
 }
 
-public struct Facing {
+public struct Facing : ISaveAsString {
     private int index;
     public static Facing up = new Facing(2);
     public static Facing down = new Facing(-2);
@@ -63,7 +63,29 @@ public struct Facing {
     }
 
     public override string ToString() {
-        return String.Format("Facing<{0}>", index);
+        if (this == Facing.up)
+            return "up";
+        else if (this == Facing.down)
+            return "down";
+        else if (this == Facing.right)
+            return "right";
+        else if (this == Facing.left)
+            return "left";
+
+        return "up";
+    }
+
+    public static Facing FromString(string s) {
+        if (s == "up")
+            return Facing.up;
+        else if (s == "down")
+            return Facing.down;
+        else if (s == "right")
+            return Facing.right;
+        else if (s == "left")
+            return Facing.left;
+
+        return Facing.up;
     }
 
     public override int GetHashCode() {

@@ -120,7 +120,7 @@ public class ShipData {
 }
 
 
-public class Ship : IOpinionable {
+public class Ship : IOpinionable, ISaveBindable {
     public string name;
     public string nameWithColor {
         get { return name; }
@@ -161,6 +161,29 @@ public class Ship : IOpinionable {
         blocks = new BlockMap(this);
         blueprintBlocks = new BlockMap(this);
         blocks.OnBlockAdded += OnBlockAdded;
+    }
+
+    public void Savebind(ISaveBinder save) {
+        save.BindValue("name", ref name);
+
+        if (save is XMLSaveWriter) {
+            save.BindSet("blocks", ref blocks.allBlocks);
+            save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
+        } else {
+            blocks = new BlockMap(this);
+            blueprintBlocks = new BlockMap(this);
+
+            save.BindSet("blocks", ref blocks.allBlocks);
+            save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
+
+            foreach (var block in blocks.allBlocks) {
+                blocks[block.pos, block.layer] = block;
+            }
+
+            foreach (var blue in blueprintBlocks.allBlocks) {
+                blueprintBlocks[blue.pos, blue.layer] = blue;
+            }
+        }
     }
 
     public Blockform LoadBlockform() {

@@ -182,6 +182,7 @@ public class Game : MonoBehaviour {
         Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
         Game.main = this;
 
+
         foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
             prefabs[prefab.name] = prefab;
         }
@@ -210,6 +211,7 @@ public class Game : MonoBehaviour {
         for (var i = 0; i < 100; i++) {
             //debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
         }
+        Tests.Run();
     }
 
     void Start() {        

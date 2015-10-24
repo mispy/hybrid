@@ -32,8 +32,6 @@ public class BlockMap {
     BlockChunk[,] baseChunks;
     BlockChunk[,] topChunks;
 
-
-
     public Dictionary<BlockType, HashSet<Block>> blockTypeCache = new Dictionary<BlockType, HashSet<Block>>();
     public Dictionary<Type, HashSet<Block>> blockCompCache = new Dictionary<Type, HashSet<Block>>();
     public HashSet<Block> frontBlockers = new HashSet<Block>();
@@ -64,7 +62,6 @@ public class BlockMap {
         heightInChunks = 16;
         baseChunks = new BlockChunk[chunkWidth, chunkHeight];
         topChunks = new BlockChunk[chunkWidth, chunkHeight];
-
 
         centerChunkX = widthInChunks/2;
         centerChunkY = heightInChunks/2;

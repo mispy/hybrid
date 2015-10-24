@@ -28,7 +28,7 @@ public struct IntRect {
     }
 }
 
-public struct IntVector2 {
+public struct IntVector2 : ISaveAsString {
     public static explicit operator IntVector2(Facing facing) {
         if (facing == Facing.up)
             return IntVector2.up;
@@ -41,7 +41,7 @@ public struct IntVector2 {
         else
             throw new ArgumentException("This is an invalid facing!");
     }
-
+   
     public static explicit operator Vector2(IntVector2 pos) {
         return new Vector2(pos.x, pos.y);   
     }
@@ -105,9 +105,13 @@ public struct IntVector2 {
         }
     }
 
-    public override string ToString()
-    {
-        return String.Format("IntVector2<{0}, {1}>", x, y);
+    public override string ToString() {
+        return String.Format("{0} {1}", x, y);
+    }
+
+    public static IntVector2 FromString(string s) {
+        var ints = s.Split();
+        return new IntVector2(Int32.Parse(ints[0]), Int32.Parse(ints[1]));
     }
 
     public override int GetHashCode()

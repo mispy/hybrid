@@ -7,12 +7,30 @@ using System.Linq;
 
 public class DebugMenu : MonoBehaviour {
     public void SaveShip() {
-        var ship = Game.playerShip;
+        var xml = new XmlTextWriter(Application.dataPath + "/Saves/tmp.xml", System.Text.Encoding.UTF8);
+        xml.Formatting = Formatting.Indented;
+        var save = new XMLSaveWriter(xml);
+        save.BindDeep("ship", ref Game.playerShip);
+        //block.Savebind(save);
+        xml.Close();
+
+        var file = new FileStream(Application.dataPath + "/Saves/tmp.xml", FileMode.Open);
+        var xmlReader = new XmlTextReader(file);
+        var load = new XMLSaveReader(xmlReader);
+        Ship ship = null;
+        load.BindDeep("ship", ref ship);
+
+        ship.sector = Game.activeSector.sector;
+        Game.activeSector.RealizeShip(ship);
+
+        return;
+
+/*        var ship = Game.playerShip;
         if (ship == null) return;
         var data = ShipManager.Pack(ship);
         var path = Application.dataPath + "/Ships/" + ship.name + ".xml";
         Save.Dump(data, path);
-        Game.main.BriefMessage("Saved " + path);
+        Game.main.BriefMessage("Saved " + path);*/
     }
 
     public void NewShip() {

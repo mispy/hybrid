@@ -17,11 +17,18 @@ public class ShipDesigner : MonoBehaviour {
     bool isCursorValid = false;
     bool isMirrorValid = false;
 
-    public void OnEnable() {        
+    public ConsoleLinker consoleLinker { get; private set; }
+
+    public void Awake() {
+        consoleLinker = GetComponentsInChildren<ConsoleLinker>(includeInactive: true).First();
+
         cursor = Pool.For("Blueprint").Attach<Blueprint>(transform);
         cursor.name = "Cursor";
         cursor.blocks = new BlockMap(null);
-		cursor.tiles.EnableRendering();
+        cursor.tiles.EnableRendering();
+    }
+
+    public void OnEnable() {        
         Game.shipControl.gameObject.SetActive(false);
         foreach (var renderer in cursor.tiles.MeshRenderers) {
             renderer.sortingLayerName = "UI";

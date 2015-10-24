@@ -1,0 +1,1377 @@
+﻿<ship>
+  <name>Little Frigate</name>
+  <blocks>
+    <li>
+      <type>Wall</type>
+      <position>-6 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Sensors</type>
+      <position>4 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>4 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>2 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>InertiaNegator</type>
+      <position>-4 2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>4 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-5 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>0 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-3 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>0 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>4 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-1 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 4</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-1 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 4</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 5</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>0 5</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>2 2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 5</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-4 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 -2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>2 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-1 5</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>ShieldGenerator</type>
+      <position>3 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>-2 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>2 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>TractorBeam</type>
+      <position>0 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-3 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-1 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>3 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-4 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>-5 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 0</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>5 1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>3 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>4 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>TractorBeam</type>
+      <position>-1 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 0</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 -1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-6 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>5 2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerGenerator</type>
+      <position>-1 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Sensors</type>
+      <position>-5 -1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 -1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-3 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>2 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>-3 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>1 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>0 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-6 1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>0 -3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 -2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 -2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 0</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>2 1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>0 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-3 1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>-1 2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-5 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-1 -3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-5 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-1 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 0</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 -3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 -2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 -1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-3 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>1 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>-2 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>-5 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>4 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>-3 -3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>2 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>-2 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>1 4</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 5</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>BeamCannon</type>
+      <position>-4 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 2</position>
+      <facing>up</facing>
+    </li>
+  </blocks>
+  <blueprint>
+    <li>
+      <type>Wall</type>
+      <position>4 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Sensors</type>
+      <position>4 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-5 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>TractorBeam</type>
+      <position>-1 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-1 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-3 1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>4 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>TractorBeam</type>
+      <position>0 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>0 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>4 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>0 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>-5 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 4</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 5</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 5</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 -2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-1 5</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 0</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 -2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 0</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-4 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 -1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>0 5</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>4 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>-2 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>1 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-1 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>-2 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>2 2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-4 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-3 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-1 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>0 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 4</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>PowerGenerator</type>
+      <position>-1 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>2 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>3 -5</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>5 1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-3 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>2 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>4 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>InertiaNegator</type>
+      <position>-4 2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-6 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>5 2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>4 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 0</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>0 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-5 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-5 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 -2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-1 -3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>2 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Console</type>
+      <position>-1 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>-3 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-3 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 -4</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>3 2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Thruster</type>
+      <position>-6 1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>0 -3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 -1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 -2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 -2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-3 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>-1 2</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>1 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-3 2</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-2 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 2</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Sensors</type>
+      <position>-5 -1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 -3</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 -3</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Door</type>
+      <position>2 -2</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-4 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-6 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>5 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-5 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 0</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>2 1</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-1 0</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 -1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>0 1</position>
+      <facing>down</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>-2 -1</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>Floor</type>
+      <position>1 1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>3 3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>2 -1</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>1 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PlasmaTurret</type>
+      <position>3 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>-5 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>4 0</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>-3 -3</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>2 -3</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>-2 4</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>PowerNode</type>
+      <position>1 4</position>
+      <facing>right</facing>
+    </li>
+    <li>
+      <type>Wall</type>
+      <position>-4 5</position>
+      <facing>left</facing>
+    </li>
+    <li>
+      <type>BeamCannon</type>
+      <position>-4 6</position>
+      <facing>up</facing>
+    </li>
+    <li>
+      <type>ShieldGenerator</type>
+      <position>3 2</position>
+      <facing>down</facing>
+    </li>
+  </blueprint>
+</ship>

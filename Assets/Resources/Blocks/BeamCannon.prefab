@@ -15,6 +15,7 @@ GameObject:
   - 114: {fileID: 11456218}
   - 120: {fileID: 12097290}
   - 114: {fileID: 11415108}
+  - 114: {fileID: 11404128}
   m_Layer: 16
   m_Name: BeamCannon
   m_TagString: Untagged
@@ -34,6 +35,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11404128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03f21a55362f74442a8efda9a05edacb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  form: {fileID: 0}
 --- !u!114 &11411826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -101,6 +114,7 @@ MonoBehaviour:
   isComplexBlock: 1
   showInMenu: 1
   isWeapon: 1
+  needsCrew: 0
   spriteRenderer: {fileID: 0}
 --- !u!114 &11484038
 MonoBehaviour:
