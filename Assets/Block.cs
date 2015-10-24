@@ -9,31 +9,6 @@ public enum BlockLayer {
     Top = 1
 }
 
-[Serializable]
-public struct BlockData {
-    public int x;
-    public int y;
-    public string typeName;
-    public int facing;
-}
-
-public static class BlockManager {
-    public static BlockData Serialize(Block block) {
-        var data = new BlockData();
-        data.x = block.pos.x;
-        data.y = block.pos.y;
-        data.typeName = block.type.name;
-        data.facing = (int)block.facing;
-        return data;
-    }
-
-    public static Block Deserialize(BlockData data) {
-        var block = new Block(Block.typeByName[data.typeName]);
-        block.facing = (Facing)data.facing;
-        return block;
-    }
-}
-
 public class Block : ISaveBindable {
     public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
     public static List<BlockType> allTypes = new List<BlockType>();

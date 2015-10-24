@@ -8,19 +8,6 @@ public static class FactionManager {
     public static List<Faction> all = new List<Faction>();
     public static Dictionary<string, Faction> byId = new Dictionary<string, Faction>();
     
-    public static void LoadAll() {
-        foreach (var path in Save.GetFiles("Faction")) {
-            var faction = Save.Load<Faction>(path);
-            FactionManager.Add(faction);
-        }
-    }
-    
-    public static void SaveAll() {
-        foreach (var faction in FactionManager.all) {
-            Save.Dump(faction, Save.GetPath("Faction", faction.id));
-        }
-    }
-    
     public static void Add(Faction faction) {
         FactionManager.all.Add(faction);
         FactionManager.byId[faction.id] = faction;

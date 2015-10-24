@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,20 +7,6 @@ using Random = UnityEngine.Random;
 public static class SectorManager {
     public static List<Sector> all = new List<Sector>();
     public static Dictionary<string, Sector> byId = new Dictionary<string, Sector>();
-
-    public static void LoadAll() {
-        /*foreach (var path in Save.GetFiles("Sector")) {
-            var sector = Save.Load<Sector>(path);
-            SectorManager.Add(sector);
-        }*/
-    }
-
-    public static void SaveAll() {
-        foreach (var sector in SectorManager.all) {
-            Save.Dump(sector, Save.GetPath("Sector", sector.Id));
-        }
-    }
-
     public static void Add(Sector sector) {
         SectorManager.all.Add(sector);
         SectorManager.byId[sector.Id] = sector;
@@ -46,7 +32,7 @@ public class FactionOutpost : ISectorType {
 
 
         if (station == null) 
-            station = ShipManager.Create("Station", faction: faction);
+            station = Ship.Create("Station", faction: faction);
 
         return new FactionOutpost((GalaxyPos)galaxyPos, station);
     }
@@ -91,12 +77,12 @@ public class ConflictZone : ISectorType {
     }
 
     public void OnRealize() {
-        ShipManager.Create(sector: sector, faction: attacking);
-        ShipManager.Create(sector: sector, faction: attacking);
-        ShipManager.Create(sector: sector, faction: attacking);
-        ShipManager.Create(sector: sector, faction: defending);
-        ShipManager.Create(sector: sector, faction: defending);
-        ShipManager.Create(sector: sector, faction: defending);
+        Ship.Create(sector: sector, faction: attacking);
+        Ship.Create(sector: sector, faction: attacking);
+        Ship.Create(sector: sector, faction: attacking);
+        Ship.Create(sector: sector, faction: defending);
+        Ship.Create(sector: sector, faction: defending);
+        Ship.Create(sector: sector, faction: defending);
     }
 
     public string Describe() {

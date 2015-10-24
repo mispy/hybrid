@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -42,7 +42,7 @@ public class Galaxy {
     public void Simulate(float deltaTime) {
         Galaxy.deltaTime = deltaTime;
 
-        foreach (var ship in ShipManager.all) {
+        foreach (var ship in Ship.all) {
             ship.Simulate(deltaTime);
         }
     }

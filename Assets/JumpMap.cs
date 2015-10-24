@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,7 +94,7 @@ public class JumpMap : PoolBehaviour {
             beacons.Add(beacon);
         }
 
-        foreach (var ship in ShipManager.all) {
+        foreach (var ship in Ship.all) {
             if (ship.isStationary) continue;
 
             var jumpShip = Pool.For("JumpShip").Attach<JumpShip>(contents);

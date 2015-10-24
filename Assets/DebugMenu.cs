@@ -69,8 +69,8 @@ public class DebugMenu : MonoBehaviour {
         if (form != null) {
             Game.playerShip = form.ship;
             
-            foreach (var form in Game.activeSector.blockforms) {
-                form.fog.UpdateVisibility();
+            foreach (var f in Game.activeSector.blockforms) {
+                f.fog.UpdateVisibility();
             }
         }
     }
@@ -89,7 +89,7 @@ public class DebugMenu : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Alpha4)) {
             if (Blockform.AtWorldPos(pz) == null) {
-                ShipManager.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"]);
+                Ship.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"]);
             }
         }
 

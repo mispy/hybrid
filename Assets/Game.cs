@@ -149,7 +149,7 @@ public class Game : MonoBehaviour {
 
 		var sector = SectorManager.all[0];
 		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-		Game.playerShip = ShipManager.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
+		Game.playerShip = Ship.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
     }
     
     public static void LoadSector(Sector sector) {
@@ -194,7 +194,7 @@ public class Game : MonoBehaviour {
         Tile.Setup();
         Block.Setup();
         Pool.CreatePools();        
-        ShipManager.LoadTemplates();
+        ShipTemplate.LoadAll();
 
         MakeUniverse();
         //Save.LoadGame();

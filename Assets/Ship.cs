@@ -9,53 +9,47 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-public static class ShipManager {
-    public static Dictionary<string, ShipData> templates = new Dictionary<string, ShipData>();
-    public static List<Ship> all = new List<Ship>();
-    public static Dictionary<string, Ship> byId = new Dictionary<string, Ship>();
-
-    public static ShipData RandomTemplate() {
-        return templates[Util.GetRandom(templates.Keys.ToList())];
-    }
-    
-    public static void LoadTemplates() {
-        foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
-            var data = Save.Load<ShipData>(path);
-            var id = Util.GetIdFromPath(path);
-            data.name = id;
-            templates[id] = data;
-        }
-    }
+public class ShipTemplate : ISaveBindable {
+    public static Dictionary<string, ShipTemplate> byId = new Dictionary<string, ShipTemplate>();
 
     public static void LoadAll() {
-        foreach (var path in Save.GetFiles("Ship")) {
-            var data = Save.Load<ShipData>(path);
-            data.name = Util.GetIdFromPath(path);
-            var ship = ShipManager.Unpack(data);
+        foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
+            var template = Save.Load<ShipTemplate>(path);
             var id = Util.GetIdFromPath(path);
-            ShipManager.all.Add(ship);
-            ShipManager.byId[id] = ship;
-        }
-    }
-    
-    public static void SaveAll() {
-        foreach (var sector in SectorManager.all) {
-            Save.Dump(sector, Save.GetPath("Sector", sector.Id));
+            template.name = id;
+            byId[id] = template;                        
         }
     }
 
-    public static void Add(Ship ship) {
-        ShipManager.all.Add(ship);
+    public static ShipTemplate FromId(string id) {
+        return byId[id];
     }
+
+    public string name;
+    public List<Block> blocks;
+
+    public void Savebind(ISaveBinder save) {
+        save.BindList("blocks", ref blocks);
+    }
+
+    // Create a new template from an existing ship
+    public ShipTemplate(Ship ship) {
+        this.name = ship.name;
+        this.blocks = ship.blueprintBlocks.allBlocks.ToList();
+    }
+}
+
+public class Ship : IOpinionable, ISaveBindable {
+    public static List<Ship> all = new List<Ship>();
 
     public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {
-		if (template == null) template = "Little Frigate";
+        if (template == null) template = "Little Frigate";
         if (faction == null) faction = Util.GetRandom(FactionManager.all);
         //if (sector == null) sector = Util.GetRandom(SectorManager.all);
-		if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
-
-        var ship = ShipManager.Unpack(ShipManager.templates[template]);
-        //ship.name = ship.faction.name + " " + ship.name;
+        if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
+        
+        var ship = new Ship(ShipTemplate.FromId(template));
+        
         for (var i = 0; i < 6; i++ ) {
             CrewManager.Create(ship: ship, faction: faction);
         }
@@ -63,63 +57,12 @@ public static class ShipManager {
             sector.PlaceShip(ship, (Vector2)sectorPos);
         else
             ship.galaxyPos = Game.galaxy.RandomPosition();
-        ShipManager.Add(ship);
+
+        Ship.all.Add(ship);
         return ship;
     }
 
-    public static Ship Unpack(ShipData data) {
-        var ship = new Ship();
-        ship.name = data.name;
 
-        foreach (var blockData in data.blocks) {
-            var block = BlockManager.Deserialize(blockData);
-            ship.blocks[blockData.x, blockData.y, block.layer] = block;
-        }
-        
-        foreach (var blockData in data.blueprintBlocks) {
-            var block = new BlueprintBlock(BlockManager.Deserialize(blockData));
-            ship.blueprintBlocks[blockData.x, blockData.y, block.layer] = block;
-        }
-        return ship;
-    }
-
-    public static ShipData Pack(Ship ship) {
-        var data = new ShipData();
-        data.name = ship.name;
-
-        data.blocks = new BlockData[ship.blocks.allBlocks.Count];
-        data.blueprintBlocks = new BlockData[ship.blueprintBlocks.allBlocks.Count];
-        
-		var i = 0;
-		foreach (var block in ship.blocks.allBlocks) {
-			data.blocks[i] = BlockManager.Serialize(block);
-			i += 1;
-		}
-
-		i = 0;
-		foreach (var block in ship.blueprintBlocks.allBlocks) {
-			data.blueprintBlocks[i] = BlockManager.Serialize(block);
-			i += 1;
-		}
-
-        return data;
-    }
-}
-
-[Serializable]
-public class ShipData {
-    public string name;
-    /*public Vector2 position;
-    public Quaternion rotation;
-    public Vector2 velocity;
-    public Vector3 angularVelocity;*/
-    public BlockData[] blocks;
-    public BlockData[] blueprintBlocks;
-    public string sectorId;
-}
-
-
-public class Ship : IOpinionable, ISaveBindable {
     public string name;
     public string nameWithColor {
         get { return name; }
@@ -164,6 +107,15 @@ public class Ship : IOpinionable, ISaveBindable {
         blocks = new BlockMap(this);
         blueprintBlocks = new BlockMap(this);
         blocks.OnBlockAdded += OnBlockAdded;
+    }
+
+    public Ship(ShipTemplate template) : this() {
+        name = template.name;
+
+        foreach (var block in template.blocks) {
+            blueprintBlocks[block.pos, block.layer] = new BlueprintBlock(block);
+            blocks[block.pos, block.layer] = new Block(block);
+        }
     }
 
     public void Savebind(ISaveBinder save) {
