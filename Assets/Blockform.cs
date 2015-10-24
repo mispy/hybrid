@@ -126,7 +126,7 @@ public class Blockform : PoolBehaviour {
         foreach (var crew in ship.crew) {
             var body = Pool.For("CrewBody").Attach<CrewBody>(transform, false);
             var floor = Util.GetRandom(blocks.Find("Floor").ToList());
-            body.transform.localPosition = BlockToLocalPos(floor);
+            body.transform.position = BlockToWorldPos(floor);
             body.crew = crew;
             body.name = crew.name;
             body.gameObject.SetActive(true);

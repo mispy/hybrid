@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
 using System.Runtime.Serialization;
+using System;
 
 public interface ISaveBinder {
    void BindValue<T>(string name, ref T obj);
@@ -13,6 +14,7 @@ public interface ISaveBinder {
 }
 
 public interface ISaveBindable {
+
     void Savebind(ISaveBinder save);
 }
 
@@ -72,7 +74,14 @@ public class XMLSaveReader : ISaveBinder {
 
     public void BindDeep<T>(string name, ref T obj) {
         xml.ReadStartElement(name);
-        obj = (T)FormatterServices.GetUninitializedObject(typeof(T));
+        // If the type has a parameterless constructor, use that to build it
+        var constructor = typeof(T).GetConstructor(Type.EmptyTypes);
+        if (constructor != null) {
+            obj = Activator.CreateInstance<T>();
+        } else {
+            obj = (T)FormatterServices.GetUninitializedObject(typeof(T));
+        }
+
         (obj as ISaveBindable).Savebind(this);
         xml.ReadEndElement();
     }
@@ -82,6 +91,10 @@ public class XMLSaveReader : ISaveBinder {
 
         if (typeof(ISaveAsString).IsAssignableFrom(typeof(T))) {
             obj = (T)typeof(T).GetMethod("FromString").Invoke(null, new object[] { s });
+        } else if (typeof(T) == typeof(int)) {
+            obj = (T)(object)Convert.ToInt32(s);
+        } else {
+            obj = (T)(object)s;
         }
     }
     

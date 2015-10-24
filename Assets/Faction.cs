@@ -17,13 +17,13 @@ public static class FactionManager {
     
     public static void SaveAll() {
         foreach (var faction in FactionManager.all) {
-            Save.Dump(faction, Save.GetPath("Faction", faction.Id));
+            Save.Dump(faction, Save.GetPath("Faction", faction.id));
         }
     }
     
     public static void Add(Faction faction) {
         FactionManager.all.Add(faction);
-        FactionManager.byId[faction.Id] = faction;
+        FactionManager.byId[faction.id] = faction;
     }
 
 	public static Faction Create(string name, Color? color = null) {
@@ -72,7 +72,11 @@ public class FactionOpinion {
     }
 }
 
-public class Faction : IOpinionable {
+public class Faction : IOpinionable, ISaveAsRef {
+    public static Faction FromId(string id) {
+        return FactionManager.byId[id];
+    }
+
     public string name;
     public FactionOpinion opinion;
     public Color color;
@@ -89,7 +93,7 @@ public class Faction : IOpinionable {
         }
     }
 
-	public string Id {
+	public string id {
         get { return name; }
     }
 }

@@ -1,5 +1,37 @@
 ﻿<ship>
   <name>Little Frigate</name>
+  <crew>
+    <li>
+      <name>Fiora</name>
+      <faction>Mitzubi Navy</faction>
+      <health>100</health>
+    </li>
+    <li>
+      <name>Fiora</name>
+      <faction>Mitzubi Navy</faction>
+      <health>100</health>
+    </li>
+    <li>
+      <name>Abby</name>
+      <faction>Mitzubi Navy</faction>
+      <health>100</health>
+    </li>
+    <li>
+      <name>Fiora</name>
+      <faction>Mitzubi Navy</faction>
+      <health>100</health>
+    </li>
+    <li>
+      <name>Anzie</name>
+      <faction>Mitzubi Navy</faction>
+      <health>100</health>
+    </li>
+    <li>
+      <name>Eldritch</name>
+      <faction>Mitzubi Navy</faction>
+      <health>100</health>
+    </li>
+  </crew>
   <blocks>
     <li>
       <type>Wall</type>

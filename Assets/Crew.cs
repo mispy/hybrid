@@ -60,13 +60,13 @@ public static class CrewManager {
     
     public static void SaveAll() {
         foreach (var crew in CrewManager.all) {
-            Save.Dump(crew, Save.GetPath("Crew", crew.Id));
+            Save.Dump(crew, Save.GetPath("Crew", crew.id));
         }
     }
     
     public static void Add(Crew crew) {
         CrewManager.all.Add(crew);
-        CrewManager.byId[crew.Id] = crew;
+        CrewManager.byId[crew.id] = crew;
     }
 
     public static Crew Create(string name = null, Ship ship = null, Faction faction = null) {
@@ -104,13 +104,29 @@ public class CrewOpinion {
 }
 
 [Serializable]
-public class Crew {
+public class Crew : ISaveBindable {
     private Ship _ship;
     public readonly CrewOpinion opinion;
     public int maxHealth = 100;
     public int health = 100;
     public string name;
     public Color color;
+    
+    public Crew() {
+        this.opinion = new CrewOpinion(this);
+    }
+
+    public Crew(string name, Faction faction) : this() {
+        this.name = name;
+        this.faction = faction;
+        color = Color.grey;
+    }
+
+    public void Savebind(ISaveBinder save) {
+        save.BindValue("name", ref name);
+        save.BindRef("faction", ref faction);
+        save.BindValue("health", ref health);
+    }
 
     public Ship ship {
         get { return _ship; }
@@ -159,14 +175,7 @@ public class Crew {
         return String.Format("Crew<{0}>", this.name);
     }
 
-    public string Id {
+    public string id {
         get { return name; }
-    }
-
-    public Crew(string name, Faction faction) {
-        this.opinion = new CrewOpinion(this);
-        this.name = name;
-        this.faction = faction;
-        color = Color.grey;
     }
 }

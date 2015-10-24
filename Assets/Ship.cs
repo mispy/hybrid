@@ -55,10 +55,9 @@ public static class ShipManager {
 		if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
 
         var ship = ShipManager.Unpack(ShipManager.templates[template]);
-        ship.faction = faction;
         //ship.name = ship.faction.name + " " + ship.name;
         for (var i = 0; i < 6; i++ ) {
-            CrewManager.Create(ship: ship, faction: ship.faction);
+            CrewManager.Create(ship: ship, faction: faction);
         }
         if (sector != null)
             sector.PlaceShip(ship, (Vector2)sectorPos);
@@ -128,14 +127,18 @@ public class Ship : IOpinionable, ISaveBindable {
 
     public BlockMap blocks;
     public BlockMap blueprintBlocks;
-    public List<Crew> crew = new List<Crew>();
+    public HashSet<Crew> crew;
     public float scrapAvailable = 0f;
     public float jumpSpeed = 10f;
     public GalaxyPos galaxyPos;
     public Vector2 sectorPos;
     public Sector sector;
     public Sector destSector;
-    public Faction faction = null;
+    public Faction faction {
+        get {
+            return captain.faction;
+        }
+    }
     public Crew captain {
         get {
             return crew.First();
@@ -156,7 +159,7 @@ public class Ship : IOpinionable, ISaveBindable {
     }
 
     public Ship() {
-        crew = new List<Crew>();
+        crew = new HashSet<Crew>();
         strategy = new ShipStrategy(this);
         blocks = new BlockMap(this);
         blueprintBlocks = new BlockMap(this);
@@ -165,14 +168,12 @@ public class Ship : IOpinionable, ISaveBindable {
 
     public void Savebind(ISaveBinder save) {
         save.BindValue("name", ref name);
+        save.BindSet("crew", ref crew);
 
         if (save is XMLSaveWriter) {
             save.BindSet("blocks", ref blocks.allBlocks);
             save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
         } else {
-            blocks = new BlockMap(this);
-            blueprintBlocks = new BlockMap(this);
-
             save.BindSet("blocks", ref blocks.allBlocks);
             save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
 
