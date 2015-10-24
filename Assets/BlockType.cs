@@ -41,6 +41,10 @@ public class BlockType : MonoBehaviour, ISaveAsRef {
         get { return name; }
     }
 
+    public string savePath {
+        get { return "foo"; }
+    }
+
     public int scrapRequired = 30;
     public float maxHealth = 1;
     public float damageBuffer = 0;

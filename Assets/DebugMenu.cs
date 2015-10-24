@@ -6,25 +6,9 @@ using System.Xml.Serialization;
 using System.Linq;
 
 public class DebugMenu : MonoBehaviour {
-    public void SaveShip() {
-        var xml = new XmlTextWriter(Application.dataPath + "/Saves/tmp.xml", System.Text.Encoding.UTF8);
-        xml.Formatting = Formatting.Indented;
-        var save = new XMLSaveWriter(xml);
-        save.BindDeep("ship", ref Game.playerShip);
-        //block.Savebind(save);
-        xml.Close();
-
-        var file = new FileStream(Application.dataPath + "/Saves/tmp.xml", FileMode.Open);
-        var xmlReader = new XmlTextReader(file);
-        var load = new XMLSaveReader(xmlReader);
-        Ship ship = null;
-        load.BindDeep("ship", ref ship);
-
-        ship.sector = Game.activeSector.sector;
-        Game.activeSector.RealizeShip(ship);
-
-        return;
-
+    public void SaveTemplate() {
+        var template = new ShipTemplate(Game.playerShip);
+        Save.Dump(template);
 /*        var ship = Game.playerShip;
         if (ship == null) return;
         var data = ShipManager.Pack(ship);
@@ -57,6 +41,12 @@ public class DebugMenu : MonoBehaviour {
         crew.transform.position = pos;
     }
 
+    public void SpawnEnemy() {
+        if (Blockform.AtWorldPos(Game.mousePos) == null) {
+            Ship.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"], sectorPos: Game.mousePos);
+        }
+    }
+
 	public void ToggleVisibility() {
 		Game.debugVisibility = !Game.debugVisibility;
 		foreach (var form in Game.activeSector.blockforms) {
@@ -75,38 +65,11 @@ public class DebugMenu : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-        Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
-
-        if (Input.GetKeyDown(KeyCode.Alpha1)) {
-            SaveShip();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha3)) {
-            NewShip();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4)) {
-            if (Blockform.AtWorldPos(pz) == null) {
-                Ship.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"]);
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha5)) {
-            MakeAsteroid(pz);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha6)) {
-            SpawnCrew(pz);
-        }
-
-		if (Input.GetKeyDown(KeyCode.V)) {
-			ToggleVisibility();
-		}
-
-        if (Input.GetKeyDown(KeyCode.C)) {
-            ControlShip();
-        }
+    void Start() {
+        InputEvent.For(KeyCode.S).Bind(this, SaveTemplate);
+        InputEvent.For(KeyCode.N).Bind(this, NewShip);
+        InputEvent.For(KeyCode.E).Bind(this, SpawnEnemy);
+        InputEvent.For(KeyCode.V).Bind(this, ToggleVisibility);
+        InputEvent.For(KeyCode.C).Bind(this, ControlShip);
     }
 }

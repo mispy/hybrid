@@ -83,4 +83,8 @@ public class Faction : IOpinionable, ISaveAsRef {
 	public string id {
         get { return name; }
     }
+
+    public string savePath {
+        get { return Application.dataPath + "/Faction/" + id + ".xml"; }
+    }
 }

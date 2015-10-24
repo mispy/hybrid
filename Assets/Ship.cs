@@ -9,7 +9,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-public class ShipTemplate : ISaveBindable {
+public class ShipTemplate : ISaveBindable, ISaveAsRef {
     public static Dictionary<string, ShipTemplate> byId = new Dictionary<string, ShipTemplate>();
 
     public static void LoadAll() {
@@ -24,9 +24,21 @@ public class ShipTemplate : ISaveBindable {
     public static ShipTemplate FromId(string id) {
         return byId[id];
     }
-
+    
     public string name;
     public List<Block> blocks;
+
+    public string id {
+        get {
+            return name;
+        }
+    }
+
+    public string savePath {
+        get {
+            return Application.dataPath + "/Ships/" + id + ".xml";
+        }
+    }
 
     public void Savebind(ISaveBinder save) {
         save.BindList("blocks", ref blocks);
@@ -122,7 +134,7 @@ public class Ship : IOpinionable, ISaveBindable {
         save.BindValue("name", ref name);
         save.BindSet("crew", ref crew);
 
-        if (save is XMLSaveWriter) {
+        if (save is XmlSaveWriter) {
             save.BindSet("blocks", ref blocks.allBlocks);
             save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
         } else {

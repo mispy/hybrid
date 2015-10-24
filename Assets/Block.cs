@@ -206,7 +206,7 @@ public class Block : ISaveBindable {
 
     public virtual void Savebind(ISaveBinder save) {
         save.BindRef("type", ref type);
-        if (save is XMLSaveReader)
+        if (save is XmlSaveReader)
             MakeType(type);
         save.BindValue("position", ref pos);
         save.BindValue("facing", ref facing);

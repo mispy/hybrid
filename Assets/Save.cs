@@ -11,10 +11,17 @@ using System;
 public static class Save {
     public static T Load<T>(string path) {
         T obj = default(T);
-        using (var save = new XMLSaveReader(path)) {
+        using (var save = new XmlSaveReader(path)) {
             save.BindDeep(typeof(T).Name, ref obj);
         }
         return obj;
+    }
+
+    public static void Dump(ISaveAsRef obj) {
+        var path = obj.savePath;
+        using (var save = new XmlSaveWriter(path)) {
+            save.BindDeep(obj.GetType().Name, ref obj);
+        }
     }
 }
 
@@ -26,8 +33,7 @@ public interface ISaveBinder {
     void BindSet<T>(string name, ref HashSet<T> set);
 }
 
-public interface ISaveBindable {
-    
+public interface ISaveBindable {    
     void Savebind(ISaveBinder save);
 }
 
@@ -37,17 +43,26 @@ public interface ISaveAsString {
 
 public interface ISaveAsRef {
     string id { get; }
+    string savePath { get; }
 }
 
-public class XMLSaveWriter : ISaveBinder, IDisposable {
-    public readonly XmlTextWriter xml;
+public class XmlSaveWriter : ISaveBinder, IDisposable {
+    public readonly XmlWriter xml;    
+    public readonly string path;
+    public readonly FileStream file;
     
-    public XMLSaveWriter(XmlTextWriter xml) {
-        this.xml = xml;
+    public XmlSaveWriter(string path) {
+        this.path = path;
+        file = File.Open(path, FileMode.Create, FileAccess.Write, FileShare.Read);
+        XmlWriterSettings settings = new XmlWriterSettings();
+        settings.Indent = true;
+        settings.OmitXmlDeclaration = true;
+        xml = XmlWriter.Create(file, settings);
     }
 
     public void Dispose() {
         xml.Close();
+        file.Dispose();
     }
     
     public void BindDeep<T>(string name, ref T obj) {
@@ -100,31 +115,30 @@ public class XMLSaveWriter : ISaveBinder, IDisposable {
     }
 }
 
-public class XMLSaveReader : ISaveBinder, IDisposable {
+public class XmlSaveReader : ISaveBinder, IDisposable {
     public readonly XmlReader xml;
     public readonly string path;
+    public readonly FileStream file;
 
-    public XMLSaveReader(string path) {
+    public XmlSaveReader(string path) {
         this.path = path;
-        var file = new FileStream(path, FileMode.Open);
+        file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         XmlReaderSettings settings = new XmlReaderSettings();
         settings.IgnoreWhitespace = true;
+        settings.IgnoreComments = true;
         xml = XmlReader.Create(file, settings);
         xml.Read();
     }
 
     public void Dispose() {
         xml.Close();
+        file.Dispose();
     }
 
     public void WarnFormat(string s, params object[] format) {
         IXmlLineInfo info = xml as IXmlLineInfo;
         var prefix = String.Format("{0} line {1}: ", Util.GetIdFromPath(path), info.LineNumber);
         Debug.LogErrorFormat(prefix + s, format);
-    }
-    
-    public XMLSaveReader(XmlTextReader xml) {
-        this.xml = xml;
     }
     
     public void BindDeep<T>(string name, ref T obj) {

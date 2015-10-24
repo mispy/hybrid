@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Text;
 using System.Collections;
@@ -10,9 +10,9 @@ using System.Linq;
 public class SaveTester {
     MemoryStream ms;
     XmlTextWriter xmlWriter;
-    XMLSaveWriter save;
+    XmlSaveWriter save;
     XmlTextReader xmlReader;
-    XMLSaveReader load;
+    XmlSaveReader load;
 
     string written {
         get {
@@ -24,24 +24,6 @@ public class SaveTester {
 
 
     public void RunTests() {
-        ms = new MemoryStream();
-        xmlWriter = new XmlTextWriter(ms, Encoding.UTF8);
-        save = new XMLSaveWriter(xmlWriter);
-        xmlReader = new XmlTextReader(ms);
-        load = new XMLSaveReader(xmlReader);
-
-        /*var i = 1;
-        save.BindValue("i", ref i);
-        xmlReader.Close();
-        Debug.Assert(written == "<i>1</i>", written);
-
-        var j = 0;
-        load.BindValue("i", ref j);
-        Debug.Assert(j == 1);*/
-
-        xmlWriter.Close();
-        xmlReader.Close();
-        ms.Close();
     }
 }
 
