@@ -19,7 +19,7 @@
       <type>Console</type>
       <position>4 -2</position>
       <facing>up</facing>
-      <foo>1</foo>
+      <connections />
     </li>
     <li>
       <type>Thruster</type>
@@ -60,7 +60,7 @@
       <type>Console</type>
       <position>-5 -2</position>
       <facing>up</facing>
-      <foo>1</foo>
+      <connections />
     </li>
     <li>
       <type>Wall</type>
@@ -86,7 +86,7 @@
       <type>Console</type>
       <position>0 4</position>
       <facing>up</facing>
-      <foo>1</foo>
+      <connections />
     </li>
     <li>
       <type>Floor</type>
@@ -132,7 +132,7 @@
       <type>Console</type>
       <position>-1 4</position>
       <facing>up</facing>
-      <foo>1</foo>
+      <connections />
     </li>
     <li>
       <type>Wall</type>
@@ -193,7 +193,7 @@
       <type>Console</type>
       <position>-4 1</position>
       <facing>up</facing>
-      <foo>1</foo>
+      <connections />
     </li>
     <li>
       <type>Floor</type>
@@ -564,7 +564,7 @@
       <type>Console</type>
       <position>-1 -2</position>
       <facing>up</facing>
-      <foo>1</foo>
+      <connections />
     </li>
     <li>
       <type>Floor</type>

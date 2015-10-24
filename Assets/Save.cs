@@ -146,7 +146,9 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
             WarnFormat("Expected <{0}>, found {1} {2}", name, xml.NodeType, xml.Name);
             return;
         }
+
         xml.ReadStartElement(name);
+
         // If the type has a parameterless constructor, use that to build it
         var constructor = typeof(T).GetConstructor(Type.EmptyTypes);
         if (constructor != null) {
@@ -154,7 +156,7 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
         } else {
             obj = (T)FormatterServices.GetUninitializedObject(typeof(T));
         }
-        
+                        
         (obj as ISaveBindable).Savebind(this);
         ReadEndElement(name);
     }
@@ -189,12 +191,19 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
             WarnFormat("Expected <{0}>, found {1} {2}", name, xml.NodeType, xml.Name);
             return;
         }
-        xml.ReadStartElement(name);
 
         if (list == null)
             list = new List<T>();
 
-        while (true) {
+        if (xml.IsEmptyElement) {
+            xml.Skip();
+            return;
+        }
+
+        xml.ReadStartElement(name);
+
+        var depth = xml.Depth;
+        do {
             T val = default(T);
             if (typeof(ISaveBindable).IsAssignableFrom(typeof(T))) {
                 BindDeep("li", ref val);
@@ -202,11 +211,8 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
                 BindValue("li", ref val);
             }
             list.Add(val);
+        } while (xml.Name == "li" && xml.Depth == depth);
 
-            if (xml.Name != "li")
-                break;
-        }
-        
         ReadEndElement(name);
     }
 
@@ -216,12 +222,19 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
             WarnFormat("Expected <{0}>, found {1} {2}", name, xml.NodeType, xml.Name);
             return;
         }
+
         if (set == null) 
             set = new HashSet<T>();
-        
-        xml.ReadStartElement(name);     
-        
-        while (true) {
+                
+        if (xml.IsEmptyElement) {
+            xml.Skip();
+            return;
+        }
+
+        xml.ReadStartElement(name);
+
+        var depth = xml.Depth;
+        do {
             T val = default(T);
             if (typeof(ISaveBindable).IsAssignableFrom(typeof(T))) {
                 BindDeep("li", ref val);
@@ -229,9 +242,7 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
                 BindValue("li", ref val);
             }
             set.Add(val);
-
-            if (xml.Name != "li") break;            
-        }
+        } while (xml.Name == "li" && xml.Depth == depth);
 
         ReadEndElement(name);
     }

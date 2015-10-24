@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ConsoleData : ISaveBindable {
-    public int foo = 1;
+    public List<IntVector2> connections;
 
     public void Savebind(ISaveBinder save) {
-        save.BindValue("foo", ref foo);
+        save.BindList("connections", ref connections);
     }
 
     public ConsoleData() {
-
+        connections = new List<IntVector2>();
     }
 }
 
