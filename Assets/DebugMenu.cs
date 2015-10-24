@@ -64,6 +64,17 @@ public class DebugMenu : MonoBehaviour {
 		}
 	}
 
+    public void ControlShip() {
+        var form = Blockform.AtWorldPos(Game.mousePos);
+        if (form != null) {
+            Game.playerShip = form.ship;
+            
+            foreach (var form in Game.activeSector.blockforms) {
+                form.fog.UpdateVisibility();
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update () {
         Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
@@ -93,5 +104,9 @@ public class DebugMenu : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.V)) {
 			ToggleVisibility();
 		}
+
+        if (Input.GetKeyDown(KeyCode.C)) {
+            ControlShip();
+        }
     }
 }
