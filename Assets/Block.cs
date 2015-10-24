@@ -114,6 +114,18 @@ public class Block : ISaveBindable {
 
     public BlockType type;
 
+    public List<ISaveBindable> extraData = new List<ISaveBindable>();
+
+    public T GetExtraData<T>() {
+        foreach (var datum in extraData) {
+            if (datum.GetType() == typeof(T)) {
+                return (T)datum;
+            }
+        }
+
+        return default(T);
+    }
+
     public bool isPowered = true;
 
     public int x {
@@ -198,6 +210,10 @@ public class Block : ISaveBindable {
             MakeType(type);
         save.BindValue("position", ref pos);
         save.BindValue("facing", ref facing);
+
+        foreach (var datum in extraData) {
+            datum.Savebind(save);
+        }
     }
 
     public float scrapContent;
@@ -231,7 +247,13 @@ public class Block : ISaveBindable {
         this.health = type.maxHealth;
         this.layer = type.blockLayer;
         this.tileable = type.tileable;
+
+        foreach (var comp in type.blockComponents) {
+            comp.OnNewBlock(this);
+        }
     }
+
+    public Block() { }
 
     public Block(BlockType type) {
         MakeType(type);

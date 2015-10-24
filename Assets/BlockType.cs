@@ -24,6 +24,8 @@ public class BlockComponent : PoolBehaviour {
     public Block block;
     [HideInInspector]
     public Blockform form;
+
+    public virtual void OnNewBlock(Block block) { }
 }
 
 

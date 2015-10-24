@@ -8,10 +8,13 @@ public class ConsoleData : ISaveBindable {
         save.BindValue("foo", ref foo);
     }
 
-    public ConsoleData() {}
+    public ConsoleData() {
+
+    }
 }
 
 public class Console : BlockComponent {
-    //public override void ExtraData(Block block) {
-    //}
+    public override void OnNewBlock(Block block) {
+        block.extraData.Add(new ConsoleData());
+    }
 }
