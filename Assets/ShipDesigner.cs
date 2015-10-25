@@ -54,11 +54,12 @@ public class ShipDesigner : MonoBehaviour {
         }
 
         Game.Pause();
+
+        InputEvent.For(KeyCode.C).Bind(this, () => consoleLinker.gameObject.SetActive(true));
+        InputEvent.For(KeyCode.M).Bind(this, () => isMirroring = !isMirroring);
     }
     
     public void OnDisable() {
-        Pool.Recycle(cursor.gameObject);
-
         if (designShip != null) {
 			designShip.form.blueprint.tiles.DisableRendering();
 			designShip.form.tiles.EnableRendering();
@@ -366,8 +367,5 @@ public class ShipDesigner : MonoBehaviour {
                 cursor.blocks[pos, selectedType.blockLayer] = null;
             UpdateRemoving();
         }
-
-        if (Input.GetKeyDown(KeyCode.M))
-            isMirroring = !isMirroring;
     }
 }

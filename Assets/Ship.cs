@@ -14,7 +14,7 @@ public class ShipTemplate : ISaveBindable, ISaveAsRef {
 
     public static void LoadAll() {
         foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
-            var template = Save.Load<ShipTemplate>(path);
+            var template = Save.Read<ShipTemplate>(path);
             var id = Util.GetIdFromPath(path);
             template.name = id;
             byId[id] = template;                        

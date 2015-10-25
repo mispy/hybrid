@@ -9,7 +9,7 @@ using System;
 
 
 public static class Save {
-    public static T Load<T>(string path) {
+    public static T Read<T>(string path) {
         T obj = default(T);
         using (var save = new XmlSaveReader(path)) {
             save.BindDeep(typeof(T).Name, ref obj);
@@ -17,7 +17,7 @@ public static class Save {
         return obj;
     }
 
-    public static void Dump(ISaveAsRef obj) {
+    public static void Write(ISaveAsRef obj) {
         var path = obj.savePath;
         using (var save = new XmlSaveWriter(path)) {
             save.BindDeep(obj.GetType().Name, ref obj);
@@ -170,7 +170,10 @@ public class XmlSaveReader : ISaveBinder, IDisposable {
         
         if (typeof(ISaveAsString).IsAssignableFrom(typeof(T))) {
             obj = (T)typeof(T).GetMethod("FromString").Invoke(null, new object[] { s });
-        } else if (typeof(T) == typeof(int)) {
+        } 
+
+
+        else if (typeof(T) == typeof(int)) {
             obj = (T)(object)Convert.ToInt32(s);
         } else {
             obj = (T)(object)s;

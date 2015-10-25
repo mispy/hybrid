@@ -28,6 +28,7 @@ public class Game : MonoBehaviour {
     public static ShipControl shipControl;
     public static AbilityMenu abilityMenu;
     public static DialogueMenu dialogueMenu;
+    public static ShipDesigner shipDesigner;
 
     public static bool isPaused {
         get { return Time.timeScale == 0.0f; }
@@ -124,8 +125,6 @@ public class Game : MonoBehaviour {
         inputBlocked = false;
     }
 
-    public ShipDesigner shipDesigner;
-    public WeaponSelect weaponSelect;
     public Text messageText;
 
     void MakeUniverse() {
@@ -180,6 +179,7 @@ public class Game : MonoBehaviour {
         Game.shipControl = GetComponentInChildren<ShipControl>();
         Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
         Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
+        Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
         Game.main = this;
 
 
@@ -195,6 +195,9 @@ public class Game : MonoBehaviour {
         Block.Setup();
         Pool.CreatePools();        
         ShipTemplate.LoadAll();
+        foreach (var template in ShipTemplate.byId.Values) {
+            Save.Write(template);
+        }
 
         MakeUniverse();
         //Save.LoadGame();

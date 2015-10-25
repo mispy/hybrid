@@ -75,14 +75,14 @@ public class InputEvent {
     }
 
     public static void Update() {
-        foreach (var ev in keyEvents.Values) {
+        foreach (var ev in keyEvents.Values.ToList()) {
             if (Input.GetKeyDown(ev.keyCode))
                 ev.Trigger(repeat: false);
             else if (Input.GetKey(ev.keyCode))
                 ev.Trigger(repeat: true);
         }
 
-        foreach (var ev in mouseEvents.Values) {
+        foreach (var ev in mouseEvents.Values.ToList()) {
             if (Input.GetMouseButtonDown((int)ev.mouseButton))
                 ev.Trigger(repeat: false);
             else if (Input.GetMouseButton((int)ev.mouseButton))

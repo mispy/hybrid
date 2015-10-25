@@ -163,10 +163,10 @@ public class ShipControl : MonoBehaviour {
     }
 
     public void OnToggleDesigner() {
-        if (Game.main.shipDesigner.gameObject.activeInHierarchy) {
-            Game.main.shipDesigner.gameObject.SetActive(false);
+        if (Game.shipDesigner.gameObject.activeInHierarchy) {
+            Game.shipDesigner.gameObject.SetActive(false);
         } else {
-            Game.main.shipDesigner.gameObject.SetActive(true);
+            Game.shipDesigner.gameObject.SetActive(true);
         }
     }
 

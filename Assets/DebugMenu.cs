@@ -8,7 +8,7 @@ using System.Linq;
 public class DebugMenu : MonoBehaviour {
     public void SaveTemplate() {
         var template = new ShipTemplate(Game.playerShip);
-        Save.Dump(template);
+        Save.Write(template);
 /*        var ship = Game.playerShip;
         if (ship == null) return;
         var data = ShipManager.Pack(ship);
