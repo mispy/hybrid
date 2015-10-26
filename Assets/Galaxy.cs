@@ -50,7 +50,7 @@ public class GalaxyEditor : Editor {
     }
 }
 
-public class Galaxy : MonoBehaviour {
+public class Galaxy : PoolBehaviour {
     public static float deltaTime;
 
     public void Simulate(float deltaTime) {
@@ -70,6 +70,8 @@ public class Galaxy : MonoBehaviour {
     }
 
     public void Generate() {
+        Util.DestroyChildrenImmediate(transform);
+
         for (var i = 0; i < 100; i++) {
             var star = Pool.For("Star").Attach<Transform>(transform);
             star.transform.position = RandomPosition().vec;

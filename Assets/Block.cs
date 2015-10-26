@@ -1,14 +1,16 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 
 public enum BlockLayer {
     Base = 0,
     Top = 1
 }
 
+[InitializeOnLoad]
 public class Block : ISaveBindable {
     public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
     public static List<BlockType> allTypes = new List<BlockType>();
@@ -33,7 +35,7 @@ public class Block : ISaveBindable {
 		"PlasmaTurret"
     };
     
-    public static void Setup() {
+    static Block() {
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
             Block.typeByName[type.name] = type;
         }

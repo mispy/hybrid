@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 
 public class Tileable {
     public string name;
@@ -52,6 +53,7 @@ public class BaseTile {
     }
 }
 
+[InitializeOnLoad]
 public class Tile {
     public static List<Texture2D> textures = new List<Texture2D>();
     public static List<BaseTile> baseTiles = new List<BaseTile>();
@@ -64,7 +66,7 @@ public class Tile {
     public static float fracWidth = 0; 
     public static float fracHeight = 0;
     
-    public static void Setup() {
+    static Tile() {
         foreach (var texture in Game.LoadTextures("Tileables")) {
             var tileWidth = texture.width / Tile.pixelSize;
             var tileHeight = texture.height / Tile.pixelSize;

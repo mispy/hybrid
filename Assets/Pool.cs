@@ -14,7 +14,7 @@ public class Pool {
         }
 
         foreach (Transform child in Pool.holder.transform) {
-            Object.Destroy(child.gameObject);
+            Object.DestroyImmediate(child.gameObject);
         }
     }
 

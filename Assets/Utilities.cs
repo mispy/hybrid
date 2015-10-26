@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -8,6 +8,12 @@ using Random = UnityEngine.Random;
 public class PoolBehaviour : MonoBehaviour {
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }
+
+    public void DestroyChildren() {
+        foreach (Transform child in transform) {
+            Pool.Recycle(child.gameObject);
+        }
+    }
 }
 
 public struct IntRect {
@@ -447,5 +453,17 @@ public class Util {
 
     public static Vector2 RandomDirection() {
         return new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+    }
+
+    public static void DestroyChildrenImmediate(Transform transform) {
+        List<Transform> toDestroy = new List<Transform>();
+
+        foreach (Transform child in transform) {
+            toDestroy.Add(child);
+        }
+
+        foreach (var child in toDestroy) {
+            GameObject.DestroyImmediate(child.gameObject);
+        }
     }
 }

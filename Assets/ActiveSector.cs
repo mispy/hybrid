@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public class ActiveSector : MonoBehaviour {
     public Sector sector;
-    public Transform contents;
-    public Transform transients;
+    public Transform contents { get; private set; }
+    public Transform transients { get; private set; }
 
     public List<Blockform> blockforms;
 

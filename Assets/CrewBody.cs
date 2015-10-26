@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -60,7 +60,7 @@ public class CrewBody : PoolBehaviour {
     }
     
     void StopMaglock() {
-        gameObject.transform.parent = Game.main.transform;
+        gameObject.transform.SetParent(Game.activeSector.contents);
        // rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
 		rigidBody = gameObject.AddComponent<Rigidbody>();

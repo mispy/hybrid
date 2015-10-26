@@ -4,6 +4,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+[Serializable]
+public struct BlockData {
+    public IntVector2 pos;
+    public string typeName;
+    public Facing facing;
+    public BlockLayer layer;
+}
+
 public class Blockform : PoolBehaviour {
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
         return Game.activeSector.blockforms.OrderBy((form) => Vector2.Distance(form.transform.position, worldPos));
@@ -13,6 +21,7 @@ public class Blockform : PoolBehaviour {
         foreach (var form in Game.activeSector.blockforms) {
             var blockPos = form.WorldToBlockPos(worldPos);
             if (form.blocks[blockPos, BlockLayer.Base] != null) {
+
                 return form;
             }
         }
@@ -22,9 +31,10 @@ public class Blockform : PoolBehaviour {
     
     public Ship ship;
     
-    public Blueprint blueprint;
-    public BlockMap blocks;
-    public TileRenderer tiles;
+    public Blueprint blueprint { get; private set; }
+    public BlockMap blocks { get; private set; }
+    public TileRenderer tiles { get; private set; }
+
     public Rigidbody rigidBody;
     public Bounds localBounds = new Bounds();
 	public BoxCollider box;
@@ -75,6 +85,31 @@ public class Blockform : PoolBehaviour {
 			return Game.activeSector.IsOutsideBounds(transform.position);
 		}
 	}
+
+    public List<BlockData> blockData;
+
+    public void OnBeforeSerialize() {
+        if (blocks == null) return;
+
+        foreach (var block in blocks.allBlocks) {
+            var data = new BlockData();
+            data.pos = block.pos;
+            data.typeName = block.type.name;
+            data.facing = block.facing;
+            data.layer = block.layer;
+            blockData.Add(data);
+        }
+    }
+
+    public void OnAfterDeserialize() {
+
+        foreach (var data in blockData) {
+            var block = new Block(Block.typeByName[data.typeName]);
+            block.facing = data.facing;
+            blocks[data.pos, data.layer] = block;
+        }
+    }
+
 
     public Dictionary<Type, HashSet<BlockComponent>> blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
 

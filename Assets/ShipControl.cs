@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -200,8 +200,6 @@ public class ShipControl : MonoBehaviour {
 		} else {
 			leaveSectorMenu.SetActive(false);
 		}
-		
-		if (Game.inputBlocked) return;
 
         var rigid = ship.form.rigidBody;
         

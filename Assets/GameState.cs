@@ -6,13 +6,15 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Random = UnityEngine.Random;
+using UnityEditor;
 
 public static class SpaceLayer {
     public static LayerMask ShipBounds = LayerMask.GetMask(new string[] { "Bounds" });
 }
 
-public class Game : MonoBehaviour {
-    public static Game main;
+[InitializeOnLoad]
+public static class Game {
+    public static GameState state;
 
     // cached main camera
     // Game.mainCamera seems to perform some kind of expensive lookup
@@ -36,26 +38,29 @@ public class Game : MonoBehaviour {
 
 	public static bool debugVisibility = false;
 
-    public Canvas canvas;
-    public Text debugText;
-
     public static Dictionary<string, GameObject> prefabs = new Dictionary<string, GameObject>();
     public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
-    public static GameObject Prefab(string name) {
-        if (prefabs.Keys.Count == 0) {
-            foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
-                prefabs[prefab.name] = prefab;
-            }
+    static Game() {
+        foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
+            prefabs[prefab.name] = prefab;
         }
+        
+        foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
+            sprites[sprite.name] = sprite;
+        }                
 
+        GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
+    }
+    
+    public static GameObject Prefab(string name) {
         if (!prefabs.ContainsKey(name)) {
             Debug.LogFormat("No prefab found for {0}. Available prefabs are: {1}", name, String.Join(", ", prefabs.Keys.ToArray()));
         }
-
+        
         return prefabs[name];    
     }
-
+    
     public static Sprite Sprite(string name) {
         if (!sprites.ContainsKey(name)) {
             Debug.LogFormat("No prefab found for {0}. Available prefabs are: {1}", name, String.Join(", ", sprites.Keys.ToArray()));
@@ -63,6 +68,7 @@ public class Game : MonoBehaviour {
         
         return sprites[name];
     }
+
 
     public static IEnumerable<T> LoadPrefabs<T>(string path) {
         var resources = Resources.LoadAll(path);
@@ -74,7 +80,7 @@ public class Game : MonoBehaviour {
             }
         }
     }
-
+    
     public static IEnumerable<GameObject> LoadPrefabs(string path) {
         var resources = Resources.LoadAll(path);
         foreach (var obj in resources) {
@@ -84,8 +90,8 @@ public class Game : MonoBehaviour {
             }
         }
     }
-
-
+    
+    
     public static IEnumerable<Texture2D> LoadTextures(string path) {
         var resources = Resources.LoadAll(path);
         foreach (var obj in resources) {
@@ -95,19 +101,72 @@ public class Game : MonoBehaviour {
             }
         }
     }
-
+    
     public static void MoveCamera(Vector2 targetPos) {
         var pos = new Vector3(targetPos.x, targetPos.y, Game.mainCamera.transform.position.z);
         //Game.mousePos += (Vector2)(pos - Game.mainCamera.transform.position);
         Game.mainCamera.transform.position = pos;
     }
-
+    
     public static void Pause() {
         Time.timeScale = 0.0f;
     }
-
+    
     public static void Unpause() {
         Time.timeScale = 1.0f;
+    }
+
+    public static void LoadSector(Sector sector) {
+        sector.type.OnRealize();
+        
+        Game.activeSector.sector = sector;
+        
+        foreach (var ship in sector.ships) {
+            Game.activeSector.RealizeShip(ship);
+        }
+        
+        Game.activeSector.gameObject.SetActive(true);
+        Game.mainCamera = Game.activeSector.GetComponentInChildren<Camera>();
+    }
+    
+    public static void UnloadSector() {
+        foreach (Transform child in Game.activeSector.contents) {
+            Pool.Recycle(child.gameObject);
+        }
+        
+        Game.activeSector.gameObject.SetActive(false);
+    }
+}
+
+public class GameState : MonoBehaviour {       
+    public Canvas canvas;
+    public Text debugText;
+
+    public void UpdateRefs() {
+        Game.galaxy = GetComponentsInChildren<Galaxy>(includeInactive: true).First();
+        Game.activeSector = GetComponentsInChildren<ActiveSector>(includeInactive: true).First();
+        Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
+        Game.shipControl = GetComponentsInChildren<ShipControl>(includeInactive: true).First();
+        Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
+        Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
+        Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
+        Game.state = this;
+    }
+
+
+    public void Awake() {
+        UpdateRefs();
+
+        ShipTemplate.LoadAll();
+        foreach (var template in ShipTemplate.byId.Values) {
+            Save.Write(template);
+        }
+        
+        MakeUniverse();
+        for (var i = 0; i < 100; i++) {
+            //debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
+        }
+        Tests.Run();
     }
 
     public void BriefMessage(string message) {
@@ -156,66 +215,6 @@ public class Game : MonoBehaviour {
 		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
 		Game.playerShip = Ship.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
     }
-    
-    public static void LoadSector(Sector sector) {
-        sector.type.OnRealize();
-
-        activeSector.sector = sector;
-
-        foreach (var ship in sector.ships) {
-            activeSector.RealizeShip(ship);
-        }
-
-        activeSector.gameObject.SetActive(true);
-        Game.mainCamera = activeSector.GetComponentInChildren<Camera>();
-    }
-    
-    public static void UnloadSector() {
-        foreach (Transform child in Game.activeSector.contents) {
-            Pool.Recycle(child.gameObject);
-        }
-        activeSector.gameObject.SetActive(false);
-    }
-
-    // Use this for initialization
-    void Awake () {        
-        Game.galaxy = new Galaxy();
-        Game.activeSector = GetComponentInChildren<ActiveSector>();
-        Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
-        Game.shipControl = GetComponentInChildren<ShipControl>();
-        Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
-        Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
-        Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
-        Game.main = this;
-
-        foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
-            sprites[sprite.name] = sprite;
-        }
-
-        Tile.Setup();
-        Block.Setup();
-        ShipTemplate.LoadAll();
-        foreach (var template in ShipTemplate.byId.Values) {
-            Save.Write(template);
-        }
-
-        MakeUniverse();
-        //Save.LoadGame();
-
-
-        //Generate.EllipsoidShip(new Vector2(12, 0), 20, 10);
-
-        //Generate.TestShip(new Vector2(5, 0));
-        //for (var i = 0; i < 5; i++) {
-        //    Generate.TestShip(new Vector2(Random.Range(-50, 50), Random.Range(-50, 50)));
-        //}
-        //InvokeRepeating("GenerateShip", 0.0f, 1.0f);
-
-        for (var i = 0; i < 100; i++) {
-            //debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
-        }
-        Tests.Run();
-    }
 
     void Start() {        
         Game.LoadSector(SectorManager.all[0]);
@@ -226,9 +225,7 @@ public class Game : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
-             
-        if (Game.inputBlocked) return;
+        Game.mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
 
         InputEvent.Update();
 
