@@ -2,19 +2,26 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
+[InitializeOnLoad]
 public class Pool {
+    static Pool() {
+        Pool.holder = GameObject.Find("Pool");
+        if (Pool.holder == null) {
+            Pool.holder = new GameObject();
+            Pool.holder.name = "Pool";
+        }
+
+        foreach (Transform child in Pool.holder.transform) {
+            Object.Destroy(child.gameObject);
+        }
+    }
+
+
     public static GameObject holder;
 
     public static Dictionary<GameObject, Pool> pools = new Dictionary<GameObject, Pool>();
-
-    public static void CreatePools() {
-        Pool.holder = new GameObject();
-        Pool.holder.name = "Pool";
-        Pool.For("WallCollider", 128);
-        Pool.For("FloorCollider", 64);
-        Pool.For("Item", 128);
-    }
 
     public static void OnRecycle(GameObject obj) {
         foreach (Transform child in obj.transform) {

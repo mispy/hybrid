@@ -43,6 +43,12 @@ public class Game : MonoBehaviour {
     public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
     public static GameObject Prefab(string name) {
+        if (prefabs.Keys.Count == 0) {
+            foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
+                prefabs[prefab.name] = prefab;
+            }
+        }
+
         if (!prefabs.ContainsKey(name)) {
             Debug.LogFormat("No prefab found for {0}. Available prefabs are: {1}", name, String.Join(", ", prefabs.Keys.ToArray()));
         }
@@ -182,18 +188,12 @@ public class Game : MonoBehaviour {
         Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
         Game.main = this;
 
-
-        foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
-            prefabs[prefab.name] = prefab;
-        }
-
         foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
             sprites[sprite.name] = sprite;
         }
 
         Tile.Setup();
         Block.Setup();
-        Pool.CreatePools();        
         ShipTemplate.LoadAll();
         foreach (var template in ShipTemplate.byId.Values) {
             Save.Write(template);

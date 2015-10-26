@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ConsoleLinker : MonoBehaviour {
     Block originBlock;
+    List<Block> possibleTargets = new List<Block>();
+    Block currentTarget;
     bool isLinking = false;
     LineRenderer newLine;
 
@@ -25,13 +28,14 @@ public class ConsoleLinker : MonoBehaviour {
 
     void StartConnection(Block block) {
         originBlock = block;
+        possibleTargets.Clear();
         newLine.enabled = true;
         isLinking = true;
     }
 
-    void HandleLeftClick() {
+    void HandleLeftClick() {      
         foreach (var block in Game.playerShip.form.blueprint.BlocksAtWorldPos(Game.mousePos)) {
-            if (block.Is<Console>() || block.type.needsConsole) {
+            if (block.Is<Console>()) {
 
             }
             StartConnection(block);

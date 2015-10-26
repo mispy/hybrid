@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class Star {
     public GalaxyPos galaxyPos { get; private set; }
@@ -36,7 +37,20 @@ public class Star {
     }
 }
 
-public class Galaxy {
+[CustomEditor(typeof(Galaxy))]
+public class GalaxyEditor : Editor {
+    public override void OnInspectorGUI() {
+        DrawDefaultInspector();
+
+        Galaxy galaxy = (Galaxy)target;
+
+        if (GUILayout.Button("Generate")) {
+            galaxy.Generate();
+        }
+    }
+}
+
+public class Galaxy : MonoBehaviour {
     public static float deltaTime;
 
     public void Simulate(float deltaTime) {
@@ -53,5 +67,12 @@ public class Galaxy {
         var x = Random.Range(-cosmicWidth/2, cosmicWidth/2);
         var y = Random.Range(-cosmicHeight/2, cosmicHeight/2);
         return new GalaxyPos(x, y);
+    }
+
+    public void Generate() {
+        for (var i = 0; i < 100; i++) {
+            var star = Pool.For("Star").Attach<Transform>(transform);
+            star.transform.position = RandomPosition().vec;
+        }
     }
 }
