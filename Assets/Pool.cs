@@ -81,13 +81,14 @@ public class Pool {
     GameObject TakeObject() {
         if (lastIndex < pooledObjects.Count) {
             var obj = pooledObjects[lastIndex];
-            lastIndex += 1;
 
             if (obj == null) {
                 obj = CreateNew();
                 pooledObjects[lastIndex] = obj;
             }
-            //obj.transform.SetParent(null);
+
+            obj.transform.SetParent(null);
+            lastIndex += 1;
             return obj;
         }
 
@@ -105,6 +106,7 @@ public class Pool {
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
         obj.SetActive(isActive);
+
         return obj.GetComponent<T>();
     }
 }

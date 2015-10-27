@@ -19,6 +19,7 @@ public class GalaxyEditor : Editor {
 public class Galaxy : PoolBehaviour {
     public static float deltaTime;
     public Transform stars;
+    public Transform factionHolder;
 
     public void Simulate(float deltaTime) {
         Galaxy.deltaTime = deltaTime;
@@ -46,26 +47,30 @@ public class Galaxy : PoolBehaviour {
             var star = Pool.For("Star").Attach<Star>(stars);
             star.transform.position = RandomPosition().vec;
         }
-    }
 
-    void Awake() {
-        FactionManager.Create("Dragons");
-        FactionManager.Create("Mushrooms");
-        var mitzubi = FactionManager.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
-        FactionManager.Create("Cats");
-        var pirateGang = FactionManager.Create("Pirate Gang", color: Color.red);
+        factionHolder = Pool.For("Holder").Attach<Transform>(transform);
+        factionHolder.name = "Factions";
+
+        Faction.Create("Dragons");
+        Faction.Create("Mushrooms");
+        var mitzubi = Faction.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
+        Faction.Create("Cats");
+        var pirateGang = Faction.Create("Pirate Gang", color: Color.red);
         
         pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
         mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
-        
-        foreach (var star in Game.galaxy.stars.GetComponentsInChildren<Star>()) {
+    }
+
+    void Awake() {
+
+        /*foreach (var star in Game.galaxy.stars.GetComponentsInChildren<Star>()) {
             FactionOutpost.Create(star.BeaconPosition(), faction: mitzubi);
             ConflictZone.Create(star.BeaconPosition(), attacking: pirateGang, defending: mitzubi);
-        }
+        }*/
         
         
         var sector = SectorManager.all[0];
         //ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-        Game.playerShip = Ship.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
+        Game.playerShip = Ship.Create(sector: sector, faction: Faction.FromId("Mitzubi Navy"), sectorPos: new Vector2(-100, 0));
     }
 }

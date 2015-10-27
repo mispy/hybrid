@@ -28,7 +28,7 @@ public class FactionOutpost : ISectorType {
 
     public static FactionOutpost Create(GalaxyPos galaxyPos = null, Faction faction = null, Ship station = null) {
         if (galaxyPos == null) galaxyPos = Game.galaxy.RandomPosition();
-        if (faction == null && station == null) faction = Util.GetRandom(FactionManager.all);
+        if (faction == null && station == null) faction = Util.GetRandom(Faction.all);
 
 
         if (station == null) 
@@ -64,8 +64,8 @@ public class ConflictZone : ISectorType {
 
     public static ConflictZone Create(GalaxyPos galaxyPos = null, Faction attacking = null, Faction defending = null) {
         if (galaxyPos == null) galaxyPos = Game.galaxy.RandomPosition();
-        if (attacking == null) attacking = Util.GetRandom(FactionManager.all);
-        if (defending == null) defending = Util.GetRandom(FactionManager.all);
+        if (attacking == null) attacking = Util.GetRandom(Faction.all);
+        if (defending == null) defending = Util.GetRandom(Faction.all);
 
         return new ConflictZone(galaxyPos, attacking, defending);
     }

@@ -4,25 +4,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public static class FactionManager {
-    public static List<Faction> all = new List<Faction>();
-    public static Dictionary<string, Faction> byId = new Dictionary<string, Faction>();
-    
-    public static void Add(Faction faction) {
-        FactionManager.all.Add(faction);
-        FactionManager.byId[faction.id] = faction;
-    }
-
-	public static Faction Create(string name, Color? color = null) {
-		if (color == null) color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-		var faction = Faction.CreateInstance<Faction>();
-        faction.Initialize(name, (Color)color);
-		FactionManager.Add(faction);
-		return faction;
-
-	}
-}
-
 public class FactionRelationEvent {
     Faction changedFaction;
     Faction otherFaction;
@@ -61,9 +42,23 @@ public class FactionOpinion {
     }
 }
 
-public class Faction : ScriptableObject, IOpinionable, ISaveAsRef {
+public class Faction : MonoBehaviour, IOpinionable, ISaveAsRef {
+    public static Dictionary<string, Faction> byId = new Dictionary<string, Faction>();
+    public static Faction[] all {
+        get { return Game.galaxy.GetComponentsInChildren<Faction>(); }
+    }
+
+    public static Faction Create(string name, Color? color = null) {
+        if (color == null) color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+
+        var faction = Pool.For("Faction").Attach<Faction>(Game.galaxy.factionHolder);
+        faction.Initialize(name, (Color)color);
+        return faction;
+        
+    }
+
     public static Faction FromId(string id) {
-        return FactionManager.byId[id];
+        return byId[id];
     }
 
     public FactionOpinion opinion;
@@ -91,5 +86,9 @@ public class Faction : ScriptableObject, IOpinionable, ISaveAsRef {
 
     public string savePath {
         get { return Application.dataPath + "/Faction/" + id + ".xml"; }
+    }
+
+    public void Awake() {
+        Faction.byId[this.id] = this;
     }
 }

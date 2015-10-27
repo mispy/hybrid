@@ -43,7 +43,7 @@ public class DebugMenu : MonoBehaviour {
 
     public void SpawnEnemy() {
         if (Blockform.AtWorldPos(Game.mousePos) == null) {
-            Ship.Create(sector: Game.playerShip.sector, faction: FactionManager.byId["Pirate Gang"], sectorPos: Game.mousePos);
+            Ship.Create(sector: Game.playerShip.sector, faction: Faction.FromId("Pirate Gang"), sectorPos: Game.mousePos);
         }
     }
 

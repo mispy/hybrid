@@ -56,7 +56,7 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
 
     public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {
         if (template == null) template = "Little Frigate";
-        if (faction == null) faction = Util.GetRandom(FactionManager.all);
+        if (faction == null) faction = Util.GetRandom(Faction.all);
         //if (sector == null) sector = Util.GetRandom(SectorManager.all);
         if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
         
