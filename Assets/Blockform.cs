@@ -12,7 +12,8 @@ public class ShipEditor : Editor {
         
         if (GUILayout.Button("Save To Template")) {
             UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/Resources/Ships/" + target.name + ".prefab");
-            PrefabUtility.ReplacePrefab(form.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
+            var template = ShipTemplate2.FromShip(form.ship);
+            PrefabUtility.ReplacePrefab(template.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
         }
 
         DrawDefaultInspector();

@@ -15,16 +15,24 @@ public class BlockData {
 }
 
 public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
+    [HideInInspector]
 	public Ship ship;
 
 	// Cached info
-    public int maxX { get; private set; }
-    public int minX { get; private set; }
-    public int maxY { get; private set; }
-    public int minY { get; private set; }
-	public int width { get; private set; }
-	public int height { get; private set; }
-	public int baseSize { get; private set; }
+    [ReadOnly]
+    public int maxX;
+    [ReadOnly]
+    public int minX;
+    [ReadOnly]
+    public int maxY;
+    [ReadOnly]
+    public int minY;
+    [ReadOnly]
+    public int width;
+    [ReadOnly]
+    public int height;
+    [ReadOnly]
+    public int baseSize;
     [NonSerialized]
     public Rect boundingRect = new Rect();
     [NonSerialized]
@@ -35,20 +43,28 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 	// Values used for translating between 0,0 center to traditional
 	// array coordinates
     [SerializeField]
+    [HideInInspector]
 	int centerBlockX;
     [SerializeField]
+    [HideInInspector]
     int centerBlockY;
     [SerializeField]
+    [HideInInspector]
     int centerChunkX;
     [SerializeField]
+    [HideInInspector]
     int centerChunkY;
     [SerializeField]
+    [HideInInspector]
     int chunkWidth;
     [SerializeField]
+    [HideInInspector]
     int chunkHeight;
     [SerializeField]
+    [HideInInspector]
     int widthInChunks;
     [SerializeField]
+    [HideInInspector]
     int heightInChunks;
 
     BlockChunk[,] baseChunks;

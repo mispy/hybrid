@@ -23,7 +23,6 @@ public class ConflictZone : MonoBehaviour {
     public ConflictZone(GalaxyPos galaxyPos, Faction attacking, Faction defending) {
         this.attacking = attacking;
         this.defending = defending;
-
     }
 
     public void OnRealize() {

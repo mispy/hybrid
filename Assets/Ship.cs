@@ -9,13 +9,6 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-public class ShipTemplate2 : PoolBehaviour {
-    public static ShipTemplate2 FromShip(Ship ship) {
-        var template = Pool.For("ShipTemplate").Attach<ShipTemplate2>(Game.state.transform);
-        return template;
-    }
-}
-
 public class ShipTemplate : ISaveBindable, ISaveAsRef {
     public static Dictionary<string, ShipTemplate> byId = new Dictionary<string, ShipTemplate>();
 
