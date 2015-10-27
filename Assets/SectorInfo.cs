@@ -10,6 +10,6 @@ public class SectorInfo : MonoBehaviour {
     }
 	
     public void ShowInfo(Sector sector) {
-	    text.text = sector.type.Describe();
+	    //text.text = sector.type.Describe();
 	}
 }

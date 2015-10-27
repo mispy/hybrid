@@ -18,10 +18,9 @@ public class PatrolMission : IShipMission {
         this.stars = stars;
     }
 
-    public Sector ChooseDestination() {
+    public Jumpable ChooseDestination() {
         var star = Util.GetRandom(stars);
-        var sector = Util.GetRandom(star.sectors);
-        return sector;
+        return star.GetComponent<Jumpable>();
     }
 
     public void Simulate() {        

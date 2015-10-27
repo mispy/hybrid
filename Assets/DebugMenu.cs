@@ -42,9 +42,9 @@ public class DebugMenu : MonoBehaviour {
     }
 
     public void SpawnEnemy() {
-        if (Blockform.AtWorldPos(Game.mousePos) == null) {
-            Ship.Create(sector: Game.playerShip.sector, faction: Faction.FromId("Pirate Gang"), sectorPos: Game.mousePos);
-        }
+/*        if (Blockform.AtWorldPos(Game.mousePos) == null) {
+            Ship.Create(beacon: Game.playerShip.beacon, faction: Faction.FromId("Pirate Gang"));
+        }*/
     }
 
 	public void ToggleVisibility() {

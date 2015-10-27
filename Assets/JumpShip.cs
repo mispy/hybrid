@@ -19,12 +19,12 @@ public class JumpShip : PoolBehaviour {
     }
 
     public void SyncShip() {
-        if (ship.sector == null) {
+        if (ship.jumpPos == null) {
             transform.position = Game.jumpMap.GalaxyToWorldPos(ship.galaxyPos);
-            if (ship.destSector != null)
-                transform.rotation = Quaternion.LookRotation(Vector3.forward, (Vector2)ship.destSector.galaxyPos - (Vector2)ship.galaxyPos);
+            if (ship.jumpDest != null)
+                transform.rotation = Quaternion.LookRotation(Vector3.forward, (Vector2)ship.jumpDest.transform.position - ship.galaxyPos.vec);
         } else {
-            ship.sector.jumpBeacon.Align(this);
+            ship.jumpPos.Align(this);
         }
     }
 }

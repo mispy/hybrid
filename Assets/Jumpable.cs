@@ -2,10 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class JumpBeacon : PoolBehaviour {
+public class Jumpable : PoolBehaviour {
     [HideInInspector]
     public new SpriteRenderer renderer;
     public Sector sector;
+
+    public Vector2 galaxyPos {
+        get { return (Vector2)transform.position; }
+    }
 
     void Awake() {
         renderer = GetComponent<SpriteRenderer>();

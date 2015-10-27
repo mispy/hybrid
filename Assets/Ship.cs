@@ -54,21 +54,20 @@ public class ShipTemplate : ISaveBindable, ISaveAsRef {
 public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     public static List<Ship> all = new List<Ship>();
 
-    public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {
+    public static Ship Create(string template = null, Faction faction = null, Beacon beacon = null) {
         if (template == null) template = "Little Frigate";
         if (faction == null) faction = Util.GetRandom(Faction.all);
         //if (sector == null) sector = Util.GetRandom(SectorManager.all);
-        if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
-        
+
         var ship = Ship.CreateInstance<Ship>();
         ship.UseTemplate(ShipTemplate.FromId(template));
         
         for (var i = 0; i < 6; i++ ) {
             CrewManager.Create(ship: ship, faction: faction);
         }
-        if (sector != null)
-            sector.PlaceShip(ship, (Vector2)sectorPos);
-        else
+//        if (sector != null)
+//            sector.PlaceShip(ship, (Vector2)sectorPos);
+//        else
             ship.galaxyPos = Game.galaxy.RandomPosition();
 
         Ship.all.Add(ship);
@@ -87,8 +86,8 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     public float jumpSpeed = 10f;
     public GalaxyPos galaxyPos;
     public Vector2 sectorPos;
-    public Sector sector;
-    public Sector destSector;
+    public Jumpable jumpPos;
+    public Jumpable jumpDest;
     public new string name;
 
     public Faction faction {
@@ -114,7 +113,7 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     }
 
     public bool inTransit {
-        get { return destSector != null; }
+        get { return jumpDest != null; }
     }
 
     public Ship() {
@@ -172,13 +171,13 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
         newBlock.ship = this;
     }
 
-    public void FoldJump(Sector destSector) {
-        Debug.LogFormat("Jumping to: {0}", destSector);
-        this.destSector = destSector;
+    public void FoldJump(Jumpable jumpDest) {
+        Debug.LogFormat("Jumping to: {0}", jumpDest);
+        this.jumpDest = jumpDest;
 
-        if (sector != null)
+/*        if (sector != null)
             sector.ships.Remove(this);
-        sector = null;
+        sector = null;*/
     }
 
     public void Simulate(float deltaTime) {
@@ -187,12 +186,12 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
 
         strategy.Simulate();
 
-        if (destSector != null) {
-            var targetDir = (destSector.galaxyPos.vec - galaxyPos.vec).normalized;
+        if (jumpDest != null) {
+            var targetDir = (jumpDest.galaxyPos - galaxyPos.vec).normalized;
             var dist = targetDir * jumpSpeed * deltaTime;
             
-            if (Vector2.Distance(destSector.galaxyPos, galaxyPos) < dist.magnitude) {
-                destSector.JumpEnterShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
+            if (Vector2.Distance(jumpDest.galaxyPos, galaxyPos) < dist.magnitude) {
+                //destSector.JumpEnterShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
             } else {
                 galaxyPos = new GalaxyPos(null, galaxyPos.vec + dist);
             }

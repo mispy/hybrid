@@ -11,9 +11,9 @@ public class JumpMap : PoolBehaviour {
     Color currentColor = new Color (0f, 1f, 1f, 1f);
 
     LineRenderer lineRenderer;
-    List<JumpBeacon> beacons = new List<JumpBeacon>();
+    List<Jumpable> beacons = new List<Jumpable>();
     List<JumpShip> jumpShips = new List<JumpShip>();
-    JumpBeacon selectedBeacon;
+    Jumpable selectedBeacon;
     SectorInfo sectorInfo;
     Canvas canvas;
     Transform selector;
@@ -79,18 +79,9 @@ public class JumpMap : PoolBehaviour {
         jumpShips.Clear();
 
         foreach (Star star in Game.galaxy.stars) {
-            var beacon = Pool.For("Star").Attach<JumpBeacon>(contents);
+            var beacon = Pool.For("Star").Attach<Jumpable>(contents);
             beacon.transform.position = star.transform.position;
             beacon.renderer.color = star.faction.color;
-            beacons.Add(beacon);
-        }
-
-        foreach (var sector in SectorManager.all) {
-            var beacon = Pool.For("JumpBeacon").Attach<JumpBeacon>(contents);
-            beacon.sector = sector;
-            sector.jumpBeacon = beacon;
-            beacon.transform.position = GalaxyToWorldPos(sector.galaxyPos);
-            beacon.renderer.sprite = sector.type.sprite;
             beacons.Add(beacon);
         }
 
@@ -106,12 +97,12 @@ public class JumpMap : PoolBehaviour {
             }
         }
 
-        SelectBeacon(Game.playerShip.sector.jumpBeacon);
+        SelectBeacon(Game.playerShip.jumpPos);
         DrawFactions();
     }
 
     void EnterSector() {
-        Game.LoadSector(Game.playerShip.sector);
+        Game.LoadSector(Game.playerShip.jumpPos.GetComponent<Beacon>());
         gameObject.SetActive(false);
     }
 
@@ -127,11 +118,11 @@ public class JumpMap : PoolBehaviour {
         stopWaitButton.gameObject.SetActive(false);
     }
 
-    void FoldJump(JumpBeacon beacon) {
-        Game.playerShip.FoldJump(beacon.sector);
+    void FoldJump(Jumpable dest) {
+        Game.playerShip.FoldJump(dest);
     }
 
-    void SelectBeacon(JumpBeacon beacon) {
+    void SelectBeacon(Jumpable beacon) {
         selectedBeacon = beacon;
         selector.transform.position = beacon.transform.position;
         sectorInfo.ShowInfo(selectedBeacon.sector);
@@ -162,7 +153,7 @@ public class JumpMap : PoolBehaviour {
             }
         }
         
-        if (selectedBeacon != null && selectedBeacon.sector == Game.playerShip.sector) {
+        if (selectedBeacon != null && selectedBeacon == Game.playerShip.jumpPos) {
             foldButton.gameObject.SetActive(false);
             enterButton.gameObject.SetActive(true);
         } else {
@@ -170,7 +161,7 @@ public class JumpMap : PoolBehaviour {
             enterButton.gameObject.SetActive(false);
         }
 
-        if (isWaiting || Game.playerShip.destSector != null)
+        if (isWaiting || Game.playerShip.jumpDest != null)
             Game.galaxy.Simulate(Time.deltaTime);
 
         Game.MoveCamera(GalaxyToWorldPos(Game.playerShip.galaxyPos));

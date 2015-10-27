@@ -48,6 +48,7 @@ public class Galaxy : PoolBehaviour {
             star.transform.position = RandomPosition().vec;
         }
 
+
         factionHolder = Pool.For("Holder").Attach<Transform>(transform);
         factionHolder.name = "Factions";
 
@@ -59,18 +60,16 @@ public class Galaxy : PoolBehaviour {
         
         pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
         mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
+        
+        foreach (var star in Game.galaxy.stars.GetComponentsInChildren<Star>()) {           
+            FactionOutpost.Create(star, faction: mitzubi);
+            //ConflictZone.Create(star.BeaconPosition(), attacking: pirateGang, defending: mitzubi);
+        }
     }
 
     void Awake() {
-
-        /*foreach (var star in Game.galaxy.stars.GetComponentsInChildren<Star>()) {
-            FactionOutpost.Create(star.BeaconPosition(), faction: mitzubi);
-            ConflictZone.Create(star.BeaconPosition(), attacking: pirateGang, defending: mitzubi);
-        }*/
-        
-        
-        var sector = SectorManager.all[0];
+        var beacon = Util.GetRandom(Star.all).GetComponentInChildren<Beacon>();
         //ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-        Game.playerShip = Ship.Create(sector: sector, faction: Faction.FromId("Mitzubi Navy"), sectorPos: new Vector2(-100, 0));
+        Game.playerShip = Ship.Create(beacon: beacon, faction: Faction.FromId("Mitzubi Navy"));
     }
 }
