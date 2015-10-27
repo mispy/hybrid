@@ -24,7 +24,9 @@ public class Constructor : MonoBehaviour
 
     private Vector3 targetPos;
     public Block targetBlock = null;
-    public BlueprintBlock targetBlue = null;
+    public Block targetBlue = null;
+
+
 
     [Tooltip("Amount of scrap removed per second")]
     public float removeSpeed;
@@ -36,7 +38,7 @@ public class Constructor : MonoBehaviour
         noise = new Perlin();
     }
 
-    public void Build(BlueprintBlock targetBlue) {
+    public void Build(Block targetBlue) {
         this.targetBlue = targetBlue;
 
         CancelInvoke("StopBuilding");

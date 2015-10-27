@@ -133,14 +133,14 @@ public class Blockform : PoolBehaviour {
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
 
+
         blocks.OnBlockRemoved += OnBlockRemoved;
         blocks.OnBlockAdded += OnBlockAdded;
-                
-        Debug.Assert(blocks.baseSize > 0, "Expected blocks.baseSize > 0");
+          
+        Debug.Assert(blocks.allBlocks.Count() > 0, "Expected allBlocks.Count() > 0");
         foreach (var block in blocks.allBlocks) {
             OnBlockAdded(block);
         }
-
 
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
@@ -221,6 +221,8 @@ public class Blockform : PoolBehaviour {
     }
     
     public GameObject RealizeBlock(Block block) {
+        Debug.Log(block);
+
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
 
         var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);

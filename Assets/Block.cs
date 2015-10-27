@@ -243,7 +243,7 @@ public class Block : ISaveBindable {
 
 public class BlueprintBlock : Block {
 	// Check if a blueprint block already matches the constructed block
-	public static bool Matches(BlueprintBlock blue, Block block) {
+	public static bool Matches(Block blue, Block block) {
 		if (blue == null && block == null) return true;
 		if (blue == null && block != null) return false;
 		if (blue != null && block == null) return false;

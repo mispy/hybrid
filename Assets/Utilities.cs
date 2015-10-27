@@ -34,7 +34,13 @@ public struct IntRect {
     }
 }
 
-public struct IntVector2 : ISaveAsString {
+[Serializable]
+public struct IntVector2 : ISaveAsString {    
+    [SerializeField]
+    public int x;
+    [SerializeField]
+    public int y;
+
     public static explicit operator IntVector2(Facing facing) {
         if (facing == Facing.up)
             return IntVector2.up;
@@ -45,7 +51,7 @@ public struct IntVector2 : ISaveAsString {
         else if (facing == Facing.right)
             return IntVector2.right;
         else
-            throw new ArgumentException("This is an invalid facing!");
+            throw new ArgumentException(facing.ToString());
     }
    
     public static explicit operator Vector2(IntVector2 pos) {
@@ -57,10 +63,6 @@ public struct IntVector2 : ISaveAsString {
     public static IntVector2 down = new IntVector2(0, -1);
     public static IntVector2 right = new IntVector2(1, 0);
     public static IntVector2 left = new IntVector2(-1, 0);
-
-    public int x;
-    public int y;
-	public int hashCode;
 
     public static double Distance(IntVector2 v1, IntVector2 v2) {
         return Math.Sqrt(Math.Pow(v1.x - v2.x, 2) + Math.Pow(v1.y - v2.y, 2));
@@ -122,7 +124,7 @@ public struct IntVector2 : ISaveAsString {
 
     public override int GetHashCode()
     {
-		return hashCode;
+		return (x << 32) + y;
     }
 
 	public override bool Equals(object obj) {
@@ -132,7 +134,6 @@ public struct IntVector2 : ISaveAsString {
     public IntVector2(int x, int y) {
         this.x = x;
         this.y = y;
-		this.hashCode = (x << 32) + y;
     }
 }
 

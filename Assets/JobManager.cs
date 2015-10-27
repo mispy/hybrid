@@ -26,10 +26,10 @@ public class MoveJob : Job {
 }
 
 public class BuildJob : Job {
-    public readonly BlueprintBlock targetBlue;
+    public readonly Block targetBlue;
 
     public BuildJob(Block block) {
-        this.targetBlue = (BlueprintBlock)block;
+        this.targetBlue = block;
     }
 
 	// if none of the neighbors are passable then nobody can build this so we
@@ -164,6 +164,7 @@ public class JobManager : MonoBehaviour {
     }
 
     void UpdateJobs() {
+
         buildJobs.AssignJobs();
         foreach (var crew in ship.crew) {
             if (crew.job != null) {

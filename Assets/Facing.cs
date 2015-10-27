@@ -6,7 +6,9 @@ public class InvalidFacingException : Exception {
 
 }
 
+[Serializable]
 public struct Facing : ISaveAsString {
+    [SerializeField]
     private int index;
     public static Facing up = new Facing(2);
     public static Facing down = new Facing(-2);
@@ -29,6 +31,7 @@ public struct Facing : ISaveAsString {
             if (pos.y > 0) return Facing.up;
             if (pos.y < 0) return Facing.down;
         }
+
 
         return Facing.up;
     }
@@ -72,7 +75,7 @@ public struct Facing : ISaveAsString {
         else if (this == Facing.left)
             return "left";
 
-        return "up";
+        return String.Format("Invalid facing: {0}", index);
     }
 
     public static Facing FromString(string s) {

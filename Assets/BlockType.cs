@@ -38,14 +38,11 @@ public class BlockType : MonoBehaviour, ISaveAsRef {
     static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
 
     static void LoadTypes() {
-
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
             type.tileable = Tile.tileables[type.name];
             BlockType.byId[type.name] = type;
             BlockType.all.Add(type);
         }
-
-
     }
 
     public static BlockType FromId(string id) {

@@ -3,13 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShipCollision : PoolBehaviour {
+    [SerializeField]
     Blockform form;
+    [SerializeField]
     BlockMap blocks;
+    [SerializeField]
     Transform collidersHolder;
+
     public Dictionary<IntVector2, Collider> colliders { get; private set; }
 
+
     void Awake() {
-        colliders = new Dictionary<IntVector2, Collider>();
         form = GetComponent<Blockform>();
 
         collidersHolder = Pool.For("Holder").Attach<Transform>(transform);
@@ -18,6 +22,7 @@ public class ShipCollision : PoolBehaviour {
     }
 
     void OnEnable() {
+        colliders = new Dictionary<IntVector2, Collider>();
 
         blocks = form.blocks;
 
