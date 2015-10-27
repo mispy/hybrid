@@ -18,17 +18,22 @@ public class CrewMind : MonoBehaviour {
 
     public CrewBody body;
 
-    public Crew crew;
+    public Crew crew {
+        get { return body.crew; }
+    }
     
 	public LineRenderer pathLine;
 
     void Awake() {
-        blockPath = new List<IntVector2>();
         body = GetComponentInParent<CrewBody>();
-        crew = GetComponentInParent<CrewBody>().crew;
+        pathLine = GetComponent<LineRenderer>();
+        pathLine.sortingLayerName = "UI";
+
+    }
+
+    void OnEnable() {
+        blockPath = new List<IntVector2>();
         crew.mind = this;
-		pathLine = GetComponent<LineRenderer>();
-		pathLine.sortingLayerName = "UI";
 	}
 
 	void DrawPath() {

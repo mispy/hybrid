@@ -5,10 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class ShipControl : MonoBehaviour {
-	public static GameObject leaveSectorMenu;
-	public static WeaponSelect weaponSelect;
-    public static ShipInfo shipInfo;
-
     Ship ship;
     Transform selector;
     Crew selectedCrew = null;
@@ -77,7 +73,7 @@ public class ShipControl : MonoBehaviour {
 
     void SelectShip(Ship ship) {
         selectedShip = ship;
-        ShipControl.shipInfo.gameObject.SetActive(true);
+        Game.shipInfo.gameObject.SetActive(true);
     }
 
     void HandleDoubleClick() {
@@ -170,12 +166,6 @@ public class ShipControl : MonoBehaviour {
         }
     }
 
-    void Awake() {
-        ShipControl.leaveSectorMenu = GameObject.Find("LeavingSector");
-        ShipControl.weaponSelect = GetComponentInChildren<WeaponSelect>();
-        ShipControl.shipInfo = GetComponentInChildren<ShipInfo>();
-    }    
-
 	void OnEnable() {
         InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
         InputEvent.For(MouseButton.Right).Bind(this, OnRightClick);
@@ -195,11 +185,12 @@ public class ShipControl : MonoBehaviour {
 		
 		//Game.MoveCamera(Game.playerShip.form.transform.position);
 
-		if (Game.activeSector.IsOutsideBounds(Game.playerShip.form.transform.position)) {
-			leaveSectorMenu.SetActive(true);
+		/*if (Game.activeSector.IsOutsideBounds(Game.playerShip.form.transform.position)) {
+			Game.leaveSectorMenu.SetActive(true);
 		} else {
-			leaveSectorMenu.SetActive(false);
-		}
+			Game.leaveSectorMenu.SetActive(false);
+		}*/
+
 
         var rigid = ship.form.rigidBody;
         

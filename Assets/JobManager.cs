@@ -156,10 +156,11 @@ public class JobManager : MonoBehaviour {
     Ship ship;
     BuildJobManager buildJobs;
 
-    void Start() {
+    void OnEnable() {
         ship = GetComponentInParent<Blockform>().ship;
         buildJobs = new BuildJobManager(ship);
         InvokeRepeating("UpdateJobs", 0f, 0.01f);
+
     }
 
     void UpdateJobs() {

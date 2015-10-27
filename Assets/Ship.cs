@@ -76,20 +76,21 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     }
 
 
-    public string name;
     public string nameWithColor {
         get { return name; }
     }
 
     public BlockMap blocks;
     public BlockMap blueprintBlocks;
-    public HashSet<Crew> crew;
+    public List<Crew> crew = new List<Crew>();
     public float scrapAvailable = 0f;
     public float jumpSpeed = 10f;
     public GalaxyPos galaxyPos;
     public Vector2 sectorPos;
     public Sector sector;
     public Sector destSector;
+    public new string name;
+
     public Faction faction {
         get {
             return captain.faction;
@@ -101,10 +102,12 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
         }
     }
 
+    [NonSerialized]
     public ShipStrategy strategy;
     public Blockform form = null;
     public JumpShip jumpShip = null;
     public Dictionary<Ship, Disposition> localDisposition = new Dictionary<Ship, Disposition>();
+
 
     public bool isStationary {
         get { return !blocks.Find<Thruster>().Any(); }
@@ -115,11 +118,13 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     }
 
     public Ship() {
-        crew = new HashSet<Crew>();
         strategy = new ShipStrategy(this);
-        blocks = BlockMap.CreateInstance<BlockMap>();
+
+        if (blocks == null)
+            blocks = BlockMap.CreateInstance<BlockMap>();
         blocks.ship = this;
-        blueprintBlocks = BlockMap.CreateInstance<BlockMap>();
+        if (blueprintBlocks == null)
+            blueprintBlocks = BlockMap.CreateInstance<BlockMap>();
         blueprintBlocks.ship = this;
         blocks.OnBlockAdded += OnBlockAdded;
     }
@@ -135,7 +140,8 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
 
     public void Savebind(ISaveBinder save) {
         save.BindValue("name", ref name);
-        save.BindSet("crew", ref crew);
+        save.BindList("crew", ref crew);
+
 
         if (save is XmlSaveWriter) {
             save.BindSet("blocks", ref blocks.allBlocks);
@@ -155,9 +161,10 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     }
 
     public Blockform LoadBlockform() {
-        var blockform = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
+        var blockform = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents, false);
         blockform.Initialize(this);
         this.form = blockform;
+        blockform.gameObject.SetActive(true);
         return blockform;
     }
 

@@ -93,24 +93,21 @@ public class Blockform : PoolBehaviour {
     public bool HasBlockComponent<T>() {
         return GetBlockComponents<T>().Count() > 0;
     }
+
+    public void Awake() {
+        rigidBody = GetComponent<Rigidbody>();
+        tiles = GetComponent<TileRenderer>();
+        damage = GetComponent<ShipDamage>();
+    }
     
     public void Initialize(Ship ship) {
         this.ship = ship;
         this.name = ship.name;
         this.blocks = ship.blocks;
-        
-        rigidBody = GetComponent<Rigidbody>();
-        tiles = GetComponent<TileRenderer>();
-        damage = GetComponent<ShipDamage>();
-        blocks.OnBlockRemoved += OnBlockRemoved;
-        blocks.OnBlockAdded += OnBlockAdded;
 
         blueprint = Pool.For("Blueprint").Attach<Blueprint>(transform);
         blueprint.Initialize(ship);
         blueprint.tiles.DisableRendering();
-
-        blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
-        blockComponentHolder.name = "BlockComponents";
 
         var obj = Pool.For("Holder").Attach<Transform>(transform);
         pather = obj.gameObject.AddComponent<SpacePather>();
@@ -122,10 +119,6 @@ public class Blockform : PoolBehaviour {
 		box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
 		box.isTrigger = true;
 
-        foreach (var block in ship.blocks.allBlocks) {
-            OnBlockAdded(block);
-        }
-
         foreach (var crew in ship.crew) {
             var body = Pool.For("CrewBody").Attach<CrewBody>(transform, false);
             var floor = Util.GetRandom(blocks.Find("Floor").ToList());
@@ -136,12 +129,26 @@ public class Blockform : PoolBehaviour {
         }
     }
 
-    void OnEnable() {
+    void OnEnable() {                
+        blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
+        blockComponentHolder.name = "BlockComponents";
+
+        blocks.OnBlockRemoved += OnBlockRemoved;
+        blocks.OnBlockAdded += OnBlockAdded;
+                
+        Debug.Assert(blocks.baseSize > 0, "Expected blocks.baseSize > 0");
+        foreach (var block in blocks.allBlocks) {
+            OnBlockAdded(block);
+        }
+
+
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
     }
     
     void OnDisable() {
+        Pool.Recycle(blockComponentHolder.gameObject);
+
         Game.activeSector.blockforms.Remove(this);
 	}
     

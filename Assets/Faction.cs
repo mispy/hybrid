@@ -15,9 +15,11 @@ public static class FactionManager {
 
 	public static Faction Create(string name, Color? color = null) {
 		if (color == null) color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-		var faction = new Faction(name, (Color)color);
+		var faction = Faction.CreateInstance<Faction>();
+        faction.Initialize(name, (Color)color);
 		FactionManager.Add(faction);
 		return faction;
+
 	}
 }
 
@@ -59,19 +61,22 @@ public class FactionOpinion {
     }
 }
 
-public class Faction : IOpinionable, ISaveAsRef {
+public class Faction : ScriptableObject, IOpinionable, ISaveAsRef {
     public static Faction FromId(string id) {
         return FactionManager.byId[id];
     }
 
-    public string name;
     public FactionOpinion opinion;
     public Color color;
 
-    public Faction(string name, Color color) {
+    public Faction() {
+        this.opinion = new FactionOpinion(this);
+
+    }
+
+    public void Initialize(string name, Color color) {
         this.name = name;
         this.color = color;
-        this.opinion = new FactionOpinion(this);
     }    
 
     public string nameWithColor {

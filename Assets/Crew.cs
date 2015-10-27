@@ -63,7 +63,8 @@ public static class CrewManager {
         if (name == null) name = Util.GetRandom(names);
         if (faction == null && ship != null) faction = ship.faction;
 
-        var crew = new Crew(name, faction);
+        var crew = Crew.CreateInstance<Crew>();
+        crew.Initialize(name, faction);
 
         if (ship != null) crew.ship = ship;
         CrewManager.Add(crew);
@@ -91,20 +92,22 @@ public class CrewOpinion {
     }
 }
 
-[Serializable]
-public class Crew : ISaveBindable {
+public class Crew : ScriptableObject, ISaveBindable {
     private Ship _ship;
     public readonly CrewOpinion opinion;
     public int maxHealth = 100;
     public int health = 100;
-    public string name;
     public Color color;
-    
+    public new string name;    
+    public Faction faction;    
+    public CrewBody body;
+    public CrewMind mind;
+
     public Crew() {
         this.opinion = new CrewOpinion(this);
     }
 
-    public Crew(string name, Faction faction) : this() {
+    public void Initialize(string name, Faction faction) {
         this.name = name;
         this.faction = faction;
         color = Color.grey;
@@ -137,11 +140,6 @@ public class Crew : ISaveBindable {
     public string fancyName {
         get { return nameWithTitleAndColor + " of " + _ship.faction.nameWithColor; }
     }
-
-    public Faction faction;
-
-    public CrewBody body;
-    public CrewMind mind;
 
     private Job _job = null;
     public Job job {

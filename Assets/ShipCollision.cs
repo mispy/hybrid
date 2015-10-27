@@ -17,7 +17,8 @@ public class ShipCollision : PoolBehaviour {
         collidersHolder.transform.localScale *= Tile.worldSize;
     }
 
-    void Start() {
+    void OnEnable() {
+
         blocks = form.blocks;
 
         foreach (var pos in blocks.FilledPositions) {

@@ -40,7 +40,6 @@ public class BlockType : MonoBehaviour, ISaveAsRef {
     static void LoadTypes() {
 
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
-            Debug.Log(type);
             type.tileable = Tile.tileables[type.name];
             BlockType.byId[type.name] = type;
             BlockType.all.Add(type);

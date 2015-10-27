@@ -18,14 +18,15 @@ public class BlockMap : ScriptableObject {
 	public Ship ship;
 
 	// Cached info
-    public int maxX;
-    public int minX;
-    public int maxY;
-    public int minY;
-	public int width;
-	public int height;
-	public int baseSize;
-	public Rect boundingRect;
+    public int maxX { get; private set; }
+    public int minX { get; private set; }
+    public int maxY { get; private set; }
+    public int minY { get; private set; }
+	public int width { get; private set; }
+	public int height { get; private set; }
+	public int baseSize { get; private set; }
+    [NonSerialized]
+    public Rect boundingRect;
     [NonSerialized]
 	public HashSet<Block> allBlocks = new HashSet<Block>();
 
@@ -39,9 +40,7 @@ public class BlockMap : ScriptableObject {
     int chunkHeight;
     int widthInChunks;
     int heightInChunks;
-    [NonSerialized]
     BlockChunk[,] baseChunks;
-    [NonSerialized]
     BlockChunk[,] topChunks;
 
     [NonSerialized]
@@ -59,7 +58,7 @@ public class BlockMap : ScriptableObject {
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;
 
-    void OnEnable() {
+    public BlockMap() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -72,6 +71,7 @@ public class BlockMap : ScriptableObject {
         chunkWidth = 32;
         chunkHeight = 32;
         widthInChunks = 16;
+
         heightInChunks = 16;
         baseChunks = new BlockChunk[chunkWidth, chunkHeight];
         topChunks = new BlockChunk[chunkWidth, chunkHeight];
@@ -80,6 +80,19 @@ public class BlockMap : ScriptableObject {
         centerChunkY = heightInChunks/2;
         centerBlockX = centerChunkX * chunkWidth;
         centerBlockY = centerChunkY * chunkHeight;
+    }
+
+    void OnEnable() {
+
+        if (blockData != null) {
+            foreach (var data in blockData) {
+                var block = new Block(data.type);
+                block.facing = data.facing;
+                this[data.pos, data.layer] = block;
+            }
+
+            blockData = null;
+        }
     }
 
     public List<BlockData> blockData;
@@ -93,14 +106,6 @@ public class BlockMap : ScriptableObject {
             data.facing = block.facing;
             data.layer = block.layer;
             blockData.Add(data);
-        }
-    }
-    
-    public void OnAfterDeserialize() {
-        foreach (var data in blockData) {
-            var block = new Block(data.type);
-            block.facing = data.facing;
-            this[data.pos, data.layer] = block;
         }
     }
 

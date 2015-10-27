@@ -22,7 +22,6 @@ public static class Game {
 
     // cached mouse position in world coordinates
     public static Galaxy galaxy;
-    public static Ship playerShip;
 
     public static Vector2 mousePos;
     public static ActiveSector activeSector;
@@ -31,6 +30,14 @@ public static class Game {
     public static AbilityMenu abilityMenu;
     public static DialogueMenu dialogueMenu;
     public static ShipDesigner shipDesigner;
+    public static GameObject leaveSectorMenu;
+    public static WeaponSelect weaponSelect;
+    public static ShipInfo shipInfo;
+
+    public static Ship playerShip {
+        get { return Game.state.playerShip; }
+        set { Game.state.playerShip = value; }
+    }       
 
     public static bool isPaused {
         get { return Time.timeScale == 0.0f; }
@@ -49,6 +56,8 @@ public static class Game {
         foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
             sprites[sprite.name] = sprite;
         }                
+
+        GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
     }
     
     public static GameObject Prefab(string name) {
@@ -75,7 +84,7 @@ public static class Game {
             var gobj = obj as GameObject;
             if (gobj != null) {
                 var comp = gobj.GetComponent<T>();
-                Debug.LogFormat("{0} {1}", "Loaded", gobj);
+                //Debug.LogFormat("{0} {1}", "Loaded", gobj);
 
                 if (comp != null) yield return comp;
             }
@@ -142,12 +151,7 @@ public static class Game {
 public class GameState : MonoBehaviour {       
     public Canvas canvas;
     public Text debugText;
-
-    [UnityEditor.Callbacks.DidReloadScripts]
-    public static void Reload() {
-        GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
-    }
-
+    public Ship playerShip;
 
     public void UpdateRefs() {
         Game.galaxy = GetComponentsInChildren<Galaxy>(includeInactive: true).First();
@@ -157,12 +161,16 @@ public class GameState : MonoBehaviour {
         Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
         Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
         Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
+        Game.leaveSectorMenu = GameObject.Find("LeavingSector");
+        Game.weaponSelect = GetComponentInChildren<WeaponSelect>();
+        Game.shipInfo = GetComponentInChildren<ShipInfo>();
+        Game.mainCamera = Camera.main;
         Game.state = this;
     }
 
-
     public void Awake() {
         UpdateRefs();
+
 
         ShipTemplate.LoadAll();
         foreach (var template in ShipTemplate.byId.Values) {
@@ -170,10 +178,11 @@ public class GameState : MonoBehaviour {
         }
         
         MakeUniverse();
-        for (var i = 0; i < 100; i++) {
-            //debug.MakeAsteroid(new Vector2(Random.Range(-sectorSize, sectorSize), Random.Range(-sectorSize, sectorSize)));
-        }
-        Tests.Run();
+    }
+
+    public void OnEnable() {
+        UpdateRefs();
+
     }
 
     public void BriefMessage(string message) {
@@ -209,7 +218,7 @@ public class GameState : MonoBehaviour {
         pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
         mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
 
-        for (var i= 0; i < 100; i++) {
+        for (var i= 0; i < 1; i++) {
             Star.Create();
         }
 
@@ -218,6 +227,7 @@ public class GameState : MonoBehaviour {
             ConflictZone.Create(star.BeaconPosition(), attacking: pirateGang, defending: mitzubi);
         }
 
+
 		var sector = SectorManager.all[0];
 		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
 		Game.playerShip = Ship.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
@@ -225,7 +235,6 @@ public class GameState : MonoBehaviour {
 
     void Start() {        
         Game.LoadSector(SectorManager.all[0]);
-        Game.mainCamera = Camera.main;
     }
 
     public Text debugMenu;
