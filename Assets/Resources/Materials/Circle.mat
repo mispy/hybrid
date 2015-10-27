@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Circle
-  m_Shader: {fileID: 4800000, guid: d8ed4b454c77cb54891ec574819100aa, type: 3}
+  m_Shader: {fileID: 4800000, guid: 2ffd4a7015f82d140b83fac4e1fa32d2, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 3000

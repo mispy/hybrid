@@ -56,7 +56,7 @@ public class ShipStrategy {
 
         if (mission == null) {
             var starsToPatrol = new List<Star>();
-            foreach (Star star in Game.galaxy.stars) {
+            foreach (Star star in Star.all) {
                 if (star.faction == ship.faction)
                     starsToPatrol.Add(star);
             }

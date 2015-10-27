@@ -9,6 +9,13 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
+public class ShipTemplate2 : PoolBehaviour {
+    public static ShipTemplate2 FromShip(Ship ship) {
+        var template = Pool.For("ShipTemplate").Attach<ShipTemplate2>(Game.state.transform);
+        return template;
+    }
+}
+
 public class ShipTemplate : ISaveBindable, ISaveAsRef {
     public static Dictionary<string, ShipTemplate> byId = new Dictionary<string, ShipTemplate>();
 
@@ -51,15 +58,15 @@ public class ShipTemplate : ISaveBindable, ISaveAsRef {
     }
 }
 
-public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
+public class Ship : PoolBehaviour, IOpinionable, ISaveBindable {
     public static List<Ship> all = new List<Ship>();
 
-    public static Ship Create(string template = null, Faction faction = null, Beacon beacon = null) {
+    public static Ship Create(string template = null, Faction faction = null, Jumpable beacon = null) {
         if (template == null) template = "Little Frigate";
         if (faction == null) faction = Util.GetRandom(Faction.all);
         //if (sector == null) sector = Util.GetRandom(SectorManager.all);
 
-        var ship = Ship.CreateInstance<Ship>();
+        var ship = Pool.For("Ship").Attach<Ship>(Game.galaxy.shipHolder);
         ship.UseTemplate(ShipTemplate.FromId(template));
         
         for (var i = 0; i < 6; i++ ) {
@@ -116,14 +123,14 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
         get { return jumpDest != null; }
     }
 
-    public Ship() {
+    public override void OnCreate() {
         strategy = new ShipStrategy(this);
 
         if (blocks == null)
-            blocks = BlockMap.CreateInstance<BlockMap>();
+            blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
         blocks.ship = this;
         if (blueprintBlocks == null)
-            blueprintBlocks = BlockMap.CreateInstance<BlockMap>();
+            blueprintBlocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
         blueprintBlocks.ship = this;
         blocks.OnBlockAdded += OnBlockAdded;
     }

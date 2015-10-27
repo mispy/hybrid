@@ -14,7 +14,7 @@ public class BlockData {
     public BlockLayer layer;
 }
 
-public class BlockMap : ScriptableObject, ISerializationCallbackReceiver {
+public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 	public Ship ship;
 
 	// Cached info
@@ -26,22 +26,31 @@ public class BlockMap : ScriptableObject, ISerializationCallbackReceiver {
 	public int height { get; private set; }
 	public int baseSize { get; private set; }
     [NonSerialized]
-    public Rect boundingRect;
+    public Rect boundingRect = new Rect();
     [NonSerialized]
-	public HashSet<Block> allBlocks;
+	public HashSet<Block> allBlocks = new HashSet<Block>();
 
 
 
 	// Values used for translating between 0,0 center to traditional
 	// array coordinates
+    [SerializeField]
 	int centerBlockX;
+    [SerializeField]
     int centerBlockY;
+    [SerializeField]
     int centerChunkX;
+    [SerializeField]
     int centerChunkY;
+    [SerializeField]
     int chunkWidth;
+    [SerializeField]
     int chunkHeight;
+    [SerializeField]
     int widthInChunks;
+    [SerializeField]
     int heightInChunks;
+
     BlockChunk[,] baseChunks;
     BlockChunk[,] topChunks;
 
@@ -60,7 +69,7 @@ public class BlockMap : ScriptableObject, ISerializationCallbackReceiver {
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;
 
-    public BlockMap() {
+    public override void OnCreate() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -86,6 +95,10 @@ public class BlockMap : ScriptableObject, ISerializationCallbackReceiver {
     }
 
     void OnEnable() {
+        if (blockData.Count == 0) return;
+
+        OnCreate();
+
         foreach (var data in blockData) {
             var block = new Block(BlockType.FromId(data.type.id));
             block.facing = data.facing;
@@ -109,12 +122,13 @@ public class BlockMap : ScriptableObject, ISerializationCallbackReceiver {
             blockData.Add(data);
         }
 
-        Debug.Assert(blockData.Count > 0, "Expected blockData.Count > 0");
+        //Debug.Assert(blockData.Count > 0, "Expected blockData.Count > 0");
     }
 
     public void OnAfterDeserialize() {
 
-        Debug.Assert(blockData.Count > 0, "Expected blockData.Count > 0");
+
+        //Debug.Assert(blockData.Count > 0, "Expected blockData.Count > 0");
     }
 
     public bool IsCollisionEdge(IntVector2 bp) {

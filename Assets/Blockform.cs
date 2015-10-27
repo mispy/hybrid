@@ -3,6 +3,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
+
+[CustomEditor(typeof(Blockform))]
+public class ShipEditor : Editor {
+    public override void OnInspectorGUI() {
+        Blockform form = (Blockform)target;
+        
+        if (GUILayout.Button("Save To Template")) {
+            UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/Resources/Ships/" + target.name + ".prefab");
+            PrefabUtility.ReplacePrefab(form.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
+        }
+
+        DrawDefaultInspector();
+    }
+}
 
 public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
     public Ship ship;

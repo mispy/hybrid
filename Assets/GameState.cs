@@ -52,6 +52,10 @@ public static class Game {
         foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
             prefabs[prefab.name] = prefab;
         }
+
+        foreach (var prefab in Game.LoadPrefabs("Beacons")) {
+            prefabs[prefab.name] = prefab;
+        }
         
         foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
             sprites[sprite.name] = sprite;
@@ -126,7 +130,7 @@ public static class Game {
         Time.timeScale = 1.0f;
     }
 
-    public static void LoadSector(Beacon beacon) {
+    public static void LoadSector(Jumpable beacon) {
 /*        foreach (var ship in sector.ships) {
             Game.activeSector.RealizeShip(ship);
         }*/
@@ -202,10 +206,8 @@ public class GameState : MonoBehaviour {
 
     public Text messageText;
 
-    void MakeUniverse() {
-    }
-
     void Start() {        
+        Game.activeSector.RealizeShip(Game.playerShip);
     }
 
     public Text debugMenu;

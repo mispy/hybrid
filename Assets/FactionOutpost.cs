@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FactionOutpost : MonoBehaviour {
+public class FactionOutpost : PoolBehaviour {
     public Sector sector;
     public Ship station { get; private set; }
     public Sprite sprite {
@@ -12,12 +12,10 @@ public class FactionOutpost : MonoBehaviour {
         if (faction == null && station == null) faction = Util.GetRandom(Faction.all);
         
         
-        var beacon = Beacon.Create(star);
-        beacon.GetComponent<SpriteRenderer>().sprite = Game.Sprite("TradeStation");
-        return beacon.gameObject.AddComponent<FactionOutpost>();
+        var beacon = Pool.For("FactionOutpost").Attach<FactionOutpost>(star.transform);
+        beacon.transform.localPosition = star.BeaconPosition();
+        return beacon;
     }
-    
-    public void OnRealize() { }
     
     public string Describe() {
         var s = "";

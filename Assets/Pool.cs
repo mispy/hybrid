@@ -103,6 +103,7 @@ public class Pool {
     public T Attach<T>(Transform transform, bool isActive = true) {
         var obj = TakeObject();
         obj.transform.SetParent(transform);
+
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
         obj.SetActive(isActive);

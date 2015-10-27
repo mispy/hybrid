@@ -50,7 +50,7 @@
 
 			half4 frag (v2f i) : COLOR {
 				half4 color = tex2D(_MainTex, i.uv) * i.color;
-				if (length(half2(0.5, 0.5) - i.uv) > 0.25) discard;				
+				if (length(half2(0.5, 0.5) - i.uv) > 0.49) discard;				
 				return color;
 			}
 			ENDCG

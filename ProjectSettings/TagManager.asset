@@ -7,6 +7,7 @@ TagManager:
   - Item
   - Hull
   - Block
+  - Obstacles
   layers:
   - Default
   - TransparentFX
@@ -41,6 +42,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: EditorOnly
+    uniqueID: 608691759
+    locked: 0
   - name: Background
     uniqueID: 248824545
     locked: 0

@@ -14,9 +14,9 @@ public class Star : MonoBehaviour {
     }
 
     public Vector2 BeaconPosition() {
-        var systemRadius = 5f;
+        var systemRadius = 2f;
         var dir = Util.RandomDirection();
-        return dir*Random.Range(2f, systemRadius);
+        return dir*Random.Range(1f, systemRadius);
     }
     
     public Faction faction {

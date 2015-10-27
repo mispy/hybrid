@@ -58,6 +58,11 @@ public class Faction : MonoBehaviour, IOpinionable, ISaveAsRef {
     }
 
     public static Faction FromId(string id) {
+        if (byId.Keys.Count == 0) {
+            foreach (var faction in Game.galaxy.GetComponentsInChildren<Faction>()) {
+                byId[faction.id] = faction;
+            }
+        }
         return byId[id];
     }
 
@@ -86,9 +91,5 @@ public class Faction : MonoBehaviour, IOpinionable, ISaveAsRef {
 
     public string savePath {
         get { return Application.dataPath + "/Faction/" + id + ".xml"; }
-    }
-
-    public void Awake() {
-        Faction.byId[this.id] = this;
     }
 }

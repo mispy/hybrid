@@ -20,6 +20,7 @@ public class Galaxy : PoolBehaviour {
     public static float deltaTime;
     public Transform stars;
     public Transform factionHolder;
+    public Transform shipHolder;
 
     public void Simulate(float deltaTime) {
         Galaxy.deltaTime = deltaTime;
@@ -43,14 +44,17 @@ public class Galaxy : PoolBehaviour {
         stars = Pool.For("Holder").Attach<Transform>(transform);
         stars.name = "Stars";
 
+        factionHolder = Pool.For("Holder").Attach<Transform>(transform);
+        factionHolder.name = "Factions";
+
+        shipHolder = Pool.For("Holder").Attach<Transform>(transform);
+        shipHolder.name = "Ships";
+
         for (var i = 0; i < 100; i++) {
             var star = Pool.For("Star").Attach<Star>(stars);
             star.transform.position = RandomPosition().vec;
         }
 
-
-        factionHolder = Pool.For("Holder").Attach<Transform>(transform);
-        factionHolder.name = "Factions";
 
         Faction.Create("Dragons");
         Faction.Create("Mushrooms");
@@ -68,7 +72,7 @@ public class Galaxy : PoolBehaviour {
     }
 
     void Awake() {
-        var beacon = Util.GetRandom(Star.all).GetComponentInChildren<Beacon>();
+        var beacon = Util.GetRandom(Star.all).GetComponentInChildren<Jumpable>();
         //ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
         Game.playerShip = Ship.Create(beacon: beacon, faction: Faction.FromId("Mitzubi Navy"));
     }

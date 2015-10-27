@@ -24,7 +24,7 @@ public class ShipDesigner : MonoBehaviour {
 
         cursor = Pool.For("Blueprint").Attach<Blueprint>(transform);
         cursor.name = "Cursor";
-        cursor.blocks = BlockMap.CreateInstance<BlockMap>();
+        cursor.blocks = Pool.For("BlockMap").Attach<BlockMap>(cursor.transform);
 
         cursor.tiles.EnableRendering();
     }
