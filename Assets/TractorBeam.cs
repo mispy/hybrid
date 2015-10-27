@@ -96,7 +96,7 @@ public class TractorBeam : BlockComponent {
             var rigid = hit.collider.attachedRigidbody;
             if (rigid != null) {
                 if (rigid != form.rigidBody) {
-                    rigid.AddForce(-targetDir * Math.Min(rigid.mass*2, Block.typeByName["Wall"].mass) * 100);
+                    rigid.AddForce(-targetDir * Math.Min(rigid.mass*2, BlockType.FromId("Wall").mass) * 100);
                     if (shieldCol != null)
                         Physics.IgnoreCollision(hit.collider, shieldCol);
                     hit.collider.attachedRigidbody.drag += 5;

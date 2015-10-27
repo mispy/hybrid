@@ -23,7 +23,7 @@ public class DebugMenu : MonoBehaviour {
 			ship.blocks[pos, BlockLayer.Base] = null;
 			ship.blueprintBlocks[pos, BlockLayer.Base] = null;
         }
-        ship.SetBlock(0, 0, Block.typeByName["Floor"]);
+        ship.SetBlock(0, 0, BlockType.FromId("Floor"));
     }
 
     public void MakeAsteroid(Vector2 pos) {                

@@ -49,8 +49,6 @@ public static class Game {
         foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
             sprites[sprite.name] = sprite;
         }                
-
-        GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
     }
     
     public static GameObject Prefab(string name) {
@@ -141,6 +139,12 @@ public static class Game {
 public class GameState : MonoBehaviour {       
     public Canvas canvas;
     public Text debugText;
+
+    [UnityEditor.Callbacks.DidReloadScripts]
+    public static void Reload() {
+        GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
+    }
+
 
     public void UpdateRefs() {
         Game.galaxy = GetComponentsInChildren<Galaxy>(includeInactive: true).First();

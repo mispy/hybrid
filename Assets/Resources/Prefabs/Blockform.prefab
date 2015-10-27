@@ -242,8 +242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7964852e71298cc4ebda0d7eab4532c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blueprint: {fileID: 0}
-  tiles: {fileID: 0}
   rigidBody: {fileID: 0}
   localBounds:
     m_Center: {x: 0, y: 0, z: 0}
@@ -257,6 +255,7 @@ MonoBehaviour:
   maglockedCrew: []
   blockComponentHolder: {fileID: 0}
   pather: {fileID: 0}
+  blockData: []
 --- !u!114 &11458202
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -19,14 +19,14 @@ public class BlockSelector : MonoBehaviour {
             Destroy(child.gameObject);
         }
 
-        for (var i = 0; i < Block.allTypes.Count; i++) {
+        for (var i = 0; i < BlockType.All.Count; i++) {
             var button = Pool.For("BlockButton").Attach<Button>(transform);
 
             var j = i+1;
             button.onClick.AddListener(() => SelectBlock(j));
             blockButtons.Add(button);
             
-            button.image.sprite = Block.allTypes[i].GetComponent<SpriteRenderer>().sprite;
+            button.image.sprite = BlockType.All[i].GetComponent<SpriteRenderer>().sprite;
 
             var text = button.GetComponentInChildren<Text>();
             text.text = (i+1).ToString();
@@ -48,7 +48,7 @@ public class BlockSelector : MonoBehaviour {
     }*/
 
     void SelectBlock(int i) {
-        selectedType = Block.allTypes[i-1];
+        selectedType = BlockType.All[i-1];
         foreach (var button in blockButtons) button.image.color = Color.white;
         blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
 
@@ -63,7 +63,7 @@ public class BlockSelector : MonoBehaviour {
 
     void Update() {
         int i = Util.GetNumericKeyDown();
-        if (i > 0 && i <= Block.allTypes.Count) {
+        if (i > 0 && i <= BlockType.All.Count) {
             SelectBlock(i);
         }
     }

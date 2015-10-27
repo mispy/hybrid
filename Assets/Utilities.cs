@@ -462,6 +462,7 @@ public class Util {
             toDestroy.Add(child);
         }
 
+
         foreach (var child in toDestroy) {
             GameObject.DestroyImmediate(child.gameObject);
         }

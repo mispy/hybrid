@@ -12,9 +12,6 @@ public enum BlockLayer {
 
 [InitializeOnLoad]
 public class Block : ISaveBindable {
-    public static Dictionary<string, BlockType> typeByName = new Dictionary<string, BlockType>();
-    public static List<BlockType> allTypes = new List<BlockType>();
-    
     public static int spaceLayer;
     public static int floorLayer;
     public static int wallLayer;
@@ -22,34 +19,7 @@ public class Block : ISaveBindable {
     public static GameObject wallColliderPrefab;
     public static GameObject floorColliderPrefab;
     
-    public static string[] blockOrder = new string[] {
-		"Sensors",
-		"ShieldGenerator",
-        "Floor",
-        "Wall",
-        "Console",
-        "Thruster",
-        "TractorBeam",
-        "PowerNode",
-        "TorpedoLauncher",
-		"PlasmaTurret"
-    };
-    
     static Block() {
-        foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
-            Block.typeByName[type.name] = type;
-        }
-
-        foreach (var name in blockOrder) {
-            Block.allTypes.Add(Block.typeByName[name]);
-        }
-        
-        foreach (var type in Block.typeByName.Values) {
-            if (!Block.allTypes.Contains(type))
-                Block.allTypes.Add(type);
-            type.tileable = Tile.tileables[type.name];
-        }
-
         Block.spaceLayer = LayerMask.NameToLayer("Space");
         Block.floorLayer = LayerMask.NameToLayer("Floor");
         Block.wallLayer = LayerMask.NameToLayer("Wall");
@@ -285,7 +255,7 @@ public class BlueprintBlock : Block {
 	}
 
     public static BlueprintBlock Make(string typeName) {
-        return new BlueprintBlock(Block.typeByName[typeName]);
+        return new BlueprintBlock(BlockType.FromId(typeName));
     }
 
     public BlueprintBlock(Block block) : base(block) { }

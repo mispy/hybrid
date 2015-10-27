@@ -51,7 +51,7 @@ public class ShipTemplate : ISaveBindable, ISaveAsRef {
     }
 }
 
-public class Ship : IOpinionable, ISaveBindable {
+public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     public static List<Ship> all = new List<Ship>();
 
     public static Ship Create(string template = null, Faction faction = null, Sector sector = null, Vector2? sectorPos = null) {

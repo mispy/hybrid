@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
+
 [Serializable]
 public struct BlockData {
     public IntVector2 pos;
@@ -32,7 +33,8 @@ public class Blockform : PoolBehaviour {
     public Ship ship;
     
     public Blueprint blueprint { get; private set; }
-    public BlockMap blocks { get; private set; }
+    public BlockMap blocks;
+
     public TileRenderer tiles { get; private set; }
 
     public Rigidbody rigidBody;
@@ -85,31 +87,6 @@ public class Blockform : PoolBehaviour {
 			return Game.activeSector.IsOutsideBounds(transform.position);
 		}
 	}
-
-    public List<BlockData> blockData;
-
-    public void OnBeforeSerialize() {
-        if (blocks == null) return;
-
-        foreach (var block in blocks.allBlocks) {
-            var data = new BlockData();
-            data.pos = block.pos;
-            data.typeName = block.type.name;
-            data.facing = block.facing;
-            data.layer = block.layer;
-            blockData.Add(data);
-        }
-    }
-
-    public void OnAfterDeserialize() {
-
-        foreach (var data in blockData) {
-            var block = new Block(Block.typeByName[data.typeName]);
-            block.facing = data.facing;
-            blocks[data.pos, data.layer] = block;
-        }
-    }
-
 
     public Dictionary<Type, HashSet<BlockComponent>> blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
 

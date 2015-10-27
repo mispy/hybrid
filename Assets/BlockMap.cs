@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
-public class BlockMap {
+public class BlockMap : ScriptableObject {
 	public Ship ship;
 
 	// Cached info
@@ -17,6 +17,7 @@ public class BlockMap {
 	public int height;
 	public int baseSize;
 	public Rect boundingRect;
+    [NonSerialized]
 	public HashSet<Block> allBlocks = new HashSet<Block>();
 
 	// Values used for translating between 0,0 center to traditional
@@ -32,8 +33,11 @@ public class BlockMap {
     BlockChunk[,] baseChunks;
     BlockChunk[,] topChunks;
 
+    [NonSerialized]
     public Dictionary<BlockType, HashSet<Block>> blockTypeCache = new Dictionary<BlockType, HashSet<Block>>();
+    [NonSerialized]
     public Dictionary<Type, HashSet<Block>> blockCompCache = new Dictionary<Type, HashSet<Block>>();
+    [NonSerialized]
     public HashSet<Block> frontBlockers = new HashSet<Block>();
 
     public delegate void BlockAddedHandler(Block newBlock);
@@ -44,9 +48,7 @@ public class BlockMap {
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;
 
-    public BlockMap(Ship ship) {
-		this.ship = ship;
-
+    public BlockMap() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -68,11 +70,37 @@ public class BlockMap {
         centerBlockX = centerChunkX * chunkWidth;
         centerBlockY = centerChunkY * chunkHeight;
         
-        foreach (var type in Block.allTypes) {
+        foreach (var type in BlockType.All) {
             blockTypeCache[type] = new HashSet<Block>();
             foreach (var comp in type.blockComponents) {
                 blockCompCache[comp.GetType()] = new HashSet<Block>();
             }
+        }
+    }
+
+    public BlockMap(Ship ship) : this() {
+        this.ship = ship;
+    }
+
+    public List<BlockData> blockData;
+    
+    public void OnBeforeSerialize() {
+        blockData = new List<BlockData>();
+        foreach (var block in allBlocks) {
+            var data = new BlockData();
+            data.pos = block.pos;
+            data.typeName = block.type.name;
+            data.facing = block.facing;
+            data.layer = block.layer;
+            blockData.Add(data);
+        }
+    }
+    
+    public void OnAfterDeserialize() {
+        foreach (var data in blockData) {
+            var block = new Block(BlockType.FromId(data.typeName));
+            block.facing = data.facing;
+            this[data.pos, data.layer] = block;
         }
     }
 
@@ -122,7 +150,7 @@ public class BlockMap {
     }
 
     public IEnumerable<Block> Find(string blockType) {
-        return Find(Block.typeByName[blockType]);
+        return Find(BlockType.FromId(blockType));
     }
 
 	public IEnumerable<Block> Find(BlockType blockType) {

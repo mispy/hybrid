@@ -33,8 +33,31 @@ public class BlockType : MonoBehaviour, ISaveAsRef {
     [Tooltip("The mass value of each block is added to the mass of a ship rigidBody.")]
     public float mass;
 
+    static List<BlockType> all = new List<BlockType>();
+    static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
+
+    static void LoadTypes() {
+        foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
+            type.tileable = Tile.tileables[type.name];
+            BlockType.byId[type.name] = type;
+            BlockType.all.Add(type);
+        }
+    }
+
     public static BlockType FromId(string id) {
-        return Block.typeByName[id];
+        if (BlockType.byId.Keys.Count == 0)
+            LoadTypes();
+
+        return BlockType.byId[id];
+    }
+
+    public static List<BlockType> All {
+        get {
+            if (BlockType.all.Count == 0)
+                LoadTypes();
+
+            return BlockType.all;
+        }
     }
 
     public string id { 
