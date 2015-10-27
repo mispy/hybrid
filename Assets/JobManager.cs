@@ -8,6 +8,7 @@ public abstract class Job {
 	public Crew crew;
     public bool isFinished;
     public abstract void Update();
+
 }
 
 public class MoveJob : Job {
@@ -118,7 +119,8 @@ public class BuildJobManager {
     }
 
     void OnBlueprintAdded(Block block) {
-		if (block != null && block.ship.blocks[block.pos, block.layer] == null)
+
+        if (block != null && block.ship.blocks[block.pos, block.layer] == null)
 	        jobs.Add(new BuildJob(block));
     }
 

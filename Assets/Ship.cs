@@ -60,7 +60,8 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
         //if (sector == null) sector = Util.GetRandom(SectorManager.all);
         if (sector != null && sectorPos == null) sectorPos = sector.RandomEdge();
         
-        var ship = new Ship(ShipTemplate.FromId(template));
+        var ship = Ship.CreateInstance<Ship>();
+        ship.UseTemplate(ShipTemplate.FromId(template));
         
         for (var i = 0; i < 6; i++ ) {
             CrewManager.Create(ship: ship, faction: faction);
@@ -116,12 +117,14 @@ public class Ship : ScriptableObject, IOpinionable, ISaveBindable {
     public Ship() {
         crew = new HashSet<Crew>();
         strategy = new ShipStrategy(this);
-        blocks = new BlockMap(this);
-        blueprintBlocks = new BlockMap(this);
+        blocks = BlockMap.CreateInstance<BlockMap>();
+        blocks.ship = this;
+        blueprintBlocks = BlockMap.CreateInstance<BlockMap>();
+        blueprintBlocks.ship = this;
         blocks.OnBlockAdded += OnBlockAdded;
     }
 
-    public Ship(ShipTemplate template) : this() {
+    public void UseTemplate(ShipTemplate template) {
         name = template.name;
 
         foreach (var block in template.blocks) {

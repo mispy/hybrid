@@ -70,10 +70,13 @@ public static class Game {
 
     public static IEnumerable<T> LoadPrefabs<T>(string path) {
         var resources = Resources.LoadAll(path);
+
         foreach (var obj in resources) {
             var gobj = obj as GameObject;
             if (gobj != null) {
                 var comp = gobj.GetComponent<T>();
+                Debug.LogFormat("{0} {1}", "Loaded", gobj);
+
                 if (comp != null) yield return comp;
             }
         }

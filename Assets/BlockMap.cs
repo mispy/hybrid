@@ -5,6 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
 
+
+[Serializable]
+public class BlockData {
+    public IntVector2 pos;
+    public BlockType type;
+    public Facing facing;
+    public BlockLayer layer;
+}
+
 public class BlockMap : ScriptableObject {
 	public Ship ship;
 
@@ -30,7 +39,9 @@ public class BlockMap : ScriptableObject {
     int chunkHeight;
     int widthInChunks;
     int heightInChunks;
+    [NonSerialized]
     BlockChunk[,] baseChunks;
+    [NonSerialized]
     BlockChunk[,] topChunks;
 
     [NonSerialized]
@@ -48,7 +59,7 @@ public class BlockMap : ScriptableObject {
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;
 
-    public BlockMap() {
+    void OnEnable() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -69,17 +80,6 @@ public class BlockMap : ScriptableObject {
         centerChunkY = heightInChunks/2;
         centerBlockX = centerChunkX * chunkWidth;
         centerBlockY = centerChunkY * chunkHeight;
-        
-        foreach (var type in BlockType.All) {
-            blockTypeCache[type] = new HashSet<Block>();
-            foreach (var comp in type.blockComponents) {
-                blockCompCache[comp.GetType()] = new HashSet<Block>();
-            }
-        }
-    }
-
-    public BlockMap(Ship ship) : this() {
-        this.ship = ship;
     }
 
     public List<BlockData> blockData;
@@ -89,7 +89,7 @@ public class BlockMap : ScriptableObject {
         foreach (var block in allBlocks) {
             var data = new BlockData();
             data.pos = block.pos;
-            data.typeName = block.type.name;
+            data.type = block.type;
             data.facing = block.facing;
             data.layer = block.layer;
             blockData.Add(data);
@@ -98,7 +98,7 @@ public class BlockMap : ScriptableObject {
     
     public void OnAfterDeserialize() {
         foreach (var data in blockData) {
-            var block = new Block(BlockType.FromId(data.typeName));
+            var block = new Block(data.type);
             block.facing = data.facing;
             this[data.pos, data.layer] = block;
         }
@@ -149,28 +149,29 @@ public class BlockMap : ScriptableObject {
         return baseBlock;
     }
 
-    public IEnumerable<Block> Find(string blockType) {
-        return Find(BlockType.FromId(blockType));
+    public IEnumerable<Block> Find(BlockType type) {
+        if (!blockTypeCache.ContainsKey(type))
+            yield break;
+
+        foreach (var block in blockTypeCache[type])
+            yield return block;
     }
 
-	public IEnumerable<Block> Find(BlockType blockType) {
-		foreach (var block in blockTypeCache[blockType]) {
-			yield return block;
-		}
-	}
+    public IEnumerable<Block> Find(string typeName) {
+        return Find(BlockType.FromId(typeName));
+    }
 
     public IEnumerable<Block> Find<T>() {
+        if (!blockCompCache.ContainsKey(typeof(T)))
+            yield break;
+
         foreach (var block in blockCompCache[typeof(T)]) {
             yield return block;
         }
     }
 
     public bool Has<T>() {
-        return blockCompCache[typeof(T)].Count > 0;
-    }
-
-    public bool Has(BlockType type) {
-        return blockTypeCache[type].Count > 0;
+        return Find<T>().Count() > 0;
     }
 
 	public IEnumerable<IntVector2> FilledPositions {
@@ -340,10 +341,15 @@ public class BlockMap : ScriptableObject {
             }
         }
     
+        if (!blockTypeCache.ContainsKey(block.type))
+            blockTypeCache[block.type] = new HashSet<Block>();
         blockTypeCache[block.type].Add(block);
         foreach (var comp in block.type.blockComponents) {
+            if (!blockCompCache.ContainsKey(comp.GetType()))
+                blockCompCache[comp.GetType()] = new HashSet<Block>();
             blockCompCache[comp.GetType()].Add(block);
         }
+
 		allBlocks.Add(block);
 
         if (block.type.canBlockFront)

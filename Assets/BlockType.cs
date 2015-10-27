@@ -3,6 +3,7 @@ using UnityEngine.Serialization;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BlockAbility : PoolBehaviour {
     public HashSet<Block> blocks;
@@ -37,11 +38,15 @@ public class BlockType : MonoBehaviour, ISaveAsRef {
     static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
 
     static void LoadTypes() {
+
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
+            Debug.Log(type);
             type.tileable = Tile.tileables[type.name];
             BlockType.byId[type.name] = type;
             BlockType.all.Add(type);
         }
+
+
     }
 
     public static BlockType FromId(string id) {
@@ -56,7 +61,7 @@ public class BlockType : MonoBehaviour, ISaveAsRef {
             if (BlockType.all.Count == 0)
                 LoadTypes();
 
-            return BlockType.all;
+            return BlockType.all.ToList();
         }
     }
 

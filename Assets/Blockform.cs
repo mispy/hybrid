@@ -4,15 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-
-[Serializable]
-public struct BlockData {
-    public IntVector2 pos;
-    public string typeName;
-    public Facing facing;
-    public BlockLayer layer;
-}
-
 public class Blockform : PoolBehaviour {
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
         return Game.activeSector.blockforms.OrderBy((form) => Vector2.Distance(form.transform.position, worldPos));

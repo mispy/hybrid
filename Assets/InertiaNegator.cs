@@ -5,6 +5,7 @@ public class InertiaNegator : BlockComponent {
     public static void UpdateInertia(Blockform form) {
         var numNegators = 0;
 
+
         foreach (var block in form.blocks.Find<InertiaNegator>()) {
             if (block.isPowered)
                 numNegators += 2;
