@@ -39,32 +39,15 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 	public HashSet<Block> allBlocks = new HashSet<Block>();
 
 
-
 	// Values used for translating between 0,0 center to traditional
 	// array coordinates
-    [SerializeField]
-    [HideInInspector]
 	int centerBlockX;
-    [SerializeField]
-    [HideInInspector]
     int centerBlockY;
-    [SerializeField]
-    [HideInInspector]
     int centerChunkX;
-    [SerializeField]
-    [HideInInspector]
     int centerChunkY;
-    [SerializeField]
-    [HideInInspector]
     int chunkWidth;
-    [SerializeField]
-    [HideInInspector]
     int chunkHeight;
-    [SerializeField]
-    [HideInInspector]
     int widthInChunks;
-    [SerializeField]
-    [HideInInspector]
     int heightInChunks;
 
     BlockChunk[,] baseChunks;
@@ -85,7 +68,9 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;
 
-    public override void OnCreate() {
+    public List<BlockData> blockData = new List<BlockData>();
+
+    public BlockMap() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -110,22 +95,6 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         centerBlockY = centerChunkY * chunkHeight;
     }
 
-    void OnEnable() {
-        if (blockData.Count == 0) return;
-
-        OnCreate();
-
-        foreach (var data in blockData) {
-            var block = new Block(BlockType.FromId(data.type.id));
-            block.facing = data.facing;
-            this[data.pos, data.layer] = block;
-        }
-
-        blockData.Clear();
-    }
-
-    public List<BlockData> blockData = new List<BlockData>();
-
     public void OnBeforeSerialize() {
         blockData = new List<BlockData>();
 
@@ -142,10 +111,14 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     public void OnAfterDeserialize() {
-
-
-        //Debug.Assert(blockData.Count > 0, "Expected blockData.Count > 0");
-    }
+        foreach (var data in blockData) {
+            var block = new Block(BlockType.FromId(data.type.id));
+            block.facing = data.facing;
+            this[data.pos, data.layer] = block;
+        }
+        
+        blockData.Clear();
+    }      
 
     public bool IsCollisionEdge(IntVector2 bp) {
         var collisionLayer = CollisionLayer(bp);

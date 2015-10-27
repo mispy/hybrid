@@ -16,6 +16,7 @@ public class ShipEditor : Editor {
             PrefabUtility.ReplacePrefab(template.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
         }
 
+
         DrawDefaultInspector();
     }
 }
