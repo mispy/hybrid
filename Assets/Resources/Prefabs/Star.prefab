@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 430296}
   - 212: {fileID: 21238172}
   - 114: {fileID: 11478930}
+  - 114: {fileID: 11458484}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -29,6 +30,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11458484
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0269c19338e68449d6dabe0d04b163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sectors: []
 --- !u!114 &11478930
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -43,6 +56,7 @@ MonoBehaviour:
   renderer: {fileID: 0}
   sector:
     radius: 0
+    ships: []
     jumpBeacon: {fileID: 0}
 --- !u!212 &21238172
 SpriteRenderer:

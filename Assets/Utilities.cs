@@ -54,6 +54,7 @@ public struct IntVector2 : ISaveAsString {
             throw new ArgumentException(facing.ToString());
     }
    
+
     public static explicit operator Vector2(IntVector2 pos) {
         return new Vector2(pos.x, pos.y);   
     }

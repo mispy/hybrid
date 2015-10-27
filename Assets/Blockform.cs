@@ -4,7 +4,42 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Blockform : PoolBehaviour {
+public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
+    public Ship ship;
+    
+    public Blueprint blueprint { get; private set; }
+    public BlockMap blocks;
+    
+    public TileRenderer tiles { get; private set; }
+    
+    public Rigidbody rigidBody;
+    public Bounds localBounds = new Bounds();
+    public BoxCollider box;
+    public ShipDamage damage;
+    
+    public bool inertia = false;
+    
+    public Shields shields = null;
+    
+    public Vector3 centerOfMass;
+    public InteriorFog fog;
+    
+    
+    public List<CrewBody> maglockedCrew = new List<CrewBody>();
+    private bool needsMassUpdate = true;
+    
+    public Transform blockComponentHolder;
+    public SpacePather pather;
+    
+    public HashSet<Block> poweredWeapons = new HashSet<Block>();
+
+    public void OnBeforeSerialize() {
+    }
+
+    public void OnAfterDeserialize() {
+
+    }
+
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
         return Game.activeSector.blockforms.OrderBy((form) => Vector2.Distance(form.transform.position, worldPos));
     }
@@ -20,34 +55,6 @@ public class Blockform : PoolBehaviour {
         
         return null;
     }
-    
-    public Ship ship;
-    
-    public Blueprint blueprint { get; private set; }
-    public BlockMap blocks;
-
-    public TileRenderer tiles { get; private set; }
-
-    public Rigidbody rigidBody;
-    public Bounds localBounds = new Bounds();
-	public BoxCollider box;
-    public ShipDamage damage;
-    
-    public bool inertia = false;
-    
-    public Shields shields = null;
-    
-    public Vector3 centerOfMass;
-	public InteriorFog fog;
-
-    
-    public List<CrewBody> maglockedCrew = new List<CrewBody>();
-    private bool needsMassUpdate = true;
-
-    public Transform blockComponentHolder;
-	public SpacePather pather;
-
-    public HashSet<Block> poweredWeapons = new HashSet<Block>();
 
 	public float width {
 		get {
@@ -133,7 +140,6 @@ public class Blockform : PoolBehaviour {
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
 
-
         blocks.OnBlockRemoved += OnBlockRemoved;
         blocks.OnBlockAdded += OnBlockAdded;
           
@@ -148,6 +154,9 @@ public class Blockform : PoolBehaviour {
     
     void OnDisable() {
         Pool.Recycle(blockComponentHolder.gameObject);
+
+        blocks.OnBlockRemoved -= OnBlockRemoved;
+        blocks.OnBlockAdded -= OnBlockAdded;
 
         Game.activeSector.blockforms.Remove(this);
 	}
@@ -219,10 +228,9 @@ public class Blockform : PoolBehaviour {
         
 		UpdateBounds();
     }
+
     
     public GameObject RealizeBlock(Block block) {
-        Debug.Log(block);
-
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
 
         var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);

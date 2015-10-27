@@ -21,9 +21,10 @@ public class BlockAbility : PoolBehaviour {
 }
 
 public class BlockComponent : PoolBehaviour {
-    [HideInInspector]
+    [NonSerialized]
     public Block block;
-    [HideInInspector]
+   
+
     public Blockform form;
 
     public virtual void OnNewBlock(Block block) { }

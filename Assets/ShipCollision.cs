@@ -15,13 +15,13 @@ public class ShipCollision : PoolBehaviour {
 
     void Awake() {
         form = GetComponent<Blockform>();
+    }
 
+    void OnEnable() {        
         collidersHolder = Pool.For("Holder").Attach<Transform>(transform);
         collidersHolder.name = "Colliders";
         collidersHolder.transform.localScale *= Tile.worldSize;
-    }
 
-    void OnEnable() {
         colliders = new Dictionary<IntVector2, Collider>();
 
         blocks = form.blocks;
@@ -34,6 +34,10 @@ public class ShipCollision : PoolBehaviour {
 
         blocks.OnBlockAdded += OnBlockUpdate;
         blocks.OnBlockRemoved += OnBlockUpdate;
+    }
+
+    void OnDisable() {
+        Pool.Recycle(collidersHolder.gameObject);
     }
 
     void OnBlockUpdate(Block block) {

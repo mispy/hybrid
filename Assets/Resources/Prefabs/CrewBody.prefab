@@ -137,13 +137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   body: {fileID: 0}
-  crew:
-    maxHealth: 0
-    health: 0
-    name: 
-    color: {r: 0, g: 0, b: 0, a: 0}
-    body: {fileID: 0}
-    mind: {fileID: 0}
   pathLine: {fileID: 0}
 --- !u!114 &11452668
 MonoBehaviour:
@@ -178,17 +171,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d9d272a288d57546968072119aef53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crew:
-    maxHealth: 0
-    health: 0
-    name: 
-    color: {r: 0, g: 0, b: 0, a: 0}
-    body: {fileID: 0}
-    mind: {fileID: 0}
+  crew: {fileID: 0}
   rigidBody: {fileID: 0}
   collider: {fileID: 0}
   constructor: {fileID: 0}
   maglockShip: {fileID: 0}
+  currentBlockPos:
+    x: 0
+    y: 0
+  maglockMoveBlockPos:
+    x: 0
+    y: 0
   weapon: {fileID: 0}
 --- !u!114 &11496124
 MonoBehaviour:

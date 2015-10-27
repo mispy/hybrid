@@ -176,8 +176,6 @@ public class GameState : MonoBehaviour {
         foreach (var template in ShipTemplate.byId.Values) {
             Save.Write(template);
         }
-        
-        MakeUniverse();
     }
 
     public void OnEnable() {
@@ -209,28 +207,6 @@ public class GameState : MonoBehaviour {
     public Text messageText;
 
     void MakeUniverse() {
-		FactionManager.Create("Dragons");
-		FactionManager.Create("Mushrooms");
-		var mitzubi = FactionManager.Create("Mitzubi Navy", color: new Color(251/255.0f, 213/255.0f, 18/255.0f));
-		FactionManager.Create("Cats");
-        var pirateGang = FactionManager.Create("Pirate Gang", color: Color.red);
-
-        pirateGang.opinion[mitzubi].Change(-1000, OpinionReason.AttackedMyShip);
-        mitzubi.opinion[pirateGang].Change(-1000, OpinionReason.AttackedMyShip);
-
-        for (var i= 0; i < 1; i++) {
-            Star.Create();
-        }
-
-        foreach (var star in Star.all) {
-            FactionOutpost.Create(star.BeaconPosition(), faction: mitzubi);
-            ConflictZone.Create(star.BeaconPosition(), attacking: pirateGang, defending: mitzubi);
-        }
-
-
-		var sector = SectorManager.all[0];
-		//ShipManager.Create(sector: sector, faction: FactionManager.all[1], sectorPos: new Vector2(100, 0));
-		Game.playerShip = Ship.Create(sector: sector, faction: mitzubi, sectorPos: new Vector2(-100, 0));
     }
 
     void Start() {        

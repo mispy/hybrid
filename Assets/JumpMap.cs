@@ -78,9 +78,9 @@ public class JumpMap : PoolBehaviour {
         beacons.Clear();
         jumpShips.Clear();
 
-        foreach (var star in Star.all) {
+        foreach (Star star in Game.galaxy.stars) {
             var beacon = Pool.For("Star").Attach<JumpBeacon>(contents);
-            beacon.transform.position = GalaxyToWorldPos(star.galaxyPos);
+            beacon.transform.position = star.transform.position;
             beacon.renderer.color = star.faction.color;
             beacons.Add(beacon);
         }

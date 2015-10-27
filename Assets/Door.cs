@@ -5,22 +5,22 @@ public class Door : BlockComponent {
     Sprite closedSprite;
     public Sprite openSprite;
 
-    BlockType complexBlock;
+    SpriteRenderer spriteRenderer;
 
     void Awake() {
-        complexBlock = GetComponent<BlockType>();
-        closedSprite = complexBlock.spriteRenderer.sprite;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        closedSprite = block.type.GetComponent<SpriteRenderer>().sprite;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	    foreach (var body in form.maglockedCrew) {
             if (body.currentBlockPos == block.pos) {
-                complexBlock.spriteRenderer.sprite = openSprite;
+                spriteRenderer.sprite = openSprite;
                 return;
             }
         }
 
-        complexBlock.spriteRenderer.sprite = closedSprite;
+        spriteRenderer.sprite = closedSprite;
 	}
 }
