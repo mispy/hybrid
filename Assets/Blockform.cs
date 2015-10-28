@@ -504,12 +504,4 @@ public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
 		Debug.DrawLine(center + -transform.right, center + transform.right, Color.green);
 		Debug.DrawLine(center + transform.up, center + -transform.up, Color.green);
 	}
-
-    void FixedUpdate() {
-        if (transform.position.magnitude > Game.activeSector.sector.radius) {
-            var towardsCenter = (Vector3.zero - transform.position).normalized;
-            var factor = transform.position.magnitude - Game.activeSector.sector.radius;
-            rigidBody.AddForce(towardsCenter * factor * 10 * Time.fixedDeltaTime);
-        }
-    }
 }

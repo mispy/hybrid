@@ -53,9 +53,10 @@ public class ShipTemplate2 : PoolBehaviour {
         }
     }
 
-    public void Realize(Vector2 position) {
+    public void Realize(Vector2 position, Quaternion rotation) {
         var ship = Ship.FromTemplate(this);
         var form = ship.LoadBlockform();
         form.transform.position = position;
+        form.transform.rotation = rotation;
     }
 }

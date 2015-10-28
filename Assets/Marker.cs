@@ -49,6 +49,7 @@ public class Marker : MonoBehaviour, ISerializationCallbackReceiver {
     void UpdateMatches() {
         matchingTemplates.Clear();
         foreach (var template in ShipTemplate2.All) {
+            Debug.Log(template);
             if (this.Matches(template)) {
                 matchingTemplates.Add(template);
             }
@@ -56,8 +57,10 @@ public class Marker : MonoBehaviour, ISerializationCallbackReceiver {
     }
 
     public void Realize() {
-        var match = Util.GetRandom(matchingTemplates.ToArray());
-        match.Realize(transform.position);
+        if (matchingTemplates.Any()) {
+            var match = Util.GetRandom(matchingTemplates);
+            match.Realize(transform.position, transform.rotation);
+        }
         Pool.Recycle(this.gameObject);
     }
 
@@ -71,6 +74,7 @@ public class Marker : MonoBehaviour, ISerializationCallbackReceiver {
 
     public void Update() {
         if (EditorApplication.isPlaying) {
+            UpdateMatches();
             Realize();
             return;
         }

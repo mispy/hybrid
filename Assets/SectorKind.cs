@@ -8,18 +8,14 @@ public class SectorKind : MonoBehaviour {
         }
     }
 
-    public float radius {
+    public SectorBounds bounds {
         get {
-            return transform.Find("Bounds").transform.localScale.x;
+            return GetComponentInChildren<SectorBounds>();
         }
     }
 
     public void OnEnable() {
-        foreach (var marker in markers) {
-            marker.Realize();
-        }
-
-        Game.activeSector.RealizeShip(Game.playerShip, new Vector2(0, radius));
+        Game.activeSector.RealizeShip(Game.playerShip, new Vector2(0, -bounds.transform.localScale.y));
         Game.state.gameObject.SetActive(true);
         Game.activeSector.gameObject.SetActive(true);
     }

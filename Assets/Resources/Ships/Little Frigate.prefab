@@ -47,7 +47,7 @@ MonoBehaviour:
   minY: -5
   width: 12
   height: 12
-  baseSize: 7638
+  baseSize: 8664
   blockData:
   - pos:
       x: -6
@@ -1019,7 +1019,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagged: mitzubi
+  tagged: frigate
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -1029,7 +1029,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: tagged
-      value: mitzubi
+      value: frigate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
