@@ -74,6 +74,18 @@ public class Ship : PoolBehaviour, IOpinionable, ISaveBindable {
         return ship;
     }
 
+    public static Ship FromTemplate(ShipTemplate2 template) {
+        var ship = Pool.For("Ship").Attach<Ship>(Game.galaxy.shipHolder);
+
+        ship.name = template.name;
+        
+        foreach (var block in template.blocks.allBlocks) {
+            ship.blueprintBlocks[block.pos, block.layer] = new BlueprintBlock(block);
+            ship.blocks[block.pos, block.layer] = new Block(block);
+        }
+
+        return ship;
+    }
 
     public string nameWithColor {
         get { return name; }
@@ -92,11 +104,13 @@ public class Ship : PoolBehaviour, IOpinionable, ISaveBindable {
 
     public Faction faction {
         get {
-            return captain.faction;
+            return captain != null ? captain.faction : null;
         }
     }
     public Crew captain {
         get {
+            if (!crew.Any())
+                return null;
             return crew.First();
         }
     }

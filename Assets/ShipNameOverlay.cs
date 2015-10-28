@@ -17,7 +17,7 @@ public class ShipNameOverlay : MonoBehaviour {
     
     void Update () {
         shipName.color = ship.DispositionTowards(Game.playerShip).color;
-		shipFaction.color = ship.faction.color;
+		shipFaction.color = ship.faction == null ? Color.white : ship.faction.color;
 
         shipName.fontSize = Mathf.CeilToInt(Mathf.Log(ship.blocks.baseSize)*0.5f);
 		shipFaction.fontSize = Mathf.CeilToInt(Mathf.Log(ship.blocks.baseSize)*0.5f);
@@ -30,6 +30,6 @@ public class ShipNameOverlay : MonoBehaviour {
         transform.localPosition = Vector3.down * Mathf.Abs(ship.form.box.bounds.extents.y);
 
         shipName.text = ship.name;
-		shipFaction.text = ship.faction.name;
+		shipFaction.text = ship.faction == null ? "Neutral" : ship.faction.name;
     }
 }

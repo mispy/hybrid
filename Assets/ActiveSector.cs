@@ -4,8 +4,30 @@ using System.Collections.Generic;
 
 public class ActiveSector : MonoBehaviour {
     public Sector sector;
-    public Transform contents { get; private set; }
-    public Transform transients { get; private set; }
+
+    private Transform _contents;
+    public Transform contents {
+        get {
+            if (_contents == null) {
+                _contents = Pool.For("Holder").Attach<Transform>(transform);
+                _contents.name = "Contents";
+            }
+
+            return _contents;
+        }
+    }
+
+    private Transform _transients;
+    public Transform transients {
+        get {
+            if (_transients == null) {
+                _transients = Pool.For("Holder").Attach<Transform>(transform);
+                _transients.name = "Transients";
+            }
+            
+            return _transients;
+        }
+    }
 
     public List<Blockform> blockforms;
 
@@ -13,15 +35,12 @@ public class ActiveSector : MonoBehaviour {
         return pos.magnitude > sector.radius;
     }
 
-    public void Awake() {
-        contents = Pool.For("Holder").Attach<Transform>(transform);
-        contents.name = "Contents";
-        transients = Pool.For("Holder").Attach<Transform>(transform);
-        transients.name = "Transients";
-    }
-
     public void Update() {
         Game.galaxy.Simulate(Time.deltaTime);
+    }
+
+    public void OnEnable() {
+        Game.mainCamera = GetComponentInChildren<Camera>();
     }
 
     public void RealizeShip(Ship ship, Vector2 pos) {

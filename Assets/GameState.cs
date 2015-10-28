@@ -130,13 +130,7 @@ public static class Game {
         Time.timeScale = 1.0f;
     }
 
-    public static void LoadSector(Jumpable beacon) {
-/*        foreach (var ship in sector.ships) {
-            Game.activeSector.RealizeShip(ship);
-        }*/
-        
-        Game.activeSector.gameObject.SetActive(true);
-        Game.mainCamera = Game.activeSector.GetComponentInChildren<Camera>();
+    public static void LoadSector(SectorKind sector) {
     }
     
     public static void UnloadSector() {
@@ -180,7 +174,6 @@ public class GameState : MonoBehaviour {
 
     public void OnEnable() {
         UpdateRefs();
-
     }
 
     public void BriefMessage(string message) {
@@ -207,7 +200,7 @@ public class GameState : MonoBehaviour {
     public Text messageText;
 
     void Start() {        
-        Game.activeSector.RealizeShip(Game.playerShip);
+        //Game.activeSector.RealizeShip(Game.playerShip);
     }
 
     public Text debugMenu;

@@ -41,14 +41,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ship: {fileID: 0}
-  centerBlockX: 0
-  centerBlockY: 0
-  centerChunkX: 0
-  centerChunkY: 0
-  chunkWidth: 0
-  chunkHeight: 0
-  widthInChunks: 0
-  heightInChunks: 0
+  maxX: 0
+  minX: 0
+  maxY: 0
+  minY: 0
+  width: 0
+  height: 0
+  baseSize: 0
   blockData: []
 --- !u!114 &11417438
 MonoBehaviour:

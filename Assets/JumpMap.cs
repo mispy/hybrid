@@ -102,7 +102,7 @@ public class JumpMap : PoolBehaviour {
     }
 
     void EnterSector() {
-        Game.LoadSector(Game.playerShip.jumpPos.GetComponent<Jumpable>());
+        //Game.LoadSector(Game.playerShip.jumpPos.GetComponent<Jumpable>());
         gameObject.SetActive(false);
     }
 
