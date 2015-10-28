@@ -7,12 +7,6 @@ using System.Linq;
 public class ShipTemplate2 : PoolBehaviour {
     static SensibleDictionary<string, ShipTemplate2> byId;
 
-    public BlockMap blocks {
-        get {
-            return GetComponent<BlockMap>();
-        }
-    }
-
     static void LoadTemplates() {
         byId = new SensibleDictionary<string, ShipTemplate2>();
         foreach (var template in Game.LoadPrefabs<ShipTemplate2>("Ships")) {
@@ -37,6 +31,20 @@ public class ShipTemplate2 : PoolBehaviour {
         var template = Pool.For("ShipTemplate").Attach<ShipTemplate2>(Game.state.transform);
         template.Fill(ship);
         return template;
+    }
+
+    public string tagged = "";
+
+    public string[] tags {
+        get {
+            return tagged.Split(' ');
+        }
+    }
+
+    public BlockMap blocks {
+        get {
+            return GetComponent<BlockMap>();
+        }
     }
     
     public void Fill(Ship ship) {

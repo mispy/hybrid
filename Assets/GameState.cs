@@ -33,6 +33,7 @@ public static class Game {
     public static GameObject leaveSectorMenu;
     public static WeaponSelect weaponSelect;
     public static ShipInfo shipInfo;
+    public static DebugMenu debugMenu;
 
     public static Ship playerShip {
         get { return Game.state.playerShip; }
@@ -158,13 +159,13 @@ public class GameState : MonoBehaviour {
         Game.leaveSectorMenu = GameObject.Find("LeavingSector");
         Game.weaponSelect = GetComponentInChildren<WeaponSelect>();
         Game.shipInfo = GetComponentInChildren<ShipInfo>();
+        Game.debugMenu = GetComponentsInChildren<DebugMenu>(includeInactive: true).First();
         Game.mainCamera = Camera.main;
         Game.state = this;
     }
 
     public void Awake() {
         UpdateRefs();
-
 
         ShipTemplate.LoadAll();
         foreach (var template in ShipTemplate.byId.Values) {
@@ -203,8 +204,6 @@ public class GameState : MonoBehaviour {
         //Game.activeSector.RealizeShip(Game.playerShip);
     }
 
-    public Text debugMenu;
-
     // Update is called once per frame
     void Update() {
         Game.mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
@@ -212,10 +211,10 @@ public class GameState : MonoBehaviour {
         InputEvent.Update();
 
         if (Input.GetKeyDown(KeyCode.Backslash)) {
-            if (debugMenu.gameObject.activeInHierarchy)
-                debugMenu.gameObject.SetActive(false);
+            if (Game.debugMenu.gameObject.activeInHierarchy)
+                Game.debugMenu.gameObject.SetActive(false);
             else
-                debugMenu.gameObject.SetActive(true);
+                Game.debugMenu.gameObject.SetActive(true);
         }
 
         if (Input.GetKeyDown(KeyCode.F5)) {

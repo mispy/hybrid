@@ -33,6 +33,13 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     public int height;
     [ReadOnly]
     public int baseSize;
+
+    /*public int length {
+        get {
+            return Math.Max(width, height);
+        }
+    }*/
+
     [NonSerialized]
     public Rect boundingRect = new Rect();
     [NonSerialized]
