@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 
 public class ShipControl : MonoBehaviour {
     Ship ship;
@@ -31,6 +32,7 @@ public class ShipControl : MonoBehaviour {
         selector.GetComponent<SpriteRenderer>().color = Color.green;
         selector.gameObject.SetActive(true);
         selectedCrew = crew;
+        Selection.activeGameObject = crew.body.gameObject;
      }
 
     void DeselectBlock(Block block) {
