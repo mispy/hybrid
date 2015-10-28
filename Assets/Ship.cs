@@ -9,49 +9,7 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 
-public class ShipTemplate : ISaveBindable, ISaveAsRef {
-    public static Dictionary<string, ShipTemplate> byId = new Dictionary<string, ShipTemplate>();
-
-    public static void LoadAll() {
-        foreach (var path in Directory.GetFiles(Application.dataPath + "/Ships/", "*.xml")) {
-            var template = Save.Read<ShipTemplate>(path);
-            var id = Util.GetIdFromPath(path);
-            template.name = id;
-            byId[id] = template;                        
-        }
-    }
-
-    public static ShipTemplate FromId(string id) {
-        return byId[id];
-    }
-    
-    public string name;
-    public List<Block> blocks;
-
-    public string id {
-        get {
-            return name;
-        }
-    }
-
-    public string savePath {
-        get {
-            return Application.dataPath + "/Ships/" + id + ".xml";
-        }
-    }
-
-    public void Savebind(ISaveBinder save) {
-        save.BindList("blocks", ref blocks);
-    }
-
-    // Create a new template from an existing ship
-    public ShipTemplate(Ship ship) {
-        this.name = ship.name;
-        this.blocks = ship.blueprintBlocks.allBlocks.ToList();
-    }
-}
-
-public class Ship : PoolBehaviour, IOpinionable, ISaveBindable {
+public class Ship : PoolBehaviour, IOpinionable {
     public static List<Ship> all = new List<Ship>();
 
     public static Ship Create(string template = null, Faction faction = null, Jumpable beacon = null) {
@@ -60,8 +18,7 @@ public class Ship : PoolBehaviour, IOpinionable, ISaveBindable {
         //if (sector == null) sector = Util.GetRandom(SectorManager.all);
 
         var ship = Pool.For("Ship").Attach<Ship>(Game.galaxy.shipHolder);
-        ship.UseTemplate(ShipTemplate.FromId(template));
-        
+
         for (var i = 0; i < 6; i++ ) {
             CrewManager.Create(ship: ship, faction: faction);
         }
@@ -140,37 +97,6 @@ public class Ship : PoolBehaviour, IOpinionable, ISaveBindable {
             blueprintBlocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
         blueprintBlocks.ship = this;
         blocks.OnBlockAdded += OnBlockAdded;
-    }
-
-    public void UseTemplate(ShipTemplate template) {
-        name = template.name;
-
-        foreach (var block in template.blocks) {
-            blueprintBlocks[block.pos, block.layer] = new BlueprintBlock(block);
-            blocks[block.pos, block.layer] = new Block(block);
-        }
-    }
-
-    public void Savebind(ISaveBinder save) {
-        save.BindValue("name", ref name);
-        save.BindList("crew", ref crew);
-
-
-        if (save is XmlSaveWriter) {
-            save.BindSet("blocks", ref blocks.allBlocks);
-            save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
-        } else {
-            save.BindSet("blocks", ref blocks.allBlocks);
-            save.BindSet("blueprint", ref blueprintBlocks.allBlocks);
-
-            foreach (var block in blocks.allBlocks) {
-                blocks[block.pos, block.layer] = block;
-            }
-
-            foreach (var blue in blueprintBlocks.allBlocks) {
-                blueprintBlocks[blue.pos, blue.layer] = blue;
-            }
-        }
     }
 
     public Blockform LoadBlockform() {

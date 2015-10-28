@@ -32,7 +32,7 @@ public class ShipControl : MonoBehaviour {
         selector.GetComponent<SpriteRenderer>().color = Color.green;
         selector.gameObject.SetActive(true);
         selectedCrew = crew;
-        Selection.activeGameObject = crew.body.gameObject;
+        Selection.activeGameObject = crew.gameObject;
      }
 
     void DeselectBlock(Block block) {

@@ -63,7 +63,7 @@ public static class CrewManager {
         if (name == null) name = Util.GetRandom(names);
         if (faction == null && ship != null) faction = ship.faction;
 
-        var crew = Crew.CreateInstance<Crew>();
+        var crew = Pool.For("Crew").Attach<Crew>(Game.galaxy.crewHolder);
         crew.Initialize(name, faction);
 
         if (ship != null) crew.ship = ship;
@@ -92,16 +92,23 @@ public class CrewOpinion {
     }
 }
 
-public class Crew : ScriptableObject, ISaveBindable {
+public class Crew : PoolBehaviour {
     private Ship _ship;
+
     public readonly CrewOpinion opinion;
+    public Faction faction;    
     public int maxHealth = 100;
     public int health = 100;
-    public Color color;
-    public new string name;    
-    public Faction faction;    
+    [ReadOnlyAttribute]
     public CrewBody body;
+    [ReadOnlyAttribute]
     public CrewMind mind;
+
+    public Color color {
+        get {
+            return Color.grey;
+        }
+    }
 
     public Crew() {
         this.opinion = new CrewOpinion(this);
@@ -110,13 +117,6 @@ public class Crew : ScriptableObject, ISaveBindable {
     public void Initialize(string name, Faction faction) {
         this.name = name;
         this.faction = faction;
-        color = Color.grey;
-    }
-
-    public void Savebind(ISaveBinder save) {
-        save.BindValue("name", ref name);
-        save.BindRef("faction", ref faction);
-        save.BindValue("health", ref health);
     }
 
     public Ship ship {

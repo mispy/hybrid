@@ -35,7 +35,7 @@ public struct IntRect {
 }
 
 [Serializable]
-public struct IntVector2 : ISaveAsString {    
+public struct IntVector2 {    
     [SerializeField]
     public int x;
     [SerializeField]

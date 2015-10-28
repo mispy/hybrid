@@ -6,17 +6,6 @@ using System.Xml.Serialization;
 using System.Linq;
 
 public class DebugMenu : MonoBehaviour {
-    public void SaveTemplate() {
-        var template = new ShipTemplate(Game.playerShip);
-        Save.Write(template);
-/*        var ship = Game.playerShip;
-        if (ship == null) return;
-        var data = ShipManager.Pack(ship);
-        var path = Application.dataPath + "/Ships/" + ship.name + ".xml";
-        Save.Dump(data, path);
-        Game.main.BriefMessage("Saved " + path);*/
-    }
-
     public void NewShip() {
         var ship = Game.playerShip;
 		foreach (var pos in ship.blocks.FilledPositions) {
@@ -66,7 +55,6 @@ public class DebugMenu : MonoBehaviour {
     }
 
     void Start() {
-        InputEvent.For(KeyCode.S).Bind(this, SaveTemplate);
         InputEvent.For(KeyCode.N).Bind(this, NewShip);
         InputEvent.For(KeyCode.E).Bind(this, SpawnEnemy);
         InputEvent.For(KeyCode.V).Bind(this, ToggleVisibility);

@@ -15,6 +15,7 @@ public class SectorKind : MonoBehaviour {
     }
 
     public void OnEnable() {
+        Game.playerShip = Ship.FromTemplate(Game.state.playerShipTemplate);
         Game.activeSector.RealizeShip(Game.playerShip, new Vector2(0, -bounds.transform.localScale.y));
         Game.state.gameObject.SetActive(true);
         Game.activeSector.gameObject.SetActive(true);

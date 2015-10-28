@@ -11,7 +11,7 @@ public enum BlockLayer {
 }
 
 [InitializeOnLoad]
-public class Block : ISaveBindable {
+public class Block {
     public static int spaceLayer;
     public static int floorLayer;
     public static int wallLayer;
@@ -85,18 +85,6 @@ public class Block : ISaveBindable {
     }
 
     public BlockType type;
-
-    public List<ISaveBindable> extraData = new List<ISaveBindable>();
-
-    public T GetExtraData<T>() {
-        foreach (var datum in extraData) {
-            if (datum.GetType() == typeof(T)) {
-                return (T)datum;
-            }
-        }
-
-        return default(T);
-    }
 
     public bool isPowered = true;
 
@@ -173,18 +161,6 @@ public class Block : ISaveBindable {
             }
 
             return baseTile.up;
-        }
-    }
-
-    public virtual void Savebind(ISaveBinder save) {
-        save.BindRef("type", ref type);
-        if (save is XmlSaveReader)
-            MakeType(type);
-        save.BindValue("position", ref pos);
-        save.BindValue("facing", ref facing);
-
-        foreach (var datum in extraData) {
-            datum.Savebind(save);
         }
     }
 

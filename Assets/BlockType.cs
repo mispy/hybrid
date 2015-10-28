@@ -31,7 +31,7 @@ public class BlockComponent : PoolBehaviour {
 }
 
 
-public class BlockType : MonoBehaviour, ISaveAsRef {
+public class BlockType : MonoBehaviour {
     [Tooltip("The mass value of each block is added to the mass of a ship rigidBody.")]
     public float mass;
 

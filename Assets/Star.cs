@@ -6,7 +6,7 @@ public class Star : MonoBehaviour {
     public List<Sector> sectors = new List<Sector>();
 
     public static Star[] all {
-        get { return Game.galaxy.stars.GetComponentsInChildren<Star>(); }
+        get { return Game.state.GetComponentsInChildren<Star>(); }
     }
 
     public Vector2 galaxyPos {

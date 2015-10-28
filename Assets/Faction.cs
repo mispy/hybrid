@@ -42,7 +42,7 @@ public class FactionOpinion {
     }
 }
 
-public class Faction : MonoBehaviour, IOpinionable, ISaveAsRef {
+public class Faction : MonoBehaviour, IOpinionable {
     public static Dictionary<string, Faction> byId = new Dictionary<string, Faction>();
     public static Faction[] all {
         get { return Game.galaxy.GetComponentsInChildren<Faction>(); }

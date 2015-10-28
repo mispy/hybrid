@@ -25,10 +25,12 @@ public class CrewMind : MonoBehaviour {
 	public LineRenderer pathLine;
 
     void Awake() {
-        body = GetComponentInParent<CrewBody>();
-        pathLine = GetComponent<LineRenderer>();
+        body = GetComponent<CrewBody>();
+        pathLine = gameObject.AddComponent<LineRenderer>();
+        pathLine.material = GetComponent<SpriteRenderer>().material;
+        pathLine.SetWidth(0.1f, 0.1f);
+        pathLine.SetColors(Color.green, Color.green);
         pathLine.sortingLayerName = "UI";
-
     }
 
     void OnEnable() {

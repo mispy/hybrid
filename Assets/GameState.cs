@@ -146,6 +146,7 @@ public static class Game {
 public class GameState : MonoBehaviour {       
     public Canvas canvas;
     public Text debugText;
+    public ShipTemplate2 playerShipTemplate;
     public Ship playerShip;
 
     public void UpdateRefs() {
@@ -166,11 +167,6 @@ public class GameState : MonoBehaviour {
 
     public void Awake() {
         UpdateRefs();
-
-        ShipTemplate.LoadAll();
-        foreach (var template in ShipTemplate.byId.Values) {
-            Save.Write(template);
-        }
     }
 
     public void OnEnable() {
@@ -199,10 +195,6 @@ public class GameState : MonoBehaviour {
     }
 
     public Text messageText;
-
-    void Start() {        
-        //Game.activeSector.RealizeShip(Game.playerShip);
-    }
 
     // Update is called once per frame
     void Update() {

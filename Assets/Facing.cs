@@ -7,7 +7,7 @@ public class InvalidFacingException : Exception {
 }
 
 [Serializable]
-public struct Facing : ISaveAsString {
+public struct Facing {
     [SerializeField]
     private int index;
     public static Facing up = new Facing(2);

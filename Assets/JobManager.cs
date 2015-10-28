@@ -169,7 +169,7 @@ public class JobManager : MonoBehaviour {
         foreach (var crew in ship.crew) {
             if (crew.job != null) {
                 if (crew.job.isFinished) {
-					Debug.LogFormat("Job finished: {0}", crew.job);
+					//Debug.LogFormat("Job finished: {0}", crew.job);
                     crew.job = null;
 				} else {
                     crew.job.Update();

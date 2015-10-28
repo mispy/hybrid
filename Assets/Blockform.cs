@@ -144,12 +144,11 @@ public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
 		box.isTrigger = true;
 
         foreach (var crew in ship.crew) {
-            var body = Pool.For("CrewBody").Attach<CrewBody>(transform, false);
+            crew.transform.SetParent(transform);
             var floor = Util.GetRandom(blocks.Find("Floor").ToList());
-            body.transform.position = BlockToWorldPos(floor);
-            body.crew = crew;
-            body.name = crew.name;
-            body.gameObject.SetActive(true);
+            crew.transform.position = BlockToWorldPos(floor);
+            //Pool.For("CrewBody").Attach<CrewBody>(crew.transform);
+            crew.gameObject.AddComponent<CrewBody>();
         }
     }
 

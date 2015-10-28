@@ -49,7 +49,6 @@ public class Marker : MonoBehaviour, ISerializationCallbackReceiver {
     void UpdateMatches() {
         matchingTemplates.Clear();
         foreach (var template in ShipTemplate2.All) {
-            Debug.Log(template);
             if (this.Matches(template)) {
                 matchingTemplates.Add(template);
             }
