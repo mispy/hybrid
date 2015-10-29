@@ -77,7 +77,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 
     public List<BlockData> blockData = new List<BlockData>();
 
-    public BlockMap() {
+    public override void OnCreate() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -118,6 +118,8 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     public void OnAfterDeserialize() {
+        OnCreate();
+
         foreach (var data in blockData) {
             var block = new Block(BlockType.FromId(data.type.id));
             block.facing = data.facing;
