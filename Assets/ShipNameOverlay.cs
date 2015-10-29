@@ -30,6 +30,6 @@ public class ShipNameOverlay : MonoBehaviour {
         transform.localPosition = Vector3.down * Mathf.Abs(ship.form.box.bounds.extents.y);
 
         shipName.text = ship.name;
-		shipFaction.text = ship.faction == null ? "Neutral" : ship.faction.name;
+		shipFaction.text = ship.faction == null ? "Independent" : ship.faction.name;
     }
 }

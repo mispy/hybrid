@@ -135,6 +135,10 @@ public static class Game {
     }
     
     public static void UnloadSector() {
+        foreach (var form in Game.activeSector.blockforms.ToList()) {
+            form.ship.UnloadBlockform();
+        }
+
         foreach (Transform child in Game.activeSector.contents) {
             Pool.Recycle(child.gameObject);
         }

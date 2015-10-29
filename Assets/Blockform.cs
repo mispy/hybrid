@@ -21,34 +21,33 @@ public class ShipEditor : Editor {
     }
 }
 
-public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
+public class Blockform : PoolBehaviour {
+    [ReadOnlyAttribute]
     public Ship ship;
-    
-    public Blueprint blueprint { get; private set; }
-    public BlockMap blocks;
-    
-    public TileRenderer tiles { get; private set; }
-    
-    public Rigidbody rigidBody;
+    [ReadOnlyAttribute]
     public Bounds localBounds = new Bounds();
-    public BoxCollider box;
-    public ShipDamage damage;
-    
-    public bool inertia = false;
-    
-    public Shields shields = null;
-    
+    [ReadOnlyAttribute]
     public Vector3 centerOfMass;
-    public InteriorFog fog;
-    
-    
+    [ReadOnlyAttribute]
     public List<CrewBody> maglockedCrew = new List<CrewBody>();
-    private bool needsMassUpdate = true;
-    
-    public Transform blockComponentHolder;
-    public SpacePather pather;
-    
+    [ReadOnlyAttribute]
     public HashSet<Block> poweredWeapons = new HashSet<Block>();
+
+    public BlockMap blocks { get; private set; }
+    public Blueprint blueprint { get; private set; }    
+    public TileRenderer tiles { get; private set; }
+    public Rigidbody rigidBody { get; private set; }
+    public InteriorFog fog { get; private set; }
+    public Transform blockComponentHolder { get; private set; }
+    public SpacePather pather { get; private set; }
+    public BoxCollider box { get; private set; }
+    public ShipDamage damage { get; private set; }
+    [HideInInspector]
+    public Shields shields;
+
+
+    private bool needsMassUpdate = true;
+
 
     public void OnBeforeSerialize() {
     }
@@ -103,7 +102,7 @@ public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
 		}
 	}
 
-    public Dictionary<Type, HashSet<BlockComponent>> blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
+    public Dictionary<Type, HashSet<BlockComponent>> blockCompCache;
 
     public IEnumerable<T> GetBlockComponents<T>() {
         if (!blockCompCache.ContainsKey(typeof(T)))
@@ -152,7 +151,15 @@ public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
         }
     }
 
+    public void OnDestroy() {
+        foreach (Transform child in transform) {
+            Pool.Recycle(child.gameObject);
+        }
+    }
+
     void OnEnable() {                
+        blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
+
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
 
@@ -169,6 +176,8 @@ public class Blockform : PoolBehaviour, ISerializationCallbackReceiver {
     }
     
     void OnDisable() {
+        blockCompCache.Clear();
+
         Pool.Recycle(blockComponentHolder.gameObject);
 
         blocks.OnBlockRemoved -= OnBlockRemoved;

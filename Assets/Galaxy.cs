@@ -17,19 +17,14 @@ public class GalaxyEditor : Editor {
 }
 
 public class Galaxy : PoolBehaviour {
+    // Scale the passage of time for the rest of the galaxy while
+    // inside a sector
+    public static float timeScale;
     public static float deltaTime;
     public Transform starHolder;
     public Transform factionHolder;
     public Transform shipHolder;
     public Transform crewHolder;
-
-    public void Simulate(float deltaTime) {
-        Galaxy.deltaTime = deltaTime;
-
-        foreach (var ship in Ship.all) {
-            ship.Simulate(deltaTime);
-        }
-    }
 
     public GalaxyPos RandomPosition() {
         var cosmicWidth = 100;
@@ -54,12 +49,10 @@ public class Galaxy : PoolBehaviour {
         crewHolder = Pool.For("Holder").Attach<Transform>(transform);
         crewHolder.name = "Crew";
 
-
         for (var i = 0; i < 100; i++) {
             var star = Pool.For("Star").Attach<Star>(starHolder);
             star.transform.position = RandomPosition().vec;
         }
-
 
         Faction.Create("Dragons");
         Faction.Create("Mushrooms");

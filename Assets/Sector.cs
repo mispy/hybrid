@@ -72,8 +72,6 @@ public class Sector {
         ship.galaxyPos = galaxyPos;
         ships.Add(ship);*/
         
-        ship.sectorPos = pos;
-        
         if (this == Game.activeSector.sector) {
             Game.activeSector.RealizeShip(ship);
         }

@@ -3,13 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ShipCollision : PoolBehaviour {
-    [SerializeField]
-    Blockform form;
-    [SerializeField]
-    BlockMap blocks;
-    [SerializeField]
-    Transform collidersHolder;
-
+    public Blockform form { get; private set; }
+    public BlockMap blocks { get; private set; }
+    public Transform collidersHolder { get; private set; }
     public Dictionary<IntVector2, Collider> colliders { get; private set; }
 
 

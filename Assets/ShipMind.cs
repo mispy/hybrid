@@ -89,9 +89,13 @@ public class FleeingTactic : PoolBehaviour {
 }
 
 public class ShipMind : PoolBehaviour {
+    [HideInInspector]
     public Ship ship;
+    [HideInInspector]
     public Blockform form;
+    [ReadOnlyAttribute]
     public Blockform nearestEnemy;
+    [ReadOnlyAttribute]
 	public PoolBehaviour tactic;
 
     // Use this for initialization

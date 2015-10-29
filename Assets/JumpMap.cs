@@ -11,9 +11,8 @@ public class JumpMap : PoolBehaviour {
     Color currentColor = new Color (0f, 1f, 1f, 1f);
 
     LineRenderer lineRenderer;
-    List<Jumpable> beacons = new List<Jumpable>();
-    List<JumpShip> jumpShips = new List<JumpShip>();
-    Jumpable selectedBeacon;
+    Jumpable[] jumpables;
+    Jumpable selectedJump;
     SectorInfo sectorInfo;
     Canvas canvas;
     Transform selector;
@@ -27,15 +26,10 @@ public class JumpMap : PoolBehaviour {
     bool isJumping = false;
     Transform contents;
 
-
     public static void Activate() {
         Game.UnloadSector();
         Game.mainCamera = Game.jumpMap.GetComponentsInChildren<Camera>(includeInactive: true).First();
         Game.jumpMap.gameObject.SetActive(true);
-    }
-
-    public Vector3 GalaxyToWorldPos(GalaxyPos galaxyPos) {
-        return new Vector3(galaxyPos.x, galaxyPos.y, 0);
     }
 
     void Awake() {
@@ -49,7 +43,7 @@ public class JumpMap : PoolBehaviour {
         foreach (var button in GetComponentsInChildren<Button>(includeInactive: true)) {
             if (button.name == "FoldButton") {
                 foldButton = button;
-                foldButton.onClick.AddListener(() => FoldJump(selectedBeacon));
+                foldButton.onClick.AddListener(() => FoldJump());
             }
             
             if (button.name == "EnterButton") {
@@ -71,33 +65,16 @@ public class JumpMap : PoolBehaviour {
 
     void OnEnable() {
         Game.mainCamera.orthographicSize = 4;
+        Game.mainCamera.transform.position = Game.playerShip.transform.position;
         //var bounds = Util.GetCameraBounds(Game.mainCamera);
+
+        jumpables = Game.galaxy.GetComponentsInChildren<Jumpable>();       
 
         foreach (Transform child in contents)
             Pool.Recycle(child.gameObject);
-        beacons.Clear();
-        jumpShips.Clear();
+         
 
-        foreach (Star star in Game.galaxy.starHolder) {
-            var beacon = Pool.For("Star").Attach<Jumpable>(contents);
-            beacon.transform.position = star.transform.position;
-            beacon.renderer.color = star.faction.color;
-            beacons.Add(beacon);
-        }
-
-        foreach (var ship in Ship.all) {
-            if (ship.isStationary) continue;
-
-            var jumpShip = Pool.For("JumpShip").Attach<JumpShip>(contents);
-            jumpShip.Initialize(ship);
-            jumpShips.Add(jumpShip);
-
-            if (ship == Game.playerShip) {
-                jumpShip.name = "JumpShip (Player)";
-            }
-        }
-
-        SelectBeacon(Game.playerShip.jumpPos);
+        SelectJumpable(Game.playerShip.jumpPos);
         DrawFactions();
     }
 
@@ -108,28 +85,28 @@ public class JumpMap : PoolBehaviour {
 
     void Wait() {
         isWaiting = true;
+        Galaxy.timeScale = 0f;
         waitButton.gameObject.SetActive(false);
         stopWaitButton.gameObject.SetActive(true);
     }
 
     void StopWait() {
         isWaiting = false;
+        Galaxy.timeScale = 1f;
         waitButton.gameObject.SetActive(true);
         stopWaitButton.gameObject.SetActive(false);
     }
 
-    void FoldJump(Jumpable dest) {
-        Game.playerShip.FoldJump(dest);
+    void FoldJump() {
+        Game.playerShip.FoldJump(selectedJump);
     }
 
-    void SelectBeacon(Jumpable beacon) {
-        selectedBeacon = beacon;
-        selector.transform.position = beacon.transform.position;
-        sectorInfo.ShowInfo(selectedBeacon.sector);
+    void SelectJumpable(Jumpable jumpable) {
+        selectedJump = jumpable;
+        selector.transform.position = jumpable.transform.position;
     }
 
     void DrawFactions() {
-        var beacon = beacons[0];
         /*var circle = Pool.For("FactionCircle").TakeObject();
         circle.transform.parent = beacon.transform;
         circle.transform.localPosition = Vector3.zero;
@@ -141,7 +118,7 @@ public class JumpMap : PoolBehaviour {
     void Update() {
         Vector2 pz = Camera.main.ScreenToWorldPoint(Input.mousePosition); 
 
-        var nearMouseBeacon = beacons.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First();
+        var nearMouseJump = jumpables.OrderBy ((b) => Vector3.Distance (b.transform.position, pz)).First();
         
         if (Input.GetKeyDown(KeyCode.J)) {
             gameObject.SetActive(false);
@@ -149,11 +126,11 @@ public class JumpMap : PoolBehaviour {
 
         if (!EventSystem.current.IsPointerOverGameObject()) {
             if (Input.GetMouseButtonDown(0)) {
-                SelectBeacon(nearMouseBeacon);
+                SelectJumpable(nearMouseJump);
             }
         }
         
-        if (selectedBeacon != null && selectedBeacon == Game.playerShip.jumpPos) {
+        if (selectedJump != null && selectedJump == Game.playerShip.jumpPos) {
             foldButton.gameObject.SetActive(false);
             enterButton.gameObject.SetActive(true);
         } else {
@@ -161,9 +138,6 @@ public class JumpMap : PoolBehaviour {
             enterButton.gameObject.SetActive(false);
         }
 
-        if (isWaiting || Game.playerShip.jumpDest != null)
-            Game.galaxy.Simulate(Time.deltaTime);
-
-        Game.MoveCamera(GalaxyToWorldPos(Game.playerShip.galaxyPos));
+        Game.MoveCamera(Game.playerShip.galaxyPos);
     }
 }

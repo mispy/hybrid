@@ -35,10 +35,6 @@ public class ActiveSector : MonoBehaviour {
         return pos.magnitude > sector.radius;
     }
 
-    public void Update() {
-        Game.galaxy.Simulate(Time.deltaTime);
-    }
-
     public void OnEnable() {
         Game.mainCamera = GetComponentInChildren<Camera>();
     }
@@ -52,6 +48,6 @@ public class ActiveSector : MonoBehaviour {
     }
 
     public void RealizeShip(Ship ship) {
-        RealizeShip(ship, ship.sectorPos);
+        RealizeShip(ship, new Vector2(0, 0));
     }
 }

@@ -53,8 +53,7 @@ public class Ship : PoolBehaviour, IOpinionable {
     public List<Crew> crew = new List<Crew>();
     public float scrapAvailable = 0f;
     public float jumpSpeed = 10f;
-    public GalaxyPos galaxyPos;
-    public Vector2 sectorPos;
+    public Vector2 galaxyPos;
     public Jumpable jumpPos;
     public Jumpable jumpDest;
     public new string name;
@@ -100,11 +99,16 @@ public class Ship : PoolBehaviour, IOpinionable {
     }
 
     public Blockform LoadBlockform() {
-        var blockform = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents, false);
+        var blockform = Pool.For("Blockform").Attach<Blockform>(transform, false);
         blockform.Initialize(this);
         this.form = blockform;
         blockform.gameObject.SetActive(true);
         return blockform;
+    }
+
+    public void UnloadBlockform() {
+        Pool.Recycle(form.gameObject);
+        transform.SetParent(Game.galaxy.shipHolder);
     }
 
     public void OnBlockAdded(Block newBlock) {
@@ -127,13 +131,13 @@ public class Ship : PoolBehaviour, IOpinionable {
         strategy.Simulate();
 
         if (jumpDest != null) {
-            var targetDir = (jumpDest.galaxyPos - galaxyPos.vec).normalized;
+            var targetDir = (jumpDest.galaxyPos - galaxyPos).normalized;
             var dist = targetDir * jumpSpeed * deltaTime;
             
             if (Vector2.Distance(jumpDest.galaxyPos, galaxyPos) < dist.magnitude) {
                 //destSector.JumpEnterShip(this, destSector.galaxyPos.vec - galaxyPos.vec);
             } else {
-                galaxyPos = new GalaxyPos(null, galaxyPos.vec + dist);
+                galaxyPos = new GalaxyPos(null, galaxyPos + dist);
             }
         }
 
