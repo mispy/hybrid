@@ -11,9 +11,19 @@ public class ShipEditor : Editor {
         Blockform form = (Blockform)target;
         
         if (GUILayout.Button("Save To Template")) {
-            UnityEngine.Object prefab = PrefabUtility.CreateEmptyPrefab("Assets/Resources/Ships/" + target.name + ".prefab");
-            var template = ShipTemplate2.FromShip(form.ship);
-            PrefabUtility.ReplacePrefab(template.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
+            var path = "Assets/Resources/Ships/" + target.name + ".prefab";
+
+            var prefab = Resources.Load(path);
+
+            if (prefab == null) {
+                var template = Pool.For("ShipTemplate").Attach<ShipTemplate2>(Game.state.transform);
+                PrefabUtility.CreatePrefab(path, template.gameObject);
+            } else {
+                var template = (prefab as GameObject).GetComponent<ShipTemplate2>();
+                template.Fill(form.ship);
+                PrefabUtility.ReplacePrefab(template.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
+            }
+
         }
 
 

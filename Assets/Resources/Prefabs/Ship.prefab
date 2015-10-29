@@ -44,7 +44,7 @@ MonoBehaviour:
   crew: []
   scrapAvailable: 0
   jumpSpeed: 10
-  sectorPos: {x: 0, y: 0}
+  galaxyPos: {x: 0, y: 0}
   jumpPos: {fileID: 0}
   jumpDest: {fileID: 0}
   name: 

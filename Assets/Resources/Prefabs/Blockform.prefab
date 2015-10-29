@@ -231,9 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c84419d1f1e4b46aa64e7b9a9c8501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  form: {fileID: 0}
-  blocks: {fileID: 0}
-  collidersHolder: {fileID: 0}
 --- !u!114 &11458008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -246,20 +243,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ship: {fileID: 0}
-  blocks: {fileID: 0}
-  rigidBody: {fileID: 0}
   localBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
-  box: {fileID: 0}
-  damage: {fileID: 0}
-  inertia: 0
-  shields: {fileID: 0}
   centerOfMass: {x: 0, y: 0, z: 0}
-  fog: {fileID: 0}
   maglockedCrew: []
-  blockComponentHolder: {fileID: 0}
-  pather: {fileID: 0}
+  shields: {fileID: 0}
 --- !u!114 &11458202
 MonoBehaviour:
   m_ObjectHideFlags: 1
