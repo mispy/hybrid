@@ -26,13 +26,6 @@ public class ShipTemplate2 : PoolBehaviour {
         }
     }
 
-
-    public static ShipTemplate2 FromShip(Ship ship) {
-        var template = Pool.For("ShipTemplate").Attach<ShipTemplate2>(Game.state.transform);
-        template.Fill(ship);
-        return template;
-    }
-
     public string tagged = "";
 
     public string[] tags {

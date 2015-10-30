@@ -24,7 +24,7 @@ public static class Game {
     public static Galaxy galaxy;
 
     public static Vector2 mousePos;
-    public static ActiveSector activeSector;
+    public static SectorKind activeSector;
     public static JumpMap jumpMap;
     public static ShipControl shipControl;
     public static AbilityMenu abilityMenu;
@@ -116,6 +116,7 @@ public static class Game {
             }
         }
     }
+
     
     public static void MoveCamera(Vector2 targetPos) {
         var pos = new Vector3(targetPos.x, targetPos.y, Game.mainCamera.transform.position.z);
@@ -175,6 +176,18 @@ public class GameState : MonoBehaviour {
 
     public void OnEnable() {
         UpdateRefs();
+    }
+
+    public void Start() {
+        Game.playerShip = Ship.FromTemplate(Game.state.playerShipTemplate);
+
+        var jumpables = Util.Shuffle(Game.galaxy.GetComponentsInChildren<Jumpable>());
+        foreach (var jump in jumpables) {
+            if (jump.sectors.Any()) {
+                Game.LoadSector(Util.GetRandom(jump.sectors));
+                Game.activeSector.RealizeShip(Game.playerShip);
+            }
+        }
     }
 
     public void BriefMessage(string message) {

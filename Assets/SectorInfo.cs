@@ -8,8 +8,4 @@ public class SectorInfo : MonoBehaviour {
     void Awake() {
         text = GetComponentInChildren<Text>();
     }
-	
-    public void ShowInfo(Sector sector) {
-	    //text.text = sector.type.Describe();
-	}
 }

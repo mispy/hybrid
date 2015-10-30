@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class ActiveSector : MonoBehaviour {
-    public Sector sector;
-
     private Transform _contents;
     public Transform contents {
         get {
@@ -30,10 +28,6 @@ public class ActiveSector : MonoBehaviour {
     }
 
     public List<Blockform> blockforms;
-
-    public bool IsOutsideBounds(Vector3 pos) {
-        return pos.magnitude > sector.radius;
-    }
 
     public void OnEnable() {
         Game.mainCamera = GetComponentInChildren<Camera>();

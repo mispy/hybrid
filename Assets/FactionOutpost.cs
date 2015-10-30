@@ -2,7 +2,6 @@
 using System.Collections;
 
 public class FactionOutpost : PoolBehaviour {
-    public Sector sector;
     public Ship station { get; private set; }
     public Sprite sprite {
         get { return Game.Sprite("TradeStation"); }

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
 public class ConflictZone : MonoBehaviour {
-    public Sector sector;
     public Faction attacking;
     public Faction defending;
     public Sprite sprite {
@@ -40,40 +39,5 @@ public class ConflictZone : MonoBehaviour {
         s += "Intensity: Low\n";
 //        s += "{0} is fighting {1} for control of this star."
         return s;
-    }
-}
-
-[Serializable]
-public class Sector {
-    public string Id {
-        get { return String.Format("{0}, {1}", galaxyPos.x, galaxyPos.y); }
-    }
-
-    public GalaxyPos galaxyPos;
-    public float radius = 200f;
-
-    public List<Ship> ships = new List<Ship>();
-    public Jumpable jumpBeacon;
-    
-    public Vector2 RandomEdge() {
-        return new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f))*radius*1.5f;
-    }
-
-    public void JumpEnterShip(Ship ship, Vector2 entryVector) {
-        var pos = radius * 1.2f * (entryVector.normalized * -1f);
-        PlaceShip(ship, pos);
-    }
-
-    public void PlaceShip(Ship ship, Vector2 pos) {
-        /*ship.jumpDest = null;
-        if (ship.jumpPos != null)
-            ship.jumpPos.ships.Remove(ship);
-        ship.sector = this;
-        ship.galaxyPos = galaxyPos;
-        ships.Add(ship);*/
-        
-        if (this == Game.activeSector.sector) {
-            Game.activeSector.RealizeShip(ship);
-        }
     }
 }

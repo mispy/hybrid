@@ -3,8 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Star : MonoBehaviour {
-    public List<Sector> sectors = new List<Sector>();
-
     public static Star[] all {
         get { return Game.state.GetComponentsInChildren<Star>(); }
     }

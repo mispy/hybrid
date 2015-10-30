@@ -24,7 +24,6 @@ public class JumpMap : PoolBehaviour {
 
     bool isWaiting = false;
     bool isJumping = false;
-    Transform contents;
 
     public static void Activate() {
         Game.UnloadSector();
@@ -36,9 +35,6 @@ public class JumpMap : PoolBehaviour {
         canvas = GetComponentInChildren<Canvas>();
         sectorInfo = GetComponentInChildren<SectorInfo>();
         selector = Pool.For("Selector").Attach<Transform>(transform);
-        contents = Pool.For("Holder").Attach<Transform>(transform);
-        contents.name = "Contents";
-        contents.gameObject.SetActive(true);
 
         foreach (var button in GetComponentsInChildren<Button>(includeInactive: true)) {
             if (button.name == "FoldButton") {
@@ -68,11 +64,7 @@ public class JumpMap : PoolBehaviour {
         Game.mainCamera.transform.position = Game.playerShip.transform.position;
         //var bounds = Util.GetCameraBounds(Game.mainCamera);
 
-        jumpables = Game.galaxy.GetComponentsInChildren<Jumpable>();       
-
-        foreach (Transform child in contents)
-            Pool.Recycle(child.gameObject);
-         
+        jumpables = Game.galaxy.GetComponentsInChildren<Jumpable>();                
 
         SelectJumpable(Game.playerShip.jumpPos);
         DrawFactions();

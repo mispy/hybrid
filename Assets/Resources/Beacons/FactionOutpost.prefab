@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 412674}
   - 212: {fileID: 21230528}
   - 114: {fileID: 11463428}
-  - 114: {fileID: 11484914}
   m_Layer: 0
   m_Name: FactionOutpost
   m_TagString: Untagged
@@ -42,25 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 0}
-  sector:
-    radius: 200
-    ships: []
-    jumpBeacon: {fileID: 0}
---- !u!114 &11484914
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 160136}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5761dfebbd5cd4048be8fa7ab032f50a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sector:
-    radius: 200
-    ships: []
-    jumpBeacon: {fileID: 0}
+  ships: []
 --- !u!212 &21230528
 SpriteRenderer:
   m_ObjectHideFlags: 1
