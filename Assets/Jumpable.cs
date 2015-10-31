@@ -8,6 +8,12 @@ public class Jumpable : PoolBehaviour {
     public List<Ship> ships = new List<Ship>();
 
 
+    public SectorKind[] sectors {
+        get {
+            return new SectorKind[0];
+        }
+    }
+
     public Vector2 galaxyPos {
         get { return (Vector2)transform.position; }
     }

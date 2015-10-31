@@ -74,7 +74,7 @@ public class FleeingTactic : PoolBehaviour {
 	}
 
 	void UpdatePath() {
-		var nearestEdge = transform.position.normalized * Game.activeSector.sector.radius;
+		var nearestEdge = transform.position.normalized * Game.activeSector.radius;
 		path = form.pather.PathFromNose(nearestEdge);
 
 		if (form.canFoldJump) {

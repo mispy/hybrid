@@ -27,7 +27,17 @@ public class ActiveSector : MonoBehaviour {
         }
     }
 
+    public float radius {
+        get {
+            return 50f;
+        }
+    }
+
     public List<Blockform> blockforms;
+
+    public bool IsOutsideBounds(Vector3 pos) {
+        return pos.magnitude > 50f;
+    }
 
     public void OnEnable() {
         Game.mainCamera = GetComponentInChildren<Camera>();

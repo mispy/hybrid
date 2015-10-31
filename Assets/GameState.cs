@@ -24,7 +24,7 @@ public static class Game {
     public static Galaxy galaxy;
 
     public static Vector2 mousePos;
-    public static SectorKind activeSector;
+    public static ActiveSector activeSector;
     public static JumpMap jumpMap;
     public static ShipControl shipControl;
     public static AbilityMenu abilityMenu;
@@ -132,7 +132,9 @@ public static class Game {
         Time.timeScale = 1.0f;
     }
 
-    public static void LoadSector(SectorKind sector) {
+    public static void LoadSector() {
+        Game.activeSector.gameObject.SetActive(true);
+
     }
     
     public static void UnloadSector() {
@@ -181,10 +183,12 @@ public class GameState : MonoBehaviour {
     public void Start() {
         Game.playerShip = Ship.FromTemplate(Game.state.playerShipTemplate);
 
-        var jumpables = Util.Shuffle(Game.galaxy.GetComponentsInChildren<Jumpable>());
+        var jumpables = Util.Shuffle(Game.galaxy.GetComponentsInChildren<Jumpable>().ToList());
+        Game.LoadSector();
+        Game.activeSector.RealizeShip(Game.playerShip);
         foreach (var jump in jumpables) {
             if (jump.sectors.Any()) {
-                Game.LoadSector(Util.GetRandom(jump.sectors));
+                //Game.LoadSector(Util.GetRandom(jump.sectors));
                 Game.activeSector.RealizeShip(Game.playerShip);
             }
         }
