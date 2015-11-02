@@ -170,6 +170,11 @@ public class ShipControl : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
+        if (Game.playerShip == null) {
+            gameObject.SetActive(false);
+            return;
+        }
+
         ship = Game.playerShip;
 		
 		

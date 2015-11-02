@@ -33,6 +33,7 @@ public static class Game {
     public static WeaponSelect weaponSelect;
     public static DebugMenu debugMenu;
     public static BlockSelector blockSelector;
+    public static CrewBody localPlayer;
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
@@ -192,8 +193,8 @@ public class GameState : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Game.playerShip == null)
-            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        //if (Game.playerShip == null)
+        //    Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
 
         Game.mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
 

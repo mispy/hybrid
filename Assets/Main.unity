@@ -1037,6 +1037,7 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 100938, guid: b843263ecf12f3c4bb172e73a5c837cd, type: 2}
+  - {fileID: 145442, guid: 0cb441b238113c64283f2801aaf24d8a, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -1190,9 +1191,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5e603c36497ce4188da68453e178d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockedForm: {fileID: 0}
-  hoveredForm: {fileID: 0}
-  selector: {fileID: 0}
+  locked: {fileID: 0}
 --- !u!1 &654498783
 GameObject:
   m_ObjectHideFlags: 0

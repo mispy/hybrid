@@ -92,7 +92,6 @@ public class Blockform : PoolBehaviour {
         ship.Initialize(template);
 
         ship.gameObject.SetActive(true);
-        NetworkServer.Spawn(ship.gameObject);
         return ship;
     }
 

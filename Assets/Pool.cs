@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
@@ -91,6 +92,10 @@ public class Pool {
 
             obj.transform.SetParent(null);
             lastIndex += 1;
+
+            if (obj.GetComponent<NetworkIdentity>() != null)
+                NetworkServer.Spawn(obj);
+
             return obj;
         }
 

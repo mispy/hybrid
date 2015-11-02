@@ -1,10 +1,11 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CrewBody : PoolBehaviour {
+public class CrewBody : NetworkBehaviour {
     public Rigidbody rigidBody;
     public new BoxCollider collider;
     public Constructor constructor;
@@ -26,6 +27,7 @@ public class CrewBody : PoolBehaviour {
     public int maxHealth;
     public int health;
 
+    public NetworkTransform netform { get; private set; }
 
     public void TakeDamage(int amount) {
         health -= amount;
@@ -33,23 +35,30 @@ public class CrewBody : PoolBehaviour {
         if (health <= 0)
             Pool.Recycle(this.gameObject);
     }
-    
+
+    void AddRigid() {
+        rigidBody = gameObject.AddComponent<Rigidbody>();
+        rigidBody.drag = 2f;
+        rigidBody.freezeRotation = true;
+    }
+
     void Awake() {
         collider = gameObject.AddComponent<BoxCollider>();
-        rigidBody = gameObject.AddComponent<Rigidbody>();
         weapon = gameObject.AddComponent<CrewWeapon>();
-        mind = gameObject.AddComponent<CrewMind>();
+        mind = gameObject.AddComponent<CrewMind>();      
+        AddRigid();
+        netform = GetComponent<NetworkTransform>();
+        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+
+        gameObject.AddComponent<CrewControl>();
 
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 
-    void OnDestroy() {
-        Destroy(collider);
-        Destroy(rigidBody);
-        Destroy(weapon);
-        Destroy(mind);
+    public override void OnStartLocalPlayer() {
+        Game.localPlayer = this;
     }
-    
+
     public void MaglockMove(IntVector2 bp) {
         maglockMoveBlockPos = bp;
     }
@@ -64,6 +73,7 @@ public class CrewBody : PoolBehaviour {
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);
         Destroy(rigidBody);
+        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
 		MaglockMove(ship.WorldToBlockPos(transform.position));
         
         //if (this == Crew.player)
@@ -74,7 +84,8 @@ public class CrewBody : PoolBehaviour {
         transform.SetParent(Game.activeSector.contents);
        // rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
-		rigidBody = gameObject.AddComponent<Rigidbody>();
+        AddRigid();
+        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
         
