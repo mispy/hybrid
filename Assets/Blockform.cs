@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
 
 [CustomEditor(typeof(Blockform))]
@@ -30,6 +32,7 @@ public class ShipEditor : Editor {
         DrawDefaultInspector();
     }
 }
+#endif
 
 public class Blockform : PoolBehaviour {
     [ReadOnlyAttribute]
@@ -89,6 +92,7 @@ public class Blockform : PoolBehaviour {
         ship.Initialize(template);
 
         ship.gameObject.SetActive(true);
+        NetworkServer.Spawn(ship.gameObject);
         return ship;
     }
 

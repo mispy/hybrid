@@ -6,13 +6,17 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Random = UnityEngine.Random;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public static class SpaceLayer {
     public static LayerMask ShipBounds = LayerMask.GetMask(new string[] { "Bounds" });
 }
 
+#if UNITY_EDITOR
 [InitializeOnLoad]
+#endif
 public static class Game {
     public static GameState state;
 
@@ -130,7 +134,6 @@ public static class Game {
     }
 
     public static void Start() {
-        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
         Game.state.gameObject.SetActive(true);
     }
 }
@@ -189,6 +192,9 @@ public class GameState : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        if (Game.playerShip == null)
+            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+
         Game.mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
 
         InputEvent.Update();

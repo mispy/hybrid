@@ -3,14 +3,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public enum BlockLayer {
     Base = 0,
     Top = 1
 }
 
+#if UNITY_EDITOR
 [InitializeOnLoad]
+#endif
 public class Block {
     public static int spaceLayer;
     public static int floorLayer;

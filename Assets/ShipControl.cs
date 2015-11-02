@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class ShipControl : MonoBehaviour {
     Blockform ship;
@@ -32,7 +34,9 @@ public class ShipControl : MonoBehaviour {
         selector.GetComponent<SpriteRenderer>().color = Color.green;
         selector.gameObject.SetActive(true);
         selectedCrew = crew;
+#if UNITY_EDITOR
         Selection.activeGameObject = crew.gameObject;
+#endif
      }
 
     void DeselectBlock(Block block) {
@@ -69,8 +73,9 @@ public class ShipControl : MonoBehaviour {
             block.gameObject.SendMessage("OnBlockSelected", SendMessageOptions.DontRequireReceiver);
 
         if (block._gameObject != null)
+#if UNITY_EDITOR
             Selection.activeGameObject = block.gameObject;
-
+#endif
         Game.abilityMenu.gameObject.SetActive(true);
         Game.abilityMenu.OnBlockSelectionUpdate();
     }

@@ -3,7 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 public class Tileable {
     public string name;
@@ -53,7 +55,9 @@ public class BaseTile {
     }
 }
 
+#if UNITY_EDITOR
 [InitializeOnLoad]
+#endif
 public class Tile {
     public static List<Texture2D> textures = new List<Texture2D>();
     public static List<BaseTile> baseTiles = new List<BaseTile>();
