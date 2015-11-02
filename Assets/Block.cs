@@ -46,7 +46,7 @@ public class Block {
             }
         }
         
-        return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.form.BlockToWorldPos(block.pos)));
+        return nearbyBlocks.OrderBy(block => Vector2.Distance(center, block.ship.BlockToWorldPos(block.pos)));
     }
     
     public static IEnumerable<Block> AtWorldPos(Vector2 worldPos, bool allowBlueprint = false) {
@@ -128,7 +128,7 @@ public class Block {
     public GameObject gameObject {
         get {
             if (_gameObject == null && ship != null) {
-                ship.form.RealizeBlock(this);
+                ship.RealizeBlock(this);
             }
 
             return _gameObject;
@@ -169,7 +169,7 @@ public class Block {
 
     // these attributes relate to where the block is, rather
     // than what it does
-    public Ship ship;
+    public Blockform ship;
     public int index;
     public IntVector2 pos;
     public BlockLayer layer;

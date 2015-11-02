@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 
 public class CrewBody : PoolBehaviour {
-    public Crew crew;
     public Rigidbody rigidBody;
     public new BoxCollider collider;
     public Constructor constructor;
@@ -24,16 +23,18 @@ public class CrewBody : PoolBehaviour {
     [ReadOnlyAttribute]
     public CrewMind mind;
 
+    public int maxHealth;
+    public int health;
+
+
     public void TakeDamage(int amount) {
-        crew.health -= amount;
+        health -= amount;
         
-        if (crew.health <= 0)
+        if (health <= 0)
             Pool.Recycle(this.gameObject);
     }
     
     void Awake() {
-        crew = GetComponent<Crew>();
-        crew.body = this;
         collider = gameObject.AddComponent<BoxCollider>();
         rigidBody = gameObject.AddComponent<Rigidbody>();
         weapon = gameObject.AddComponent<CrewWeapon>();
@@ -60,8 +61,8 @@ public class CrewBody : PoolBehaviour {
     public void SetMaglock(Blockform ship) {
         maglockShip = ship;
         maglockShip.maglockedCrew.Add(this);
-        crew.transform.rotation = maglockShip.transform.rotation;
-        crew.transform.SetParent(maglockShip.transform);
+        transform.rotation = maglockShip.transform.rotation;
+        transform.SetParent(maglockShip.transform);
         Destroy(rigidBody);
 		MaglockMove(ship.WorldToBlockPos(transform.position));
         
@@ -70,7 +71,7 @@ public class CrewBody : PoolBehaviour {
     }
     
     void StopMaglock() {
-        crew.transform.SetParent(Game.activeSector.contents);
+        transform.SetParent(Game.activeSector.contents);
        // rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
 		rigidBody = gameObject.AddComponent<Rigidbody>();
@@ -82,7 +83,7 @@ public class CrewBody : PoolBehaviour {
     }
     
     bool CanMaglock(Blockform form) {
-        var blockPos = form.WorldToBlockPos(crew.transform.position);
+        var blockPos = form.WorldToBlockPos(transform.position);
         
         if (form.blocks[blockPos, BlockLayer.Base] != null)
             return true;
@@ -114,7 +115,7 @@ public class CrewBody : PoolBehaviour {
         var speed = 15f;
         var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
         
-        var pos = crew.transform.localPosition;
+        var pos = transform.localPosition;
         var dist = targetPos - pos;
         
         if (dist.magnitude > speed*Time.deltaTime) {
@@ -122,7 +123,7 @@ public class CrewBody : PoolBehaviour {
             dist = dist*speed*Time.deltaTime;
         }
         
-        crew.transform.localPosition += dist;
+        transform.localPosition += dist;
     }
     
     void UpdateMaglock() {
@@ -135,7 +136,7 @@ public class CrewBody : PoolBehaviour {
             SetMaglock(form);
         
         if (maglockShip != null) {
-            currentBlockPos = maglockShip.WorldToBlockPos(crew.transform.position);
+            currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
             currentBlock = maglockShip.blocks[currentBlockPos, BlockLayer.Base];
         }
         

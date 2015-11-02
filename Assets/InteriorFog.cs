@@ -46,9 +46,9 @@ public class InteriorFog : MonoBehaviour {
 		
 		for (var i = 0; i < colors.Length; i++) {
 			if (Game.debugVisibility) {
-				colors[i] = form.ship == Game.playerShip ? Color.black : Color.clear;
+				colors[i] = form == Game.playerShip ? Color.black : Color.clear;
 			} else {
-				colors[i] = form.ship == Game.playerShip ? Color.clear : Color.black;
+				colors[i] = form == Game.playerShip ? Color.clear : Color.black;
 			}
 		}
 

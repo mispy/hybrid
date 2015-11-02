@@ -10,7 +10,7 @@ public class CameraControl : PoolBehaviour {
     Vector2 cameraOffset = new Vector2(0, 0);
 
 	public void Start() {
-		lockedForm = Game.playerShip.form;
+		lockedForm = Game.playerShip;
 		selector = Pool.For("Selector").Attach<Transform>(transform);
 	}
 
@@ -45,7 +45,7 @@ public class CameraControl : PoolBehaviour {
 			hoveredForm = form;
 		}
 
-		if (hoveredForm != Game.playerShip.form) {
+		if (hoveredForm != Game.playerShip) {
 			selector.gameObject.SetActive(true);
 			selector.transform.position = hoveredForm.transform.position;
 			selector.transform.rotation = hoveredForm.transform.rotation;
@@ -68,8 +68,8 @@ public class CameraControl : PoolBehaviour {
 		}
 
 		if (lockedForm == null)
-			lockedForm = Game.playerShip.form;
-		if (lockedForm == Game.playerShip.form)
+			lockedForm = Game.playerShip;
+		if (lockedForm == Game.playerShip)
 			camera.transform.rotation = lockedForm.transform.rotation;
 
 		Game.MoveCamera(lockedForm.transform.position + lockedForm.transform.TransformVector(cameraOffset));

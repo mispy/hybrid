@@ -8,10 +8,6 @@ public class BlockSelector : MonoBehaviour {
     public BlockType selectedType;
     List<Button> blockButtons = new List<Button>();
 
-    void Awake() {
-        MainUI.blockSelector = this;
-    }
-
     public void CreateButtons() {
         // Clear any existing content
         blockButtons.Clear();

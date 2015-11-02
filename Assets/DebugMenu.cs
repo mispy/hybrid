@@ -10,9 +10,9 @@ public class DebugMenu : MonoBehaviour {
         var ship = Game.playerShip;
 		foreach (var pos in ship.blocks.FilledPositions) {
 			ship.blocks[pos, BlockLayer.Base] = null;
-			ship.blueprintBlocks[pos, BlockLayer.Base] = null;
+			ship.blueprint.blocks[pos, BlockLayer.Base] = null;
         }
-        ship.SetBlock(0, 0, BlockType.FromId("Floor"));
+       // ship.SetBlock(0, 0, BlockType.FromId("Floor"));
     }
 
     public void MakeAsteroid(Vector2 pos) {                
@@ -46,7 +46,7 @@ public class DebugMenu : MonoBehaviour {
     public void ControlShip() {
         var form = Blockform.AtWorldPos(Game.mousePos);
         if (form != null) {
-            Game.playerShip = form.ship;
+            Game.playerShip = form;
             
             foreach (var f in Game.activeSector.blockforms) {
                 f.fog.UpdateVisibility();

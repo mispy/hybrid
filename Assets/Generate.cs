@@ -6,9 +6,9 @@ using System.Linq;
 using Random = UnityEngine.Random;
 
 public class Generate : MonoBehaviour {
-    // Generate a random contiguous fragment of a ship
-    public static Ship Fragment(Vector2 pos, Ship srcShip, int size) {
-        var frag = new Ship();
+    // Generate a random contiguous fragment of a Blockform
+    public static Blockform Fragment(Vector2 pos, Blockform srcShip, int size) {
+        var frag = new Blockform();
         frag.name = String.Format("Fragment ({0})", srcShip.name);
 
 		var startBlock = srcShip.blocks[Util.GetRandom(srcShip.blocks.FilledPositions.ToList()), BlockLayer.Base];
@@ -34,24 +34,24 @@ public class Generate : MonoBehaviour {
         return frag;
     }
 
-    /*public static Ship Asteroid(Vector2 pos, int radius) {
-        var shipObj = Pool.For("Ship").TakeObject();
-        var ship = shipObj.GetComponent<Ship>();
+    /*public static Blockform Asteroid(Vector2 pos, int radius) {
+        var BlockformObj = Pool.For("Blockform").TakeObject();
+        var Blockform = BlockformObj.GetComponent<Blockform>();
 
-        ship.name = "Asteroid";
+        Blockform.name = "Asteroid";
         for (var x = -radius; x < radius; x++) {
             for (var y = -radius; y < radius; y++) {
                 if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
 
                     //var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-                    ship.SetBlock(x, y, Block.typeByName["Wall"]);
-                    //ship.SetBlock(x, y, "wall"], ori[Random.Range(0, 3)]);
+                    Blockform.SetBlock(x, y, Block.typeByName["Wall"]);
+                    //Blockform.SetBlock(x, y, "wall"], ori[Random.Range(0, 3)]);
                 }
             }
         }
-        shipObj.transform.position = pos;
-        shipObj.SetActive(true);
-        return ship;
+        BlockformObj.transform.position = pos;
+        BlockformObj.SetActive(true);
+        return Blockform;
     }*/
     // Use this for initialization
     void Start () {

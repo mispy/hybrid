@@ -6,10 +6,10 @@ using System.Linq;
 using UnityEditor;
 
 public class ShipControl : MonoBehaviour {
-    Ship ship;
+    Blockform ship;
     Transform selector;
-    Crew selectedCrew = null;
-    public Ship selectedShip { get; private set; }
+    CrewBody selectedCrew = null;
+    public Blockform selectedShip { get; private set; }
 
     public HashSet<Block> selectedBlocks = new HashSet<Block>();
     public Dictionary<Block, Transform> blockSelectors = new Dictionary<Block, Transform>();
@@ -21,14 +21,14 @@ public class ShipControl : MonoBehaviour {
         selectedCrew = null;
     }
 
-    void SelectCrew(Crew crew) {
+    void SelectCrew(CrewBody crew) {
         if (selector == null) {
             selector = Pool.For("Selector").Attach<Transform>(transform);
         }
 
-        selector.transform.position = crew.body.transform.position;
-        selector.transform.rotation = crew.body.transform.rotation;
-        selector.transform.SetParent(crew.body.transform);
+        selector.transform.position = crew.transform.position;
+        selector.transform.rotation = crew.transform.rotation;
+        selector.transform.SetParent(crew.transform);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
         selector.gameObject.SetActive(true);
         selectedCrew = crew;
@@ -55,10 +55,10 @@ public class ShipControl : MonoBehaviour {
 
         var selector = Pool.For("Selector").Attach<Transform>(transform);
 
-        var worldPos = block.ship.form.BlockToWorldPos(block);
+        var worldPos = block.ship.BlockToWorldPos(block);
         selector.transform.position = worldPos;
-        selector.transform.rotation = block.ship.form.transform.rotation;
-        selector.transform.SetParent(block.ship.form.transform);
+        selector.transform.rotation = block.ship.transform.rotation;
+        selector.transform.SetParent(block.ship.transform);
         selector.transform.localScale = new Vector2(block.Width*Tile.worldSize, block.Height*Tile.worldSize);
         selector.GetComponent<SpriteRenderer>().color = Color.green;
 
@@ -75,15 +75,10 @@ public class ShipControl : MonoBehaviour {
         Game.abilityMenu.OnBlockSelectionUpdate();
     }
 
-    void SelectShip(Ship ship) {
-        selectedShip = ship;
-        Game.shipInfo.gameObject.SetActive(true);
-    }
-
     void HandleDoubleClick() {
-        foreach (var block in ship.form.BlocksAtWorldPos(Game.mousePos)) {
+        foreach (var block in ship.BlocksAtWorldPos(Game.mousePos)) {
             if (selectedBlocks.Contains(block)) {
-                foreach (var comrade in ship.form.blocks.Find(block.type))
+                foreach (var comrade in ship.blocks.Find(block.type))
                     SelectBlock(comrade);
             }
         }
@@ -94,20 +89,10 @@ public class ShipControl : MonoBehaviour {
         DeselectCrew();
 
         var form = Blockform.AtWorldPos(Game.mousePos);
-
-        if (form != null && form.ship != Game.playerShip)
-            SelectShip(form.ship);
             
-        var blockPos = ship.form.WorldToBlockPos(Game.mousePos);
+        var blockPos = ship.WorldToBlockPos(Game.mousePos);
 
-        foreach (var crew in ship.crew) {
-            if (crew.body.currentBlockPos == blockPos) {
-                SelectCrew(crew);
-                return;
-            }
-        }
-
-        var block = ship.form.blocks.Topmost(blockPos);
+        var block = ship.blocks.Topmost(blockPos);
         if (block != null) {
             SelectBlock(block);
         }
@@ -117,40 +102,36 @@ public class ShipControl : MonoBehaviour {
     
     void OnRightClick() {
 		if (selectedCrew == null) {
-			//Debug.Log(ship.form.pather.PathBetween(ship.form.transform.position, Game.mousePos));
-			//Debug.Log(ship.form.BlocksAtWorldPos(Game.mousePos).First());
+			//Debug.Log(ship.pather.PathBetween(ship.transform.position, Game.mousePos));
+			//Debug.Log(ship.BlocksAtWorldPos(Game.mousePos).First());
 		}
-
-        if (selectedCrew != null) {
-            selectedCrew.job = new MoveJob(ship.form.WorldToBlockPos(Game.mousePos));
-        }
     }
 
     float lastLeftClick = 0f;
     Vector2 lastLeftClickPos = new Vector2(0, 0);
 
     public void OnForwardThrust() {
-        ship.form.FireThrusters(Facing.down);        
+        ship.FireThrusters(Facing.down);        
     }
 
     public void OnReverseThrust() {
-        ship.form.FireThrusters(Facing.up);
+        ship.FireThrusters(Facing.up);
     }
 
     public void OnStrafeLeft() {
-        ship.form.FireThrusters(Facing.right);
+        ship.FireThrusters(Facing.right);
     }
 
     public void OnStrafeRight() {
-        ship.form.FireThrusters((Facing.left));
+        ship.FireThrusters((Facing.left));
     }
 
     public void OnTurnRight() {
-        ship.form.FireAttitudeThrusters(Facing.left);
+        ship.FireAttitudeThrusters(Facing.left);
     }
 
     public void OnTurnLeft() {
-        ship.form.FireAttitudeThrusters(Facing.right);
+        ship.FireAttitudeThrusters(Facing.right);
     }
 
     public void OnLeftClick() {
@@ -187,24 +168,20 @@ public class ShipControl : MonoBehaviour {
         ship = Game.playerShip;
 		
 		
-		//Game.MoveCamera(Game.playerShip.form.transform.position);
+		//Game.MoveCamera(Game.playership.transform.position);
 
-		/*if (Game.activeSector.IsOutsideBounds(Game.playerShip.form.transform.position)) {
+		/*if (Game.activeSector.IsOutsideBounds(Game.playership.transform.position)) {
 			Game.leaveSectorMenu.SetActive(true);
 		} else {
 			Game.leaveSectorMenu.SetActive(false);
 		}*/
 
 
-        var rigid = ship.form.rigidBody;
+        var rigid = ship.rigidBody;
         
         if (Input.GetKey(KeyCode.X)) {
             rigid.velocity = Vector3.zero;
             rigid.angularVelocity = Vector3.zero;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.J)) {
-            JumpMap.Activate();
         }
     }
 }

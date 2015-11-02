@@ -10,7 +10,7 @@ public class Explosive : MonoBehaviour
     public float explosionRadius = 2f;
     new Rigidbody rigidbody;
 	public GameObject explosionPrefab;
-    public Ship originShip;
+    public Blockform originShip;
 
     void Start() {
         rigidbody = GetComponent<Rigidbody>();
@@ -77,7 +77,7 @@ public class Explosive : MonoBehaviour
             if (shielded.Contains(col.attachedRigidbody)) continue;
 
 			var form = col.attachedRigidbody.GetComponent<Blockform>();
-			if (form == null || form == originShip.form) continue;
+			if (form == null || form == originShip) continue;
 
             foreach (var block in form.BlocksAtWorldPos(col.transform.position))
                 blocksToBreak.Add(block);
@@ -87,7 +87,7 @@ public class Explosive : MonoBehaviour
 		foreach (var block in blocksToBreak) {
             if (block.IsDestroyed) continue;
 
-            var startPos = block.ship.form.WorldToBlockPos(rigidbody.position);
+            var startPos = block.ship.WorldToBlockPos(rigidbody.position);
             var damage = 10f;
             foreach (var pos in Util.LineBetween(startPos, block.pos)) {
                 foreach (var between in block.ship.blocks.BlocksAtPos(pos)) {
@@ -97,7 +97,7 @@ public class Explosive : MonoBehaviour
             }
 
             damage = Mathf.Max(0, damage);
-            block.ship.form.damage.DamageBlock(block, damage);
+            block.ship.damage.DamageBlock(block, damage);
 		}
 		
 		foreach (var rb in rigidBodies) {

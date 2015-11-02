@@ -38,7 +38,7 @@ public class PowerReceiver : BlockComponent {
     public void Depowered() {
         if (block.isPowered == false) return;
         noPowerIndicator = Pool.For("NoPower").Attach<Transform>(transform);
-        noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
+        noPowerIndicator.transform.rotation = block.ship.transform.rotation;
         block.isPowered = false;
         if (block.type.isWeapon)
             form.poweredWeapons.Remove(block);

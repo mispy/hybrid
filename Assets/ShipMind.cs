@@ -12,7 +12,7 @@ public class EngageTactic : PoolBehaviour {
 
 	void Awake() {
 		this.mind = GetComponent<ShipMind>();
-		this.form = mind.form;
+		this.form = mind.ship;
 	}
 
 	void RecalcEngagePath() {
@@ -66,7 +66,7 @@ public class FleeingTactic : PoolBehaviour {
 
 	void Awake() {
 		var mind = GetComponent<ShipMind>();
-		form = mind.form;
+		form = mind.ship;
 	}
 
 	void Start() {
@@ -90,9 +90,7 @@ public class FleeingTactic : PoolBehaviour {
 
 public class ShipMind : PoolBehaviour {
     [HideInInspector]
-    public Ship ship;
-    [HideInInspector]
-    public Blockform form;
+    public Blockform ship;
     [ReadOnlyAttribute]
     public Blockform nearestEnemy;
     [ReadOnlyAttribute]
@@ -100,17 +98,16 @@ public class ShipMind : PoolBehaviour {
 
     // Use this for initialization
     void Start () {
-        form = GetComponent<Blockform>();
-        ship = GetComponent<Blockform>().ship;
+        ship = GetComponent<Blockform>();
 		tactic = gameObject.AddComponent<EngageTactic>();
     }
 
-    bool IsEnemy(Ship otherShip) {
-        return ship.DispositionTowards(otherShip) == Disposition.hostile;
+    bool IsEnemy(Blockform otherShip) {
+        return true;
     }
 
     void UpdateTractors() {
-        foreach (var tractor in form.GetBlockComponents<TractorBeam>()) {
+        foreach (var tractor in ship.GetBlockComponents<TractorBeam>()) {
             tractor.Stop();
 
             foreach (var target in tractor.GetViableTargets()) {
@@ -124,7 +121,7 @@ public class ShipMind : PoolBehaviour {
     void UpdateWeapons() {
         if (nearestEnemy == null) return;
 
-        foreach (var launcher in form.GetBlockComponents<ProjectileLauncher>()) {
+        foreach (var launcher in ship.GetBlockComponents<ProjectileLauncher>()) {
             launcher.turret.AimTowards(nearestEnemy.transform.position);
 
             var hit = launcher.GetProbableHit(100f);
@@ -132,7 +129,7 @@ public class ShipMind : PoolBehaviour {
 
             var otherShip = hit.attachedRigidbody.GetComponent<Blockform>();
 
-            if (otherShip != null && IsEnemy(otherShip.ship)) {
+            if (otherShip != null && IsEnemy(otherShip)) {
                 launcher.Fire();
             }
         }
@@ -145,7 +142,7 @@ public class ShipMind : PoolBehaviour {
 	}
 
 	void UpdateTactic() {
-		if (!form.hasActiveShields) {
+		if (!ship.hasActiveShields) {
 			SetTactic<FleeingTactic>();
 		} else {
 			SetTactic<EngageTactic>();
@@ -154,9 +151,9 @@ public class ShipMind : PoolBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (form.maglockedCrew.Count == 0 || form.ship == Game.playerShip) return;
+        if (ship.maglockedCrew.Count == 0 || ship == Game.playerShip) return;
 
-        var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other.ship));
+        var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
         
         if (enemies.Count() > 0) {
             enemies = enemies.OrderBy((other) => -other.poweredWeapons.Count);

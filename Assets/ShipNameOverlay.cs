@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class ShipNameOverlay : MonoBehaviour {
-    Ship ship;
+    /*Ship ship;
     Text shipName;
 	Text shipFaction;
     Canvas canvas;
@@ -31,5 +31,5 @@ public class ShipNameOverlay : MonoBehaviour {
 
         shipName.text = ship.name;
 		shipFaction.text = ship.faction == null ? "Independent" : ship.faction.name;
-    }
+    }*/
 }

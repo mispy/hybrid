@@ -20,7 +20,7 @@ public class ShipEditor : Editor {
                 PrefabUtility.CreatePrefab(path, template.gameObject);
             } else {
                 var template = (prefab as GameObject).GetComponent<ShipTemplate2>();
-                template.Fill(form.ship);
+                template.Fill(form);
                 PrefabUtility.ReplacePrefab(template.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
             }
 
@@ -32,8 +32,6 @@ public class ShipEditor : Editor {
 }
 
 public class Blockform : PoolBehaviour {
-    [ReadOnlyAttribute]
-    public Ship ship;
     [ReadOnlyAttribute]
     public Bounds localBounds = new Bounds();
     [ReadOnlyAttribute]
@@ -80,6 +78,18 @@ public class Blockform : PoolBehaviour {
         }
         
         return null;
+    }
+
+    public static Blockform FromTemplate(ShipTemplate2 template) {
+        var ship = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents, false);
+        template.blocks.ReadBlockData();
+
+        Debug.Assert(template.blocks.allBlocks.Count > 0, "Expected template.blocks.allBlocks.Count > 0 for " + template.name);
+        ship.name = template.name;
+        ship.Initialize(template);
+
+        ship.gameObject.SetActive(true);
+        return ship;
     }
 
 	public float width {
@@ -132,15 +142,18 @@ public class Blockform : PoolBehaviour {
         tiles = GetComponent<TileRenderer>();
         damage = GetComponent<ShipDamage>();
     }
-    
-    public void Initialize(Ship ship) {
-        this.ship = ship;
-        this.name = ship.name;
-        this.blocks = ship.blocks;
+
+    public void Initialize(ShipTemplate2 template) {
+        blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
 
         blueprint = Pool.For("Blueprint").Attach<Blueprint>(transform);
-        blueprint.Initialize(ship);
+        blueprint.Initialize();
         blueprint.tiles.DisableRendering();
+
+        foreach (var block in template.blocks.allBlocks) {
+            blocks[block.pos, block.layer] = new Block(block);
+            blueprint.blocks[block.pos, block.layer] = new Block(block);
+        }
 
         var obj = Pool.For("Holder").Attach<Transform>(transform);
         pather = obj.gameObject.AddComponent<SpacePather>();
@@ -151,20 +164,6 @@ public class Blockform : PoolBehaviour {
 
 		box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
 		box.isTrigger = true;
-
-        foreach (var crew in ship.crew) {
-            crew.transform.SetParent(transform);
-            var floor = Util.GetRandom(blocks.Find("Floor").ToList());
-            crew.transform.position = BlockToWorldPos(floor);
-            //Pool.For("CrewBody").Attach<CrewBody>(crew.transform);
-            crew.gameObject.AddComponent<CrewBody>();
-        }
-    }
-
-    public void OnDestroy() {
-        foreach (Transform child in transform) {
-            Pool.Recycle(child.gameObject);
-        }
     }
 
     void OnEnable() {                
@@ -195,7 +194,13 @@ public class Blockform : PoolBehaviour {
 
         Game.activeSector.blockforms.Remove(this);
 	}
-    
+
+    public void OnDestroy() {
+        foreach (Transform child in transform) {
+            Pool.Recycle(child.gameObject);
+        }
+    }
+
     public void ReceiveImpact(Rigidbody fromRigid, Block block) {
         //var impactVelocity = rigidBody.velocity - fromRigid.velocity;
         //var impactForce = impactVelocity.magnitude * fromRigid.mass;
@@ -363,7 +368,7 @@ public class Blockform : PoolBehaviour {
     }
 
 	public void AvoidCollision() {
-        if (ship == Game.playerShip) return;
+        if (this == Game.playerShip) return;
 
 		foreach (var form in Util.ShipsInRadius(transform.position, length*2)) {
 			if (form == this) continue;

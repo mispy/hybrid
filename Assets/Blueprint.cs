@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Blueprint : PoolBehaviour {
     public static GameObject prefab;
     public Material blueprintMaterial;
+    [HideInInspector]
+    public Blockform ship;
 
     private BlockMap _blocks;
     [HideInInspector]
@@ -14,22 +16,22 @@ public class Blueprint : PoolBehaviour {
         }
         set {
             _blocks = value;
-            _blocks.OnBlockAdded += OnBlockAdded;
             tiles.SetBlocks(_blocks);
         }
     }
     [HideInInspector]
     public TileRenderer tiles;
-    [HideInInspector]
-    public Ship ship;
-
-    public void Initialize(Ship ship) {
-        this.ship = ship;
-        blocks = ship.blueprintBlocks;
-    }
 
     public override void OnCreate() {
         tiles = GetComponent<TileRenderer>();
+    }
+
+    public void Awake() {
+        ship = GetComponentInParent<Blockform>();
+    }
+
+    public void Initialize() {
+        blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
     }
 
     public void Start() {
@@ -45,16 +47,12 @@ public class Blueprint : PoolBehaviour {
         tiles.topTiles.OnChunkCreated += OnChunkCreated;
     }
 
-    public void OnBlockAdded(Block newBlock) {
-        newBlock.ship = ship;
-    }
-
     public void OnChunkCreated(TileChunk chunk) {
         chunk.renderer.material.color = Color.cyan;
     }
 
     public IEnumerable<Block> BlocksAtWorldPos(Vector2 worldPos) {
-        return blocks.BlocksAtPos(ship.form.WorldToBlockPos(worldPos));
+        return blocks.BlocksAtPos(ship.WorldToBlockPos(worldPos));
     }
 
     public override void OnRecycle() {

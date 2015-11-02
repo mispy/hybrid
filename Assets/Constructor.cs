@@ -18,7 +18,7 @@ public class Constructor : MonoBehaviour
     private ParticleSystem ps;
     private ParticleSystem.Particle[] particles;
     private Text text;
-    private Crew crew;
+    private CrewBody crew;
 
     public bool isBuilding = false;
 
@@ -63,23 +63,23 @@ public class Constructor : MonoBehaviour
     }
 
     void UpdateBuild() {
-        var builder = Game.playerShip;
+        //var builder = Game.playerShip;
 
-		foreach (var otherCrew in builder.crew) {
-			if (otherCrew.body.currentBlockPos == targetBlue.pos) {
+		/*foreach (var otherCrew in builder.crew) {
+			if (otherCrew.currentBlockPos == targetBlue.pos) {
 				otherCrew.mind.PleaseMove();
 				return;
 			}
-		}
+		}*/
 
         targetBlock = new Block(targetBlue);
             
         if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
             var change = addSpeed*Time.deltaTime;
-            if (builder.scrapAvailable >= change) {
+            /*if (builder.scrapAvailable >= change) {
                 builder.scrapAvailable -= change;
                 targetBlock.scrapContent += change;
-            }
+            }*/
         }
 
         targetBlue.ship.blocks[targetBlue.pos, targetBlue.layer] = new Block(targetBlock);
@@ -89,7 +89,7 @@ public class Constructor : MonoBehaviour
     void Update() {
         if (!isBuilding) return;
 
-        AlignParticles(targetBlue.ship.form.BlockToWorldPos(targetBlue.pos));
+        AlignParticles(targetBlue.ship.BlockToWorldPos(targetBlue.pos));
         UpdateBuild();
         //text.text = String.Format("{0}/{1}", targetBlock.scrapContent, targetBlock.type.scrapRequired);
     }    

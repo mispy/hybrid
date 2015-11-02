@@ -16,16 +16,12 @@ public class CrewMind : MonoBehaviour {
     }
     private CharacterController controller;
 
-    public CrewBody body;
+    public CrewBody crew;
 
-    public Crew crew {
-        get { return body.crew; }
-    }
-    
 	public LineRenderer pathLine;
 
     void Awake() {
-        body = GetComponent<CrewBody>();
+        crew = GetComponent<CrewBody>();
         pathLine = gameObject.AddComponent<LineRenderer>();
         pathLine.material = GetComponent<SpriteRenderer>().material;
         pathLine.SetWidth(0.1f, 0.1f);
@@ -35,7 +31,6 @@ public class CrewMind : MonoBehaviour {
 
     void OnEnable() {
         blockPath = new List<IntVector2>();
-        crew.mind = this;
 	}
 
 	void DrawPath() {
@@ -49,7 +44,7 @@ public class CrewMind : MonoBehaviour {
 		var lineSeq = new List<Vector2>();
 		lineSeq.Add(transform.position);
 		foreach (var pos in blockPath) {
-			lineSeq.Add(crew.body.maglockShip.BlockToWorldPos(pos));
+			lineSeq.Add(crew.maglockShip.BlockToWorldPos(pos));
 		}
 
 		pathLine.SetVertexCount(lineSeq.Count*2);
@@ -72,25 +67,25 @@ public class CrewMind : MonoBehaviour {
 	void Update() {
 		DrawPath();
 
-        if (body.maglockShip != null) {
+        if (crew.maglockShip != null) {
             UpdateLockedMovement();
         } else {
             UpdateFreeMovement();
         }
         /*foreach (var other in Crew.all) {
-            if (IsEnemy(other) && Util.LineOfSight(body.gameObject, other.transform.position)) {
-                body.weapon.Fire(other.transform.position);
+            if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {
+                crew.weapon.Fire(other.transform.position);
             }
         }*/
 
-		/*if (body.currentBlock == null && crew.job == null) {
+		/*if (crew.currentBlock == null && crew.job == null) {
 			var floor = Util.GetRandom(crew.Ship.blocks.Find("Floor").ToList());
 			crew.job = new MoveJob(floor.pos);
 		}*/
     }
 
-    bool IsEnemy(Crew other) {
-        return other.ship.DispositionTowards(crew.ship) == Disposition.hostile;
+    bool IsEnemy(CrewBody other) {
+        return false;
     }
 
     void UpdateLockedMovement() {
@@ -98,17 +93,17 @@ public class CrewMind : MonoBehaviour {
 
         var bp = blockPath[0];
 
-        if (bp == body.currentBlockPos) {
+        if (bp == crew.currentBlockPos) {
             blockPath.RemoveAt(0);
 			/*var s = "";
 			foreach (var pos in blockPath) {
 				s += pos.ToString() + " ";
 			}
 			Debug.Log(s);*/
-		} else if (!crew.body.maglockShip.blocks.IsPassable(bp)) {
+		} else if (!crew.maglockShip.blocks.IsPassable(bp)) {
 			blockPath.Clear();
-        } else if (bp != body.maglockMoveBlockPos) {
-            body.maglockMoveBlockPos = bp;
+        } else if (bp != crew.maglockMoveBlockPos) {
+            crew.maglockMoveBlockPos = bp;
         }
     }
 
@@ -117,28 +112,27 @@ public class CrewMind : MonoBehaviour {
 
         var speed = 10f;    
         
-        Vector3 worldPos = crew.ship.form.BlockToWorldPos(blockPath[0]);
+        Vector3 worldPos = crew.maglockShip.BlockToWorldPos(blockPath[0]);
         var dist = worldPos - transform.position;
         
         if (dist.magnitude < 1f) {
-            body.transform.position = worldPos;
+            crew.transform.position = worldPos;
             blockPath.RemoveAt(0);
-            body.rigidBody.velocity = Vector3.zero;
+            crew.rigidBody.velocity = Vector3.zero;
         } else {
-            body.rigidBody.velocity = dist.normalized * speed;
+            crew.rigidBody.velocity = dist.normalized * speed;
         }
     }
 
     public bool CanReach(IntVector2 destPos) {
 		var ship = Game.playerShip;
-		return BlockPather.PathExists(ship.blocks, crew.body.currentBlockPos, destPos);
+		return BlockPather.PathExists(ship.blocks, crew.currentBlockPos, destPos);
     }
 
 	public void PleaseMove() {
-		foreach (var neighbor in IntVector2.Neighbors(crew.body.currentBlockPos)) {
-			if (crew.body.maglockShip.blocks.IsPassable(neighbor)) {
-				crew.job = null;
-				crew.body.maglockMoveBlockPos = neighbor;
+		foreach (var neighbor in IntVector2.Neighbors(crew.currentBlockPos)) {
+			if (crew.maglockShip.blocks.IsPassable(neighbor)) {
+				crew.maglockMoveBlockPos = neighbor;
 			}
 		}
 	}
@@ -147,8 +141,8 @@ public class CrewMind : MonoBehaviour {
         if (currentDest == destPos)
             return;
 
-        var ship = body.maglockShip.ship;
-        var currentPos = crew.body.currentBlockPos;
+        var ship = crew.maglockShip;
+        var currentPos = crew.currentBlockPos;
 
         var nearestBlock = ship.blocks[currentPos, BlockLayer.Base];
         if (nearestBlock == null) {

@@ -10,7 +10,7 @@ public class AnchoredPanning : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		var form = Game.playerShip.form;
+		var form = Game.playerShip;
 
 		Game.mainCamera.transform.SetParent(form.transform);
 		Game.MoveCamera(form.transform.position);
@@ -18,7 +18,7 @@ public class AnchoredPanning : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {		
-		var form = Game.playerShip.form;
+		var form = Game.playerShip;
 		//Game.mainCamera.transform.rotation = form.transform.rotation;
 
 		if (Input.GetMouseButton(2)) {

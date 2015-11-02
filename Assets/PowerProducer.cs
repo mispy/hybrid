@@ -30,7 +30,7 @@ public class PowerProducer : BlockComponent {
     public void Update() {
         if (!isProducing && noPowerIndicator == null) {
             noPowerIndicator = Pool.For("NoPower").Attach<Transform>(transform);
-            noPowerIndicator.transform.rotation = block.ship.form.transform.rotation;
+            noPowerIndicator.transform.rotation = block.ship.transform.rotation;
             noPowerIndicator.gameObject.SetActive(true);
 
             block.gameObject.SendMessage("OnDepowered", SendMessageOptions.DontRequireReceiver);

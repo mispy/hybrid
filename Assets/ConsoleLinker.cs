@@ -34,7 +34,7 @@ public class ConsoleLinker : MonoBehaviour {
     }
 
     void HandleLeftClick() {      
-        foreach (var block in Game.playerShip.form.blueprint.BlocksAtWorldPos(Game.mousePos)) {
+        foreach (var block in Game.playerShip.blueprint.BlocksAtWorldPos(Game.mousePos)) {
             if (block.Is<Console>()) {
 
             }
@@ -47,7 +47,7 @@ public class ConsoleLinker : MonoBehaviour {
         if (!isLinking) return;
 
         newLine.SetVertexCount(2);
-        newLine.SetPosition(0, originBlock.ship.form.BlockToWorldPos(originBlock));
+        newLine.SetPosition(0, originBlock.ship.BlockToWorldPos(originBlock));
         newLine.SetPosition(1, Game.mousePos);
        
         /*        line.SetVertexCount(2);

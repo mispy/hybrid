@@ -42,16 +42,4 @@ public class ActiveSector : MonoBehaviour {
     public void OnEnable() {
         Game.mainCamera = GetComponentInChildren<Camera>();
     }
-
-    public void RealizeShip(Ship ship, Vector2 pos) {
-        var form = ship.LoadBlockform();
-        form.transform.SetParent(contents);
-		form.transform.position = pos;
-        form.transform.rotation = Quaternion.LookRotation(Vector3.forward, Vector2.zero - pos);
-        form.gameObject.SetActive(true);
-    }
-
-    public void RealizeShip(Ship ship) {
-        RealizeShip(ship, new Vector2(0, 0));
-    }
 }

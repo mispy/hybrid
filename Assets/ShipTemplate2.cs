@@ -40,16 +40,9 @@ public class ShipTemplate2 : PoolBehaviour {
         }
     }
     
-    public void Fill(Ship ship) {
-        foreach (var block in ship.blueprintBlocks.allBlocks) {
+    public void Fill(Blockform ship) {
+        foreach (var block in ship.blueprint.blocks.allBlocks) {
             blocks[block.pos, block.layer] = new Block(block);
         }
-    }
-
-    public void Realize(Vector2 position, Quaternion rotation) {
-        var ship = Ship.FromTemplate(this);
-        var form = ship.LoadBlockform();
-        form.transform.position = position;
-        form.transform.rotation = rotation;
     }
 }

@@ -15,7 +15,7 @@ public class OffsetScroller : MonoBehaviour {
     }
     
     void Update () {
-        Vector2 offset = Game.playerShip.form.transform.position / 100f;
+        Vector2 offset = Game.playerShip.transform.position / 100f;
         renderer.sharedMaterial.SetTextureOffset ("_MainTex", offset);
     }
     

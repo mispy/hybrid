@@ -20,22 +20,17 @@ public static class Game {
     // Game.mainCamera seems to perform some kind of expensive lookup
     public static Camera mainCamera;
 
-    // cached mouse position in world coordinates
-    public static Galaxy galaxy;
-
     public static Vector2 mousePos;
     public static ActiveSector activeSector;
-    public static JumpMap jumpMap;
     public static ShipControl shipControl;
     public static AbilityMenu abilityMenu;
-    public static DialogueMenu dialogueMenu;
     public static ShipDesigner shipDesigner;
     public static GameObject leaveSectorMenu;
     public static WeaponSelect weaponSelect;
-    public static ShipInfo shipInfo;
     public static DebugMenu debugMenu;
+    public static BlockSelector blockSelector;
 
-    public static Ship playerShip {
+    public static Blockform playerShip {
         get { return Game.state.playerShip; }
         set { Game.state.playerShip = value; }
     }       
@@ -133,43 +128,23 @@ public static class Game {
     public static void Unpause() {
         Time.timeScale = 1.0f;
     }
-
-    public static void LoadSector() {
-        Game.activeSector.gameObject.SetActive(true);
-
-    }
-    
-    public static void UnloadSector() {
-        foreach (var form in Game.activeSector.blockforms.ToList()) {
-            form.ship.UnloadBlockform();
-        }
-
-        foreach (Transform child in Game.activeSector.contents) {
-            Pool.Recycle(child.gameObject);
-        }
-        
-        Game.activeSector.gameObject.SetActive(false);
-    }
 }
 
 public class GameState : MonoBehaviour {       
     public Canvas canvas;
     public Text debugText;
     public ShipTemplate2 playerShipTemplate;
-    public Ship playerShip;
+    public Blockform playerShip;
 
     public void UpdateRefs() {
-        Game.galaxy = GetComponentsInChildren<Galaxy>(includeInactive: true).First();
         Game.activeSector = GetComponentsInChildren<ActiveSector>(includeInactive: true).First();
-        Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
         Game.shipControl = GetComponentsInChildren<ShipControl>(includeInactive: true).First();
         Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
-        Game.dialogueMenu = GetComponentsInChildren<DialogueMenu>(includeInactive: true).First();
         Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
         Game.leaveSectorMenu = GameObject.Find("LeavingSector");
         Game.weaponSelect = GetComponentInChildren<WeaponSelect>();
-        Game.shipInfo = GetComponentInChildren<ShipInfo>();
         Game.debugMenu = GetComponentsInChildren<DebugMenu>(includeInactive: true).First();
+        Game.blockSelector = GetComponentsInChildren<BlockSelector>(includeInactive: true).First();
         Game.mainCamera = Camera.main;
         Game.state = this;
     }
@@ -180,20 +155,8 @@ public class GameState : MonoBehaviour {
 
     public void OnEnable() {
         UpdateRefs();
-    }
 
-    public void Start() {
-        Game.playerShip = Ship.FromTemplate(Game.state.playerShipTemplate);
-
-        var jumpables = Util.Shuffle(Game.galaxy.GetComponentsInChildren<Jumpable>().ToList());
-        Game.LoadSector();
-        Game.activeSector.RealizeShip(Game.playerShip);
-        foreach (var jump in jumpables) {
-            if (jump.sectors.Any()) {
-                //Game.LoadSector(Util.GetRandom(jump.sectors));
-                Game.activeSector.RealizeShip(Game.playerShip);
-            }
-        }
+        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
     }
 
     public void BriefMessage(string message) {

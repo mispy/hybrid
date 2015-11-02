@@ -2,11 +2,11 @@
 using System.Collections;
 
 public class HealthBar : MonoBehaviour {
-    Crew crew;
+    CrewBody crew;
 
     // Use this for initialization
     void Start () {
-        crew = GetComponentInParent<CrewBody>().crew;
+        crew = GetComponentInParent<CrewBody>();
     }
     
     // Update is called once per frame
