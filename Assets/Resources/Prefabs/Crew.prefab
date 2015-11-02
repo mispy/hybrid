@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 403624}
   - 212: {fileID: 21242940}
   - 114: {fileID: 11493190}
+  - 114: {fileID: 11466240}
   m_Layer: 5
   m_Name: Crew
   m_TagString: Untagged
@@ -29,6 +30,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11466240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 0
+    i1: 0
+    i2: 0
+    i3: 0
+    i4: 0
+    i5: 0
+    i6: 0
+    i7: 0
+    i8: 0
+    i9: 0
+    i10: 0
+    i11: 0
+    i12: 0
+    i13: 0
+    i14: 0
+    i15: 0
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11493190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -37,14 +70,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 170034}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: de11fe0394785da4aa3689863388c275, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d9d272a288d57546968072119aef53e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  faction: {fileID: 0}
+  rigidBody: {fileID: 0}
+  collider: {fileID: 0}
+  constructor: {fileID: 0}
+  maglockShip: {fileID: 0}
+  currentBlockPos:
+    x: 0
+    y: 0
+  maglockMoveBlockPos:
+    x: 0
+    y: 0
+  weapon: {fileID: 0}
+  mind: {fileID: 0}
   maxHealth: 100
   health: 100
-  body: {fileID: 0}
-  mind: {fileID: 0}
 --- !u!212 &21242940
 SpriteRenderer:
   m_ObjectHideFlags: 1

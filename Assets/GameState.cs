@@ -128,6 +128,11 @@ public static class Game {
     public static void Unpause() {
         Time.timeScale = 1.0f;
     }
+
+    public static void Start() {
+        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        Game.state.gameObject.SetActive(true);
+    }
 }
 
 public class GameState : MonoBehaviour {       
@@ -151,12 +156,12 @@ public class GameState : MonoBehaviour {
 
     public void Awake() {
         UpdateRefs();
+
+        Game.state.gameObject.SetActive(false);
     }
 
     public void OnEnable() {
         UpdateRefs();
-
-        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
     }
 
     public void BriefMessage(string message) {

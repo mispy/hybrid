@@ -133,7 +133,6 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     public void ReadBlockData() {        
-        Debug.Log("ReadBlockData");
         OnCreate();
         
         foreach (var data in blockData) {
@@ -372,7 +371,6 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
-        Debug.Log(block);
         block.pos = bp;
 		block.ship = ship;
 

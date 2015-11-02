@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11467136}
   - 114: {fileID: 11492490}
   - 114: {fileID: 11409090}
+  - 114: {fileID: 11497664}
   m_Layer: 0
   m_Name: Blockform
   m_TagString: Untagged
@@ -114,6 +115,38 @@ MonoBehaviour:
   ship: {fileID: 0}
   nearestEnemy: {fileID: 0}
   tactic: {fileID: 0}
+--- !u!114 &11497664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 184
+    i1: 67
+    i2: 38
+    i3: 62
+    i4: 207
+    i5: 18
+    i6: 243
+    i7: 196
+    i8: 187
+    i9: 23
+    i10: 46
+    i11: 115
+    i12: 165
+    i13: 200
+    i14: 55
+    i15: 205
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
