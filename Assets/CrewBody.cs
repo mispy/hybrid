@@ -50,13 +50,12 @@ public class CrewBody : NetworkBehaviour {
         netform = GetComponent<NetworkTransform>();
         netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
 
-        gameObject.AddComponent<CrewControl>();
-
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 
     public override void OnStartLocalPlayer() {
-        Game.localPlayer = this;
+        Game.localPlayer = this;        
+        gameObject.AddComponent<CrewControl>();
     }
 
     public void MaglockMove(IntVector2 bp) {
