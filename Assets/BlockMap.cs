@@ -77,6 +77,8 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 
     public List<BlockData> blockData = new List<BlockData>();
 
+    bool isPostDeserialize = false;
+
     public override void OnCreate() {
         minX = 0;
         minY = 0;
@@ -103,6 +105,8 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     public void OnBeforeSerialize() {
+        if (isPostDeserialize) return;
+
         blockData = new List<BlockData>();
 
         foreach (var block in allBlocks) {
@@ -118,16 +122,25 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     public void OnAfterDeserialize() {
-        OnCreate();
+        isPostDeserialize = true;
+    }      
 
+    public void OnEnable() {
+        if (isPostDeserialize)
+            ReadBlockData();
+    }
+
+    public void ReadBlockData() {        
+        OnCreate();
+        
         foreach (var data in blockData) {
             var block = new Block(BlockType.FromId(data.type.id));
             block.facing = data.facing;
             this[data.pos, data.layer] = block;
         }
         
-        blockData.Clear();
-    }      
+        isPostDeserialize = false;
+    }
 
     public bool IsCollisionEdge(IntVector2 bp) {
         var collisionLayer = CollisionLayer(bp);

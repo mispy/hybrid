@@ -33,9 +33,9 @@ public class Ship : PoolBehaviour, IOpinionable {
 
     public static Ship FromTemplate(ShipTemplate2 template) {
         var ship = Pool.For("Ship").Attach<Ship>(Game.galaxy.shipHolder);
+        template.blocks.ReadBlockData();
 
         ship.name = template.name;
-        
         foreach (var block in template.blocks.allBlocks) {
             ship.blueprintBlocks[block.pos, block.layer] = new BlueprintBlock(block);
             ship.blocks[block.pos, block.layer] = new Block(block);

@@ -62,7 +62,7 @@ public static class Game {
             sprites[sprite.name] = sprite;
         }                
 
-        GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
+        //GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
     }
     
     public static GameObject Prefab(string name) {
@@ -88,6 +88,7 @@ public static class Game {
         foreach (var obj in resources) {
             var gobj = obj as GameObject;
             if (gobj != null) {
+                gobj.SendMessage("OnResourceLoad", SendMessageOptions.DontRequireReceiver);
                 var comp = gobj.GetComponent<T>();
                 //Debug.LogFormat("{0} {1}", "Loaded", gobj);
 
@@ -101,6 +102,7 @@ public static class Game {
         foreach (var obj in resources) {
             var gobj = obj as GameObject;
             if (gobj != null) {
+                gobj.SendMessage("OnResourceLoad", SendMessageOptions.DontRequireReceiver);
                 yield return gobj;
             }
         }
