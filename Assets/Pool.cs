@@ -76,6 +76,9 @@ public class Pool {
         foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
             comp.OnCreate();
         }
+        foreach (var comp in obj.GetComponentsInChildren<IOnCreate>(includeInactive: true)) {
+            comp.OnCreate();
+        }
 
         prefab.SetActive(true);
         return obj;

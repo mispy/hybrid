@@ -16,6 +16,10 @@ public class PoolBehaviour : MonoBehaviour {
     }
 }
 
+public interface IOnCreate {
+    void OnCreate();
+}
+
 public struct IntRect {
     public int minX;
     public int minY;

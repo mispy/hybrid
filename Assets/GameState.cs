@@ -136,6 +136,8 @@ public static class Game {
 
     public static void Start() {
         Game.state.gameObject.SetActive(true);
+        if (Game.playerShip == null)
+            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
     }
 }
 
@@ -193,9 +195,6 @@ public class GameState : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //if (Game.playerShip == null)
-        //    Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-
         Game.mousePos = Game.mainCamera.ScreenToWorldPoint(Input.mousePosition); 
 
         InputEvent.Update();

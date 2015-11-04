@@ -3,18 +3,16 @@ using System.Collections;
 using UnityEngine.Networking;
 
 public class SpaceNetwork : NetworkManager {
+    bool needsStart = false;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public void Update() {
+        if (needsStart) {
+            Game.Start();
+            needsStart = false;
+        }
+    }
 
     public override void OnStartServer() {
-        Game.Start();
+        needsStart = true;
     }
 }

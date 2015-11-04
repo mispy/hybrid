@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ public class BlockData {
     public BlockLayer layer;
 }
 
-public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
+public class BlockMap : NetworkBehaviour, IOnCreate, ISerializationCallbackReceiver {
     [HideInInspector]
 	public Blockform ship;
 
@@ -79,7 +80,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 
     bool isPostDeserialize = false;
 
-    public override void OnCreate() {
+    public void OnCreate() {
         minX = 0;
         minY = 0;
         maxX = 0;
@@ -126,6 +127,38 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     public void OnAfterDeserialize() {
         isPostDeserialize = true;
     }      
+
+    public override bool OnSerialize(NetworkWriter writer, bool forceAll) {
+        if (!forceAll) return false;
+
+        writer.Write(blockData.Count);
+        foreach (var data in blockData) {
+            writer.Write(data.pos.ToString());
+            writer.Write(data.type.name);
+            writer.Write(data.facing.ToString());
+            writer.Write((int)data.layer);
+        }
+
+        return true;
+    }
+
+    public override void OnDeserialize(NetworkReader reader, bool initialState) {
+        if (!initialState) return;
+
+        blockData = new List<BlockData>();
+        var count = reader.ReadInt32();
+        while (count > 0) {
+            var data = new BlockData();
+            data.pos = IntVector2.FromString(reader.ReadString());
+            data.type = BlockType.FromId(reader.ReadString());
+            data.facing = Facing.FromString(reader.ReadString());
+            data.layer = (BlockLayer)reader.ReadInt32();
+            blockData.Add(data);
+            count -= 1;
+        }
+
+        ReadBlockData();
+    }
 
     public void OnEnable() {
         if (isPostDeserialize)
