@@ -9,8 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 430296}
   - 212: {fileID: 21238172}
-  - 114: {fileID: 11478930}
-  - 114: {fileID: 11458484}
+  - 114: {fileID: 11472098}
+  - 114: {fileID: 11484784}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -30,7 +30,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11458484
+--- !u!114 &11472098
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -38,11 +38,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 128316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0269c19338e68449d6dabe0d04b163, type: 3}
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sectors: []
---- !u!114 &11478930
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 134
+    i1: 177
+    i2: 78
+    i3: 12
+    i4: 132
+    i5: 126
+    i6: 51
+    i7: 132
+    i8: 43
+    i9: 163
+    i10: 240
+    i11: 128
+    i12: 205
+    i13: 13
+    i14: 155
+    i15: 139
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11484784
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -50,14 +70,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 128316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cbd2a441a745a3942a807cc9247f3855, type: 3}
+  m_Script: {fileID: 11500000, guid: 9dc306956bd4bc0418feb3b205247c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 0}
-  sector:
-    radius: 0
-    ships: []
-    jumpBeacon: {fileID: 0}
 --- !u!212 &21238172
 SpriteRenderer:
   m_ObjectHideFlags: 1

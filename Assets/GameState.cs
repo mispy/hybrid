@@ -136,8 +136,9 @@ public static class Game {
 
     public static void Start() {
         Game.state.gameObject.SetActive(true);
-        if (Game.playerShip == null)
-            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+//        if (Game.playerShip == null)
+//            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        //Pool.For("Star").Attach<Transform>(Game.activeSector.contents);
     }
 }
 
@@ -159,7 +160,7 @@ public class GameState : MonoBehaviour {
         Game.mainCamera = Camera.main;
         Game.state = this;
     }
-
+      
     public void Awake() {
         UpdateRefs();
 
@@ -204,14 +205,6 @@ public class GameState : MonoBehaviour {
                 Game.debugMenu.gameObject.SetActive(false);
             else
                 Game.debugMenu.gameObject.SetActive(true);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F5)) {
-            //Save.SaveGame();
-        }
-
-        if (Input.GetKeyDown(KeyCode.F9)) {
-            //Save.LoadGame();
         }
     }
 }

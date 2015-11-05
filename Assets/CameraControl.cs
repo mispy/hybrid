@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Linq;
 
-public class CameraControl : PoolBehaviour {
+public class CameraControl : MonoBehaviour {
 	new Camera camera { get { return Game.mainCamera; }}
     Vector2 cameraOffset = new Vector2(0, 0);
 

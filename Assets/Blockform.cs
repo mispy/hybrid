@@ -174,7 +174,6 @@ public class Blockform : PoolBehaviour {
 
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
-
         blocks.OnBlockRemoved += OnBlockRemoved;
         blocks.OnBlockAdded += OnBlockAdded;
           

@@ -15,7 +15,7 @@ public class BlockData {
     public BlockLayer layer;
 }
 
-public class BlockMap : NetworkBehaviour, IOnCreate, ISerializationCallbackReceiver {
+public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     [HideInInspector]
 	public Blockform ship;
 
@@ -80,7 +80,7 @@ public class BlockMap : NetworkBehaviour, IOnCreate, ISerializationCallbackRecei
 
     bool isPostDeserialize = false;
 
-    public void OnCreate() {
+    public override void OnCreate() {
         minX = 0;
         minY = 0;
         maxX = 0;

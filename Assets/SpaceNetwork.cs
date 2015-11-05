@@ -15,4 +15,9 @@ public class SpaceNetwork : NetworkManager {
     public override void OnStartServer() {
         needsStart = true;
     }
+
+    public override void OnStartClient(NetworkClient client) {
+        Game.state.gameObject.SetActive(true);
+    }
 }
+

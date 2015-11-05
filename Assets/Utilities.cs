@@ -1,20 +1,10 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using Random = UnityEngine.Random;
-
-public class PoolBehaviour : MonoBehaviour {
-    public virtual void OnCreate() { }
-    public virtual void OnRecycle() { }
-
-    public void DestroyChildren() {
-        foreach (Transform child in transform) {
-            Pool.Recycle(child.gameObject);
-        }
-    }
-}
 
 public interface IOnCreate {
     void OnCreate();

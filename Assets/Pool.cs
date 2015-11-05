@@ -96,9 +96,6 @@ public class Pool {
             obj.transform.SetParent(null);
             lastIndex += 1;
 
-            if (obj.GetComponent<NetworkIdentity>() != null)
-                NetworkServer.Spawn(obj);
-
             return obj;
         }
 
@@ -113,10 +110,17 @@ public class Pool {
     public T Attach<T>(Transform transform, bool isActive = true) {
         var obj = TakeObject();
         obj.transform.SetParent(transform);
-
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
         obj.SetActive(isActive);
+
+
+        var nb = transform.GetComponent<NetworkIdentity>();
+        var spawn = obj.GetComponentInChildren<NetworkSpawn>();
+        if (nb != null && spawn != null) {
+            spawn.parentId = nb.netId;
+        }
+
 
         return obj.GetComponent<T>();
     }
