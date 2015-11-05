@@ -2,20 +2,28 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class NetworkSpawn : NetworkBehaviour {
+public class NetworkSpawn : NetworkBehaviour {    
+    [SyncVar(hook="SyncParent")]
+    public uint parentId = 0;
+
     public void Awake() {
-        if (Network.isServer)
+        if (NetworkServer.active) {
+            var netId = transform.parent.gameObject.GetComponent<NetworkIdentity>();
+            if (netId != null)
+                parentId = netId.netId.Value;
+            Debug.Log(parentId);
             NetworkServer.Spawn(this.gameObject);
+        }
     }
 
+    public override void OnStartClient() {
+        SyncParent(parentId);
+    }
 
-    
-    [SyncVar(hook="SyncParent")]
-    public NetworkInstanceId parentId;
-    
-    public void SyncParent(NetworkInstanceId parentId) {
-        var parent = ClientScene.FindLocalObject(parentId);
-        Debug.Log(parent);
+    public void SyncParent(uint newId) {    
+        parentId = newId;
+        if (newId == 0 || NetworkServer.active) return;
+        var parent = ClientScene.FindLocalObject(new NetworkInstanceId(newId));
         transform.SetParent(parent.transform);
     }
 }

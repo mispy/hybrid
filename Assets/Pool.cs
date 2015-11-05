@@ -114,14 +114,6 @@ public class Pool {
         obj.transform.rotation = transform.rotation;
         obj.SetActive(isActive);
 
-
-        var nb = transform.GetComponent<NetworkIdentity>();
-        var spawn = obj.GetComponentInChildren<NetworkSpawn>();
-        if (nb != null && spawn != null) {
-            spawn.parentId = nb.netId;
-        }
-
-
         return obj.GetComponent<T>();
     }
 }

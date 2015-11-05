@@ -138,7 +138,8 @@ public static class Game {
         Game.state.gameObject.SetActive(true);
 //        if (Game.playerShip == null)
 //            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-        //Pool.For("Star").Attach<Transform>(Game.activeSector.contents);
+        var star = Pool.For("Star").Attach<Transform>(Game.activeSector.contents);
+        Pool.For("Star").Attach<Transform>(star.transform);
     }
 }
 
