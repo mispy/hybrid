@@ -59,14 +59,6 @@ public class Blockform : PoolBehaviour {
 
     private bool needsMassUpdate = true;
 
-
-    public void OnBeforeSerialize() {
-    }
-
-    public void OnAfterDeserialize() {
-
-    }
-
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
         return Game.activeSector.blockforms.OrderBy((form) => Vector2.Distance(form.transform.position, worldPos));
     }
@@ -149,13 +141,13 @@ public class Blockform : PoolBehaviour {
     public void Initialize(ShipTemplate2 template) {
         blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
 
-        blueprint = Pool.For("Blueprint").Attach<Blueprint>(transform);
-        blueprint.Initialize();
-        blueprint.tiles.DisableRendering();
+        //blueprint = Pool.For("Blueprint").Attach<Blueprint>(transform);
+        //blueprint.Initialize();
+        //blueprint.tiles.DisableRendering();
 
         foreach (var block in template.blocks.allBlocks) {
             blocks[block.pos, block.layer] = new Block(block);
-            blueprint.blocks[block.pos, block.layer] = new Block(block);
+            //blueprint.blocks[block.pos, block.layer] = new Block(block);
         }
 
         var obj = Pool.For("Holder").Attach<Transform>(transform);
@@ -244,12 +236,26 @@ public class Blockform : PoolBehaviour {
 
         Profiler.EndSample();
     }
+
+    [ClientRpc]
+    public void RpcTest() {
+        Debug.Log("hi");
+    }
     
     public void OnBlockAdded(Block newBlock) {
 
         //if (newBlock.layer == BlockLayer.Base)
         //    this.size += 1;
         
+        if (NetworkServer.active) {
+            RpcTest();
+            /*                if (value == null)
+                    RpcDelBlock(bp, (int)layer);
+                else {
+                    RpcSetBlock(bp, (int)layer, value.type.id, value.facing);
+                }*/
+        }
+
         UpdateBlock(newBlock);
         
         if (newBlock.type.isComplexBlock) {

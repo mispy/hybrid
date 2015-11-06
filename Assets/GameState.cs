@@ -136,10 +136,10 @@ public static class Game {
 
     public static void Start() {
         Game.state.gameObject.SetActive(true);
-//        if (Game.playerShip == null)
-//            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-        var star = Pool.For("Star").Attach<Transform>(Game.activeSector.contents);
-        Pool.For("Star").Attach<Transform>(star.transform);
+        if (Game.playerShip == null)
+            Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        //var star = Pool.For("Star").Attach<Transform>(Game.activeSector.contents);
+        //Pool.For("Star").Attach<Transform>(star.transform);
     }
 }
 

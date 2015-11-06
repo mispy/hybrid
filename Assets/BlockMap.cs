@@ -128,6 +128,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         isPostDeserialize = true;
     }      
 
+    /*
     public override bool OnSerialize(NetworkWriter writer, bool forceAll) {
         if (!forceAll) return false;
 
@@ -158,7 +159,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         }
 
         ReadBlockData();
-    }
+    }*/
 
     public void OnEnable() {
         if (isPostDeserialize)
@@ -439,6 +440,18 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
             var block = this[bp, BlockLayer.Base];
             if (block != null) RemoveBlock(block);
         }
+    }
+
+    [ClientRpc]
+    public void RpcSetBlock(IntVector2 bp, int layer, string typeId, Facing facing) {
+        //var block = new Block(BlockType.FromId(typeId));
+        //block.facing = facing;
+        //this[bp, layer] = block;
+    }
+
+    [ClientRpc]
+    public void RpcDelBlock(IntVector2 bp, int layer) {
+        this[bp, (BlockLayer)layer] = null;
     }
 
     public Block this[IntVector2 bp, BlockLayer layer] {

@@ -11,7 +11,6 @@ public class NetworkSpawn : NetworkBehaviour {
             var netId = transform.parent.gameObject.GetComponent<NetworkIdentity>();
             if (netId != null)
                 parentId = netId.netId.Value;
-            Debug.Log(parentId);
             NetworkServer.Spawn(this.gameObject);
         }
     }
