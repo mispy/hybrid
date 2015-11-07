@@ -136,6 +136,8 @@ public class Blockform : PoolBehaviour {
         rigidBody = GetComponent<Rigidbody>();
         tiles = GetComponent<TileRenderer>();
         damage = GetComponent<ShipDamage>();
+        box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
+        box.isTrigger = true;
     }
 
     public void Initialize(ShipTemplate2 template) {
@@ -150,30 +152,68 @@ public class Blockform : PoolBehaviour {
             //blueprint.blocks[block.pos, block.layer] = new Block(block);
         }
 
-        var obj = Pool.For("Holder").Attach<Transform>(transform);
-        pather = obj.gameObject.AddComponent<SpacePather>();
+    }
+    
+    /*public override bool OnSerialize(NetworkWriter writer, bool forceAll) {
+        if (!forceAll) return false;
 
-		fog = Pool.For("InteriorFog").Attach<InteriorFog>(transform);
-		fog.name = "InteriorFog";
-		fog.gameObject.SetActive(true);
+        blocks.OnBeforeSerialize();
+        writer.Write(blocks.blockData.Count);
+        Debug.Log(blocks.blockData.Count);
+        foreach (var data in blocks.blockData) {
+            writer.Write(data.pos.ToString());
+            writer.Write(data.type.name);
+            writer.Write(data.facing.ToString());
+            writer.Write((int)data.layer);
+        }
+        
+        return true;
+    }
+    
+    public override void OnDeserialize(NetworkReader reader, bool initialState) {
+        if (!initialState) return;
 
-		box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
-		box.isTrigger = true;
+        var blockData = new List<BlockData>();
+        var count = reader.ReadInt32();
+        Debug.Log(count);
+        while (count > 0) {
+            var data = new BlockData();
+            data.pos = IntVector2.FromString(reader.ReadString());
+            data.type = BlockType.FromId(reader.ReadString());
+            data.facing = Facing.FromString(reader.ReadString());
+            data.layer = (BlockLayer)reader.ReadInt32();
+            blockData.Add(data);
+            count -= 1;
+        }
+
+        blocks.blockData = blockData;
+        blocks.ReadBlockData();
+        OnBlocksReady();
+    }*/
+
+
+    void OnEnable() {               
+        if (blocks == null) {
+            blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
+            return;
+        } else {
+            OnBlocksReady();
+        }
     }
 
-    void OnEnable() {                
+    void OnBlocksReady() {        
         blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
-
+        
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
         blocks.OnBlockRemoved += OnBlockRemoved;
         blocks.OnBlockAdded += OnBlockAdded;
-          
+        
         Debug.Assert(blocks.allBlocks.Count() > 0, "Expected allBlocks.Count() > 0");
         foreach (var block in blocks.allBlocks) {
             OnBlockAdded(block);
         }
-
+        
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
     }
@@ -238,8 +278,28 @@ public class Blockform : PoolBehaviour {
     }
 
     [ClientRpc]
-    public void RpcTest() {
-        Debug.Log("hi");
+    public void RpcSetBlock(IntVector2 bp, BlockLayer layer, string typeId, Facing facing) {
+        var block = new Block(BlockType.FromId(typeId));
+        block.facing = facing;
+        blocks[bp, layer] = block;
+    }
+    
+    [ClientRpc]
+    public void RpcDelBlock(IntVector2 bp, BlockLayer layer) {
+        blocks[bp, layer] = null;
+    }
+
+    [ClientRpc]
+    public void RpcSetup() {
+        OnBlocksReady();
+    }
+
+    public void Propagate() {
+        foreach (var block in blocks.allBlocks) {
+            RpcSetBlock(block.pos, block.layer, block.type.id, block.facing);
+        }
+
+        RpcSetup();
     }
     
     public void OnBlockAdded(Block newBlock) {
@@ -248,7 +308,6 @@ public class Blockform : PoolBehaviour {
         //    this.size += 1;
         
         if (NetworkServer.active) {
-            RpcTest();
             /*                if (value == null)
                     RpcDelBlock(bp, (int)layer);
                 else {

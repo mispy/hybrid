@@ -5,6 +5,8 @@ using UnityEngine.Networking;
 public class SpaceNetwork : NetworkManager {
     bool needsStart = false;
 
+    NetworkConnection newConn;
+
     public void Update() {
         if (needsStart) {
             Game.Start();
@@ -18,6 +20,10 @@ public class SpaceNetwork : NetworkManager {
 
     public override void OnStartClient(NetworkClient client) {
         Game.state.gameObject.SetActive(true);
+    }
+
+    public override void OnServerConnect(NetworkConnection conn) {
+        newConn = conn;
     }
 }
 

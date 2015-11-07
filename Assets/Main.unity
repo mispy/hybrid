@@ -1015,7 +1015,7 @@ MonoBehaviour:
   - {fileID: 100938, guid: b843263ecf12f3c4bb172e73a5c837cd, type: 2}
   - {fileID: 145442, guid: 0cb441b238113c64283f2801aaf24d8a, type: 2}
   - {fileID: 128316, guid: 86b14e0c847e33842ba3f080cd0d9b8b, type: 2}
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1500
@@ -1036,7 +1036,8 @@ MonoBehaviour:
     m_MaxSentMessageQueueSize: 128
     m_IsAcksLong: 0
     m_Channels: []
-  m_Channels: 
+  m_Channels: 0500000000000000
+  m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
   m_PacketLossPercentage: 0

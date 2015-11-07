@@ -128,39 +128,6 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         isPostDeserialize = true;
     }      
 
-    /*
-    public override bool OnSerialize(NetworkWriter writer, bool forceAll) {
-        if (!forceAll) return false;
-
-        writer.Write(blockData.Count);
-        foreach (var data in blockData) {
-            writer.Write(data.pos.ToString());
-            writer.Write(data.type.name);
-            writer.Write(data.facing.ToString());
-            writer.Write((int)data.layer);
-        }
-
-        return true;
-    }
-
-    public override void OnDeserialize(NetworkReader reader, bool initialState) {
-        if (!initialState) return;
-
-        blockData = new List<BlockData>();
-        var count = reader.ReadInt32();
-        while (count > 0) {
-            var data = new BlockData();
-            data.pos = IntVector2.FromString(reader.ReadString());
-            data.type = BlockType.FromId(reader.ReadString());
-            data.facing = Facing.FromString(reader.ReadString());
-            data.layer = (BlockLayer)reader.ReadInt32();
-            blockData.Add(data);
-            count -= 1;
-        }
-
-        ReadBlockData();
-    }*/
-
     public void OnEnable() {
         if (isPostDeserialize)
             ReadBlockData();
@@ -440,18 +407,6 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
             var block = this[bp, BlockLayer.Base];
             if (block != null) RemoveBlock(block);
         }
-    }
-
-    [ClientRpc]
-    public void RpcSetBlock(IntVector2 bp, int layer, string typeId, Facing facing) {
-        //var block = new Block(BlockType.FromId(typeId));
-        //block.facing = facing;
-        //this[bp, layer] = block;
-    }
-
-    [ClientRpc]
-    public void RpcDelBlock(IntVector2 bp, int layer) {
-        this[bp, (BlockLayer)layer] = null;
     }
 
     public Block this[IntVector2 bp, BlockLayer layer] {

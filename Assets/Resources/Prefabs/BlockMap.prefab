@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 451518}
   - 114: {fileID: 11430010}
   - 114: {fileID: 11404496}
-  - 114: {fileID: 11440690}
   m_Layer: 0
   m_Name: BlockMap
   m_TagString: Untagged
@@ -82,18 +81,6 @@ MonoBehaviour:
   height: 0
   baseSize: 0
   blockData: []
---- !u!114 &11440690
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 145442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9dc306956bd4bc0418feb3b205247c64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  parentId: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

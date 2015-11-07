@@ -32,7 +32,7 @@ public class TileRenderer : PoolBehaviour {
         }
     }
     
-    public override void OnCreate() {
+    public void Awake() {
         baseTiles = Pool.For("TileLayer").Attach<TileLayer>(transform);
         baseTiles.name = "TileLayer (Base)";
 

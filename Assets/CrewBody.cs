@@ -69,11 +69,11 @@ public class CrewBody : NetworkBehaviour {
     public void SetMaglock(Blockform ship) {
         maglockShip = ship;
         maglockShip.maglockedCrew.Add(this);
-        transform.rotation = maglockShip.transform.rotation;
-        transform.SetParent(maglockShip.transform);
-        Destroy(rigidBody);
-        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
-		MaglockMove(ship.WorldToBlockPos(transform.position));
+        //transform.rotation = maglockShip.transform.rotation;
+        //transform.SetParent(maglockShip.transform);
+        //Destroy(rigidBody);
+        //netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
+		//MaglockMove(ship.WorldToBlockPos(transform.position));
         
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.EnableRendering();

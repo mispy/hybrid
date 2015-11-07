@@ -8,8 +8,7 @@ public class InvalidFacingException : Exception {
 
 [Serializable]
 public struct Facing {
-    [SerializeField]
-    private int index;
+    public int index;
     public static Facing up = new Facing(2);
     public static Facing down = new Facing(-2);
     public static Facing right = new Facing(1);
