@@ -13,6 +13,7 @@ GameObject:
   - 114: {fileID: 11466240}
   - 114: {fileID: 11498246}
   - 114: {fileID: 11472796}
+  - 65: {fileID: 6546872}
   m_Layer: 5
   m_Name: Crew
   m_TagString: Untagged
@@ -32,6 +33,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!65 &6546872
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170034}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: .200000003}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11466240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -113,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TransformSyncMode: 1
   m_SendInterval: .100000001
-  m_SyncRotationAxis: 7
+  m_SyncRotationAxis: 2
   m_RotationSyncCompression: 0
   m_SyncSpin: 0
   m_MovementTheshold: .00100000005

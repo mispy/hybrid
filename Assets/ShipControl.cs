@@ -172,7 +172,13 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(Keybind.StrafeRight).Bind(this, OnStrafeLeft, true);
         InputEvent.For(Keybind.TurnLeft).Bind(this, OnTurnLeft, true);
         InputEvent.For(Keybind.TurnRight).Bind(this, OnTurnRight, true);
+
+        InputEvent.For(KeyCode.E).Bind(this, OnExitControl);
 	}
+
+    public void OnExitControl() {
+        Game.shipControl.gameObject.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update () {

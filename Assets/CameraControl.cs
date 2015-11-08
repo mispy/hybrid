@@ -32,7 +32,7 @@ public class CameraControl : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() {
         if (Game.localPlayer == null) return;
         locked = Game.localPlayer.transform;
 
@@ -47,8 +47,9 @@ public class CameraControl : MonoBehaviour {
 		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {
 			ZoomOut();
 		}
-
+      
 		camera.transform.rotation = locked.transform.rotation;
-		Game.MoveCamera(locked.transform.position + locked.transform.TransformVector(cameraOffset));
+		camera.transform.SetParent(locked);
+        //Game.MoveCamera(locked.transform.position + locked.transform.TransformVector(cameraOffset));
 	}
 }

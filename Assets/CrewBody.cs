@@ -49,9 +49,9 @@ public class CrewBody : NetworkBehaviour {
     }
 
     void Awake() {
-        collider = gameObject.AddComponent<BoxCollider>();
+        collider = gameObject.GetComponent<BoxCollider>();
         weapon = gameObject.AddComponent<CrewWeapon>();
-        mind = gameObject.AddComponent<CrewMind>();      
+        //mind = gameObject.AddComponent<CrewMind>();      
         AddRigid();
         netform = GetComponent<NetworkTransform>();
         netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
@@ -77,9 +77,10 @@ public class CrewBody : NetworkBehaviour {
         maglockShip.maglockedCrew.Add(this);
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);
-        //netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
-        //Destroy(rigidBody);
+        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
+        Destroy(rigidBody);
         MaglockMove(ship.WorldToBlockPos(transform.position));
+        collider.isTrigger = true;
         
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.EnableRendering();
@@ -89,11 +90,11 @@ public class CrewBody : NetworkBehaviour {
         transform.SetParent(Game.activeSector.contents);
         rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
-        //AddRigid();
-        //netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+        AddRigid();
+        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
-        
+        collider.isTrigger = false;
         maglockShip = null;
         currentBlock = null;
     }
@@ -128,10 +129,10 @@ public class CrewBody : NetworkBehaviour {
 		if (!maglockShip.blocks.IsPassable(maglockMoveBlockPos))
 			return;
 
-        var speed = 15f;
-        var targetPos = (Vector3)maglockShip.BlockToLocalPos(maglockMoveBlockPos);
-        
-        var pos = transform.localPosition;
+        var speed = 10f;
+        var targetPos = maglockShip.BlockToLocalPos(maglockMoveBlockPos);
+
+        var pos = (Vector2)transform.localPosition;
         var dist = targetPos - pos;
         
         if (dist.magnitude > speed*Time.deltaTime) {
@@ -139,7 +140,7 @@ public class CrewBody : NetworkBehaviour {
             dist = dist*speed*Time.deltaTime;
         }
         
-        transform.localPosition += dist;
+        transform.localPosition += (Vector3)dist;
     }
     
     void UpdateMaglock() {
@@ -155,7 +156,7 @@ public class CrewBody : NetworkBehaviour {
             currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
             currentBlock = maglockShip.blocks[currentBlockPos, BlockLayer.Base];
         }
-        
+
         if (maglockShip != null)
             UpdateMaglockMove();
     }
