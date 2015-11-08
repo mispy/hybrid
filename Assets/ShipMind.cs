@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -96,11 +97,27 @@ public class ShipMind : PoolBehaviour {
     [ReadOnlyAttribute]
 	public PoolBehaviour tactic;
 
-    // Use this for initialization
+    [Server]
     void Start () {
         ship = GetComponent<Blockform>();
 		tactic = gameObject.AddComponent<EngageTactic>();
     }
+    
+    [Server]
+    void Update() {
+        if (ship.maglockedCrew.Count == 0 || ship == Game.playerShip) return;
+        
+        var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
+        
+        if (enemies.Count() > 0) {
+            enemies = enemies.OrderBy((other) => -other.poweredWeapons.Count);
+            nearestEnemy = enemies.First();
+        }
+        
+        UpdateTractors();
+        UpdateWeapons();
+        UpdateTactic();
+    } 
 
     bool IsEnemy(Blockform otherShip) {
         return true;
@@ -148,20 +165,4 @@ public class ShipMind : PoolBehaviour {
 			SetTactic<EngageTactic>();
 		}
 	}
-
-    // Update is called once per frame
-    void Update () {
-        if (ship.maglockedCrew.Count == 0 || ship == Game.playerShip) return;
-
-        var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
-        
-        if (enemies.Count() > 0) {
-            enemies = enemies.OrderBy((other) => -other.poweredWeapons.Count);
-            nearestEnemy = enemies.First();
-        }
-
-        UpdateTractors();
-        UpdateWeapons();
-		UpdateTactic();
-   } 
 }

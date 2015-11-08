@@ -17,7 +17,13 @@ public class CrewBody : NetworkBehaviour {
     public IntVector2 currentBlockPos;
     public IntVector2 maglockMoveBlockPos;
     public Block currentBlock = null;
-    
+
+    public bool isMaglocked {
+        get {
+            return maglockShip != null;
+        }
+    }
+
     public Block controlConsole = null;
     
     public CrewWeapon weapon;
@@ -69,11 +75,11 @@ public class CrewBody : NetworkBehaviour {
     public void SetMaglock(Blockform ship) {
         maglockShip = ship;
         maglockShip.maglockedCrew.Add(this);
-        //transform.rotation = maglockShip.transform.rotation;
-        //transform.SetParent(maglockShip.transform);
-        //Destroy(rigidBody);
+        transform.rotation = maglockShip.transform.rotation;
+        transform.SetParent(maglockShip.transform);
         //netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
-		//MaglockMove(ship.WorldToBlockPos(transform.position));
+        //Destroy(rigidBody);
+        MaglockMove(ship.WorldToBlockPos(transform.position));
         
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.EnableRendering();
@@ -81,10 +87,10 @@ public class CrewBody : NetworkBehaviour {
     
     void StopMaglock() {
         transform.SetParent(Game.activeSector.contents);
-       // rigidBody.isKinematic = false;
+        rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
-        AddRigid();
-        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+        //AddRigid();
+        //netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
         

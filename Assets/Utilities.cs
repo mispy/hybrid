@@ -28,6 +28,13 @@ public struct IntRect {
     }
 }
 
+public struct BlockPosition {
+    public BlockMap blocks;
+    public int x;
+    public int y;
+    public int z;
+}
+
 [Serializable]
 public struct IntVector2 {    
     [SerializeField]

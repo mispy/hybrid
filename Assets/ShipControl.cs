@@ -8,13 +8,19 @@ using UnityEditor;
 #endif
 
 public class ShipControl : MonoBehaviour {
-    Blockform ship;
+    Blockform ship {
+        get { return Game.playerShip; }
+    }
     Transform selector;
     CrewBody selectedCrew = null;
     public Blockform selectedShip { get; private set; }
 
     public HashSet<Block> selectedBlocks = new HashSet<Block>();
     public Dictionary<Block, Transform> blockSelectors = new Dictionary<Block, Transform>();
+
+    public void Awake() {
+        gameObject.SetActive(false);
+    }
 
     void DeselectCrew() {
         if (selectedCrew == null) return;
@@ -175,7 +181,6 @@ public class ShipControl : MonoBehaviour {
             return;
         }
 
-        ship = Game.playerShip;
 		
 		
 		//Game.MoveCamera(Game.playership.transform.position);
