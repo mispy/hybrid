@@ -15,6 +15,7 @@ public class CrewBody : NetworkBehaviour {
     // bc they attach to the sides as well
     public Blockform maglockShip = null;
     public IntVector2 currentBlockPos;
+    [SyncVar]
     public IntVector2 maglockMoveBlockPos;
     public Block currentBlock = null;
 
@@ -34,6 +35,10 @@ public class CrewBody : NetworkBehaviour {
     public int health;
 
     public NetworkTransform netform { get; private set; }
+    
+    public void NewSyncPos(Vector2 pos) {
+        transform.localPosition = pos;
+    }
 
     public void TakeDamage(int amount) {
         health -= amount;
@@ -52,10 +57,9 @@ public class CrewBody : NetworkBehaviour {
         collider = gameObject.GetComponent<BoxCollider>();
         weapon = gameObject.AddComponent<CrewWeapon>();
         //mind = gameObject.AddComponent<CrewMind>();      
+
         AddRigid();
         netform = GetComponent<NetworkTransform>();
-        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
-
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 
@@ -77,7 +81,7 @@ public class CrewBody : NetworkBehaviour {
         maglockShip.maglockedCrew.Add(this);
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);
-        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncTransform;
+        netform.enabled = false;
         Destroy(rigidBody);
         MaglockMove(ship.WorldToBlockPos(transform.position));
         collider.isTrigger = true;
@@ -88,10 +92,9 @@ public class CrewBody : NetworkBehaviour {
     
     void StopMaglock() {
         transform.SetParent(Game.activeSector.contents);
-        rigidBody.isKinematic = false;
         maglockShip.maglockedCrew.Remove(this);
         AddRigid();
-        netform.transformSyncMode = NetworkTransform.TransformSyncMode.SyncRigidbody3D;
+        netform.enabled = true;
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
         collider.isTrigger = false;

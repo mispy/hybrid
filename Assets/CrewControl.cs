@@ -3,9 +3,11 @@ using System.Collections;
 
 public class CrewControl : MonoBehaviour {
     CrewBody crew;
+    Player player;
 
     public void OnEnable() {
         crew = GetComponentInParent<CrewBody>();
+        player = crew.GetComponent<Player>();
 
         InputEvent.For(KeyCode.W).Bind(this, OnMoveForward, true);
         InputEvent.For(KeyCode.A).Bind(this, OnMoveLeft, true);
@@ -25,28 +27,28 @@ public class CrewControl : MonoBehaviour {
 
     public void OnMoveForward() {
         if (crew.isMaglocked)
-            crew.MaglockMove(crew.currentBlockPos + IntVector2.up);
+            player.MaglockMove(crew.currentBlockPos + IntVector2.up);
         else
             crew.rigidBody.velocity += transform.up;
     }
 
     public void OnMoveLeft() {
         if (crew.isMaglocked)
-            crew.MaglockMove(crew.currentBlockPos + IntVector2.left);
+            player.MaglockMove(crew.currentBlockPos + IntVector2.left);
         else
             crew.rigidBody.velocity += -transform.right;
     }
 
     public void OnMoveRight() {
         if (crew.isMaglocked)
-            crew.MaglockMove(crew.currentBlockPos + IntVector2.right);
+            player.MaglockMove(crew.currentBlockPos + IntVector2.right);
         else
             crew.rigidBody.velocity += transform.right;
     }
 
     public void OnMoveDown() {
         if (crew.isMaglocked)
-            crew.MaglockMove(crew.currentBlockPos + IntVector2.down);
+            player.MaglockMove(crew.currentBlockPos + IntVector2.down);
         else
             crew.rigidBody.velocity += -transform.up;
     }
