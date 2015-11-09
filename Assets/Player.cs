@@ -17,15 +17,23 @@ public class Player : NetworkBehaviour {
         crew.MaglockMove(pos);
     }
 
-    public void MaglockMove(IntVector2 pos) {
-        CmdMaglockMove(pos);
+    [Command]
+    public void CmdFireThrusters(Facing facing) {
+        crew.maglockShip.FireThrusters(facing);
     }
 
-    public override void OnStartServer() {
+    [Command]
+    public void CmdFireAttitudeThrusters(Facing facing) {
+        crew.maglockShip.FireAttitudeThrusters(facing);
+    }
+
+    public void Awake() {
         crew = GetComponent<CrewBody>();
     }
 
     public override void OnStartLocalPlayer() {
+        Game.localPlayer = this;        
+        gameObject.AddComponent<CrewControl>();
         CmdGetWorld();
     }
 }

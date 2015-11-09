@@ -71,6 +71,7 @@ public class Pool {
 
         GameObject obj = Object.Instantiate(prefab) as GameObject;
         obj.name = prefab.name;
+        var wasActive = obj.activeSelf;
         obj.SetActive(false);
         obj.transform.SetParent(Pool.holder.transform);
         foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
@@ -80,7 +81,7 @@ public class Pool {
             comp.OnCreate();
         }
 
-        prefab.SetActive(true);
+        prefab.SetActive(wasActive);
         return obj;
     }
     

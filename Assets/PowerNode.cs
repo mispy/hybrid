@@ -9,6 +9,8 @@ public class PowerNode : BlockComponent {
     }
 
     public void OnPowerUpdate() {
+        if (!gameObject.activeSelf) return;
+
         producer.hasAvailablePower = false;
 
         foreach (var reactor in form.GetBlockComponents<Reactor>()) {

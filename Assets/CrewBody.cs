@@ -64,7 +64,6 @@ public class CrewBody : NetworkBehaviour {
     }
 
     public override void OnStartLocalPlayer() {
-        Game.localPlayer = this;        
         gameObject.AddComponent<CrewControl>();
     }
 

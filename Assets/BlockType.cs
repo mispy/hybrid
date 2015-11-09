@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.Networking;
 using System.Collections;
 using System;
 using System.Collections.Generic;
@@ -92,7 +93,6 @@ public class BlockType : MonoBehaviour {
     public BlockAbility[] abilities;
 
     /* Complex block specific functionality */
-    [Tooltip("A complex block has its gameObject instantiated for every block instance. This is expensive!")]
     public bool isComplexBlock = false;
     public bool showInMenu = false;
     public bool isWeapon = false;
@@ -114,7 +114,7 @@ public class BlockType : MonoBehaviour {
         }
     }
 
-    public void Awake() {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+    public void Awake() {   
+        Destroy(this);
     }
 }

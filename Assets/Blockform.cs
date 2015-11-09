@@ -83,6 +83,7 @@ public class Blockform : PoolBehaviour {
         ship.name = template.name;
         ship.Initialize(template);
 
+        NetworkServer.Spawn(ship.gameObject);
         ship.gameObject.SetActive(true);
         return ship;
     }
@@ -303,6 +304,7 @@ public class Blockform : PoolBehaviour {
     }
     
     public void OnBlockAdded(Block newBlock) {
+        newBlock.ship = this;
 
         //if (newBlock.layer == BlockLayer.Base)
         //    this.size += 1;
@@ -336,35 +338,30 @@ public class Blockform : PoolBehaviour {
 		UpdateBounds();
     }
 
-    
-    public GameObject RealizeBlock(Block block) {
-        Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
-
+    public void RealizeBlock(Block block) {
         var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);
-        block._gameObject = obj.gameObject;
+
+        Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
+        
         obj.transform.position = BlockToWorldPos(block);
         obj.transform.up = worldOrient;
         obj.transform.localScale *= Tile.worldSize;
-
-        foreach (var comp in obj.GetComponents<Component>()) {
-            if (comp is BlockType || comp is BlockAbility)
-                Destroy(comp);
-        }
-
+        
+        block._gameObject = obj.gameObject;
+        
         foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;
             comp.form = this;
-
+            
             if (!blockCompCache.ContainsKey(comp.GetType()))
                 blockCompCache[comp.GetType()] = new HashSet<BlockComponent>();
             blockCompCache[comp.GetType()].Add(comp);
         }
-
+        
         if (!block.type.isComplexBlock)
             obj.GetComponent<SpriteRenderer>().enabled = false;
 
-        obj.gameObject.SetActive(true);
-        return obj.gameObject;
+        obj.gameObject.SetActive(true);      
     }
     
     public void UpdateMass() {        

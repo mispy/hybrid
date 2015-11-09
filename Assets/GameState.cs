@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Linq;
@@ -33,7 +34,7 @@ public static class Game {
     public static WeaponSelect weaponSelect;
     public static DebugMenu debugMenu;
     public static BlockSelector blockSelector;
-    public static CrewBody localPlayer;
+    public static Player localPlayer;
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
@@ -137,8 +138,8 @@ public static class Game {
     public static void Start() {
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-        //var star = Pool.For("Star").Attach<Transform>(Game.activeSector.contents);
-        //Pool.For("Star").Attach<Transform>(star.transform);
+        var star = Pool.For("Star").Attach<Transform>(Game.state.transform, false);
+        NetworkServer.Spawn(star.gameObject);
     }
 }
 
