@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using String = System.String;
 using System.Collections;
 using System.Collections.Generic;
 #if UNITY_EDITOR
@@ -71,7 +72,6 @@ public class Pool {
 
         GameObject obj = Object.Instantiate(prefab) as GameObject;
         obj.name = prefab.name;
-        var wasActive = obj.activeSelf;
         obj.SetActive(false);
         obj.transform.SetParent(Pool.holder.transform);
         foreach (var comp in obj.GetComponentsInChildren<PoolBehaviour>(includeInactive: true)) {
@@ -81,7 +81,7 @@ public class Pool {
             comp.OnCreate();
         }
 
-        prefab.SetActive(wasActive);
+        prefab.SetActive(true);
         return obj;
     }
     
@@ -114,6 +114,13 @@ public class Pool {
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;
         obj.SetActive(isActive);
+
+        var comp = obj.GetComponent<T>();
+
+        if (comp == null) {           
+            var msg = String.Format("{0} has no component {1}", obj, typeof(T).Name);
+            throw new MissingComponentException(msg);
+        }
 
         return obj.GetComponent<T>();
     }
