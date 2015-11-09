@@ -11,6 +11,8 @@ GameObject:
   - 212: {fileID: 21258182}
   - 114: {fileID: 11407554}
   - 114: {fileID: 11462176}
+  - 114: {fileID: 11484832}
+  - 114: {fileID: 11417100}
   m_Layer: 9
   m_Name: Door
   m_TagString: Untagged
@@ -58,6 +60,21 @@ MonoBehaviour:
   isWeapon: 0
   needsCrew: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &11417100
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
 --- !u!114 &11462176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,6 +88,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   form: {fileID: 0}
   openSprite: {fileID: 21300000, guid: 4de7a9d1e5a386b4698d3022c4eae964, type: 3}
+--- !u!114 &11484832
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 112604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 16
+    i1: 28
+    i2: 137
+    i3: 195
+    i4: 94
+    i5: 190
+    i6: 84
+    i7: 52
+    i8: 169
+    i9: 168
+    i10: 235
+    i11: 172
+    i12: 126
+    i13: 109
+    i14: 45
+    i15: 178
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &21258182
 SpriteRenderer:
   m_ObjectHideFlags: 1

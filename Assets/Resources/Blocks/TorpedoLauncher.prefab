@@ -14,6 +14,8 @@ GameObject:
   - 114: {fileID: 11489764}
   - 114: {fileID: 11455138}
   - 114: {fileID: 11428862}
+  - 114: {fileID: 11420840}
+  - 114: {fileID: 11457396}
   m_Layer: 16
   m_Name: TorpedoLauncher
   m_TagString: Untagged
@@ -74,7 +76,40 @@ MonoBehaviour:
   isComplexBlock: 1
   showInMenu: 1
   isWeapon: 1
-  renderer: {fileID: 0}
+  needsCrew: 0
+  spriteRenderer: {fileID: 0}
+--- !u!114 &11420840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 33
+    i1: 190
+    i2: 51
+    i3: 255
+    i4: 144
+    i5: 100
+    i6: 234
+    i7: 84
+    i8: 121
+    i9: 181
+    i10: 203
+    i11: 30
+    i12: 37
+    i13: 123
+    i14: 118
+    i15: 91
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11428862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -103,7 +138,22 @@ MonoBehaviour:
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
-  availableProducers: []
+  attachedProducer: {fileID: 0}
+--- !u!114 &11457396
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
 --- !u!114 &11489764
 MonoBehaviour:
   m_ObjectHideFlags: 1

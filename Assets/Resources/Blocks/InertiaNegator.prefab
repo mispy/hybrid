@@ -12,6 +12,8 @@ GameObject:
   - 114: {fileID: 11452616}
   - 114: {fileID: 11424354}
   - 114: {fileID: 11446066}
+  - 114: {fileID: 11487336}
+  - 114: {fileID: 11454502}
   m_Layer: 9
   m_Name: InertiaNegator
   m_TagString: Untagged
@@ -87,6 +89,53 @@ MonoBehaviour:
   isWeapon: 0
   needsCrew: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &11454502
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
+--- !u!114 &11487336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 140314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 88
+    i1: 22
+    i2: 12
+    i3: 96
+    i4: 38
+    i5: 235
+    i6: 24
+    i7: 132
+    i8: 73
+    i9: 232
+    i10: 127
+    i11: 167
+    i12: 14
+    i13: 180
+    i14: 56
+    i15: 10
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &21249230
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -29,6 +29,8 @@ GameObject:
   - 114: {fileID: 11447682}
   - 114: {fileID: 11459942}
   - 114: {fileID: 11450700}
+  - 114: {fileID: 11402274}
+  - 114: {fileID: 11444438}
   m_Layer: 9
   m_Name: PowerNode
   m_TagString: Untagged
@@ -67,6 +69,38 @@ Transform:
   - {fileID: 22400282}
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11402274
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 74
+    i1: 109
+    i2: 157
+    i3: 242
+    i4: 9
+    i5: 164
+    i6: 204
+    i7: 228
+    i8: 56
+    i9: 0
+    i10: 181
+    i11: 191
+    i12: 68
+    i13: 186
+    i14: 73
+    i15: 103
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11441410
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94,6 +128,21 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11444438
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
 --- !u!114 &11447682
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -63,10 +63,6 @@ public class CrewBody : NetworkBehaviour {
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 
-    public override void OnStartLocalPlayer() {
-        gameObject.AddComponent<CrewControl>();
-    }
-
     public void MaglockMove(IntVector2 bp) {
         maglockMoveBlockPos = bp;
     }

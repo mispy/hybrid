@@ -84,17 +84,9 @@ public static class Game {
 
 
     public static IEnumerable<T> LoadPrefabs<T>(string path) {
-        var resources = Resources.LoadAll(path);
-
-        foreach (var obj in resources) {
-            var gobj = obj as GameObject;
-            if (gobj != null) {
-                gobj.SendMessage("OnResourceLoad", SendMessageOptions.DontRequireReceiver);
-                var comp = gobj.GetComponent<T>();
-                //Debug.LogFormat("{0} {1}", "Loaded", gobj);
-
-                if (comp != null) yield return comp;
-            }
+        foreach (var prefab in LoadPrefabs(path)) {
+            var comp = prefab.GetComponent<T>();
+            if (comp != null) yield return comp;
         }
     }
     
@@ -104,6 +96,11 @@ public static class Game {
             var gobj = obj as GameObject;
             if (gobj != null) {
                 gobj.SendMessage("OnResourceLoad", SendMessageOptions.DontRequireReceiver);
+                                
+                if (gobj.GetComponent<NetworkIdentity>() != null) {
+                    ClientScene.RegisterPrefab(gobj);
+                }
+
                 yield return gobj;
             }
         }
@@ -138,8 +135,6 @@ public static class Game {
     public static void Start() {
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-        var star = Pool.For("Star").Attach<Transform>(Game.state.transform, false);
-        NetworkServer.Spawn(star.gameObject);
     }
 }
 

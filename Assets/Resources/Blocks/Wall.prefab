@@ -10,6 +10,8 @@ GameObject:
   - 4: {fileID: 488952}
   - 212: {fileID: 21246848}
   - 114: {fileID: 11429582}
+  - 114: {fileID: 11404612}
+  - 114: {fileID: 11445114}
   m_Layer: 16
   m_Name: Wall
   m_TagString: Untagged
@@ -29,6 +31,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11404612
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 25
+    i1: 75
+    i2: 82
+    i3: 179
+    i4: 240
+    i5: 61
+    i6: 117
+    i7: 228
+    i8: 232
+    i9: 97
+    i10: 98
+    i11: 201
+    i12: 20
+    i13: 134
+    i14: 173
+    i15: 230
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11429582
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59,6 +93,21 @@ MonoBehaviour:
   isWeapon: 0
   needsCrew: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &11445114
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 142370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
 --- !u!212 &21246848
 SpriteRenderer:
   m_ObjectHideFlags: 1

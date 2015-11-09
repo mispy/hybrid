@@ -12,6 +12,8 @@ GameObject:
   - 114: {fileID: 11411260}
   - 114: {fileID: 11475746}
   - 114: {fileID: 11437600}
+  - 114: {fileID: 11434512}
+  - 114: {fileID: 11413580}
   m_Layer: 16
   m_Name: ShieldGenerator
   m_TagString: Untagged
@@ -59,6 +61,53 @@ MonoBehaviour:
   isWeapon: 0
   needsCrew: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &11413580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
+--- !u!114 &11434512
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 197956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 140
+    i1: 127
+    i2: 91
+    i3: 240
+    i4: 211
+    i5: 207
+    i6: 135
+    i7: 228
+    i8: 59
+    i9: 247
+    i10: 58
+    i11: 78
+    i12: 131
+    i13: 149
+    i14: 56
+    i15: 17
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11437600
 MonoBehaviour:
   m_ObjectHideFlags: 1

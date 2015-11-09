@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 
+[RequireComponent(typeof(NetworkIdentity))]
 public class BlockIdentity : NetworkBehaviour {
     [SyncVar]
     public IntVector2 pos;
@@ -11,5 +12,7 @@ public class BlockIdentity : NetworkBehaviour {
     public NetworkInstanceId formId;
 
     void Awake() {
+        var form = ClientScene.FindLocalObject(formId).GetComponent<Blockform>();
+        form.RegisterBlock(this);
     }
 }

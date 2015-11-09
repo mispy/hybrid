@@ -10,6 +10,8 @@ GameObject:
   - 4: {fileID: 425200}
   - 212: {fileID: 21216936}
   - 114: {fileID: 11425422}
+  - 114: {fileID: 11476622}
+  - 114: {fileID: 11453200}
   m_Layer: 9
   m_Name: Floor
   m_TagString: Untagged
@@ -57,6 +59,53 @@ MonoBehaviour:
   isWeapon: 0
   needsCrew: 0
   spriteRenderer: {fileID: 0}
+--- !u!114 &11453200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pos:
+    x: 0
+    y: 0
+  layer: 0
+--- !u!114 &11476622
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 236
+    i1: 167
+    i2: 210
+    i3: 6
+    i4: 119
+    i5: 50
+    i6: 189
+    i7: 4
+    i8: 72
+    i9: 10
+    i10: 115
+    i11: 165
+    i12: 233
+    i13: 149
+    i14: 183
+    i15: 49
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!212 &21216936
 SpriteRenderer:
   m_ObjectHideFlags: 1

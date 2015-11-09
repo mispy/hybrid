@@ -31,7 +31,6 @@ public class BlockComponent : PoolBehaviour {
     public virtual void OnNewBlock(Block block) { }
 }
 
-
 public class BlockType : MonoBehaviour {
     [Tooltip("The mass value of each block is added to the mass of a ship rigidBody.")]
     public float mass;
@@ -39,11 +38,14 @@ public class BlockType : MonoBehaviour {
     static List<BlockType> all = new List<BlockType>();
     static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
 
-    static void LoadTypes() {
+    public static void LoadTypes() {
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
             type.tileable = Tile.tileables[type.name];
             BlockType.byId[type.name] = type;
             BlockType.all.Add(type);
+
+            if (type.GetComponent<BlockIdentity>() == null)
+                type.gameObject.AddComponent<BlockIdentity>();
         }
     }
 

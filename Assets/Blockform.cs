@@ -338,11 +338,22 @@ public class Blockform : PoolBehaviour {
 		UpdateBounds();
     }
 
+    [Server]
     public void RealizeBlock(Block block) {
-        var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);
+        var obj = Pool.For(block.type.gameObject).Attach<BlockIdentity>(blockComponentHolder, false);
+        obj.pos = block.pos;
+        obj.layer = block.layer;
+        obj.formId = GetComponent<NetworkIdentity>().netId;
+        NetworkServer.Spawn(obj.gameObject);
+        obj.gameObject.SetActive(true);
+    }
+
+    public void RegisterBlock(BlockIdentity obj) {
+        var block = blocks[obj.pos, obj.layer];
 
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
-        
+
+        obj.transform.SetParent(blockComponentHolder);
         obj.transform.position = BlockToWorldPos(block);
         obj.transform.up = worldOrient;
         obj.transform.localScale *= Tile.worldSize;
