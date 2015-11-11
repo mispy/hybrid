@@ -34,7 +34,7 @@ public class ShipEditor : Editor {
 }
 #endif
 
-public class Blockform : PoolBehaviour {
+public class Blockform : NetworkBehaviour {
     [ReadOnlyAttribute]
     public Bounds localBounds = new Bounds();
     [ReadOnlyAttribute]
@@ -340,11 +340,18 @@ public class Blockform : PoolBehaviour {
 
     [Server]
     public void RealizeBlock(Block block) {
-        var obj = Pool.For(block.type.gameObject).Attach<BlockIdentity>(blockComponentHolder, false);
-        obj.pos = block.pos;
-        obj.layer = block.layer;
-        obj.formId = GetComponent<NetworkIdentity>().netId;
-        NetworkServer.Spawn(obj.gameObject);
+        if (block._gameObject != null) return;
+
+        var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false).gameObject;
+
+        var hash = new NetworkHash128();
+        hash.i0 = (byte)GetComponent<NetworkIdentity>().netId.Value;
+        hash.i1 = (byte)block.pos.x;
+        hash.i2 = (byte)block.pos.y;
+        hash.i3 = (byte)obj.layer;
+        hash.i4 = (byte)BlockType.All.IndexOf(block.type);
+
+        NetworkServer.Spawn(obj.gameObject, hash);
         obj.gameObject.SetActive(true);
     }
 
@@ -578,7 +585,7 @@ public class Blockform : PoolBehaviour {
             return;
         }*/
     }
-    
+
     public void StartTractorBeam(Vector2 pz) {
         foreach (var tractorBeam in GetBlockComponents<TractorBeam>()) {
             tractorBeam.Fire(pz);

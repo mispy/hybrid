@@ -38,8 +38,12 @@ public class BlockType : MonoBehaviour {
     static List<BlockType> all = new List<BlockType>();
     static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
 
+
     public static void LoadTypes() {
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
+            ClientScene.RegisterPrefab(type.gameObject, OnSpawn, OnDeSpawn);
+
+
             type.tileable = Tile.tileables[type.name];
             BlockType.byId[type.name] = type;
             BlockType.all.Add(type);
@@ -47,6 +51,22 @@ public class BlockType : MonoBehaviour {
             if (type.GetComponent<BlockIdentity>() == null)
                 type.gameObject.AddComponent<BlockIdentity>();
         }
+    }
+
+    public static GameObject OnSpawn(Vector3 pos, NetworkHash128 hash) {
+        var netId = new NetworkInstanceId((uint)hash.i0);
+        Debug.Log(netId);
+        var x = (int)hash.i1;
+        var y = (int)hash.i2;
+        var layer = (BlockLayer)hash.i3;
+        var type = BlockType.All[hash.i4];
+        Debug.Log(type);
+        var id = Pool.For(type.gameObject).Attach<BlockIdentity>(Game.state.transform);
+        return id.gameObject;
+    }
+
+    public static void OnDeSpawn(GameObject obj) {
+
     }
 
     public static BlockType FromId(string id) {
