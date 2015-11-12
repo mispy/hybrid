@@ -11,10 +11,8 @@ public class BlockIdentity : NetworkBehaviour {
     [SyncVar]
     public NetworkInstanceId formId;
 
-    /*public override void OnStartClient() {
-        Debug.Log(formId);
+    void Awake() {
         var form = ClientScene.FindLocalObject(formId).GetComponent<Blockform>();
-        Debug.Log(form);
         form.RegisterBlock(this);
-    }*/
+    }
 }

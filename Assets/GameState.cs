@@ -7,11 +7,17 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Random = UnityEngine.Random;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public static class SpaceLayer {
     public static LayerMask ShipBounds = LayerMask.GetMask(new string[] { "Bounds" });
 }
 
+#if UNITY_EDITOR
+[InitializeOnLoad]
+#endif
 public static class Game {
     public static GameState state;
 
@@ -29,7 +35,6 @@ public static class Game {
     public static DebugMenu debugMenu;
     public static BlockSelector blockSelector;
     public static Player localPlayer;
-    public static SpaceNetwork networkManager;
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
@@ -46,6 +51,17 @@ public static class Game {
     public static Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
     static Game() {
+        foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
+            prefabs[prefab.name] = prefab;
+        }
+
+        foreach (var prefab in Game.LoadPrefabs("Beacons")) {
+            prefabs[prefab.name] = prefab;
+        }
+        
+        foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
+            sprites[sprite.name] = sprite;
+        }                
 
         //GameObject.Find("Game").GetComponent<GameState>().UpdateRefs();
     }
@@ -81,6 +97,10 @@ public static class Game {
             if (gobj != null) {
                 gobj.SendMessage("OnResourceLoad", SendMessageOptions.DontRequireReceiver);
                                 
+                if (gobj.GetComponent<NetworkIdentity>() != null) {
+                    ClientScene.RegisterPrefab(gobj);
+                }
+
                 yield return gobj;
             }
         }
@@ -112,27 +132,6 @@ public static class Game {
         Time.timeScale = 1.0f;
     }
 
-    public static void Setup() {
-        foreach (var prefab in Game.LoadPrefabs("Prefabs")) {
-            if (prefab.GetComponent<NetworkIdentity>() != null) {
-                if (Game.networkManager.spawnPrefabs != null)
-                    Game.networkManager.spawnPrefabs.Add(prefab);
-            }
-            
-            prefabs[prefab.name] = prefab;
-        }
-        
-        foreach (var prefab in Game.LoadPrefabs("Beacons")) {
-            prefabs[prefab.name] = prefab;
-        }
-        
-        foreach (var sprite in Resources.LoadAll<Sprite>("Sprites")) {
-            sprites[sprite.name] = sprite;
-        }                
-
-        BlockType.LoadTypes();
-    }
-
     public static void Start() {
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
@@ -154,14 +153,18 @@ public class GameState : MonoBehaviour {
         Game.weaponSelect = GetComponentInChildren<WeaponSelect>();
         Game.debugMenu = GetComponentsInChildren<DebugMenu>(includeInactive: true).First();
         Game.blockSelector = GetComponentsInChildren<BlockSelector>(includeInactive: true).First();
-        Game.networkManager = GetComponentsInChildren<SpaceNetwork>(includeInactive: true).First();
         Game.mainCamera = Camera.main;
         Game.state = this;
     }
       
     public void Awake() {
         UpdateRefs();
-        Game.Setup();
+
+        Game.state.gameObject.SetActive(false);
+    }
+
+    public void OnEnable() {
+        UpdateRefs();
     }
 
     public void BriefMessage(string message) {
@@ -171,6 +174,18 @@ public class GameState : MonoBehaviour {
 
     public void ClearMessage() {
         messageText.text = "";
+    }
+
+    public static bool inputBlocked = false;
+    public static string inputBlocker;
+
+    public static void BlockInput(string blocker) {
+        inputBlocked = true;
+        inputBlocker = blocker;
+    }
+
+    public static void UnblockInput() {
+        inputBlocked = false;
     }
 
     public Text messageText;
