@@ -19,6 +19,7 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public override void OnStartClient(NetworkClient client) {
+        BlockType.LoadTypes();
         Star.Setup();
         Game.state.gameObject.SetActive(true);
     }

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ShieldGenerator : BlockComponent {
-	void Awake() {
+	public override void OnRealize() {
 		if (form.shields == null) {
 			Pool.For("Shields").Attach<Shields>(form.transform);
 		}

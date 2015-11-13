@@ -7,7 +7,7 @@ public class Door : BlockComponent {
 
     SpriteRenderer spriteRenderer;
 
-    void Awake() {
+    public override void OnRealize() {
         spriteRenderer = GetComponent<SpriteRenderer>();
         closedSprite = block.type.GetComponent<SpriteRenderer>().sprite;
 	}

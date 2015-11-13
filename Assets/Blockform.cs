@@ -158,7 +158,7 @@ public class Blockform : PoolBehaviour {
     /*public override bool OnSerialize(NetworkWriter writer, bool forceAll) {
         if (!forceAll) return false;
 
-        blocks.OnBeforeSerialize();
+            blocks.OnBeforeSerialize();
         writer.Write(blocks.blockData.Count);
         Debug.Log(blocks.blockData.Count);
         foreach (var data in blocks.blockData) {
@@ -217,6 +217,7 @@ public class Blockform : PoolBehaviour {
         
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
+        Invoke("RealizeBlocks", 0f);
     }
     
     void OnDisable() {
@@ -265,7 +266,7 @@ public class Blockform : PoolBehaviour {
 
         UpdateBlock(oldBlock);       
 
-        if (oldBlock.type.isComplexBlock) {
+        if (oldBlock._gameObject != null) {
             foreach (var comp in oldBlock.gameObject.GetComponents<BlockComponent>()) {
                 if (blockCompCache.ContainsKey(comp.GetType()))
                     blockCompCache[comp.GetType()].Remove(comp);
@@ -280,6 +281,8 @@ public class Blockform : PoolBehaviour {
 
     [ClientRpc]
     public void RpcSetBlock(IntVector2 bp, BlockLayer layer, string typeId, Facing facing) {
+        if (NetworkServer.active) return;
+
         var block = new Block(BlockType.FromId(typeId));
         block.facing = facing;
         blocks[bp, layer] = block;
@@ -292,6 +295,8 @@ public class Blockform : PoolBehaviour {
 
     [ClientRpc]
     public void RpcSetup() {
+        if (NetworkServer.active) return;
+        
         OnBlocksReady();
     }
 
@@ -320,7 +325,7 @@ public class Blockform : PoolBehaviour {
         UpdateBlock(newBlock);
         
         if (newBlock.type.isComplexBlock) {
-            RealizeBlock(newBlock);
+            ServerRealizeBlock(newBlock);
         }    
     }
 
@@ -339,7 +344,7 @@ public class Blockform : PoolBehaviour {
     }
 
     [Server]
-    public void RealizeBlock(Block block) {
+    public void ServerRealizeBlock(Block block) {
         var obj = Pool.For(block.type.gameObject).Attach<BlockIdentity>(blockComponentHolder, false);
         obj.pos = block.pos;
         obj.layer = block.layer;
@@ -348,7 +353,21 @@ public class Blockform : PoolBehaviour {
         obj.gameObject.SetActive(true);
     }
 
-    public void RegisterBlock(BlockIdentity obj) {
+    List<BlockIdentity> toRealize = new List<BlockIdentity>();
+
+    public void AddBlockIdentity(BlockIdentity obj) {
+        //RealizeBlock(obj);
+        toRealize.Add(obj);
+    }
+
+    public void RealizeBlocks() {
+        foreach (var obj in toRealize) {
+            if (obj == null) continue;
+            RealizeBlock(obj);
+        }
+    }
+
+    public void RealizeBlock(BlockIdentity obj) {
         var block = blocks[obj.pos, obj.layer];
 
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
@@ -363,6 +382,7 @@ public class Blockform : PoolBehaviour {
         foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;
             comp.form = this;
+            comp.OnRealize();
             
             if (!blockCompCache.ContainsKey(comp.GetType()))
                 blockCompCache[comp.GetType()] = new HashSet<BlockComponent>();
@@ -371,8 +391,6 @@ public class Blockform : PoolBehaviour {
         
         if (!block.type.isComplexBlock)
             obj.GetComponent<SpriteRenderer>().enabled = false;
-
-        obj.gameObject.SetActive(true);      
     }
     
     public void UpdateMass() {        

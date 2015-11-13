@@ -29,6 +29,7 @@ public class BlockComponent : PoolBehaviour {
     public Blockform form;
 
     public virtual void OnNewBlock(Block block) { }
+    public virtual void OnRealize() { }
 }
 
 public class BlockType : MonoBehaviour {

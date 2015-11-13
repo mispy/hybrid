@@ -15,13 +15,13 @@ public class InertiaNegator : BlockComponent {
         form.rigidBody.angularDrag = numNegators;
     }
 
-    public void OnEnable() {
+    /*public void OnEnable() {
         UpdateInertia(form);
     }
 
     public void OnDisable() {
         UpdateInertia(form);
-    }
+    }*/
 
     public void OnPowered() {
         UpdateInertia(form);

@@ -13,7 +13,7 @@ public class PowerReceiver : BlockComponent {
     [HideInInspector]
     private Transform noPowerIndicator;
 
-    public void Start() {
+    public override void OnRealize() {
         isReceiving = true;
         block.isPowered = false;
     }

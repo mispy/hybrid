@@ -11,12 +11,14 @@ public class ProjectileLauncher : BlockComponent {
 
 	[HideInInspector]
 	public float lastFireTime = 0f;
-	public new Collider collider { get; private set; }
+	public new Collider collider {
+        get { return form.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>(); }
+    }
+
 	public RotatingTurret turret { get; private set; }
     public CooldownCharger charger { get; private set; }
 
-	void Start() {
-		collider = form.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>();
+	public override void OnRealize() {
 		turret = GetComponent<RotatingTurret>();
         charger = GetComponent<CooldownCharger>();
 	}

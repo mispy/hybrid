@@ -132,7 +132,7 @@ public class Block {
     public GameObject gameObject {
         get {
             if (_gameObject == null && ship != null) {
-                ship.RealizeBlock(this);
+                ship.ServerRealizeBlock(this);
             }
 
             return _gameObject;
