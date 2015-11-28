@@ -30,6 +30,19 @@ public class BlockComponent : PoolBehaviour {
 
     public virtual void OnNewBlock(Block block) { }
     public virtual void OnRealize() { }
+
+    public virtual void OnSerialize(ExtendedBinaryWriter writer) {
+    
+    }
+
+    public virtual void OnDeserialize(ExtendedBinaryReader reader) {
+
+    }
+
+    public void NetworkSync() {
+        form.networkQueue.Add(this);
+        form.SetDirtyBit(1);
+    }
 }
 
 public class BlockType : MonoBehaviour {
@@ -44,9 +57,6 @@ public class BlockType : MonoBehaviour {
             type.tileable = Tile.tileables[type.name];
             BlockType.byId[type.name] = type;
             BlockType.all.Add(type);
-
-            if (type.GetComponent<BlockIdentity>() == null)
-                type.gameObject.AddComponent<BlockIdentity>();
         }
     }
 

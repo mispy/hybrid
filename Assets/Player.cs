@@ -8,7 +8,7 @@ public class Player : NetworkBehaviour {
     [Command]
     public void CmdGetWorld() {
         foreach (var form in Game.activeSector.blockforms) {
-            form.Propagate();
+            //form.Propagate();
         }
     }
 

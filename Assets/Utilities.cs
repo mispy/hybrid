@@ -171,6 +171,48 @@ public class DebugUtil {
 	}
 }
 
+public class ExtendedBinaryWriter : BinaryWriter {
+    public ExtendedBinaryWriter(Stream output) : base(output) {
+
+    }
+
+    public virtual void Write(IntVector2 pos) {
+        Write(pos.x);
+        Write(pos.y);
+    }
+
+    public virtual void Write(Block block) {
+        Write(block.type.id);
+        Write(block.pos);
+        Write(block.facing.index);
+        Write((int)block.layer);
+    }
+}
+
+public class ExtendedBinaryReader : BinaryReader {
+    public ExtendedBinaryReader(Stream input) : base(input) {
+    }
+
+    public virtual IntVector2 ReadIntVector2() {
+        var x = ReadInt32();
+        var y = ReadInt32();
+        return new IntVector2(x, y);
+    }
+
+    public virtual Block ReadBlock() {
+        var id = ReadString();
+        var pos = ReadIntVector2();
+        var facing = (Facing)ReadInt32();
+        var layer = (BlockLayer)ReadInt32();
+        
+        var block = new Block(BlockType.FromId(id));
+        block.pos = pos;
+        block.facing = facing;
+        block.layer = layer;
+        return block;
+    }
+}
+
 public class Util {
 	public static IEnumerable<Vector2> RectCorners(Rect rect) {
 		yield return new Vector2(rect.xMin, rect.yMin);

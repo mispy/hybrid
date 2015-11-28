@@ -3,6 +3,8 @@ using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.IO;
 using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -34,7 +36,7 @@ public class ShipEditor : Editor {
 }
 #endif
 
-public class Blockform : PoolBehaviour {
+public class Blockform : NetworkBehaviour {
     [ReadOnlyAttribute]
     public Bounds localBounds = new Bounds();
     [ReadOnlyAttribute]
@@ -86,6 +88,70 @@ public class Blockform : PoolBehaviour {
         NetworkServer.Spawn(ship.gameObject);
         ship.gameObject.SetActive(true);
         return ship;
+    }
+
+    public HashSet<BlockComponent> networkQueue = new HashSet<BlockComponent>();
+
+    public override bool OnSerialize(NetworkWriter writer, bool initialState) {               
+        if (!initialState && networkQueue.Count == 0) return false;
+
+        MemoryStream stream = new MemoryStream();
+        var binary = new ExtendedBinaryWriter(stream);
+
+        Debug.Log("OnSerialize");
+        if (initialState) {
+            binary.Write(blocks.allBlocks.Count);
+            foreach (var block in blocks.allBlocks) {
+                binary.Write(block);
+            }                      
+
+            foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
+                comp.OnSerialize(binary);
+            }
+        } else if (networkQueue.Count > 0) {
+            binary.Write(networkQueue.Count);
+            foreach (var comp in networkQueue) {
+                binary.Write(comp.block);
+                binary.Write(comp.block._gameObject.GetComponents<BlockComponent>().ToList().IndexOf(comp));
+                comp.OnSerialize(binary);
+            }
+
+            networkQueue.Clear();
+        }
+
+        var bytes = stream.GetBuffer();
+        writer.WriteBytesFull(bytes);
+        return true;
+    }
+
+    public override void OnDeserialize(NetworkReader reader, bool initialState) {
+        var bytes = reader.ReadBytesAndSize();
+        var stream = new MemoryStream(bytes);
+        var binary = new ExtendedBinaryReader(stream);
+
+        Debug.Log("OnDeserialize");
+        if (initialState) {
+            var count = binary.ReadInt32();
+            for (var i = 0; i < count; i++) {
+                var block = binary.ReadBlock();
+                blocks[block.pos, block.layer] = block;
+            }
+            
+            OnBlocksReady();
+
+            foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
+                comp.OnDeserialize(binary);
+            }
+        } else {
+            var count = binary.ReadInt32();
+            while (count > 0) {
+                var block = binary.ReadBlock();
+                var index = binary.ReadInt32();                
+                var comp = blocks[block.pos, block.layer]._gameObject.GetComponents<BlockComponent>().ToList()[index];
+                comp.OnDeserialize(binary);
+                count -= 1;
+            }
+        }
     }
 
 	public float width {
@@ -194,6 +260,8 @@ public class Blockform : PoolBehaviour {
 
 
     void OnEnable() {               
+        blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
+
         if (blocks == null) {
             blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
             return;
@@ -203,8 +271,6 @@ public class Blockform : PoolBehaviour {
     }
 
     void OnBlocksReady() {        
-        blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
-        
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
         blocks.OnBlockRemoved += OnBlockRemoved;
@@ -217,7 +283,6 @@ public class Blockform : PoolBehaviour {
         
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
-        Invoke("RealizeBlocks", 0f);
     }
     
     void OnDisable() {
@@ -293,21 +358,13 @@ public class Blockform : PoolBehaviour {
         blocks[bp, layer] = null;
     }
 
-    [ClientRpc]
+/*    [ClientRpc]
     public void RpcSetup() {
         if (NetworkServer.active) return;
         
         OnBlocksReady();
-    }
+    }*/
 
-    public void Propagate() {
-        foreach (var block in blocks.allBlocks) {
-            RpcSetBlock(block.pos, block.layer, block.type.id, block.facing);
-        }
-
-        RpcSetup();
-    }
-    
     public void OnBlockAdded(Block newBlock) {
         newBlock.ship = this;
 
@@ -325,7 +382,7 @@ public class Blockform : PoolBehaviour {
         UpdateBlock(newBlock);
         
         if (newBlock.type.isComplexBlock) {
-            ServerRealizeBlock(newBlock);
+            RealizeBlock(newBlock);
         }    
     }
 
@@ -343,34 +400,10 @@ public class Blockform : PoolBehaviour {
 		UpdateBounds();
     }
 
-    [Server]
-    public void ServerRealizeBlock(Block block) {
-        var obj = Pool.For(block.type.gameObject).Attach<BlockIdentity>(blockComponentHolder, false);
-        obj.pos = block.pos;
-        obj.layer = block.layer;
-        obj.formId = GetComponent<NetworkIdentity>().netId;
-        NetworkServer.Spawn(obj.gameObject);
-        obj.gameObject.SetActive(true);
-    }
-
-    List<BlockIdentity> toRealize = new List<BlockIdentity>();
-
-    public void AddBlockIdentity(BlockIdentity obj) {
-        //RealizeBlock(obj);
-        toRealize.Add(obj);
-    }
-
-    public void RealizeBlocks() {
-        foreach (var obj in toRealize) {
-            if (obj == null) continue;
-            RealizeBlock(obj);
-        }
-    }
-
-    public void RealizeBlock(BlockIdentity obj) {
-        var block = blocks[obj.pos, obj.layer];
-
+    public void RealizeBlock(Block block) {
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
+
+        var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);
 
         obj.transform.SetParent(blockComponentHolder);
         obj.transform.position = BlockToWorldPos(block);
@@ -391,6 +424,8 @@ public class Blockform : PoolBehaviour {
         
         if (!block.type.isComplexBlock)
             obj.GetComponent<SpriteRenderer>().enabled = false;
+
+        obj.gameObject.SetActive(true);
     }
     
     public void UpdateMass() {        

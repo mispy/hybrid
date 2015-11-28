@@ -754,6 +754,7 @@ Transform:
   - {fileID: 632897229}
   - {fileID: 461886782}
   - {fileID: 473694250}
+  - {fileID: 979031437}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!1 &461886781
@@ -1012,7 +1013,7 @@ MonoBehaviour:
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs: []
-  m_CustomConfig: 0
+  m_CustomConfig: 1
   m_MaxConnections: 4
   m_ConnectionConfig:
     m_PacketSize: 1500
@@ -1033,7 +1034,7 @@ MonoBehaviour:
     m_MaxSentMessageQueueSize: 128
     m_IsAcksLong: 0
     m_Channels: []
-  m_Channels: 0500000000000000
+  m_Channels: 040000000000000004000000
   m_UseWebSockets: 0
   m_UseSimulator: 0
   m_SimulatedLatency: 1
@@ -1055,7 +1056,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!1 &610742775
 GameObject:
   m_ObjectHideFlags: 0
@@ -2051,8 +2052,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 400550211}
+  m_RootOrder: 3
 --- !u!1 &990022742
 GameObject:
   m_ObjectHideFlags: 0
