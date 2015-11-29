@@ -7,7 +7,9 @@ public class Thruster : BlockComponent {
     [HideInInspector]
     public ParticleSystem ps;
 
+    [SyncVar]
     public bool isFiring = false;
+    [SyncVar]
     public bool isFiringAttitude = false;
 
     void Start() {
@@ -22,8 +24,6 @@ public class Thruster : BlockComponent {
         isFiring = true;
         CancelInvoke("Stop");
         Invoke("Stop", 0.1f);
-
-        NetworkSync();
     }
 
     public void FireAttitude() {
@@ -34,25 +34,11 @@ public class Thruster : BlockComponent {
         isFiringAttitude = true;
         CancelInvoke("Stop");
         Invoke("Stop", 0.1f);
-
-        NetworkSync();
     }
 
     public void Stop() {
         isFiring = false;
         isFiringAttitude = false;
-
-        NetworkSync();
-    }
-
-    public override void OnSerialize(ExtendedBinaryWriter writer) {
-        writer.Write(isFiring);
-        writer.Write(isFiringAttitude);
-    }
-
-    public override void OnDeserialize(ExtendedBinaryReader reader) {
-        isFiring = reader.ReadBoolean();
-        isFiringAttitude = reader.ReadBoolean();
     }
 
     void Update() {

@@ -58,7 +58,6 @@ public class Blockform : NetworkBehaviour {
     [HideInInspector]
     public Shields shields;
 
-
     private bool needsMassUpdate = true;
 
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
@@ -90,10 +89,10 @@ public class Blockform : NetworkBehaviour {
         return ship;
     }
 
-    public HashSet<BlockComponent> networkQueue = new HashSet<BlockComponent>();
+    List<BlockComponent> dirtyComps = new List<BlockComponent>();
 
     public override bool OnSerialize(NetworkWriter writer, bool initialState) {               
-        if (!initialState && networkQueue.Count == 0) return false;
+        if (!initialState && dirtyComps.Count == 0) return false;
 
         MemoryStream stream = new MemoryStream();
         var binary = new ExtendedBinaryWriter(stream);
@@ -108,15 +107,15 @@ public class Blockform : NetworkBehaviour {
             foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
                 comp.OnSerialize(binary);
             }
-        } else if (networkQueue.Count > 0) {
-            binary.Write(networkQueue.Count);
-            foreach (var comp in networkQueue) {
-                binary.Write(comp.block);
-                binary.Write(comp.block._gameObject.GetComponents<BlockComponent>().ToList().IndexOf(comp));
+        } else {
+            binary.Write(dirtyComps.Count);
+            foreach (var comp in dirtyComps) {
+                binary.Write(comp.universalId);
                 comp.OnSerialize(binary);
+                comp.isDirty = false;
             }
-
-            networkQueue.Clear();
+            dirtyComps.Clear();
+            ClearAllDirtyBits();
         }
 
         var bytes = stream.GetBuffer();
@@ -145,9 +144,8 @@ public class Blockform : NetworkBehaviour {
         } else {
             var count = binary.ReadInt32();
             while (count > 0) {
-                var block = binary.ReadBlock();
-                var index = binary.ReadInt32();                
-                var comp = blocks[block.pos, block.layer]._gameObject.GetComponents<BlockComponent>().ToList()[index];
+                var universalId = binary.ReadString();
+                var comp = blockCompById[universalId];
                 comp.OnDeserialize(binary);
                 count -= 1;
             }
@@ -185,6 +183,7 @@ public class Blockform : NetworkBehaviour {
 	}
 
     public Dictionary<Type, HashSet<BlockComponent>> blockCompCache;
+    public Dictionary<string, BlockComponent> blockCompById;
 
     public IEnumerable<T> GetBlockComponents<T>() {
         if (!blockCompCache.ContainsKey(typeof(T)))
@@ -261,6 +260,7 @@ public class Blockform : NetworkBehaviour {
 
     void OnEnable() {               
         blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
+        blockCompById = new Dictionary<string, BlockComponent>();
 
         if (blocks == null) {
             blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
@@ -287,6 +287,7 @@ public class Blockform : NetworkBehaviour {
     
     void OnDisable() {
         blockCompCache.Clear();
+        blockCompById.Clear();
 
         Pool.Recycle(blockComponentHolder.gameObject);
 
@@ -335,6 +336,7 @@ public class Blockform : NetworkBehaviour {
             foreach (var comp in oldBlock.gameObject.GetComponents<BlockComponent>()) {
                 if (blockCompCache.ContainsKey(comp.GetType()))
                     blockCompCache[comp.GetType()].Remove(comp);
+                blockCompById.Remove(comp.universalId);
             }
         }
 
@@ -420,6 +422,7 @@ public class Blockform : NetworkBehaviour {
             if (!blockCompCache.ContainsKey(comp.GetType()))
                 blockCompCache[comp.GetType()] = new HashSet<BlockComponent>();
             blockCompCache[comp.GetType()].Add(comp);
+            blockCompById[comp.universalId] = comp;
         }
         
         if (!block.type.isComplexBlock)
@@ -650,6 +653,15 @@ public class Blockform : NetworkBehaviour {
 
 	void Update() {
 		AvoidCollision();
+        if (dirtyComps.Count == 0) {
+            foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
+                if (comp.isDirty) {
+                    dirtyComps.Add(comp);
+                    SetDirtyBit(1);
+                }
+            }
+        }
+
 
         var center = box.transform.position;
 		Debug.DrawLine(center + -transform.right, center + transform.right, Color.green);

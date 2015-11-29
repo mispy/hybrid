@@ -5,6 +5,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 public class BlockAbility : PoolBehaviour {
     public HashSet<Block> blocks;
@@ -31,17 +32,46 @@ public class BlockComponent : PoolBehaviour {
     public virtual void OnNewBlock(Block block) { }
     public virtual void OnRealize() { }
 
+    public string universalId {
+        get {
+            return block.pos.ToString() + ":" + block.layer.ToString() + ":" + GetType().Name;
+        }
+    }
+
+    public bool isDirty {
+        get {
+            return syncVarDirtyBits != 0;
+        }
+
+        set {
+            if (value == false)
+                ClearAllDirtyBits();
+            else
+                SetDirtyBit(1);
+        }
+    }
+
     public virtual void OnSerialize(ExtendedBinaryWriter writer) {
-    
+        FieldInfo[] infos = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).OrderBy(fi => fi.Name).ToArray();
+        
+        foreach (var fi in infos) {
+            if (fi.IsDefined(typeof(SyncVarAttribute), true)) {
+                var val = fi.GetValue(this);
+                if (fi.FieldType == typeof(bool))
+                    writer.Write((bool)val);
+            }
+        }
     }
 
     public virtual void OnDeserialize(ExtendedBinaryReader reader) {
-
-    }
-
-    public void NetworkSync() {
-        form.networkQueue.Add(this);
-        form.SetDirtyBit(1);
+        FieldInfo[] infos = GetType().GetFields(BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Instance).OrderBy(fi => fi.Name).ToArray();
+        
+        foreach (var fi in infos) {
+            if (fi.IsDefined(typeof(SyncVarAttribute), true)) {
+                if (fi.FieldType == typeof(bool))
+                    fi.SetValue(this, reader.ReadBoolean());
+            }
+        }
     }
 }
 

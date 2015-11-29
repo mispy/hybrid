@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 public class RotatingTurret : BlockComponent {
 	[HideInInspector]
@@ -16,7 +18,7 @@ public class RotatingTurret : BlockComponent {
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
-    Vector2 lastTargetPos = new Vector2(0, 0);
+    [SyncVar]
     Vector2 targetPos;
 
 	public Vector2 TipPosition {
@@ -24,9 +26,17 @@ public class RotatingTurret : BlockComponent {
 			return (Vector2)transform.TransformPoint(Vector2.up*Tile.worldSize);
 		}
 	}
+
+    public override void OnSerialize(ExtendedBinaryWriter writer) {
+        writer.Write(targetPos);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader) {
+        AimTowards(reader.ReadVector2());
+    }
 	
-	void Start() {
-		dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(transform);
+	void Awake() {       
+        dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(transform);
         dottedLine.transform.position = TipPosition;
         dottedLine.gameObject.SetActive(true);
 		dottedLine.SetWidth(0.5f, 0.5f);
@@ -79,7 +89,5 @@ public class RotatingTurret : BlockComponent {
         } else {
             dottedLine.enabled = false;
         }
-        
-        lastTargetPos = targetPos;
 	}
 }

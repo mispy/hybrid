@@ -180,6 +180,11 @@ public class ExtendedBinaryWriter : BinaryWriter {
         Write(pos.x);
         Write(pos.y);
     }
+    
+    public virtual void Write(Vector2 pos) {
+        Write(pos.x);
+        Write(pos.y);
+    }
 
     public virtual void Write(Block block) {
         Write(block.type.id);
@@ -197,6 +202,12 @@ public class ExtendedBinaryReader : BinaryReader {
         var x = ReadInt32();
         var y = ReadInt32();
         return new IntVector2(x, y);
+    }
+
+    public virtual Vector2 ReadVector2() {
+        var x = ReadSingle();
+        var y = ReadSingle();
+        return new Vector2(x, y);
     }
 
     public virtual Block ReadBlock() {
