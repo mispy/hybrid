@@ -74,6 +74,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf342b9d14626646a180e4d5aad60d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   renderer: {fileID: 0}
   mesh: {fileID: 0}
 --- !u!1001 &100100000

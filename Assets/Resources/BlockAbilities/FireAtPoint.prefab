@@ -40,6 +40,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a0f06d185dcdca43b714d85211d9720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   key: F
 --- !u!212 &21276738
 SpriteRenderer:

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Networking;
 using System.Linq;
 
-public class Explosive : NetworkBehaviour
+public class Explosive : PoolBehaviour
 {
     public float explosionForce = 0.001f;
     public float explosionRadius = 2f;
@@ -18,10 +18,17 @@ public class Explosive : NetworkBehaviour
         rigidbody = GetComponent<Rigidbody>();
     }
 
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        writer.Write(originShip);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        originShip = reader.ReadComponent<Blockform>();
+    }
+
     void Start() {
         var form = originShip;
         var mcol = GetComponent<Collider>();
-        Debug.Log(form);
         if (form.shields && form.shields.isActive) {
             Physics.IgnoreCollision(form.shields.GetComponent<Collider>(), mcol, true);
             Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);

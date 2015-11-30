@@ -186,11 +186,35 @@ public class ExtendedBinaryWriter : BinaryWriter {
         Write(pos.y);
     }
 
+    public virtual void Write(Vector3 pos) {
+        Write(pos.x);
+        Write(pos.y);
+        Write(pos.z);
+    }
+
+    public virtual void Write(Quaternion quat) {
+        Write(quat.x);
+        Write(quat.y);
+        Write(quat.z);
+        Write(quat.w);
+    }
+
     public virtual void Write(Block block) {
         Write(block.type.id);
         Write(block.pos);
         Write(block.facing.index);
         Write((int)block.layer);
+    }
+
+    public virtual void Write(GUID guid) {
+        Write(guid.value);
+    }
+
+    public virtual void Write(PoolBehaviour net) {
+        if (net.guid.value == null)
+            throw new ArgumentException(String.Format("Cannot write reference to component {0} of {1} without guid", net.GetType().Name, net.gameObject.name));
+
+        Write(net.guid);
     }
 }
 
@@ -210,6 +234,21 @@ public class ExtendedBinaryReader : BinaryReader {
         return new Vector2(x, y);
     }
 
+    public virtual Vector3 ReadVector3() {
+        var x = ReadSingle();
+        var y = ReadSingle();
+        var z = ReadSingle();
+        return new Vector3(x, y, z);
+    }
+
+    public virtual Quaternion ReadQuaternion() {
+        var x = ReadSingle();
+        var y = ReadSingle();
+        var z = ReadSingle();
+        var w = ReadSingle();
+        return new Quaternion(x, y, z, w);
+    }
+
     public virtual Block ReadBlock() {
         var id = ReadString();
         var pos = ReadIntVector2();
@@ -221,6 +260,15 @@ public class ExtendedBinaryReader : BinaryReader {
         block.facing = facing;
         block.layer = layer;
         return block;
+    }
+
+    public virtual GUID ReadGUID() {
+        return new GUID(ReadString());
+    }
+
+    public virtual T ReadComponent<T>() {
+        var guid = ReadGUID();
+        return SpaceNetwork.nets[guid].GetComponent<T>();
     }
 }
 

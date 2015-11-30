@@ -73,6 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5e37bbe285a465488c6d6fe00e95406, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!114 &11453826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -128,6 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc306956bd4bc0418feb3b205247c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!114 &11492186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bb859c232979e04d930af479e65c3e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   explosionForce: .00100000005
   explosionRadius: 2
   explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}

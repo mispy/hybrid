@@ -186,6 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a325f72a1bcef47ba3869dc698c3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   supplyRadius: 3
   isSwitchedOn: 1
@@ -201,6 +203,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad0126302a47374596a53f36381021e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
 --- !u!114 &11462504
 MonoBehaviour:

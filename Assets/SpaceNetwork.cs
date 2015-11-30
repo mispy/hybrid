@@ -85,22 +85,35 @@ public class SpaceNetwork : NetworkManager {
 
         var obj = Pool.For(msg.prefabId).Attach<Transform>(Game.activeSector.contents);
         foreach (var net in obj.GetComponents<PoolBehaviour>()) {
-            net.guid = new GUID(reader.ReadString());
+            net.guid = reader.ReadGUID();
+            nets[net.guid] = net;
             net.OnDeserialize(reader, true);
         }
     }
 
-    public static void Sync(PoolBehaviour comp, bool initial=false) {
+    public static void SyncImmediate(PoolBehaviour net) {
         if (!NetworkServer.active) return;
 
+        if (net.guid.value == null)
+            throw new ArgumentException(String.Format("Cannot sync {0} of {1} because it lacks a guid", net.GetType().Name, net.gameObject.name));        
+        
         MemoryStream stream = new MemoryStream();
         var writer = new ExtendedBinaryWriter(stream);
-        comp.OnSerialize(writer, initial);
-
-        var msg = new SyncMessage(comp.guid, stream.GetBuffer());
-
-        Debug.LogFormat("[O] SyncMessage {0} bytes for {1}", msg.bytes.Length, comp.guid);        
+        net.OnSerialize(writer, false);
+        
+        var msg = new SyncMessage(net.guid, stream.GetBuffer());
+        
+        //Debug.LogFormat("[O] SyncMessage {0} bytes for {1}", msg.bytes.Length, net.guid);        
         NetworkServer.SendToAll(Msg.Sync, msg);
+
+        net.needsSync = false;
+        net.syncCountdown = 0.1f;
+    }
+
+    public static void Sync(PoolBehaviour net) {
+        if (!NetworkServer.active) return;
+
+        net.needsSync = true;
     }
 
     public void OnClientSyncMessage(NetworkMessage netMsg) {
@@ -108,7 +121,7 @@ public class SpaceNetwork : NetworkManager {
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);
 
-        Debug.LogFormat("[I] SyncMessage {0} bytes for {1}", msg.bytes.Length, msg.guid);
+        //Debug.LogFormat("[I] SyncMessage {0} bytes for {1}", msg.bytes.Length, msg.guid);
 
         if (!nets.ContainsKey(msg.guid))
             Debug.LogErrorFormat("Received message for unknown network object {0}", msg.guid);
@@ -123,10 +136,13 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public static void Register(PoolBehaviour net) {
+        if (net.guid.value == null)
+            throw new ArgumentException(String.Format("Cannot register {0} of {1} because it lacks a guid", net.GetType().Name, net.gameObject.name));        
+
         nets[net.guid] = net;
     }
 
-    public static Dictionary<GUID, PoolBehaviour> nets = new Dictionary<GUID, PoolBehaviour>();
+    public static SensibleDictionary<GUID, PoolBehaviour> nets = new SensibleDictionary<GUID, PoolBehaviour>();
 
     bool needsStart = false;
 
@@ -141,6 +157,14 @@ public class SpaceNetwork : NetworkManager {
         if (needsStart) {
             Game.Start();
             needsStart = false;
+        }
+
+        foreach (var net in nets.Values) {
+            if (net.needsSync && net.syncCountdown <= 0f) {
+                SyncImmediate(net);
+            } else if (net.syncCountdown > 0f) {
+                net.syncCountdown -= Time.deltaTime;
+            }
         }
     }
 

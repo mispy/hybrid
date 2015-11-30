@@ -46,6 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc179ae3fa8b174b87c923464ba580d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   chargeTime: 1
   isPaused: 0
@@ -92,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
@@ -126,6 +130,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c2ad0e8293dab4ca7b2285a8936e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   showLine: 0
 --- !u!114 &11459202
@@ -167,6 +173,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7912ec17915a448fe1852f8dc2407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   launchForce: .5
   projectile: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}

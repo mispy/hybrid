@@ -3,8 +3,12 @@ using UnityEngine.Networking;
 using System.Collections;
 
 public class PoolBehaviour : MonoBehaviour {
-
+    [HideInInspector]
     public GUID guid;
+    [HideInInspector]
+    public bool needsSync = false;
+    [HideInInspector]
+    public float syncCountdown = 0f;
 
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }

@@ -50,6 +50,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8441bbf0f38f54b458e1df3e5bc21cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   shieldCollider: {fileID: 0}
   maxHealth: 30
@@ -67,6 +69,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a1db0261ab1834990b0b3f92a09f20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   mesh: {fileID: 0}
   meshCollider: {fileID: 0}
   shields: {fileID: 0}
@@ -81,6 +85,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a90311549b903934ba823d62c63a1e94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   shields: {fileID: 0}
   lineRenderer: {fileID: 0}
   maxLineWidth: 1

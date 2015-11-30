@@ -72,6 +72,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e7d6667634f2894bb4868b1d5d8eb84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   producer: {fileID: 0}
 --- !u!114 &11482056
@@ -136,6 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a325f72a1bcef47ba3869dc698c3aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   supplyRadius: 3
   isSwitchedOn: 1

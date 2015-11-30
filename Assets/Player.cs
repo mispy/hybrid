@@ -6,13 +6,6 @@ public class Player : NetworkBehaviour {
     public CrewBody crew { get; private set; }
 
     [Command]
-    public void CmdGetWorld() {
-        foreach (var form in Game.activeSector.blockforms) {
-            //form.Propagate();
-        }
-    }
-
-    [Command]
     public void CmdMaglockMove(IntVector2 pos) {
         crew.MaglockMove(pos);
     }
@@ -34,6 +27,5 @@ public class Player : NetworkBehaviour {
     public override void OnStartLocalPlayer() {
         Game.localPlayer = this;        
         gameObject.AddComponent<CrewControl>();
-        CmdGetWorld();
     }
 }

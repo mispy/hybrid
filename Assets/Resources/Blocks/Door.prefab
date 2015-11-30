@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a992fac4e9e005346be666feef9bfd5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   openSprite: {fileID: 21300000, guid: 4de7a9d1e5a386b4698d3022c4eae964, type: 3}
 --- !u!114 &11484832

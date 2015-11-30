@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
@@ -59,6 +61,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4e27a116e6b1ab42b1cdb11a29ee3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   form: {fileID: 0}
 --- !u!114 &11452616
 MonoBehaviour:

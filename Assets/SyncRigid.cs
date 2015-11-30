@@ -3,18 +3,25 @@ using UnityEngine.Networking;
 using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
-public class SyncRigid : NetworkBehaviour {
-    [SyncVar]
-    Vector2 velocity;
-    [SyncVar]
-    Vector3 angularVelocity;
-    [SyncVar]
-    Quaternion rotation;
-
+public class SyncRigid : PoolBehaviour {
     Rigidbody rigid;
 
     void Awake() {
         rigid = GetComponent<Rigidbody>();
+    }
+
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        writer.Write(rigid.position);
+        writer.Write(rigid.velocity);
+        writer.Write(rigid.angularVelocity);
+        writer.Write(rigid.rotation.eulerAngles);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        rigid.position = reader.ReadVector3();
+        rigid.velocity = reader.ReadVector3();
+        rigid.angularVelocity = reader.ReadVector3();
+        rigid.rotation = Quaternion.Euler(reader.ReadVector3());
     }
 
     /*public override bool OnSerialize(NetworkWriter writer, bool initialState) {
@@ -33,8 +40,6 @@ public class SyncRigid : NetworkBehaviour {
     }*/
 
 	void Update () {
-	    velocity = rigid.velocity;
-        angularVelocity = rigid.angularVelocity;
-        rotation = rigid.rotation;
+        SpaceNetwork.Sync(this);
 	}
 }

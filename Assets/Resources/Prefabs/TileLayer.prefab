@@ -39,6 +39,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36b1674cd0a1bbf4db4ddda14a2230d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   centerTileX: 256
   centerTileY: 256
   centerChunkX: 8

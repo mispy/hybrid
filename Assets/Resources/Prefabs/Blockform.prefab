@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405017db648a94542a79b7b7b52c90d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   baseTiles: {fileID: 0}
   topTiles: {fileID: 0}
 --- !u!114 &11455740
@@ -73,6 +75,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c84419d1f1e4b46aa64e7b9a9c8501, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!114 &11458008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -84,6 +88,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7964852e71298cc4ebda0d7eab4532c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   localBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -101,6 +107,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72f47d5926c51464aa24f3c2be185851, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!114 &11472042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -112,6 +120,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc306956bd4bc0418feb3b205247c64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!114 &11492490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,6 +133,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5494738b747393e45957c53da315fe47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
   ship: {fileID: 0}
   nearestEnemy: {fileID: 0}
   tactic: {fileID: 0}
