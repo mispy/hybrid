@@ -260,6 +260,12 @@ public class Util {
 		}
 	}
 
+    public static T NetworkFind<T>(uint id) {
+        var netId = new NetworkInstanceId(id);
+        var obj = ClientScene.FindLocalObject(netId);
+        return obj.GetComponent<T>();
+    }
+
 /*    public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos) {        
         foreach (var block in form.BlocksAtWorldPos(targetPos))
             return true;

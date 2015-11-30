@@ -36,7 +36,7 @@ public class ShipEditor : Editor {
 }
 #endif
 
-public class Blockform : NetworkBehaviour {
+public class Blockform : PoolBehaviour {
     [ReadOnlyAttribute]
     public Bounds localBounds = new Bounds();
     [ReadOnlyAttribute]
@@ -84,72 +84,35 @@ public class Blockform : NetworkBehaviour {
         ship.name = template.name;
         ship.Initialize(template);
 
-        NetworkServer.Spawn(ship.gameObject);
         ship.gameObject.SetActive(true);
         return ship;
     }
 
     List<BlockComponent> dirtyComps = new List<BlockComponent>();
 
-    public override bool OnSerialize(NetworkWriter writer, bool initialState) {               
-        if (!initialState && dirtyComps.Count == 0) return false;
-
-        MemoryStream stream = new MemoryStream();
-        var binary = new ExtendedBinaryWriter(stream);
+    public override void OnSerialize(ExtendedBinaryWriter binary, bool initial) {               
+        if (!initial && dirtyComps.Count == 0) return;
 
         Debug.Log("OnSerialize");
-        if (initialState) {
+        if (initial) {
             binary.Write(blocks.allBlocks.Count);
             foreach (var block in blocks.allBlocks) {
                 binary.Write(block);
-            }                      
-
-            foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
-                comp.OnSerialize(binary);
-            }
-        } else {
-            binary.Write(dirtyComps.Count);
-            foreach (var comp in dirtyComps) {
-                binary.Write(comp.universalId);
-                comp.OnSerialize(binary);
-                comp.isDirty = false;
-            }
-            dirtyComps.Clear();
-            ClearAllDirtyBits();
+            }                  
         }
-
-        var bytes = stream.GetBuffer();
-        writer.WriteBytesFull(bytes);
-        return true;
     }
 
-    public override void OnDeserialize(NetworkReader reader, bool initialState) {
-        var bytes = reader.ReadBytesAndSize();
-        var stream = new MemoryStream(bytes);
-        var binary = new ExtendedBinaryReader(stream);
-
+    public override void OnDeserialize(ExtendedBinaryReader binary, bool initial) {
         Debug.Log("OnDeserialize");
-        if (initialState) {
-            var count = binary.ReadInt32();
-            for (var i = 0; i < count; i++) {
-                var block = binary.ReadBlock();
-                blocks[block.pos, block.layer] = block;
-            }
-            
-            OnBlocksReady();
+        if (!initial) return;
 
-            foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
-                comp.OnDeserialize(binary);
-            }
-        } else {
-            var count = binary.ReadInt32();
-            while (count > 0) {
-                var universalId = binary.ReadString();
-                var comp = blockCompById[universalId];
-                comp.OnDeserialize(binary);
-                count -= 1;
-            }
-        }
+        blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
+
+        var count = binary.ReadInt32();
+        for (var i = 0; i < count; i++) {
+            var block = binary.ReadBlock();
+            blocks[block.pos, block.layer] = block;
+        }        
     }
 
 	public float width {
@@ -183,7 +146,6 @@ public class Blockform : NetworkBehaviour {
 	}
 
     public Dictionary<Type, HashSet<BlockComponent>> blockCompCache;
-    public Dictionary<string, BlockComponent> blockCompById;
 
     public IEnumerable<T> GetBlockComponents<T>() {
         if (!blockCompCache.ContainsKey(typeof(T)))
@@ -203,6 +165,7 @@ public class Blockform : NetworkBehaviour {
         tiles = GetComponent<TileRenderer>();
         damage = GetComponent<ShipDamage>();
         box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
+        blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
         box.isTrigger = true;
     }
 
@@ -219,58 +182,8 @@ public class Blockform : NetworkBehaviour {
         }
 
     }
-    
-    /*public override bool OnSerialize(NetworkWriter writer, bool forceAll) {
-        if (!forceAll) return false;
 
-            blocks.OnBeforeSerialize();
-        writer.Write(blocks.blockData.Count);
-        Debug.Log(blocks.blockData.Count);
-        foreach (var data in blocks.blockData) {
-            writer.Write(data.pos.ToString());
-            writer.Write(data.type.name);
-            writer.Write(data.facing.ToString());
-            writer.Write((int)data.layer);
-        }
-        
-        return true;
-    }
-    
-    public override void OnDeserialize(NetworkReader reader, bool initialState) {
-        if (!initialState) return;
-
-        var blockData = new List<BlockData>();
-        var count = reader.ReadInt32();
-        Debug.Log(count);
-        while (count > 0) {
-            var data = new BlockData();
-            data.pos = IntVector2.FromString(reader.ReadString());
-            data.type = BlockType.FromId(reader.ReadString());
-            data.facing = Facing.FromString(reader.ReadString());
-            data.layer = (BlockLayer)reader.ReadInt32();
-            blockData.Add(data);
-            count -= 1;
-        }
-
-        blocks.blockData = blockData;
-        blocks.ReadBlockData();
-        OnBlocksReady();
-    }*/
-
-
-    void OnEnable() {               
-        blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
-        blockCompById = new Dictionary<string, BlockComponent>();
-
-        if (blocks == null) {
-            blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
-            return;
-        } else {
-            OnBlocksReady();
-        }
-    }
-
-    void OnBlocksReady() {        
+    void Start() {               
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
         blocks.OnBlockRemoved += OnBlockRemoved;
@@ -287,7 +200,6 @@ public class Blockform : NetworkBehaviour {
     
     void OnDisable() {
         blockCompCache.Clear();
-        blockCompById.Clear();
 
         Pool.Recycle(blockComponentHolder.gameObject);
 
@@ -336,7 +248,6 @@ public class Blockform : NetworkBehaviour {
             foreach (var comp in oldBlock.gameObject.GetComponents<BlockComponent>()) {
                 if (blockCompCache.ContainsKey(comp.GetType()))
                     blockCompCache[comp.GetType()].Remove(comp);
-                blockCompById.Remove(comp.universalId);
             }
         }
 
@@ -346,7 +257,7 @@ public class Blockform : NetworkBehaviour {
         Profiler.EndSample();
     }
 
-    [ClientRpc]
+/*    [ClientRpc]
     public void RpcSetBlock(IntVector2 bp, BlockLayer layer, string typeId, Facing facing) {
         if (NetworkServer.active) return;
 
@@ -358,29 +269,15 @@ public class Blockform : NetworkBehaviour {
     [ClientRpc]
     public void RpcDelBlock(IntVector2 bp, BlockLayer layer) {
         blocks[bp, layer] = null;
-    }
+    }*/
 
 /*    [ClientRpc]
     public void RpcSetup() {
         if (NetworkServer.active) return;
-        
-        OnBlocksReady();
     }*/
 
     public void OnBlockAdded(Block newBlock) {
         newBlock.ship = this;
-
-        //if (newBlock.layer == BlockLayer.Base)
-        //    this.size += 1;
-        
-        if (NetworkServer.active) {
-            /*                if (value == null)
-                    RpcDelBlock(bp, (int)layer);
-                else {
-                    RpcSetBlock(bp, (int)layer, value.type.id, value.facing);
-                }*/
-        }
-
         UpdateBlock(newBlock);
         
         if (newBlock.type.isComplexBlock) {
@@ -418,11 +315,13 @@ public class Blockform : NetworkBehaviour {
             comp.block = block;
             comp.form = this;
             comp.OnRealize();
-            
+
             if (!blockCompCache.ContainsKey(comp.GetType()))
                 blockCompCache[comp.GetType()] = new HashSet<BlockComponent>();
             blockCompCache[comp.GetType()].Add(comp);
-            blockCompById[comp.universalId] = comp;
+
+            comp.guid = new GUID(guid.ToString() + ":" + block.pos.ToString() + ":" + block.layer.ToString() + ":" + comp.GetType().Name);
+            SpaceNetwork.Register(comp);
         }
         
         if (!block.type.isComplexBlock)
@@ -653,16 +552,6 @@ public class Blockform : NetworkBehaviour {
 
 	void Update() {
 		AvoidCollision();
-        if (dirtyComps.Count == 0) {
-            foreach (var comp in GetComponentsInChildren<BlockComponent>()) {
-                if (comp.isDirty) {
-                    dirtyComps.Add(comp);
-                    SetDirtyBit(1);
-                }
-            }
-        }
-
-
         var center = box.transform.position;
 		Debug.DrawLine(center + -transform.right, center + transform.right, Color.green);
 		Debug.DrawLine(center + transform.up, center + -transform.up, Color.green);

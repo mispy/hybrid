@@ -2,23 +2,36 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 using System.Linq;
 
-public class Explosive : MonoBehaviour
+public class Explosive : NetworkBehaviour
 {
     public float explosionForce = 0.001f;
     public float explosionRadius = 2f;
     new Rigidbody rigidbody;
 	public GameObject explosionPrefab;
     public Blockform originShip;
+    bool hasStarted = false;
 
-    void Start() {
+    void Awake() {
         rigidbody = GetComponent<Rigidbody>();
     }
-                 
 
-    private IEnumerator OnCollisionEnter(Collision col)
-    {
+    void Start() {
+        var form = originShip;
+        var mcol = GetComponent<Collider>();
+        Debug.Log(form);
+        if (form.shields && form.shields.isActive) {
+            Physics.IgnoreCollision(form.shields.GetComponent<Collider>(), mcol, true);
+            Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
+        }
+        hasStarted = true;
+    }
+                 
+    void OnCollisionEnter(Collision col) {
+        if (!hasStarted) return;
+
         if (enabled && col.contacts.Length > 0) {
             // compare relative velocity to collision normal - so we don't explode from a fast but gentle glancing collision
             //float velocityAlongCollisionNormal =
@@ -30,8 +43,6 @@ public class Explosive : MonoBehaviour
                 Explode();
             //}
         }
-        
-        yield return null;
     }
 
     /*void FixedUpdate() {

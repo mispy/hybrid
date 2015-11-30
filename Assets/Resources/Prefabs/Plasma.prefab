@@ -13,6 +13,9 @@ GameObject:
   - 54: {fileID: 5439348}
   - 114: {fileID: 11492186}
   - 114: {fileID: 11471496}
+  - 114: {fileID: 11453826}
+  - 114: {fileID: 11476790}
+  - 114: {fileID: 11449116}
   m_Layer: 14
   m_Name: Plasma
   m_TagString: Untagged
@@ -45,7 +48,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 120
+  m_Constraints: 56
   m_CollisionDetection: 2
 --- !u!65 &6577212
 BoxCollider:
@@ -59,6 +62,49 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: .0386595763, y: .167918801, z: .200000003}
   m_Center: {x: .000883996487, y: .00792002864, z: 0}
+--- !u!114 &11449116
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e37bbe285a465488c6d6fe00e95406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11453826
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 6
+    i1: 120
+    i2: 33
+    i3: 127
+    i4: 32
+    i5: 56
+    i6: 121
+    i7: 148
+    i8: 106
+    i9: 120
+    i10: 189
+    i11: 84
+    i12: 8
+    i13: 1
+    i14: 249
+    i15: 43
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11471496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -71,6 +117,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   duration: 10
+--- !u!114 &11476790
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dc306956bd4bc0418feb3b205247c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11492186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -104,7 +161,9 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_MinimumChartSize: 4
   m_AutoUVMaxDistance: .5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
@@ -163,6 +222,30 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SendInterval
+      value: .142857149
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TransformSyncMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Interpolate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SyncSpin
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 56
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_InterpolateMovement
+      value: 10.8999996
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

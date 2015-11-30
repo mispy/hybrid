@@ -97,14 +97,13 @@ public class ShipMind : PoolBehaviour {
     [ReadOnlyAttribute]
 	public PoolBehaviour tactic;
 
-    [Server]
     void Start () {
         ship = GetComponent<Blockform>();
 		tactic = gameObject.AddComponent<EngageTactic>();
     }
     
-    [Server]
     void Update() {
+        return;
         if (ship.maglockedCrew.Count == 0 || ship == Game.playerShip) return;
         
         var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 #if UNITY_EDITOR
 using UnityEditor;
 
+
 [InitializeOnLoad]
 #endif
 public class Pool {
@@ -24,8 +25,14 @@ public class Pool {
 
 
     public static GameObject holder;
+    public static SensibleDictionary<GameObject, Pool> pools = new SensibleDictionary<GameObject, Pool>();
 
-    public static Dictionary<GameObject, Pool> pools = new Dictionary<GameObject, Pool>();
+    // Reverse-lookup prefabs from their instance ids
+    public static SensibleDictionary<int, GameObject> prefabReverse = new SensibleDictionary<int, GameObject>();
+
+    public static GameObject GetPrefab(GameObject obj) {
+        return prefabReverse[obj.GetInstanceID()];
+    }
 
     public static void OnRecycle(GameObject obj) {
         foreach (Transform child in obj.transform) {
@@ -82,6 +89,7 @@ public class Pool {
         }
 
         prefab.SetActive(true);
+        prefabReverse[obj.GetInstanceID()] = prefab;
         return obj;
     }
     
@@ -110,6 +118,7 @@ public class Pool {
 
     public T Attach<T>(Transform transform, bool isActive = true) {
         var obj = TakeObject();
+
         obj.transform.SetParent(transform);
         obj.transform.position = transform.position;
         obj.transform.rotation = transform.rotation;

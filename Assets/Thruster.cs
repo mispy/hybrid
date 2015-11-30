@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 using System;
 using System.Collections;
@@ -7,13 +7,21 @@ public class Thruster : BlockComponent {
     [HideInInspector]
     public ParticleSystem ps;
 
-    [SyncVar]
     public bool isFiring = false;
-    [SyncVar]
     public bool isFiringAttitude = false;
 
     void Start() {
         ps = GetComponentInChildren<ParticleSystem>();
+    }
+
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        writer.Write(isFiring);
+        writer.Write(isFiringAttitude);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        isFiring = reader.ReadBoolean();
+        isFiringAttitude = reader.ReadBoolean();
     }
     
     public void Fire() {        
@@ -24,6 +32,8 @@ public class Thruster : BlockComponent {
         isFiring = true;
         CancelInvoke("Stop");
         Invoke("Stop", 0.1f);
+
+        SpaceNetwork.Sync(this);
     }
 
     public void FireAttitude() {
@@ -34,11 +44,14 @@ public class Thruster : BlockComponent {
         isFiringAttitude = true;
         CancelInvoke("Stop");
         Invoke("Stop", 0.1f);
+
+        SpaceNetwork.Sync(this);
     }
 
     public void Stop() {
         isFiring = false;
         isFiringAttitude = false;
+        SpaceNetwork.Sync(this);
     }
 
     void Update() {

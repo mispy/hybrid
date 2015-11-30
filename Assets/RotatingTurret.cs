@@ -18,7 +18,6 @@ public class RotatingTurret : BlockComponent {
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
-    [SyncVar]
     Vector2 targetPos;
 
 	public Vector2 TipPosition {
@@ -27,11 +26,11 @@ public class RotatingTurret : BlockComponent {
 		}
 	}
 
-    public override void OnSerialize(ExtendedBinaryWriter writer) {
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
         writer.Write(targetPos);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader) {
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         AimTowards(reader.ReadVector2());
     }
 	

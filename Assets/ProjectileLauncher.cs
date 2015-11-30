@@ -43,22 +43,17 @@ public class ProjectileLauncher : BlockComponent {
 		charger.Discharge();
 
 		// Pew pew!
-		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients);
+		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients, false);
+       
 		bullet.transform.position = turret.TipPosition;
 		bullet.transform.rotation = transform.rotation;
         bullet.originShip = block.ship;
-		var mcol = bullet.GetComponent<BoxCollider>();
-		var rigid = bullet.GetComponent<Rigidbody>();
 		bullet.gameObject.SetActive(true);
-		rigid.velocity = form.rigidBody.velocity;
-		rigid.AddForce(transform.up*launchForce);
+        var mcol = bullet.GetComponent<BoxCollider>();
+        Physics.IgnoreCollision(collider, mcol);
 
-		// We want to stop the projectile colliding with the launcher block itself
-		// and also the shields of the ship
-		Physics.IgnoreCollision(collider, mcol);
-		if (form.shields && form.shields.isActive) {
-			Physics.IgnoreCollision(form.shields.GetComponent<Collider>(), mcol, true);
-			Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
-		}
+        var rigid = bullet.GetComponent<Rigidbody>();
+        rigid.velocity = form.rigidBody.velocity;
+		rigid.AddForce(transform.up*launchForce);
 	}
 }
