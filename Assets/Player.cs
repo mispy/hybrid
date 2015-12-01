@@ -10,16 +10,6 @@ public class Player : NetworkBehaviour {
         crew.MaglockMove(pos);
     }
 
-    [Command]
-    public void CmdFireThrusters(Facing facing) {
-        crew.maglockShip.FireThrusters(facing);
-    }
-
-    [Command]
-    public void CmdFireAttitudeThrusters(Facing facing) {
-        crew.maglockShip.FireAttitudeThrusters(facing);
-    }
-
     public void Awake() {
         crew = GetComponent<CrewBody>();
     }

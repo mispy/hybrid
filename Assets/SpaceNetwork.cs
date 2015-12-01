@@ -9,6 +9,7 @@ using System.Linq;
 public static class Msg {
     public const short Spawn = 1001;
     public const short Sync = 1002;
+    public const short Call = 1003;
 }
 
 public class SyncMessage : MessageBase {
@@ -37,6 +38,17 @@ public class SpawnMessage : MessageBase {
     }
 }
 
+public class CallMessage : MessageBase {
+    public GUID guid;
+    public string methodName;
+
+    public CallMessage() { }
+    public CallMessage(GUID guid, string methodName) {
+        this.guid = guid;
+        this.methodName = methodName;
+    }
+}
+
 public struct GUID {
     public string value;
 
@@ -50,6 +62,18 @@ public struct GUID {
 }
 
 public class SpaceNetwork : NetworkManager {   
+    public static bool isServer {
+        get {
+            return NetworkServer.active;
+        }
+    }
+
+    public static bool isClient {
+        get {
+            return !NetworkServer.active;
+        }
+    }
+
     static SpawnMessage MakeSpawnMessage(GameObject obj) {
         MemoryStream stream = new MemoryStream();
         var writer = new ExtendedBinaryWriter(stream);
@@ -71,7 +95,7 @@ public class SpaceNetwork : NetworkManager {
     static Queue<SyncMessage> incomingSync = new Queue<SyncMessage>();
 
     public static void Spawn(GameObject obj) {
-        if (!NetworkServer.active) return;
+        if (isClient) return;
 
         spawnables.Add(obj);
         NetworkServer.SendToAll(Msg.Spawn, MakeSpawnMessage(obj));
@@ -79,7 +103,7 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public void OnClientSpawnMessage(NetworkMessage netMsg) {
-        if (NetworkServer.active) return;
+        if (isServer) return;
 
         SpawnMessage msg = netMsg.ReadMessage<SpawnMessage>();
         var stream = new MemoryStream(msg.bytes);
@@ -97,8 +121,6 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public static void SyncImmediate(PoolBehaviour net) {
-        if (!NetworkServer.active) return;
-
         if (net.guid.value == null)
             throw new ArgumentException(String.Format("Cannot sync {0} of {1} because it lacks a guid", net.GetType().Name, net.gameObject.name));        
         
@@ -109,21 +131,19 @@ public class SpaceNetwork : NetworkManager {
         var msg = new SyncMessage(net.guid, net.GetType().Name, stream.GetBuffer());
         
         //Debug.LogFormat("[O] SyncMessage {0} bytes for {1}", msg.bytes.Length, net.guid);        
-        NetworkServer.SendToAll(Msg.Sync, msg);
-
+        if (isServer)
+            NetworkServer.SendToAll(Msg.Sync, msg);
+        else
+            NetworkClient.allClients[0].Send(Msg.Sync, msg);
         net.needsSync = false;
         net.syncCountdown = 0.1f;
     }
 
     public static void Sync(PoolBehaviour net) {
-        if (!NetworkServer.active) return;
-
         net.needsSync = true;
     }
 
-    public void OnClientSyncMessage(NetworkMessage netMsg) {
-        if (NetworkServer.active) return;
-
+    public void OnSyncMessage(NetworkMessage netMsg) {
         var msg = netMsg.ReadMessage<SyncMessage>();
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);
@@ -135,6 +155,22 @@ public class SpaceNetwork : NetworkManager {
         else
             nets[msg.guid].OnDeserialize(reader, false);
 
+        // If we're the server, redistribute this message to everyone else
+        if (isServer) {
+            foreach (var conn in NetworkServer.connections) {
+                if (conn != null && conn != netMsg.conn)
+                    conn.Send(Msg.Sync, msg);
+            }
+        }
+    }
+
+    public static void OnCallMessage(NetworkMessage netMsg) {
+        var msg = netMsg.ReadMessage<CallMessage>();
+
+        if (!nets.ContainsKey(msg.guid))
+            Debug.LogErrorFormat("Received call message for unknown network object {0} method {1}", msg.guid, msg.methodName);
+        else
+            nets[msg.guid].SendMessage(msg.methodName);
     }
 
     public static void Register(GameObject obj) {
@@ -149,6 +185,15 @@ public class SpaceNetwork : NetworkManager {
 
         nets[net.guid] = net;
     }
+        
+    public static void ServerCall(PoolBehaviour net, string methodName) {
+        if (isServer)
+            net.SendMessage(methodName);
+        else {
+            var msg = new CallMessage(net.guid, methodName);
+            NetworkClient.allClients[0].Send(Msg.Call, msg);
+        }
+    }
 
     public static SensibleDictionary<GUID, PoolBehaviour> nets = new SensibleDictionary<GUID, PoolBehaviour>();
 
@@ -157,12 +202,29 @@ public class SpaceNetwork : NetworkManager {
     NetworkConnection newConn;
 
     public void Start() {
-        NetworkServer.RegisterHandler(Msg.Sync, OnClientSyncMessage);
+        NetworkServer.RegisterHandler(Msg.Sync, OnSyncMessage);
         NetworkServer.RegisterHandler(Msg.Spawn, OnClientSpawnMessage);
+        NetworkServer.RegisterHandler(Msg.Call, OnCallMessage);
     }
 
 
     public void ServerUpdate() {
+    }
+
+    public void ClientUpdate() {
+    }
+
+    public void Update() {
+        if (needsStart) {
+            Game.Start();
+            needsStart = false;
+        }
+
+        if (isServer)
+            ServerUpdate();
+        else
+            ClientUpdate();
+
         foreach (var guid in nets.Keys.ToList()) {
             var net = nets[guid];
             if (net == null) {
@@ -176,21 +238,6 @@ public class SpaceNetwork : NetworkManager {
                 net.syncCountdown -= Time.deltaTime;
             }
         }
-    }
-
-    public void ClientUpdate() {
-    }
-
-    public void Update() {
-        if (needsStart) {
-            Game.Start();
-            needsStart = false;
-        }
-
-        if (NetworkServer.active)
-            ServerUpdate();
-        else
-            ClientUpdate();
     }
 
     public override void OnStartServer() {
@@ -212,7 +259,7 @@ public class SpaceNetwork : NetworkManager {
 
     public override void OnClientConnect(NetworkConnection conn) {
         base.OnClientConnect(conn);
-        conn.RegisterHandler(Msg.Sync, OnClientSyncMessage);
+        conn.RegisterHandler(Msg.Sync, OnSyncMessage);
         conn.RegisterHandler(Msg.Spawn, OnClientSpawnMessage);
     }
 }

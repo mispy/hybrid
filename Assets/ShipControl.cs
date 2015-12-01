@@ -122,27 +122,27 @@ public class ShipControl : MonoBehaviour {
     Vector2 lastLeftClickPos = new Vector2(0, 0);
 
     public void OnForwardThrust() {
-        Game.localPlayer.CmdFireThrusters(Facing.down);        
+        ship.FireThrusters(Facing.down) ;  
     }
 
     public void OnReverseThrust() {
-        Game.localPlayer.CmdFireThrusters(Facing.up);
+        ship.FireThrusters(Facing.up);
     }
 
     public void OnStrafeLeft() {
-        Game.localPlayer.CmdFireThrusters(Facing.right);
+        ship.FireThrusters(Facing.right);
     }
 
     public void OnStrafeRight() {
-        Game.localPlayer.CmdFireThrusters(Facing.left);
+        ship.FireThrusters(Facing.left);
     }
 
     public void OnTurnRight() {
-        Game.localPlayer.CmdFireAttitudeThrusters(Facing.left);
+        ship.FireAttitudeThrusters(Facing.left);
     }
 
     public void OnTurnLeft() {
-        Game.localPlayer.CmdFireAttitudeThrusters(Facing.right);
+        ship.FireAttitudeThrusters(Facing.right);
     }
 
     public void OnLeftClick() {

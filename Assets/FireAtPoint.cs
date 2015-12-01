@@ -25,6 +25,7 @@ public class FireAtPoint : BlockAbility {
 
     void OnDisable() {
         foreach (var turret in turrets) {
+            if (turret == null) continue;
             turret.dottedLine.enabled = false;
             turret.showLine = false;
         }
@@ -37,12 +38,14 @@ public class FireAtPoint : BlockAbility {
     
     void FixedUpdate() {
         foreach (var turret in turrets) {
-            turret.AimTowards(Game.mousePos);   
+            if (turret != null)
+                turret.AimTowards(Game.mousePos);   
         }
                 
         if (Input.GetMouseButton(0)) {
             foreach (var turret in turrets) {
-                turret.gameObject.SendMessage("OnFire");
+                if (turret != null)
+                    turret.gameObject.SendMessage("OnFire");
             }
         }
     }

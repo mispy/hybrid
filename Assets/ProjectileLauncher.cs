@@ -30,7 +30,7 @@ public class ProjectileLauncher : BlockComponent {
 	}
 	
     public void OnFire() {
-        Fire();
+        SpaceNetwork.ServerCall(this, "Fire");
     }
 
 	public void Fire() {    

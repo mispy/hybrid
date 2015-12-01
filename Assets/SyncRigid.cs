@@ -45,6 +45,7 @@ public class SyncRigid : PoolBehaviour {
     }*/
 
 	void Update () {
-        SpaceNetwork.Sync(this);
+        if (NetworkServer.active)
+            SpaceNetwork.Sync(this);
 	}
 }

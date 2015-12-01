@@ -41,6 +41,7 @@ public class ShipDamage : PoolBehaviour {
     }  
     
     public void BreakBlock(Block block, bool checkBreaks = true) {
+        if (block == null) return;
         blocks[block.pos, block.layer] = null;
         
         if (block.layer == BlockLayer.Base) {
