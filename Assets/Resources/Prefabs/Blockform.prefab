@@ -64,7 +64,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   rigid: {fileID: 0}
+  syncFromClient: 0
 --- !u!114 &11409090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -78,6 +81,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   baseTiles: {fileID: 0}
   topTiles: {fileID: 0}
 --- !u!114 &11455740
@@ -93,6 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
 --- !u!114 &11458008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -106,6 +113,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   localBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -125,6 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   pathForm: {fileID: 0}
   colRect:
     serializedVersion: 2
@@ -148,6 +159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
 --- !u!114 &11472042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -161,6 +174,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
 --- !u!114 &11492490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -174,6 +189,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   ship: {fileID: 0}
   nearestEnemy: {fileID: 0}
   tactic: {fileID: 0}

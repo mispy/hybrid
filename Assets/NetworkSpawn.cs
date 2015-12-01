@@ -4,7 +4,7 @@ using System.Collections;
 
 public class NetworkSpawn : PoolBehaviour {    
     public void Start() {
-        if (NetworkServer.active && guid.value == null) {
+        if (SpaceNetwork.isServer && guid.value == null) {
             SpaceNetwork.Spawn(this.gameObject);
         }
     }

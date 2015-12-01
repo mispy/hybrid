@@ -88,12 +88,11 @@ public class RotatingTurret : BlockComponent {
         } else {
             dottedLine.enabled = false;
         }
-
-        SpaceNetwork.Sync(this);
     }
 
 	public void AimTowards(Vector3 pos) {
 		targetPos = transform.position + (pos - form.transform.TransformPoint(centerPoint));
-        UpdateTarget();
-	}
+        UpdateTarget();        
+        SpaceNetwork.Sync(this);
+    }
 }

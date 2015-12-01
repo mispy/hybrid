@@ -30,18 +30,21 @@ public class ProjectileLauncher : BlockComponent {
 	}
 	
     public void OnFire() {
-        SpaceNetwork.ServerCall(this, "Fire");
-    }
-
-	public void Fire() {    
         if (!charger.isReady)
             return;
+        
+        if (turret.isBlocked)
+            return;
 
-		if (turret.isBlocked)
-			return;
-		
-		charger.Discharge();
+        charger.Discharge();
 
+        if (!SpaceNetwork.isServer)
+            SpaceNetwork.ServerCall(this, "OnFire");
+        else
+            Fire();
+    }
+
+	void Fire() {    
 		// Pew pew!
 		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients, false);
        

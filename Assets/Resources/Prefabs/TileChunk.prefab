@@ -76,6 +76,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   renderer: {fileID: 0}
   mesh: {fileID: 0}
 --- !u!1001 &100100000

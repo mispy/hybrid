@@ -42,6 +42,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   key: P
 --- !u!212 &21292400
 SpriteRenderer:

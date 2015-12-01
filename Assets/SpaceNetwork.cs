@@ -12,6 +12,12 @@ public static class Msg {
     public const short Call = 1003;
 }
 
+public static class Channel {
+    public const short ReliableSequenced = 0;
+    public const short ReliableFragmented = 1;
+    public const short Unreliable = 2;
+}
+
 public class SyncMessage : MessageBase {
     public GUID guid;
     public string name;
@@ -70,7 +76,7 @@ public class SpaceNetwork : NetworkManager {
 
     public static bool isClient {
         get {
-            return !NetworkServer.active;
+            return NetworkClient.active;
         }
     }
 
@@ -92,13 +98,19 @@ public class SpaceNetwork : NetworkManager {
     }
 
     static List<GameObject> spawnables = new List<GameObject>();
-    static Queue<SyncMessage> incomingSync = new Queue<SyncMessage>();
 
     public static void Spawn(GameObject obj) {
-        if (isClient) return;
+        if (!isServer) return;
 
         spawnables.Add(obj);
-        NetworkServer.SendToAll(Msg.Spawn, MakeSpawnMessage(obj));
+
+        var msg = MakeSpawnMessage(obj);
+        if (msg.bytes.Length >= 1500) {
+            NetworkServer.SendByChannelToAll(Msg.Spawn, msg, Channel.ReliableFragmented);
+        } else {
+            NetworkServer.SendByChannelToAll(Msg.Spawn, msg, Channel.ReliableSequenced);
+        }
+
         Register(obj);
     }
 
@@ -130,36 +142,40 @@ public class SpaceNetwork : NetworkManager {
         
         var msg = new SyncMessage(net.guid, net.GetType().Name, stream.GetBuffer());
         
-        //Debug.LogFormat("[O] SyncMessage {0} bytes for {1}", msg.bytes.Length, net.guid);        
-        if (isServer)
-            NetworkServer.SendToAll(Msg.Sync, msg);
-        else
-            NetworkClient.allClients[0].Send(Msg.Sync, msg);
+        //Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
+        if (isServer) {
+            NetworkServer.SendByChannelToAll(Msg.Sync, msg, net.channel);
+        } else
+            NetworkClient.allClients[0].SendByChannel(Msg.Sync, msg, net.channel);       
+
         net.needsSync = false;
-        net.syncCountdown = 0.1f;
+        net.syncCountdown = net.syncRate;
     }
 
-    public static void Sync(PoolBehaviour net) {
+    public static void Sync(PoolBehaviour net, int channel=0) {
         net.needsSync = true;
+        net.channel = channel;
+        if (net.syncCountdown <= 0f)
+            SyncImmediate(net);
     }
 
     public void OnSyncMessage(NetworkMessage netMsg) {
         var msg = netMsg.ReadMessage<SyncMessage>();
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);
-        
-        //Debug.LogFormat("[I] SyncMessage {0} bytes for {1}", msg.bytes.Length, msg.guid);
-        
+
         if (!nets.ContainsKey(msg.guid))
-            Debug.LogErrorFormat("Received message for unknown network object {0} {1}", msg.guid, msg.name);
+            Debug.LogWarningFormat("Received message for unknown network object {0} {1}", msg.guid, msg.name);
         else
             nets[msg.guid].OnDeserialize(reader, false);
+
+        //Debug.LogFormat("[I] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, msg.guid, nets[msg.guid].gameObject.name, nets[msg.guid].GetType().Name);
 
         // If we're the server, redistribute this message to everyone else
         if (isServer) {
             foreach (var conn in NetworkServer.connections) {
                 if (conn != null && conn != netMsg.conn)
-                    conn.Send(Msg.Sync, msg);
+                    conn.SendByChannel(Msg.Sync, msg, netMsg.channelId);
             }
         }
     }
@@ -191,7 +207,7 @@ public class SpaceNetwork : NetworkManager {
             net.SendMessage(methodName);
         else {
             var msg = new CallMessage(net.guid, methodName);
-            NetworkClient.allClients[0].Send(Msg.Call, msg);
+            NetworkClient.allClients[0].SendByChannel(Msg.Call, msg, net.channel);
         }
     }
 
@@ -247,7 +263,7 @@ public class SpaceNetwork : NetworkManager {
     public override void OnServerConnect(NetworkConnection conn) {
         foreach (var spawnable in spawnables) {
             var msg = MakeSpawnMessage(spawnable);
-            conn.Send(Msg.Spawn, msg);
+            conn.SendByChannel(Msg.Spawn, msg, Channel.ReliableFragmented);
         }
     }
 

@@ -13,9 +13,9 @@ GameObject:
   - 54: {fileID: 5439348}
   - 114: {fileID: 11492186}
   - 114: {fileID: 11471496}
-  - 114: {fileID: 11453826}
   - 114: {fileID: 11476790}
   - 114: {fileID: 11449116}
+  - 114: {fileID: 11463998}
   m_Layer: 14
   m_Name: Plasma
   m_TagString: Untagged
@@ -75,8 +75,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   rigid: {fileID: 0}
---- !u!114 &11453826
+  syncFromClient: 0
+--- !u!114 &11463998
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -84,30 +87,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 136158}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Script: {fileID: 11500000, guid: 88b21da17ee431c478217e424d632405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 6
-    i1: 120
-    i2: 33
-    i3: 127
-    i4: 32
-    i5: 56
-    i6: 121
-    i7: 148
-    i8: 106
-    i9: 120
-    i10: 189
-    i11: 84
-    i12: 8
-    i13: 1
-    i14: 249
-    i15: 43
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
+  duration: 2
 --- !u!114 &11471496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,6 +116,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
 --- !u!114 &11492186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,6 +131,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   explosionForce: .00100000005
   explosionRadius: 2
   explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
@@ -212,7 +199,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: duration
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_CollisionDetection

@@ -41,6 +41,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   centerTileX: 256
   centerTileY: 256
   centerChunkX: 8

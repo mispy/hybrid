@@ -64,9 +64,6 @@ public class CrewBody : PoolBehaviour {
         collider = gameObject.GetComponent<BoxCollider>();
         weapon = gameObject.AddComponent<CrewWeapon>();
         //mind = gameObject.AddComponent<CrewMind>();      
-
-        AddRigid();
-        constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 
     public void MaglockMove(IntVector2 bp) {
@@ -169,7 +166,10 @@ public class CrewBody : PoolBehaviour {
         UpdateMaglock();
     }
 
-    void Start() {
+    void Start() {        
+        AddRigid();
+        constructor = Pool.For("Constructor").Attach<Constructor>(transform);
+
         guid = new GUID("player" + GetComponent<NetworkIdentity>().netId.Value.ToString());
         SpaceNetwork.Register(this);
     }

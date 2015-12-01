@@ -148,7 +148,7 @@ public class ShipMind : PoolBehaviour {
             var otherShip = hit.attachedRigidbody.GetComponent<Blockform>();
 
             if (otherShip != null && IsEnemy(otherShip)) {
-                launcher.Fire();
+                launcher.OnFire();
             }
         }
     }

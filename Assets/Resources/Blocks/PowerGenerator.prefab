@@ -74,6 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   form: {fileID: 0}
   producer: {fileID: 0}
 --- !u!114 &11482056
@@ -140,6 +142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   form: {fileID: 0}
   supplyRadius: 3
   isSwitchedOn: 1

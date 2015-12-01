@@ -9,6 +9,8 @@ public class PoolBehaviour : MonoBehaviour {
     public bool needsSync = false;
     [HideInInspector]
     public float syncCountdown = 0f;
+    public int channel = 0;
+    public float syncRate = 0.1f;
 
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }

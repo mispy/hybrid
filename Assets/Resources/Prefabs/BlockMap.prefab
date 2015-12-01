@@ -74,6 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   ship: {fileID: 0}
   maxX: 0
   minX: 0

@@ -17,8 +17,17 @@ public class CooldownCharger : BlockComponent {
         line.sortingLayerName = "UI";
     }
 
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        writer.Write(amountCharged);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        amountCharged = reader.ReadSingle();
+    }
+
     public void Discharge() {
         amountCharged = 0f;
+        SpaceNetwork.Sync(this);
     }
 
 	void Update() {

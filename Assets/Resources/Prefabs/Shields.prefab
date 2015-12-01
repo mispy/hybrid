@@ -65,6 +65,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   form: {fileID: 0}
   shieldCollider: {fileID: 0}
   maxHealth: 30
@@ -84,6 +86,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   mesh: {fileID: 0}
   meshCollider: {fileID: 0}
   shields: {fileID: 0}
@@ -100,6 +104,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
   shields: {fileID: 0}
   lineRenderer: {fileID: 0}
   maxLineWidth: 1
