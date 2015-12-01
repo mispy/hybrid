@@ -34,6 +34,8 @@ public class Explosive : PoolBehaviour
         if (initial) {
             rigid.velocity = reader.ReadVector3();
             originComp = reader.ReadComponent<ProjectileLauncher>();
+            if (!SpaceNetwork.isServer)
+                GetComponent<Collider>().enabled = false;
         }
 
         shouldExplode = reader.ReadBoolean();

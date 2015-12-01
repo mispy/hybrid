@@ -41,9 +41,10 @@ public class SpawnMessage : MessageBase {
     
     public SpawnMessage() { }
     
-    public SpawnMessage(string prefabId, Vector2 pos, byte[] bytes) {
+    public SpawnMessage(string prefabId, Vector2 position, Quaternion rotation, byte[] bytes) {
         this.prefabId = prefabId;
-        this.position = pos;
+        this.position = position;
+        this.rotation = rotation;
         this.bytes = bytes;
     }
 }
@@ -123,7 +124,7 @@ public class SpaceNetwork : NetworkManager {
             net.OnSerialize(writer, true);
         }
         
-        var msg = new SpawnMessage(Pool.GetPrefab(obj).name, obj.transform.position, stream.GetBuffer());
+        var msg = new SpawnMessage(Pool.GetPrefab(obj).name, obj.transform.position, obj.transform.rotation, stream.GetBuffer());
         //Debug.LogFormat("[O] SpawnMessage {0} bytes for {1}", msg.bytes.Length, obj.name);        
         return msg;
     }

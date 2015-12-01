@@ -10,11 +10,24 @@ public class Shields : PoolBehaviour {
 	public float health = 10000f;
 	public float regenRate = 10f;
 	public bool isActive = false;
-	
+
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        writer.Write(health);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        health = reader.ReadSingle();
+        UpdateStatus();
+        SendMessage("OnShieldsChange");
+    }
+
 	public void TakeDamage(float amount) {
 		health = Mathf.Max(0, health - amount);
 		UpdateStatus();
 		SendMessage("OnShieldsChange");
+
+        if (SpaceNetwork.isServer)
+            SpaceNetwork.Sync(this);
 	}
 
 	void Awake() {
