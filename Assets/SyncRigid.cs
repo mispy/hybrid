@@ -7,7 +7,17 @@ public class SyncRigid : PoolBehaviour {
     [HideInInspector]
     public Rigidbody rigid;
     public bool syncFromClient = false;
-    public float lastSyncTime = 0f;
+
+    Vector2 lastPos = Vector2.zero;
+    Quaternion lastRot = Quaternion.identity;
+    float lastTime = 0f;
+
+    Vector2 nextPos = Vector2.zero;
+    Quaternion nextRot = Quaternion.identity;
+    float nextTime = 0f;
+
+    bool isReady = false;
+    float lerpCounter = 0f;
 
     void Awake() {
         channel = Channel.UnreliableSequenced;
@@ -25,8 +35,15 @@ public class SyncRigid : PoolBehaviour {
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         if (rigid == null) return;
 
-        var pos = reader.ReadVector2();
-        var rot = Quaternion.Euler(new Vector3(0, 0, reader.ReadSingle()));
+        lastPos = rigid.position;
+        lastRot = rigid.rotation;
+        lastTime = Time.time;
+
+        nextPos = reader.ReadVector2();
+        nextRot = Quaternion.Euler(new Vector3(0, 0, reader.ReadSingle()));
+        nextTime = Time.time + syncRate;
+
+        lerpCounter = 0f;
     }
 
     /*public override bool OnSerialize(NetworkWriter writer, bool initialState) {
@@ -47,17 +64,23 @@ public class SyncRigid : PoolBehaviour {
     Vector3 velocity = Vector3.zero;
     Vector3 angularVelocity = Vector3.zero;
 
-	void Update () {
-        if (Game.localPlayer.gameObject != this.gameObject && GetComponent<NetworkIdentity>() != null)
-            return;
-        else if (!SpaceNetwork.isServer)
-            return;
+	void Update() {
+        var hasAuthority = (Game.localPlayer.gameObject == this.gameObject || (GetComponent<NetworkIdentity>() == null && SpaceNetwork.isServer));
 
-        if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f || GetComponent<Blockform>() != null) {
-            velocity = rigid.velocity;
-            angularVelocity = rigid.angularVelocity;
-            SpaceNetwork.Sync(this);
+        if (!hasAuthority) {
+            lerpCounter += Time.deltaTime;
+            var progress = lerpCounter / (nextTime - lastTime);
+            //Debug.LogFormat("{0} {1} {2}", lastPos, nextPos, progress);
+            rigid.position = Vector2.Lerp(lastPos, nextPos, progress);
+            rigid.rotation = Quaternion.Lerp(lastRot, nextRot, progress);
         }
 
+        if (hasAuthority) {
+            if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f || GetComponent<Blockform>() != null) {
+                velocity = rigid.velocity;
+                angularVelocity = rigid.angularVelocity;
+                SpaceNetwork.Sync(this);
+            }
+        }
     }
 }
