@@ -10,9 +10,8 @@ GameObject:
   - 4: {fileID: 403624}
   - 212: {fileID: 21242940}
   - 114: {fileID: 11493190}
-  - 114: {fileID: 11466240}
-  - 114: {fileID: 11472796}
   - 65: {fileID: 6546872}
+  - 114: {fileID: 11499682}
   m_Layer: 5
   m_Name: Crew
   m_TagString: Untagged
@@ -44,49 +43,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: .200000003}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &11466240
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 76
-    i1: 117
-    i2: 134
-    i3: 198
-    i4: 120
-    i5: 214
-    i6: 97
-    i7: 196
-    i8: 42
-    i9: 101
-    i10: 211
-    i11: 191
-    i12: 189
-    i13: 250
-    i14: 152
-    i15: 130
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 1
---- !u!114 &11472796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 170034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75c0d3fdea590ce4fa2914661012603b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11493190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -100,10 +56,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   needsSync: 0
   syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   rigidBody: {fileID: 0}
   syncRigid: {fileID: 0}
   collider: {fileID: 0}
   constructor: {fileID: 0}
+  connectionId: 0
   maglockShip: {fileID: 0}
   currentBlockPos:
     x: 0
@@ -115,6 +76,25 @@ MonoBehaviour:
   mind: {fileID: 0}
   maxHealth: 100
   health: 100
+--- !u!114 &11499682
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 170034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e37bbe285a465488c6d6fe00e95406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  rigid: {fileID: 0}
+  syncFromClient: 0
 --- !u!212 &21242940
 SpriteRenderer:
   m_ObjectHideFlags: 1

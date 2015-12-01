@@ -12,7 +12,7 @@ public class CrewBody : PoolBehaviour {
     public SyncRigid syncRigid;
     public new BoxCollider collider;
     public Constructor constructor;
-    
+    public int connectionId;
     
     // Crew can be maglocked to a ship even if they don't have a current block
     // bc they attach to the sides as well
@@ -37,10 +37,21 @@ public class CrewBody : PoolBehaviour {
     public int health;
 
     public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        if (initial)
+            writer.Write(connectionId);
+
         writer.Write(maglockMoveBlockPos);
     }
 
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        if (initial) {
+            connectionId = reader.ReadInt32();
+            Debug.Log(connectionId);
+            Debug.Log(NetworkClient.allClients[0].connection.connectionId);
+            if (connectionId == NetworkClient.allClients[0].connection.connectionId)
+                gameObject.AddComponent<Player>();            
+        }
+
         maglockMoveBlockPos = reader.ReadIntVector2();
     }
 
@@ -55,14 +66,14 @@ public class CrewBody : PoolBehaviour {
         rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.drag = 2f;
         rigidBody.freezeRotation = true;
-        syncRigid = gameObject.AddComponent<SyncRigid>();
-        syncRigid.guid = new GUID(guid.ToString() + ":SyncRigid");
-        SpaceNetwork.Register(syncRigid);
+        syncRigid.rigid = rigidBody;
+        syncRigid.enabled = true;
     }
 
     void Awake() {
         collider = gameObject.GetComponent<BoxCollider>();
         weapon = gameObject.AddComponent<CrewWeapon>();
+        syncRigid = GetComponent<SyncRigid>();
         //mind = gameObject.AddComponent<CrewMind>();      
     }
 
@@ -80,7 +91,7 @@ public class CrewBody : PoolBehaviour {
         maglockShip.maglockedCrew.Add(this);
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);
-        Destroy(syncRigid);
+        syncRigid.enabled = false;
         Destroy(rigidBody);
         MaglockMove(ship.WorldToBlockPos(transform.position));
         collider.isTrigger = true;
@@ -169,8 +180,5 @@ public class CrewBody : PoolBehaviour {
     void Start() {        
         AddRigid();
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
-
-        guid = new GUID("player" + GetComponent<NetworkIdentity>().netId.Value.ToString());
-        SpaceNetwork.Register(this);
     }
 }

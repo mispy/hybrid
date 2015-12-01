@@ -81,7 +81,6 @@ MonoBehaviour:
   lastSyncReceived: 0
   rigid: {fileID: 0}
   syncFromClient: 0
-  lastSyncTime: 0
 --- !u!114 &11463998
 MonoBehaviour:
   m_ObjectHideFlags: 1

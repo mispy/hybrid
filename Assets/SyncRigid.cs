@@ -2,7 +2,6 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-[RequireComponent(typeof(Rigidbody))]
 public class SyncRigid : PoolBehaviour {
     [HideInInspector]
     public Rigidbody rigid;
@@ -65,7 +64,7 @@ public class SyncRigid : PoolBehaviour {
     Vector3 angularVelocity = Vector3.zero;
 
 	void Update() {
-        var hasAuthority = (Game.localPlayer.gameObject == this.gameObject || (GetComponent<NetworkIdentity>() == null && SpaceNetwork.isServer));
+        var hasAuthority = ((Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject) || (GetComponent<CrewBody>() == null && SpaceNetwork.isServer));
 
         if (!hasAuthority) {
             lerpCounter += Time.deltaTime;

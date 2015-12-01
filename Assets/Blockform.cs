@@ -58,6 +58,7 @@ public class Blockform : PoolBehaviour {
     [HideInInspector]
     public Shields shields;
 
+    private int blockGUIDCounter = 0;
     private bool needsMassUpdate = true;
 
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
@@ -168,6 +169,14 @@ public class Blockform : PoolBehaviour {
         box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
         blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
         box.isTrigger = true;
+
+        if (SpaceNetwork.isServer) {
+            guid = GUID.Assign();
+
+            // Reserve a bunch of guids for our block components so we don't
+            // have to negotiate each of them
+            GUID.Reserve(10000);
+        }
     }
 
     public void Initialize(ShipTemplate2 template) {
@@ -321,7 +330,7 @@ public class Blockform : PoolBehaviour {
                 blockCompCache[comp.GetType()] = new HashSet<BlockComponent>();
             blockCompCache[comp.GetType()].Add(comp);
 
-            comp.guid = new GUID(guid.ToString() + ":" + block.pos.ToString() + ":" + block.layer.ToString() + ":" + comp.GetType().Name);
+            comp.guid = new GUID(guid.value + (blockGUIDCounter += 1));
             SpaceNetwork.Register(comp);
         }
         

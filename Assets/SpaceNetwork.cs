@@ -35,12 +35,14 @@ public class SyncMessage : MessageBase {
 
 public class SpawnMessage : MessageBase {
     public string prefabId;
+    public Vector2 pos;
     public byte[] bytes;
     
     public SpawnMessage() { }
     
-    public SpawnMessage(string prefabId, byte[] bytes) {
+    public SpawnMessage(string prefabId, Vector2 pos, byte[] bytes) {
         this.prefabId = prefabId;
+        this.pos = pos;
         this.bytes = bytes;
     }
 }
@@ -57,14 +59,41 @@ public class CallMessage : MessageBase {
 }
 
 public struct GUID {
-    public string value;
+    static int counter = 0;
 
-    public override string ToString() {
+    public static GUID Assign() {
+        return new GUID(counter += 1);
+    }
+
+    public static void Reserve(int amount) {
+        counter += amount;
+    }
+
+    public static bool operator ==(GUID v1, GUID v2) {
+        return v1.isValid && v2.isValid && v1.value == v2.value;
+    }
+
+    public static bool operator !=(GUID v1, GUID v2) {
+        return !v1.isValid || !v2.isValid || v1.value != v2.value;
+    }
+
+    public int value;
+        
+    public bool isValid {
+        get { return value != 0; }
+    }
+
+    public GUID(int value) {
+        this.value = value;
+    }
+
+    public override int GetHashCode()
+    {
         return value;
     }
-    
-    public GUID(string value) {
-        this.value = value;
+
+    public override string ToString() {
+        return value.ToString();
     }
 }
 
@@ -87,18 +116,18 @@ public class SpaceNetwork : NetworkManager {
         
         var nets = obj.GetComponents<PoolBehaviour>();
         foreach (var net in nets) {
-            if (net.guid.value == null)
-                net.guid = new GUID(net.GetInstanceID().ToString());
+            if (!net.guid.isValid)
+                net.guid = GUID.Assign();
             writer.Write(net.guid.value);
             net.OnSerialize(writer, true);
         }
         
-        var msg = new SpawnMessage(Pool.GetPrefab(obj).name, stream.GetBuffer());
+        var msg = new SpawnMessage(Pool.GetPrefab(obj).name, obj.transform.position, stream.GetBuffer());
         //Debug.LogFormat("[O] SpawnMessage {0} bytes for {1}", msg.bytes.Length, obj.name);        
         return msg;
     }
 
-    static List<GameObject> spawnables = new List<GameObject>();
+    public static List<GameObject> spawnables = new List<GameObject>();
 
     public static void Spawn(GameObject obj) {
         if (!isServer) return;
@@ -112,25 +141,35 @@ public class SpaceNetwork : NetworkManager {
             NetworkServer.SendByChannelToAll(Msg.Spawn, msg, Channel.ReliableSequenced);
         }
 
+        if (isClient) {
+            UnpackSpawnMessage(obj, msg);
+        }
+
         Register(obj);
+    }
+
+    static void UnpackSpawnMessage(GameObject obj, SpawnMessage msg) {        
+        obj.transform.position = msg.pos;
+
+        var stream = new MemoryStream(msg.bytes);
+        var reader = new ExtendedBinaryReader(stream);
+
+        foreach (var net in obj.GetComponents<PoolBehaviour>()) {
+            net.guid = reader.ReadGUID();
+            nets[net.guid] = net;
+            net.OnDeserialize(reader, true);
+        }
     }
 
     public void OnClientSpawnMessage(NetworkMessage netMsg) {
         if (isServer) return;
 
         SpawnMessage msg = netMsg.ReadMessage<SpawnMessage>();
-        var stream = new MemoryStream(msg.bytes);
-        var reader = new ExtendedBinaryReader(stream);
-
 
         //Debug.LogFormat("[I] SpawnMessage {0} bytes for prefab {1}", msg.bytes.Length, msg.prefabId);        
 
-        var obj = Pool.For(msg.prefabId).Attach<Transform>(Game.activeSector.contents);
-        foreach (var net in obj.GetComponents<PoolBehaviour>()) {
-            net.guid = reader.ReadGUID();
-            nets[net.guid] = net;
-            net.OnDeserialize(reader, true);
-        }
+        var obj = Pool.For(msg.prefabId).Attach<Transform>(Game.activeSector.contents).gameObject;
+        UnpackSpawnMessage(obj, msg);
     }
 
     public static void SyncImmediate(PoolBehaviour net) {
@@ -207,7 +246,7 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public static void Register(PoolBehaviour net) {
-        if (net.guid.value == null)
+        if (!net.guid.isValid)
             throw new ArgumentException(String.Format("Cannot register {0} of {1} because it lacks a guid", net.GetType().Name, net.gameObject.name));        
 
         nets[net.guid] = net;
@@ -271,11 +310,32 @@ public class SpaceNetwork : NetworkManager {
         needsStart = true;
     }
 
+    static bool seenServer = false;
+
+    Dictionary<int, GameObject> players = new Dictionary<int, GameObject>();
+
     public override void OnServerConnect(NetworkConnection conn) {
+        if (conn.connectionId == -1 && !seenServer) {
+            seenServer = true;
+            return;
+        }
+
         foreach (var spawnable in spawnables) {
+            if (spawnable == null) continue;
             var msg = MakeSpawnMessage(spawnable);
             conn.SendByChannel(Msg.Spawn, msg, Channel.ReliableFragmented);
         }
+
+        var crew = Pool.For("Crew").Attach<CrewBody>(Game.activeSector.contents);
+        crew.connectionId = conn.connectionId;
+        SpaceNetwork.Spawn(crew.gameObject);
+
+        players[conn.connectionId] = crew.gameObject;
+    }
+
+    public override void OnServerDisconnect(NetworkConnection conn) {
+        Pool.Recycle(players[conn.connectionId].gameObject);
+        players.Remove(conn.connectionId);
     }
 
     public override void OnStartClient(NetworkClient client) {        

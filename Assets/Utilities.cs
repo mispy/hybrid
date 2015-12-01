@@ -263,7 +263,7 @@ public class ExtendedBinaryReader : BinaryReader {
     }
 
     public virtual GUID ReadGUID() {
-        return new GUID(ReadString());
+        return new GUID(ReadInt32());
     }
 
     public virtual T ReadComponent<T>() {
