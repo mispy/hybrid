@@ -9,26 +9,41 @@ public class Explosive : PoolBehaviour
 {
     public float explosionForce = 0.001f;
     public float explosionRadius = 2f;
-    new Rigidbody rigidbody;
+    [HideInInspector]
+    public Rigidbody rigid;
 	public GameObject explosionPrefab;
-    public Blockform originShip;
+    public ProjectileLauncher originComp;
     bool hasStarted = false;
+    bool shouldExplode = false;
 
     void Awake() {
-        rigidbody = GetComponent<Rigidbody>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
-        writer.Write(originShip);
+        if (initial) {
+            Debug.Log(rigid.velocity);
+            writer.Write(rigid.velocity);
+            writer.Write(originComp);
+        }
+
+        writer.Write(shouldExplode);
     }
 
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
-        originShip = reader.ReadComponent<Blockform>();
+        if (initial) {
+            rigid.velocity = reader.ReadVector3();
+            originComp = reader.ReadComponent<ProjectileLauncher>();
+        }
+
+        shouldExplode = reader.ReadBoolean();
+        if (shouldExplode) Explode();
     }
 
     void Start() {
-        var form = originShip;
+        var form = originComp.form;
         var mcol = GetComponent<Collider>();
+        Physics.IgnoreCollision(originComp.collider, mcol);
         if (form.shields && form.shields.isActive) {
             Physics.IgnoreCollision(form.shields.GetComponent<Collider>(), mcol, true);
             Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
@@ -37,7 +52,7 @@ public class Explosive : PoolBehaviour
     }
                  
     void OnCollisionEnter(Collision col) {
-        if (!hasStarted) return;
+        if (!hasStarted || shouldExplode || !SpaceNetwork.isServer) return;
 
         if (enabled && col.contacts.Length > 0) {
             // compare relative velocity to collision normal - so we don't explode from a fast but gentle glancing collision
@@ -47,7 +62,8 @@ public class Explosive : PoolBehaviour
             //if (velocityAlongCollisionNormal > detonationImpactVelocity)
             //{
 
-                Explode();
+                shouldExplode = true;
+                SpaceNetwork.Sync(this);
             //}
         }
     }
@@ -61,7 +77,7 @@ public class Explosive : PoolBehaviour
 
 	public void Explode() {
         var explosion = Pool.For(explosionPrefab).Attach<Transform>(Game.activeSector.transients);
-        explosion.transform.position = rigidbody.position;
+        explosion.transform.position = rigid.position;
 
 		var multiplier = explosionRadius;
 		var systems = GetComponentsInChildren<ParticleSystem>();
@@ -74,7 +90,7 @@ public class Explosive : PoolBehaviour
 			system.Play();
 		}		
 
-        var cols = Physics.OverlapSphere(rigidbody.position, explosionRadius, LayerMask.GetMask(new string[] { "Wall", "Floor", "Shields" }));
+        var cols = Physics.OverlapSphere(rigid.position, explosionRadius, LayerMask.GetMask(new string[] { "Wall", "Floor", "Shields" }));
 
 		HashSet<Block> blocksToBreak = new HashSet<Block>();
 		HashSet<Rigidbody> rigidBodies = new HashSet<Rigidbody>();
@@ -95,7 +111,7 @@ public class Explosive : PoolBehaviour
             if (shielded.Contains(col.attachedRigidbody)) continue;
 
 			var form = col.attachedRigidbody.GetComponent<Blockform>();
-			if (form == null || form == originShip) continue;
+			if (form == null || form == originComp.form) continue;
 
             foreach (var block in form.BlocksAtWorldPos(col.transform.position))
                 blocksToBreak.Add(block);
@@ -105,7 +121,7 @@ public class Explosive : PoolBehaviour
 		foreach (var block in blocksToBreak) {
             if (block.IsDestroyed) continue;
 
-            var startPos = block.ship.WorldToBlockPos(rigidbody.position);
+            var startPos = block.ship.WorldToBlockPos(rigid.position);
             var damage = 10f;
             foreach (var pos in Util.LineBetween(startPos, block.pos)) {
                 foreach (var between in block.ship.blocks.BlocksAtPos(pos)) {
@@ -119,7 +135,7 @@ public class Explosive : PoolBehaviour
 		}
 		
 		foreach (var rb in rigidBodies) {
-            rb.AddExplosionForce(Math.Min(explosionForce, rb.mass*20), rigidbody.position, explosionRadius, 1, ForceMode.Impulse);
+            rb.AddExplosionForce(Math.Min(explosionForce, rb.mass*20), rigid.position, explosionRadius, 1, ForceMode.Impulse);
 		}
 
         Pool.Recycle(gameObject);

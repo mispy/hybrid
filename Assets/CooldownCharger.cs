@@ -27,7 +27,8 @@ public class CooldownCharger : BlockComponent {
 
     public void Discharge() {
         amountCharged = 0f;
-        SpaceNetwork.Sync(this);
+        if (SpaceNetwork.isServer)
+            SpaceNetwork.Sync(this);
     }
 
 	void Update() {

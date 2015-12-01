@@ -34,6 +34,9 @@ public class SyncRigid : PoolBehaviour {
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         if (rigid == null) return;
 
+        if (!initial)
+            isReady = true;
+
         lastPos = rigid.position;
         lastRot = rigid.rotation;
         lastTime = Time.time;
@@ -66,7 +69,7 @@ public class SyncRigid : PoolBehaviour {
 	void Update() {
         var hasAuthority = ((Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject) || (GetComponent<CrewBody>() == null && SpaceNetwork.isServer));
 
-        if (!hasAuthority) {
+        if (!hasAuthority && isReady) {
             lerpCounter += Time.deltaTime;
             var progress = lerpCounter / (nextTime - lastTime);
             //Debug.LogFormat("{0} {1} {2}", lastPos, nextPos, progress);
@@ -75,11 +78,11 @@ public class SyncRigid : PoolBehaviour {
         }
 
         if (hasAuthority) {
-            if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f || GetComponent<Blockform>() != null) {
+//            if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f || GetComponent<Blockform>() != null) {
                 velocity = rigid.velocity;
                 angularVelocity = rigid.angularVelocity;
                 SpaceNetwork.Sync(this);
-            }
+//            }
         }
     }
 }

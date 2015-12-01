@@ -192,7 +192,6 @@ MonoBehaviour:
   syncDeltaTime: 0
   lastSyncReceived: 0
   form: {fileID: 0}
-  launchForce: .5
   projectile: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}
   lastFireTime: 0
 --- !u!212 &21208276

@@ -35,14 +35,15 @@ public class SyncMessage : MessageBase {
 
 public class SpawnMessage : MessageBase {
     public string prefabId;
-    public Vector2 pos;
+    public Vector2 position;
+    public Quaternion rotation;
     public byte[] bytes;
     
     public SpawnMessage() { }
     
     public SpawnMessage(string prefabId, Vector2 pos, byte[] bytes) {
         this.prefabId = prefabId;
-        this.pos = pos;
+        this.position = pos;
         this.bytes = bytes;
     }
 }
@@ -149,7 +150,8 @@ public class SpaceNetwork : NetworkManager {
     }
 
     static void UnpackSpawnMessage(GameObject obj, SpawnMessage msg) {        
-        obj.transform.position = msg.pos;
+        obj.transform.position = msg.position;
+        obj.transform.rotation = msg.rotation;
 
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);

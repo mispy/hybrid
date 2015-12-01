@@ -6,7 +6,7 @@ using System.Linq;
 
 public class ProjectileLauncher : BlockComponent {
 
-	public float launchForce = 0.5f;
+	float launchVelocity = 80f;
 	public GameObject projectile;
 
 	[HideInInspector]
@@ -46,17 +46,15 @@ public class ProjectileLauncher : BlockComponent {
 
 	void Fire() {    
 		// Pew pew!
-		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients, false);
+		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients);
        
 		bullet.transform.position = turret.TipPosition;
 		bullet.transform.rotation = transform.rotation;
-        bullet.originShip = block.ship;
-		bullet.gameObject.SetActive(true);
-        var mcol = bullet.GetComponent<BoxCollider>();
-        Physics.IgnoreCollision(collider, mcol);
+        bullet.originComp = this;
 
         var rigid = bullet.GetComponent<Rigidbody>();
         rigid.velocity = form.rigidBody.velocity;
-		rigid.AddForce(transform.up*launchForce);
+		rigid.velocity += transform.up*launchVelocity;
+        Debug.Log(rigid.velocity);
 	}
 }
