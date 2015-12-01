@@ -31,9 +31,10 @@ public class DebugMenu : MonoBehaviour {
     }
 
     public void SpawnEnemy() {
-/*        if (Blockform.AtWorldPos(Game.mousePos) == null) {
-            Ship.Create(beacon: Game.playerShip.beacon, faction: Faction.FromId("Pirate Gang"));
-        }*/
+        if (Blockform.AtWorldPos(Game.mousePos) == null) {
+            var ship = Blockform.FromTemplate(Game.state.playerShipTemplate);
+            ship.rigidBody.position = Game.mousePos;
+        }
     }
 
 	public void ToggleVisibility() {
@@ -54,7 +55,7 @@ public class DebugMenu : MonoBehaviour {
         }
     }
 
-    void Start() {
+    void OnEnable() {
         InputEvent.For(KeyCode.N).Bind(this, NewShip);
         InputEvent.For(KeyCode.E).Bind(this, SpawnEnemy);
         InputEvent.For(KeyCode.V).Bind(this, ToggleVisibility);

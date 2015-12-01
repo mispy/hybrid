@@ -31,7 +31,8 @@ public class RotatingTurret : BlockComponent {
     }
 
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
-        AimTowards(reader.ReadVector2());
+        targetPos = reader.ReadVector2();
+        UpdateTarget();
     }
 	
 	void Awake() {       
@@ -66,11 +67,10 @@ public class RotatingTurret : BlockComponent {
 		centerPoint /= turrets.Count;
 	}
 
-	public void AimTowards(Vector3 pos) {
-		targetPos = transform.position + (pos - form.transform.TransformPoint(centerPoint));
+    void UpdateTarget() {
         var targetDir = (targetPos-(Vector2)transform.position).normalized;
         var currentDir = transform.TransformDirection(Vector2.up);
-
+        
         var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
         transform.rotation = targetRotation;
         
@@ -88,5 +88,12 @@ public class RotatingTurret : BlockComponent {
         } else {
             dottedLine.enabled = false;
         }
+
+        SpaceNetwork.Sync(this);
+    }
+
+	public void AimTowards(Vector3 pos) {
+		targetPos = transform.position + (pos - form.transform.TransformPoint(centerPoint));
+        UpdateTarget();
 	}
 }

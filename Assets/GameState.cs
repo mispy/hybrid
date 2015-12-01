@@ -132,12 +132,6 @@ public static class Game {
         Time.timeScale = 1.0f;
     }
 
-    public static T InstantiateComponent<T>() where T : MonoBehaviour {
-        var go = new GameObject();
-        return go.AddComponent<T>();
-    }
-
-
     public static void Start() {
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);

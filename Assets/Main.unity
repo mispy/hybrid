@@ -3793,6 +3793,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299fc2ec4f7fb4447b8b2f4590678c06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!222 &2034046823
 CanvasRenderer:
   m_ObjectHideFlags: 0

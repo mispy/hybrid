@@ -29,6 +29,10 @@ public class SensibleDictionary<T1, T2> {
         return dict.ContainsKey(key);
     }
 
+    public bool Remove(T1 key) {
+        return dict.Remove(key);
+    }
+
     public Dictionary<T1, T2>.ValueCollection Values {
        get {
             return dict.Values;

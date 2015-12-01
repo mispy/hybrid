@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 public static class Msg {
     public const short Spawn = 1001;
@@ -71,6 +72,7 @@ public class SpaceNetwork : NetworkManager {
 
         spawnables.Add(obj);
         NetworkServer.SendToAll(Msg.Spawn, MakeSpawnMessage(obj));
+        Register(obj);
     }
 
     public void OnClientSpawnMessage(NetworkMessage netMsg) {
@@ -117,6 +119,8 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public void OnClientSyncMessage(NetworkMessage netMsg) {
+        if (NetworkServer.active) return;
+
         var msg = netMsg.ReadMessage<SyncMessage>();
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);
@@ -159,7 +163,15 @@ public class SpaceNetwork : NetworkManager {
             needsStart = false;
         }
 
-        foreach (var net in nets.Values) {
+        if (!NetworkServer.active) return;
+
+        foreach (var guid in nets.Keys.ToList()) {
+            var net = nets[guid];
+            if (net == null) {
+                nets.Remove(guid);
+                continue;
+            }
+
             if (net.needsSync && net.syncCountdown <= 0f) {
                 SyncImmediate(net);
             } else if (net.syncCountdown > 0f) {

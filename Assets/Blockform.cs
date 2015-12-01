@@ -164,6 +164,7 @@ public class Blockform : PoolBehaviour {
         rigidBody = GetComponent<Rigidbody>();
         tiles = GetComponent<TileRenderer>();
         damage = GetComponent<ShipDamage>();
+        pather = GetComponent<SpacePather>();
         box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
         blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
         box.isTrigger = true;

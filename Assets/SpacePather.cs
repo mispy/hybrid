@@ -128,7 +128,10 @@ public class SpacePather : PoolBehaviour {
 	}
 
 	void Awake() {
-		pathForm = GetComponentInParent<Blockform>();
+		pathForm = GetComponent<Blockform>();
+    }
+
+    void Start() {    
 		var width = (pathForm.blocks.maxX - pathForm.blocks.minX) * Tile.worldSize;
 		var height = (pathForm.blocks.maxY - pathForm.blocks.minY) * Tile.worldSize;
 		colRect = new Rect(-width/2, -height/2, width, height);

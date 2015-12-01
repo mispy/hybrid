@@ -15,6 +15,8 @@ GameObject:
   - 114: {fileID: 11492490}
   - 114: {fileID: 11409090}
   - 114: {fileID: 11472042}
+  - 114: {fileID: 11407926}
+  - 114: {fileID: 11461088}
   m_Layer: 0
   m_Name: Blockform
   m_TagString: Untagged
@@ -49,6 +51,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 56
   m_CollisionDetection: 1
+--- !u!114 &11407926
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5e37bbe285a465488c6d6fe00e95406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
 --- !u!114 &11409090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -96,6 +111,29 @@ MonoBehaviour:
   centerOfMass: {x: 0, y: 0, z: 0}
   maglockedCrew: []
   shields: {fileID: 0}
+--- !u!114 &11461088
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd719b9df99aa740a78740a1a178abc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  pathForm: {fileID: 0}
+  colRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  pathGridSize: 0
+  lastPath: []
+  cardinals: []
 --- !u!114 &11467136
 MonoBehaviour:
   m_ObjectHideFlags: 1

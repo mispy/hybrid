@@ -11,6 +11,8 @@ public class SyncRigid : PoolBehaviour {
     }
 
     public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        if (rigid == null) return;
+
         writer.Write(rigid.position);
         writer.Write(rigid.velocity);
         writer.Write(rigid.angularVelocity);
@@ -18,10 +20,12 @@ public class SyncRigid : PoolBehaviour {
     }
 
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
-        rigid.position = reader.ReadVector3();
+        if (rigid == null) return;
+
+        rigid.MovePosition(reader.ReadVector3());
         rigid.velocity = reader.ReadVector3();
         rigid.angularVelocity = reader.ReadVector3();
-        rigid.rotation = Quaternion.Euler(reader.ReadVector3());
+        rigid.MoveRotation(Quaternion.Euler(reader.ReadVector3()));
     }
 
     /*public override bool OnSerialize(NetworkWriter writer, bool initialState) {
