@@ -26,30 +26,34 @@ public class CrewControl : MonoBehaviour {
     }
 
     public void OnMoveForward() {
-        if (crew.isMaglocked)
+        if (crew.isMaglocked) {
+            crew.MaglockMove(crew.currentBlockPos + IntVector2.up);
             player.CmdMaglockMove(crew.currentBlockPos + IntVector2.up);
-        else
+        } else
             crew.rigidBody.velocity += transform.up;
     }
 
     public void OnMoveLeft() {
-        if (crew.isMaglocked)
+        if (crew.isMaglocked) {
+            crew.MaglockMove(crew.currentBlockPos + IntVector2.left);
             player.CmdMaglockMove(crew.currentBlockPos + IntVector2.left);
-        else
+        } else
             crew.rigidBody.velocity += -transform.right;
     }
 
     public void OnMoveRight() {
-        if (crew.isMaglocked)
+        if (crew.isMaglocked) {
+            crew.MaglockMove(crew.currentBlockPos + IntVector2.right);
             player.CmdMaglockMove(crew.currentBlockPos + IntVector2.right);
-        else
+        } else
             crew.rigidBody.velocity += transform.right;
     }
 
     public void OnMoveDown() {
-        if (crew.isMaglocked)
+        if (crew.isMaglocked) {
+            crew.MaglockMove(crew.currentBlockPos + IntVector2.down);
             player.CmdMaglockMove(crew.currentBlockPos + IntVector2.down);
-        else
+        } else
             crew.rigidBody.velocity += -transform.up;
     }
 }

@@ -23,10 +23,10 @@ public class Shields : PoolBehaviour {
 		shieldCollider = GetComponent<ShieldCollider>();
 		form.blocks.OnBlockAdded += OnBlockUpdate;
 		form.blocks.OnBlockRemoved += OnBlockUpdate;
+        isActive = false;
 	}
 
 	void Start() {
-		isActive = false;
 		UpdateEllipse();
 		UpdateStatus();
 	}

@@ -5,8 +5,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class CrewBody : NetworkBehaviour {
+public class CrewBody : PoolBehaviour {
+    [HideInInspector]
     public Rigidbody rigidBody;
+    [HideInInspector]
+    public SyncRigid syncRigid;
     public new BoxCollider collider;
     public Constructor constructor;
     
@@ -15,7 +18,6 @@ public class CrewBody : NetworkBehaviour {
     // bc they attach to the sides as well
     public Blockform maglockShip = null;
     public IntVector2 currentBlockPos;
-    [SyncVar]
     public IntVector2 maglockMoveBlockPos;
     public Block currentBlock = null;
 
@@ -34,10 +36,12 @@ public class CrewBody : NetworkBehaviour {
     public int maxHealth;
     public int health;
 
-    public NetworkTransform netform { get; private set; }
-    
-    public void NewSyncPos(Vector2 pos) {
-        transform.localPosition = pos;
+    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+        writer.Write(maglockMoveBlockPos);
+    }
+
+    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+        maglockMoveBlockPos = reader.ReadIntVector2();
     }
 
     public void TakeDamage(int amount) {
@@ -51,6 +55,9 @@ public class CrewBody : NetworkBehaviour {
         rigidBody = gameObject.AddComponent<Rigidbody>();
         rigidBody.drag = 2f;
         rigidBody.freezeRotation = true;
+        syncRigid = gameObject.AddComponent<SyncRigid>();
+        syncRigid.guid = new GUID(guid.ToString() + ":SyncRigid");
+        SpaceNetwork.Register(syncRigid);
     }
 
     void Awake() {
@@ -59,12 +66,12 @@ public class CrewBody : NetworkBehaviour {
         //mind = gameObject.AddComponent<CrewMind>();      
 
         AddRigid();
-        netform = GetComponent<NetworkTransform>();
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 
     public void MaglockMove(IntVector2 bp) {
         maglockMoveBlockPos = bp;
+        SpaceNetwork.Sync(this);
     }
     
     public void UseBlock(Block block)  {
@@ -76,7 +83,7 @@ public class CrewBody : NetworkBehaviour {
         maglockShip.maglockedCrew.Add(this);
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);
-        netform.enabled = false;
+        Destroy(syncRigid);
         Destroy(rigidBody);
         MaglockMove(ship.WorldToBlockPos(transform.position));
         collider.isTrigger = true;
@@ -89,7 +96,6 @@ public class CrewBody : NetworkBehaviour {
         transform.SetParent(Game.activeSector.contents);
         maglockShip.maglockedCrew.Remove(this);
         AddRigid();
-        netform.enabled = true;
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
         collider.isTrigger = false;
@@ -161,5 +167,10 @@ public class CrewBody : NetworkBehaviour {
     
     void Update() {
         UpdateMaglock();
+    }
+
+    void Start() {
+        guid = new GUID("player" + GetComponent<NetworkIdentity>().netId.Value.ToString());
+        SpaceNetwork.Register(this);
     }
 }

@@ -12,10 +12,12 @@ public class ShieldCollider : PoolBehaviour {
 	void Awake() {
 		shields = GetComponent<Shields>();
 		mesh = GetComponent<MeshFilter>().mesh;
+        meshCollider = GetComponent<MeshCollider>();
 	}
 
 	public void OnShieldsEnable() {
-		meshCollider = gameObject.AddComponent<MeshCollider>();
+        if (meshCollider == null)
+    		meshCollider = gameObject.AddComponent<MeshCollider>();
 		meshCollider.convex = true;
 		UpdateMesh(shields.ellipse);
 	}

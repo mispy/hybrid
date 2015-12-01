@@ -13,12 +13,14 @@ public static class Msg {
 
 public class SyncMessage : MessageBase {
     public GUID guid;
+    public string name;
     public byte[] bytes;
 
     public SyncMessage() { }
 
-    public SyncMessage(GUID guid, byte[] bytes) {
+    public SyncMessage(GUID guid, string name, byte[] bytes) {
         this.guid = guid;
+        this.name = name;
         this.bytes = bytes;
     }
 }
@@ -66,6 +68,7 @@ public class SpaceNetwork : NetworkManager {
     }
 
     static List<GameObject> spawnables = new List<GameObject>();
+    static Queue<SyncMessage> incomingSync = new Queue<SyncMessage>();
 
     public static void Spawn(GameObject obj) {
         if (!NetworkServer.active) return;
@@ -103,7 +106,7 @@ public class SpaceNetwork : NetworkManager {
         var writer = new ExtendedBinaryWriter(stream);
         net.OnSerialize(writer, false);
         
-        var msg = new SyncMessage(net.guid, stream.GetBuffer());
+        var msg = new SyncMessage(net.guid, net.GetType().Name, stream.GetBuffer());
         
         //Debug.LogFormat("[O] SyncMessage {0} bytes for {1}", msg.bytes.Length, net.guid);        
         NetworkServer.SendToAll(Msg.Sync, msg);
@@ -124,13 +127,14 @@ public class SpaceNetwork : NetworkManager {
         var msg = netMsg.ReadMessage<SyncMessage>();
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);
-
+        
         //Debug.LogFormat("[I] SyncMessage {0} bytes for {1}", msg.bytes.Length, msg.guid);
-
+        
         if (!nets.ContainsKey(msg.guid))
-            Debug.LogErrorFormat("Received message for unknown network object {0}", msg.guid);
+            Debug.LogErrorFormat("Received message for unknown network object {0} {1}", msg.guid, msg.name);
         else
             nets[msg.guid].OnDeserialize(reader, false);
+
     }
 
     public static void Register(GameObject obj) {
@@ -157,27 +161,36 @@ public class SpaceNetwork : NetworkManager {
         NetworkServer.RegisterHandler(Msg.Spawn, OnClientSpawnMessage);
     }
 
-    public void Update() {
-        if (needsStart) {
-            Game.Start();
-            needsStart = false;
-        }
 
-        if (!NetworkServer.active) return;
-
+    public void ServerUpdate() {
         foreach (var guid in nets.Keys.ToList()) {
             var net = nets[guid];
             if (net == null) {
                 nets.Remove(guid);
                 continue;
             }
-
+            
             if (net.needsSync && net.syncCountdown <= 0f) {
                 SyncImmediate(net);
             } else if (net.syncCountdown > 0f) {
                 net.syncCountdown -= Time.deltaTime;
             }
         }
+    }
+
+    public void ClientUpdate() {
+    }
+
+    public void Update() {
+        if (needsStart) {
+            Game.Start();
+            needsStart = false;
+        }
+
+        if (NetworkServer.active)
+            ServerUpdate();
+        else
+            ClientUpdate();
     }
 
     public override void OnStartServer() {

@@ -4,7 +4,8 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SyncRigid : PoolBehaviour {
-    Rigidbody rigid;
+    [HideInInspector]
+    public Rigidbody rigid;
 
     void Awake() {
         rigid = GetComponent<Rigidbody>();
