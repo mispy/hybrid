@@ -51,11 +51,20 @@ public class SyncRigid : PoolBehaviour {
         rigid.rotation = reader.ReadQuaternion();
     }*/
 
+    Vector3 velocity;
+    Vector3 angularVelocity;
+
 	void Update () {
-        if (GetComponent<NetworkIdentity>() != null) {
-            if (Game.localPlayer.gameObject == this.gameObject)
-                SpaceNetwork.Sync(this);
-        } else if (SpaceNetwork.isServer)
+        if (Game.localPlayer.gameObject != this.gameObject && GetComponent<NetworkIdentity>() != null)
+            return;
+        else if (!SpaceNetwork.isServer)
+            return;
+
+        if (rigid.velocity != velocity || rigid.angularVelocity != angularVelocity) {
+            velocity = rigid.velocity;
+            angularVelocity = rigid.angularVelocity;
             SpaceNetwork.Sync(this);
+        }
+
     }
 }
