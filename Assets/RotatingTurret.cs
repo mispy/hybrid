@@ -48,6 +48,9 @@ public class RotatingTurret : BlockComponent {
 		form.blocks.OnBlockRemoved += OnBlockRemoved;
 		
 		origTextureScale = dottedLine.material.mainTextureScale;
+
+        syncRate = 0.2f;
+        channel = Channel.Unreliable;
 	}
 	
 	void OnBlockAdded(Block newBlock) {

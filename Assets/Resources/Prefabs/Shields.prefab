@@ -67,6 +67,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   shieldCollider: {fileID: 0}
   maxHealth: 30
@@ -88,6 +90,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   mesh: {fileID: 0}
   meshCollider: {fileID: 0}
   shields: {fileID: 0}
@@ -106,6 +110,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   shields: {fileID: 0}
   lineRenderer: {fileID: 0}
   maxLineWidth: 1

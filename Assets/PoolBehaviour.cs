@@ -11,6 +11,12 @@ public class PoolBehaviour : MonoBehaviour {
     public float syncCountdown = 0f;
     public int channel = 0;
     public float syncRate = 0.1f;
+    [HideInInspector]
+    public SyncMessage lastSyncMessage;
+    [HideInInspector]
+    public float syncDeltaTime;
+    [HideInInspector]
+    public float lastSyncReceived = 0f;
 
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }

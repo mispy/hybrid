@@ -84,6 +84,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
 --- !u!114 &11411826
 MonoBehaviour:
@@ -100,6 +102,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   damage: 100
   hitRadius: 1
@@ -118,6 +122,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   showLine: 0
 --- !u!114 &11456218
@@ -135,6 +141,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   chargeTime: 3
   isPaused: 0
@@ -200,6 +208,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   consumeRate: 0
   isReceiving: 0

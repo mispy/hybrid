@@ -7,9 +7,10 @@ public class SyncRigid : PoolBehaviour {
     [HideInInspector]
     public Rigidbody rigid;
     public bool syncFromClient = false;
+    public float lastSyncTime = 0f;
 
     void Awake() {
-        channel = Channel.Unreliable;
+        channel = Channel.UnreliableSequenced;
         syncRate = 0.1f;
         rigid = GetComponent<Rigidbody>();
     }
@@ -17,26 +18,15 @@ public class SyncRigid : PoolBehaviour {
     public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
         if (rigid == null) return;
 
-        writer.Write(Network.time);
-        writer.Write(rigid.velocity);
-        writer.Write(rigid.position);
-        writer.Write(rigid.angularVelocity);
-        writer.Write(rigid.rotation.eulerAngles);
+        writer.Write((Vector2)rigid.position);
+        writer.Write(rigid.rotation.eulerAngles.z);
     }
 
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         if (rigid == null) return;
 
-        var time = reader.ReadDouble();
-        var delay = (float)(Network.time - time);
-
-        rigid.velocity = reader.ReadVector3();
-        var pos = reader.ReadVector3();
-        rigid.position = pos;
-        rigid.angularVelocity = reader.ReadVector3();
-        var rot = Quaternion.Euler(reader.ReadVector3());
-        if (Vector2.Distance(rot.eulerAngles, rigid.rotation.eulerAngles) > 1)
-            rigid.rotation = rot;
+        var pos = reader.ReadVector2();
+        var rot = Quaternion.Euler(new Vector3(0, 0, reader.ReadSingle()));
     }
 
     /*public override bool OnSerialize(NetworkWriter writer, bool initialState) {
@@ -63,7 +53,7 @@ public class SyncRigid : PoolBehaviour {
         else if (!SpaceNetwork.isServer)
             return;
 
-        if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f) {
+        if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f || GetComponent<Blockform>() != null) {
             velocity = rigid.velocity;
             angularVelocity = rigid.angularVelocity;
             SpaceNetwork.Sync(this);

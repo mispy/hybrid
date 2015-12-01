@@ -66,18 +66,23 @@ public class Thruster : BlockComponent {
         }
     }
 
-    void FixedUpdate() {
+    void UpdateForce(float deltaTime) {
         if (isFiring) {
-            form.rigidBody.AddForce(-transform.up * Time.fixedDeltaTime * 100f);
+            form.rigidBody.AddForce(-transform.up * deltaTime * 100f);
         } else if (isFiringAttitude) {            
             var dist = transform.localPosition - form.centerOfMass;
-            var force = Time.fixedDeltaTime*200f;
-
+            var force = deltaTime*200f;
+            
             if (dist.x > 0) {
                 form.rigidBody.AddRelativeTorque(Vector3.forward * force);
             } else {
                 form.rigidBody.AddRelativeTorque(Vector3.back * force);
             }
         }
+    }
+
+    void FixedUpdate() {
+        if (SpaceNetwork.isServer)
+            UpdateForce(Time.fixedDeltaTime);
     }
 }

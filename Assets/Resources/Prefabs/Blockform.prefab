@@ -66,8 +66,11 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   rigid: {fileID: 0}
   syncFromClient: 0
+  lastSyncTime: 0
 --- !u!114 &11409090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,6 +86,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   baseTiles: {fileID: 0}
   topTiles: {fileID: 0}
 --- !u!114 &11455740
@@ -100,6 +105,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
 --- !u!114 &11458008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -115,6 +122,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   localBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
@@ -136,6 +145,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   pathForm: {fileID: 0}
   colRect:
     serializedVersion: 2
@@ -161,6 +172,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
 --- !u!114 &11472042
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -176,6 +189,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
 --- !u!114 &11492490
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -191,6 +206,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   ship: {fileID: 0}
   nearestEnemy: {fileID: 0}
   tactic: {fileID: 0}

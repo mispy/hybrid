@@ -77,8 +77,11 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   rigid: {fileID: 0}
   syncFromClient: 0
+  lastSyncTime: 0
 --- !u!114 &11463998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,6 +121,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
 --- !u!114 &11492186
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -133,6 +138,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   explosionForce: .00100000005
   explosionRadius: 2
   explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}

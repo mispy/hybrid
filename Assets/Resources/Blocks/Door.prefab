@@ -94,6 +94,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   openSprite: {fileID: 21300000, guid: 4de7a9d1e5a386b4698d3022c4eae964, type: 3}
 --- !u!114 &11484832

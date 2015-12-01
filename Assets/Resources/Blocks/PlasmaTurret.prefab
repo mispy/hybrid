@@ -50,6 +50,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   chargeTime: 1
   isPaused: 0
@@ -100,6 +102,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
@@ -138,6 +142,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   showLine: 0
 --- !u!114 &11459202
@@ -183,6 +189,8 @@ MonoBehaviour:
   syncCountdown: 0
   channel: 0
   syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
   form: {fileID: 0}
   launchForce: .5
   projectile: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}

@@ -16,18 +16,19 @@ public static class Channel {
     public const short ReliableSequenced = 0;
     public const short ReliableFragmented = 1;
     public const short Unreliable = 2;
+    public const short UnreliableSequenced = 3;
 }
 
 public class SyncMessage : MessageBase {
+    public int timestamp;
     public GUID guid;
-    public string name;
     public byte[] bytes;
 
     public SyncMessage() { }
 
-    public SyncMessage(GUID guid, string name, byte[] bytes) {
+    public SyncMessage(GUID guid, byte[] bytes) {
+        this.timestamp = NetworkTransport.GetNetworkTimestamp();
         this.guid = guid;
-        this.name = name;
         this.bytes = bytes;
     }
 }
@@ -93,7 +94,7 @@ public class SpaceNetwork : NetworkManager {
         }
         
         var msg = new SpawnMessage(Pool.GetPrefab(obj).name, stream.GetBuffer());
-        Debug.LogFormat("[O] SpawnMessage {0} bytes for {1}", msg.bytes.Length, obj.name);        
+        //Debug.LogFormat("[O] SpawnMessage {0} bytes for {1}", msg.bytes.Length, obj.name);        
         return msg;
     }
 
@@ -122,7 +123,7 @@ public class SpaceNetwork : NetworkManager {
         var reader = new ExtendedBinaryReader(stream);
 
 
-        Debug.LogFormat("[I] SpawnMessage {0} bytes for prefab {1}", msg.bytes.Length, msg.prefabId);        
+        //Debug.LogFormat("[I] SpawnMessage {0} bytes for prefab {1}", msg.bytes.Length, msg.prefabId);        
 
         var obj = Pool.For(msg.prefabId).Attach<Transform>(Game.activeSector.contents);
         foreach (var net in obj.GetComponents<PoolBehaviour>()) {
@@ -140,9 +141,9 @@ public class SpaceNetwork : NetworkManager {
         var writer = new ExtendedBinaryWriter(stream);
         net.OnSerialize(writer, false);
         
-        var msg = new SyncMessage(net.guid, net.GetType().Name, stream.GetBuffer());
+        var msg = new SyncMessage(net.guid, stream.GetBuffer());
         
-        Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
+        //Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
         if (isServer) {
             NetworkServer.SendByChannelToAll(Msg.Sync, msg, net.channel);
         } else
@@ -164,10 +165,20 @@ public class SpaceNetwork : NetworkManager {
         var stream = new MemoryStream(msg.bytes);
         var reader = new ExtendedBinaryReader(stream);
 
-        if (!nets.ContainsKey(msg.guid))
-            Debug.LogWarningFormat("Received message for unknown network object {0} {1}", msg.guid, msg.name);
-        else
-            nets[msg.guid].OnDeserialize(reader, false);
+        if (!nets.ContainsKey(msg.guid)) {
+            //Debug.LogWarningFormat("Received message for unknown network object {0}", msg.guid);
+        } else {
+            var net = nets[msg.guid];
+            net.lastSyncMessage = msg;
+            byte err;
+            if (netMsg.conn.hostId != -1)
+                net.syncDeltaTime = NetworkTransport.GetRemoteDelayTimeMS(netMsg.conn.hostId, netMsg.conn.connectionId, msg.timestamp, out err)/1000f;
+            else
+                net.syncDeltaTime = 0f;
+            //Debug.LogFormat("{0} {1} {2}", net.lastSyncMessage.timestamp, net.lastSyncDelay, NetworkTransport.GetNetworkTimestamp());
+            net.lastSyncReceived = Time.time;
+            net.OnDeserialize(reader, false);
+        }
 
         //Debug.LogFormat("[I] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, msg.guid, nets[msg.guid].gameObject.name, nets[msg.guid].GetType().Name);
 
@@ -281,10 +292,18 @@ public class SpaceNetwork : NetworkManager {
 
     public void OnDrawGizmos() {
         foreach (var net in nets.Values) {
+            if (net == null) continue;
+
             if (net.syncCountdown > 0f) {
                 Gizmos.color = SpaceColor.friendly;
                 Gizmos.DrawSphere(net.transform.position, 0.5f);
+            }                       
+
+            if (net.lastSyncReceived > Time.time - 0.1f) {
+                Gizmos.color = SpaceColor.neutral;
+                Gizmos.DrawSphere(net.transform.position, 0.3f);
             }
+
         }
     }
 }
