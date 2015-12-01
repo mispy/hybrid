@@ -28,12 +28,15 @@ public class SyncRigid : PoolBehaviour {
         if (rigid == null) return;
 
         var time = reader.ReadDouble();
+        var delay = (float)(Network.time - time);
 
         rigid.velocity = reader.ReadVector3();
         var pos = reader.ReadVector3();
-        rigid.position = pos + (rigid.velocity * (float)(Network.time - time));
+        rigid.position = pos;
         rigid.angularVelocity = reader.ReadVector3();
-        rigid.rotation = Quaternion.Euler(reader.ReadVector3());
+        var rot = Quaternion.Euler(reader.ReadVector3());
+        if (Vector2.Distance(rot.eulerAngles, rigid.rotation.eulerAngles) > 1)
+            rigid.rotation = rot;
     }
 
     /*public override bool OnSerialize(NetworkWriter writer, bool initialState) {
@@ -51,8 +54,8 @@ public class SyncRigid : PoolBehaviour {
         rigid.rotation = reader.ReadQuaternion();
     }*/
 
-    Vector3 velocity;
-    Vector3 angularVelocity;
+    Vector3 velocity = Vector3.zero;
+    Vector3 angularVelocity = Vector3.zero;
 
 	void Update () {
         if (Game.localPlayer.gameObject != this.gameObject && GetComponent<NetworkIdentity>() != null)
@@ -60,7 +63,7 @@ public class SyncRigid : PoolBehaviour {
         else if (!SpaceNetwork.isServer)
             return;
 
-        if (rigid.velocity != velocity || rigid.angularVelocity != angularVelocity) {
+        if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f) {
             velocity = rigid.velocity;
             angularVelocity = rigid.angularVelocity;
             SpaceNetwork.Sync(this);

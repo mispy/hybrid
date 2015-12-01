@@ -7,7 +7,7 @@ public class PoolBehaviour : MonoBehaviour {
     public GUID guid;
     [HideInInspector]
     public bool needsSync = false;
-    [HideInInspector]
+    [ReadOnlyAttribute]
     public float syncCountdown = 0f;
     public int channel = 0;
     public float syncRate = 0.1f;

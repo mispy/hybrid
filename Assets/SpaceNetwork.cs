@@ -142,7 +142,7 @@ public class SpaceNetwork : NetworkManager {
         
         var msg = new SyncMessage(net.guid, net.GetType().Name, stream.GetBuffer());
         
-        //Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
+        Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
         if (isServer) {
             NetworkServer.SendByChannelToAll(Msg.Sync, msg, net.channel);
         } else
@@ -277,6 +277,15 @@ public class SpaceNetwork : NetworkManager {
         base.OnClientConnect(conn);
         conn.RegisterHandler(Msg.Sync, OnSyncMessage);
         conn.RegisterHandler(Msg.Spawn, OnClientSpawnMessage);
+    }
+
+    public void OnDrawGizmos() {
+        foreach (var net in nets.Values) {
+            if (net.syncCountdown > 0f) {
+                Gizmos.color = SpaceColor.friendly;
+                Gizmos.DrawSphere(net.transform.position, 0.5f);
+            }
+        }
     }
 }
 

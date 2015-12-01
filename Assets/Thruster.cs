@@ -28,30 +28,36 @@ public class Thruster : BlockComponent {
         if (!block.isPowered)
             return;
 
-        isFiringAttitude = false;
-        isFiring = true;
         CancelInvoke("Stop");
         Invoke("Stop", 0.1f);
 
-        SpaceNetwork.Sync(this);
+        if (isFiring == false) {
+            isFiringAttitude = false;
+            isFiring = true;          
+            SpaceNetwork.Sync(this);
+        }
     }
 
     public void FireAttitude() {
         if (!block.isPowered)
             return;
 
-        isFiring = false;
-        isFiringAttitude = true;
         CancelInvoke("Stop");
         Invoke("Stop", 0.1f);
 
-        SpaceNetwork.Sync(this);
+        if (isFiringAttitude == false) {
+            isFiring = false;
+            isFiringAttitude = true;
+            SpaceNetwork.Sync(this);
+        }       
     }
 
     public void Stop() {
-        isFiring = false;
-        isFiringAttitude = false;
-        SpaceNetwork.Sync(this);
+        if (isFiring == true || isFiringAttitude == true) {
+            isFiring = false;
+            isFiringAttitude = false;
+            SpaceNetwork.Sync(this);
+        }
     }
 
     void Update() {
