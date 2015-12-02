@@ -46,8 +46,6 @@ public class CrewBody : PoolBehaviour {
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         if (initial) {
             connectionId = reader.ReadInt32();
-            Debug.Log(connectionId);
-            Debug.Log(NetworkClient.allClients[0].connection.connectionId);
             if (connectionId == NetworkClient.allClients[0].connection.connectionId)
                 gameObject.AddComponent<Player>();            
         }

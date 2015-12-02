@@ -22,7 +22,6 @@ public class Explosive : PoolBehaviour
 
     public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
         if (initial) {
-            Debug.Log(rigid.velocity);
             writer.Write(rigid.velocity);
             writer.Write(originComp);
         }

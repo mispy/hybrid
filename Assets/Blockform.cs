@@ -94,7 +94,6 @@ public class Blockform : PoolBehaviour {
     public override void OnSerialize(ExtendedBinaryWriter binary, bool initial) {               
         if (!initial && dirtyComps.Count == 0) return;
 
-        Debug.Log("OnSerialize");
         if (initial) {
             binary.Write(blocks.allBlocks.Count);
             foreach (var block in blocks.allBlocks) {
@@ -104,7 +103,6 @@ public class Blockform : PoolBehaviour {
     }
 
     public override void OnDeserialize(ExtendedBinaryReader binary, bool initial) {
-        Debug.Log("OnDeserialize");
         if (!initial) return;
 
         blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);

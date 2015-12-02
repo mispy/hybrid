@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using System;
 using System.Collections;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 public class PoolBehaviour : MonoBehaviour {
     [HideInInspector]

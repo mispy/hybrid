@@ -55,6 +55,5 @@ public class ProjectileLauncher : BlockComponent {
         var rigid = bullet.GetComponent<Rigidbody>();
         rigid.velocity = form.rigidBody.velocity;
 		rigid.velocity += transform.up*launchVelocity;
-        Debug.Log(rigid.velocity);
 	}
 }

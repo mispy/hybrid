@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class BlockHealthBar : BlockComponent {
     LineRenderer line;
-    
+
     void Awake() {
         line = Pool.For("Line").Attach<LineRenderer>(transform);
         line.sortingLayerName = "UI";
