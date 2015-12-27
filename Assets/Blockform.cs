@@ -89,29 +89,55 @@ public class Blockform : PoolBehaviour {
         return ship;
     }
 
-    List<BlockComponent> dirtyComps = new List<BlockComponent>();
+    public struct BlockUpdate {
+        public IntVector3 blockPos;
+        public Block block;
+
+        public BlockUpdate(IntVector3 blockPos, Block block)  {
+            this.blockPos = blockPos;
+            this.block = block;
+        }
+    }
+
+    public List<BlockUpdate> blockUpdates = new List<BlockUpdate>();
 
     public override void OnSerialize(ExtendedBinaryWriter binary, bool initial) {               
-        if (!initial && dirtyComps.Count == 0) return;
-
         if (initial) {
             binary.Write(blocks.allBlocks.Count);
             foreach (var block in blocks.allBlocks) {
                 binary.Write(block);
             }                  
         }
+
+        if (!initial) {
+            binary.Write(blockUpdates.Count);
+            foreach (var update in blockUpdates) {
+                binary.Write(update.blockPos);
+                binary.Write(update.block);
+            }
+            blockUpdates.Clear();
+        }
     }
 
     public override void OnDeserialize(ExtendedBinaryReader binary, bool initial) {
-        if (!initial) return;
+        if (initial) {
+            blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
+            
+            var count = binary.ReadInt32();
+            for (var i = 0; i < count; i++) {
+                var block = binary.ReadBlock();
+                blocks[block.pos, block.layer] = block;
+            }        
+        }
 
-        blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
-
-        var count = binary.ReadInt32();
-        for (var i = 0; i < count; i++) {
-            var block = binary.ReadBlock();
-            blocks[block.pos, block.layer] = block;
-        }        
+        if (!initial) {
+            var count = binary.ReadInt32();
+            for (var i = 0; i < count; i++) {
+                var blockPos = binary.ReadIntVector3();
+                var block = binary.ReadBlock();
+                blocks[blockPos] = block;
+            }
+        }
     }
 
 	public float width {
@@ -160,6 +186,7 @@ public class Blockform : PoolBehaviour {
     }
 
     public void Awake() {
+        channel = Channel.ReliableFragmented;
         rigidBody = GetComponent<Rigidbody>();
         tiles = GetComponent<TileRenderer>();
         damage = GetComponent<ShipDamage>();
@@ -191,6 +218,8 @@ public class Blockform : PoolBehaviour {
 
     }
 
+    public bool hasStarted = false;
+
     void Start() {               
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
@@ -204,6 +233,7 @@ public class Blockform : PoolBehaviour {
         
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
+        hasStarted = true;
     }
     
     void OnDisable() {
@@ -262,27 +292,12 @@ public class Blockform : PoolBehaviour {
         if (oldBlock._gameObject != null)
             Pool.Recycle(oldBlock.gameObject);
 
+        if (hasStarted && !deserializing) {
+            blockUpdates.Add(new BlockUpdate(oldBlock.blockPos, null));
+            SpaceNetwork.Sync(this);
+        }
         Profiler.EndSample();
     }
-
-/*    [ClientRpc]
-    public void RpcSetBlock(IntVector2 bp, BlockLayer layer, string typeId, Facing facing) {
-        if (NetworkServer.active) return;
-
-        var block = new Block(BlockType.FromId(typeId));
-        block.facing = facing;
-        blocks[bp, layer] = block;
-    }
-    
-    [ClientRpc]
-    public void RpcDelBlock(IntVector2 bp, BlockLayer layer) {
-        blocks[bp, layer] = null;
-    }*/
-
-/*    [ClientRpc]
-    public void RpcSetup() {
-        if (NetworkServer.active) return;
-    }*/
 
     public void OnBlockAdded(Block newBlock) {
         newBlock.ship = this;
@@ -291,6 +306,11 @@ public class Blockform : PoolBehaviour {
         if (newBlock.type.isComplexBlock) {
             RealizeBlock(newBlock);
         }    
+
+        if (hasStarted && !deserializing) {
+            blockUpdates.Add(new BlockUpdate(newBlock.blockPos, newBlock));
+            SpaceNetwork.Sync(this);
+        }
     }
 
 	public void UpdateBounds() {

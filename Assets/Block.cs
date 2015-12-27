@@ -176,6 +176,11 @@ public class Block {
     public Blockform ship;
     public int index;
     public IntVector2 pos;
+    public IntVector3 blockPos {
+        get {
+            return new IntVector3(pos.x, pos.y, (int)layer);
+        }
+    }
     public BlockLayer layer;
     public Facing facing = Facing.up;
 

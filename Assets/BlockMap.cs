@@ -465,6 +465,11 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         }
     }
 
+    public Block this[IntVector3 pos] {
+        get { return this[new IntVector2(pos.x, pos.y), (BlockLayer)pos.z]; }
+        set { this[new IntVector2(pos.x, pos.y), (BlockLayer)pos.z] = value; }
+    }
+
     public Block this[int x, int y, BlockLayer layer] {
         get { return this[new IntVector2(x, y), layer]; }
         set { this[new IntVector2(x, y), layer] = value; }

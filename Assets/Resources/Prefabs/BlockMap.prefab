@@ -78,6 +78,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   ship: {fileID: 0}
   maxX: 0
   minX: 0

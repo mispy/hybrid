@@ -36,6 +36,94 @@ public struct BlockPosition {
 }
 
 [Serializable]
+public struct IntVector3 {    
+    [SerializeField]
+    public int x;
+    [SerializeField]
+    public int y;
+    [SerializeField]
+    public int z;
+    
+    public static explicit operator IntVector3(Facing facing) {
+        if (facing == Facing.up)
+            return IntVector3.up;
+        else if (facing == Facing.down)
+            return IntVector3.down;
+        else if (facing == Facing.left)
+            return IntVector3.left;
+        else if (facing == Facing.right)
+            return IntVector3.right;
+        else
+            throw new ArgumentException(facing.ToString());
+    }
+    
+    
+    public static explicit operator Vector3(IntVector3 pos) {
+        return new Vector3(pos.x, pos.y, pos.z);   
+    }
+    
+    public static IntVector3 zero = new IntVector3(0, 0, 0);
+    public static IntVector3 up = new IntVector3(0, 1, 0);
+    public static IntVector3 down = new IntVector3(0, -1, 0);
+    public static IntVector3 right = new IntVector3(1, 0, 0);
+    public static IntVector3 left = new IntVector3(-1, 0, 0);
+    
+    public static double Distance(IntVector3 v1, IntVector3 v2) {
+        return Math.Sqrt(Math.Pow(v1.x - v2.x, 2) + Math.Pow(v1.y - v2.y, 2) + Math.Pow(v1.z - v2.z, 2));
+    }
+
+    public static bool operator ==(IntVector3 v1, IntVector3 v2) {
+        return v1.x == v2.x && v1.y == v2.y & v1.z == v2.z;
+    }
+    
+    public static bool operator !=(IntVector3 v1, IntVector3 v2) {
+        return v1.x != v2.x || v1.y != v2.y || v1.z != v2.z;
+    }
+    
+    public static IntVector3 operator +(IntVector3 v1, IntVector3 v2) {
+        return new IntVector3(v1.x+v2.x, v1.y+v2.y, v1.z+v2.z);
+    }
+    
+    public static IntVector3 operator -(IntVector3 v1, IntVector3 v2) {
+        return new IntVector3(v1.x-v2.x, v1.y-v2.y, v1.z-v2.z);
+    }
+    
+    public static IntVector3 operator -(IntVector3 v) {
+        return new IntVector3(-v.x, -v.y, -v.z);
+    }
+    
+    public IntVector3 normalized {
+        get {
+            return new IntVector3(Math.Sign(x), Math.Sign(y), Math.Sign(z));
+        }
+    }
+    
+    public override string ToString() {
+        return String.Format("{0} {1} {2}", x, y);
+    }
+    
+    public static IntVector3 FromString(string s) {
+        var ints = s.Split();
+        return new IntVector3(Int32.Parse(ints[0]), Int32.Parse(ints[1]), Int32.Parse(ints[2]));
+    }
+    
+    public override int GetHashCode()
+    {
+        return (x << 32) + y;
+    }
+    
+    public override bool Equals(object obj) {
+        return this == (IntVector3)obj;
+    }
+    
+    public IntVector3(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+}
+
+[Serializable]
 public struct IntVector2 {    
     [SerializeField]
     public int x;
@@ -180,6 +268,12 @@ public class ExtendedBinaryWriter : BinaryWriter {
         Write(pos.x);
         Write(pos.y);
     }
+
+    public virtual void Write(IntVector3 pos) {
+        Write(pos.x);
+        Write(pos.y);
+        Write(pos.z);
+    }
     
     public virtual void Write(Vector2 pos) {
         Write(pos.x);
@@ -200,6 +294,11 @@ public class ExtendedBinaryWriter : BinaryWriter {
     }
 
     public virtual void Write(Block block) {
+        if (block == null) {
+            Write("null");
+            return;
+        }
+
         Write(block.type.id);
         Write(block.pos);
         Write(block.facing.index);
@@ -228,6 +327,13 @@ public class ExtendedBinaryReader : BinaryReader {
         return new IntVector2(x, y);
     }
 
+    public virtual IntVector3 ReadIntVector3() {
+        var x = ReadInt32();
+        var y = ReadInt32();
+        var z = ReadInt32();
+        return new IntVector3(x, y, z);
+    }
+
     public virtual Vector2 ReadVector2() {
         var x = ReadSingle();
         var y = ReadSingle();
@@ -251,6 +357,8 @@ public class ExtendedBinaryReader : BinaryReader {
 
     public virtual Block ReadBlock() {
         var id = ReadString();
+        if (id == "null") return null;
+
         var pos = ReadIntVector2();
         var facing = (Facing)ReadInt32();
         var layer = (BlockLayer)ReadInt32();

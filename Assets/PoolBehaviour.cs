@@ -12,6 +12,7 @@ public class PoolBehaviour : MonoBehaviour {
     public bool needsSync = false;
     [ReadOnlyAttribute]
     public float syncCountdown = 0f;
+    [HideInInspector]
     public int channel = 0;
     public float syncRate = 0.1f;
     [HideInInspector]
@@ -20,6 +21,9 @@ public class PoolBehaviour : MonoBehaviour {
     public float syncDeltaTime;
     [HideInInspector]
     public float lastSyncReceived = 0f;
+    [HideInInspector]
+    // Marked as true during execution of OnDeserialize
+    public bool deserializing = false;
 
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }

@@ -50,6 +50,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
@@ -71,6 +72,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
 --- !u!114 &11452616
 MonoBehaviour:

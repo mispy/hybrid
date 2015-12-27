@@ -80,6 +80,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   renderer: {fileID: 0}
   mesh: {fileID: 0}
 --- !u!1001 &100100000

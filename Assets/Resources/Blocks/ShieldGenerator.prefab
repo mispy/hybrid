@@ -129,6 +129,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
   consumeRate: 0
   isReceiving: 0
@@ -150,6 +151,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
 --- !u!212 &21281132
 SpriteRenderer:

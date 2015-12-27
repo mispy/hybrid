@@ -46,6 +46,7 @@ MonoBehaviour:
   syncRate: .100000001
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   key: P
 --- !u!212 &21292400
 SpriteRenderer:

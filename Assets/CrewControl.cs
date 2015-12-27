@@ -14,6 +14,15 @@ public class CrewControl : MonoBehaviour {
         InputEvent.For(KeyCode.D).Bind(this, OnMoveRight, true);
         InputEvent.For(KeyCode.S).Bind(this, OnMoveDown, true);
         InputEvent.For(KeyCode.E).Bind(this, OnToggleControl);
+        InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
+    }
+        
+    public void OnToggleDesigner() {
+        if (Game.shipDesigner.gameObject.activeInHierarchy) {
+            Game.shipDesigner.gameObject.SetActive(false);
+        } else {
+            Game.shipDesigner.gameObject.SetActive(true);
+        }
     }
 
     public void OnToggleControl() {

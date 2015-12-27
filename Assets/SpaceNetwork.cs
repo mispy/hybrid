@@ -160,7 +160,9 @@ public class SpaceNetwork : NetworkManager {
         foreach (var net in obj.GetComponents<PoolBehaviour>()) {
             net.guid = reader.ReadGUID();
             nets[net.guid] = net;
+            net.deserializing = true;
             net.OnDeserialize(reader, true);
+            net.deserializing = false;
         }
     }
 
@@ -188,16 +190,16 @@ public class SpaceNetwork : NetworkManager {
         //Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
         if (isServer) {
             NetworkServer.SendByChannelToAll(Msg.Sync, msg, net.channel);
-        } else
+        } else {
             NetworkClient.allClients[0].SendByChannel(Msg.Sync, msg, net.channel);       
+        }
 
         net.needsSync = false;
         net.syncCountdown = net.syncRate;
     }
 
-    public static void Sync(PoolBehaviour net, int channel=0) {
+    public static void Sync(PoolBehaviour net) {
         net.needsSync = true;
-        net.channel = channel;
         if (net.syncCountdown <= 0f)
             SyncImmediate(net);
     }

@@ -40,6 +40,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 405017db648a94542a79b7b7b52c90d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   baseTiles: {fileID: 0}
   topTiles: {fileID: 0}
 --- !u!114 &11456676
@@ -53,6 +60,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faafb39cf39d9444a8b980db515a54c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: .100000001
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   blueprintMaterial: {fileID: 2100000, guid: 7a03f873e7d949a459a3114f3e8ae737, type: 2}
   ship: {fileID: 0}
   tiles: {fileID: 0}
