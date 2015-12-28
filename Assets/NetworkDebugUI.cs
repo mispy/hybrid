@@ -17,7 +17,7 @@ public class NetworkDebugUI : MonoBehaviour {
             Destroy(child.gameObject);
         }
 
-        foreach (var stat in SpaceNetwork.stats.OrderBy((s) => -s.Value)) {
+        foreach (var stat in SpaceNetwork.stats.OrderBy((s) => -s.Value).Take(10)) {
             var text = Pool.For(lineTemplate).Attach<Text>(transform);
             text.text = String.Format("{0} {1}", stat.Key, stat.Value);
         }
