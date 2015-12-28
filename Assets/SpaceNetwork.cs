@@ -112,16 +112,30 @@ public class SpaceNetwork : NetworkManager {
         }
     }
 
+    public static Dictionary<PoolBehaviour, long> stats = new Dictionary<PoolBehaviour, long>();
+
+    static void AddStat(PoolBehaviour net, long bytes) {
+        if (!stats.ContainsKey(net))
+            stats[net] = 0;
+
+        stats[net] += bytes;
+    }
+
     static SpawnMessage MakeSpawnMessage(GameObject obj) {
         MemoryStream stream = new MemoryStream();
         var writer = new ExtendedBinaryWriter(stream);
-        
+
+        var length = stream.Length;
         var nets = obj.GetComponents<PoolBehaviour>();
         foreach (var net in nets) {
             if (!net.guid.isValid)
                 net.guid = GUID.Assign();
             writer.Write(net.guid.value);
             net.OnSerialize(writer, true);
+
+            var added = stream.Length - length;
+            AddStat(net, added);
+            length = stream.Length;
         }
         
         var msg = new SpawnMessage(Pool.GetPrefab(obj).name, obj.transform.position, obj.transform.rotation, stream.GetBuffer());
@@ -150,7 +164,7 @@ public class SpaceNetwork : NetworkManager {
         Register(obj);
     }
 
-    static void UnpackSpawnMessage(GameObject obj, SpawnMessage msg) {        
+    static void UnpackSpawnMessage(GameObject obj, SpawnMessage msg) {               
         obj.transform.position = msg.position;
         obj.transform.rotation = msg.rotation;
 
@@ -159,10 +173,15 @@ public class SpaceNetwork : NetworkManager {
 
         foreach (var net in obj.GetComponents<PoolBehaviour>()) {
             net.guid = reader.ReadGUID();
+
             nets[net.guid] = net;
-            net.deserializing = true;
-            net.OnDeserialize(reader, true);
-            net.deserializing = false;
+
+            try {
+                net.deserializing = true;
+                net.OnDeserialize(reader, true);
+            } finally {
+                net.deserializing = false;
+            }
         }
     }
 
@@ -178,12 +197,14 @@ public class SpaceNetwork : NetworkManager {
     }
 
     public static void SyncImmediate(PoolBehaviour net) {
-        if (net.guid.value == null)
+        if (!net.guid.isValid)
             throw new ArgumentException(String.Format("Cannot sync {0} of {1} because it lacks a guid", net.GetType().Name, net.gameObject.name));        
         
         MemoryStream stream = new MemoryStream();
         var writer = new ExtendedBinaryWriter(stream);
         net.OnSerialize(writer, false);
+
+        AddStat(net, stream.Length);
         
         var msg = new SyncMessage(net.guid, stream.GetBuffer());
         
@@ -221,7 +242,13 @@ public class SpaceNetwork : NetworkManager {
                 net.syncDeltaTime = 0f;
             //Debug.LogFormat("{0} {1} {2}", net.lastSyncMessage.timestamp, net.lastSyncDelay, NetworkTransport.GetNetworkTimestamp());
             net.lastSyncReceived = Time.time;
-            net.OnDeserialize(reader, false);
+
+            try {
+                net.deserializing = true;
+                net.OnDeserialize(reader, false);
+            } finally {
+                net.deserializing = false;
+            }
         }
 
         //Debug.LogFormat("[I] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, msg.guid, nets[msg.guid].gameObject.name, nets[msg.guid].GetType().Name);
@@ -229,7 +256,7 @@ public class SpaceNetwork : NetworkManager {
         // If we're the server, redistribute this message to everyone else
         if (isServer) {
             foreach (var conn in NetworkServer.connections) {
-                if (conn != null && conn != netMsg.conn)
+                if (conn != null && conn != netMsg.conn && conn.connectionId != 0)
                     conn.SendByChannel(Msg.Sync, msg, netMsg.channelId);
             }
         }
@@ -271,6 +298,7 @@ public class SpaceNetwork : NetworkManager {
     bool needsStart = false;
 
     NetworkConnection newConn;
+
 
     public void Start() {
         NetworkServer.RegisterHandler(Msg.Sync, OnSyncMessage);
@@ -320,7 +348,7 @@ public class SpaceNetwork : NetworkManager {
     Dictionary<int, GameObject> players = new Dictionary<int, GameObject>();
 
     public override void OnServerConnect(NetworkConnection conn) {
-        if (conn.connectionId == -1 && !seenServer) {
+        if (conn.connectionId == 0 && !seenServer) {
             seenServer = true;
             return;
         }
@@ -346,7 +374,7 @@ public class SpaceNetwork : NetworkManager {
     public override void OnStartClient(NetworkClient client) {        
         BlockType.LoadTypes();
         Star.Setup();
-        Game.state.gameObject.SetActive(true);
+        Game.state.gameObject.SetActive(true);  
     }
 
     public override void OnClientConnect(NetworkConnection conn) {

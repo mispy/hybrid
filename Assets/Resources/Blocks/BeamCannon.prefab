@@ -83,7 +83,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0
@@ -102,7 +102,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0
@@ -123,7 +123,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0
@@ -211,7 +211,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0
@@ -240,7 +240,7 @@ LineRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -279,13 +279,15 @@ SpriteRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1912389071
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 04c9a597220c43949ac72ef8e3cba789, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

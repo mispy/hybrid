@@ -5,7 +5,6 @@ using System.Collections;
 public class SyncRigid : PoolBehaviour {
     [HideInInspector]
     public Rigidbody rigid;
-    public bool syncFromClient = false;
 
     Vector2 lastPos = Vector2.zero;
     Quaternion lastRot = Quaternion.identity;
@@ -19,7 +18,7 @@ public class SyncRigid : PoolBehaviour {
     float lerpCounter = 0f;
 
     void Awake() {
-        channel = Channel.UnreliableSequenced;
+        channel = Channel.Unreliable;
         syncRate = 0.1f;
         rigid = GetComponent<Rigidbody>();
     }
@@ -63,10 +62,10 @@ public class SyncRigid : PoolBehaviour {
         rigid.rotation = reader.ReadQuaternion();
     }*/
 
-    Vector3 velocity = Vector3.zero;
-    Vector3 angularVelocity = Vector3.zero;
 
 	void Update() {
+        if (rigid == null) return;
+
         var hasAuthority = ((Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject) || (GetComponent<CrewBody>() == null && SpaceNetwork.isServer));
 
         if (!hasAuthority && isReady) {
@@ -79,8 +78,6 @@ public class SyncRigid : PoolBehaviour {
 
         if (hasAuthority) {
 //            if (Vector3.Distance(rigid.velocity, velocity) > 0.2f || Vector3.Distance(rigid.angularVelocity, angularVelocity) > 0.2f || GetComponent<Blockform>() != null) {
-                velocity = rigid.velocity;
-                angularVelocity = rigid.angularVelocity;
                 SpaceNetwork.Sync(this);
 //            }
         }

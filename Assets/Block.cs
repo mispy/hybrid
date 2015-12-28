@@ -180,6 +180,11 @@ public class Block {
         get {
             return new IntVector3(pos.x, pos.y, (int)layer);
         }
+
+        set {
+            pos = new IntVector2(value.x, value.y);
+            layer = (BlockLayer)value.z;
+        }
     }
     public BlockLayer layer;
     public Facing facing = Facing.up;

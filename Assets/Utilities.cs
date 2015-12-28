@@ -28,13 +28,6 @@ public struct IntRect {
     }
 }
 
-public struct BlockPosition {
-    public BlockMap blocks;
-    public int x;
-    public int y;
-    public int z;
-}
-
 [Serializable]
 public struct IntVector3 {    
     [SerializeField]
@@ -222,8 +215,8 @@ public struct IntVector2 {
 	}
     
     public IntVector2(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.x = (short)x;
+        this.y = (short)y;
     }
 }
 
@@ -265,14 +258,14 @@ public class ExtendedBinaryWriter : BinaryWriter {
     }
 
     public virtual void Write(IntVector2 pos) {
-        Write(pos.x);
-        Write(pos.y);
+        Write((short)pos.x);
+        Write((short)pos.y);
     }
 
     public virtual void Write(IntVector3 pos) {
-        Write(pos.x);
-        Write(pos.y);
-        Write(pos.z);
+        Write((short)pos.x);
+        Write((short)pos.y);
+        Write((short)pos.z);
     }
     
     public virtual void Write(Vector2 pos) {
@@ -295,14 +288,14 @@ public class ExtendedBinaryWriter : BinaryWriter {
 
     public virtual void Write(Block block) {
         if (block == null) {
-            Write("null");
+            Write(-1);
             return;
         }
 
-        Write(block.type.id);
-        Write(block.pos);
-        Write(block.facing.index);
-        Write((int)block.layer);
+        Write(Game.GetPrefabIndex(block.type.gameObject));
+        Write(block.blockPos);
+        if (block.type.canRotate)
+            Write(block.facing.index);
     }
 
     public virtual void Write(GUID guid) {
@@ -322,15 +315,15 @@ public class ExtendedBinaryReader : BinaryReader {
     }
 
     public virtual IntVector2 ReadIntVector2() {
-        var x = ReadInt32();
-        var y = ReadInt32();
+        var x = ReadInt16();
+        var y = ReadInt16();
         return new IntVector2(x, y);
     }
 
     public virtual IntVector3 ReadIntVector3() {
-        var x = ReadInt32();
-        var y = ReadInt32();
-        var z = ReadInt32();
+        var x = ReadInt16();
+        var y = ReadInt16();
+        var z = ReadInt16();
         return new IntVector3(x, y, z);
     }
 
@@ -356,22 +349,24 @@ public class ExtendedBinaryReader : BinaryReader {
     }
 
     public virtual Block ReadBlock() {
-        var id = ReadString();
-        if (id == "null") return null;
+        var prefabIndex = ReadInt32();
+        if (prefabIndex == -1) return null;
 
-        var pos = ReadIntVector2();
-        var facing = (Facing)ReadInt32();
-        var layer = (BlockLayer)ReadInt32();
-        
-        var block = new Block(BlockType.FromId(id));
-        block.pos = pos;
-        block.facing = facing;
-        block.layer = layer;
+        var pos = ReadIntVector3();
+
+        var block = new Block(Game.PrefabFromIndex(prefabIndex).GetComponent<BlockType>());
+        block.blockPos = pos;
+        if (block.type.canRotate)
+            block.facing = (Facing)ReadInt32();
         return block;
     }
 
     public virtual GUID ReadGUID() {
-        return new GUID(ReadInt32());
+        var guid = new GUID(ReadInt32());
+        if (!guid.isValid) {
+            throw new ArgumentException(String.Format("Invalid GUID {0} read from binary stream", guid));
+        }
+        return guid;
     }
 
     public virtual T ReadComponent<T>() {

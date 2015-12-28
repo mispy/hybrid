@@ -43,7 +43,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
   deserializing: 0

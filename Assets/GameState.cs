@@ -82,9 +82,24 @@ public static class Game {
         return sprites[name];
     }
 
+    public static List<GameObject> prefabSequence = new List<GameObject>();
+
+    public static int GetPrefabIndex(GameObject prefab) {
+        var index = prefabSequence.IndexOf(prefab);
+        if (index == -1) {
+            throw new ArgumentException(String.Format("Unknown prefab {0}", prefab));
+        }
+
+        return index;
+    }
+
+    public static GameObject PrefabFromIndex(int index) {
+        return prefabSequence[index];
+    }
 
     public static IEnumerable<T> LoadPrefabs<T>(string path) {
         foreach (var prefab in LoadPrefabs(path)) {
+            prefabSequence.Add(prefab);
             var comp = prefab.GetComponent<T>();
             if (comp != null) yield return comp;
         }
@@ -95,12 +110,7 @@ public static class Game {
         foreach (var obj in resources) {
             var gobj = obj as GameObject;
             if (gobj != null) {
-                gobj.SendMessage("OnResourceLoad", SendMessageOptions.DontRequireReceiver);
-                                
-                if (gobj.GetComponent<NetworkIdentity>() != null) {
-                    ClientScene.RegisterPrefab(gobj);
-                }
-
+                prefabSequence.Add(gobj);
                 yield return gobj;
             }
         }
