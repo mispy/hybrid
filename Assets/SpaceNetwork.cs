@@ -204,10 +204,12 @@ public class SpaceNetwork : NetworkManager {
         var writer = new ExtendedBinaryWriter(stream);
         net.OnSerialize(writer, false);
 
+        if (stream.Length == 0) return;
+
         AddStat(net, stream.Length);
         
         var msg = new SyncMessage(net.guid, stream.GetBuffer());
-        
+
         //Debug.LogFormat("[O] SyncMessage {0} bytes for {1} {2} ({3})", msg.bytes.Length, net.gameObject.name, net.GetType().Name, net.guid);        
         if (isServer) {
             NetworkServer.SendByChannelToAll(Msg.Sync, msg, net.channel);

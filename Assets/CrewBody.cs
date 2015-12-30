@@ -37,9 +37,12 @@ public class CrewBody : PoolBehaviour {
     public int health;
 
     public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
-        if (initial)
+        if (initial) {
             writer.Write(connectionId);
+            return;
+        }
 
+        writer.Write(maglockShip);    
         writer.Write(maglockMoveBlockPos);
     }
 
@@ -48,9 +51,19 @@ public class CrewBody : PoolBehaviour {
             connectionId = reader.ReadInt32();
             if (connectionId == NetworkClient.allClients[0].connection.connectionId)
                 gameObject.AddComponent<Player>();            
+            return;
         }
 
-        maglockMoveBlockPos = reader.ReadIntVector2();
+        var ship = reader.ReadComponent<Blockform>();
+        var movePos = reader.ReadIntVector2();
+
+        if (ship != null && maglockShip != ship) {
+            SetMaglock(ship);
+        } else if (ship == null && maglockShip != null) {
+            StopMaglock();
+        }
+
+        maglockMoveBlockPos = movePos;
     }
 
     public void TakeDamage(int amount) {
@@ -60,17 +73,11 @@ public class CrewBody : PoolBehaviour {
             Pool.Recycle(this.gameObject);
     }
 
-    void AddRigid() {
-        rigidBody = gameObject.AddComponent<Rigidbody>();
-        rigidBody.drag = 2f;
-        rigidBody.freezeRotation = true;
-        syncRigid.rigid = rigidBody;
-        syncRigid.enabled = true;
-    }
-
     void Awake() {
-        collider = gameObject.GetComponent<BoxCollider>();
+        channel = Channel.ReliableSequenced;
+        collider = GetComponent<BoxCollider>();
         weapon = gameObject.AddComponent<CrewWeapon>();
+        rigidBody = GetComponent<Rigidbody>();
         syncRigid = GetComponent<SyncRigid>();
         //mind = gameObject.AddComponent<CrewMind>();      
     }
@@ -90,9 +97,14 @@ public class CrewBody : PoolBehaviour {
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);
         syncRigid.enabled = false;
-        Destroy(rigidBody);
-        MaglockMove(ship.WorldToBlockPos(transform.position));
+        //Destroy(rigidBody);
+        rigidBody.velocity = Vector3.zero;
+        rigidBody.isKinematic = true;
+        maglockMoveBlockPos = ship.WorldToBlockPos(transform.position);
         collider.isTrigger = true;
+
+        if (hasAuthority && !deserializing)
+            SpaceNetwork.SyncImmediate(this);
         
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.EnableRendering();
@@ -101,12 +113,17 @@ public class CrewBody : PoolBehaviour {
     void StopMaglock() {
         transform.SetParent(Game.activeSector.contents);
         maglockShip.maglockedCrew.Remove(this);
-        AddRigid();
+        //AddRigid();
         //if (this == Crew.player)
         //    maglockShip.blueprint.blocks.DisableRendering();
+        syncRigid.enabled = true;
+        rigidBody.isKinematic = false;
         collider.isTrigger = false;
         maglockShip = null;
         currentBlock = null;
+
+        if (hasAuthority && !deserializing)
+            SpaceNetwork.SyncImmediate(this);        
     }
     
     bool CanMaglock(Blockform form) {
@@ -136,7 +153,7 @@ public class CrewBody : PoolBehaviour {
     }
     
     void UpdateMaglockMove() {
-		if (!maglockShip.blocks.IsPassable(maglockMoveBlockPos))
+        if (maglockShip.blocks[maglockMoveBlockPos, BlockLayer.Base] != null && !maglockShip.blocks.IsPassable(maglockMoveBlockPos))
 			return;
 
         var speed = 10f;
@@ -155,11 +172,11 @@ public class CrewBody : PoolBehaviour {
     
     void UpdateMaglock() {
         var form = FindMaglockShip();
-        
-        if (maglockShip != null && form != maglockShip)
+
+        if (maglockShip != null && form != maglockShip && hasAuthority)
             StopMaglock();
         
-        if (maglockShip == null && form != maglockShip)
+        if (maglockShip == null && form != maglockShip && hasAuthority)
             SetMaglock(form);
         
         if (maglockShip != null) {
@@ -176,7 +193,7 @@ public class CrewBody : PoolBehaviour {
     }
 
     void Start() {        
-        AddRigid();
+        //AddRigid();
         constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 }

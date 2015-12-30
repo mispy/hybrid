@@ -303,10 +303,13 @@ public class ExtendedBinaryWriter : BinaryWriter {
     }
 
     public virtual void Write(PoolBehaviour net) {
-        if (net.guid.value == null)
+        if (net == null) {
+            Write(0);
+        } else if (net.guid.value == null) {
             throw new ArgumentException(String.Format("Cannot write reference to component {0} of {1} without guid", net.GetType().Name, net.gameObject.name));
-
-        Write(net.guid);
+        } else {
+            Write(net.guid);
+        }
     }
 }
 
@@ -370,8 +373,13 @@ public class ExtendedBinaryReader : BinaryReader {
     }
 
     public virtual T ReadComponent<T>() {
-        var guid = ReadGUID();
-        return SpaceNetwork.nets[guid].GetComponent<T>();
+        var val = ReadInt32();
+        if (val == 0)
+            return default(T);
+        else {
+            var guid = new GUID(val);
+            return SpaceNetwork.nets[guid].GetComponent<T>();
+        }
     }
 }
 

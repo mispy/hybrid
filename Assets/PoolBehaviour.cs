@@ -22,8 +22,14 @@ public class PoolBehaviour : MonoBehaviour {
     [HideInInspector]
     public float lastSyncReceived = 0f;
     [HideInInspector]
-    // Marked as true during execution of OnDeserialize
+    // Marked as true during execution of OnDeserialize       
     public bool deserializing = false;
+
+    public bool hasAuthority {
+        get {
+            return ((Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject) || (GetComponent<CrewBody>() == null && SpaceNetwork.isServer));
+        }
+    }
 
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }

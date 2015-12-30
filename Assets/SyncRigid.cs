@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
 public class SyncRigid : PoolBehaviour {
     [HideInInspector]
     public Rigidbody rigid;
@@ -47,6 +48,10 @@ public class SyncRigid : PoolBehaviour {
         lerpCounter = 0f;
     }
 
+    public void OnEnable() {
+        isReady = false;
+    }
+
     /*public override bool OnSerialize(NetworkWriter writer, bool initialState) {
         if (!initialState && syncVarDirtyBits == 0) return false;
 
@@ -64,10 +69,6 @@ public class SyncRigid : PoolBehaviour {
 
 
 	void Update() {
-        if (rigid == null) return;
-
-        var hasAuthority = ((Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject) || (GetComponent<CrewBody>() == null && SpaceNetwork.isServer));
-
         if (!hasAuthority && isReady) {
             lerpCounter += Time.deltaTime;
             var progress = lerpCounter / (nextTime - lastTime);
