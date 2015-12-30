@@ -21,14 +21,15 @@ public class ShipDesigner : MonoBehaviour {
 
     public void Awake() {
         consoleLinker = GetComponentsInChildren<ConsoleLinker>(includeInactive: true).First();
-
-        cursor = Pool.For("Blueprint").Attach<Blueprint>(transform);
-        cursor.name = "Cursor";
-        cursor.blocks = Pool.For("BlockMap").Attach<BlockMap>(cursor.transform);
     }
 
     public void OnEnable() {        
         Game.shipControl.gameObject.SetActive(false);
+
+        cursor = Pool.For("Blueprint").Attach<Blueprint>(transform);
+        cursor.name = "Cursor";
+        cursor.blocks = Pool.For("BlockMap").Attach<BlockMap>(cursor.transform);
+
         foreach (var renderer in cursor.tiles.MeshRenderers) {
             renderer.sortingLayerName = "UI";
         }
@@ -36,6 +37,8 @@ public class ShipDesigner : MonoBehaviour {
         //Game.main.debugText.text = "Designing Ship";
         //Game.main.debugText.color = Color.green;        
         designShip = Game.localPlayer.crew.maglockShip;
+
+        cursor.transform.SetParent(designShip.transform);
         cursor.transform.position = designShip.transform.position + new Vector3(0, 0, -1);
         cursor.transform.rotation = designShip.transform.rotation;
 
@@ -57,6 +60,7 @@ public class ShipDesigner : MonoBehaviour {
     }
     
     public void OnDisable() {
+        Pool.Recycle(cursor.gameObject);
         Game.shipControl.gameObject.SetActive(true);
         //Game.main.debugText.text = "";
         //Game.main.debugText.color = Color.white;
