@@ -115,10 +115,10 @@ public class Block {
     public int CollisionLayer {
         get { return type.gameObject.layer; }
     }
-
+        
     public bool IsBlueprint {
         get {
-            return (this is BlueprintBlock);
+            return IsDestroyed;
         }
     }
 
