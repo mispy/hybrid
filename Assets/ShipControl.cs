@@ -163,9 +163,18 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(Keybind.StrafeRight).Bind(this, OnStrafeLeft, true);
         InputEvent.For(Keybind.TurnLeft).Bind(this, OnTurnLeft, true);
         InputEvent.For(Keybind.TurnRight).Bind(this, OnTurnRight, true);
+        InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
 
         InputEvent.For(KeyCode.E).Bind(this, OnExitControl);
 	}
+
+    public void OnToggleDesigner() {
+        if (Game.shipDesigner.gameObject.activeInHierarchy) {
+            Game.shipDesigner.gameObject.SetActive(false);
+        } else {
+            Game.shipDesigner.gameObject.SetActive(true);
+        }
+    }
 
     public void OnExitControl() {
         Game.shipControl.gameObject.SetActive(false);

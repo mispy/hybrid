@@ -56,6 +56,7 @@ MonoBehaviour:
   form: {fileID: 0}
   chargeTime: 1
   isPaused: 0
+  amountCharged: 0
 --- !u!114 &11438306
 MonoBehaviour:
   m_ObjectHideFlags: 1
