@@ -47,10 +47,10 @@ public class ShipDesigner : MonoBehaviour {
         }
         
         foreach (var block in designShip.blocks.frontBlockers) {
-            /*var worldPos = designShip.BlockToWorldPos(block.pos);
+            var worldPos = designShip.BlockToWorldPos(block.pos);
             var dir = designShip.transform.TransformDirection((Vector2)block.facing);
             var line = Annotation.DrawLine(worldPos, worldPos + (Vector2)dir*10, Color.green, 0.05f);
-            line.transform.SetParent(cursor.transform);*/
+            line.transform.SetParent(cursor.transform);
         }
 
  //       Game.Pause();

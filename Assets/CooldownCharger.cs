@@ -9,7 +9,8 @@ public class CooldownCharger : BlockComponent {
     public float chargeTime = 3f;
     public bool isPaused = false;
 
-    float amountCharged;
+    [ReadOnly]
+    public float amountCharged;
     LineRenderer line;
 
     void Start() {
@@ -27,7 +28,7 @@ public class CooldownCharger : BlockComponent {
 
     public void Discharge() {
         amountCharged = 0f;
-        if (SpaceNetwork.isServer)
+        if (hasAuthority)
             SpaceNetwork.Sync(this);
     }
 

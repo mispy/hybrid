@@ -15,7 +15,8 @@ public class PowerReceiver : BlockComponent {
 
     public override void OnRealize() {
         isReceiving = true;
-        block.isPowered = false;
+        block.isPowered = true;
+        Depowered();
     }
         
     public override void OnRecycle() {
