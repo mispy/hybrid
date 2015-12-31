@@ -99,7 +99,6 @@ public class ShipMind : PoolBehaviour {
 
     void Start () {
         ship = GetComponent<Blockform>();
-		tactic = gameObject.AddComponent<EngageTactic>();
     }
     
     void Update() {
@@ -109,7 +108,7 @@ public class ShipMind : PoolBehaviour {
         if (ship == Game.playerShip) return;
 
         var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
-        
+
         if (enemies.Count() > 0) {
             enemies = enemies.OrderBy((other) => -other.poweredWeapons.Count);
             nearestEnemy = enemies.First();
@@ -160,10 +159,10 @@ public class ShipMind : PoolBehaviour {
 	}
 
 	void UpdateTactic() {
-		if (!ship.hasActiveShields) {
-			SetTactic<FleeingTactic>();
-		} else {
+		//if (!ship.hasActiveShields) {
+		//	SetTactic<FleeingTactic>();
+		//} else {
 			SetTactic<EngageTactic>();
-		}
+		//}
 	}
 }

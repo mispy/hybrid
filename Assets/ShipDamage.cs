@@ -34,7 +34,7 @@ public class ShipDamage : PoolBehaviour {
         } else {
             writer.Write(blocksToUpdate.Count);
             foreach (var block in blocksToUpdate) {
-                writer.Write(block.pos);
+                writer.Write(block.blockPos);
                 writer.Write(block.health);
             }
 
@@ -44,15 +44,14 @@ public class ShipDamage : PoolBehaviour {
 
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         var count = reader.ReadInt32();
-        while (count > 0) {
-            var pos = reader.ReadIntVector2();
+        for (var i = 0; i < count; i++) {
+            var pos = reader.ReadIntVector3();
             var health = reader.ReadSingle();
-            var block = form.blocks.Topmost(pos);
+            var block = form.blocks[pos];
             if (block != null) {
                 block.health = health;
                 UpdateHealth(block);
             }
-            count--;
         }
     }
 
@@ -90,7 +89,7 @@ public class ShipDamage : PoolBehaviour {
         block.health = Mathf.Max(block.health - amount, 0);
         blocksToUpdate.Add(block);
 
-        //SpaceNetwork.Sync(this);
+        SpaceNetwork.Sync(this);
     }  
     
     public void BreakBlock(Block block, bool checkBreaks = true) {
