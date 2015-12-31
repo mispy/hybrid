@@ -79,6 +79,11 @@ public struct GUID {
         return !v1.isValid || !v2.isValid || v1.value != v2.value;
     }
 
+    public override bool Equals(System.Object obj) {
+        return obj.GetType() == typeof(GUID) && this == (GUID)obj;
+    
+    }
+
     public int value;
         
     public bool isValid {

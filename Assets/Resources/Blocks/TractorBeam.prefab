@@ -28,7 +28,6 @@ GameObject:
   - 212: {fileID: 21249656}
   - 114: {fileID: 11406974}
   - 114: {fileID: 11408290}
-  - 114: {fileID: 11448838}
   m_Layer: 16
   m_Name: TractorBeam
   m_TagString: Untagged
@@ -111,25 +110,6 @@ MonoBehaviour:
   consumeRate: 1
   isReceiving: 0
   attachedProducer: {fileID: 0}
---- !u!114 &11448838
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LastSendTime: 0
-  m_SyncVarGuard: 0
-  m_MyView: {fileID: 0}
-  pos:
-    x: 0
-    y: 0
-  layer: 0
-  formId: {}
 --- !u!198 &19840154
 ParticleSystem:
   m_ObjectHideFlags: 1

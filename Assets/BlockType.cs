@@ -50,7 +50,7 @@ public class BlockType : MonoBehaviour {
 
     public static BlockType FromId(string id) {
         if (BlockType.byId.Keys.Count == 0)
-            LoadTypes();
+            LoadTypes();        
 
         return BlockType.byId[id];
     }

@@ -66,8 +66,10 @@ public class ShipDamage : PoolBehaviour {
     }
 
     public void UpdateHealth(Block block) {        
-        if (block._gameObject == null && block.health == block.type.maxHealth)
+        if (block.gameObject == null && block.health == block.type.maxHealth)
             return;
+        else if (block.gameObject == null)
+            block.ship.RealizeBlock(block);
         
         var healthBar = block.gameObject.GetComponent<BlockHealthBar>();
         if (healthBar == null) {
@@ -83,13 +85,12 @@ public class ShipDamage : PoolBehaviour {
     }
 
     public void DamageBlock(Block block, float amount) {
-        if (!SpaceNetwork.isServer) return;
+        if (!hasAuthority) return;
         if (block.IsDestroyed) return;
         block.health = Mathf.Max(block.health - amount, 0);
-
         blocksToUpdate.Add(block);
 
-        SpaceNetwork.Sync(this);
+        //SpaceNetwork.Sync(this);
     }  
     
     public void BreakBlock(Block block, bool checkBreaks = true) {

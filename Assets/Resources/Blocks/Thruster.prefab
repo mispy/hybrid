@@ -29,7 +29,6 @@ GameObject:
   - 114: {fileID: 11493866}
   - 114: {fileID: 11404554}
   - 114: {fileID: 11495430}
-  - 114: {fileID: 11415104}
   m_Layer: 16
   m_Name: Thruster
   m_TagString: Untagged
@@ -84,25 +83,6 @@ MonoBehaviour:
   ps: {fileID: 0}
   isFiring: 0
   isFiringAttitude: 0
---- !u!114 &11415104
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 140160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_LastSendTime: 0
-  m_SyncVarGuard: 0
-  m_MyView: {fileID: 0}
-  pos:
-    x: 0
-    y: 0
-  layer: 0
-  formId: {}
 --- !u!114 &11493866
 MonoBehaviour:
   m_ObjectHideFlags: 1

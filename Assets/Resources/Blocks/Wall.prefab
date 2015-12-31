@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 488952}
   - 212: {fileID: 21246848}
   - 114: {fileID: 11429582}
-  - 114: {fileID: 11445114}
   m_Layer: 16
   m_Name: Wall
   m_TagString: Untagged
@@ -60,21 +59,6 @@ MonoBehaviour:
   isWeapon: 0
   needsCrew: 0
   spriteRenderer: {fileID: 0}
---- !u!114 &11445114
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 142370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d80edddf29ef8234b884111640fba20f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pos:
-    x: 0
-    y: 0
-  layer: 0
 --- !u!212 &21246848
 SpriteRenderer:
   m_ObjectHideFlags: 1

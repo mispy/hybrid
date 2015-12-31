@@ -128,16 +128,7 @@ public class Block {
 		}
 	}
 
-    public GameObject _gameObject;
-    public GameObject gameObject {
-        get {
-            if (_gameObject == null && ship != null) {
-                ship.RealizeBlock(this);
-            }
-
-            return _gameObject;
-        }
-    }
+    public GameObject gameObject = null;
 
 
     public float PercentFilled {

@@ -78,8 +78,8 @@ public class ShipControl : MonoBehaviour {
         if (block.type.isComplexBlock)
             block.gameObject.SendMessage("OnBlockSelected", SendMessageOptions.DontRequireReceiver);
 
-        if (block._gameObject != null)
 #if UNITY_EDITOR
+        if (block.gameObject != null)
             Selection.activeGameObject = block.gameObject;
 #endif
         Game.abilityMenu.gameObject.SetActive(true);

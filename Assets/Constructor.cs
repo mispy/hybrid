@@ -47,7 +47,7 @@ public class Constructor : MonoBehaviour
         if (isBuilding) return;
 
         oneOverZigs = 1f / (float)zigs;
-        ps.enableEmission = false;
+        //ps.emission.enabled = false;
         ps.Emit(zigs);
         particles = new ParticleSystem.Particle[ps.maxParticles];
 
@@ -75,7 +75,7 @@ public class Constructor : MonoBehaviour
         targetBlock = new Block(targetBlue);
             
         if (targetBlock.scrapContent < targetBlock.type.scrapRequired) {
-            var change = addSpeed*Time.deltaTime;
+            //var change = addSpeed*Time.deltaTime;
             /*if (builder.scrapAvailable >= change) {
                 builder.scrapAvailable -= change;
                 targetBlock.scrapContent += change;
@@ -112,7 +112,7 @@ public class Constructor : MonoBehaviour
             position += (offset * scale * ((float)i * oneOverZigs));
             
             particles[i].position = position;
-            particles[i].color = Color.white;
+            //particles[i].color = Color.white;
             particles[i].lifetime = 1f;
         }
             

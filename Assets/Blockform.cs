@@ -282,14 +282,14 @@ public class Blockform : PoolBehaviour {
 
         UpdateBlock(oldBlock);       
 
-        if (oldBlock._gameObject != null) {
+        if (oldBlock.gameObject != null) {
             foreach (var comp in oldBlock.gameObject.GetComponents<BlockComponent>()) {
                 if (blockCompCache.ContainsKey(comp.GetType()))
                     blockCompCache[comp.GetType()].Remove(comp);
             }
         }
 
-        if (oldBlock._gameObject != null)
+        if (oldBlock.gameObject != null)
             Pool.Recycle(oldBlock.gameObject);
 
         if (hasStarted && !deserializing) {
@@ -337,7 +337,7 @@ public class Blockform : PoolBehaviour {
         obj.transform.up = worldOrient;
         obj.transform.localScale *= Tile.worldSize;
         
-        block._gameObject = obj.gameObject;
+        block.gameObject = obj.gameObject;
         
         foreach (var comp in obj.GetComponents<BlockComponent>()) {
             comp.block = block;

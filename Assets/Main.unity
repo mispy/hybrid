@@ -130,7 +130,6 @@ GameObject:
   - 224: {fileID: 97785344}
   - 222: {fileID: 97785346}
   - 114: {fileID: 97785345}
-  - 114: {fileID: 97785347}
   - 114: {fileID: 97785348}
   m_Layer: 5
   m_Name: SectorInfo
@@ -190,17 +189,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 97785343}
---- !u!114 &97785347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 97785343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a68f4bcf18f4b4285dcbd2949e6b4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &97785348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,7 +755,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 461886782}
-  - 114: {fileID: 461886783}
   - 120: {fileID: 461886784}
   m_Layer: 0
   m_Name: FoldMap
@@ -790,17 +777,6 @@ Transform:
   - {fileID: 1106553485}
   m_Father: {fileID: 400550211}
   m_RootOrder: 1
---- !u!114 &461886783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 461886781}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6425589120daf9a4ca92e9576763e3de, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!120 &461886784
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -3415,7 +3391,6 @@ GameObject:
   - 92: {fileID: 1512240775}
   - 124: {fileID: 1512240774}
   - 81: {fileID: 1512240773}
-  - 114: {fileID: 1512240772}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3423,17 +3398,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1512240772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1512240771}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec1fd61d8f7fd4646bfa599cb538dc90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!81 &1512240773
 AudioListener:
   m_ObjectHideFlags: 0
