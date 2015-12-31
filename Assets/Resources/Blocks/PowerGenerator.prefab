@@ -12,7 +12,6 @@ GameObject:
   - 114: {fileID: 11422968}
   - 114: {fileID: 11487552}
   - 114: {fileID: 11433894}
-  - 114: {fileID: 11484128}
   - 114: {fileID: 11482056}
   m_Layer: 9
   m_Name: PowerGenerator
@@ -100,38 +99,6 @@ MonoBehaviour:
     y: 0
   layer: 0
   formId: {}
---- !u!114 &11484128
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 104774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 130
-    i1: 194
-    i2: 181
-    i3: 99
-    i4: 14
-    i5: 66
-    i6: 198
-    i7: 244
-    i8: 73
-    i9: 201
-    i10: 69
-    i11: 158
-    i12: 47
-    i13: 195
-    i14: 115
-    i15: 15
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11487552
 MonoBehaviour:
   m_ObjectHideFlags: 1

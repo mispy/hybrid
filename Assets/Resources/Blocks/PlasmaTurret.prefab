@@ -14,7 +14,6 @@ GameObject:
   - 114: {fileID: 11458222}
   - 114: {fileID: 11425794}
   - 114: {fileID: 11448760}
-  - 114: {fileID: 11438306}
   - 114: {fileID: 11457232}
   m_Layer: 16
   m_Name: PlasmaTurret
@@ -57,38 +56,6 @@ MonoBehaviour:
   chargeTime: 1
   isPaused: 0
   amountCharged: 0
---- !u!114 &11438306
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 188922}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 36
-    i1: 28
-    i2: 55
-    i3: 241
-    i4: 128
-    i5: 97
-    i6: 25
-    i7: 84
-    i8: 121
-    i9: 43
-    i10: 227
-    i11: 83
-    i12: 1
-    i13: 144
-    i14: 33
-    i15: 118
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11448760
 MonoBehaviour:
   m_ObjectHideFlags: 1

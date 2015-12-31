@@ -29,7 +29,6 @@ GameObject:
   - 114: {fileID: 11493866}
   - 114: {fileID: 11404554}
   - 114: {fileID: 11495430}
-  - 114: {fileID: 11455106}
   - 114: {fileID: 11415104}
   m_Layer: 16
   m_Name: Thruster
@@ -104,38 +103,6 @@ MonoBehaviour:
     y: 0
   layer: 0
   formId: {}
---- !u!114 &11455106
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 140160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 132
-    i1: 51
-    i2: 38
-    i3: 102
-    i4: 80
-    i5: 148
-    i6: 209
-    i7: 132
-    i8: 75
-    i9: 109
-    i10: 122
-    i11: 181
-    i12: 205
-    i13: 253
-    i14: 156
-    i15: 87
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11493866
 MonoBehaviour:
   m_ObjectHideFlags: 1

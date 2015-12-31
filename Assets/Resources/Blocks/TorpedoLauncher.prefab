@@ -14,7 +14,6 @@ GameObject:
   - 114: {fileID: 11489764}
   - 114: {fileID: 11455138}
   - 114: {fileID: 11428862}
-  - 114: {fileID: 11420840}
   - 114: {fileID: 11457396}
   m_Layer: 16
   m_Name: TorpedoLauncher
@@ -46,8 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0d7912ec17915a448fe1852f8dc2407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
-  launchForce: .300000012
   projectile: {fileID: 127086, guid: 729117fbfa2d0c641aea774e33349c4d, type: 2}
   lastFireTime: 0
 --- !u!114 &11412334
@@ -78,38 +83,6 @@ MonoBehaviour:
   isWeapon: 1
   needsCrew: 0
   spriteRenderer: {fileID: 0}
---- !u!114 &11420840
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 33
-    i1: 190
-    i2: 51
-    i3: 255
-    i4: 144
-    i5: 100
-    i6: 234
-    i7: 84
-    i8: 121
-    i9: 181
-    i10: 203
-    i11: 30
-    i12: 37
-    i13: 123
-    i14: 118
-    i15: 91
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!114 &11428862
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -121,9 +94,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc179ae3fa8b174b87c923464ba580d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
   chargeTime: 1
   isPaused: 0
+  amountCharged: 0
 --- !u!114 &11455138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,6 +116,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1464a018aee5b26469f8c0ddc18e1c71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
   consumeRate: 1
   isReceiving: 0
@@ -165,6 +153,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2c2ad0e8293dab4ca7b2285a8936e23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
   showLine: 0
 --- !u!212 &21220014
@@ -185,14 +180,18 @@ SpriteRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a5b0085290e02984da263ca3822e8278, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

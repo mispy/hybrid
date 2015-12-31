@@ -66,6 +66,9 @@ public class ShipDamage : PoolBehaviour {
     }
 
     public void UpdateHealth(Block block) {        
+        if (block._gameObject == null && block.health == block.type.maxHealth)
+            return;
+        
         var healthBar = block.gameObject.GetComponent<BlockHealthBar>();
         if (healthBar == null) {
             healthBar = block.gameObject.AddComponent<BlockHealthBar>();

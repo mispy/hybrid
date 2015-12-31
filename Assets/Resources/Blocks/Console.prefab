@@ -12,7 +12,6 @@ GameObject:
   - 114: {fileID: 11433092}
   - 114: {fileID: 11407542}
   - 114: {fileID: 11440908}
-  - 114: {fileID: 11471004}
   - 114: {fileID: 11437234}
   m_Layer: 9
   m_Name: Console
@@ -121,38 +120,6 @@ MonoBehaviour:
   lastSyncReceived: 0
   deserializing: 0
   form: {fileID: 0}
---- !u!114 &11471004
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 112372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 51
-    i1: 82
-    i2: 157
-    i3: 34
-    i4: 162
-    i5: 12
-    i6: 105
-    i7: 148
-    i8: 152
-    i9: 205
-    i10: 126
-    i11: 17
-    i12: 118
-    i13: 173
-    i14: 37
-    i15: 167
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!212 &21267236
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -28,7 +28,6 @@ GameObject:
   - 212: {fileID: 21249656}
   - 114: {fileID: 11406974}
   - 114: {fileID: 11408290}
-  - 114: {fileID: 11451212}
   - 114: {fileID: 11448838}
   m_Layer: 16
   m_Name: TractorBeam
@@ -131,38 +130,6 @@ MonoBehaviour:
     y: 0
   layer: 0
   formId: {}
---- !u!114 &11451212
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 155840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 205
-    i1: 61
-    i2: 244
-    i3: 68
-    i4: 75
-    i5: 254
-    i6: 12
-    i7: 164
-    i8: 153
-    i9: 217
-    i10: 236
-    i11: 63
-    i12: 140
-    i13: 97
-    i14: 47
-    i15: 96
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!198 &19840154
 ParticleSystem:
   m_ObjectHideFlags: 1
