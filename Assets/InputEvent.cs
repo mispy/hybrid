@@ -36,6 +36,7 @@ public static class Keybind {
     public static KeyCode TurnRight = KeyCode.D;
     public static KeyCode TurnLeft = KeyCode.A;
     public static KeyCode ToggleDesigner = KeyCode.F1;
+    public static KeyCode Jump = KeyCode.J;
 }
 
 public enum MouseButton {

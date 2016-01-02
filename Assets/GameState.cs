@@ -35,6 +35,8 @@ public static class Game {
     public static DebugMenu debugMenu;
     public static BlockSelector blockSelector;
     public static Player localPlayer;
+    public static CameraControl cameraControl;
+    public static FadeOverlay fadeOverlay;
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
@@ -164,6 +166,8 @@ public class GameState : MonoBehaviour {
         Game.debugMenu = GetComponentsInChildren<DebugMenu>(includeInactive: true).First();
         Game.blockSelector = GetComponentsInChildren<BlockSelector>(includeInactive: true).First();
         Game.mainCamera = Camera.main;
+        Game.cameraControl = GetComponentsInChildren<CameraControl>(includeInactive: true).First();
+        Game.fadeOverlay = GetComponentsInChildren<FadeOverlay>(includeInactive: true).First();
         Game.state = this;
     }
       

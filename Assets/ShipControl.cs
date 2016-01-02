@@ -162,11 +162,20 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(Keybind.StrafeLeft).Bind(this, OnStrafeLeft, true);
         InputEvent.For(Keybind.StrafeRight).Bind(this, OnStrafeLeft, true);
         InputEvent.For(Keybind.TurnLeft).Bind(this, OnTurnLeft, true);
-        InputEvent.For(Keybind.TurnRight).Bind(this, OnTurnRight, true);
+        InputEvent.For(Keybind.TurnRight).Bind(this, OnTurnRight, true);       
         InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
+        InputEvent.For(Keybind.Jump).Bind(this, OnJump);
 
         InputEvent.For(KeyCode.E).Bind(this, OnExitControl);
 	}
+
+    public void OnJump() {
+        Game.cameraControl.enabled = false;
+        Game.mainCamera.transform.SetParent(Game.activeSector.contents);
+        //ship.rigidBody.detectCollisions = false;
+        ship.rigidBody.velocity = ship.transform.up * 1000; 
+        Game.fadeOverlay.FadeOut(1f);
+    }
 
     public void OnToggleDesigner() {
         if (Game.shipDesigner.gameObject.activeInHierarchy) {
