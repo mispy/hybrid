@@ -40,6 +40,5 @@ public class ActiveSector : MonoBehaviour {
     }
 
     public void OnEnable() {
-        Game.mainCamera = GetComponentInChildren<Camera>();
     }
 }

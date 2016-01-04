@@ -170,11 +170,19 @@ public class ShipControl : MonoBehaviour {
 	}
 
     public void OnJump() {
-        Game.cameraControl.enabled = false;
+        Game.cameraControl.Lock(null);
         Game.mainCamera.transform.SetParent(Game.activeSector.contents);
         //ship.rigidBody.detectCollisions = false;
         ship.rigidBody.velocity = ship.transform.up * 1000; 
-        Game.fadeOverlay.FadeOut(1f);
+        //Game.fadeOverlay.FadeOut(1f);
+        Invoke("EndJump", 0.5f);
+    }
+
+    void EndJump() {
+        Game.jumpMap.gameObject.SetActive(true);
+        Game.activeSector.gameObject.SetActive(false);
+        Game.cameraControl.Lock(Game.playerShip.transform);
+        //Game.fadeOverlay.FadeIn(1f);
     }
 
     public void OnToggleDesigner() {

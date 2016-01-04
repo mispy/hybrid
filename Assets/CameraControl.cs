@@ -6,10 +6,19 @@ public class CameraControl : MonoBehaviour {
 	new Camera camera { get { return Game.mainCamera; }}
     Vector2 cameraOffset = new Vector2(0, 0);
 
-    public Transform locked;
+    public Transform locked { get; private set; }
 
 	public void Start() {
 	}
+
+    public void Lock(Transform target) {
+        locked = target;
+        if (target != null) {
+            camera.transform.SetParent(target.transform);
+            camera.transform.position = target.transform.position;
+        }
+        Update();
+    }
 
 	public void ZoomIn() {	
         var shipViewPos = camera.WorldToViewportPoint(locked.transform.position);
@@ -33,8 +42,7 @@ public class CameraControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update() {
-        if (Game.localPlayer == null) return;
-        locked = Game.localPlayer.transform;
+        if (locked == null) return;
 
 		if (Input.GetKeyDown(KeyCode.Equals)) {
 			ZoomIn();

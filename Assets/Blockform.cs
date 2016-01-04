@@ -239,8 +239,6 @@ public class Blockform : PoolBehaviour {
     void OnDisable() {
         blockCompCache.Clear();
 
-        Pool.Recycle(blockComponentHolder.gameObject);
-
         blocks.OnBlockRemoved -= OnBlockRemoved;
         blocks.OnBlockAdded -= OnBlockAdded;
 

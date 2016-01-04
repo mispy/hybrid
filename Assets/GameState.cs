@@ -37,6 +37,7 @@ public static class Game {
     public static Player localPlayer;
     public static CameraControl cameraControl;
     public static FadeOverlay fadeOverlay;
+    public static JumpMap jumpMap;
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
@@ -147,6 +148,7 @@ public static class Game {
     public static void Start() {
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        Game.cameraControl.Lock(Game.playerShip.transform);
     }
 }
 
@@ -168,6 +170,7 @@ public class GameState : MonoBehaviour {
         Game.mainCamera = Camera.main;
         Game.cameraControl = GetComponentsInChildren<CameraControl>(includeInactive: true).First();
         Game.fadeOverlay = GetComponentsInChildren<FadeOverlay>(includeInactive: true).First();
+        Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
         Game.state = this;
     }
       
