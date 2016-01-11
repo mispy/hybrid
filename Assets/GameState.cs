@@ -148,7 +148,6 @@ public static class Game {
     public static void Start() {
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-        Game.cameraControl.Lock(Game.playerShip.transform);
     }
 }
 

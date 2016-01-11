@@ -15,7 +15,7 @@ public class CameraControl : MonoBehaviour {
         locked = target;
         if (target != null) {
             camera.transform.SetParent(target.transform);
-            camera.transform.position = target.transform.position;
+            Game.MoveCamera(target.transform.position);
         }
         Update();
     }
