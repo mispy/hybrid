@@ -28,10 +28,6 @@ public class JumpMap : MonoBehaviour {
         canvas = GetComponentInChildren<Canvas>();
         selector = Pool.For("Selector").Attach<Transform>(transform);
 
-        Game.mainCamera.orthographicSize = 4;
-        Game.MoveCamera(transform.position);
-        Game.cameraControl.Lock(transform);
-
         for (var i = 0; i < 10; i++) {
             var beacon = Pool.For("JumpBeacon").Attach<JumpBeacon>(transform);
             beacon.transform.position = new Vector2(Random.Range(-5, 5), Random.Range(-5, 5));
@@ -64,6 +60,11 @@ public class JumpMap : MonoBehaviour {
 
     }
 
+    void OnEnable() {
+        Game.mainCamera.orthographicSize = 4;
+        Game.cameraControl.Lock(transform);
+    }
+
     void JumpTo(JumpBeacon beacon) {
         Game.jumpMap.gameObject.SetActive(false);
         Game.activeSector.gameObject.SetActive(true);
@@ -73,6 +74,7 @@ public class JumpMap : MonoBehaviour {
         Game.cameraControl.Lock(Game.activeSector.contents);
         Game.mainCamera.orthographicSize = 256;
         Game.MoveCamera(targetPosition);
+        Game.activeSector.Load();
 
         ship.rigidBody.velocity = Vector2.up * 1000;
         Invoke("EndJump", duration);
@@ -81,7 +83,7 @@ public class JumpMap : MonoBehaviour {
 
     void EndJump() {
         Game.playerShip.rigidBody.velocity = Vector2.zero;
-        Game.cameraControl.Lock(Game.playerShip.transform);
+        Game.cameraControl.Lock(Game.localPlayer.transform);
     }
 
     public void OnLeftClick() {

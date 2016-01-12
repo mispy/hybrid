@@ -122,7 +122,7 @@ public class ShipControl : MonoBehaviour {
     Vector2 lastLeftClickPos = new Vector2(0, 0);
 
     public void OnForwardThrust() {
-        ship.FireThrusters(Facing.down) ;  
+        ship.FireThrusters(Facing.down);
     }
 
     public void OnReverseThrust() {
@@ -171,7 +171,7 @@ public class ShipControl : MonoBehaviour {
 
     public void OnJump() {
         Game.cameraControl.Lock(null);
-        Game.mainCamera.transform.SetParent(Game.activeSector.contents);
+        Game.mainCamera.transform.SetParent(Game.activeSector.transform);
         //ship.rigidBody.detectCollisions = false;
         ship.rigidBody.velocity = ship.transform.up * 1000; 
         //Game.fadeOverlay.FadeOut(1f);
@@ -179,9 +179,9 @@ public class ShipControl : MonoBehaviour {
     }
 
     void EndJump() {
-        Game.jumpMap.gameObject.SetActive(true);
+        Game.activeSector.Unload();
         Game.activeSector.gameObject.SetActive(false);
-        Game.cameraControl.Lock(Game.playerShip.transform);
+        Game.jumpMap.gameObject.SetActive(true);
         //Game.fadeOverlay.FadeIn(1f);
     }
 

@@ -126,13 +126,13 @@ public class InputEvent {
             } 
         }
         
-        CleanInactive();
+        CleanDestroyed();
     }
 
-    public void CleanInactive() {
+    public void CleanDestroyed() {
         var toKeep = new List<InputListener>();
         foreach (var listener in listeners) {
-            if (listener.comp.gameObject.activeInHierarchy)
+            if (listener.comp.gameObject != null)
                 toKeep.Add(listener);
         }
 
@@ -154,6 +154,6 @@ public class InputEvent<T> : InputEvent {
             } 
         }
         
-        CleanInactive();
+        CleanDestroyed();
     }
 }

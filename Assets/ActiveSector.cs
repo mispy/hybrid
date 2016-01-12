@@ -33,12 +33,23 @@ public class ActiveSector : MonoBehaviour {
         }
     }
 
-    public List<Blockform> blockforms;
+    public HashSet<Blockform> blockforms = new HashSet<Blockform>();
 
     public bool IsOutsideBounds(Vector3 pos) {
         return pos.magnitude > 50f;
     }
 
-    public void OnEnable() {
+    public void Load() {
+        Game.playerShip.transform.SetParent(contents);
+        Game.playerShip.gameObject.SetActive(true);
     }
+
+    public void Unload() {
+        Game.playerShip.transform.SetParent(Game.state.transform);
+        Game.playerShip.gameObject.SetActive(false);
+        blockforms.Clear();
+        Pool.Recycle(transients.gameObject);
+        Pool.Recycle(contents.gameObject);
+    }
+
 }

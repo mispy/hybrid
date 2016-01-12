@@ -223,9 +223,7 @@ public class Blockform : PoolBehaviour {
     void Start() {               
         blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
         blockComponentHolder.name = "BlockComponents";
-        blocks.OnBlockRemoved += OnBlockRemoved;
-        blocks.OnBlockAdded += OnBlockAdded;
-        
+
         Debug.Assert(blocks.allBlocks.Count() > 0, "Expected allBlocks.Count() > 0");
         foreach (var block in blocks.allBlocks) {
             OnBlockAdded(block);
@@ -237,13 +235,18 @@ public class Blockform : PoolBehaviour {
     }
     
     void OnDisable() {
-        blockCompCache.Clear();
-
         blocks.OnBlockRemoved -= OnBlockRemoved;
         blocks.OnBlockAdded -= OnBlockAdded;
 
         Game.activeSector.blockforms.Remove(this);
 	}
+
+    void OnEnable() {
+        blocks.OnBlockRemoved += OnBlockRemoved;
+        blocks.OnBlockAdded += OnBlockAdded;
+
+        Game.activeSector.blockforms.Add(this);
+    }
 
     public void OnDestroy() {
         foreach (Transform child in transform) {
