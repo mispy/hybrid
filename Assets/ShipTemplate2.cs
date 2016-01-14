@@ -41,7 +41,7 @@ public class ShipTemplate2 : PoolBehaviour {
     }
     
     public void Fill(Blockform ship) {
-        foreach (var block in ship.blueprint.blocks.allBlocks) {
+        foreach (var block in ship.blocks.allBlocks) {
             blocks[block.pos, block.layer] = new Block(block);
         }
     }

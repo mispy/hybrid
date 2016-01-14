@@ -21,11 +21,14 @@ public class ShipEditor : Editor {
 
             if (prefab == null) {
                 var template = Pool.For("ShipTemplate").Attach<ShipTemplate2>(Game.state.transform);
+                template.Fill(form);
                 PrefabUtility.CreatePrefab(path, template.gameObject);
+                Pool.Recycle(template.gameObject);
             } else {
                 var template = (prefab as GameObject).GetComponent<ShipTemplate2>();
                 template.Fill(form);
                 PrefabUtility.ReplacePrefab(template.gameObject, prefab, ReplacePrefabOptions.ConnectToPrefab);
+                Pool.Recycle(template.gameObject);
             }
 
         }
@@ -128,6 +131,9 @@ public class Blockform : PoolBehaviour {
                 var block = binary.ReadBlock();
                 blocks[block.pos, block.layer] = block;
             }        
+
+            blocks.OnBlockRemoved += OnBlockRemoved;
+            blocks.OnBlockAdded += OnBlockAdded;
         }
 
         if (!initial) {
@@ -235,16 +241,10 @@ public class Blockform : PoolBehaviour {
     }
     
     void OnDisable() {
-        blocks.OnBlockRemoved -= OnBlockRemoved;
-        blocks.OnBlockAdded -= OnBlockAdded;
-
         Game.activeSector.blockforms.Remove(this);
 	}
 
     void OnEnable() {
-        blocks.OnBlockRemoved += OnBlockRemoved;
-        blocks.OnBlockAdded += OnBlockAdded;
-
         Game.activeSector.blockforms.Add(this);
     }
 
@@ -288,10 +288,10 @@ public class Blockform : PoolBehaviour {
                 if (blockCompCache.ContainsKey(comp.GetType()))
                     blockCompCache[comp.GetType()].Remove(comp);
             }
+
+            Pool.Recycle(oldBlock.gameObject);
         }
 
-        if (oldBlock.gameObject != null)
-            Pool.Recycle(oldBlock.gameObject);
 
         if (hasStarted && !deserializing) {
             blockUpdates.Add(new BlockUpdate(oldBlock.blockPos, null));

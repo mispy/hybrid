@@ -39,9 +39,16 @@ public class ActiveSector : MonoBehaviour {
         return pos.magnitude > 50f;
     }
 
+    public IObjective[] objectives = new IObjective[] { };
+
     public void Load() {
         Game.playerShip.transform.SetParent(contents);
         Game.playerShip.gameObject.SetActive(true);
+        objectives = Game.state.GetComponentsInChildren<IObjective>();
+
+        var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Damaged Ship"));
+        ship.transform.position = new Vector2(radius, 0);
+        ((BoardObjective)objectives[0]).target = ship;
     }
 
     public void Unload() {

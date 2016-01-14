@@ -38,6 +38,7 @@ public static class Game {
     public static CameraControl cameraControl;
     public static FadeOverlay fadeOverlay;
     public static JumpMap jumpMap;
+    public static HashSet<CrewBody> players = new HashSet<CrewBody>();
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }

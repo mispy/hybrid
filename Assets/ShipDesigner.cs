@@ -340,8 +340,8 @@ public class ShipDesigner : MonoBehaviour {
 
        // Debug.LogFormat("{0} {1} {2} {3}", cursor.blocks.minX, cursor.blocks.maxX, cursor.blocks.minY, cursor.blocks.maxY);
 
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
+        //if (EventSystem.current.IsPointerOverGameObject())
+        //    return;
 
         if (Input.GetMouseButton(0)) {
             if (!isCursorValid && !isMirrorValid) return;

@@ -40,6 +40,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   ship: {fileID: 0}
   maxX: 0
   minX: 0
@@ -60,6 +67,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   tagged: 
 --- !u!1001 &100100000
 Prefab:

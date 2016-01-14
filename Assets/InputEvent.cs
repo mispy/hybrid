@@ -153,6 +153,7 @@ public class InputEvent<T> : InputEvent {
                 break;
             } 
         }
+
         
         CleanDestroyed();
     }

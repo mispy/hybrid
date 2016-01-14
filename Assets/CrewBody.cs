@@ -12,7 +12,7 @@ public class CrewBody : PoolBehaviour {
     public SyncRigid syncRigid;
     public new BoxCollider collider;
     public Constructor constructor;
-    public int connectionId;
+    public int connectionId = -1;
     
     // Crew can be maglocked to a ship even if they don't have a current block
     // bc they attach to the sides as well
@@ -49,8 +49,12 @@ public class CrewBody : PoolBehaviour {
     public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
         if (initial) {
             connectionId = reader.ReadInt32();
+            if (connectionId != -1)
+                Game.players.Add(this);
             if (connectionId == NetworkClient.allClients[0].connection.connectionId)
                 gameObject.AddComponent<Player>();            
+            
+
             return;
         }
 
@@ -64,6 +68,11 @@ public class CrewBody : PoolBehaviour {
         }
 
         maglockMoveBlockPos = movePos;
+    }
+
+    public void OnDestroy() {
+        if (connectionId != -1)
+            Game.players.Remove(this);
     }
 
     public void TakeDamage(int amount) {
