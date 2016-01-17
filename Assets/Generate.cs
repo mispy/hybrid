@@ -34,28 +34,24 @@ public class Generate : MonoBehaviour {
         return frag;
     }
 
-    /*public static Blockform Asteroid(Vector2 pos, int radius) {
-        var BlockformObj = Pool.For("Blockform").TakeObject();
-        var Blockform = BlockformObj.GetComponent<Blockform>();
+    public static Blockform Asteroid(Vector2 pos, int radius) {
+        var ship = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
+        ship.name = "Asteroid";
 
-        Blockform.name = "Asteroid";
         for (var x = -radius; x < radius; x++) {
             for (var y = -radius; y < radius; y++) {
                 if (Vector2.Distance(new Vector2(x, y), new Vector2(0, 0)) <= radius) {
-
-                    //var ori = new Vector2[] { Vector2.up, Vector2.right, -Vector2.up, -Vector2.right };
-                    Blockform.SetBlock(x, y, Block.typeByName["Wall"]);
-                    //Blockform.SetBlock(x, y, "wall"], ori[Random.Range(0, 3)]);
+                    ship.blocks[x, y, BlockLayer.Base] = new Block(BlockType.FromId("Wall"));
                 }
             }
         }
-        BlockformObj.transform.position = pos;
-        BlockformObj.SetActive(true);
-        return Blockform;
-    }*/
+
+        ship.transform.position = pos;
+        return ship;
+    }
     // Use this for initialization
     void Start () {
-    
+        
     }
     
     // Update is called once per frame

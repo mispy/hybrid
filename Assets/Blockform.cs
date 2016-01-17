@@ -81,7 +81,7 @@ public class Blockform : PoolBehaviour {
     }
 
     public static Blockform FromTemplate(ShipTemplate2 template) {
-        var ship = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents, false);
+        var ship = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
         template.blocks.ReadBlockData();
 
         Debug.Assert(template.blocks.allBlocks.Count > 0, "Expected template.blocks.allBlocks.Count > 0 for " + template.name);
@@ -124,9 +124,6 @@ public class Blockform : PoolBehaviour {
 
     public override void OnDeserialize(ExtendedBinaryReader binary, bool initial) {
         if (initial) {
-            if (blocks == null)
-                blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
-            
             var count = binary.ReadInt32();
             for (var i = 0; i < count; i++) {
                 var block = binary.ReadBlock();
@@ -201,6 +198,7 @@ public class Blockform : PoolBehaviour {
         box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
         blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
         box.isTrigger = true;
+        blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
 
         if (SpaceNetwork.isServer) {
             guid = GUID.Assign();
@@ -212,8 +210,6 @@ public class Blockform : PoolBehaviour {
     }
 
     public void Initialize(ShipTemplate2 template) {
-        blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
-
         //blueprint = Pool.For("Blueprint").Attach<Blueprint>(transform);
         //blueprint.Initialize();
         //blueprint.tiles.DisableRendering();

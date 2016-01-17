@@ -30,14 +30,14 @@ public class ActiveSector : MonoBehaviour {
 
     public float radius {
         get {
-            return 50f;
+            return 100f;
         }
     }
 
     public HashSet<Blockform> blockforms = new HashSet<Blockform>();
 
     public bool IsOutsideBounds(Vector3 pos) {
-        return pos.magnitude > 50f;
+        return pos.magnitude > radius;
     }
 
     public IObjective[] objectives = new IObjective[] { };
@@ -46,6 +46,14 @@ public class ActiveSector : MonoBehaviour {
         Game.playerShip.transform.SetParent(contents);
         Game.playerShip.gameObject.SetActive(true);
         objectives = Game.state.GetComponentsInChildren<IObjective>();
+
+        for (var i = 0; i < 20; i++) {
+            var pos = new Vector2(Random.Range(-radius, radius), Random.Range(-radius, radius));
+            var asteroidRadius = Random.Range(10, 15);
+            if (Physics.OverlapSphere(pos, asteroidRadius*Tile.worldSize).Length == 0) {
+                Generate.Asteroid(pos, asteroidRadius);
+            }
+        }
 
         var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
         ship.transform.position = new Vector2(radius, 0);
