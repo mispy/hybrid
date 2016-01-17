@@ -34,17 +34,21 @@ public class ShieldCollider : PoolBehaviour {
 		if (meshCollider == null)
 			return;
 
-		var triangles = new int[ellipse.positions.Length*3*2];
+		var triangles = new int[ellipse.positions.Length*3*2*2];
 		var vertices = new Vector3[ellipse.positions.Length*2];
 		for (var i = 0; i < ellipse.positions.Length; i += 2) {
 			vertices[i] = (Vector3)ellipse.positions[i] + Vector3.forward*2;
 			vertices[i+1] = (Vector3)ellipse.positions[i] + Vector3.back*2;
 		}
 		
-		for (var i = 0; i < vertices.Length-2; i++) {
-			triangles[i*3] = i;
-			triangles[i*3+1] = i+1;
-			triangles[i*3+2] = i+2;
+		for (var i = 0; i < vertices.Length-3; i++) {
+			triangles[i*6] = i;
+			triangles[i*6+1] = i+1;
+			triangles[i*6+2] = i+2;
+
+            triangles[i*6+3] = i+3;
+            triangles[i*6+4] = i+2;
+            triangles[i*6+5] = i+1;
 		}
 		
 		mesh.Clear();

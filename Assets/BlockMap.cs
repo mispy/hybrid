@@ -70,8 +70,22 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 
     public delegate void BlockAddedHandler(Block newBlock);
     public delegate void BlockRemovedHandler(Block oldBlock);
-    public event BlockAddedHandler OnBlockAdded;
-    public event BlockRemovedHandler OnBlockRemoved;
+    public delegate void HealthUpdateHandler(Block block);
+    public event BlockAddedHandler OnBlockAdded = delegate {};
+    public event BlockRemovedHandler OnBlockRemoved = delegate {};
+    public event HealthUpdateHandler OnHealthUpdate = delegate {};
+
+    public void BlockRemoved(Block oldBlock) {
+        OnBlockRemoved(oldBlock);
+    }
+
+    public void BlockAdded(Block newBlock) {
+        OnBlockAdded(newBlock);
+    }
+
+    public void HealthUpdate(Block block) {       
+        OnHealthUpdate(block);
+    }
 
     public delegate void ChunkCreatedHandler(BlockChunk newChunk);
     public event ChunkCreatedHandler OnChunkCreated;

@@ -104,7 +104,7 @@ public class ShipMind : PoolBehaviour {
     void Update() {
         if (!NetworkServer.active) return;
 
-        if (ship.maglockedCrew.Count == 0 || ship == Game.playerShip) return;
+        if (ship == Game.playerShip) return;
 
         var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
 

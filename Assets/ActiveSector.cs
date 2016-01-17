@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ActiveSector : MonoBehaviour {
     private Transform _contents;
@@ -46,9 +47,11 @@ public class ActiveSector : MonoBehaviour {
         Game.playerShip.gameObject.SetActive(true);
         objectives = Game.state.GetComponentsInChildren<IObjective>();
 
-        var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Damaged Ship"));
+        var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
         ship.transform.position = new Vector2(radius, 0);
         ((BoardObjective)objectives[0]).target = ship;
+ //       var reactor = ship.blocks.Find<Reactor>().First();
+ //       reactor.health = reactor.type.maxHealth/2.0f;
     }
 
     public void Unload() {

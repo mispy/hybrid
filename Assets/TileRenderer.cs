@@ -46,8 +46,10 @@ public class TileRenderer : PoolBehaviour {
     }
 
     void OnBlockAdded(Block block) {
-        if (block.type.isComplexBlock && !block.IsBlueprint)
+        if (block.type.isComplexBlock && !block.isBlueprint)
             return;
+
+        if (block.isBlueprint) return;
 
         var tileLayer = baseTiles;
         if (block.layer == BlockLayer.Top)
@@ -77,7 +79,7 @@ public class TileRenderer : PoolBehaviour {
         blocks.OnBlockAdded += OnBlockAdded;
         blocks.OnBlockRemoved += OnBlockRemoved;
 
-        foreach (var block in blocks.allBlocks)
+        foreach (var block in blocks.allBlocks)            
             OnBlockAdded(block);
     }
 

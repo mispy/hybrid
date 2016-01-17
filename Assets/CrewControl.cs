@@ -13,7 +13,7 @@ public class CrewControl : MonoBehaviour {
         InputEvent.For(KeyCode.A).Bind(this, OnMoveLeft, true);
         InputEvent.For(KeyCode.D).Bind(this, OnMoveRight, true);
         InputEvent.For(KeyCode.S).Bind(this, OnMoveDown, true);
-        InputEvent.For(KeyCode.E).Bind(this, OnToggleControl);
+        InputEvent.For(KeyCode.Space).Bind(this, OnToggleControl);
     }
 
 

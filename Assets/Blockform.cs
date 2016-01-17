@@ -124,7 +124,8 @@ public class Blockform : PoolBehaviour {
 
     public override void OnDeserialize(ExtendedBinaryReader binary, bool initial) {
         if (initial) {
-            blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
+            if (blocks == null)
+                blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
             
             var count = binary.ReadInt32();
             for (var i = 0; i < count; i++) {

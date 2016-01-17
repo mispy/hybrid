@@ -93,7 +93,7 @@ public class InputEvent {
         var i = Util.GetNumericKeyDown();
         if (i != -1) Numeric.Trigger(i);
 
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetKeyDown(KeyCode.P)) {
             if (Game.isPaused)
                 Game.Unpause();
             else

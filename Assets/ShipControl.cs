@@ -166,7 +166,7 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
         InputEvent.For(Keybind.Jump).Bind(this, OnJump);
 
-        InputEvent.For(KeyCode.E).Bind(this, OnExitControl);
+        InputEvent.For(KeyCode.Space).Bind(this, OnExitControl);
 	}
 
     public void OnJump() {
@@ -179,6 +179,9 @@ public class ShipControl : MonoBehaviour {
     }
 
     void EndJump() {
+        foreach (var block in Game.playerShip.blocks.allBlocks) {
+            block.health = block.type.maxHealth;
+        }
         Game.activeSector.Unload();
         Game.activeSector.gameObject.SetActive(false);
         Game.jumpMap.gameObject.SetActive(true);

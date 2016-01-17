@@ -36,17 +36,25 @@ public class BeamCannon : BlockComponent {
 
     void UpdateFiring() {
         var currentBeamPos = Game.mousePos;//Util.PathLerp(target.path, beamElapsed/beamDuration);
-        
+
+        RaycastHit[] hits = Physics.SphereCastAll(Util.TipPosition(block), 2f, (Game.mousePos - Util.TipPosition(block)).normalized);
+        foreach (var hit in hits) {
+            if (hit.collider.attachedRigidbody != block.ship.rigidBody) {
+                currentBeamPos = hit.point;
+                break;
+            }
+        }
+
         lineRenderer.SetVertexCount(2);
         lineRenderer.SetPosition(0, Util.TipPosition(block));
         lineRenderer.SetPosition(1, currentBeamPos);
         lineRenderer.SetColors(Color.yellow, Color.yellow);
 
-        var targetForm = Blockform.AtWorldPos(Game.mousePos);
+        var targetForm = Blockform.AtWorldPos(currentBeamPos);
 
         if (targetForm != null) {
             foreach (var targetBlock in targetForm.BlocksInWorldRadius(currentBeamPos, hitRadius)) {
-                targetForm.damage.DamageBlock(targetBlock, damage * (Time.deltaTime/beamDuration));
+                targetBlock.health -= damage * (Time.deltaTime/beamDuration);
             }
         }
 

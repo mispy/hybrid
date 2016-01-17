@@ -26,8 +26,8 @@ public class Shields : PoolBehaviour {
 		UpdateStatus();
 		SendMessage("OnShieldsChange");
 
-        if (SpaceNetwork.isServer)
-            SpaceNetwork.Sync(this);
+        //if (SpaceNetwork.isServer)
+        //    SpaceNetwork.Sync(this);
 	}
 
 	void Awake() {

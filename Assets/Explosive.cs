@@ -132,7 +132,7 @@ public class Explosive : PoolBehaviour
             }
 
             damage = Mathf.Max(0, damage);
-            block.ship.damage.DamageBlock(block, damage);
+            block.health -= damage;
 		}
 		
 		foreach (var rb in rigidBodies) {

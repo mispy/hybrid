@@ -18,7 +18,7 @@ public class BoardObjective : MonoBehaviour, IObjective {
     public ObjectiveStatus status { get; private set; }
 
     string IObjective.Describe() {
-        return String.Format("Board the ship {0}", target.name);            
+        return String.Format("Defeat the {0}", target.name);            
     }
 
     void Start() {

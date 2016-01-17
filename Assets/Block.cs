@@ -116,9 +116,9 @@ public class Block {
         get { return type.gameObject.layer; }
     }
         
-    public bool IsBlueprint {
+    public bool isBlueprint {
         get {
-            return IsDestroyed;
+            return _health == 0;
         }
     }
 
@@ -133,7 +133,7 @@ public class Block {
 
     public float PercentFilled {
         get { 
-            if (this.IsBlueprint) {
+            if (this.isBlueprint) {
                 return 1.0f;
             } else {
                 return this.scrapContent / (float)this.type.scrapRequired; 
@@ -160,7 +160,29 @@ public class Block {
     }
 
     public float scrapContent;
-    public float health;
+
+    private float _health;
+    public float health {
+        get {
+            return _health;
+        }
+
+        set {
+            var oldHealth = _health;
+            _health = Mathf.Clamp(value, 0, type.maxHealth);
+            if (ship == null) return;
+
+            if (_health == 0 && oldHealth != 0) {
+                // Block was destroyed
+                ship.blocks.BlockRemoved(this);
+            } else if (_health != 0 && oldHealth == 0) {
+                // Block was created
+                ship.blocks.BlockAdded(this);   
+            }
+
+            ship.blocks.HealthUpdate(this);                
+        }
+    }
 
     // these attributes relate to where the block is, rather
     // than what it does

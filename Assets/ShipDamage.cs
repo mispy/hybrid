@@ -12,9 +12,16 @@ public class ShipDamage : PoolBehaviour {
         form = GetComponent<Blockform>();
     }
 
-    void Start() {
+    void OnEnable() {
         blocks = form.blocks;
         blocks.OnBlockRemoved += OnBlockRemoved;
+        blocks.OnHealthUpdate += OnHealthUpdate;
+        InvokeRepeating("UpdateBreaks", 0f, 0.1f);
+    }
+
+    void OnDisable() {
+        blocks.OnBlockRemoved -= OnBlockRemoved;
+        blocks.OnHealthUpdate -= OnHealthUpdate;
     }
 
     public HashSet<Block> blocksToUpdate = new HashSet<Block>();
@@ -50,13 +57,8 @@ public class ShipDamage : PoolBehaviour {
             var block = form.blocks[pos];
             if (block != null) {
                 block.health = health;
-                UpdateHealth(block);
             }
         }
-    }
-
-    void OnEnable() {
-        InvokeRepeating("UpdateBreaks", 0f, 0.1f);
     }
 
     void OnBlockRemoved(Block oldBlock) {        
@@ -64,13 +66,18 @@ public class ShipDamage : PoolBehaviour {
             breaksToCheck.Remove(oldBlock.pos);
     }
 
-    public void UpdateHealth(Block block) {        
+    public void OnHealthUpdate(Block block) {        
         if (block.gameObject == null && block.health == block.type.maxHealth)
             return;
         else if (block.gameObject == null)
             block.ship.RealizeBlock(block);
         
         var healthBar = block.gameObject.GetComponent<BlockHealthBar>();
+        if (block.health == block.type.maxHealth) {
+            Destroy(healthBar);
+            return;
+        }
+
         if (healthBar == null) {
             healthBar = block.gameObject.AddComponent<BlockHealthBar>();
             healthBar.block = block;
@@ -83,15 +90,6 @@ public class ShipDamage : PoolBehaviour {
         }
     }
 
-    public void DamageBlock(Block block, float amount) {
-        if (!hasAuthority) return;
-        if (block.IsDestroyed) return;
-        block.health = Mathf.Max(block.health - amount, 0);
-        blocksToUpdate.Add(block);
-
-        SpaceNetwork.Sync(this);
-    }  
-    
     public void BreakBlock(Block block, bool checkBreaks = true) {
         if (block == null) return;
         blocks[block.pos, block.layer] = null;
