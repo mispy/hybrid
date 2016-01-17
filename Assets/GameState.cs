@@ -72,6 +72,8 @@ public static class Game {
     public static JumpMap jumpMap;
     public static BlockInventory inventory = new BlockInventory();
     public static HashSet<CrewBody> players = new HashSet<CrewBody>();
+    public static Transform tmpHolder;
+    public static SpaceNetwork network;
 
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
@@ -194,7 +196,7 @@ public static class Game {
 
         using (var stream = new FileStream(path, FileMode.Open)) {
             var save = new SaveReader(stream);
-            Game.playerShip = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
+            Game.playerShip = Pool.For("Blockform").Attach<Blockform>(Game.tmpHolder);
             save.ReadSaveable(Game.playerShip);
             save.ReadSaveable(Game.inventory);
         }
@@ -208,6 +210,7 @@ public static class Game {
     }
 
     public static void Start() {
+        SpaceNetwork.manager.GetComponent<NetworkManagerHUD>().enabled = false;
         Game.state.gameObject.SetActive(true);
 
         Game.Load();
@@ -219,6 +222,7 @@ public class GameState : MonoBehaviour {
     public Text debugText;
     public ShipTemplate2 playerShipTemplate;
     public Blockform playerShip;
+    public Transform tmpHolder;
 
     public void UpdateRefs() {
         Game.activeSector = GetComponentsInChildren<ActiveSector>(includeInactive: true).First();
@@ -234,6 +238,7 @@ public class GameState : MonoBehaviour {
         Game.fadeOverlay = GetComponentsInChildren<FadeOverlay>(includeInactive: true).First();
         Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
         Game.state = this;
+        Game.tmpHolder = Game.state.tmpHolder;
     }
       
     public void Awake() {

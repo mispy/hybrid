@@ -41,7 +41,7 @@ public class ShipDesigner : MonoBehaviour {
 
         //Game.main.debugText.text = "Designing Ship";
         //Game.main.debugText.color = Color.green;        
-        designShip = Game.localPlayer.crew.maglockShip;
+        designShip = Game.playerShip;
 
         cursor.transform.SetParent(designShip.transform);
         cursor.transform.position = designShip.transform.position + new Vector3(0, 0, -1);

@@ -2,14 +2,24 @@
 using System.Collections;
 
 public class JumpBeacon : MonoBehaviour {
+    public static string[] names = new string[] {
+        "Desmauliv",
+        "Tufloirus",
+        "Zaglora",
+        "Ostarth",
+        "Fuzuno",
+        "Sioter",
+        "Brecezuno",
+        "Flaboruta",
+        "Swinda",
+        "Flao" 
+    };
+        
+    public string name;
+    public CombatMission mission;
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void Awake() {
+        name = Util.GetRandom(names);
+        mission = new CombatMission();
+    }
 }

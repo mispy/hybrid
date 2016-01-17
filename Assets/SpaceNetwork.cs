@@ -105,6 +105,8 @@ public struct GUID {
 }
 
 public class SpaceNetwork : NetworkManager {   
+    public static SpaceNetwork manager;
+
     public static bool isServer {
         get {
             return NetworkServer.active;
@@ -199,6 +201,10 @@ public class SpaceNetwork : NetworkManager {
 
         var obj = Pool.For(msg.prefabId).Attach<Transform>(Game.activeSector.contents).gameObject;
         UnpackSpawnMessage(obj, msg);
+    }
+
+    void Awake() {
+        SpaceNetwork.manager = this;
     }
 
     public static void SyncImmediate(PoolBehaviour net) {

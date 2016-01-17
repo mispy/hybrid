@@ -12,7 +12,7 @@ public class JumpMap : MonoBehaviour {
 
     LineRenderer lineRenderer;
     List<JumpBeacon> beacons = new List<JumpBeacon>();
-    JumpBeacon selectedBeacon;
+    public JumpBeacon selectedBeacon;
     Canvas canvas;
     Transform selector;
 
