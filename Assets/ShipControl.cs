@@ -186,6 +186,8 @@ public class ShipControl : MonoBehaviour {
         Game.activeSector.gameObject.SetActive(false);
         Game.jumpMap.gameObject.SetActive(true);
         Game.Save();
+        Game.playerShip.rigidBody.angularVelocity = Vector3.zero;
+        Game.playerShip.transform.rotation = Quaternion.AngleAxis(0, Vector2.up);
         //Game.fadeOverlay.FadeIn(1f);
     }
 
