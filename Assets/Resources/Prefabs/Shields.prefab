@@ -28,7 +28,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 197374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0126993787, y: .00799998548, z: 0}
+  m_LocalPosition: {x: 0.012699379, y: 0.0079999855, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -66,9 +66,10 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   form: {fileID: 0}
   shieldCollider: {fileID: 0}
   maxHealth: 30
@@ -89,9 +90,10 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   mesh: {fileID: 0}
   meshCollider: {fileID: 0}
   shields: {fileID: 0}
@@ -109,9 +111,10 @@ MonoBehaviour:
   needsSync: 0
   syncCountdown: 0
   channel: 0
-  syncRate: .100000001
+  syncRate: 0.1
   syncDeltaTime: 0
   lastSyncReceived: 0
+  deserializing: 0
   shields: {fileID: 0}
   lineRenderer: {fileID: 0}
   maxLineWidth: 1
@@ -137,7 +140,7 @@ LineRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: .5
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0

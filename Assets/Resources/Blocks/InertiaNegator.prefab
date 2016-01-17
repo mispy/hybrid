@@ -87,8 +87,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Inertia Negator
+  descriptionBody: Applies a uniform drag to the ship.
   blockLayer: 1
   canRotate: 0
   canFitInsideWall: 0
@@ -161,14 +161,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionHeader
-      value: '<size=16>Inertial Dampener</size>
-
-        <color="yellow">System</color>'
+      value: Inertia Negator
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionBody
-      value: Projects a gravitational field which returns ships to a local resting
-        state when perturbed. Helpful to avoid spinning wildly!
+      value: Applies a uniform drag to the ship.
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsActive

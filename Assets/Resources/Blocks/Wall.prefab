@@ -44,9 +44,7 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 100
   damageBuffer: 100
-  descriptionHeader: '<size=16>Interior Wall</size>
-
-    <color=grey>Structure</color>'
+  descriptionHeader: Interior Wall
   descriptionBody: A lightly armored metal wall, used for enclosing rooms.
   blockLayer: 0
   canRotate: 0
@@ -131,9 +129,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionHeader
-      value: '<size=16>Interior Wall</size>
-
-        <color=grey>Structure</color>'
+      value: Interior Wall
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionBody

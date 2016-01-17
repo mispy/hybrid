@@ -69,8 +69,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Torpedo Launcher
+  descriptionBody: Launches torpedoes.
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
@@ -214,14 +214,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionHeader
-      value: '<size=16>Torpedo Launcher</size>
-
-        <color="red">Weapon</color>'
+      value: Torpedo Launcher
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionBody
-      value: A heavy torpedo launcher. Fires fast-moving explosive projectiles which
-        only travel in a straight line.
+      value: Launches torpedoes.
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsActive

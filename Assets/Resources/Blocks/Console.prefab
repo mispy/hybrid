@@ -68,8 +68,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Console
+  descriptionBody: Used to control your ship.
   blockLayer: 1
   canRotate: 0
   canFitInsideWall: 0
@@ -156,14 +156,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionHeader
-      value: '<size=16>Navigation Console</size>
-
-        <color="lime">Console</color>'
+      value: Console
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionBody
-      value: Primary navigation console. Press "E" on one of these to control your
-        ship.
+      value: Used to control your ship.
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_IsActive

@@ -164,15 +164,19 @@ public static class Game {
             Game.playerShip = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
             save.ReadSaveable(Game.playerShip);
         }
+
+        Game.activeSector.Load();
+    }
+
+    public static void New() {
+        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        Game.activeSector.Load();
     }
 
     public static void Start() {
-        Game.Load();
-        return;
-
         Game.state.gameObject.SetActive(true);
-        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
-        Game.activeSector.Load();
+
+        Game.Load();
     }
 }
 

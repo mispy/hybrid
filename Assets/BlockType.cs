@@ -86,6 +86,12 @@ public class BlockType : MonoBehaviour {
 
     public BlockLayer blockLayer;
 
+    public Sprite sprite {
+        get {
+            return GetComponent<SpriteRenderer>().sprite;
+        }
+    }
+
     public bool canRotate = false;
     public bool canFitInsideWall = false;
 	public bool canBlockSight = false;

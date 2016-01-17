@@ -98,8 +98,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 50
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Thruster
+  descriptionBody: Moves the ship.
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
@@ -1748,6 +1748,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: maxHealth
       value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: Thruster
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: Moves the ship.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

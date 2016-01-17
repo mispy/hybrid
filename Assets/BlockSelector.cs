@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class BlockSelector : MonoBehaviour {
     public RectTransform blockDescriber;
     public BlockType selectedType;
-    List<Button> blockButtons = new List<Button>();
+    List<BlockButton> blockButtons = new List<BlockButton>();
 
     public void CreateButtons() {
         // Clear any existing content
@@ -16,24 +16,20 @@ public class BlockSelector : MonoBehaviour {
         }
 
         for (var i = 0; i < BlockType.All.Count; i++) {
-            var button = Pool.For("BlockButton").Attach<Button>(transform);
-
-            var j = i+1;
-            button.onClick.AddListener(() => SelectBlock(j));
-            blockButtons.Add(button);
-            
-            button.image.sprite = BlockType.All[i].GetComponent<SpriteRenderer>().sprite;
+            var button = Pool.For("BlockButton").Attach<BlockButton>(transform);
+            button.Initialize(BlockType.All[i]);
+            blockButtons.Add(button);            
 
             var text = button.GetComponentInChildren<Text>();
             text.text = (i+1).ToString();
         }
     }
-    
+
     public void OnEnable() {
         CreateButtons();
 
         if (selectedType == null)
-            SelectBlock(1);
+            SelectBlock(blockButtons[0].blockType);
     }
 
     /*public void Dismiss() {
@@ -43,24 +39,24 @@ public class BlockSelector : MonoBehaviour {
         }
     }*/
 
-    void SelectBlock(int i) {
-        selectedType = BlockType.All[i-1];
-        foreach (var button in blockButtons) button.image.color = Color.white;
-        blockButtons[i-1].image.color = new Color(151/255f, 234/255f, 144/255f, 1);
-
-        /*var header = blockDescriber.FindChild("HeaderText").GetComponent<Text>();
+    public void DescribeBlock(BlockType type) {
+        var header = blockDescriber.FindChild("HeaderText").GetComponent<Text>();
         var body = blockDescriber.FindChild("BodyText").GetComponent<Text>();
-        var icon = blockDescriber.GetComponentInChildren<Button>();
 
-        header.text = selectedType.descriptionHeader;
-        body.text = selectedType.descriptionBody;
-        icon.image.sprite = selectedType.GetComponent<SpriteRenderer>().sprite;*/
+        header.text = type.descriptionHeader;
+        body.text = type.descriptionBody;
+    }
+
+    public void SelectBlock(BlockType type) {
+        selectedType = type;
+        foreach (var button in blockButtons) button.button.image.color = Color.white;
+        DescribeBlock(selectedType);
     }
 
     void Update() {
         int i = Util.GetNumericKeyDown();
         if (i > 0 && i <= BlockType.All.Count) {
-            SelectBlock(i);
+            SelectBlock(blockButtons[i].blockType);
         }
     }
 }

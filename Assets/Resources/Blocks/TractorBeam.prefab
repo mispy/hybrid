@@ -75,8 +75,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Tractor Beam
+  descriptionBody: For grabbing stuff.
   blockLayer: 0
   canRotate: 1
   canFitInsideWall: 0
@@ -1750,6 +1750,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: playOnAwake
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: Tractor Beam
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: For grabbing stuff.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

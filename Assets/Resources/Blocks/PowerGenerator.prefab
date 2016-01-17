@@ -46,8 +46,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Power Generator
+  descriptionBody: Generates power.
   blockLayer: 1
   canRotate: 0
   canFitInsideWall: 0
@@ -203,6 +203,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SortingLayerID
       value: -484430309
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionHeader
+      value: Power Generator
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: descriptionBody
+      value: Generates power.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

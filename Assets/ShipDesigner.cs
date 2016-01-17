@@ -24,6 +24,11 @@ public class ShipDesigner : MonoBehaviour {
     }
 
     public void OnEnable() {        
+        if (Game.playerShip == null) {
+            gameObject.SetActive(false);
+            return;
+        }
+
         Game.shipControl.gameObject.SetActive(false);
 
         cursor = Pool.For("Blueprint").Attach<Blueprint>(transform);
@@ -60,8 +65,9 @@ public class ShipDesigner : MonoBehaviour {
     }
     
     public void OnDisable() {
-        Pool.Recycle(cursor.gameObject);
-        Game.shipControl.gameObject.SetActive(true);
+        if (cursor != null)
+            Pool.Recycle(cursor.gameObject);
+        //Game.shipControl.gameObject.SetActive(true);
         //Game.main.debugText.text = "";
         //Game.main.debugText.color = Color.white;
    //     Game.Unpause();

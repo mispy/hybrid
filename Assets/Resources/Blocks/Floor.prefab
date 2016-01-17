@@ -44,8 +44,8 @@ MonoBehaviour:
   scrapRequired: 30
   maxHealth: 10
   damageBuffer: 0
-  descriptionHeader: 
-  descriptionBody: 
+  descriptionHeader: Floor
+  descriptionBody: Ship structure that can be walked upon.
   blockLayer: 0
   canRotate: 0
   canFitInsideWall: 0
@@ -125,13 +125,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionHeader
-      value: '<size=16>Interior Floor</size>
-
-        <color=grey>Structure</color>'
+      value: Floor
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: descriptionBody
-      value: A basic metal floor tile. Can be traversed by crew.
+      value: Ship structure that can be walked upon.
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Sprite
