@@ -20,7 +20,7 @@ public class Explosive : PoolBehaviour
         rigid = GetComponent<Rigidbody>();
     }
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         if (initial) {
             writer.Write(rigid.velocity);
             writer.Write(originComp);
@@ -29,7 +29,7 @@ public class Explosive : PoolBehaviour
         writer.Write(shouldExplode);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         if (initial) {
             rigid.velocity = reader.ReadVector3();
             originComp = reader.ReadComponent<ProjectileLauncher>();

@@ -11,11 +11,11 @@ public class Shields : PoolBehaviour {
 	public float regenRate = 10f;
 	public bool isActive = false;
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         writer.Write(health);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         health = reader.ReadSingle();
         UpdateStatus();
         SendMessage("OnShieldsChange");

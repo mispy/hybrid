@@ -36,7 +36,7 @@ public class CrewBody : PoolBehaviour {
     public int maxHealth;
     public int health;
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         if (initial) {
             writer.Write(connectionId);
             return;
@@ -46,7 +46,7 @@ public class CrewBody : PoolBehaviour {
         writer.Write(maglockMoveBlockPos);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         if (initial) {
             connectionId = reader.ReadInt32();
             if (connectionId != -1)

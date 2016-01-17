@@ -185,6 +185,7 @@ public class ShipControl : MonoBehaviour {
         Game.activeSector.Unload();
         Game.activeSector.gameObject.SetActive(false);
         Game.jumpMap.gameObject.SetActive(true);
+        Game.Save();
         //Game.fadeOverlay.FadeIn(1f);
     }
 

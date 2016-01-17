@@ -128,7 +128,7 @@ public class SpaceNetwork : NetworkManager {
 
     static SpawnMessage MakeSpawnMessage(GameObject obj) {
         MemoryStream stream = new MemoryStream();
-        var writer = new ExtendedBinaryWriter(stream);
+        var writer = new MispyNetworkWriter(stream);
 
         var length = stream.Length;
         var nets = obj.GetComponents<PoolBehaviour>();
@@ -174,7 +174,7 @@ public class SpaceNetwork : NetworkManager {
         obj.transform.rotation = msg.rotation;
 
         var stream = new MemoryStream(msg.bytes);
-        var reader = new ExtendedBinaryReader(stream);
+        var reader = new MispyNetworkReader(stream);
 
         foreach (var net in obj.GetComponents<PoolBehaviour>()) {
             net.guid = reader.ReadGUID();
@@ -206,7 +206,7 @@ public class SpaceNetwork : NetworkManager {
             throw new ArgumentException(String.Format("Cannot sync {0} of {1} because it lacks a guid", net.GetType().Name, net.gameObject.name));        
         
         MemoryStream stream = new MemoryStream();
-        var writer = new ExtendedBinaryWriter(stream);
+        var writer = new MispyNetworkWriter(stream);
         net.OnSerialize(writer, false);
 
         if (stream.Length == 0) return;
@@ -235,7 +235,7 @@ public class SpaceNetwork : NetworkManager {
     public void OnSyncMessage(NetworkMessage netMsg) {
         var msg = netMsg.ReadMessage<SyncMessage>();
         var stream = new MemoryStream(msg.bytes);
-        var reader = new ExtendedBinaryReader(stream);
+        var reader = new MispyNetworkReader(stream);
 
         if (!nets.ContainsKey(msg.guid)) {
             //Debug.LogWarningFormat("Received message for unknown network object {0}", msg.guid);

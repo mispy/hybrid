@@ -24,14 +24,14 @@ public class SyncRigid : PoolBehaviour {
         rigid = GetComponent<Rigidbody>();
     }
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         if (rigid == null) return;
 
         writer.Write((Vector2)rigid.position);
         writer.Write(rigid.rotation.eulerAngles.z);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         if (rigid == null) return;
 
         if (!initial)

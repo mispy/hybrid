@@ -26,11 +26,11 @@ public class RotatingTurret : BlockComponent {
 		}
 	}
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         writer.Write(targetPos);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         targetPos = reader.ReadVector2();
         UpdateTarget();
     }

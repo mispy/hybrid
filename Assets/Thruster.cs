@@ -14,12 +14,12 @@ public class Thruster : BlockComponent {
         ps = GetComponentInChildren<ParticleSystem>();
     }
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         writer.Write(isFiring);
         writer.Write(isFiringAttitude);
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         isFiring = reader.ReadBoolean();
         isFiringAttitude = reader.ReadBoolean();
     }

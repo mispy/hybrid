@@ -47,17 +47,17 @@ public class ActiveSector : MonoBehaviour {
         Game.playerShip.gameObject.SetActive(true);
         objectives = Game.state.GetComponentsInChildren<IObjective>();
 
-        for (var i = 0; i < 20; i++) {
+        /*for (var i = 0; i < 20; i++) {
             var pos = new Vector2(Random.Range(-radius, radius), Random.Range(-radius, radius));
             var asteroidRadius = Random.Range(10, 15);
             if (Physics.OverlapSphere(pos, asteroidRadius*Tile.worldSize).Length == 0) {
                 Generate.Asteroid(pos, asteroidRadius);
             }
-        }
+        }*/
 
-        var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
-        ship.transform.position = new Vector2(radius, 0);
-        ((BoardObjective)objectives[0]).target = ship;
+        //var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
+        //ship.transform.position = new Vector2(radius, 0);
+        //((BoardObjective)objectives[0]).target = ship;
  //       var reactor = ship.blocks.Find<Reactor>().First();
  //       reactor.health = reactor.type.maxHealth/2.0f;
     }

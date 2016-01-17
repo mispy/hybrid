@@ -267,7 +267,7 @@ public class ExtendedBinaryWriter : BinaryWriter {
         Write((short)pos.y);
         Write((short)pos.z);
     }
-    
+
     public virtual void Write(Vector2 pos) {
         Write(pos.x);
         Write(pos.y);
@@ -300,6 +300,38 @@ public class ExtendedBinaryWriter : BinaryWriter {
 
     public virtual void Write(GUID guid) {
         Write(guid.value);
+    }        
+}
+
+public interface ISaveable {
+    void OnSave(SaveWriter save);
+    void OnLoad(SaveReader save);
+}
+
+public class SaveWriter : ExtendedBinaryWriter {
+    public SaveWriter(Stream output) : base(output) {
+
+    }
+
+    public virtual void Write(ISaveable obj) {
+        obj.OnSave(this);
+    }
+}
+
+public class SaveReader : ExtendedBinaryReader {
+    public SaveReader(Stream output) : base(output) {
+
+    }
+
+    public virtual void ReadSaveable(ISaveable obj) {
+        obj.OnLoad(this);
+    }
+}
+
+
+public class MispyNetworkWriter : ExtendedBinaryWriter {
+    public MispyNetworkWriter(Stream output) : base(output) {
+
     }
 
     public virtual void Write(PoolBehaviour net) {
@@ -362,6 +394,11 @@ public class ExtendedBinaryReader : BinaryReader {
         if (block.type.canRotate)
             block.facing = (Facing)ReadInt32();
         return block;
+    }        
+}
+
+public class MispyNetworkReader : ExtendedBinaryReader {
+    public MispyNetworkReader(Stream input) : base(input) {
     }
 
     public virtual GUID ReadGUID() {

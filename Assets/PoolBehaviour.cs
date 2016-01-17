@@ -34,8 +34,8 @@ public class PoolBehaviour : MonoBehaviour {
     public virtual void OnCreate() { }
     public virtual void OnRecycle() { }
 
-    public virtual void OnSerialize(ExtendedBinaryWriter writer, bool initial) { }
-    public virtual void OnDeserialize(ExtendedBinaryReader reader, bool initial) { }
+    public virtual void OnSerialize(MispyNetworkWriter writer, bool initial) { }
+    public virtual void OnDeserialize(MispyNetworkReader reader, bool initial) { }
 
 
     public void DestroyChildren() {

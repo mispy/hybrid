@@ -39,7 +39,7 @@ public class ShipEditor : Editor {
 }
 #endif
 
-public class Blockform : PoolBehaviour {
+public class Blockform : PoolBehaviour, ISaveable {
     [ReadOnlyAttribute]
     public Bounds localBounds = new Bounds();
     [ReadOnlyAttribute]
@@ -104,7 +104,7 @@ public class Blockform : PoolBehaviour {
 
     public List<BlockUpdate> blockUpdates = new List<BlockUpdate>();
 
-    public override void OnSerialize(ExtendedBinaryWriter binary, bool initial) {               
+    public override void OnSerialize(MispyNetworkWriter binary, bool initial) {               
         if (initial) {
             binary.Write(blocks.allBlocks.Count);
             foreach (var block in blocks.allBlocks) {
@@ -122,7 +122,7 @@ public class Blockform : PoolBehaviour {
         }
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader binary, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader binary, bool initial) {
         if (initial) {
             var count = binary.ReadInt32();
             for (var i = 0; i < count; i++) {
@@ -142,6 +142,21 @@ public class Blockform : PoolBehaviour {
                 blocks[blockPos] = block;
             }
         }
+    }
+
+    void ISaveable.OnSave(SaveWriter save) {
+        save.Write(blocks.allBlocks.Count);
+        foreach (var block in blocks.allBlocks) {
+            save.Write(block);
+        }                 
+    }
+
+    void ISaveable.OnLoad(SaveReader save) {
+        var count = save.ReadInt32();
+        for (var i = 0; i < count; i++) {
+            var block = save.ReadBlock();
+            blocks[block.pos, block.layer] = block;
+        }        
     }
 
 	public float width {

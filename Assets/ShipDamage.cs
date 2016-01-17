@@ -26,7 +26,7 @@ public class ShipDamage : PoolBehaviour {
 
     public HashSet<Block> blocksToUpdate = new HashSet<Block>();
 
-    public override void OnSerialize(ExtendedBinaryWriter writer, bool initial) {
+    public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         if (initial) {
             var damaged = new List<Block>();
             foreach (var block in form.blocks.allBlocks)               
@@ -49,7 +49,7 @@ public class ShipDamage : PoolBehaviour {
         }
     }
 
-    public override void OnDeserialize(ExtendedBinaryReader reader, bool initial) {
+    public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         var count = reader.ReadInt32();
         for (var i = 0; i < count; i++) {
             var pos = reader.ReadIntVector3();

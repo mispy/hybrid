@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using System;
+using System.IO;
 using System.Collections;
 using System.Linq;
 using System.Collections.Generic;
@@ -146,7 +147,29 @@ public static class Game {
         Time.timeScale = 1.0f;
     }
 
+    public static void Save() {
+        var path = Application.dataPath + "/Saves/player.ship";
+
+        using (var stream = new FileStream(path, FileMode.Create)) {
+            var save = new SaveWriter(stream);
+            save.Write(Game.playerShip);
+        }
+    }
+        
+    public static void Load() {
+        var path = Application.dataPath + "/Saves/player.ship";
+
+        using (var stream = new FileStream(path, FileMode.Open)) {
+            var save = new SaveReader(stream);
+            Game.playerShip = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
+            save.ReadSaveable(Game.playerShip);
+        }
+    }
+
     public static void Start() {
+        Game.Load();
+        return;
+
         Game.state.gameObject.SetActive(true);
         Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
         Game.activeSector.Load();
