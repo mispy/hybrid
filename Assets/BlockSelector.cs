@@ -24,9 +24,6 @@ public class BlockSelector : MonoBehaviour {
             var button = Pool.For(buttonPrefab).Attach<BlockSelectorButton>(transform);
             button.Initialize(type);
             blockButtons.Add(button);            
-
-            var text = button.GetComponentInChildren<Text>();
-            text.text = Game.inventory[type].ToString();
         }
     }
 
@@ -62,6 +59,12 @@ public class BlockSelector : MonoBehaviour {
         int i = Util.GetNumericKeyDown();
         if (i > 0 && i <= BlockType.All.Count) {
             SelectBlock(blockButtons[i].blockType);
+        }
+
+    
+        foreach (var button in blockButtons) {
+            var text = button.GetComponentInChildren<Text>();
+            text.text = Game.inventory[button.blockType].ToString();
         }
     }
 }
