@@ -6,7 +6,12 @@ using System.Collections.Generic;
 public class BlockSelector : MonoBehaviour {
     public RectTransform blockDescriber;
     public BlockType selectedType;
-    List<BlockButton> blockButtons = new List<BlockButton>();
+    List<BlockSelectorButton> blockButtons = new List<BlockSelectorButton>();
+    public GameObject buttonPrefab;
+
+    void Awake() {
+        buttonPrefab = Pool.RuntimePrefab(GetComponentInChildren<BlockSelectorButton>().gameObject);
+    }
 
     public void CreateButtons() {
         // Clear any existing content
@@ -16,7 +21,7 @@ public class BlockSelector : MonoBehaviour {
         }
 
         for (var i = 0; i < BlockType.All.Count; i++) {
-            var button = Pool.For("BlockButton").Attach<BlockButton>(transform);
+            var button = Pool.For(buttonPrefab).Attach<BlockSelectorButton>(transform);
             button.Initialize(BlockType.All[i]);
             blockButtons.Add(button);            
 

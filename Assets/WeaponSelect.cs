@@ -9,9 +9,13 @@ public class WeaponSelect : MonoBehaviour {
     List<BlockType> fireableTypes = new List<BlockType>();
     List<Button> blockButtons = new List<Button>();
 
+    GameObject buttonPrefab;
+
     void Awake() {
-        // clean up placeholder UI
+        // Clean up placeholder UI
         foreach (Transform child in transform) {
+            if (buttonPrefab == null)
+                buttonPrefab = Pool.RuntimePrefab(child.gameObject);
             Destroy(child.gameObject);
         }
     }
@@ -20,7 +24,7 @@ public class WeaponSelect : MonoBehaviour {
 		if (block.type.showInMenu && !fireableTypes.Contains(block.type)) {
 			fireableTypes.Add(block.type);
 			
-			var button = Pool.For("BlockButton").Attach<Button>(transform);
+			var button = Pool.For(buttonPrefab).Attach<Button>(transform);
 			blockButtons.Add(button);
 			
 			button.image.sprite = block.type.GetComponent<SpriteRenderer>().sprite;

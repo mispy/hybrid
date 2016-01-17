@@ -13,9 +13,15 @@ public class AbilityMenu : PoolBehaviour {
     Transform buttonsHolder;
     Button backButton;
     BlockAbility selected;
+    GameObject buttonPrefab;
 
     void Awake() {
         buttonsHolder = transform.Find("Buttons");
+        foreach (Transform child in buttonsHolder) {
+            buttonPrefab = Pool.RuntimePrefab(child.gameObject);
+            break;
+        }
+
         Clear();
             
         // Abilities are singleton objects that are activated and deactivated
@@ -37,7 +43,7 @@ public class AbilityMenu : PoolBehaviour {
             Destroy(child.gameObject);
         }
     }
-
+        
     public void SelectDefault() {
         SelectAbility(activeAbilities[0]);
     }
@@ -81,7 +87,7 @@ public class AbilityMenu : PoolBehaviour {
         i += 1;
 
         foreach (var ability in activeAbilities) {
-            var button = Pool.For("BlockButton").Attach<Button>(buttonsHolder);
+            var button = Pool.For(buttonPrefab).Attach<Button>(buttonsHolder);
             button.image.sprite = ability.GetComponent<SpriteRenderer>().sprite;
             buttons[ability] = button;
 

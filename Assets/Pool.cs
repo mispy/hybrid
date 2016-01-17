@@ -30,6 +30,14 @@ public class Pool {
     // Reverse-lookup prefabs from their instance ids
     public static SensibleDictionary<int, GameObject> prefabReverse = new SensibleDictionary<int, GameObject>();
 
+    // Creates a "prefab" from a template which is really
+    // just another scene object in the pool
+    public static GameObject RuntimePrefab(GameObject obj) {
+        var prefab = GameObject.Instantiate(obj);
+        prefab.transform.parent = Pool.holder.transform;
+        return prefab;
+    }
+
     public static GameObject GetPrefab(GameObject obj) {
         return prefabReverse[obj.GetInstanceID()];
     }
