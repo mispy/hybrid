@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BeamCannon : BlockComponent {
     public float damage;
@@ -36,10 +37,12 @@ public class BeamCannon : BlockComponent {
 
     void UpdateFiring() {
         var currentBeamPos = Game.mousePos;//Util.PathLerp(target.path, beamElapsed/beamDuration);
+        var originPoint = Util.TipPosition(block);
 
-        RaycastHit[] hits = Physics.SphereCastAll(Util.TipPosition(block), 2f, (Game.mousePos - Util.TipPosition(block)).normalized);
-        foreach (var hit in hits) {
-            if (hit.collider.attachedRigidbody != block.ship.rigidBody) {
+        RaycastHit[] hits = Physics.RaycastAll(Util.TipPosition(block), (Game.mousePos - Util.TipPosition(block)).normalized);
+
+        foreach (var hit in hits.OrderBy((hit) => Vector2.Distance(originPoint, hit.point))) {
+            if (hit.collider.attachedRigidbody != block.ship.rigidBody && hit.collider.GetComponent<Shields>() != null) {
                 currentBeamPos = hit.point;
                 break;
             }

@@ -105,6 +105,7 @@ public class ShipMind : PoolBehaviour {
         if (!NetworkServer.active) return;
 
         if (ship == Game.playerShip) return;
+        return;
 
         var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
 
