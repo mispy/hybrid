@@ -20,13 +20,13 @@ public class BlockSelector : MonoBehaviour {
             Destroy(child.gameObject);
         }
 
-        for (var i = 0; i < BlockType.All.Count; i++) {
+        foreach (var type in BlockType.All) {
             var button = Pool.For(buttonPrefab).Attach<BlockSelectorButton>(transform);
-            button.Initialize(BlockType.All[i]);
+            button.Initialize(type);
             blockButtons.Add(button);            
 
             var text = button.GetComponentInChildren<Text>();
-            text.text = (i+1).ToString();
+            text.text = Game.inventory[type].ToString();
         }
     }
 

@@ -286,6 +286,10 @@ public class ExtendedBinaryWriter : BinaryWriter {
         Write(quat.w);
     }
 
+    public virtual void Write(BlockType type) {
+        Write(Game.GetPrefabIndex(type.gameObject));
+    }
+
     public virtual void Write(Block block) {
         if (block == null) {
             Write(-1);
@@ -381,6 +385,11 @@ public class ExtendedBinaryReader : BinaryReader {
         var z = ReadSingle();
         var w = ReadSingle();
         return new Quaternion(x, y, z, w);
+    }
+
+    public virtual BlockType ReadBlockType() {
+        var prefabIndex = ReadInt32();
+        return Game.PrefabFromIndex(prefabIndex).GetComponent<BlockType>();
     }
 
     public virtual Block ReadBlock() {

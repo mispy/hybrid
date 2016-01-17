@@ -16,6 +16,37 @@ public static class SpaceLayer {
     public static LayerMask ShipBounds = LayerMask.GetMask(new string[] { "Bounds" });
 }
 
+public class BlockInventory : ISaveable {
+    Dictionary<BlockType, int> amounts = new Dictionary<BlockType, int>();
+
+    void ISaveable.OnSave(SaveWriter save) {
+        save.Write(amounts.Count);
+        foreach (var item in amounts) {
+            save.Write(item.Key);
+            save.Write(item.Value);
+        }
+    }
+
+    void ISaveable.OnLoad(SaveReader save) {
+        var total = save.ReadInt32();
+        for (var i = 0; i < total; i++) {
+            amounts[save.ReadBlockType()] = save.ReadInt32();
+        }
+    }
+
+    public int this[BlockType type] {
+        get {
+            if (!amounts.ContainsKey(type))
+                return 0;
+            return amounts[type];   
+        }
+
+        set {
+            amounts[type] = Mathf.Clamp(value, 0, 1000);
+        }
+    }        
+}
+
 #if UNITY_EDITOR
 [InitializeOnLoad]
 #endif
@@ -39,6 +70,7 @@ public static class Game {
     public static CameraControl cameraControl;
     public static FadeOverlay fadeOverlay;
     public static JumpMap jumpMap;
+    public static BlockInventory inventory = new BlockInventory();
     public static HashSet<CrewBody> players = new HashSet<CrewBody>();
 
     public static Blockform playerShip {
@@ -153,6 +185,7 @@ public static class Game {
         using (var stream = new FileStream(path, FileMode.Create)) {
             var save = new SaveWriter(stream);
             save.Write(Game.playerShip);
+            save.Write(Game.inventory);
         }
     }
         
@@ -163,6 +196,7 @@ public static class Game {
             var save = new SaveReader(stream);
             Game.playerShip = Pool.For("Blockform").Attach<Blockform>(Game.activeSector.contents);
             save.ReadSaveable(Game.playerShip);
+            save.ReadSaveable(Game.inventory);
         }
 
         Game.activeSector.Load();
