@@ -19,8 +19,18 @@ public class ShipDesigner : MonoBehaviour {
 
     public ConsoleLinker consoleLinker { get; private set; }
 
+    public Dictionary<Block, LineRenderer> blockingLines = new Dictionary<Block, LineRenderer>();
+
     public void Awake() {
         consoleLinker = GetComponentsInChildren<ConsoleLinker>(includeInactive: true).First();
+    }
+
+    void AddBlockingLine(Block block) {
+        var worldPos = designShip.BlockToWorldPos(block.pos);
+        var dir = designShip.transform.TransformDirection((Vector2)block.facing);
+        var line = Annotation.DrawLine(worldPos, worldPos + (Vector2)dir*10, Color.green, 0.05f);
+        line.transform.SetParent(cursor.transform);
+        blockingLines[block] = line;
     }
 
     public void OnEnable() {        
@@ -52,22 +62,35 @@ public class ShipDesigner : MonoBehaviour {
         }
         
         foreach (var block in designShip.blocks.frontBlockers) {
-            var worldPos = designShip.BlockToWorldPos(block.pos);
-            var dir = designShip.transform.TransformDirection((Vector2)block.facing);
-            var line = Annotation.DrawLine(worldPos, worldPos + (Vector2)dir*10, Color.green, 0.05f);
-            line.transform.SetParent(cursor.transform);
+            AddBlockingLine(block);
         }
 
  //       Game.Pause();
 
         InputEvent.For(KeyCode.C).Bind(this, () => consoleLinker.gameObject.SetActive(true));
         InputEvent.For(KeyCode.M).Bind(this, () => isMirroring = !isMirroring);
+
+        Game.playerShip.blocks.OnBlockAdded += OnBlockAdded;
+        Game.playerShip.blocks.OnBlockRemoved += OnBlockRemoved;
+    }
+
+    public void OnBlockAdded(Block block) {
+        if (block.type.canBlockFront)
+            AddBlockingLine(block);
+    }
+
+    public void OnBlockRemoved(Block block) {
+        if (block.type.canBlockFront) {
+            Destroy(blockingLines[block]);
+        }
     }
     
     public void OnDisable() {
         if (cursor != null)
             Pool.Recycle(cursor.gameObject);
-        //Game.shipControl.gameObject.SetActive(true);
+        Game.shipControl.gameObject.SetActive(true);
+        Game.playerShip.blocks.OnBlockAdded -= OnBlockAdded;
+        Game.playerShip.blocks.OnBlockRemoved -= OnBlockRemoved;
         //Game.main.debugText.text = "";
         //Game.main.debugText.color = Color.white;
    //     Game.Unpause();
