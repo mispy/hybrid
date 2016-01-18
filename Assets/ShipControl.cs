@@ -175,13 +175,13 @@ public class ShipControl : MonoBehaviour {
         //ship.rigidBody.detectCollisions = false;
         ship.rigidBody.velocity = ship.transform.up * 1000; 
         //Game.fadeOverlay.FadeOut(1f);
+        foreach (var block in Game.playerShip.blocks.allBlocks) {
+            block.health = block.type.maxHealth;
+        }
         Invoke("EndJump", 0.5f);
     }
 
     void EndJump() {
-        foreach (var block in Game.playerShip.blocks.allBlocks) {
-            block.health = block.type.maxHealth;
-        }
         Game.activeSector.Unload();
         Game.activeSector.gameObject.SetActive(false);
         Game.jumpMap.gameObject.SetActive(true);

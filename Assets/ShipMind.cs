@@ -119,7 +119,7 @@ public class ShipMind : PoolBehaviour {
     } 
 
     bool IsEnemy(Blockform otherShip) {
-        return otherShip != ship;
+        return otherShip != ship && otherShip == Game.playerShip;
     }
 
     void UpdateTractors() {

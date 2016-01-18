@@ -8,7 +8,6 @@ public class ShipCollision : PoolBehaviour {
     public Transform collidersHolder { get; private set; }
     public Dictionary<IntVector2, Collider> colliders { get; private set; }
 
-
     void Awake() {
         form = GetComponent<Blockform>();
     }

@@ -138,11 +138,11 @@ public class CrewBody : PoolBehaviour {
     bool CanMaglock(Blockform form) {
         var blockPos = form.WorldToBlockPos(transform.position);
         
-        if (form.blocks[blockPos, BlockLayer.Base] != null)
+        if (form.blocks.IsPresent(blockPos))
             return true;
         
         foreach (var bp in IntVector2.NeighborsWithDiagonal(blockPos)) {
-            if (form.blocks[bp, BlockLayer.Base] != null)
+            if (form.blocks.IsPresent(bp))
                 return true;
         }
         

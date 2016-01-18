@@ -32,7 +32,7 @@ public class Block {
     public override string ToString() {
         return String.Format("Block<{0}, {1}, {2}>", type.name, pos.x, pos.y);
     }
-    
+
     public static IEnumerable<Block> FindInRadius(Vector2 center, float radius) {
         var hits = Physics.OverlapSphere(center, radius);
         
@@ -173,14 +173,13 @@ public class Block {
             if (ship == null) return;
 
             if (_health == 0 && oldHealth != 0) {
-                // Block was destroyed
-                ship.blocks.BlockRemoved(this);
+                ship.blocks.BlockDestroyed(this);
             } else if (_health != 0 && oldHealth == 0) {
-                // Block was created
-                ship.blocks.BlockAdded(this);   
+                ship.blocks.BlockRepaired(this);   
             }
 
-            ship.blocks.HealthUpdate(this);                
+            if (_health != oldHealth) 
+                ship.blocks.HealthUpdate(this);                
         }
     }
 

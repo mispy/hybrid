@@ -21,7 +21,7 @@ public static class BlockPather {
 				if (seen[neighbor] == true || blocks.IsOutsideBounds(neighbor, allowBuffer: false)) continue;
 				seen[neighbor] = true;
 
-				if (blocks[neighbor, BlockLayer.Base] != null) {
+                if (blocks.IsPresent(neighbor)) {
 					filled[neighbor] = true;
 					heads.Push(neighbor);
 				}

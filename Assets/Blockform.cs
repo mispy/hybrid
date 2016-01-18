@@ -129,9 +129,6 @@ public class Blockform : PoolBehaviour, ISaveable {
                 var block = binary.ReadBlock();
                 blocks[block.pos, block.layer] = block;
             }        
-
-            blocks.OnBlockRemoved += OnBlockRemoved;
-            blocks.OnBlockAdded += OnBlockAdded;
         }
 
         if (!initial) {
@@ -213,7 +210,12 @@ public class Blockform : PoolBehaviour, ISaveable {
         box = Pool.For("BoundsCollider").Attach<BoxCollider>(transform);
         blockCompCache = new Dictionary<Type, HashSet<BlockComponent>>();
         box.isTrigger = true;
+        blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
+        blockComponentHolder.name = "BlockComponents";
         blocks = Pool.For("BlockMap").Attach<BlockMap>(transform);
+        blocks.OnBlockAdded += OnBlockAdded;
+        blocks.OnBlockRemoved += OnBlockRemoved;
+        blocks.ship = this;
 
         if (SpaceNetwork.isServer) {
             guid = GUID.Assign();
@@ -239,9 +241,6 @@ public class Blockform : PoolBehaviour, ISaveable {
     public bool hasStarted = false;
 
     void Start() {               
-        blockComponentHolder = Pool.For("Holder").Attach<Transform>(transform);
-        blockComponentHolder.name = "BlockComponents";
-
         Debug.Assert(blocks.allBlocks.Count() > 0, "Expected allBlocks.Count() > 0");
         foreach (var block in blocks.allBlocks) {
             OnBlockAdded(block);
@@ -289,9 +288,6 @@ public class Blockform : PoolBehaviour, ISaveable {
 
     public void OnBlockRemoved(Block oldBlock) {
         Profiler.BeginSample("OnBlockRemoved");
-        
-        //if (oldBlock.layer == BlockLayer.Base)
-        //    this.size -= 1;
 
         UpdateBlock(oldBlock);       
 
@@ -303,9 +299,8 @@ public class Blockform : PoolBehaviour, ISaveable {
 
             Pool.Recycle(oldBlock.gameObject);
         }
-
-
-        if (hasStarted && !deserializing) {
+            
+        if (hasStarted && !deserializing && blocks[oldBlock.blockPos] == null) {
             blockUpdates.Add(new BlockUpdate(oldBlock.blockPos, null));
             SpaceNetwork.Sync(this);
         }
@@ -341,6 +336,8 @@ public class Blockform : PoolBehaviour, ISaveable {
     }
 
     public void RealizeBlock(Block block) {
+        if (block.gameObject != null) return;
+
         Vector2 worldOrient = transform.TransformVector((Vector2)block.facing);
 
         var obj = Pool.For(block.type.gameObject).Attach<Transform>(blockComponentHolder, false);

@@ -44,6 +44,12 @@ public class DebugMenu : MonoBehaviour {
 		}
 	}
 
+    public void RepairShip() {
+        foreach (var block in Game.playerShip.blocks.allBlocks) {
+            block.health = block.type.maxHealth;
+        }
+    }
+
     public void ControlShip() {
         var form = Blockform.AtWorldPos(Game.mousePos);
         if (form != null) {
@@ -60,5 +66,6 @@ public class DebugMenu : MonoBehaviour {
         InputEvent.For(KeyCode.E).Bind(this, SpawnEnemy);
         InputEvent.For(KeyCode.V).Bind(this, ToggleVisibility);
         InputEvent.For(KeyCode.C).Bind(this, ControlShip);
+        InputEvent.For(KeyCode.R).Bind(this, RepairShip);
     }
 }

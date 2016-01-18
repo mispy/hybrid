@@ -2,7 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class BlockHealthBar : BlockComponent {
+public class BlockHealthBar : MonoBehaviour {
+    public Block block;
     LineRenderer line;
 
     void Awake() {
@@ -10,6 +11,10 @@ public class BlockHealthBar : BlockComponent {
         line.sortingLayerName = "UI";
         line.transform.position = transform.position;
         line.transform.rotation = transform.rotation;
+    }
+
+    void OnDestroy() {
+        Destroy(line);
     }
 
     public void OnHealthUpdate() {

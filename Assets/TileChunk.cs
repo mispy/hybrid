@@ -27,11 +27,7 @@ public class TileChunk : PoolBehaviour {
         meshUV = new Vector2[width*height*4];
         meshTriangles = new int[width*height*6];
     }
-    
-    void Start() {
-        StartCoroutine("MonitorMesh");
-    }
-    
+
     public IEnumerable<Vector3> GetVertices(Tile tile, int x, int y) {
         var lx = x * Tile.worldSize;
         var ly = y * Tile.worldSize;
@@ -89,8 +85,6 @@ public class TileChunk : PoolBehaviour {
         }
         
         set {
-            Profiler.BeginSample("TileChunk[x,y]");
-            
             var i = width * y + x;
             tileArray[i] = value;
             
@@ -99,19 +93,17 @@ public class TileChunk : PoolBehaviour {
             } else {
                 AttachToMesh(value, x, y, i);
             }
-            
-            QueueMeshUpdate();
-            Profiler.EndSample();
+
+            needMeshUpdate = true;
         }
     }    
-    
-    public void QueueMeshUpdate() {
-        needMeshUpdate = true;
+
+    void Update() {
+        if (!needMeshUpdate) return;
+        UpdateMesh();       
     }
     
     public void UpdateMesh() {
-        if (!needMeshUpdate) return;
-        
         mesh.Clear();
         mesh.vertices = meshVertices;
         mesh.triangles = meshTriangles;
@@ -120,12 +112,5 @@ public class TileChunk : PoolBehaviour {
         mesh.RecalculateNormals();    
         
         needMeshUpdate = false;
-    }
-
-    IEnumerator MonitorMesh() {
-        while (true) {
-            UpdateMesh();
-            yield return null;
-        }
     }
 }

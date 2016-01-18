@@ -35,7 +35,7 @@ public class ShipDamage : PoolBehaviour {
 
             writer.Write(damaged.Count);
             foreach (var block in damaged) {
-                writer.Write(block.pos);
+                writer.Write(block.blockPos);
                 writer.Write(block.health);
             }
         } else {
@@ -67,33 +67,33 @@ public class ShipDamage : PoolBehaviour {
     }
 
     public void OnHealthUpdate(Block block) {        
+        if (block.health == 0) {
+            BreakBlock(block);
+            return;
+        }
+
         if (block.gameObject == null && block.health == block.type.maxHealth)
             return;
         else if (block.gameObject == null)
             block.ship.RealizeBlock(block);
-        
+
         var healthBar = block.gameObject.GetComponent<BlockHealthBar>();
-        if (block.health == block.type.maxHealth) {
+        if (healthBar != null && block.health == block.type.maxHealth) {
             Destroy(healthBar);
             return;
-        }
+        }           
 
         if (healthBar == null) {
             healthBar = block.gameObject.AddComponent<BlockHealthBar>();
             healthBar.block = block;
         }
-        
+    
         healthBar.OnHealthUpdate();
-        
-        if (block.health <= 0) {
-            BreakBlock(block);
-        }
     }
 
     public void BreakBlock(Block block, bool checkBreaks = true) {
-        if (block == null) return;
-        blocks[block.pos, block.layer] = null;
-        
+        //blocks[block.pos, block.layer] = null;
+
         if (block.layer == BlockLayer.Base) {
             var top = blocks[block.pos, BlockLayer.Top];
             if (top != null)
@@ -109,7 +109,7 @@ public class ShipDamage : PoolBehaviour {
         
         
         /*var newShipObj = Pool.For("Ship").TakeObject();
-        newShipObj.transform.position = BlockToWorldPos(block.pos);
+        newShipObj.transfo`rm.position = BlockToWorldPos(block.pos);
         var newShip = newShipObj.GetComponent<Ship>();
         newShip.blocks[0, 0] = block;
         newShipObj.SetActive(true);

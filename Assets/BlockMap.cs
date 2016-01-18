@@ -45,7 +45,8 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     public Rect boundingRect = new Rect();
     [NonSerialized]
 	public HashSet<Block> allBlocks = new HashSet<Block>();
-
+    [NonSerialized]
+    public HashSet<Block> healthyBlocks = new HashSet<Block>();
 
 	// Values used for translating between 0,0 center to traditional
 	// array coordinates
@@ -75,11 +76,13 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     public event BlockRemovedHandler OnBlockRemoved = delegate {};
     public event HealthUpdateHandler OnHealthUpdate = delegate {};
 
-    public void BlockRemoved(Block oldBlock) {
+    public void BlockDestroyed(Block oldBlock) {
+        healthyBlocks.Remove(oldBlock);
         OnBlockRemoved(oldBlock);
     }
 
-    public void BlockAdded(Block newBlock) {
+    public void BlockRepaired(Block newBlock) {
+        healthyBlocks.Add(newBlock);
         OnBlockAdded(newBlock);
     }
 
@@ -159,6 +162,11 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         isPostDeserialize = false;
     }
 
+    public bool IsPresent(IntVector2 bp) {
+        var block = this[bp, BlockLayer.Base];
+        return block != null && block.health > 0;
+    }
+
     public bool IsCollisionEdge(IntVector2 bp) {
         var collisionLayer = CollisionLayer(bp);
 
@@ -176,7 +184,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 
     public int CollisionLayer(IntVector2 bp) {
 		var baseBlock = this[bp, BlockLayer.Base];
-		if (baseBlock == null)
+        if (baseBlock == null || baseBlock.health == 0)
 			return Block.spaceLayer;
 
 		var topBlock = this[bp, BlockLayer.Top];
@@ -379,6 +387,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
             blockCompCache[comp.GetType()].Remove(block);
         }
 		allBlocks.Remove(block);
+        healthyBlocks.Remove(block);
         if (block.type.canBlockFront)
             frontBlockers.Remove(block);
 
@@ -406,6 +415,8 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         }
 
 		allBlocks.Add(block);
+        if (block.health > 0)
+            healthyBlocks.Add(block);
 
         if (block.type.canBlockFront)
             frontBlockers.Add(block);
