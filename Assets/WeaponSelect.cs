@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class WeaponSelect : MonoBehaviour {
 	public BlockType selectedType { get; private set; }
@@ -10,44 +11,67 @@ public class WeaponSelect : MonoBehaviour {
     List<Button> blockButtons = new List<Button>();
 
     GameObject buttonPrefab;
+    bool needsRefresh = true;
 
     void Awake() {
-        // Clean up placeholder UI
         foreach (Transform child in transform) {
-            if (buttonPrefab == null)
-                buttonPrefab = Pool.RuntimePrefab(child.gameObject);
-            Destroy(child.gameObject);
+            buttonPrefab = Pool.RuntimePrefab(child.gameObject);
+            break;
+        }
+
+        Clear();
+    }
+
+    void Clear() {
+        fireableTypes.Clear();
+        blockButtons.Clear();
+        foreach (Transform child in transform) {
+            Pool.Recycle(child.gameObject);
         }
     }
 
+    void Refresh() {
+        Clear();
+
+        foreach (var type in BlockType.All) {
+            if (type.showInMenu && Game.playerShip.blocks.Has(type)) {
+                fireableTypes.Add(type);
+            }
+        }
+
+        foreach (var type in fireableTypes) {
+            var button = Pool.For(buttonPrefab).Attach<Button>(transform);
+            blockButtons.Add(button);
+
+            button.image.sprite = type.GetComponent<SpriteRenderer>().sprite;
+
+            var i = blockButtons.Count-1;           
+
+            var text = button.GetComponentInChildren<Text>();
+            text.text = (i+1).ToString();
+        }
+
+        needsRefresh = false;
+    }
+
 	void OnBlockAdded(Block block) {
-		if (block.type.showInMenu && !fireableTypes.Contains(block.type)) {
-			fireableTypes.Add(block.type);
-			
-			var button = Pool.For(buttonPrefab).Attach<Button>(transform);
-			blockButtons.Add(button);
-			
-			button.image.sprite = block.type.GetComponent<SpriteRenderer>().sprite;
-
-			var i = blockButtons.Count-1;			
-
-			var text = button.GetComponentInChildren<Text>();
-			text.text = (i+1).ToString();
-		}
+        needsRefresh = true;
 	}
-    
+
+    void OnBlockRemoved(Block block) {
+        needsRefresh = true;
+    }
+
     void OnEnable() {
-		foreach (var block in Game.playerShip.blocks.allBlocks)
-			OnBlockAdded(block);
+        Refresh();
 		Game.playerShip.blocks.OnBlockAdded += OnBlockAdded;
+        Game.playerShip.blocks.OnBlockRemoved += OnBlockRemoved;
         InputEvent.Numeric.Bind(this, OnNumericValue);
     }
 
-    public void OnDisable() {
-        foreach (var button in blockButtons)
-            Pool.Recycle(button.gameObject);
-        blockButtons.Clear();
-        fireableTypes.Clear();
+    void OnDisable() {
+        Game.playerShip.blocks.OnBlockAdded -= OnBlockAdded;
+        Game.playerShip.blocks.OnBlockRemoved -= OnBlockRemoved;
     }
     
     public void SelectBlocks(int i) {
@@ -71,5 +95,9 @@ public class WeaponSelect : MonoBehaviour {
         if (i > 0 && i <= blockButtons.Count) {
             SelectBlocks(i);
         }
+    }
+
+    void Update() {
+        if (needsRefresh) Refresh();   
     }
 }

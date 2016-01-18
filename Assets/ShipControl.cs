@@ -46,8 +46,10 @@ public class ShipControl : MonoBehaviour {
      }
 
     void DeselectBlock(Block block) {
-        if (block.type.isComplexBlock)
+        if (block.gameObject != null) {
             block.gameObject.SendMessage("OnBlockDeselected", SendMessageOptions.DontRequireReceiver);
+            Pool.Recycle(blockSelectors[block].gameObject);
+        }
 
         Pool.Recycle(blockSelectors[block].gameObject);
         blockSelectors.Remove(block);
@@ -75,7 +77,7 @@ public class ShipControl : MonoBehaviour {
         selectedBlocks.Add(block);
         blockSelectors[block] = selector;
 
-        if (block.type.isComplexBlock)
+        if (block.gameObject != null)
             block.gameObject.SendMessage("OnBlockSelected", SendMessageOptions.DontRequireReceiver);
 
 #if UNITY_EDITOR
@@ -226,6 +228,14 @@ public class ShipControl : MonoBehaviour {
         if (Input.GetKey(KeyCode.X)) {
             rigid.velocity = Vector3.zero;
             rigid.angularVelocity = Vector3.zero;
+        }
+
+        foreach (var block in selectedBlocks.ToList()) {
+            if (block.isBlueprint) {
+                DeselectBlock(block);
+                Game.abilityMenu.OnBlockSelectionUpdate();
+            }
+                
         }
     }
 }

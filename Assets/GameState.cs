@@ -220,10 +220,6 @@ public static class Game {
         Game.state.gameObject.SetActive(true);
 
         Game.Load();
-
-        foreach (var block in Game.playerShip.blocks.allBlocks) {
-            block.health = block.type.maxHealth/2f;
-        }
     }
 }
 

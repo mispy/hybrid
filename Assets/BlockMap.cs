@@ -76,14 +76,26 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     public event BlockRemovedHandler OnBlockRemoved = delegate {};
     public event HealthUpdateHandler OnHealthUpdate = delegate {};
 
-    public void BlockDestroyed(Block oldBlock) {
-        healthyBlocks.Remove(oldBlock);
-        OnBlockRemoved(oldBlock);
+    public void BlockDestroyed(Block block) {
+        blockTypeCache[block.type].Remove(block);
+        foreach (var comp in block.type.blockComponents) {
+            blockCompCache[comp.GetType()].Remove(block);
+        }
+        healthyBlocks.Remove(block);
+        OnBlockRemoved(block);
     }
 
-    public void BlockRepaired(Block newBlock) {
-        healthyBlocks.Add(newBlock);
-        OnBlockAdded(newBlock);
+    public void BlockRepaired(Block block) {
+        if (!blockTypeCache.ContainsKey(block.type))
+            blockTypeCache[block.type] = new HashSet<Block>();
+        blockTypeCache[block.type].Add(block);
+        foreach (var comp in block.type.blockComponents) {
+            if (!blockCompCache.ContainsKey(comp.GetType()))
+                blockCompCache[comp.GetType()] = new HashSet<Block>();
+            blockCompCache[comp.GetType()].Add(block);
+        }
+        healthyBlocks.Add(block);
+        OnBlockAdded(block);
     }
 
     public void HealthUpdate(Block block) {       
@@ -234,7 +246,11 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     public bool Has<T>() {
-        return Find<T>().Count() > 0;
+        return Find<T>().Any();
+    }
+
+    public bool Has(BlockType type) {
+        return Find(type).Any();
     }
 
 	public IEnumerable<IntVector2> FilledPositions {
@@ -391,7 +407,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         if (block.type.canBlockFront)
             frontBlockers.Remove(block);
 
-        if (OnBlockRemoved != null) OnBlockRemoved(block);        
+        OnBlockRemoved(block);        
     }
 
     void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
@@ -421,7 +437,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         if (block.type.canBlockFront)
             frontBlockers.Add(block);
 
-        if (OnBlockAdded != null) OnBlockAdded(block);
+        OnBlockAdded(block);
     }
 
     public void RemoveSurface(IntVector2 bp) {
