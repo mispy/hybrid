@@ -41,6 +41,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 0.001
+  value: 5
   scrapRequired: 30
   maxHealth: 100
   damageBuffer: 100
@@ -175,6 +176,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: damageBuffer
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

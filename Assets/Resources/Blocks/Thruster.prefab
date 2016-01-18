@@ -95,6 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 0
+  value: 1
   scrapRequired: 30
   maxHealth: 50
   damageBuffer: 0

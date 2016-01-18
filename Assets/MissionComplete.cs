@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MissionComplete : MonoBehaviour {
     Image blockImage;
@@ -12,7 +14,13 @@ public class MissionComplete : MonoBehaviour {
     }
 
     public void Reward(Difficulty difficulty) {
-        Reward(BlockType.FromId("PlasmaTurret"), 2);
+        var targetValue = 10*((int)difficulty*(int)difficulty);
+        foreach (var type in Util.Shuffle(BlockType.All)) {
+            if (type.value <= targetValue) {
+                Reward(type, Mathf.RoundToInt(targetValue/type.value));
+                break;
+            }
+        }
     }
 
     public void Reward(BlockType type, int amount) {

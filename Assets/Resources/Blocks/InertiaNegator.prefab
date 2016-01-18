@@ -84,6 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 0
+  value: 100
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
@@ -221,6 +222,10 @@ Prefab:
       value: 
       objectReference: {fileID: 11418598, guid: 159d7d1ab6f900c4f85581405eb2078e,
         type: 2}
+    - target: {fileID: 0}
+      propertyPath: value
+      value: 100
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140314}

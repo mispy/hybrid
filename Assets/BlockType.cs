@@ -37,6 +37,8 @@ public class BlockType : MonoBehaviour {
     [Tooltip("The mass value of each block is added to the mass of a ship rigidBody.")]
     public float mass;
 
+    public float value = 1f;
+
     static List<BlockType> all = new List<BlockType>();
     static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
 

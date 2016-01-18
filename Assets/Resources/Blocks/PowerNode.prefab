@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 0
+  value: 10
   scrapRequired: 30
   maxHealth: 1
   damageBuffer: 0
@@ -318,6 +319,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: descriptionBody
       value: Distributes power to other components.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

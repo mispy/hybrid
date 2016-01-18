@@ -46,7 +46,7 @@ public class TileRenderer : PoolBehaviour {
     }
 
     void OnBlockAdded(Block block) {
-        if (block.type.isComplexBlock && !block.isBlueprint)
+        if (block.type.isComplexBlock && block.ship != null)
             return;
 
         if (block.isBlueprint) return;
