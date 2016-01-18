@@ -40,7 +40,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagged: destroyer
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
+  tagged: hard
 --- !u!114 &11465782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -52,6 +59,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
   ship: {fileID: 0}
   maxX: 16
   minX: -17
@@ -1967,7 +1981,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: tagged
-      value: destroyer
+      value: hard
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

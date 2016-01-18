@@ -181,7 +181,7 @@ public class ShipDesigner : MonoBehaviour {
         isDragging = false;
 
         foreach (var block in cursor.blocks.allBlocks) {
-            if (Game.inventory[block.type] == 0)
+            if (Game.inventory[block.type] == 0 && !Game.debugMode)
                 continue;
             
             Game.inventory[block.type] -= 1;
@@ -203,7 +203,15 @@ public class ShipDesigner : MonoBehaviour {
         isRemoving = false;
 
         foreach (var block in cursor.blocks.allBlocks) {
-            Game.inventory[block.type] += 1;
+            var removedBlock = designShip.blocks[block.pos, block.layer];
+            if (removedBlock != null) {
+                Game.inventory[removedBlock.type] += 1;
+            }
+            if (block.layer == BlockLayer.Base) {
+                var topBlock = designShip.blocks[block.pos, BlockLayer.Top];
+                if (topBlock != null)
+                    Game.inventory[topBlock.type] += 1;
+            }
             designShip.blocks[block.pos, block.layer] = null;
         }
     }

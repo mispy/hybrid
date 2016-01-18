@@ -75,6 +75,12 @@ public static class Game {
     public static Transform tmpHolder;
     public static SpaceNetwork network;
 
+    public static bool debugMode {
+        get {
+            return Game.debugMenu.isActiveAndEnabled;
+        }
+    }
+
     public static Blockform playerShip {
         get { return Game.state.playerShip; }
         set { Game.state.playerShip = value; }

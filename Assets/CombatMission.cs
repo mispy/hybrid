@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public static class DifficultyExtensions {
     public static string ToFancyString(this Difficulty difficulty) {
@@ -36,5 +38,32 @@ public class CombatMission {
     }
 
     public void Activate() {
+        var desiredSize = 50*(int)difficulty;
+        var currentSize = 0;
+
+        var toUse = new List<ShipTemplate2>();
+
+        while (currentSize < desiredSize) {
+            var found = false;
+            var templates = Util.Shuffle(ShipTemplate2.All.ToList());
+
+            foreach (var template in templates) {
+                if (currentSize+template.blocks.baseSize <= desiredSize) {
+                    toUse.Add(template);
+                    currentSize += template.blocks.baseSize;
+                    found = true;
+                }
+            }
+
+            if (found == false) {
+                // We've filled as much as we can
+                break;
+            }
+        }
+
+        foreach (var template in toUse) {
+            var ship = Blockform.FromTemplate(template);
+            ship.transform.position = Game.activeSector.FindSpotFor(ship);
+        }
     }
 }

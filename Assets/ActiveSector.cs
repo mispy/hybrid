@@ -42,6 +42,10 @@ public class ActiveSector : MonoBehaviour {
 
     public IObjective[] objectives = new IObjective[] { };
 
+    public Vector2 FindSpotFor(Blockform ship) {
+        return new Vector2(Random.Range(-radius, radius), Random.Range(-radius, radius));
+    }
+
     public void Load() {
         Game.playerShip.transform.SetParent(contents);
         Game.playerShip.gameObject.SetActive(true);

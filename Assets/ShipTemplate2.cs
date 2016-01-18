@@ -19,6 +19,13 @@ public class ShipTemplate2 : PoolBehaviour {
         return byId[id];
     }
 
+    public static IEnumerable<ShipTemplate2> Tagged(string tag) {
+        foreach (var template in All) {
+            if (template.tags.Contains(tag))
+                yield return template;
+        }
+    }
+
     public static ShipTemplate2[] All {
         get {
             if (byId == null) LoadTemplates();

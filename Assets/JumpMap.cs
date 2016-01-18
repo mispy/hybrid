@@ -68,6 +68,7 @@ public class JumpMap : MonoBehaviour {
     void JumpTo(JumpBeacon beacon) {
         Game.jumpMap.gameObject.SetActive(false);
         Game.activeSector.gameObject.SetActive(true);
+        beacon.mission.Activate();
         var ship = Game.playerShip;
         var targetPosition = new Vector2(0, 50);
         var duration = 0.5f;
