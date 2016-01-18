@@ -10,7 +10,7 @@ public class ObjectivesUI : MonoBehaviour {
             lineTemplate = GameObject.Instantiate(child.gameObject);
             break;
         }
-        InvokeRepeating("UpdateObjectives", 0f, 1f);
+        InvokeRepeating("UpdateObjectives", 0f, 0.5f);
     }
 
     public void UpdateObjectives() {

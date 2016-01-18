@@ -70,6 +70,7 @@ public static class Game {
     public static CameraControl cameraControl;
     public static FadeOverlay fadeOverlay;
     public static JumpMap jumpMap;
+    public static MissionComplete missionComplete;
     public static BlockInventory inventory = new BlockInventory();
     public static HashSet<CrewBody> players = new HashSet<CrewBody>();
     public static Transform tmpHolder;
@@ -243,6 +244,7 @@ public class GameState : MonoBehaviour {
         Game.cameraControl = GetComponentsInChildren<CameraControl>(includeInactive: true).First();
         Game.fadeOverlay = GetComponentsInChildren<FadeOverlay>(includeInactive: true).First();
         Game.jumpMap = GetComponentsInChildren<JumpMap>(includeInactive: true).First();
+        Game.missionComplete = GetComponentsInChildren<MissionComplete>(includeInactive: true).First();
         Game.state = this;
         Game.tmpHolder = Game.state.tmpHolder;
     }

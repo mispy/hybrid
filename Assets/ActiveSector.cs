@@ -40,7 +40,7 @@ public class ActiveSector : MonoBehaviour {
         return pos.magnitude > radius;
     }
 
-    public IObjective[] objectives = new IObjective[] { };
+    public List<IObjective> objectives = new List<IObjective>();
 
     public Vector2 FindSpotFor(Blockform ship) {
         return new Vector2(Random.Range(-radius, radius), Random.Range(-radius, radius));
@@ -49,7 +49,6 @@ public class ActiveSector : MonoBehaviour {
     public void Load() {
         Game.playerShip.transform.SetParent(contents);
         Game.playerShip.gameObject.SetActive(true);
-        objectives = Game.state.GetComponentsInChildren<IObjective>();
 
         /*for (var i = 0; i < 20; i++) {
             var pos = new Vector2(Random.Range(-radius, radius), Random.Range(-radius, radius));
@@ -72,6 +71,7 @@ public class ActiveSector : MonoBehaviour {
         blockforms.Clear();
         Pool.Recycle(transients.gameObject);
         Pool.Recycle(contents.gameObject);
+        objectives.Clear();
     }
 
 }

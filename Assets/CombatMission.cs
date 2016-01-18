@@ -61,9 +61,13 @@ public class CombatMission {
             }
         }
 
+        var enemyShips = new List<Blockform>();
         foreach (var template in toUse) {
             var ship = Blockform.FromTemplate(template);
             ship.transform.position = Game.activeSector.FindSpotFor(ship);
+            enemyShips.Add(ship);
         }
+     
+        Game.activeSector.objectives.Add(new DefeatObjective(difficulty, enemyShips));
     }
 }
