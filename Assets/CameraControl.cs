@@ -50,11 +50,11 @@ public class CameraControl : MonoBehaviour {
 			ZoomOut();
 		}
 
-		if (Input.GetAxis("Mouse ScrollWheel") > 0) {
+		/*if (Input.GetAxis("Mouse ScrollWheel") > 0) {
 			ZoomIn();
 		} else if (Input.GetAxis("Mouse ScrollWheel") < 0) {
 			ZoomOut();
-		}
+		}*/
       
 		camera.transform.rotation = locked.transform.rotation;
 		camera.transform.SetParent(locked);

@@ -72,9 +72,9 @@ public class JumpMap : MonoBehaviour {
         var ship = Game.playerShip;
         var targetPosition = new Vector2(0, 50);
         var duration = 0.5f;
-        Game.cameraControl.Lock(Game.activeSector.contents);
-        Game.mainCamera.orthographicSize = 256;
-        Game.MoveCamera(targetPosition);
+        Game.cameraControl.Lock(Game.localPlayer.transform);
+ //       Game.cameraControl.Lock(Game.activeSector.contents);
+ //       Game.MoveCamera(targetPosition);
         Game.activeSector.Load();
 
         ship.rigidBody.velocity = Vector2.up * 1000;

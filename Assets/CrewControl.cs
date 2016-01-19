@@ -2,12 +2,12 @@
 using System.Collections;
 
 public class CrewControl : MonoBehaviour {
-    CrewBody crew;
-    Player player;
+    CrewBody crew {
+        get { return Game.localPlayer.crew; }
+    }
 
     public void OnEnable() {
-        crew = GetComponentInParent<CrewBody>();
-        player = crew.GetComponent<Player>();
+        Game.mainCamera.orthographicSize = 4;
 
         InputEvent.For(KeyCode.W).Bind(this, OnMoveForward, true);
         InputEvent.For(KeyCode.A).Bind(this, OnMoveLeft, true);
@@ -18,12 +18,9 @@ public class CrewControl : MonoBehaviour {
 
 
     public void OnToggleControl() {
-        if (Game.shipControl.isActiveAndEnabled) { 
-            Game.shipControl.gameObject.SetActive(false);
-        } else {
-            Game.playerShip = crew.maglockShip;
-            Game.shipControl.gameObject.SetActive(true);
-        }
+        Game.playerShip = crew.maglockShip;
+        Game.shipControl.gameObject.SetActive(true);
+        gameObject.SetActive(false);
     }
 
     public void OnMoveForward() {

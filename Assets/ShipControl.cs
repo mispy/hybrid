@@ -18,10 +18,6 @@ public class ShipControl : MonoBehaviour {
     public HashSet<Block> selectedBlocks = new HashSet<Block>();
     public Dictionary<Block, Transform> blockSelectors = new Dictionary<Block, Transform>();
 
-    public void Awake() {
-        gameObject.SetActive(false);
-    }
-
     void DeselectCrew() {
         if (selectedCrew == null) return;
 
@@ -157,6 +153,8 @@ public class ShipControl : MonoBehaviour {
     }
 
 	void OnEnable() {
+        Game.mainCamera.orthographicSize = 32;
+
         InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
         InputEvent.For(MouseButton.Right).Bind(this, OnRightClick);
         InputEvent.For(Keybind.ForwardThrust).Bind(this, OnForwardThrust, true);
@@ -203,6 +201,7 @@ public class ShipControl : MonoBehaviour {
 
     public void OnExitControl() {
         Game.shipControl.gameObject.SetActive(false);
+        Game.crewControl.gameObject.SetActive(true);
     }
 
     // Update is called once per frame

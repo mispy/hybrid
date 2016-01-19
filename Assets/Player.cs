@@ -12,6 +12,5 @@ public class Player : NetworkBehaviour {
     public void Start() {
         Game.localPlayer = this;        
         Game.cameraControl.Lock(transform);
-        gameObject.AddComponent<CrewControl>();
     }
 }

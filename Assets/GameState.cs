@@ -60,6 +60,7 @@ public static class Game {
     public static Vector2 mousePos;
     public static ActiveSector activeSector;
     public static ShipControl shipControl;
+    public static CrewControl crewControl;
     public static AbilityMenu abilityMenu;
     public static ShipDesigner shipDesigner;
     public static GameObject leaveSectorMenu;
@@ -231,9 +232,15 @@ public class GameState : MonoBehaviour {
     public Blockform playerShip;
     public Transform tmpHolder;
 
+    public T GetSingleton<T>() {
+        // for brevity
+        return GetComponentsInChildren<T>(includeInactive: false).First();
+    }
+
     public void UpdateRefs() {
         Game.activeSector = GetComponentsInChildren<ActiveSector>(includeInactive: true).First();
         Game.shipControl = GetComponentsInChildren<ShipControl>(includeInactive: true).First();
+        Game.crewControl = GetSingleton<CrewControl>();
         Game.abilityMenu = GetComponentsInChildren<AbilityMenu>(includeInactive: true).First();
         Game.shipDesigner = GetComponentsInChildren<ShipDesigner>(includeInactive: true).First();
         Game.leaveSectorMenu = GameObject.Find("LeavingSector");
