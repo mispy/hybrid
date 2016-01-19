@@ -1,0 +1,5905 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &119948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 457416}
+  - 114: {fileID: 11459244}
+  - 114: {fileID: 11404408}
+  m_Layer: 0
+  m_Name: Battlecruiser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &457416
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119948}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11404408
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
+  ship: {fileID: 0}
+  maxX: 16
+  minX: -16
+  maxY: 14
+  minY: -16
+  width: 33
+  height: 31
+  baseSize: 778
+  blockData:
+  - pos:
+      x: 5
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -3
+    type: {fileID: 11422968, guid: 82c2b5630e42c6f449c9459e2fc3730f, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -5
+      y: 2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -3
+    type: {fileID: 11422968, guid: 82c2b5630e42c6f449c9459e2fc3730f, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 2
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 0
+    type: {fileID: 11422968, guid: 82c2b5630e42c6f449c9459e2fc3730f, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -2
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 0
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 0
+    type: {fileID: 11422968, guid: 82c2b5630e42c6f449c9459e2fc3730f, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -1
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 0
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 0
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 0
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 7
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: -1
+    layer: 1
+  - pos:
+      x: 0
+      y: 13
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: 1
+    layer: 1
+  - pos:
+      x: -3
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 3
+    type: {fileID: 11411260, guid: 8c7f5bf0d3cf87e43bf73a4e83953811, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -3
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 8
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: 8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 3
+    type: {fileID: 11452616, guid: 58160c6026eb188449e87fa70eb4380a, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -10
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -5
+    type: {fileID: 11452616, guid: 58160c6026eb188449e87fa70eb4380a, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -12
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -4
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -10
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 0
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -10
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -2
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -11
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -6
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 0
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 1
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 3
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 4
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 5
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -7
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -1
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -13
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 1
+    type: {fileID: 11452616, guid: 58160c6026eb188449e87fa70eb4380a, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 11
+      y: -1
+    type: {fileID: 11452616, guid: 58160c6026eb188449e87fa70eb4380a, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -13
+      y: 5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 0
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -3
+    type: {fileID: 11452616, guid: 58160c6026eb188449e87fa70eb4380a, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -10
+      y: 2
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -10
+      y: -6
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -9
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 0
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -1
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -2
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -3
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -4
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: 7
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: 6
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 1
+    type: {fileID: 11411260, guid: 8c7f5bf0d3cf87e43bf73a4e83953811, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -11
+      y: -1
+    type: {fileID: 11411260, guid: 8c7f5bf0d3cf87e43bf73a4e83953811, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -11
+      y: -3
+    type: {fileID: 11411260, guid: 8c7f5bf0d3cf87e43bf73a4e83953811, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -11
+      y: -5
+    type: {fileID: 11411260, guid: 8c7f5bf0d3cf87e43bf73a4e83953811, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 10
+      y: -6
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 10
+      y: -4
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 10
+      y: -2
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 10
+      y: 0
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 10
+      y: 2
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -6
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: -12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -7
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -9
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: 1
+    layer: 1
+  - pos:
+      x: -2
+      y: -11
+    type: {fileID: 11436376, guid: d479f6a8cee99434d90202ab60b5cdcc, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 2
+      y: -11
+    type: {fileID: 11436376, guid: d479f6a8cee99434d90202ab60b5cdcc, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -4
+      y: -11
+    type: {fileID: 11436376, guid: d479f6a8cee99434d90202ab60b5cdcc, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 4
+      y: -11
+    type: {fileID: 11436376, guid: d479f6a8cee99434d90202ab60b5cdcc, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -3
+      y: -11
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 3
+      y: -11
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -8
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -9
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -10
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -8
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -9
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -9
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 9
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 8
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -15
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -14
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -13
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -12
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -11
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -14
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -15
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -12
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -15
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -15
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -14
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -16
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -14
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -15
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 12
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -16
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -15
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: -14
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 15
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 14
+      y: -10
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -11
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -12
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 16
+      y: -13
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -1
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -2
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -3
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -7
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -6
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -5
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: -4
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 7
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 6
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 5
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 4
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 3
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 2
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 1
+      y: -14
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -2
+    layer: 0
+  - pos:
+      x: 0
+      y: -13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -4
+      y: -13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 4
+      y: -13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 7
+      y: -13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -7
+      y: -13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -7
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -6
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -5
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -4
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -3
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 3
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 4
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 5
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 6
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 7
+      y: 14
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -14
+      y: 5
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -14
+      y: 3
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -14
+      y: 1
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -14
+      y: -1
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -14
+      y: -3
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -14
+      y: -5
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: 14
+      y: 5
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: 3
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: 1
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: -1
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: -3
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: -5
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: -9
+      y: 10
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -5
+      y: 13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 5
+      y: 13
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 13
+      y: 4
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 13
+      y: 0
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 13
+      y: -4
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 13
+      y: -7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -13
+      y: 4
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -13
+      y: 0
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -13
+      y: -4
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -9
+      y: 9
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -9
+      y: 8
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: 9
+      y: 10
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 9
+      y: 9
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 9
+      y: 8
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 12
+      y: 7
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 7
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -10
+      y: 7
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 11
+      y: 7
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 10
+      y: 7
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 6
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -8
+      y: 9
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 8
+      y: 9
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 11
+      y: 6
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 9
+      y: 11
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 9
+      y: 12
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: -9
+      y: 11
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -9
+      y: 12
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: -8
+      y: 11
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 8
+      y: 11
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+--- !u!114 &11459244
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
+  tagged: 
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 119948}
+  m_IsPrefabParent: 1

@@ -7,7 +7,7 @@ public class CrewControl : MonoBehaviour {
     }
 
     public void OnEnable() {
-        Game.mainCamera.orthographicSize = 4;
+//        Game.mainCamera.orthographicSize = 4;
 
         InputEvent.For(KeyCode.W).Bind(this, OnMoveForward, true);
         InputEvent.For(KeyCode.A).Bind(this, OnMoveLeft, true);

@@ -38,7 +38,7 @@ public class CombatMission {
     }
 
     public void Activate() {
-        var desiredSize = 50*(int)difficulty;
+        var desiredSize = 50*((int)difficulty*(int)difficulty);
         var currentSize = 0;
 
         var toUse = new List<ShipTemplate2>();

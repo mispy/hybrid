@@ -153,7 +153,7 @@ public class ShipControl : MonoBehaviour {
     }
 
 	void OnEnable() {
-        Game.mainCamera.orthographicSize = 32;
+//        Game.mainCamera.orthographicSize = 32;
 
         InputEvent.For(MouseButton.Left).Bind(this, OnLeftClick);
         InputEvent.For(MouseButton.Right).Bind(this, OnRightClick);
