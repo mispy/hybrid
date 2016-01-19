@@ -9,6 +9,7 @@ public class Explosive : PoolBehaviour
 {
     public float explosionForce = 0.001f;
     public float explosionRadius = 2f;
+    public float damageAmount = 10f;
     [HideInInspector]
     public Rigidbody rigid;
 	public GameObject explosionPrefab;
@@ -101,7 +102,7 @@ public class Explosive : PoolBehaviour
             var shields = col.gameObject.GetComponent<Shields>();
             if (shields != null) {
                 shielded.Add(col.attachedRigidbody);
-                shields.TakeDamage(1f);
+                shields.TakeDamage(damageAmount);
             }
         }
 
@@ -123,7 +124,7 @@ public class Explosive : PoolBehaviour
             if (block.IsDestroyed) continue;
 
             var startPos = block.ship.WorldToBlockPos(rigid.position);
-            var damage = 10f;
+            var damage = damageAmount;
             foreach (var pos in Util.LineBetween(startPos, block.pos)) {
                 foreach (var between in block.ship.blocks.BlocksAtPos(pos)) {
                     if (between != block)

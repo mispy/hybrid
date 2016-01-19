@@ -8,7 +8,7 @@ public class Shields : PoolBehaviour {
 
 	public float maxHealth = 10000f;
 	public float health = 10000f;
-	public float regenRate = 10f;
+	public float regenRate = 100f;
 	public bool isActive = false;
 
     public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
