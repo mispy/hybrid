@@ -29,6 +29,7 @@ public enum Difficulty {
     Hard=4,
     VeryHard=5
 }
+       
 
 public class CombatMission {
     public Difficulty difficulty;

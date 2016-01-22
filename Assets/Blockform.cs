@@ -278,6 +278,9 @@ public class Blockform : PoolBehaviour, ISaveable {
 		var sideCount = new Dictionary<Facing, int>();
 		sideCount[Facing.up] = 0;
 		foreach (var launcher in GetBlockComponents<ProjectileLauncher>()) {
+            if (!launcher.charger.isReady)
+                continue;
+            
 			if (!sideCount.ContainsKey(launcher.block.facing))
 				sideCount[launcher.block.facing] = 0;
 			sideCount[launcher.block.facing] += 1;
