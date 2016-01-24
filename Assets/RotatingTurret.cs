@@ -15,6 +15,7 @@ public class RotatingTurret : BlockComponent {
 	public bool isBlocked { get; private set; }
     [HideInInspector]
     public bool showLine = false;
+    CooldownCharger charger;
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
@@ -36,12 +37,14 @@ public class RotatingTurret : BlockComponent {
     }
 	
 	void Awake() {       
+        charger = GetComponent<CooldownCharger>();
+
         dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(transform);
         dottedLine.transform.position = TipPosition;
         dottedLine.gameObject.SetActive(true);
 		dottedLine.SetWidth(0.5f, 0.5f);
         dottedLine.sortingLayerName = "UI";
-        dottedLine.enabled = true;
+        dottedLine.enabled = true;                
 		
 		RecalcCenterPoint();
 		form.blocks.OnBlockAdded += OnBlockAdded;
@@ -79,7 +82,7 @@ public class RotatingTurret : BlockComponent {
         
         isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.2f);
         
-        if (!isBlocked && showLine) {
+        if (!isBlocked && showLine && charger.isReady) {
             dottedLine.enabled = true;
             var p1 = transform.InverseTransformPoint(TipPosition);
             var p2 = transform.InverseTransformPoint(targetPos);

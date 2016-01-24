@@ -84,6 +84,7 @@ MonoBehaviour:
   isFiring: 0
   isFiringAttitude: 0
   isAfterburning: 0
+  afterburnerCooldown: 0
 --- !u!114 &11493866
 MonoBehaviour:
   m_ObjectHideFlags: 1

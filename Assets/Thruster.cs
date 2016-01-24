@@ -88,13 +88,13 @@ public class Thruster : BlockComponent {
 
     void UpdateForce(float deltaTime) {
         if (isFiring) {
-            var force = deltaTime*100f;
+            var force = deltaTime*10f;
             if (isAfterburning)
                 force *= 5f;            
             form.rigidBody.AddForce(-transform.up * force);
         } else if (isFiringAttitude) {
             var dist = transform.localPosition - form.centerOfMass;
-            var force = deltaTime*200f;
+            var force = deltaTime*20f;
             if (isAfterburning)
                 force *= 5f;
             if (dist.x > 0) {

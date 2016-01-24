@@ -43,7 +43,7 @@ MonoBehaviour:
   mass: 0.001
   value: 5
   scrapRequired: 30
-  maxHealth: 100
+  maxHealth: 10
   damageBuffer: 100
   descriptionHeader: Interior Wall
   descriptionBody: A lightly armored metal wall, used for enclosing rooms.
@@ -171,7 +171,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 100
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: damageBuffer
