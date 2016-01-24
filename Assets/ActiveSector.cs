@@ -30,7 +30,7 @@ public class ActiveSector : MonoBehaviour {
 
     public float radius {
         get {
-            return 100f;
+            return 200f;
         }
     }
 
@@ -72,6 +72,16 @@ public class ActiveSector : MonoBehaviour {
         Pool.Recycle(transients.gameObject);
         Pool.Recycle(contents.gameObject);
         objectives.Clear();
+    }
+
+    void FixedUpdate() {
+        foreach (var ship in Game.activeSector.blockforms) {
+            if (ship.transform.position.magnitude > radius) {
+                var towardsCenter = (Vector3.zero - ship.transform.position).normalized;
+                var factor = ship.transform.position.magnitude - radius;
+                ship.rigidBody.AddForce(towardsCenter * factor * 10 * Time.fixedDeltaTime);
+            }
+        }
     }
 
 }
