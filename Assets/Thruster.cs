@@ -9,6 +9,8 @@ public class Thruster : BlockComponent {
 
     public bool isFiring = false;
     public bool isFiringAttitude = false;
+    public bool isAfterburning = false;
+    public float afterburnerCooldown = 0f;
 
     void Start() {
         ps = GetComponentInChildren<ParticleSystem>();
@@ -22,6 +24,21 @@ public class Thruster : BlockComponent {
     public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         isFiring = reader.ReadBoolean();
         isFiringAttitude = reader.ReadBoolean();
+    }
+
+    public void Afterburn() {
+        if (isAfterburning || afterburnerCooldown > 0f)
+            return;
+        
+        isAfterburning = true;
+        ps.startSize *= 2.5f;
+        Invoke("StopAfterburn", 1f);
+    }
+
+    public void StopAfterburn() {
+        ps.startSize /= 2.5f;
+        isAfterburning = false;
+        afterburnerCooldown = 5f;
     }
     
     public void Fire() {        
@@ -64,15 +81,22 @@ public class Thruster : BlockComponent {
         if (isFiring || isFiringAttitude) {
             ps.Emit(1);
         }
+
+        if (afterburnerCooldown > 0f)
+            afterburnerCooldown -= Time.deltaTime;
     }
 
     void UpdateForce(float deltaTime) {
         if (isFiring) {
-            form.rigidBody.AddForce(-transform.up * deltaTime * 100f);
-        } else if (isFiringAttitude) {            
+            var force = deltaTime*100f;
+            if (isAfterburning)
+                force *= 5f;            
+            form.rigidBody.AddForce(-transform.up * force);
+        } else if (isFiringAttitude) {
             var dist = transform.localPosition - form.centerOfMass;
             var force = deltaTime*200f;
-            
+            if (isAfterburning)
+                force *= 5f;
             if (dist.x > 0) {
                 form.rigidBody.AddRelativeTorque(Vector3.forward * force);
             } else {

@@ -165,6 +165,7 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(Keybind.TurnRight).Bind(this, OnTurnRight, true);       
         InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
         InputEvent.For(Keybind.Jump).Bind(this, OnJump);
+        InputEvent.For(KeyCode.Tab).Bind(this, OnAfterburn);
 
         InputEvent.For(KeyCode.Space).Bind(this, OnExitControl);
 	}
@@ -202,6 +203,12 @@ public class ShipControl : MonoBehaviour {
     public void OnExitControl() {
         Game.shipControl.gameObject.SetActive(false);
         Game.crewControl.gameObject.SetActive(true);
+    }
+
+    public void OnAfterburn() {
+        foreach (var thruster in ship.GetBlockComponents<Thruster>()) {
+            thruster.Afterburn();
+        }
     }
 
     // Update is called once per frame
