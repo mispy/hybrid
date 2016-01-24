@@ -14,6 +14,16 @@ public class CrewControl : MonoBehaviour {
         InputEvent.For(KeyCode.D).Bind(this, OnMoveRight, true);
         InputEvent.For(KeyCode.S).Bind(this, OnMoveDown, true);
         InputEvent.For(KeyCode.Space).Bind(this, OnToggleControl);
+        InputEvent.For(MouseButton.Left).Bind(this, OnRepair, true);
+    }
+
+    public void OnRepair() {
+        foreach (var block in Block.AtWorldPos(Game.mousePos)) {
+            if (!block.isDamaged) return;
+            Annotation.DrawLine(crew.transform.position, block.gameObject.transform.position, Color.blue, 0.5f);
+            block.health += 5*Time.deltaTime;
+            break;
+        }
     }
 
 

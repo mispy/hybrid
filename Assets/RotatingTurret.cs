@@ -23,8 +23,9 @@ public class RotatingTurret : BlockComponent {
     Vector2 targetPos;
 
 	public Vector2 TipPosition {
-		get {
-			return (Vector2)transform.TransformPoint(Vector2.up*Tile.worldSize);
+		get {            
+            var point = (Vector2)transform.TransformPoint(Vector2.up*Tile.worldSize);
+            return point;
 		}
 	}
 
@@ -82,7 +83,7 @@ public class RotatingTurret : BlockComponent {
         var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
         transform.rotation = targetRotation;
         
-        isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.3f);
+        isBlocked = Util.TurretBlocked(form, TipPosition, targetPos, 0.3f);
         
         if (!isBlocked && showLine && charger.isReady) {
             dottedLine.enabled = true;
@@ -107,5 +108,9 @@ public class RotatingTurret : BlockComponent {
 		targetPos = transform.position + (pos - form.transform.TransformPoint(centerPoint));
         UpdateTarget();        
         SpaceNetwork.Sync(this);
+    }
+
+    void Update() {
+        DebugUtil.DrawPoint(transform, TipPosition);
     }
 }

@@ -221,6 +221,11 @@ public struct IntVector2 {
 }
 
 public class DebugUtil {
+    public static void DrawPoint(Transform transform, Vector3 center) {
+        Debug.DrawLine(center + -transform.right, center + transform.right, Color.green);
+        Debug.DrawLine(center + transform.up, center + -transform.up, Color.green);
+    }
+
 	public static void DrawRect(Transform transform, Rect rect) {
 		var p1 = transform.TransformPoint(new Vector2(rect.xMin, rect.yMin));
 		var p2 = transform.TransformPoint(new Vector2(rect.xMax, rect.yMin));

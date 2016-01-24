@@ -122,6 +122,12 @@ public class Block {
         }
     }
 
+    public bool isDamaged {
+        get {
+            return _health < type.maxHealth;
+        }
+    }
+
 	public bool IsDestroyed {
 		get {
 			return ship == null;

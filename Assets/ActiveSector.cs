@@ -63,6 +63,10 @@ public class ActiveSector : MonoBehaviour {
         //((BoardObjective)objectives[0]).target = ship;
  //       var reactor = ship.blocks.Find<Reactor>().First();
  //       reactor.health = reactor.type.maxHealth/2.0f;
+
+        foreach (var block in Game.playerShip.blocks.allBlocks) {
+            block.health /= 2.0f;
+        }
     }
 
     public void Unload() {

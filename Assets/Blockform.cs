@@ -249,6 +249,10 @@ public class Blockform : PoolBehaviour, ISaveable {
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
         hasStarted = true;
+
+        foreach (var block in Game.playerShip.blocks.allBlocks) {
+            block.health /= 2.0f;
+        }
     }
     
     void OnDisable() {
@@ -593,8 +597,6 @@ public class Blockform : PoolBehaviour, ISaveable {
 
 	void Update() {
 		AvoidCollision();
-        var center = box.transform.position;
-		Debug.DrawLine(center + -transform.right, center + transform.right, Color.green);
-		Debug.DrawLine(center + transform.up, center + -transform.up, Color.green);
+//        DebugUtil.DrawPoint(transform, box.transform.position);
 	}
 }

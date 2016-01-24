@@ -7,6 +7,9 @@ public class Annotation : MonoBehaviour {
 
     public static LineRenderer DrawLine(Vector2 start, Vector2 end, Color color, float width) {
         var line = Pool.For("Line").Attach<LineRenderer>(Annotation.anno.transform);
+        line.sortingLayerName = "UI";
+        var transient = line.gameObject.AddComponent<Transient>();
+        transient.duration = 0.1f;
         line.SetWidth(width, width);
         line.SetVertexCount(2);
         line.SetPosition(0, start);
