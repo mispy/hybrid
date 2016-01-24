@@ -138,16 +138,20 @@ public class ShipMind : PoolBehaviour {
         if (nearestEnemy == null) return;
 
         foreach (var launcher in ship.GetBlockComponents<ProjectileLauncher>()) {
-            launcher.turret.AimTowards(nearestEnemy.transform.position);
+            var dist = Vector2.Distance(launcher.transform.position, nearestEnemy.transform.position);
+            var timeToHit = dist / launcher.launchVelocity;
+            var correction = nearestEnemy.rigidBody.velocity * timeToHit;
 
-            var hit = launcher.GetProbableHit(100f);
-            if (hit == null) continue;
+            launcher.turret.AimTowards(nearestEnemy.transform.position + correction);
+                
+            //var hit = launcher.GetProbableHit(100f);
+            //if (hit == null) continue;
 
-            var otherShip = hit.attachedRigidbody.GetComponent<Blockform>();
+            //var otherShip = hit.attachedRigidbody.GetComponent<Blockform>();
 
-            if (otherShip != null && IsEnemy(otherShip)) {
+            //if (otherShip != null && IsEnemy(otherShip)) {
                 launcher.OnFire();
-            }
+            //}
         }
     }
 

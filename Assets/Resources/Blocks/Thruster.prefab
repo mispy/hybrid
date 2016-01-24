@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mass: 0
-  value: 1
+  value: 30
   scrapRequired: 30
   maxHealth: 50
   damageBuffer: 0
@@ -1759,6 +1759,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: descriptionBody
       value: Moves the ship.
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: value
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

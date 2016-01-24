@@ -92,7 +92,7 @@ public class ShipDamage : PoolBehaviour {
     }
 
     public void BreakBlock(Block block, bool checkBreaks = true) {
-        //blocks[block.pos, block.layer] = null;
+        block.health = 0;
 
         if (block.layer == BlockLayer.Base) {
             var top = blocks[block.pos, BlockLayer.Top];

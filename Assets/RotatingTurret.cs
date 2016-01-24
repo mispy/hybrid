@@ -82,7 +82,7 @@ public class RotatingTurret : BlockComponent {
         var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
         transform.rotation = targetRotation;
         
-        isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.2f);
+        isBlocked = Util.TurretBlocked(form, transform.position, targetPos, 0.3f);
         
         if (!isBlocked && showLine && charger.isReady) {
             dottedLine.enabled = true;
