@@ -37,27 +37,27 @@ public class CrewControl : MonoBehaviour {
         if (crew.isMaglocked) {
             crew.MaglockMove(crew.currentBlockPos + IntVector2.up);
         } else
-            crew.rigidBody.velocity += transform.up;
+            crew.rigidBody.velocity += crew.transform.up;
     }
 
     public void OnMoveLeft() {
         if (crew.isMaglocked) {
             crew.MaglockMove(crew.currentBlockPos + IntVector2.left);
         } else
-            crew.rigidBody.velocity += -transform.right;
+            crew.rigidBody.velocity += -crew.transform.right;
     }
 
     public void OnMoveRight() {
         if (crew.isMaglocked) {
             crew.MaglockMove(crew.currentBlockPos + IntVector2.right);
         } else
-            crew.rigidBody.velocity += transform.right;
+            crew.rigidBody.velocity += crew.transform.right;
     }
 
     public void OnMoveDown() {
         if (crew.isMaglocked) {
             crew.MaglockMove(crew.currentBlockPos + IntVector2.down);
         } else
-            crew.rigidBody.velocity += -transform.up;
+            crew.rigidBody.velocity += -crew.transform.up;
     }
 }
