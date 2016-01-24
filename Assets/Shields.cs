@@ -52,8 +52,8 @@ public class Shields : PoolBehaviour {
         transform.rotation = form.transform.rotation;
 		transform.localPosition = form.localBounds.center;
 		
-		var width = form.localBounds.size.x-3;
-		var height = form.localBounds.size.y-3;
+		var width = form.localBounds.size.x-1;
+		var height = form.localBounds.size.y-1;
 		
 		if (ellipse == null || width != ellipse.width || height != ellipse.height) {
 			ellipse = new Ellipse(0, 0, width, height, 0);

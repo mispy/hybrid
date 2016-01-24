@@ -327,6 +327,7 @@ public class Blockform : PoolBehaviour, ISaveable {
 	public void UpdateBounds() {
         localBounds.center = blocks.boundingRect.center * Tile.worldSize;
         localBounds.size = blocks.boundingRect.size * Tile.worldSize + new Vector2(Tile.worldSize, Tile.worldSize);
+        Debug.Log(blocks.boundingRect.size);
         box.transform.localPosition = localBounds.center;
         box.size = localBounds.size;
 	}

@@ -110,7 +110,7 @@ MonoBehaviour:
   deserializing: 0
   explosionForce: 0.001
   explosionRadius: 2
-  damageAmount: 10
+  damageAmount: 20
   rigid: {fileID: 0}
   explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
   originComp: {fileID: 0}
@@ -219,6 +219,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_InterpolateMovement
       value: 10.8999996
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: damageAmount
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

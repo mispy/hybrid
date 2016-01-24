@@ -145,6 +145,7 @@ MonoBehaviour:
   lastSyncReceived: 0
   deserializing: 0
   form: {fileID: 0}
+  launchVelocity: 40
   projectile: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}
   lastFireTime: 0
 --- !u!212 &21208276
@@ -243,6 +244,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: value
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: launchVelocity
       value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []

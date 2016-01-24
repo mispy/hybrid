@@ -6,7 +6,7 @@ using System.Linq;
 
 public class ProjectileLauncher : BlockComponent {
 
-	float launchVelocity = 80f;
+	public float launchVelocity = 80f;
 	public GameObject projectile;
 
 	[HideInInspector]

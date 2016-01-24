@@ -16,6 +16,7 @@ public class RotatingTurret : BlockComponent {
     [HideInInspector]
     public bool showLine = false;
     CooldownCharger charger;
+    ProjectileLauncher launcher;
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
@@ -38,6 +39,7 @@ public class RotatingTurret : BlockComponent {
 	
 	void Awake() {       
         charger = GetComponent<CooldownCharger>();
+        launcher = GetComponent<ProjectileLauncher>();
 
         dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(transform);
         dottedLine.transform.position = TipPosition;
@@ -86,6 +88,11 @@ public class RotatingTurret : BlockComponent {
             dottedLine.enabled = true;
             var p1 = transform.InverseTransformPoint(TipPosition);
             var p2 = transform.InverseTransformPoint(targetPos);
+
+            var timeToHit = Vector2.Distance(p1, p2) / launcher.launchVelocity;
+            var velocityOffset = timeToHit * transform.InverseTransformVector(form.rigidBody.velocity);
+            p2 = p2 + velocityOffset;
+                
             dottedLine.SetVertexCount(2);
             dottedLine.SetPosition(0, p1);
             dottedLine.SetPosition(1, p2);           
