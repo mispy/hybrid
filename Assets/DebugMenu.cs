@@ -61,11 +61,18 @@ public class DebugMenu : MonoBehaviour {
         }
     }
 
+    public void EmptyInventory() {
+        foreach (var type in BlockType.All) {
+            Game.inventory[type] = 0;
+        }
+    }
+
     void OnEnable() {
         InputEvent.For(KeyCode.N).Bind(this, NewShip);
         InputEvent.For(KeyCode.E).Bind(this, SpawnEnemy);
         InputEvent.For(KeyCode.V).Bind(this, ToggleVisibility);
         InputEvent.For(KeyCode.C).Bind(this, ControlShip);
         InputEvent.For(KeyCode.R).Bind(this, RepairShip);
+        InputEvent.For(KeyCode.I).Bind(this, EmptyInventory);
     }
 }

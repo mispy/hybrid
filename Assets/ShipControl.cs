@@ -206,12 +206,12 @@ public class ShipControl : MonoBehaviour {
     }
 
     public void OnAfterburn() {
-        var inertia = ship.GetBlockComponents<InertiaNegator>().First();
+/*        var inertia = ship.GetBlockComponents<InertiaNegator>().First();
         var power = inertia.GetComponent<PowerReceiver>();
-        power.isReceiving = !power.isReceiving;
-/*        foreach (var thruster in ship.GetBlockComponents<Thruster>()) {
+        power.isReceiving = !power.isReceiving;*/
+        foreach (var thruster in ship.GetBlockComponents<Thruster>()) {
             thruster.Afterburn();
-        }*/
+        }
     }
 
     // Update is called once per frame

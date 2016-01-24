@@ -19,7 +19,11 @@ public class EngageTactic : PoolBehaviour {
 	void RecalcEngagePath() {
 		if (target == null) return; 
 
-		var destination = target.transform.position;
+        // We want to try and get behind them
+        var weaponSide = target.GetSideWithMostWeapons();
+        var destOffset = target.transform.TransformVector((Vector2)weaponSide) * target.length;
+
+        var destination = target.transform.position + destOffset*2;
 		var dir = destination - form.transform.position;
 		var offset = target.length;// + maxFiringRange;
 
@@ -45,7 +49,7 @@ public class EngageTactic : PoolBehaviour {
 
 		if (target != null && Vector2.Distance(target.transform.position, form.transform.position) <= maxFiringRange - 10 && Util.LineOfSight(form, target)) {
 			var diff = form.RotateTowards(target.transform.position, form.GetSideWithMostWeapons());
-			return;
+			//return;
 		}
 
 		//if (path != null && path.Count > 0 && form.BlocksAtWorldPos(path[0]).Count() != 0)
