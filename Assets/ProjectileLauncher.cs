@@ -11,8 +11,17 @@ public class ProjectileLauncher : BlockComponent {
 
 	[HideInInspector]
 	public float lastFireTime = 0f;
-	public new Collider collider {
-        get { return form.GetComponent<ShipCollision>().colliders[block.pos].GetComponent<Collider>(); }
+	public IEnumerable<Collider> colliders {
+        get { 
+            var col = form.GetComponent<ShipCollision>();
+            for (var i = 0; i < block.Width; i++) {
+                for (var j = 0; j < block.Height; j++) {
+                    var pos = new IntVector2(block.pos.x + i, block.pos.y + j);
+                    if (col.colliders.ContainsKey(pos))
+                        yield return col.colliders[pos];
+                }
+            }
+        }
     }
 
 	public RotatingTurret turret { get; private set; }

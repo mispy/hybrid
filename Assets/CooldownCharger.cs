@@ -16,6 +16,7 @@ public class CooldownCharger : BlockComponent {
     void Start() {
         line = Pool.For("Line").Attach<LineRenderer>(transform);
         line.sortingLayerName = "UI";
+        amountCharged = 1f;
     }
 
     public override void OnSerialize(MispyNetworkWriter writer, bool initial) {

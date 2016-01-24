@@ -79,7 +79,7 @@ public class RotatingTurret : BlockComponent {
     void UpdateTarget() {
         var targetDir = (targetPos-(Vector2)transform.position).normalized;
         var currentDir = transform.TransformDirection(Vector2.up);
-        
+
         var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
         transform.rotation = targetRotation;
         
