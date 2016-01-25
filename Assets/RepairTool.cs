@@ -32,7 +32,7 @@ public class RepairTool : MonoBehaviour {
         var width = 0.5f;
         var color = Color.yellow;
         var start = Vector2.zero;
-        var end = targetPos - (Vector2)transform.position;
+        var end = transform.InverseTransformPoint(targetPos);
 
         line.enabled = true;
         line.SetWidth(width, width);

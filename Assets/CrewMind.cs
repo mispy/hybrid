@@ -59,8 +59,7 @@ public class CrewMind : MonoBehaviour {
 		foreach (var pos in lineSeq) {
 			s += pos.ToString() + " ";
 		}
-		Debug.Log(s);*/
-		
+		Debug.Log(s);*/		
 	}
 	
     public Block toRepair = null;
