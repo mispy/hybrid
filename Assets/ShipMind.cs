@@ -97,6 +97,8 @@ public class ShipMind : PoolBehaviour {
     [HideInInspector]
     public Blockform ship;
     [ReadOnlyAttribute]
+    public IEnumerable<Blockform> enemies;
+    [ReadOnlyAttribute]
     public Blockform nearestEnemy;
     [ReadOnlyAttribute]
 	public PoolBehaviour tactic;
@@ -106,14 +108,13 @@ public class ShipMind : PoolBehaviour {
     }
     
     void Update() {
-        var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
+        enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
 
         if (enemies.Count() > 0) {
             enemies = enemies.OrderBy((other) => -other.poweredWeapons.Count);
             nearestEnemy = enemies.First();
         }
-        
-        UpdateTractors();
+
         UpdateWeapons();
         UpdateTactic();
     } 
@@ -134,26 +135,40 @@ public class ShipMind : PoolBehaviour {
         }
     }
 
+
     void UpdateWeapons() {
         if (nearestEnemy == null) return;
 
-        foreach (var launcher in ship.GetBlockComponents<ProjectileLauncher>()) {
-            if (launcher.block.mind == null) continue;
+        foreach (var console in ship.GetBlockComponents<Console>()) {
+            if (console.crew == null || console.crew.mind == null) continue;
 
-            var dist = Vector2.Distance(launcher.transform.position, nearestEnemy.transform.position);
-            var timeToHit = dist / launcher.launchVelocity;
-            var correction = nearestEnemy.rigidBody.velocity * timeToHit;
+            Blockform target = null;
 
-            launcher.turret.AimTowards(nearestEnemy.transform.position + correction);
-                
-            //var hit = launcher.GetProbableHit(100f);
-            //if (hit == null) continue;
+            foreach (var block in console.connectedBlocks) {
+                var launcher = block.GetBlockComponent<ProjectileLauncher>();
+                if (launcher == null) continue;
 
-            //var otherShip = hit.attachedRigidbody.GetComponent<Blockform>();
+                if (target == null) {
+                    foreach (var enemy in enemies) {
+                        if (launcher.CanHit(enemy)) {
+                            target = enemy;
+                            break;
+                        }
+                    }
+                }
 
-            //if (otherShip != null && IsEnemy(otherShip)) {
-                launcher.OnFire();
-            //}
+                if (target == null) continue;
+
+                var dist = Vector2.Distance(launcher.transform.position, target.transform.position);
+                var timeToHit = dist / launcher.launchVelocity;
+                var correction = target.rigidBody.velocity * timeToHit;
+                var targetPos = target.transform.position + correction;
+
+                launcher.turret.AimTowards(targetPos);
+                if (!Util.TurretBlocked(ship, launcher.turret.TipPosition, targetPos)) {
+                    launcher.OnFire();
+                }
+            }
         }
     }
 

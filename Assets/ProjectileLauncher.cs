@@ -31,6 +31,19 @@ public class ProjectileLauncher : BlockComponent {
 		turret = GetComponent<RotatingTurret>();
         charger = GetComponent<CooldownCharger>();
 	}
+
+    public bool CanHit(Blockform target) {
+        RaycastHit[] hits = Physics.RaycastAll(Util.TipPosition(block), (target.transform.position - transform.position).normalized);
+
+        foreach (var hit in hits.OrderBy((hit) => Vector2.Distance(transform.position, hit.point))) {
+            if (hit.collider.attachedRigidbody == target.rigidBody)
+                return true;
+            else if (hit.collider.attachedRigidbody != form.rigidBody)
+                return false;
+        }
+
+        return false;
+    }
 	
 	public Collider GetProbableHit(float maxDistance = 150f) {
 		RaycastHit hit;

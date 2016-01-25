@@ -17,6 +17,7 @@ GameObject:
   - 114: {fileID: 11407926}
   - 114: {fileID: 11461088}
   - 114: {fileID: 11483438}
+  - 114: {fileID: 11433162}
   m_Layer: 0
   m_Name: Blockform
   m_TagString: Untagged
@@ -90,6 +91,18 @@ MonoBehaviour:
   deserializing: 0
   baseTiles: {fileID: 0}
   topTiles: {fileID: 0}
+--- !u!114 &11433162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3e2cf6e1d549e84393b321729d6bdc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ship: {fileID: 0}
 --- !u!114 &11455740
 MonoBehaviour:
   m_ObjectHideFlags: 1

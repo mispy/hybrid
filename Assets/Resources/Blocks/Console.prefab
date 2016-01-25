@@ -101,7 +101,6 @@ MonoBehaviour:
   lastSyncReceived: 0
   deserializing: 0
   form: {fileID: 0}
-  crew: {fileID: 0}
 --- !u!212 &21267236
 SpriteRenderer:
   m_ObjectHideFlags: 1

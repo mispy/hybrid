@@ -493,7 +493,7 @@ public class Util {
         return false;
     }*/
 
-    public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos, float radius = 0.5f) {    
+    public static bool TurretBlocked(Blockform form, Vector3 turretPos, Vector3 targetPos, float radius = 0.2f) {    
         foreach (var block in form.BlocksAtWorldPos(targetPos))
             return true;
 
