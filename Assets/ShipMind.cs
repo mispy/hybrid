@@ -106,10 +106,6 @@ public class ShipMind : PoolBehaviour {
     }
     
     void Update() {
-        if (!NetworkServer.active) return;
-
-        if (ship == Game.playerShip) return;
-
         var enemies = Blockform.ClosestTo(transform.position).Where((other) => IsEnemy(other));
 
         if (enemies.Count() > 0) {
@@ -123,7 +119,7 @@ public class ShipMind : PoolBehaviour {
     } 
 
     bool IsEnemy(Blockform otherShip) {
-        return otherShip != ship && otherShip == Game.playerShip;
+        return otherShip != ship && (ship == Game.playerShip || otherShip == Game.playerShip);
     }
 
     void UpdateTractors() {
@@ -142,6 +138,8 @@ public class ShipMind : PoolBehaviour {
         if (nearestEnemy == null) return;
 
         foreach (var launcher in ship.GetBlockComponents<ProjectileLauncher>()) {
+            if (launcher.block.mind == null) continue;
+
             var dist = Vector2.Distance(launcher.transform.position, nearestEnemy.transform.position);
             var timeToHit = dist / launcher.launchVelocity;
             var correction = nearestEnemy.rigidBody.velocity * timeToHit;

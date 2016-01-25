@@ -13,6 +13,7 @@ public class ShipControl : MonoBehaviour {
     }
     Transform selector;
     CrewBody selectedCrew = null;
+    public Console console = null;
     public Blockform selectedShip { get; private set; }
 
     public HashSet<Block> selectedBlocks = new HashSet<Block>();
@@ -168,8 +169,9 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(KeyCode.Tab).Bind(this, OnAfterburn);
 
         InputEvent.For(KeyCode.Space).Bind(this, OnExitControl);
+        DeselectBlocks();
 	}
-
+        
     public void OnJump() {
         Game.cameraControl.Lock(null);
         Game.mainCamera.transform.SetParent(Game.activeSector.transform);
@@ -201,6 +203,7 @@ public class ShipControl : MonoBehaviour {
     }
 
     public void OnExitControl() {
+        console.crew = null;
         Game.shipControl.gameObject.SetActive(false);
         Game.crewControl.gameObject.SetActive(true);
     }

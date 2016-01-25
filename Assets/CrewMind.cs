@@ -21,6 +21,7 @@ public class CrewMind : MonoBehaviour {
 
     void Awake() {
         crew = GetComponent<CrewBody>();
+        crew.mind = this;
         pathLine = gameObject.AddComponent<LineRenderer>();
         pathLine.material = GetComponent<SpriteRenderer>().material;
         pathLine.SetWidth(0.1f, 0.1f);
@@ -74,31 +75,6 @@ public class CrewMind : MonoBehaviour {
         } else {
             UpdateFreeMovement();
         }
-
-        if (ship == null || blockPath.Count > 0) return;
-
-        foreach (var block in ship.blocks.allBlocks) {
-            if (block.isDamaged) {
-                toRepair = block;
-                break;
-            }
-        }
-
-        if (toRepair != null) {
-            if (!toRepair.isDamaged) {
-                toRepair = null;
-            } else if (IntVector2.Distance(crew.currentBlockPos, toRepair.pos) < RepairTool.range) {
-                crew.repairTool.Repair(toRepair.worldPos);
-            } else {
-                foreach (var neighbor in IntVector2.NeighborsWithDiagonal(toRepair.pos)) {
-                    if (ship.blocks.IsPassable(neighbor)) {
-                        SetMoveDestination(neighbor);
-                    }
-                }
-            }
-        }
-
-
 
         /*foreach (var other in Crew.all) {
             if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {

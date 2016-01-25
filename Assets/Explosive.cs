@@ -123,7 +123,7 @@ public class Explosive : PoolBehaviour
 		}
 
 		foreach (var block in blocksToBreak) {
-            if (block.IsDestroyed) continue;
+            if (block.isDestroyed) continue;
 
             var startPos = block.ship.WorldToBlockPos(rigid.position);
             var damage = damageAmount;

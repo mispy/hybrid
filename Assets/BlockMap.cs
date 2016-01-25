@@ -390,7 +390,6 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
     }
 
     void RemoveBlock(Block block) {
-        Debug.Log("RemoveBlock");
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
                 SetChunkedValue(block.pos.x + i, block.pos.y + j, block.layer, null);

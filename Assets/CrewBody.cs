@@ -55,7 +55,6 @@ public class CrewBody : PoolBehaviour {
 
     public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         if (initial) {
-            Debug.Log("OnDeserialize");
             connectionId = reader.ReadInt32();
             if (connectionId != -1)
                 Game.players.Add(this);
@@ -202,7 +201,7 @@ public class CrewBody : PoolBehaviour {
         
         if (maglockShip != null) {
             currentBlockPos = maglockShip.WorldToBlockPos(transform.position);
-            currentBlock = maglockShip.blocks[currentBlockPos, BlockLayer.Base];
+            currentBlock = maglockShip.blocks.Topmost(currentBlockPos);
         }
 
         if (maglockShip != null)

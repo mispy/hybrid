@@ -23,7 +23,12 @@ public class CrewControl : MonoBehaviour {
 
 
     public void OnToggleControl() {
+        var console = crew.currentBlock.GetBlockComponent<Console>();
+        if (console == null) return;
+
         Game.playerShip = crew.maglockShip;
+        console.crew = crew;
+        Game.shipControl.console = console;
         Game.shipControl.gameObject.SetActive(true);
         gameObject.SetActive(false);
     }

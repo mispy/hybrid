@@ -45,9 +45,15 @@ public class Blockform : PoolBehaviour, ISaveable {
     [ReadOnlyAttribute]
     public Vector3 centerOfMass;
     [ReadOnlyAttribute]
-    public List<CrewBody> maglockedCrew = new List<CrewBody>();
+    public List<CrewBody> maglockedCrew = new List<CrewBody>();   
     [ReadOnlyAttribute]
     public HashSet<Block> poweredWeapons = new HashSet<Block>();
+
+    public IEnumerable<CrewBody> friendlyCrew {
+        get {
+            return maglockedCrew;
+        }
+    }
 
     public BlockMap blocks { get; private set; }
     public Blueprint blueprint { get; private set; }    
@@ -63,6 +69,16 @@ public class Blockform : PoolBehaviour, ISaveable {
 
     private int blockGUIDCounter = 0;
     private bool needsMassUpdate = true;
+
+    public bool hasPilot {
+        get {
+            foreach (var console in GetBlockComponents<Console>()) {
+                if (console.crew != null)
+                    return true;
+            }
+            return false;
+        }
+    }
 
     public static IEnumerable<Blockform> ClosestTo(Vector2 worldPos) {
         return Game.activeSector.blockforms.OrderBy((form) => Vector2.Distance(form.transform.position, worldPos));
@@ -200,6 +216,12 @@ public class Blockform : PoolBehaviour, ISaveable {
         return GetBlockComponents<T>().Count() > 0;
     }
 
+    public void AddCrew() {
+        var floor = Util.GetRandom(blocks.Find("Floor").ToList());
+        var crew = Pool.For("Crew").Attach<CrewBody>(transform);
+        crew.transform.position = BlockToWorldPos(floor);
+    }
+
     public void Awake() {
         channel = Channel.ReliableFragmented;
         rigidBody = GetComponent<Rigidbody>();
@@ -248,6 +270,9 @@ public class Blockform : PoolBehaviour, ISaveable {
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
         hasStarted = true;
+
+        AddCrew();
+        AddCrew();
 
 /*        foreach (var block in Game.playerShip.blocks.allBlocks) {
             block.health /= 2.0f;

@@ -125,11 +125,13 @@ public class Block {
         }
     }
 
-	public bool IsDestroyed {
+	public bool isDestroyed {
 		get {
-			return ship == null;
+            return _health == 0;
 		}
 	}
+
+    public CrewMind mind;
 
     public GameObject gameObject = null;
 
@@ -233,6 +235,11 @@ public class Block {
         foreach (var comp in type.blockComponents) {
             comp.OnNewBlock(this);
         }
+    }
+
+    public T GetBlockComponent<T>() {
+        if (gameObject == null) return default(T);
+        return gameObject.GetComponent<T>();
     }
 
     public Block() { }
