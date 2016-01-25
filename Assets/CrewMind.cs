@@ -89,7 +89,7 @@ public class CrewMind : MonoBehaviour {
             if (!toRepair.isDamaged) {
                 toRepair = null;
             } else if (IntVector2.Distance(crew.currentBlockPos, toRepair.pos) < RepairTool.range) {
-                crew.repairTool.Repair(toRepair);
+                crew.repairTool.Repair(toRepair.worldPos);
             } else {
                 foreach (var neighbor in IntVector2.NeighborsWithDiagonal(toRepair.pos)) {
                     if (ship.blocks.IsPassable(neighbor)) {

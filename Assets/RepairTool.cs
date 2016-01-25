@@ -20,7 +20,7 @@ public class RepairTool : MonoBehaviour {
         }
     }
 
-    public void Repair(Block block) {
+    void Repair(Block block) {
         if (!block.isDamaged) return;
         var targetPos = block.ship.BlockToWorldPos(block);
 

@@ -72,7 +72,6 @@ public class Blockform : PoolBehaviour, ISaveable {
         foreach (var form in Game.activeSector.blockforms) {
             var blockPos = form.WorldToBlockPos(worldPos);
             if (form.blocks[blockPos, BlockLayer.Base] != null) {
-
                 return form;
             }
         }
@@ -306,7 +305,7 @@ public class Blockform : PoolBehaviour, ISaveable {
 
             Pool.Recycle(oldBlock.gameObject);
         }
-            
+          
         if (hasStarted && !deserializing && blocks[oldBlock.blockPos] == null) {
             blockUpdates.Add(new BlockUpdate(oldBlock.blockPos, null));
             SpaceNetwork.Sync(this);
@@ -315,6 +314,8 @@ public class Blockform : PoolBehaviour, ISaveable {
     }
 
     public void OnBlockAdded(Block newBlock) {
+        var isExisting = newBlock.ship == this;
+            
         newBlock.ship = this;
         UpdateBlock(newBlock);
         
@@ -322,7 +323,7 @@ public class Blockform : PoolBehaviour, ISaveable {
             RealizeBlock(newBlock);
         }    
 
-        if (hasStarted && !deserializing) {
+        if (hasStarted && !deserializing && !isExisting) {
             blockUpdates.Add(new BlockUpdate(newBlock.blockPos, newBlock));
             SpaceNetwork.Sync(this);
         }

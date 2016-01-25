@@ -201,6 +201,11 @@ public class Block {
             layer = (BlockLayer)value.z;
         }
     }
+    public Vector2 worldPos {
+        get {
+            return ship.BlockToWorldPos(this);
+        }
+    }
     public BlockLayer layer;
     public Facing facing = Facing.up;
 

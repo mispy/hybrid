@@ -6,15 +6,6 @@ using System.Xml.Serialization;
 using System.Linq;
 
 public class DebugMenu : MonoBehaviour {
-    public void NewShip() {
-        var ship = Game.playerShip;
-		foreach (var pos in ship.blocks.FilledPositions) {
-			ship.blocks[pos, BlockLayer.Base] = null;
-			ship.blueprint.blocks[pos, BlockLayer.Base] = null;
-        }
-       // ship.SetBlock(0, 0, BlockType.FromId("Floor"));
-    }
-
     public void MakeAsteroid(Vector2 pos) {                
         for (var i = 0; i < 10; i++) {
             var radius = Random.Range(5, 10);
@@ -73,7 +64,6 @@ public class DebugMenu : MonoBehaviour {
     }
 
     void OnEnable() {
-        InputEvent.For(KeyCode.N).Bind(this, NewShip);
         InputEvent.For(KeyCode.E).Bind(this, SpawnEnemy);
         InputEvent.For(KeyCode.V).Bind(this, ToggleVisibility);
         InputEvent.For(KeyCode.C).Bind(this, ControlShip);
