@@ -27,7 +27,12 @@ public class PoolBehaviour : MonoBehaviour {
 
     public bool hasAuthority {
         get {
-            return ((Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject) || (GetComponent<CrewBody>() == null && SpaceNetwork.isServer));
+            var crew = GetComponent<CrewBody>();
+            if (crew == null || !crew.isPlayer) {
+                return SpaceNetwork.isServer;
+            } else {
+                return Game.localPlayer != null && Game.localPlayer.gameObject == this.gameObject;
+            }
         }
     }
 

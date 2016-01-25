@@ -28,6 +28,12 @@ public class CrewBody : PoolBehaviour {
         }
     }
 
+    public bool isPlayer {
+        get {
+            return connectionId != -1;
+        }
+    }
+
     public Block controlConsole = null;
     
     public CrewWeapon weapon;
@@ -49,9 +55,12 @@ public class CrewBody : PoolBehaviour {
 
     public override void OnDeserialize(MispyNetworkReader reader, bool initial) {
         if (initial) {
+            Debug.Log("OnDeserialize");
             connectionId = reader.ReadInt32();
             if (connectionId != -1)
                 Game.players.Add(this);
+            else
+                gameObject.AddComponent<CrewMind>();
             if (connectionId == NetworkClient.allClients[0].connection.connectionId)
                 gameObject.AddComponent<Player>();            
             
@@ -84,6 +93,7 @@ public class CrewBody : PoolBehaviour {
     }
 
     void Awake() {
+        connectionId = -1;
         channel = Channel.ReliableSequenced;
         collider = GetComponent<BoxCollider>();
         weapon = gameObject.AddComponent<CrewWeapon>();
@@ -205,6 +215,5 @@ public class CrewBody : PoolBehaviour {
 
     void Start() {        
         //AddRigid();
-        constructor = Pool.For("Constructor").Attach<Constructor>(transform);
     }
 }

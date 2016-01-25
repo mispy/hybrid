@@ -14,10 +14,9 @@ public class CrewMind : MonoBehaviour {
             return blockPath.Last();
         }
     }
-    private CharacterController controller;
 
     public CrewBody crew;
-
+    public Blockform ship;
 	public LineRenderer pathLine;
 
     void Awake() {
@@ -64,7 +63,11 @@ public class CrewMind : MonoBehaviour {
 		
 	}
 	
+    public Block toRepair = null;
+
 	void Update() {
+        ship = crew.maglockShip;
+
 		DrawPath();
 
         if (crew.maglockShip != null) {
@@ -72,6 +75,32 @@ public class CrewMind : MonoBehaviour {
         } else {
             UpdateFreeMovement();
         }
+
+        if (ship == null || blockPath.Count > 0) return;
+
+        foreach (var block in ship.blocks.allBlocks) {
+            if (block.isDamaged) {
+                toRepair = block;
+                break;
+            }
+        }
+
+        if (toRepair != null) {
+            if (!toRepair.isDamaged) {
+                toRepair = null;
+            } else if (IntVector2.Distance(crew.currentBlockPos, toRepair.pos) < RepairTool.range) {
+                crew.repairTool.Repair(toRepair);
+            } else {
+                foreach (var neighbor in IntVector2.NeighborsWithDiagonal(toRepair.pos)) {
+                    if (ship.blocks.IsPassable(neighbor)) {
+                        SetMoveDestination(neighbor);
+                    }
+                }
+            }
+        }
+
+
+
         /*foreach (var other in Crew.all) {
             if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {
                 crew.weapon.Fire(other.transform.position);

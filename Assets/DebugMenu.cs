@@ -26,14 +26,15 @@ public class DebugMenu : MonoBehaviour {
     }
 
     public void SpawnCrew(Vector2 pos) {
-        var crew = Pool.For("CrewBody").Attach<CrewBody>(Game.activeSector.contents);
+        var crew = Pool.For("Crew").Attach<CrewBody>(Game.activeSector.contents);
         crew.transform.position = pos;
     }
 
     public void SpawnEnemy() {
         if (Blockform.AtWorldPos(Game.mousePos) == null) {
-            var ship = Blockform.FromTemplate(Game.state.playerShipTemplate);
+            var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
             ship.rigidBody.position = Game.mousePos;
+            SpawnCrew(Game.mousePos);
         }
     }
 
@@ -46,7 +47,11 @@ public class DebugMenu : MonoBehaviour {
 
     public void RepairShip() {
         foreach (var block in Game.playerShip.blocks.allBlocks) {
-            block.health = block.type.maxHealth;
+            if (block.health != block.type.maxHealth) {                
+                block.health = block.type.maxHealth;
+            } else {
+                block.health /= 2.0f;
+            }
         }
     }
 

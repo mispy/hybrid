@@ -2,11 +2,14 @@
 using System.Collections;
 
 public class RepairTool : MonoBehaviour {
+    public static float range = 2f;
     LineRenderer line;
+    float repairRate = 10f;
 
     void Awake() {
         line = Pool.For("Line").Attach<LineRenderer>(transform);
         line.transform.position = transform.position;
+        line.sortingLayerName = "UI";
     }
 
     public void Repair(Vector3 worldPos) {
@@ -19,12 +22,17 @@ public class RepairTool : MonoBehaviour {
 
     public void Repair(Block block) {
         if (!block.isDamaged) return;
-        block.health += 5*Time.deltaTime;
+        var targetPos = block.ship.BlockToWorldPos(block);
+
+        if (Vector2.Distance(targetPos, transform.position) > range)
+            return;
+
+        block.health += repairRate*Time.deltaTime;
 
         var width = 0.5f;
-        var color = Color.white;
-        var start = transform.localPosition;
-        var end = block.gameObject.transform.position - transform.position;
+        var color = Color.yellow;
+        var start = Vector2.zero;
+        var end = targetPos - (Vector2)transform.position;
 
         line.enabled = true;
         line.SetWidth(width, width);
