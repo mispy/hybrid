@@ -102,7 +102,7 @@ public class Explosive : PoolBehaviour
 
         foreach (var col in cols) {
             var shields = col.gameObject.GetComponent<Shields>();
-            if (shields != null) {
+            if (shields != null && shields != originComp.block.ship.shields) {
                 shielded.Add(col.attachedRigidbody);
                 shields.TakeDamage(damageAmount);
             }
