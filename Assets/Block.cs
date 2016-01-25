@@ -57,9 +57,6 @@ public class Block {
         foreach (var form in Game.activeSector.blockforms) {
             foreach (var block in form.BlocksAtWorldPos(worldPos))
                 yield return block;
-
-            foreach (var block in form.blueprint.BlocksAtWorldPos(worldPos))
-                yield return block;
         }
     }
     

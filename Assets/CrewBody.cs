@@ -20,6 +20,7 @@ public class CrewBody : PoolBehaviour {
     public IntVector2 currentBlockPos;
     public IntVector2 maglockMoveBlockPos;
     public Block currentBlock = null;
+    public RepairTool repairTool;
 
     public bool isMaglocked {
         get {
@@ -88,6 +89,7 @@ public class CrewBody : PoolBehaviour {
         weapon = gameObject.AddComponent<CrewWeapon>();
         rigidBody = GetComponent<Rigidbody>();
         syncRigid = GetComponent<SyncRigid>();
+        repairTool = GetComponentInChildren<RepairTool>();
         //mind = gameObject.AddComponent<CrewMind>();      
     }
 

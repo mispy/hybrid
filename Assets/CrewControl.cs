@@ -18,12 +18,7 @@ public class CrewControl : MonoBehaviour {
     }
 
     public void OnRepair() {
-        foreach (var block in Block.AtWorldPos(Game.mousePos)) {
-            if (!block.isDamaged) return;
-            Annotation.DrawLine(crew.transform.position, block.gameObject.transform.position, Color.blue, 0.5f);
-            block.health += 5*Time.deltaTime;
-            break;
-        }
+        crew.repairTool.Repair(Game.mousePos);
     }
 
 
