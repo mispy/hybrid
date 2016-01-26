@@ -90,13 +90,13 @@ public class Thruster : BlockComponent {
         if (isFiring) {
             var force = deltaTime*10f;
             if (isAfterburning)
-                force *= 5f;            
+                force *= 50f;            
             form.rigidBody.AddForce(-transform.up * force);
         } else if (isFiringAttitude) {
             var dist = transform.localPosition - form.centerOfMass;
             var force = deltaTime*20f;
             if (isAfterburning)
-                force *= 5f;
+                force *= 50f;
             if (dist.x > 0) {
                 form.rigidBody.AddRelativeTorque(Vector3.forward * force);
             } else {

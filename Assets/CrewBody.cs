@@ -40,8 +40,8 @@ public class CrewBody : PoolBehaviour {
     [ReadOnlyAttribute]
     public CrewMind mind;
 
-    public int maxHealth;
-    public int health;
+    public float maxHealth;
+    public float health;
 
     public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         if (initial) {
@@ -84,7 +84,7 @@ public class CrewBody : PoolBehaviour {
             Game.players.Remove(this);
     }
 
-    public void TakeDamage(int amount) {
+    public void TakeDamage(float amount) {
         health -= amount;
         
         if (health <= 0)

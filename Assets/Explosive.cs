@@ -94,7 +94,7 @@ public class Explosive : PoolBehaviour
 			system.Play();
 		}		
 
-        var cols = Physics.OverlapSphere(rigid.position, explosionRadius, LayerMask.GetMask(new string[] { "Wall", "Floor", "Shields" }));
+        var cols = Physics.OverlapSphere(rigid.position, explosionRadius, LayerMask.GetMask(new string[] { "Wall", "Floor", "Shields", "Crew" }));
 
 		HashSet<Block> blocksToBreak = new HashSet<Block>();
 		HashSet<Rigidbody> rigidBodies = new HashSet<Rigidbody>();
@@ -114,12 +114,19 @@ public class Explosive : PoolBehaviour
 
             if (shielded.Contains(col.attachedRigidbody)) continue;
 
+            var crew = col.gameObject.GetComponent<CrewBody>();
+            if (crew != null) {
+                crew.TakeDamage(damageAmount);
+                continue;
+            }
+                
+                
+
 			var form = col.attachedRigidbody.GetComponent<Blockform>();
 			if (form == null || form == originComp.form) continue;
 
             foreach (var block in form.BlocksAtWorldPos(col.transform.position))
                 blocksToBreak.Add(block);
-
 		}
 
 		foreach (var block in blocksToBreak) {
