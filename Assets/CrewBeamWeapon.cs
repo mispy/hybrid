@@ -40,7 +40,7 @@ public class CrewBeamWeapon : MonoBehaviour {
         beamCounter = beamDuration;
         betweenShotsCounter = betweenShotsInterval;
         line.enabled = true;
-        line.SetWidth(0.5f, 0.5f);
+        line.SetWidth(0.2f, 0.2f);
         line.SetVertexCount(2);
         line.SetPosition(0, Vector2.zero);
         line.SetPosition(1, transform.InverseTransformPoint(beamEndPos));

@@ -16,6 +16,7 @@ public class CrewBody : PoolBehaviour {
     
     // Crew can be maglocked to a ship even if they don't have a current block
     // bc they attach to the sides as well
+    public Blockform parentShip = null;
     public Blockform maglockShip = null;
     public IntVector2 currentBlockPos;
     public IntVector2 maglockMoveBlockPos;
@@ -113,6 +114,7 @@ public class CrewBody : PoolBehaviour {
     
     public void SetMaglock(Blockform ship) {
         maglockShip = ship;
+        if (parentShip == null) parentShip = maglockShip;
         maglockShip.maglockedCrew.Add(this);
         transform.rotation = maglockShip.transform.rotation;
         transform.SetParent(maglockShip.transform);

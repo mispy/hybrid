@@ -19,37 +19,83 @@ public class InteriorFog : MonoBehaviour {
 		form.blocks.OnBlockRemoved += OnBlockUpdate;
 
 		needsVisibilityUpdate = true;
-		InvokeRepeating("CheckForUpdate", 0f, 0.5f);
 	}
 
 	public void OnBlockUpdate(Block block) {
 		needsVisibilityUpdate = true;
 	}
 
-	void CheckForUpdate() {
-		if (needsVisibilityUpdate) {
-			UpdateVisibility();
+	void Update() {
+		//if (needsVisibilityUpdate) {
+            transform.localEulerAngles = new Vector3(90, 180, 0);
+            transform.localPosition = form.localBounds.center;
+            transform.localScale = new Vector3(form.localBounds.size.x, 0, form.localBounds.size.y) / 10f;
+
+            if (Game.shipControl.isActiveAndEnabled) {
+                //UpdateVisibility();                
+            } else {
+        		UpdateCrewVisibility();
+            }
 			needsVisibilityUpdate = false;
-		}
+		//}
 	}
 
-	public void UpdateVisibility() {
-		transform.localEulerAngles = new Vector3(90, 180, 0);
-		transform.localPosition = form.localBounds.center;
-		transform.localScale = new Vector3(form.localBounds.size.x, 0, form.localBounds.size.y) / 10f;
+    public void UpdateCrewVisibility() {
+        var blocks = form.blocks;
+        float sightRange = 5f;
+        var texture = new Texture2D(blocks.width, blocks.height);
+        texture.filterMode = FilterMode.Point;
+        // texture map corresponding to tile positions. Color.clear for visible, Color.black for not
+        var colors = new Color32[(blocks.width)*(blocks.height)];
 
+        for (var i = 0; i < colors.Length; i++) {
+            colors[i] = Color.black;
+        }
+
+
+        for (var i = blocks.minX; i <= blocks.maxX; i++) {
+            for (var j = blocks.minY; j <= blocks.maxY; j++) {
+                var bp = new IntVector2(i, j);
+                var x = bp.x - blocks.minX;
+                var y = bp.y - blocks.minY;
+
+                if (blocks.CollisionLayer(bp) == Block.spaceLayer || IntVector2.Distance(Game.localPlayer.crew.currentBlockPos, bp) < sightRange) {
+                    revealedPositions.Add(bp);
+                    colors[y*blocks.width + x] = Color.clear;
+                }
+            }
+        }
+
+        foreach (var pos in revealedPositions) {
+            var x = pos.x - blocks.minX;
+            var y = pos.y - blocks.minY;
+
+            if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height && colors[y*blocks.width + x] != Color.clear)
+                colors[y*blocks.width + x] = Color.gray;
+        }
+
+        texture.SetPixels32(colors);
+        texture.Apply();
+
+        meshRenderer.material.SetTexture("_Visibility", texture);
+        meshRenderer.sortingLayerName = "Fog";
+        meshRenderer.material.mainTextureScale = new Vector2(form.box.bounds.size.x, form.box.bounds.size.y);           
+    }
+
+	public void UpdateVisibility() {
 		var blocks = form.blocks;
 
 		var texture = new Texture2D(blocks.width, blocks.height);
 		texture.filterMode = FilterMode.Point;
+        // texture map corresponding to tile positions. Color.clear for visible, Color.black for not
 		var colors = new Color32[(blocks.width)*(blocks.height)];
 		
 		for (var i = 0; i < colors.Length; i++) {
-			if (Game.debugVisibility) {
+/*			if (Game.debugVisibility) {
 				colors[i] = form == Game.playerShip ? Color.black : Color.clear;
-			} else {
-				colors[i] = form == Game.playerShip ? Color.clear : Color.black;
-			}
+			} else {*/         
+            colors[i] = Color.black;
+//			}
 		}
 
 		// Find an open space directly on the exterior
