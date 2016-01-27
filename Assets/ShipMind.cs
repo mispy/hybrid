@@ -45,6 +45,8 @@ public class EngageTactic : PoolBehaviour {
 	}
 	
 	void Update() {		
+        if (!form.hasMindPilot) return;
+
 		target = mind.nearestEnemy;
 
 		if (target != null && Vector2.Distance(target.transform.position, form.transform.position) <= maxFiringRange - 10 && Util.LineOfSight(form, target)) {

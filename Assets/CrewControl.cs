@@ -14,11 +14,15 @@ public class CrewControl : MonoBehaviour {
         InputEvent.For(KeyCode.D).Bind(this, OnMoveRight, true);
         InputEvent.For(KeyCode.S).Bind(this, OnMoveDown, true);
         InputEvent.For(KeyCode.Space).Bind(this, OnToggleControl);
-        InputEvent.For(MouseButton.Left).Bind(this, OnRepair, true);
+        InputEvent.For(MouseButton.Left).Bind(this, OnFireWeapon, true);
     }
 
     public void OnRepair() {
         crew.repairTool.Repair(Game.mousePos);
+    }
+
+    public void OnFireWeapon() {
+        crew.GetComponentInChildren<CrewBeamWeapon>().Fire(Game.mousePos);
     }
 
 

@@ -70,10 +70,10 @@ public class Blockform : PoolBehaviour, ISaveable {
     private int blockGUIDCounter = 0;
     private bool needsMassUpdate = true;
 
-    public bool hasPilot {
+    public bool hasMindPilot {
         get {
             foreach (var console in GetBlockComponents<Console>()) {
-                if (console.crew != null)
+                if (console.crew != null && console.crew.mind != null)
                     return true;
             }
             return false;
