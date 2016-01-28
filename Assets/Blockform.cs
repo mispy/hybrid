@@ -262,7 +262,7 @@ public class Blockform : PoolBehaviour, ISaveable {
     public bool hasStarted = false;
 
     void Start() {
-        Pool.For("InteriorFog").Attach<InteriorFog>(transform);
+        //Pool.For("InteriorFog").Attach<InteriorFog>(transform);
 
         Debug.Assert(blocks.allBlocks.Count() > 0, "Expected allBlocks.Count() > 0");
         foreach (var block in blocks.allBlocks) {

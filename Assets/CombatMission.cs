@@ -46,15 +46,18 @@ public class CombatMission {
 
         while (currentSize < desiredSize) {
             var found = false;
-            var templates = Util.Shuffle(ShipTemplate2.All.ToList());
+            var templates = Util.Shuffle(ShipTemplate2.All.ToList()).OrderBy((t) => -t.blocks.baseSize);
 
             foreach (var template in templates) {
                 if (currentSize+template.blocks.baseSize <= desiredSize) {
                     toUse.Add(template);
                     currentSize += template.blocks.baseSize;
                     found = true;
+                    break;
                 }
             }
+
+            break;
 
             if (found == false) {
                 // We've filled as much as we can

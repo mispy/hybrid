@@ -14,6 +14,7 @@ public class InteriorFog : MonoBehaviour {
 	void Start () {
 		form = GetComponentInParent<Blockform>();
 		meshRenderer = GetComponent<MeshRenderer>();
+        revealedPositions.Clear();
 
 		form.blocks.OnBlockAdded += OnBlockUpdate;
 		form.blocks.OnBlockRemoved += OnBlockUpdate;
@@ -41,7 +42,9 @@ public class InteriorFog : MonoBehaviour {
 	}
 
     public void UpdateCrewVisibility() {
+        var crew = Game.localPlayer.crew;
         var blocks = form.blocks;
+
         float sightRange = 5f;
         var texture = new Texture2D(blocks.width, blocks.height);
         texture.filterMode = FilterMode.Point;
@@ -52,17 +55,25 @@ public class InteriorFog : MonoBehaviour {
             colors[i] = Color.black;
         }
 
-
         for (var i = blocks.minX; i <= blocks.maxX; i++) {
             for (var j = blocks.minY; j <= blocks.maxY; j++) {
                 var bp = new IntVector2(i, j);
                 var x = bp.x - blocks.minX;
                 var y = bp.y - blocks.minY;
 
-                if (blocks.CollisionLayer(bp) == Block.spaceLayer || IntVector2.Distance(Game.localPlayer.crew.currentBlockPos, bp) < sightRange) {
-                    revealedPositions.Add(bp);
+                if (blocks.CollisionLayer(bp) != Block.floorLayer) {
                     colors[y*blocks.width + x] = Color.clear;
                 }
+            }
+        }
+
+        foreach (var pos in BlockPather.Floodsight(blocks, crew.currentBlockPos)) {
+            var x = pos.x - blocks.minX;
+            var y = pos.y - blocks.minY;
+
+            if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height) {
+                colors[y*blocks.width + x] = Color.clear;
+                revealedPositions.Add(pos);
             }
         }
 
@@ -70,7 +81,7 @@ public class InteriorFog : MonoBehaviour {
             var x = pos.x - blocks.minX;
             var y = pos.y - blocks.minY;
 
-            if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height && colors[y*blocks.width + x] != Color.clear)
+            if (x >= 0 && y >= 0 && x < blocks.width && y < blocks.height && blocks.CollisionLayer(pos) == Block.floorLayer && colors[y*blocks.width + x] != Color.clear)
                 colors[y*blocks.width + x] = Color.gray;
         }
 

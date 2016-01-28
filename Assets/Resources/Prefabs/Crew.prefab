@@ -183,6 +183,7 @@ MonoBehaviour:
   collider: {fileID: 0}
   constructor: {fileID: 0}
   connectionId: 0
+  parentShip: {fileID: 0}
   maglockShip: {fileID: 0}
   currentBlockPos:
     x: 0

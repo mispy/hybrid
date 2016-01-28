@@ -15,6 +15,7 @@ public class CrewControl : MonoBehaviour {
         InputEvent.For(KeyCode.S).Bind(this, OnMoveDown, true);
         InputEvent.For(KeyCode.Space).Bind(this, OnToggleControl);
         InputEvent.For(MouseButton.Left).Bind(this, OnFireWeapon, true);
+        InputEvent.For(MouseButton.Right).Bind(this, OnRepair, true);
     }
 
     public void OnRepair() {
