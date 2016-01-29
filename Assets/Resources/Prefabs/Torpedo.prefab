@@ -91,6 +91,7 @@ MonoBehaviour:
   deserializing: 0
   explosionForce: 0.001
   explosionRadius: 2
+  damageAmount: 10
   rigid: {fileID: 0}
   explosionPrefab: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
   originComp: {fileID: 0}

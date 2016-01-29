@@ -10,10 +10,9 @@ GameObject:
   - 4: {fileID: 471530}
   - 212: {fileID: 21220014}
   - 114: {fileID: 11412334}
-  - 114: {fileID: 11403720}
-  - 114: {fileID: 11489764}
   - 114: {fileID: 11455138}
   - 114: {fileID: 11428862}
+  - 114: {fileID: 11431896}
   m_Layer: 16
   m_Name: TorpedoLauncher
   m_TagString: Untagged
@@ -33,27 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11403720
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0d7912ec17915a448fe1852f8dc2407, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  needsSync: 0
-  syncCountdown: 0
-  channel: 0
-  syncRate: 0.1
-  syncDeltaTime: 0
-  lastSyncReceived: 0
-  deserializing: 0
-  form: {fileID: 0}
-  projectile: {fileID: 127086, guid: 729117fbfa2d0c641aea774e33349c4d, type: 2}
-  lastFireTime: 0
 --- !u!114 &11412334
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -105,6 +83,17 @@ MonoBehaviour:
   chargeTime: 1
   isPaused: 0
   amountCharged: 0
+--- !u!114 &11431896
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e271e2b03672494397c9e97e0254456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11455138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -127,26 +116,6 @@ MonoBehaviour:
   consumeRate: 1
   isReceiving: 0
   attachedProducer: {fileID: 0}
---- !u!114 &11489764
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147808}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c2c2ad0e8293dab4ca7b2285a8936e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  needsSync: 0
-  syncCountdown: 0
-  channel: 0
-  syncRate: 0.1
-  syncDeltaTime: 0
-  lastSyncReceived: 0
-  deserializing: 0
-  form: {fileID: 0}
-  showLine: 0
 --- !u!212 &21220014
 SpriteRenderer:
   m_ObjectHideFlags: 1
