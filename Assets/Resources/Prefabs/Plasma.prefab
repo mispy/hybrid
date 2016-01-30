@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11492186}
   - 114: {fileID: 11471496}
   - 114: {fileID: 11476790}
+  - 114: {fileID: 11400964}
   m_Layer: 14
   m_Name: Plasma
   m_TagString: Untagged
@@ -60,6 +61,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.18008743, y: 0.32432863, z: 0.2}
   m_Center: {x: -0.0005128732, y: -0.006419056, z: 0}
+--- !u!114 &11400964
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 136158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9510b1dfd2225b048bf7647d1e8b68bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11471496
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,6 +126,8 @@ MonoBehaviour:
   rigid: {fileID: 0}
   explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
   originComp: {fileID: 0}
+  hasStarted: 0
+  shouldExplode: 0
 --- !u!212 &21287582
 SpriteRenderer:
   m_ObjectHideFlags: 1

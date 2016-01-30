@@ -13,9 +13,9 @@ public class Explosive : PoolBehaviour
     [HideInInspector]
     public Rigidbody rigid;
 	public GameObject explosionPrefab;
-    public ProjectileLauncher originComp;
-    bool hasStarted = false;
-    bool shouldExplode = false;
+    public BlockComponent originComp;
+    public bool hasStarted = false;
+    public bool shouldExplode = false;
 
     void Awake() {
         rigid = GetComponent<Rigidbody>();
@@ -53,23 +53,6 @@ public class Explosive : PoolBehaviour
             Physics.IgnoreCollision(mcol, form.shields.GetComponent<Collider>(), true);
         }
         hasStarted = true;
-    }
-                 
-    void OnCollisionEnter(Collision col) {
-        if (!hasStarted || shouldExplode || !SpaceNetwork.isServer) return;
-
-        if (enabled && col.contacts.Length > 0) {
-            // compare relative velocity to collision normal - so we don't explode from a fast but gentle glancing collision
-            //float velocityAlongCollisionNormal =
-            //    Vector3.Project(col.relativeVelocity, col.contacts[0].normal).magnitude;
-            
-            //if (velocityAlongCollisionNormal > detonationImpactVelocity)
-            //{
-
-                shouldExplode = true;
-                SpaceNetwork.Sync(this);
-            //}
-        }
     }
 
     /*void FixedUpdate() {

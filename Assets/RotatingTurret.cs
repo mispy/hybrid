@@ -17,14 +17,15 @@ public class RotatingTurret : BlockComponent {
     public bool showLine = false;
     CooldownCharger charger;
     ProjectileLauncher launcher;
+    SpriteRenderer stickyOutBit;
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
     Vector2 targetPos;
 
 	public Vector2 TipPosition {
-		get {            
-            var point = (Vector2)transform.TransformPoint(Vector2.up*Tile.worldSize);
+		get {
+			var point = (Vector2)stickyOutBit.transform.TransformPoint(Vector2.up*stickyOutBit.sprite.bounds.extents.y);
             return point;
 		}
 	}
@@ -41,8 +42,12 @@ public class RotatingTurret : BlockComponent {
 	void Awake() {       
         charger = GetComponent<CooldownCharger>();
         launcher = GetComponent<ProjectileLauncher>();
+		foreach (Transform child in transform) {
+			stickyOutBit = child.GetComponent<SpriteRenderer>();
+			break;
+		}
 
-        dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(transform);
+        dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(stickyOutBit.transform);
         dottedLine.transform.position = TipPosition;
         dottedLine.gameObject.SetActive(true);
 		dottedLine.SetWidth(0.5f, 0.5f);
@@ -77,21 +82,24 @@ public class RotatingTurret : BlockComponent {
 	}
 
     void UpdateTarget() {
-        var targetDir = (targetPos-(Vector2)transform.position).normalized;
-        var currentDir = transform.TransformDirection(Vector2.up);
+        var targetDir = (targetPos-(Vector2)stickyOutBit.transform.position).normalized;
+        var currentDir = stickyOutBit.transform.TransformDirection(Vector2.up);
 
         var targetRotation = Quaternion.LookRotation(Vector3.forward, targetDir);
-        transform.rotation = targetRotation;
+        stickyOutBit.transform.rotation = targetRotation;
         
         isBlocked = Util.TurretBlocked(form, TipPosition, targetPos);
         
         if (!isBlocked && showLine && charger.isReady) {
             dottedLine.enabled = true;
-            var p1 = transform.InverseTransformPoint(TipPosition);
-            var p2 = transform.InverseTransformPoint(targetPos);
+            var tipPosition = 1;
+
+
+            var p1 = stickyOutBit.transform.InverseTransformPoint(TipPosition);
+            var p2 = stickyOutBit.transform.InverseTransformPoint(targetPos);
 
             var timeToHit = Vector2.Distance(p1, p2) / launcher.launchVelocity;
-            var velocityOffset = timeToHit * transform.InverseTransformVector(form.rigidBody.velocity);
+            var velocityOffset = timeToHit * stickyOutBit.transform.InverseTransformVector(form.rigidBody.velocity);
             p2 = p2 + velocityOffset;
                 
             dottedLine.SetVertexCount(2);

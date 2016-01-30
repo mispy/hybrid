@@ -94,6 +94,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e271e2b03672494397c9e97e0254456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
+  form: {fileID: 0}
 --- !u!114 &11455138
 MonoBehaviour:
   m_ObjectHideFlags: 1

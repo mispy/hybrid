@@ -56,7 +56,17 @@ public class LockTargetAbility : BlockAbility {
         }*/
         if (targetBlock == null) return;
 
-        targetCounter += Time.deltaTime;
-        targetIndicator.transform.localScale = Vector2.one*Mathf.Lerp(startTargetScale, endTargetScale, targetCounter/targetTime);
+        if (targetCounter >= targetTime) {
+            if (!Input.GetMouseButtonDown(0)) {
+                foreach (var launcher in launchers) {
+                    launcher.Fire(targetBlock);
+                }
+                targetBlock = null;
+            }
+        } else {
+            targetCounter += Time.deltaTime;
+            targetIndicator.transform.localScale = Vector2.one*Mathf.Lerp(startTargetScale, endTargetScale, targetCounter/targetTime);
+        }
+
     }
 }

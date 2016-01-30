@@ -11,9 +11,9 @@ GameObject:
   - 212: {fileID: 21257190}
   - 65: {fileID: 6521508}
   - 54: {fileID: 5450078}
-  - 114: {fileID: 11485944}
-  - 114: {fileID: 11472060}
-  m_Layer: 14
+  - 114: {fileID: 11441982}
+  - 114: {fileID: 11404686}
+  m_Layer: 18
   m_Name: Torpedo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,21 +57,9 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.038659576, y: 0.1679188, z: 0.2}
-  m_Center: {x: 0.0008839965, y: 0.007920029, z: 0}
---- !u!114 &11472060
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 127086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88b21da17ee431c478217e424d632405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 10
---- !u!114 &11485944
+  m_Size: {x: 0.07933915, y: 0.25629163, z: 0.2}
+  m_Center: {x: 0.00018262863, y: 0.003010394, z: 0}
+--- !u!114 &11404686
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -93,8 +81,21 @@ MonoBehaviour:
   explosionRadius: 2
   damageAmount: 10
   rigid: {fileID: 0}
-  explosionPrefab: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
+  explosionPrefab: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
   originComp: {fileID: 0}
+  hasStarted: 0
+  shouldExplode: 0
+--- !u!114 &11441982
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ac2607135a52474a9c0ee65344a7a2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &21257190
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -159,10 +160,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: explosionPrefab
       value: 
-      objectReference: {fileID: 143952, guid: 9c0e340a20763964885b02483e824caf, type: 2}
+      objectReference: {fileID: 139276, guid: f75312ed75f69114c9df39786ac27ae3, type: 2}
     - target: {fileID: 0}
       propertyPath: duration
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

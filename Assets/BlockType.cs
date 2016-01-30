@@ -31,6 +31,19 @@ public class BlockComponent : PoolBehaviour {
 
     public virtual void OnNewBlock(Block block) { }
     public virtual void OnRealize() { }
+
+    public IEnumerable<Collider> colliders {
+        get { 
+            var col = form.GetComponent<ShipCollision>();
+            for (var i = 0; i < block.Width; i++) {
+                for (var j = 0; j < block.Height; j++) {
+                    var pos = new IntVector2(block.pos.x + i, block.pos.y + j);
+                    if (col.colliders.ContainsKey(pos))
+                        yield return col.colliders[pos];
+                }
+            }
+        }
+    }
 }
 
 public class BlockType : MonoBehaviour {
