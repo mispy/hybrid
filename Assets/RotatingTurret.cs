@@ -49,7 +49,7 @@ public class RotatingTurret : BlockComponent {
 		}
 
         dottedLine = Pool.For("AimingLine").Attach<LineRenderer>(stickyOutBit.transform);
-        dottedLine.transform.position = TipPosition;
+        dottedLine.transform.position = stickyOutBit.transform.position;
         dottedLine.gameObject.SetActive(true);
 		dottedLine.SetWidth(0.5f, 0.5f);
         dottedLine.sortingLayerName = "UI";
