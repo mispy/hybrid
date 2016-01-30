@@ -11,18 +11,6 @@ public class ProjectileLauncher : BlockComponent {
 
 	[HideInInspector]
 	public float lastFireTime = 0f;
-	public IEnumerable<Collider> colliders {
-        get { 
-            var col = form.GetComponent<ShipCollision>();
-            for (var i = 0; i < block.Width; i++) {
-                for (var j = 0; j < block.Height; j++) {
-                    var pos = new IntVector2(block.pos.x + i, block.pos.y + j);
-                    if (col.colliders.ContainsKey(pos))
-                        yield return col.colliders[pos];
-                }
-            }
-        }
-    }
 
 	public RotatingTurret turret { get; private set; }
     public CooldownCharger charger { get; private set; }
@@ -33,7 +21,7 @@ public class ProjectileLauncher : BlockComponent {
 	}
 
     public bool CanHit(Blockform target) {
-        RaycastHit[] hits = Physics.RaycastAll(Util.TipPosition(block), (target.transform.position - transform.position).normalized);
+        RaycastHit[] hits = Physics.RaycastAll(turret.TipPosition, (target.transform.position - transform.position).normalized);
 
         foreach (var hit in hits.OrderBy((hit) => Vector2.Distance(transform.position, hit.point))) {
             if (hit.collider.attachedRigidbody == target.rigidBody)
@@ -71,11 +59,11 @@ public class ProjectileLauncher : BlockComponent {
 		var bullet = Pool.For(projectile).Attach<Explosive>(Game.activeSector.transients);
        
 		bullet.transform.position = turret.TipPosition;
-		bullet.transform.rotation = transform.rotation;
+        bullet.transform.rotation = turret.stickyOutBit.transform.rotation;
         bullet.originComp = this;
 
         var rigid = bullet.GetComponent<Rigidbody>();
         rigid.velocity = form.rigidBody.velocity;
-		rigid.velocity += transform.up*launchVelocity;
+		rigid.velocity += turret.stickyOutBit.transform.up*launchVelocity;
 	}
 }

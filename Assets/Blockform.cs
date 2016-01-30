@@ -346,7 +346,7 @@ public class Blockform : PoolBehaviour, ISaveable {
         newBlock.ship = this;
         UpdateBlock(newBlock);
         
-        if (newBlock.type.isComplexBlock) {
+        if (newBlock.type.isComplexBlock || blocks.IsCollisionEdge(newBlock)) {
             RealizeBlock(newBlock);
         }    
 

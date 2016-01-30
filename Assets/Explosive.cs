@@ -45,7 +45,7 @@ public class Explosive : PoolBehaviour
     void Start() {
         var form = originComp.form;
         var mcol = GetComponent<Collider>();
-        foreach (var collider in originComp.colliders) {
+        foreach (var collider in originComp.GetComponentsInChildren<Collider>()) {
             Physics.IgnoreCollision(collider, mcol);
         }
         if (form.shields && form.shields.isActive) {

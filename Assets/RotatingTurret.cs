@@ -17,7 +17,8 @@ public class RotatingTurret : BlockComponent {
     public bool showLine = false;
     CooldownCharger charger;
     ProjectileLauncher launcher;
-    SpriteRenderer stickyOutBit;
+    [ReadOnlyAttribute]
+    public SpriteRenderer stickyOutBit = null;
 
 	Vector2 origTextureScale;	
 	Vector2 centerPoint;
@@ -25,7 +26,7 @@ public class RotatingTurret : BlockComponent {
 
 	public Vector2 TipPosition {
 		get {
-			var point = (Vector2)stickyOutBit.transform.TransformPoint(Vector2.up*stickyOutBit.sprite.bounds.extents.y);
+            var point = (Vector2)stickyOutBit.transform.TransformPoint(Vector2.up*stickyOutBit.sprite.bounds.max.y);
             return point;
 		}
 	}

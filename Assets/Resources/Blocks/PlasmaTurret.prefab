@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 494484}
   - 212: {fileID: 21204338}
+  - 65: {fileID: 6504150}
   m_Layer: 0
   m_Name: TurretStick
   m_TagString: Untagged
@@ -30,6 +31,7 @@ GameObject:
   - 114: {fileID: 11458222}
   - 114: {fileID: 11425794}
   - 114: {fileID: 11448760}
+  - 65: {fileID: 6561536}
   m_Layer: 16
   m_Name: PlasmaTurret
   m_TagString: Untagged
@@ -62,6 +64,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 403344}
   m_RootOrder: 0
+--- !u!65 &6504150
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160206}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.96126926, y: 1.8007457, z: 0.2}
+  m_Center: {x: -0.003155768, y: 0.9887397, z: 0}
+--- !u!65 &6561536
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188922}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3, y: 1.5419607, z: 0.2}
+  m_Center: {x: 0, y: -0.72901964, z: 0}
 --- !u!114 &11425794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,6 +152,7 @@ MonoBehaviour:
   deserializing: 0
   form: {fileID: 0}
   showLine: 0
+  stickyOutBit: {fileID: 0}
 --- !u!114 &11459202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -202,7 +229,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 71102123b1c4674408aa031f89896548, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

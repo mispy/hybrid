@@ -194,6 +194,21 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
         return false;
     }
 
+    public bool IsCollisionEdge(Block block) {
+        var collisionLayer = CollisionLayer(block.pos);
+        for (var i = 0; i < block.Width; i++) {
+            for (var j = 0; j < block.Height; j++) {
+                var bp = new IntVector2(block.pos.x+i, block.pos.y+j);
+                foreach (var neighbor in IntVector2.Neighbors(bp)) {
+                    if (CollisionLayer(neighbor) != collisionLayer) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public int CollisionLayer(IntVector2 bp) {
 		var baseBlock = this[bp, BlockLayer.Base];
         if (baseBlock == null || baseBlock.health == 0)
