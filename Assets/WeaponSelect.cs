@@ -84,7 +84,7 @@ public class WeaponSelect : MonoBehaviour {
 		}
 
         Game.shipControl.DeselectBlocks();
-        foreach (var block in Game.shipControl.console.connectedBlocks) {
+        foreach (var block in Game.shipControl.console.linkedBlocks) {
             if (block.type == selectedType)
                 Game.shipControl.SelectBlock(block);
         }

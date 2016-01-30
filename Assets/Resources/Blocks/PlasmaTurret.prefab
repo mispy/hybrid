@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 494484}
   - 212: {fileID: 21204338}
   - 65: {fileID: 6504150}
-  m_Layer: 0
+  m_Layer: 16
   m_Name: TurretStick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,6 +32,7 @@ GameObject:
   - 114: {fileID: 11425794}
   - 114: {fileID: 11448760}
   - 65: {fileID: 6561536}
+  - 114: {fileID: 11487172}
   m_Layer: 16
   m_Name: PlasmaTurret
   m_TagString: Untagged
@@ -204,6 +205,25 @@ MonoBehaviour:
   launchVelocity: 40
   projectile: {fileID: 136158, guid: 0678217f203879946a78bd540801f92b, type: 2}
   lastFireTime: 0
+--- !u!114 &11487172
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd61c0a66c2e31b4f8ed073e4cfb1b0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
+  form: {fileID: 0}
 --- !u!212 &21204338
 SpriteRenderer:
   m_ObjectHideFlags: 1

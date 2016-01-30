@@ -40,12 +40,12 @@ public class BlockType : MonoBehaviour {
     public float value = 1f;
 
     static List<BlockType> all = new List<BlockType>();
-    static Dictionary<string, BlockType> byId = new Dictionary<string, BlockType>();
+    static SensibleDictionary<string, BlockType> byId = new SensibleDictionary<string, BlockType>();
 
     public static void LoadTypes() {
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
             type.tileable = Tile.tileables[type.name];
-            BlockType.byId[type.name] = type;
+            BlockType.byId[type.id] = type;
             BlockType.all.Add(type);
         }
     }

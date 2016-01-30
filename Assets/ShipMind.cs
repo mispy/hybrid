@@ -146,7 +146,7 @@ public class ShipMind : PoolBehaviour {
 
             Blockform target = null;
 
-            foreach (var block in console.connectedBlocks) {
+            foreach (var block in console.linkedBlocks) {
                 var launcher = block.GetBlockComponent<ProjectileLauncher>();
                 if (launcher == null) continue;
 

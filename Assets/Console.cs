@@ -12,36 +12,28 @@ public class Console : BlockComponent {
             if (value == _crew) return;
             _crew = value;
 
-            if (crew == null || crew.mind == null) {
-                foreach (var block in connectedBlocks) {
-                    block.mind = null;
-                }
-            } else {
-                foreach (var block in connectedBlocks) {
-                    block.mind = crew.mind;
-                }
+            foreach (var otherBlock in linkedBlocks) {
+                otherBlock.crew = _crew;
             }
         }
     }
+
     float controlRadius = 5f;
+    public HashSet<Block> linkedBlocks = new HashSet<Block>();
 
-    public IEnumerable<Block> connectedBlocks {
-        get {
-            return GetControllable();
-        }
-    }
-
-    public IEnumerable<Block> GetControllable() {
-        foreach (var otherBlock in form.blocks.allBlocks) {
-            if (IntVector2.Distance(otherBlock.pos, block.pos) <= controlRadius)
-                yield return otherBlock;
-        }
+    public bool CanLink(Block otherBlock) {
+        return IntVector2.Distance(block.pos, otherBlock.pos) <= controlRadius;
     }
 
     void Start() {
         radiusLine = Pool.For("Line").Attach<LineRenderer>(transform);
         radiusLine.sortingLayerName = "UI";
         DrawRadius();
+
+        foreach (var otherBlock in form.blocks.allBlocks) {
+            if (CanLink(otherBlock))
+                linkedBlocks.Add(otherBlock);
+        }
     }
 
     void DrawRadius() {

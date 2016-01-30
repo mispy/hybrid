@@ -114,7 +114,7 @@ public class CrewTaskManager : MonoBehaviour {
             }
 
             var console = consoleBlock.GetBlockComponent<Console>();
-            foreach (var block in console.connectedBlocks) {
+            foreach (var block in console.linkedBlocks) {
                 if (block.isDestroyed)
                     AddTask(new RepairTask(block));
             }

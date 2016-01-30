@@ -131,7 +131,8 @@ public class Block {
 		}
 	}
 
-    public CrewMind mind;
+    // The crew member currently controlling this block
+    public CrewBody crew;
 
     public GameObject gameObject = null;
 

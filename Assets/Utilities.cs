@@ -291,22 +291,6 @@ public class ExtendedBinaryWriter : BinaryWriter {
         Write(quat.w);
     }
 
-    public virtual void Write(BlockType type) {
-        Write(Game.GetPrefabIndex(type.gameObject));
-    }
-
-    public virtual void Write(Block block) {
-        if (block == null) {
-            Write(-1);
-            return;
-        }
-
-        Write(Game.GetPrefabIndex(block.type.gameObject));
-        Write(block.blockPos);
-        if (block.type.canRotate)
-            Write(block.facing.index);
-    }
-
     public virtual void Write(GUID guid) {
         Write(guid.value);
     }        
@@ -325,6 +309,17 @@ public class SaveWriter : ExtendedBinaryWriter {
     public virtual void Write(ISaveable obj) {
         obj.OnSave(this);
     }
+
+    public virtual void Write(BlockType type) {
+        Write(type.id);
+    }
+
+    public virtual void Write(Block block) {
+        Write(block.type);
+        Write(block.blockPos);
+        if (block.type.canRotate)
+            Write(block.facing.index);
+    }
 }
 
 public class SaveReader : ExtendedBinaryReader {
@@ -335,6 +330,19 @@ public class SaveReader : ExtendedBinaryReader {
     public virtual void ReadSaveable(ISaveable obj) {
         obj.OnLoad(this);
     }
+
+    public virtual BlockType ReadBlockType() {
+        return BlockType.FromId(ReadString());
+    }
+
+    public virtual Block ReadBlock() {
+        var block = new Block(ReadBlockType());
+        var pos = ReadIntVector3();
+        block.blockPos = pos;
+        if (block.type.canRotate)
+            block.facing = (Facing)ReadInt32();
+        return block;
+    }        
 }
 
 
@@ -351,6 +359,23 @@ public class MispyNetworkWriter : ExtendedBinaryWriter {
         } else {
             Write(net.guid);
         }
+    }
+
+
+    public virtual void Write(BlockType type) {
+        Write(Game.GetPrefabIndex(type.gameObject));
+    }
+
+    public virtual void Write(Block block) {
+        if (block == null) {
+            Write(-1);
+            return;
+        }
+
+        Write(Game.GetPrefabIndex(block.type.gameObject));
+        Write(block.blockPos);
+        if (block.type.canRotate)
+            Write(block.facing.index);
     }
 }
 
@@ -391,24 +416,6 @@ public class ExtendedBinaryReader : BinaryReader {
         var w = ReadSingle();
         return new Quaternion(x, y, z, w);
     }
-
-    public virtual BlockType ReadBlockType() {
-        var prefabIndex = ReadInt32();
-        return Game.PrefabFromIndex(prefabIndex).GetComponent<BlockType>();
-    }
-
-    public virtual Block ReadBlock() {
-        var prefabIndex = ReadInt32();
-        if (prefabIndex == -1) return null;
-
-        var pos = ReadIntVector3();
-
-        var block = new Block(Game.PrefabFromIndex(prefabIndex).GetComponent<BlockType>());
-        block.blockPos = pos;
-        if (block.type.canRotate)
-            block.facing = (Facing)ReadInt32();
-        return block;
-    }        
 }
 
 public class MispyNetworkReader : ExtendedBinaryReader {
@@ -432,6 +439,23 @@ public class MispyNetworkReader : ExtendedBinaryReader {
             return SpaceNetwork.nets[guid].GetComponent<T>();
         }
     }
+
+    public virtual BlockType ReadBlockType() {
+        var prefabIndex = ReadInt32();
+        return Game.PrefabFromIndex(prefabIndex).GetComponent<BlockType>();
+    }
+
+    public virtual Block ReadBlock() {
+        var prefabIndex = ReadInt32();
+        if (prefabIndex == -1) return null;
+
+        var block = new Block(Game.PrefabFromIndex(prefabIndex).GetComponent<BlockType>());
+        var pos = ReadIntVector3();
+        block.blockPos = pos;
+        if (block.type.canRotate)
+            block.facing = (Facing)ReadInt32();
+        return block;
+    }        
 }
 
 public class Util {

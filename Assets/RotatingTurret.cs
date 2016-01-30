@@ -93,8 +93,6 @@ public class RotatingTurret : BlockComponent {
         
         if (!isBlocked && showLine && charger.isReady) {
             dottedLine.enabled = true;
-            var tipPosition = 1;
-
 
             var p1 = stickyOutBit.transform.InverseTransformPoint(TipPosition);
             var p2 = stickyOutBit.transform.InverseTransformPoint(targetPos);
