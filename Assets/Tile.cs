@@ -25,15 +25,17 @@ public class Tileable {
         if (facing == Facing.right) {
             var t = x;
             x = y;
-            y = tileHeight - t - 1;
+            y = t;
             return tiles[x, y].right;
-        } else if (facing == Facing.down) {
-            x = tileWidth - x - 1;
+        } else if (facing == Facing.down) {           
             y = tileHeight - y - 1;
             return tiles[x, y].down;
         } else if (facing == Facing.left) {
+            x = tileWidth - x - 1;
+            y = tileHeight - y - 1;
+
             var t = x;
-            x = tileWidth - y - 1;
+            x = y;
             y = t;
             return tiles[x, y].left;
         }

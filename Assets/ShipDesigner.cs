@@ -16,6 +16,7 @@ public class ShipDesigner : MonoBehaviour {
     Block cursorBlock;
     bool isCursorValid = false;
     bool isMirrorValid = false;
+    Facing currentFacing = Facing.up;
 
     public ConsoleLinker consoleLinker { get; private set; }
 
@@ -69,6 +70,8 @@ public class ShipDesigner : MonoBehaviour {
 
         InputEvent.For(KeyCode.C).Bind(this, () => consoleLinker.gameObject.SetActive(true));
         InputEvent.For(KeyCode.M).Bind(this, () => isMirroring = !isMirroring);
+        InputEvent.For(KeyCode.LeftBracket).Bind(this, () => currentFacing = currentFacing.RotatedLeft());
+        InputEvent.For(KeyCode.RightBracket).Bind(this, () => currentFacing = currentFacing.RotatedRight());
 
         Game.playerShip.blocks.OnBlockAdded += OnBlockAdded;
         Game.playerShip.blocks.OnBlockRemoved += OnBlockRemoved;
@@ -347,8 +350,9 @@ public class ShipDesigner : MonoBehaviour {
 
         var selectedType = Game.blockSelector.selectedType;
         cursorBlock = new Block(selectedType);
-        var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, mousePos);                    
-        cursorBlock.facing = FacingFromAdjoining(mousePos, adjoiningBlock);
+        cursorBlock.facing = currentFacing;
+        //var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, mousePos);                    
+        //cursorBlock.facing = FacingFromAdjoining(mousePos, adjoiningBlock);
 
         cursor.blocks[mousePos, selectedType.blockLayer] = cursorBlock;
         isCursorValid = IsValidPlacement(mousePos, cursorBlock);

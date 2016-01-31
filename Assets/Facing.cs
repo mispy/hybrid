@@ -94,6 +94,28 @@ public struct Facing {
         return index;
     }
 
+    public Facing RotatedLeft() {
+        if (this == Facing.up)
+            return Facing.left;
+        else if (this == Facing.left)
+            return Facing.down;
+        else if (this == Facing.down)
+            return Facing.right;
+        else
+            return Facing.up;
+    }
+
+    public Facing RotatedRight() {
+        if (this == Facing.up)
+            return Facing.right;
+        else if (this == Facing.right)
+            return Facing.down;
+        else if (this == Facing.down)
+            return Facing.left;
+        else
+            return Facing.up;
+    }
+
     public Facing(int index) {
         if (index != -2 && index != -1 && index != 1 && index != 2)
             throw new ArgumentException(String.Format("{0} is not a valid facing index", index));
