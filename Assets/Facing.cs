@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class InvalidFacingException : Exception {
 
@@ -13,6 +14,15 @@ public struct Facing {
     public static Facing down = new Facing(-2);
     public static Facing right = new Facing(1);
     public static Facing left = new Facing(-1);
+
+    public static IEnumerable<Facing> all {
+        get {
+            yield return Facing.up;
+            yield return Facing.down;
+            yield return Facing.right;
+            yield return Facing.left;
+        }
+    }
 
     public static explicit operator Facing(int index) {
         return new Facing(index);

@@ -151,23 +151,68 @@ public struct IntVector2 {
         return Math.Sqrt(Math.Pow(v1.x - v2.x, 2) + Math.Pow(v1.y - v2.y, 2));
     }
 
-    public static IEnumerable<IntVector2> Neighbors(IntVector2 bp) {
-        yield return new IntVector2(bp.x-1, bp.y);
-        yield return new IntVector2(bp.x+1, bp.y);
-        yield return new IntVector2(bp.x, bp.y-1);
-        yield return new IntVector2(bp.x, bp.y+1);
+    public static IEnumerable<IntVector2> Neighbors(IntVector2 pos) {
+        yield return new IntVector2(pos.x-1, pos.y);
+        yield return new IntVector2(pos.x+1, pos.y);
+        yield return new IntVector2(pos.x, pos.y-1);
+        yield return new IntVector2(pos.x, pos.y+1);
     }
     
-    public static IEnumerable<IntVector2> NeighborsWithDiagonal(IntVector2 bp) {
-        yield return new IntVector2(bp.x-1, bp.y);
-        yield return new IntVector2(bp.x+1, bp.y);
-        yield return new IntVector2(bp.x, bp.y-1);
-        yield return new IntVector2(bp.x, bp.y+1);
+    public static IEnumerable<IntVector2> NeighborsWithDiagonal(IntVector2 pos) {
+        yield return new IntVector2(pos.x-1, pos.y);
+        yield return new IntVector2(pos.x+1, pos.y);
+        yield return new IntVector2(pos.x, pos.y-1);
+        yield return new IntVector2(pos.x, pos.y+1);
         
-        yield return new IntVector2(bp.x-1, bp.y-1);
-        yield return new IntVector2(bp.x-1, bp.y+1);
-        yield return new IntVector2(bp.x+1, bp.y-1);
-        yield return new IntVector2(bp.x+1, bp.y+1);
+        yield return new IntVector2(pos.x-1, pos.y-1);
+        yield return new IntVector2(pos.x-1, pos.y+1);
+        yield return new IntVector2(pos.x+1, pos.y-1);
+        yield return new IntVector2(pos.x+1, pos.y+1);
+    }
+
+    public static IEnumerable<IntVector2> Rectangle(IntVector2 pos, int width, int height) {
+        for (var i = pos.x; i < pos.x+width; i++) {
+            for (var j = pos.y; j < pos.y+height; j++) {
+                yield return new IntVector2(i, j);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Get the positions directly adjacent to a rectangle, not including the diagonals.
+    /// 
+    /// e.g. for a 3x3:
+    /// 
+    ///  xxx
+    /// x   x
+    /// x   x
+    /// x   x
+    ///  xxx
+    /// </summary>
+    /// <returns>IEnumerable of the IntVector2 positions.</returns>
+    /// <param name="pos">Bottom-left corner of rectangle.</param>
+    /// <param name="width">Width of rectangle.</param>
+    /// <param name="height">Height of rectangle.</param>
+    public static IEnumerable<IntVector2> NeighborsOfRectangle(IntVector2 pos, int width, int height) {
+        foreach (var facing in Facing.all) {
+            foreach (var sidePos in SideOfRectangle(pos, width, height, facing)) {
+                yield return sidePos+(IntVector2)facing;
+            }
+        }
+    }
+
+    public static IEnumerable<IntVector2> SideOfRectangle(IntVector2 pos, int width, int height, Facing side) {
+        if (side == Facing.up || side == Facing.down) {
+            var y = (side == Facing.up ? pos.y+height-1 : pos.y);
+            for (var i = pos.x; i < pos.x+width; i++) {
+                yield return new IntVector2(i, y);
+            }
+        } else if (side == Facing.left || side == Facing.right) {
+            var x = (side == Facing.right ? pos.x+width-1 : pos.x);
+            for (var j = pos.y; j < pos.y+height; j++) {
+                yield return new IntVector2(x, j);
+            }
+        }
     }
 
     public static bool operator ==(IntVector2 v1, IntVector2 v2) {

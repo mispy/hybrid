@@ -148,38 +148,62 @@ public class ShipDesigner : MonoBehaviour {
         return Util.AdjoiningBlock(block, pos, cursor.blocks);
     }
 
-    bool IsValidPlacement(IntVector2 desiredPos, Block block) {
-        var adjoiningBlock = AdjoiningBlock(block, desiredPos);
-        if (adjoiningBlock == null)
-            return false;
 
-        for (var i = 0; i < block.Width; i++) {
-            for (var j = 0; j < block.Height; j++) {
-                var pos = new IntVector2(desiredPos.x+i, desiredPos.y+j);
+    bool IsValidPlacement(Block block, IntVector2 desiredPos) {
+        foreach (var pos in IntVector2.Rectangle(desiredPos, block.Width, block.Height)) {
+            if (!CanFitInto(block, pos))
+                return false;
 
-                if (!CanFitInto(block, pos))
-                    return false;
+            if (IsBlockedByLOF(pos))
+                return false;
 
-                if (PositionBlocked(pos))
-                    return false;
-
-                if (block.type.canBlockFront && !HasLineOfFire(pos, block.facing))
-                    return false;
-            }
+            if (block.type.canBlockFront && !HasLineOfFire(pos, block.facing))
+                return false;
         }
+
+        if (!IsValidAttachment(block, desiredPos))
+            return false;
         
         return true;
     }
 
-    bool PositionBlocked(IntVector2 pos) {
+
+
+    bool IsValidAttachment(Block block, IntVector2 desiredPos) {
+        if (block.type.canRotate) {
+            // For things like turrets, we want to ensure the entire base of the block lines up with
+            // an appropriate attaching surface
+            foreach (var pos in IntVector2.SideOfRectangle(desiredPos, block.Width, block.Height, -block.facing)) {
+                var offset = (IntVector2)(-block.facing);
+                var baseBlock = designShip.blocks[pos+offset, BlockLayer.Base];
+                if (baseBlock == null || baseBlock.CollisionLayer != Block.wallLayer)
+                    return false;
+            }
+
+
+            return true;
+        } else {
+            // For normal blocks, they simply need to be neighboring another base block to attach
+            foreach (var pos in IntVector2.NeighborsOfRectangle(desiredPos, block.Width, block.Height)) {
+                if (designShip.blocks[pos, BlockLayer.Base] != null)
+                    return true;
+            }            
+
+            return false;
+        }
+    }
+
+
+    bool IsBlockedByLOF(IntVector2 desiredPos) {
+
         foreach (var blocker in designShip.blocks.frontBlockers) {
-            if (pos.x == blocker.x && blocker.facing == Facing.up && pos.y > blocker.y)
+            if (desiredPos.x == blocker.x && blocker.facing == Facing.up && desiredPos.y > blocker.y)
                 return true;
-            if (pos.x == blocker.x && blocker.facing == Facing.down && pos.y < blocker.y)
+            if (desiredPos.x == blocker.x && blocker.facing == Facing.down && desiredPos.y < blocker.y)
                 return true;
-            if (pos.y == blocker.y && blocker.facing == Facing.right && pos.x > blocker.x)
+            if (desiredPos.y == blocker.y && blocker.facing == Facing.right && desiredPos.x > blocker.x)
                 return true;
-            if (pos.y == blocker.y && blocker.facing == Facing.left && pos.x < blocker.x)
+            if (desiredPos.y == blocker.y && blocker.facing == Facing.left && desiredPos.x < blocker.x)
                 return true;
         }
 
@@ -197,10 +221,6 @@ public class ShipDesigner : MonoBehaviour {
         }
 
         return true;
-    }
-
-    bool IsValidPlacement(Block cursorBlock) {
-        return IsValidPlacement(cursorBlock.pos, cursorBlock);
     }
 
     void FinishDrag() {
@@ -298,7 +318,7 @@ public class ShipDesigner : MonoBehaviour {
         foreach (var block in cursor.blocks.allBlocks.ToList()) {
             if (!rect.Contains(block.pos) && (!isMirroring || !mirrorRect.Contains(block.pos)))
                 cursor.blocks[block.pos, block.layer] = null;
-            else if (!IsValidPlacement(block))
+            else if (!IsValidPlacement(block, block.pos))
                 cursor.blocks[block.pos, block.layer] = null;   
         }
 
@@ -308,7 +328,7 @@ public class ShipDesigner : MonoBehaviour {
                     var pos = new IntVector2(i, j);
                     var newBlock = new Block(cursorBlock);
 
-                    if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
+                    if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(newBlock, pos))
                         cursor.blocks[pos, newBlock.layer] = newBlock;
                 }
             }
@@ -325,7 +345,7 @@ public class ShipDesigner : MonoBehaviour {
                     else if (newBlock.facing == Facing.left)
                         newBlock.facing = Facing.right;
 
-                    if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(pos, newBlock))
+                    if (cursor.blocks[pos, newBlock.layer] == null && IsValidPlacement(newBlock, pos))
                         cursor.blocks[pos, newBlock.layer] = newBlock;
                 }
             }
@@ -350,12 +370,13 @@ public class ShipDesigner : MonoBehaviour {
 
         var selectedType = Game.blockSelector.selectedType;
         cursorBlock = new Block(selectedType);
-        cursorBlock.facing = currentFacing;
+        if (cursorBlock.type.canRotate)
+            cursorBlock.facing = currentFacing;
         //var adjoiningBlock = FindAdjoiningBlock(Game.mousePos, mousePos);                    
         //cursorBlock.facing = FacingFromAdjoining(mousePos, adjoiningBlock);
 
         cursor.blocks[mousePos, selectedType.blockLayer] = cursorBlock;
-        isCursorValid = IsValidPlacement(mousePos, cursorBlock);
+        isCursorValid = IsValidPlacement(cursorBlock, mousePos);
 
         if (isMirroring) {
             var mirrorPos = MirrorPosition(mousePos);
@@ -366,7 +387,7 @@ public class ShipDesigner : MonoBehaviour {
                 mirrorBlock.facing = Facing.left;
             cursor.blocks[mirrorPos, selectedType.blockLayer] = mirrorBlock;
 
-            isMirrorValid = IsValidPlacement(mirrorPos, cursorBlock);
+            isMirrorValid = IsValidPlacement(cursorBlock, mirrorPos);
         } else {
             isMirrorValid = true;
         }

@@ -204,6 +204,17 @@ public class Block {
             layer = (BlockLayer)value.z;
         }
     }
+
+    public IEnumerable<IntVector2> positions {
+        get {
+            for (var i = 0; i < Width; i++) {
+                for (var j = 0; j < Height; j++) {
+                    yield return new IntVector2(pos.x, pos.y);
+                }
+            }
+        }
+    }
+
     public Vector2 worldPos {
         get {
             return ship.BlockToWorldPos(this);
