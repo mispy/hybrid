@@ -121,26 +121,32 @@ public class ShipControl : MonoBehaviour {
     Vector2 lastLeftClickPos = new Vector2(0, 0);
 
     public void OnForwardThrust() {
+        if (!console.canAccessThrusters) return;
         ship.FireThrusters(Facing.down);
     }
 
-    public void OnReverseThrust() {
+    public void OnReverseThrust() {        
+        if (!console.canAccessThrusters) return;
         ship.FireThrusters(Facing.up);
     }
 
     public void OnStrafeLeft() {
+        if (!console.canAccessThrusters) return;
         ship.FireThrusters(Facing.right);
     }
 
     public void OnStrafeRight() {
+        if (!console.canAccessThrusters) return;
         ship.FireThrusters(Facing.left);
     }
 
     public void OnTurnRight() {
+        if (!console.canAccessThrusters) return;
         ship.FireAttitudeThrusters(Facing.left);
     }
 
     public void OnTurnLeft() {
+        if (!console.canAccessThrusters) return;
         ship.FireAttitudeThrusters(Facing.right);
     }
 

@@ -192,7 +192,6 @@ MonoBehaviour:
     x: 0
     y: 0
   repairTool: {fileID: 0}
-  weapon: {fileID: 0}
   mind: {fileID: 0}
   maxHealth: 100
   health: 100

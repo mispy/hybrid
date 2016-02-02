@@ -73,7 +73,7 @@ public class Blockform : PoolBehaviour, ISaveable {
     public bool hasMindPilot {
         get {
             foreach (var console in GetBlockComponents<Console>()) {
-                if (console.crew != null && console.crew.mind != null)
+                if (console.canAccessThrusters && console.crew != null && console.crew.mind != null)
                     return true;
             }
             return false;

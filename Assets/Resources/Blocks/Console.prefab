@@ -101,6 +101,8 @@ MonoBehaviour:
   lastSyncReceived: 0
   deserializing: 0
   form: {fileID: 0}
+  controlRadius: 5
+  canAccessThrusters: 0
 --- !u!212 &21267236
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -211,6 +213,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: value
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: controlRadius
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class Console : BlockComponent {
     LineRenderer radiusLine = null;
+    public float controlRadius;
+    public bool canAccessThrusters = false;
 
     private CrewBody _crew;
     public CrewBody crew {
@@ -18,7 +20,6 @@ public class Console : BlockComponent {
         }
     }
 
-    float controlRadius = 5f;
     public HashSet<Block> linkedBlocks = new HashSet<Block>();
 
     public bool CanLink(Block otherBlock) {

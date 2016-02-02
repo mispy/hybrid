@@ -192,6 +192,10 @@ public static class Game {
     public static void Save() {
         var path = Application.dataPath + "/Saves/player.ship";
 
+        if (!Directory.Exists(Application.dataPath + "/Saves")) {
+            Directory.CreateDirectory(Application.dataPath + "/Saves");
+        }
+
         using (var stream = new FileStream(path, FileMode.Create)) {
             var save = new SaveWriter(stream);
             save.Write(Game.playerShip);
