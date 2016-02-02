@@ -117,9 +117,30 @@ public class ShipMind : PoolBehaviour {
             nearestEnemy = enemies.First();
         }
 
+        AvoidCollision();
         UpdateWeapons();
         UpdateTactic();
     } 
+
+
+    public void AvoidCollision() {
+        if (!ship.hasMindPilot) return;
+
+        foreach (var form in Util.ShipsInRadius(transform.position, ship.length*2)) {
+            if (form == ship) continue;
+
+            var local = transform.InverseTransformPoint(form.transform.position);
+            if (local.x > 0)
+                ship.FireThrusters(Facing.right);
+            if (local.x < 0)
+                ship.FireThrusters(Facing.left);
+            if (local.y > 0)
+                ship.FireThrusters(Facing.up);
+            if (local.y < 0)
+                ship.FireThrusters(Facing.down);
+        }
+    }
+
 
     bool IsEnemy(Blockform otherShip) {
         return otherShip != ship && (ship == Game.playerShip || otherShip == Game.playerShip);
