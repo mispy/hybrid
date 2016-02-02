@@ -23,6 +23,8 @@ public class CrewBody : PoolBehaviour {
     public Block currentBlock = null;
     public RepairTool repairTool;
 
+    public static HashSet<CrewBody> all = new HashSet<CrewBody>();
+
     public bool isMaglocked {
         get {
             return maglockShip != null;
@@ -37,7 +39,6 @@ public class CrewBody : PoolBehaviour {
 
     public Block controlConsole = null;
     
-    public CrewWeapon weapon;
     [ReadOnlyAttribute]
     public CrewMind mind;
 
@@ -96,11 +97,18 @@ public class CrewBody : PoolBehaviour {
         connectionId = -1;
         channel = Channel.ReliableSequenced;
         collider = GetComponent<BoxCollider>();
-        weapon = gameObject.AddComponent<CrewWeapon>();
         rigidBody = GetComponent<Rigidbody>();
         syncRigid = GetComponent<SyncRigid>();
         repairTool = GetComponentInChildren<RepairTool>();
         //mind = gameObject.AddComponent<CrewMind>();      
+    }
+
+    void OnEnable() {
+        CrewBody.all.Add(this);
+    }
+
+    void OnDisable() {
+        CrewBody.all.Remove(this);
     }
 
     public void MaglockMove(IntVector2 bp) {

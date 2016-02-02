@@ -79,11 +79,14 @@ public class CrewMind : MonoBehaviour {
             UpdateFreeMovement();
         }
 
-        /*foreach (var other in Crew.all) {
+
+
+        foreach (var other in CrewBody.all) {
             if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {
-                crew.weapon.Fire(other.transform.position);
+                var weapon = crew.GetComponentInChildren<CrewBeamWeapon>();
+                weapon.Fire(other.transform.position);
             }
-        }*/
+        }
 
 		/*if (crew.currentBlock == null && crew.job == null) {
 			var floor = Util.GetRandom(crew.Ship.blocks.Find("Floor").ToList());
@@ -92,7 +95,7 @@ public class CrewMind : MonoBehaviour {
     }
 
     bool IsEnemy(CrewBody other) {
-        return false;
+        return other.parentShip != crew.parentShip;
     }
 
     void UpdateLockedMovement() {
