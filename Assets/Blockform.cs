@@ -72,11 +72,18 @@ public class Blockform : PoolBehaviour, ISaveable {
 
     public bool hasMindPilot {
         get {
+            var mindPilot = false;
+
             foreach (var console in GetBlockComponents<Console>()) {
-                if (console.canAccessThrusters && console.crew != null && console.crew.mind != null)
-                    return true;
+                if (console.canAccessThrusters && console.crew != null) {
+                    if (console.crew.mind != null) 
+                        mindPilot = true;
+                    else
+                        return false;
+                }
             }
-            return false;
+
+            return mindPilot;
         }
     }
 
@@ -276,6 +283,13 @@ public class Blockform : PoolBehaviour, ISaveable {
 
         AddCrew();
         AddCrew();
+        AddCrew();
+        AddCrew();
+        AddCrew();
+        AddCrew();
+        AddCrew();
+        AddCrew();
+
 
 /*        foreach (var block in Game.playerShip.blocks.allBlocks) {
             block.health /= 2.0f;

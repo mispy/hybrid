@@ -107,7 +107,7 @@ public class CrewTaskManager : MonoBehaviour {
 
         // For consoles, the priority is to repair everything connected to them
         // first and then find a crew member to staff them
-        foreach (var consoleBlock in ship.blocks.Find<Console>()) {
+        foreach (var consoleBlock in ship.blocks.Find<Console>().OrderBy((c) => !c.GetBlockComponent<Console>().canAccessThrusters)) {
             if (consoleBlock.isDestroyed) {
                 AddTask(new RepairTask(consoleBlock));
                 continue;
