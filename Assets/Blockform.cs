@@ -469,24 +469,6 @@ public class Blockform : PoolBehaviour, ISaveable {
         var orient = Util.cardinalToOrient[Util.Cardinalize(localDir)];
         FireThrusters((Orientation)(-(int)orient));*/
     }
-
-	public void AvoidCollision() {
-        if (this == Game.playerShip) return;
-
-		foreach (var form in Util.ShipsInRadius(transform.position, length*2)) {
-			if (form == this) continue;
-
-			var local = transform.InverseTransformPoint(form.transform.position);
-			if (local.x > 0)
-				FireThrusters(Facing.right);
-			if (local.x < 0)
-				FireThrusters(Facing.left);
-			if (local.y > 0)
-				FireThrusters(Facing.up);
-			if (local.y < 0)
-				FireThrusters(Facing.down);
-		}
-	}
 	
 	public void FollowPath(List<Vector2> path) {
 		var target = path[0];
@@ -624,7 +606,6 @@ public class Blockform : PoolBehaviour, ISaveable {
 	}
 
 	void Update() {
-		AvoidCollision();
         DebugUtil.DrawPoint(transform, box.transform.position);
 	}
 }

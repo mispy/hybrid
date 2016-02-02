@@ -124,17 +124,16 @@ public class ShipDesigner : MonoBehaviour {
     }
 
     bool CanFitInto(Block cursorBlock, IntVector2 pos) {
-        var existingBlock = designShip.blocks[pos, BlockLayer.Base];
+        var baseBlock = designShip.blocks[pos, BlockLayer.Base];
 
-        // Base layer blocks only go in empty space adjacent to an existing block
-        if (cursorBlock.layer == BlockLayer.Base && existingBlock == null)
+        if (cursorBlock.layer == BlockLayer.Base)
             return true;
         
         // Top layer blocks go on top of floor, or sometimes inside walls
-        if (cursorBlock.layer == BlockLayer.Top && existingBlock != null) {
-            if (existingBlock.Is("Floor")) 
+        if (cursorBlock.layer == BlockLayer.Top && baseBlock != null) {
+            if (baseBlock.Is("Floor")) 
                 return true;
-            if (existingBlock.Is("Wall") && cursorBlock.type.canFitInsideWall)
+            if (baseBlock.Is("Wall") && cursorBlock.type.canFitInsideWall)
                 return true;
         }
 
@@ -185,7 +184,7 @@ public class ShipDesigner : MonoBehaviour {
         } else {
             // For normal blocks, they simply need to be neighboring another base block to attach
             foreach (var pos in IntVector2.NeighborsOfRectangle(desiredPos, block.Width, block.Height)) {
-                if (designShip.blocks[pos, BlockLayer.Base] != null)
+                if (designShip.blocks[pos, BlockLayer.Base] != null || cursor.blocks[pos, BlockLayer.Base] != null)
                     return true;
             }            
 

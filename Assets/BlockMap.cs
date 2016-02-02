@@ -427,7 +427,7 @@ public class BlockMap : PoolBehaviour, ISerializationCallbackReceiver {
 
     void AssignBlock(Block block, IntVector2 bp, BlockLayer layer) {
         block.pos = bp;
-		block.ship = ship;
+		//block.ship = ship;
 
         for (var i = 0; i < block.Width; i++) {
             for (var j = 0; j < block.Height; j++) {
