@@ -1,15 +1,15 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &183612
+--- !u!1 &196316
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 478248}
-  - 114: {fileID: 11446358}
-  - 114: {fileID: 11494034}
+  - 4: {fileID: 445848}
+  - 114: {fileID: 11497700}
+  - 114: {fileID: 11476046}
   m_Layer: 0
   m_Name: Destroyer
   m_TagString: Untagged
@@ -17,43 +17,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &478248
+--- !u!4 &445848
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183612}
+  m_GameObject: {fileID: 196316}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11446358
+--- !u!114 &11476046
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  needsSync: 0
-  syncCountdown: 0
-  channel: 0
-  syncRate: 0.1
-  syncDeltaTime: 0
-  lastSyncReceived: 0
-  deserializing: 0
-  tagged: 
---- !u!114 &11494034
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 183612}
+  m_GameObject: {fileID: 196316}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
@@ -67,13 +48,13 @@ MonoBehaviour:
   lastSyncReceived: 0
   deserializing: 0
   ship: {fileID: 0}
-  maxX: 14
-  minX: -12
-  maxY: 9
+  maxX: 16
+  minX: -14
+  maxY: 11
   minY: -3
-  width: 27
-  height: 13
-  baseSize: 226
+  width: 31
+  height: 15
+  baseSize: 264
   blockData:
   - pos:
       x: 4
@@ -1387,10 +1368,10 @@ MonoBehaviour:
   - pos:
       x: -11
       y: 7
-    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
     facing:
       index: 2
-    layer: 0
+    layer: 1
   - pos:
       x: -11
       y: 6
@@ -1427,11 +1408,11 @@ MonoBehaviour:
       index: 2
     layer: 0
   - pos:
-      x: -10
-      y: 8
-    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+      x: -14
+      y: 6
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
     facing:
-      index: 2
+      index: -1
     layer: 0
   - pos:
       x: -7
@@ -1561,36 +1542,36 @@ MonoBehaviour:
     layer: 0
   - pos:
       x: -9
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      y: 8
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: 11
+      y: 8
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -2
+      y: 8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
     facing:
       index: 2
     layer: 0
   - pos:
-      x: -8
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      x: -5
+      y: 5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
     facing:
       index: 2
     layer: 0
   - pos:
-      x: -7
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: -11
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: 9
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      x: 7
+      y: 5
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
     facing:
       index: 2
     layer: 0
@@ -1602,35 +1583,140 @@ MonoBehaviour:
       index: 2
     layer: 0
   - pos:
-      x: 11
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      x: -12
+      y: 2
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
     facing:
-      index: 2
+      index: -1
     layer: 0
   - pos:
-      x: 12
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      x: -12
+      y: 1
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
     facing:
-      index: 2
+      index: -1
     layer: 0
   - pos:
-      x: 13
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      x: -12
+      y: 3
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
     facing:
-      index: 2
+      index: -1
     layer: 0
   - pos:
-      x: -9
-      y: 8
+      x: 14
+      y: 2
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: 3
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 14
+      y: 1
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: -11
+      y: 3
     type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
     facing:
       index: 2
     layer: 1
   - pos:
+      x: 13
+      y: 3
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -12
+      y: 4
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: -1
+    layer: 0
+  - pos:
+      x: 14
+      y: 4
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 1
+    layer: 0
+  - pos:
+      x: 2
+      y: -2
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: -1
+    layer: 1
+  - pos:
+      x: 2
+      y: -2
+    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -11
+      y: 7
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 13
+      y: 7
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -9
+      y: 4
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: -1
+    layer: 1
+  - pos:
       x: 11
+      y: 4
+    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
+    facing:
+      index: 1
+    layer: 1
+  - pos:
+      x: 4
+      y: 8
+    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 9
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 2
+      y: 9
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -1
       y: 8
     type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
     facing:
@@ -1638,193 +1724,51 @@ MonoBehaviour:
     layer: 1
   - pos:
       x: 3
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
+      y: 8
+    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
+    facing:
+      index: 2
+    layer: 1
+  - pos:
+      x: -3
+      y: 6
+    type: {fileID: 11412334, guid: 21be33ff9064ea5479b5cb1e257b765b, type: 2}
     facing:
       index: 2
     layer: 0
   - pos:
-      x: 7
-      y: 0
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+      x: 14
+      y: 6
+    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
     facing:
       index: 1
     layer: 0
   - pos:
-      x: 1
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: 0
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: -5
-      y: 0
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: -1
-    layer: 0
-  - pos:
-      x: 2
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: -5
-      y: 5
+      x: -10
+      y: 8
     type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
     facing:
       index: 2
     layer: 0
-  - pos:
-      x: 7
-      y: 5
-    type: {fileID: 11429582, guid: 194b52b3f03d75e4e86162c91486ade6, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: -1
-      y: 9
-    type: {fileID: 11459202, guid: 241c37f180611954792be35301902176, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: -12
-      y: 2
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: -1
-    layer: 0
-  - pos:
-      x: -12
-      y: 1
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: -1
-    layer: 0
-  - pos:
-      x: -12
-      y: 3
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: -1
-    layer: 0
-  - pos:
-      x: 14
-      y: 2
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: 1
-    layer: 0
-  - pos:
-      x: 14
-      y: 3
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: 1
-    layer: 0
-  - pos:
-      x: 14
-      y: 1
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: 1
-    layer: 0
-  - pos:
-      x: -11
-      y: 3
-    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
-    facing:
-      index: 2
-    layer: 1
-  - pos:
-      x: 13
-      y: 3
-    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
-    facing:
-      index: 2
-    layer: 1
-  - pos:
-      x: -12
-      y: 5
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: -1
-    layer: 0
-  - pos:
-      x: -12
-      y: 4
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: -1
-    layer: 0
-  - pos:
-      x: 14
-      y: 5
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: 1
-    layer: 0
-  - pos:
-      x: 14
-      y: 4
-    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
-    facing:
-      index: 1
-    layer: 0
-  - pos:
-      x: 2
-      y: -2
-    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
-    facing:
-      index: -1
-    layer: 1
-  - pos:
-      x: 2
-      y: -2
-    type: {fileID: 11425422, guid: eca7d2067732bd04480a73a5e995b731, type: 2}
-    facing:
-      index: 2
-    layer: 0
-  - pos:
-      x: -11
-      y: 7
-    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
-    facing:
-      index: 2
-    layer: 1
-  - pos:
-      x: 13
-      y: 7
-    type: {fileID: 11447682, guid: 4a6d9df209a4cce43800b5bf44ba4967, type: 2}
-    facing:
-      index: 2
-    layer: 1
-  - pos:
-      x: -9
-      y: 4
-    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
-    facing:
-      index: -1
-    layer: 1
-  - pos:
-      x: 11
-      y: 4
-    type: {fileID: 11407554, guid: 101c89c35ebe5434a9a8ebac7e6d2db2, type: 2}
-    facing:
-      index: 1
-    layer: 1
+--- !u!114 &11497700
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 196316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  needsSync: 0
+  syncCountdown: 0
+  channel: 0
+  syncRate: 0.1
+  syncDeltaTime: 0
+  lastSyncReceived: 0
+  deserializing: 0
+  tagged: 
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -1834,5 +1778,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 183612}
+  m_RootGameObject: {fileID: 196316}
   m_IsPrefabParent: 1

@@ -213,7 +213,7 @@ public static class Game {
     }
 
     public static void New() {
-        Game.playerShip = Blockform.FromTemplate(Game.state.playerShipTemplate);
+        Game.playerShip = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
         Game.activeSector.Load();
     }
 
@@ -221,7 +221,13 @@ public static class Game {
         SpaceNetwork.manager.GetComponent<NetworkManagerHUD>().enabled = false;
         Game.state.gameObject.SetActive(true);
 
-        Game.Load();
+        var path = Application.dataPath + "/Saves/player.ship";
+
+        if (File.Exists(path)) {
+            Game.Load();
+        } else {
+            Game.New();
+        }
     }
 }
 

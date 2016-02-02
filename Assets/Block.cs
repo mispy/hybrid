@@ -217,7 +217,10 @@ public class Block {
 
     public Vector2 worldPos {
         get {
-            return ship.BlockToWorldPos(this);
+            if (gameObject != null)
+                return (Vector2)gameObject.transform.position;
+            else
+                return ship.BlockToWorldPos(this);
         }
     }
     public BlockLayer layer;

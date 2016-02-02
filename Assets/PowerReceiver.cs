@@ -53,7 +53,7 @@ public class PowerReceiver : BlockComponent {
             return true;
 
         foreach (var producer in form.GetBlockComponents<PowerProducer>()) {
-            if (producer.isProducing && IntVector2.Distance(block.pos, producer.block.pos) <= producer.supplyRadius) {
+            if (producer.isProducing && Vector2.Distance(block.worldPos, producer.block.worldPos) <= producer.supplyRadius) {
                 attachedProducer = producer;
                 return true;
             }

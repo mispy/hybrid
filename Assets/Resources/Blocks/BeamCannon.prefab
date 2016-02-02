@@ -95,6 +95,7 @@ MonoBehaviour:
   deserializing: 0
   form: {fileID: 0}
   showLine: 0
+  stickyOutBit: {fileID: 0}
 --- !u!114 &11456218
 MonoBehaviour:
   m_ObjectHideFlags: 1

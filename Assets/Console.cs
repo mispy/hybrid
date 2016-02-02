@@ -22,7 +22,7 @@ public class Console : BlockComponent {
     public HashSet<Block> linkedBlocks = new HashSet<Block>();
 
     public bool CanLink(Block otherBlock) {
-        return IntVector2.Distance(block.pos, otherBlock.pos) <= controlRadius;
+        return Vector2.Distance(block.worldPos, otherBlock.worldPos) <= controlRadius;
     }
 
     void Start() {

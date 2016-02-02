@@ -66,6 +66,9 @@ public class CrewMind : MonoBehaviour {
     public Block toRepair = null;
 
 	void Update() {
+        if (!SpaceNetwork.isServer)
+            return;
+        
         ship = crew.maglockShip;
 
 		DrawPath();
