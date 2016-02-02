@@ -55,11 +55,7 @@ public class TileRenderer : PoolBehaviour {
         if (block.layer == BlockLayer.Top)
             tileLayer = topTiles;
 
-        for (var i = 0; i < block.Width; i++) {
-            for (var j = 0; j < block.Height; j++) {
-                tileLayer[block.pos.x + i, block.pos.y + j] = block.type.tileable.GetRotatedTile(i, j, block.facing);
-            }
-        }
+        tileLayer[block.pos.x, block.pos.y] = block.type.tileable.GetRotatedTile(block.facing);
     }
 
     void OnBlockRemoved(Block block) {

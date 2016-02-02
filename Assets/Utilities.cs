@@ -381,7 +381,14 @@ public class SaveReader : ExtendedBinaryReader {
     }
 
     public virtual Block ReadBlock() {
-        var block = new Block(ReadBlockType());
+        Block block;
+        try {
+            block = new Block(ReadBlockType());
+        } catch (KeyNotFoundException ex) {
+            ReadIntVector3();
+            return null;
+        }
+
         var pos = ReadIntVector3();
         block.blockPos = pos;
         if (block.type.canRotate)

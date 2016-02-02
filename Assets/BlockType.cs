@@ -44,7 +44,9 @@ public class BlockType : MonoBehaviour {
 
     public static void LoadTypes() {
         foreach (var type in Game.LoadPrefabs<BlockType>("Blocks")) {
-            type.tileable = Tile.tileables[type.name];
+            type.tileable = Tile.tileablesByName[type.GetComponent<SpriteRenderer>().sprite.texture.name];
+            type.tileable.tileWidth = Mathf.RoundToInt(type.transform.localScale.x);
+            type.tileable.tileHeight = Mathf.RoundToInt(type.transform.localScale.y);
             BlockType.byId[type.id] = type;
             BlockType.all.Add(type);
         }

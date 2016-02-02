@@ -30,7 +30,13 @@ public class BlockInventory : ISaveable {
     void ISaveable.OnLoad(SaveReader save) {
         var total = save.ReadInt32();
         for (var i = 0; i < total; i++) {
-            amounts[save.ReadBlockType()] = save.ReadInt32();
+            BlockType type;
+            try {
+                type = save.ReadBlockType();
+                amounts[type] = save.ReadInt32();
+            } catch (KeyNotFoundException ex) {
+                save.ReadInt32();
+            }
         }
     }
 

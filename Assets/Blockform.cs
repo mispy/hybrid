@@ -167,7 +167,8 @@ public class Blockform : PoolBehaviour, ISaveable {
         var count = save.ReadInt32();
         for (var i = 0; i < count; i++) {
             var block = save.ReadBlock();
-            blocks[block.pos, block.layer] = block;
+            if (block != null)
+                blocks[block.pos, block.layer] = block;
         }        
     }
 
@@ -396,10 +397,15 @@ public class Blockform : PoolBehaviour, ISaveable {
             comp.guid = new GUID(guid.value + (blockGUIDCounter += 1));
             SpaceNetwork.Register(comp);
         }
-        
-        if (!block.type.isComplexBlock)
-            obj.GetComponent<SpriteRenderer>().enabled = false;
 
+        var sprite = obj.GetComponent<SpriteRenderer>();
+        if (block.type.isComplexBlock) {            
+            //Debug.LogFormat("{0} {1} {2}", block.type, block.type.transform.localScale.x, sprite.bounds.size.x);
+            sprite.transform.localScale = new Vector3(1, 1, 1);
+            sprite.transform.localScale = new Vector3(block.type.transform.localScale.x / sprite.bounds.size.x, block.type.transform.localScale.y / sprite.bounds.size.y, 1);
+        } else
+            obj.GetComponent<SpriteRenderer>().enabled = false;
+        
         obj.gameObject.SetActive(true);
     }
     

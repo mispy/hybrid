@@ -11,49 +11,27 @@ public class Tileable {
     public string name;
     public int tileWidth;
     public int tileHeight;
-    public BaseTile[,] tiles;
     public Texture2D texture;
-    
-    public Tileable(int width, int height) {
-        tileWidth = width;
-        tileHeight = height;
-        tiles = new BaseTile[width, height];
-    }
 
-    
-    public Tile GetRotatedTile(int x, int y, Facing facing) {
-        if (facing == Facing.right) {
-            var t = x;
-            x = y;
-            y = t;
-            return tiles[x, y].right;
-        } else if (facing == Facing.down) {           
-            y = tileHeight - y - 1;
-            return tiles[x, y].down;
-        } else if (facing == Facing.left) {
-            x = tileWidth - x - 1;
-            y = tileHeight - y - 1;
-
-            var t = x;
-            x = y;
-            y = t;
-            return tiles[x, y].left;
-        }
-
-        return tiles[x, y].up;
-    }
-}
-
-public class BaseTile {
-    public readonly Texture2D texture; 
-    
     public Tile up;
     public Tile right;
     public Tile down;
     public Tile left;
-    
-    public BaseTile(Texture2D texture) {
+
+    public Tileable(Texture2D texture) {
         this.texture = texture;
+    }
+
+    public Tile GetRotatedTile(Facing facing) {
+        if (facing == Facing.up)
+            return up;
+        else if (facing == Facing.right)
+            return right;
+        else if (facing == Facing.down)
+            return down;
+        else if (facing == Facing.left)
+            return left;
+        return up;
     }
 }
 
@@ -62,8 +40,8 @@ public class BaseTile {
 #endif
 public class Tile {
     public static List<Texture2D> textures = new List<Texture2D>();
-    public static List<BaseTile> baseTiles = new List<BaseTile>();
-    public static Dictionary<string, Tileable> tileables = new Dictionary<string, Tileable>();
+    public static Dictionary<string, Tileable> tileablesByName = new Dictionary<string, Tileable>();
+    public static List<Tileable> allTileables = new List<Tileable>();
     
     public static int pixelSize = 32; // the size of a tile in pixels
     public static float worldSize = 1f; // the size of a tile in worldspace coordinates
@@ -74,36 +52,13 @@ public class Tile {
     
     static Tile() {
         foreach (var texture in Game.LoadTextures("Tileables")) {
-            var tileWidth = texture.width / Tile.pixelSize;
-            var tileHeight = texture.height / Tile.pixelSize;
-            var tileable = new Tileable(tileWidth, tileHeight);
-            tileable.texture = texture;
-            
-            if (texture.width == Tile.pixelSize && texture.height == Tile.pixelSize) {
-                var baseTile = new BaseTile(texture);
-                tileable.tiles[0, 0] = baseTile;
-                Tile.baseTiles.Add(baseTile);
-            } else {
-                // tileable images bigger than pixelSize will be broken up into multiple tiles
-                for (var x = 0; x < tileWidth; x++) {
-                    for (var y = 0; y < tileHeight; y++) {
-                        Color[] pixels = texture.GetPixels(x*Tile.pixelSize, y*Tile.pixelSize, Tile.pixelSize, Tile.pixelSize);
-                        var tileTex = new Texture2D(Tile.pixelSize, Tile.pixelSize, texture.format, false, false);
-                        tileTex.SetPixels(pixels);
-                        tileTex.Apply();
-                        var baseTile = new BaseTile(tileTex);
-                        tileable.tiles[x, y] = baseTile;
-                        //Debug.LogFormat("{0} {1} {2} {3} {4}", x, y, tileWidth, tileHeight, texture.name);
-                        Tile.baseTiles.Add(baseTile);
-                    }
-                }
-            }
-            
-            tileables[texture.name] = tileable;
+            var tileable = new Tileable(texture);
+            tileablesByName[texture.name] = tileable;
+            allTileables.Add(tileable);
         }
         
         // let's compress all the textures into a single tilesheet
-        Texture2D[] textures = baseTiles.Select(type => type.texture).ToArray();
+        Texture2D[] textures = allTileables.Select(tileable => tileable.texture).ToArray();
         var atlas = new Texture2D(pixelSize*100, pixelSize*100, TextureFormat.RGBA32, false);
 		atlas.filterMode = FilterMode.Point;
 		atlas.wrapMode = TextureWrapMode.Clamp;
@@ -144,8 +99,8 @@ public class Tile {
 		atlas.SetPixels32(colors);
 		atlas.Apply();
         
-        for (var i = 0; i < baseTiles.Count; i++) {            
-            var baseTile = baseTiles[i];
+        for (var i = 0; i < allTileables.Count; i++) {            
+            var tileable = allTileables[i];
             var box = boxes[i];
             var upUVs = new Vector2[] {
                 new Vector2(box.xMin, box.yMax),
@@ -175,21 +130,21 @@ public class Tile {
                 new Vector2(box.xMax, box.yMax)
             };
             
-            baseTile.up = new Tile(baseTile, Facing.up, upUVs);
-            baseTile.right = new Tile(baseTile, Facing.right, rightUVs);
-            baseTile.down = new Tile(baseTile, Facing.down, downUVs);
-            baseTile.left = new Tile(baseTile, Facing.left, leftUVs);
+            tileable.up = new Tile(tileable, Facing.up, upUVs);
+            tileable.right = new Tile(tileable, Facing.right, rightUVs);
+            tileable.down = new Tile(tileable, Facing.down, downUVs);
+            tileable.left = new Tile(tileable, Facing.left, leftUVs);
         }
         
         Game.Prefab("TileChunk").GetComponent<MeshRenderer>().sharedMaterial.mainTexture = atlas;
     }
-    
-    public readonly BaseTile baseTile;
+
+    public readonly Tileable tileable;
     public readonly Facing rot;    
     public readonly Vector2[] uvs;
-    
-    public Tile(BaseTile baseTile, Facing rot, Vector2[] uvs) {
-        this.baseTile = baseTile;
+
+    public Tile(Tileable tileable, Facing rot, Vector2[] uvs) {
+        this.tileable = tileable;
         this.rot = rot;
         this.uvs = uvs;
     }

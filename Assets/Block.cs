@@ -147,23 +147,22 @@ public class Block {
         }
     }
 
-    public Tile Tile {
+    /*public Tile Tile {
         get {
             var tileable = Tile.tileables[this.type.name];
-            var baseTile = tileable.tiles[0,0];
             if (facing == Facing.up) {
-                return baseTile.up;
+                return tileable.up;
             } if (facing == Facing.right) {
-                return baseTile.right;
+                return tileable.right;
             } if (facing == Facing.down) {
-                return baseTile.down;
+                return tileable.down;
             } if (facing == Facing.left) {
-                return baseTile.left;
+                return tileable.left;
             }
 
-            return baseTile.up;
+            return tileable.up;
         }
-    }
+    }*/
 
     public float scrapContent;
 
@@ -233,11 +232,11 @@ public class Block {
     public Tileable tileable;
 
     public int Width {
-        get { return tileable.tileWidth; }
+        get { return Mathf.RoundToInt(type.transform.localScale.x); }
     }
 
     public int Height {
-        get { return tileable.tileHeight; }
+        get { return Mathf.RoundToInt(type.transform.localScale.y); }
     }
 
     public void MakeType(BlockType type) {
