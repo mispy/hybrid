@@ -133,7 +133,7 @@ public class ShipDesigner : MonoBehaviour {
         if (cursorBlock.layer == BlockLayer.Top && baseBlock != null) {
             if (baseBlock.Is("Floor")) 
                 return true;
-            if (baseBlock.Is("Wall") && cursorBlock.type.canFitInsideWall)
+            if (!baseBlock.type.canRotate && cursorBlock.type.canFitInsideWall)
                 return true;
         }
 

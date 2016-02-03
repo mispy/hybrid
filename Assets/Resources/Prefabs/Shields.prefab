@@ -75,7 +75,7 @@ MonoBehaviour:
   maxHealth: 30
   health: 30
   regenRate: 1
-  arcLength: 0.2
+  arcLength: 1
   isActive: 1
   arcPositions: []
 --- !u!114 &11473570
@@ -193,6 +193,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: regenRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: arcLength
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

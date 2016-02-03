@@ -47,7 +47,6 @@ public class Shields : PoolBehaviour {
     }
 
 	public void TakeDamage(float amount) {
-        return;
 		health = Mathf.Max(0, health - amount);
 		UpdateStatus();
 		SendMessage("OnShieldsChange");
