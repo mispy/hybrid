@@ -75,7 +75,9 @@ MonoBehaviour:
   maxHealth: 30
   health: 30
   regenRate: 1
+  arcLength: 0.2
   isActive: 1
+  arcPositions: []
 --- !u!114 &11473570
 MonoBehaviour:
   m_ObjectHideFlags: 1

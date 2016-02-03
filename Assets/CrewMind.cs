@@ -81,7 +81,7 @@ public class CrewMind : MonoBehaviour {
 
 
 
-        foreach (var other in CrewBody.all) {
+        foreach (var other in CrewBody.all.ToList()) {
             if (IsEnemy(other) && Util.LineOfSight(crew.gameObject, other.transform.position)) {
                 var weapon = crew.GetComponentInChildren<CrewBeamWeapon>();
                 weapon.Fire(other.transform.position);

@@ -227,6 +227,7 @@ public class Blockform : PoolBehaviour, ISaveable {
     public void AddCrew() {
         var floor = Util.GetRandom(blocks.Find("Floor").ToList());
         var crew = Pool.For("Crew").Attach<CrewBody>(transform);
+        crew.transform.parent = transform;
         crew.transform.position = BlockToWorldPos(floor);
     }
 
@@ -280,15 +281,6 @@ public class Blockform : PoolBehaviour, ISaveable {
         Game.activeSector.blockforms.Add(this);
         InvokeRepeating("UpdateMass", 0f, 0.5f);
         hasStarted = true;
-
-        AddCrew();
-        AddCrew();
-        AddCrew();
-        AddCrew();
-        AddCrew();
-        AddCrew();
-        AddCrew();
-        AddCrew();
 
 
 /*        foreach (var block in Game.playerShip.blocks.allBlocks) {

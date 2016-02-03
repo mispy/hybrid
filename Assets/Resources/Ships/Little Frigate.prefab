@@ -1,15 +1,15 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &148984
+--- !u!1 &152304
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 477778}
-  - 114: {fileID: 11467832}
-  - 114: {fileID: 11432876}
+  - 4: {fileID: 417814}
+  - 114: {fileID: 11494392}
+  - 114: {fileID: 11484286}
   m_Layer: 0
   m_Name: Little Frigate
   m_TagString: Untagged
@@ -17,24 +17,24 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &477778
+--- !u!4 &417814
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148984}
+  m_GameObject: {fileID: 152304}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &11432876
+--- !u!114 &11484286
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148984}
+  m_GameObject: {fileID: 152304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5d217ca6f6f65dd43965c5b885ffb830, type: 3}
@@ -54,7 +54,7 @@ MonoBehaviour:
   minY: -5
   width: 18
   height: 12
-  baseSize: 138
+  baseSize: 142
   blockData:
   - pos:
       x: -6
@@ -973,12 +973,40 @@ MonoBehaviour:
     facing:
       index: 2
     layer: 1
---- !u!114 &11467832
+  - pos:
+      x: -1
+      y: 6
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 0
+      y: 6
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: -2
+      y: 6
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+  - pos:
+      x: 1
+      y: 6
+    type: {fileID: 11493866, guid: 843326665094d1844b6d7ab5cdfd9c57, type: 2}
+    facing:
+      index: 2
+    layer: 0
+--- !u!114 &11494392
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 148984}
+  m_GameObject: {fileID: 152304}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c17f635bb4885b4b8f75cc61b6a41d4, type: 3}
@@ -1001,5 +1029,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 148984}
+  m_RootGameObject: {fileID: 152304}
   m_IsPrefabParent: 1

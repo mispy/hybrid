@@ -235,8 +235,12 @@ public static class Game {
 
         if (File.Exists(path)) {
             Game.Load();
-        } else {
+        } else {            
             Game.New();
+        }
+
+        for (var i = 0; i < 0; i++) {
+            Game.playerShip.AddCrew();
         }
     }
 }

@@ -6,7 +6,6 @@ public class ShieldRenderer : PoolBehaviour {
 	public Shields shields;
 	public LineRenderer lineRenderer;
 	
-	
 	public float maxLineWidth = 1f;
     public float lastLineWidth = 0f;
 	
@@ -35,20 +34,26 @@ public class ShieldRenderer : PoolBehaviour {
         UpdateShields();
     }
 
+    public void OnShieldsMove() {
+        UpdateShields();
+    }
+
     void UpdateShields() {
         var lineWidth = (shields.health / shields.maxHealth) * maxLineWidth;
-        if (Mathf.Abs(lineWidth - lastLineWidth) < maxLineWidth/6f)
-            return;
+        //if (Mathf.Abs(lineWidth - lastLineWidth) < maxLineWidth/6f)
+        //    return;
         lastLineWidth = lineWidth;
 
         var ellipse = shields.ellipse.Shrink(lineWidth/2f);
         
         lineRenderer.SetWidth(lineWidth, lineWidth);
-        lineRenderer.SetVertexCount(ellipse.positions.Length);
-        for (int i = 0; i < ellipse.positions.Length; i++) {
-            lineRenderer.SetPosition(i, ellipse.positions[i]);
+        lineRenderer.SetVertexCount(shields.arcPositions.Length);
+        //Debug.LogFormat("{0} {1} {2}", shields.angle, shields.arcLength, ellipse.positions.Length);
+
+        for (var i = 0; i < shields.arcPositions.Length; i++) {
+            lineRenderer.SetPosition(i, shields.arcPositions[i]);
         }
-        
+
         var color = Color.Lerp(Color.red, Color.blue, shields.health/shields.maxHealth);
         lineRenderer.SetColors(color, color);
     }

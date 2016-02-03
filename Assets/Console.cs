@@ -29,7 +29,7 @@ public class Console : BlockComponent {
     void Start() {
         radiusLine = Pool.For("Line").Attach<LineRenderer>(transform);
         radiusLine.sortingLayerName = "UI";
-        DrawRadius();
+//        DrawRadius();
 
         foreach (var otherBlock in form.blocks.allBlocks) {
             if (CanLink(otherBlock))
@@ -39,7 +39,7 @@ public class Console : BlockComponent {
 
     void DrawRadius() {
         var lineWidth = 0.05f;
-        var ellipse = new Ellipse(0, 0, controlRadius, controlRadius, 0);
+        var ellipse = new Ellipse(controlRadius, controlRadius);
 
         radiusLine.SetWidth(lineWidth, lineWidth);
         radiusLine.SetVertexCount(ellipse.positions.Length);

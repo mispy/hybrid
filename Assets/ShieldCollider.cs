@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System.Linq;
 
 [RequireComponent(typeof(Shields))]
 [RequireComponent(typeof(MeshFilter))]
@@ -30,15 +30,21 @@ public class ShieldCollider : PoolBehaviour {
 		UpdateMesh(shields.ellipse);
 	}
 
+    public void OnShieldsMove() {
+        UpdateMesh(shields.ellipse);
+    }
+
 	public void UpdateMesh(Ellipse ellipse) {		
 		if (meshCollider == null)
 			return;
 
-		var triangles = new int[ellipse.positions.Length*3*2];
-		var vertices = new Vector3[ellipse.positions.Length*2];
-		for (var i = 0; i < ellipse.positions.Length; i += 2) {
-			vertices[i] = (Vector3)ellipse.positions[i] + Vector3.forward*2;
-			vertices[i+1] = (Vector3)ellipse.positions[i] + Vector3.back*2;
+        var positions = shields.arcPositions;
+
+		var triangles = new int[positions.Length*3*2];
+		var vertices = new Vector3[positions.Length*2];
+		for (var i = 0; i < positions.Length; i += 2) {
+			vertices[i] = (Vector3)positions[i] + Vector3.forward*2;
+			vertices[i+1] = (Vector3)positions[i] + Vector3.back*2;
 		}
 		
 		for (var i = 0; i < vertices.Length-3; i++) {

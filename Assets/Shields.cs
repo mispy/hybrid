@@ -1,15 +1,29 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class Shields : PoolBehaviour {
 	public Blockform form;
 	public Ellipse ellipse;
 	public ShieldCollider shieldCollider;
 
-	public float maxHealth = 10000f;
-	public float health = 10000f;
+	public float maxHealth = 100000f;
+	public float health = 100000f;
 	public float regenRate = 100f;
+    float _angle = 0f;
+    public float angle {
+        get {
+            return _angle;
+        }
+
+        set {
+            _angle = Mathf.Repeat(value, 1f);
+            UpdateArc();
+        }
+    }
+    public float arcLength = 0.2f;
 	public bool isActive = false;
+    public Vector2[] arcPositions;
 
     public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         writer.Write(health);
@@ -22,6 +36,7 @@ public class Shields : PoolBehaviour {
     }
 
 	public void TakeDamage(float amount) {
+        return;
 		health = Mathf.Max(0, health - amount);
 		UpdateStatus();
 		SendMessage("OnShieldsChange");
@@ -56,10 +71,16 @@ public class Shields : PoolBehaviour {
 		var height = form.localBounds.size.y-2;
 		
 		if (ellipse == null || width != ellipse.width || height != ellipse.height) {
-			ellipse = new Ellipse(0, 0, width, height, 0);
+			ellipse = new Ellipse(width, height);
 			SendMessage("OnShieldsResize");
-		}
+            UpdateArc();
+		}        
 	}
+
+    void UpdateArc() {
+        arcPositions = ellipse.ArcSlice(angle, angle+arcLength).ToArray();
+        SendMessage("OnShieldsMove");
+    }
 	
 	public void UpdateStatus() {
         var powered = false;

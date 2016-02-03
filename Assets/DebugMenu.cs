@@ -24,8 +24,10 @@ public class DebugMenu : MonoBehaviour {
     public void SpawnEnemy() {
         if (Blockform.AtWorldPos(Game.mousePos) == null) {
             var ship = Blockform.FromTemplate(ShipTemplate2.FromId("Little Frigate"));
-            ship.rigidBody.position = Game.mousePos;
-            SpawnCrew(Game.mousePos);
+            ship.transform.position = Game.mousePos;
+            for (var i = 0; i < 3; i++) {
+                ship.AddCrew();
+            }
         }
     }
 

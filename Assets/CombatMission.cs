@@ -69,6 +69,8 @@ public class CombatMission {
         foreach (var template in toUse) {
             var ship = Blockform.FromTemplate(template);
             ship.transform.position = Game.activeSector.FindSpotFor(ship);
+            for (var i = 0; i < 8; i++)
+                ship.AddCrew();
             enemyShips.Add(ship);
         }
      
