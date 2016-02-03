@@ -25,6 +25,17 @@ public class Shields : PoolBehaviour {
 	public bool isActive = false;
     public Vector2[] arcPositions;
 
+    public bool hasAIControl {
+        get {
+            foreach (var block in form.blocks.Find<ShieldGenerator>()) {
+                if (block.crew != null && block.crew.mind != null)
+                    return true;
+            }
+
+            return false;
+        }
+    }
+
     public override void OnSerialize(MispyNetworkWriter writer, bool initial) {
         writer.Write(health);
     }

@@ -282,6 +282,8 @@ public class Blockform : PoolBehaviour, ISaveable {
         InvokeRepeating("UpdateMass", 0f, 0.5f);
         hasStarted = true;
 
+        for (var i = 0; i < blocks.Find<Console>().Count(); i++)
+            AddCrew();
 
 /*        foreach (var block in Game.playerShip.blocks.allBlocks) {
             block.health /= 2.0f;

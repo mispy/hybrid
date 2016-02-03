@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,6 +121,7 @@ public class ShipMind : PoolBehaviour {
         AvoidCollision();
         UpdateWeapons();
         UpdateTactic();
+        UpdateShields();
     } 
 
 
@@ -193,6 +195,17 @@ public class ShipMind : PoolBehaviour {
                 }
             }
         }
+    }
+
+    void UpdateShields() {
+        if (ship.shields == null || !ship.shields.hasAIControl || nearestEnemy == null)
+            return;
+
+        var targetPos = ship.shields.ellipse.positions.OrderBy((pos) => Vector2.Distance(ship.shields.transform.TransformPoint(pos), nearestEnemy.transform.position)).First();
+        var targetIndex = Array.IndexOf(ship.shields.ellipse.positions, targetPos);
+        var targetAngle = (float)targetIndex / ship.shields.ellipse.positions.Length;
+
+        ship.shields.angle = targetAngle - ship.shields.arcLength/2;
     }
 
 	void SetTactic<T>() where T : PoolBehaviour {

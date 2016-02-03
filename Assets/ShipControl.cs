@@ -173,8 +173,8 @@ public class ShipControl : MonoBehaviour {
         InputEvent.For(Keybind.ToggleDesigner).Bind(this, OnToggleDesigner);
         InputEvent.For(Keybind.Jump).Bind(this, OnJump);
         InputEvent.For(KeyCode.Tab).Bind(this, OnAfterburn);
-        InputEvent.For(KeyCode.LeftArrow).Bind(this, () => ship.shields.angle += (1f * Time.deltaTime), true);
-        InputEvent.For(KeyCode.RightArrow).Bind(this, () => ship.shields.angle -= (1f * Time.deltaTime), true);
+        InputEvent.For(KeyCode.LeftArrow).Bind(this, () => ship.shields.angle += (5f * Time.deltaTime), true);
+        InputEvent.For(KeyCode.RightArrow).Bind(this, () => ship.shields.angle -= (5f * Time.deltaTime), true);
         InputEvent.For(KeyCode.Space).Bind(this, OnExitControl);
         DeselectBlocks();
 	}
