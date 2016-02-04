@@ -185,12 +185,6 @@ MonoBehaviour:
   connectionId: 0
   parentShip: {fileID: 0}
   maglockShip: {fileID: 0}
-  currentBlockPos:
-    x: 0
-    y: 0
-  maglockMoveBlockPos:
-    x: 0
-    y: 0
   repairTool: {fileID: 0}
   mind: {fileID: 0}
   maxHealth: 100

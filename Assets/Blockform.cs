@@ -424,15 +424,13 @@ public class Blockform : PoolBehaviour, ISaveable {
         var avgPos = new IntVector2(0, 0);
         
         foreach (var block in blocks.allBlocks) {
-			avgPos.x += block.pos.x;
-			avgPos.y += block.pos.y;
+            avgPos = new IntVector2(avgPos.x + block.pos.x, avgPos.y + block.pos.y);
             totalMass += block.mass;
         }
         
         rigidBody.mass = totalMass;
-        
-        avgPos.x /= blocks.allBlocks.Count;
-        avgPos.y /= blocks.allBlocks.Count;
+
+        avgPos = new IntVector2(avgPos.x / blocks.allBlocks.Count, avgPos.y / blocks.allBlocks.Count);
         centerOfMass = BlockToLocalPos(avgPos);
         rigidBody.centerOfMass = centerOfMass;
         
